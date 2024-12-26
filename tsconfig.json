@@ -6,8 +6,10 @@
   ],
   "compilerOptions": {
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@styled-system/*": ["./styled-system/*"]
     },
+    "baseUrl": ".",
     "composite": true
   }
 }

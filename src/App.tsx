@@ -1,25 +1,34 @@
-/** @jsxImportSource @emotion/react */
-import { Button } from "~/components/Button";
-// import { Card } from "~/components/Card";
-import { Box, Flex } from "~/components/Box";
-import { Text } from "~/components/Text";
+import { css } from '@styled-system/css';
+import { HStack } from '@styled-system/jsx';
+import { Text } from '~/components/Text';
+import { Heading } from '~/components/Heading';
 
 export default function App() {
   return (
     <>
-      <h1>OK Shaun Componentz</h1>
-      <Flex>
+      <Heading as="h1" level={'72'}>
+        OK Shaun Componentz
+      </Heading>
+      <HStack>
         {Array(3)
           .fill(null)
           .map(() => (
-            <Box key={Math.random()}>
-              <Button>Click this!</Button>
-            </Box>
+            <div key={Math.random()}>
+              <Text level={'24'}>Click this!</Text>
+            </div>
           ))}
-      </Flex>
-      <Text level={24} font="mono">
+      </HStack>
+      <p
+        className={css({
+          fontFamily: 'serif',
+          fontStyle: 'italic',
+          color: 'blue.50',
+          fontWeight: 'bold',
+          textStyle: '4xl',
+        })}
+      >
         beep
-      </Text>
+      </p>
     </>
   );
 }

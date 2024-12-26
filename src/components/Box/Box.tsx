@@ -1,6 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { css, Theme } from "@emotion/react";
-import * as React from "react";
+import { Box as pandaBox } from "../../../styled-system/jsx";
 
 export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
   as?: React.ElementType;

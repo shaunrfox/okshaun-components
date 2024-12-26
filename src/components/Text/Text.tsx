@@ -1,30 +1,55 @@
-/** @jsxImportSource @emotion/react */
-import { css, Theme } from "@emotion/react";
-import * as React from "react";
+/* eslint-disable react/display-name */
+import React from 'react';
 
-export interface TextProps {
-  level?: 12 | 14 | 16 | 20 | 24 | 32 | 40 | 48 | 64 | 72 | 80 | 96;
-  font?: "default" | "mono";
-  as?: "p" | "span" | "div";
-  children: React.ReactNode;
-}
+import { css, cx } from '@styled-system/css';
+import { splitCssProps } from '@styled-system/jsx';
+import { type TextVariantProps, text } from '@styled-system/recipes';
+import type { JsxStyleProps } from '@styled-system/types';
 
-const textStyles = (theme: Theme, level: number, font: string) => css`
-  font-size: ${theme.size[level] || theme.size[16]};
-  line-height: ${theme.leading.md};
-  font-family: ${theme.font[font] || theme.font.default};
-  font-weight: normal;
-  color: ${theme.mode === "light"
-    ? theme.color.gray[80]
-    : theme.color.gray[20]};
-  margin: 0;
-`;
+type PolymorphicRef<C extends React.ElementType> =
+  React.ComponentPropsWithRef<C>['ref'];
 
-export const Text = ({ children, ...props }: TextProps) => {
-  return (
-    <p css={textStyles(theme, props.level, props.font)} {...props}>
-      {children}
-    </p>
-  );
+type AsProp<C extends React.ElementType> = {
+  as?: C;
 };
-Text.displayName = "Text";
+
+type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
+
+type PolymorphicComponentProp<
+  C extends React.ElementType,
+  Props = NonNullable<unknown>,
+> = React.PropsWithChildren<Props & AsProp<C>> &
+  Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
+
+type PolymorphicComponentPropWithRef<
+  C extends React.ElementType,
+  Props = NonNullable<unknown>,
+> = PolymorphicComponentProp<C, Props> & { ref?: PolymorphicRef<C> };
+
+export type TextProps<C extends React.ElementType = 'p'> =
+  PolymorphicComponentPropWithRef<C, JsxStyleProps & TextVariantProps>;
+
+type PolymorphicComponent = <C extends React.ElementType = 'p'>(
+  props: TextProps<C>,
+) => React.ReactNode | null;
+
+export const Text: PolymorphicComponent = React.forwardRef<any, TextProps<any>>(
+  <C extends React.ElementType = 'p'>(
+    props: TextProps<C>,
+    ref?: PolymorphicRef<C>,
+  ) => {
+    const [variantProps, textProps] = text.splitVariantProps(props);
+    const [cssProps, localProps] = splitCssProps(textProps);
+    const { className, ...otherProps } = localProps;
+    const styles = text(variantProps);
+    const Component = props.as || 'p';
+
+    return (
+      <Component
+        ref={ref}
+        className={cx(styles, css(cssProps), className)}
+        {...otherProps}
+      />
+    );
+  },
+);

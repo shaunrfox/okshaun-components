@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "prepare": "npx panda codegen",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -18,14 +19,18 @@
     "preprocess-svgs": "node src/components/Icon/utils/process-svgs.js"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
+    "@fontsource-variable/piazzolla": "^5.1.1",
+    "@fontsource/ibm-plex-mono": "^5.1.0",
+    "@fontsource/ibm-plex-sans": "^5.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.2",
     "@eslint/js": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "@pandacss/dev": "^0.49.0",
     "@storybook/addon-essentials": "^8.4.2",
     "@storybook/addon-interactions": "^8.4.2",
     "@storybook/addon-onboarding": "^8.4.2",
@@ -45,6 +50,7 @@
     "gh-pages": "^6.2.0",
     "globals": "^15.9.0",
     "playroom": "^0.39.1",
+    "prettier": "^3.3.3",
     "storybook": "^8.4.2",
     "svg-sprite": "^2.0.4",
     "svgo": "^3.0.2",
@@ -52,6 +58,12 @@
     "typescript-eslint": "^8.7.0",
     "vite": "^5.4.8",
     "vite-plugin-dts": "^4.2.4"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all"
   },
   "eslintConfig": {
     "extends": [
