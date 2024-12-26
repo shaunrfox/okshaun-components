@@ -1,8 +1,8 @@
 import { defineRecipe } from '@pandacss/dev';
 
-export const button = defineRecipe({
-  className: 'button',
-  jsx: ['Button'],
+export const iconButton = defineRecipe({
+  className: 'icon-button',
+  jsx: ['IconButton'],
   base: {
     appearance: 'none',
     minWidth: '0',
@@ -11,13 +11,14 @@ export const button = defineRecipe({
     transitionTimingFunction: 'default',
     userSelect: 'none',
     verticalAlign: 'middle',
-    display: 'flex',
+    display: 'inline-flex',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: '4',
     fontFamily: 'sans',
     fontSize: '16',
     fontWeight: 'normal',
-    lineHeight: 'normal',
+    lineHeight: '1',
     borderRadius: '4',
     outlineWidth: 2,
     outlineStyle: 'solid',
@@ -126,18 +127,15 @@ export const button = defineRecipe({
     size: {
       standard: {
         fontSize: '16',
-        py: '4',
-        px: '12',
+        p: '4',
       },
       medium: {
         fontSize: '16',
-        py: '2',
-        px: '8',
+        p: '2',
       },
       small: {
         fontSize: '14',
-        py: '2',
-        px: '8',
+        p: '2',
       },
     },
   },

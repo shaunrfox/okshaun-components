@@ -1,4 +1,8 @@
 export const colors = {
+	transparent: { value: "transparent" },
+	black: { value: "#000000" },
+	white: { value: "#FFFFFF" },
+	current: { value: "currentColor" },
 	blue: {
 		5: { value: "#E8F5FF" },
 		10: { value: "#CFE8FF" },

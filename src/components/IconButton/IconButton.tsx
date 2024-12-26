@@ -1,19 +1,22 @@
 import * as React from 'react';
 import { styled } from '@styled-system/jsx';
-import { button } from '@styled-system/recipes';
+import { iconButton } from '@styled-system/recipes';
 
-export const StyledButton = styled('button', button);
+export const StyledIconButton = styled('button', iconButton);
 
-export interface StyledButtonProps
-  extends React.ComponentProps<typeof StyledButton> {}
+export type StyledIconButtonProps = React.ComponentProps<
+  typeof StyledIconButton
+>;
 
-interface ButtonLoadingProps {
+interface IconButtonLoadingProps {
   loading?: boolean;
   loadingText?: React.ReactNode;
 }
 
-export interface ButtonProps extends StyledButtonProps, ButtonLoadingProps {
-  variant?: 'primary' | 'danger' | 'hollow' | 'utility' | 'standard';
+export interface IconButtonProps
+  extends StyledIconButtonProps,
+    IconButtonLoadingProps {
+  variant?: 'standard' | 'primary' | 'danger' | 'hollow' | 'utility';
   size?: 'standard' | 'small' | 'medium';
   to?: string;
   className?: string;
@@ -23,7 +26,7 @@ export interface ButtonProps extends StyledButtonProps, ButtonLoadingProps {
   loadingText?: string;
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
       variant = 'standard',
@@ -39,7 +42,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const trulyDisabled = loading || disabled;
     return (
-      <StyledButton
+      <StyledIconButton
         ref={ref}
         variant={variant}
         size={size}
@@ -48,7 +51,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...rest}
       >
         {loading ? loadingText : children}
-      </StyledButton>
+      </StyledIconButton>
     );
   },
 );

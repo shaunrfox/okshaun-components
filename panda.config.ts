@@ -11,7 +11,8 @@ import { globalCss } from './src/styles/globalStyle';
 // import { heading } from "./src/recipes/heading"
 // import { admonition } from "~/recipes/admonition";
 // import { badge } from "~/recipes/badge";
-// import { button } from "~/recipes/button";
+import { button } from './src/recipes/button';
+import { iconButton } from './src/recipes/icon-button';
 // import { colorPicker } from "~/recipes/color-picker";
 // import { combobox } from "~/recipes/combobox";
 // import { fileUpload } from "~/recipes/file-upload";
@@ -69,33 +70,33 @@ export default defineConfig({
   strictTokens: true,
 
   theme: {
-    breakpoints: { ...pandaPandaPreset.theme.breakpoints },
-    textStyles: { ...pandaPandaPreset.theme.textStyles },
-    containerSizes: { ...pandaPandaPreset.theme.containerSizes },
-    keyframes: { ...pandaPandaPreset.theme.keyframes },
-    tokens: {
-      aspectRatios: theme.tokens.aspectRatios,
-      shadows: theme.tokens.shadows,
-      easings: theme.tokens.easings,
-      durations: theme.tokens.durations,
-      letterSpacings: theme.tokens.letterSpacings,
-      lineHeights: theme.tokens.lineHeights,
-      blurs: theme.tokens.blurs,
-      animations: theme.tokens.animations,
-      colors: theme.tokens.colors,
-      fonts: theme.tokens.fonts,
-      fontSizes: theme.tokens.sizes,
-      fontWeights: theme.tokens.fontWeights,
-      sizes: theme.tokens.sizes,
-      spacing: theme.tokens.sizes,
-      radii: theme.tokens.radii,
-    },
-    semanticTokens: {
-      colors: theme.semanticTokens.colors,
-    },
     extend: {
       breakpoints: {
+        ...pandaPandaPreset.theme.breakpoints,
         xs: '480px',
+      },
+      textStyles: { ...pandaPandaPreset.theme.textStyles },
+      containerSizes: { ...pandaPandaPreset.theme.containerSizes },
+      keyframes: { ...pandaPandaPreset.theme.keyframes },
+      tokens: {
+        aspectRatios: theme.tokens.aspectRatios,
+        shadows: theme.tokens.shadows,
+        easings: theme.tokens.easings,
+        durations: theme.tokens.durations,
+        letterSpacings: theme.tokens.letterSpacings,
+        lineHeights: theme.tokens.lineHeights,
+        blurs: theme.tokens.blurs,
+        animations: theme.tokens.animations,
+        colors: theme.tokens.colors,
+        fonts: theme.tokens.fonts,
+        fontSizes: theme.tokens.sizes,
+        fontWeights: theme.tokens.fontWeights,
+        sizes: theme.tokens.sizes,
+        spacing: theme.tokens.sizes,
+        radii: theme.tokens.radii,
+      },
+      semanticTokens: {
+        colors: theme.semanticTokens.colors,
       },
       recipes: {
         // text: text,
@@ -103,7 +104,8 @@ export default defineConfig({
         // badge: badge,
         // input: input,
         // admonition: admonition,
-        // button: button,
+        button: button,
+        iconButton: iconButton,
         // headingInput: headingInput,
         // richCard: richCard,
       },
