@@ -5,11 +5,6 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "paths": {
-      "~/*": ["./src/*"],
-      "@styled-system/*": ["./styled-system/*"]
-    },
-    "baseUrl": ".",
     "composite": true
   }
 }

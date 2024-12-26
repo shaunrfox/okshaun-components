@@ -1,10 +1,14 @@
-import { defineConfig, defineTokens, defineSemanticTokens } from '@pandacss/dev'
-// import pandaPandaPreset from '@pandacss/preset-panda'
-import * as tokens from '~/styles/tokens'
-import { globalCss } from '~/styles/globalStyle'
+import {
+  defineConfig,
+  defineTokens,
+  defineSemanticTokens,
+} from '@pandacss/dev';
+import pandaPandaPreset from '@pandacss/preset-panda';
+import * as tokens from './src/styles/tokens';
+import { globalCss } from './src/styles/globalStyle';
 
-import { text } from './src/recipes/text'
-import { heading } from "./src/recipes/heading"
+// import { text } from './src/recipes/text'
+// import { heading } from "./src/recipes/heading"
 // import { admonition } from "~/recipes/admonition";
 // import { badge } from "~/recipes/badge";
 // import { button } from "~/recipes/button";
@@ -25,18 +29,17 @@ import { heading } from "./src/recipes/heading"
 // import { tooltip } from "~/recipes/tooltip";
 // import { treeView } from "~/recipes/tree-view";
 
-
 // using pandas methods to define type-safe tokens
 const theme = {
   tokens: defineTokens({
-    // aspectRatios: {...pandaPandaPreset.theme.tokens.aspectRatios},
-    // shadows: {...pandaPandaPreset.theme.tokens.shadows},
-    // easings: {...pandaPandaPreset.theme.tokens.easings},
-    // durations: {...pandaPandaPreset.theme.tokens.durations},
-    // letterSpacings: {...pandaPandaPreset.theme.tokens.letterSpacings},
-    // lineHeights: {...pandaPandaPreset.theme.tokens.lineHeights},
-    // blurs: {...pandaPandaPreset.theme.tokens.blurs},
-    // animations: {...pandaPandaPreset.theme.tokens.animations},
+    aspectRatios: { ...pandaPandaPreset.theme.tokens.aspectRatios },
+    shadows: { ...pandaPandaPreset.theme.tokens.shadows },
+    easings: { ...pandaPandaPreset.theme.tokens.easings },
+    durations: { ...pandaPandaPreset.theme.tokens.durations },
+    letterSpacings: { ...pandaPandaPreset.theme.tokens.letterSpacings },
+    lineHeights: { ...pandaPandaPreset.theme.tokens.lineHeights },
+    blurs: { ...pandaPandaPreset.theme.tokens.blurs },
+    animations: { ...pandaPandaPreset.theme.tokens.animations },
     colors: tokens.colors,
     fonts: tokens.fonts,
     fontSizes: tokens.sizes,
@@ -50,38 +53,35 @@ const theme = {
       primary: tokens.colors.blue[50],
       danger: tokens.colors.red[50],
       success: tokens.colors.green[50],
-    }
-  })
-}
+    },
+  }),
+};
 
 export default defineConfig({
-  // presets: [
-  //   "@pandacss/dev/presets",
-  //   "@pandacss/preset-base",
-  // ],
-  "gitignore": true,
-  "jsxFramework": "react",
-  "jsxFactory": "styled",
-  "watch": true,
-  include: ["./src/**/*.{js,jsx,ts,tsx}", "./pages/**/*.{js,jsx,ts,tsx}"],
+  presets: ['@pandacss/dev/presets', '@pandacss/preset-base'],
+  gitignore: true,
+  jsxFramework: 'react',
+  jsxFactory: 'styled',
+  watch: true,
+  include: ['./src/**/*.{js,jsx,ts,tsx}', './pages/**/*.{js,jsx,ts,tsx}'],
   preflight: true,
   exclude: [],
   strictTokens: true,
 
   theme: {
-    // breakpoints: {...pandaPandaPreset.theme.breakpoints},
-    // textStyles: {...pandaPandaPreset.theme.textStyles},
-    // containerSizes: {...pandaPandaPreset.theme.containerSizes},
-    // keyframes: { ...pandaPandaPreset.theme.keyframes },
+    breakpoints: { ...pandaPandaPreset.theme.breakpoints },
+    textStyles: { ...pandaPandaPreset.theme.textStyles },
+    containerSizes: { ...pandaPandaPreset.theme.containerSizes },
+    keyframes: { ...pandaPandaPreset.theme.keyframes },
     tokens: {
-      // aspectRatios: theme.tokens.aspectRatios,
-      // shadows: theme.tokens.shadows,
-      // easings: theme.tokens.easings,
-      // durations: theme.tokens.durations,
-      // letterSpacings: theme.tokens.letterSpacings,
-      // lineHeights: theme.tokens.lineHeights,
-      // blurs: theme.tokens.blurs,
-      // animations: theme.tokens.animations,
+      aspectRatios: theme.tokens.aspectRatios,
+      shadows: theme.tokens.shadows,
+      easings: theme.tokens.easings,
+      durations: theme.tokens.durations,
+      letterSpacings: theme.tokens.letterSpacings,
+      lineHeights: theme.tokens.lineHeights,
+      blurs: theme.tokens.blurs,
+      animations: theme.tokens.animations,
       colors: theme.tokens.colors,
       fonts: theme.tokens.fonts,
       fontSizes: theme.tokens.sizes,
@@ -95,16 +95,16 @@ export default defineConfig({
     },
     extend: {
       breakpoints: {
-        xs: "480px",
+        xs: '480px',
       },
       recipes: {
-        text: text,
+        // text: text,
+        // heading: heading,
         // badge: badge,
         // input: input,
         // admonition: admonition,
         // button: button,
         // headingInput: headingInput,
-        heading: heading,
         // richCard: richCard,
       },
       slotRecipes: {
@@ -127,31 +127,31 @@ export default defineConfig({
 
   globalCss: {
     ...globalCss,
-    'html': {
+    html: {
       '--global-font-body': 'fonts.sans',
       '--global-font-mono': 'fonts.mono',
       '--global-font-serif': 'fonts.serif',
-    }
+    },
   },
 
   conditions: {
     checked:
-      "&:is(:checked, [data-checked], [aria-checked=true], [data-state=checked])",
+      '&:is(:checked, [data-checked], [aria-checked=true], [data-state=checked])',
     indeterminate:
-      "&:is(:indeterminate, [data-indeterminate], [aria-checked=mixed], [data-state=indeterminate])",
-    closed: "&:is([data-state=closed])",
-    open: "&:is([open], [data-state=open])",
-    hidden: "&:is([hidden])",
-    current: "&:is([data-current])",
-    today: "&:is([data-today])",
-    placeholderShown: "&:is(:placeholder-shown, [data-placeholder-shown])",
+      '&:is(:indeterminate, [data-indeterminate], [aria-checked=mixed], [data-state=indeterminate])',
+    closed: '&:is([data-state=closed])',
+    open: '&:is([open], [data-state=open])',
+    hidden: '&:is([hidden])',
+    current: '&:is([data-current])',
+    today: '&:is([data-today])',
+    placeholderShown: '&:is(:placeholder-shown, [data-placeholder-shown])',
     collapsed:
       '&:is([aria-collapsed=true], [data-collapsed], [data-state="collapsed"])',
-    containerSmall: "@container (max-width: 560px)",
-    containerMedium: "@container (min-width: 561px) and (max-width: 999px)",
-    containerLarge: "@container (min-width: 1000px)",
+    containerSmall: '@container (max-width: 560px)',
+    containerMedium: '@container (min-width: 561px) and (max-width: 999px)',
+    containerLarge: '@container (min-width: 1000px)',
   },
 
   // The output directory for your css system
-  outdir: "styled-system",
+  outdir: 'styled-system',
 });

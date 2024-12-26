@@ -1,11 +1,10 @@
-import { defineRecipe } from '@pandacss/dev'
+import { cva } from '@styled-system/css';
 
-export const text = defineRecipe({
-  className: '',
+export const textStyle = cva({
   base: {
     margin: '0',
     lineHeight: 'normal',
-		fontWeight: 'normal',
+    fontWeight: 'normal',
   },
   variants: {
     level: {
@@ -26,10 +25,12 @@ export const text = defineRecipe({
       sans: { fontFamily: 'sans' },
       serif: { fontFamily: 'serif' },
       mono: { fontFamily: 'mono' },
-    }
+    },
   },
   defaultVariants: {
     level: 16,
     font: 'sans',
-  }
-})
+  },
+});
+
+export type TextVariantProps = Parameters<typeof textStyle>[0];
