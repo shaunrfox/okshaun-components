@@ -4,43 +4,29 @@ import { Text } from '~/components/Text';
 import { Heading } from '~/components/Heading';
 import { Button } from '~/components/Button';
 import { IconButton } from '~/components/IconButton';
+import { Icon } from '~/components/Icon';
 
 export default function App() {
   return (
     <Container>
-      <VStack gap={8}>
+      <VStack gap={'8'}>
         <Heading as="h1">OK Shaun Componentz</Heading>
         <HStack>
           <Button>Standard</Button>
-          <Button variant="primary" size="medium">
-            Primary Medium
+          <Button variant="primary" size="large">
+            Primary Large
           </Button>
           <Button variant="danger" size="small">
             Danger Small
           </Button>
           <Button variant="hollow">hollow</Button>
           <Button variant="utility">utility</Button>
+          <Icon name="arrow-left" />
           <IconButton>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-            >
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-13h4v8h-4z" />
-            </svg>
+            <Icon name="arrow-left" />
           </IconButton>
-          <IconButton variant="primary" size="medium">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-            >
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-13h4v8h-4z" />
-            </svg>
+          <IconButton variant="primary" size="large">
+            <Icon name="arrow-right" />
           </IconButton>
         </HStack>
         <VStack>

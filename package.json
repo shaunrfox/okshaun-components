@@ -15,8 +15,7 @@
     "build-storybook": "storybook build",
     "playroom:start": "playroom start",
     "playroom:build": "playroom build",
-    "generate-sprite": "npm run preprocess-svgs && svg-sprite --symbol --symbol-sprite=sprite.svg --symbol-dest=src/components/Icon/utils --symbol-clean-ids --symbol-clean-selectors --symbol-transform='svgo' --symbol-example=true src/components/Icon/utils/svgs/*.svg",
-    "preprocess-svgs": "node src/components/Icon/utils/process-svgs.js"
+    "generate-sprite": "node src/components/Icon/utils/generate-sprite.js"
   },
   "dependencies": {
     "@fontsource-variable/piazzolla": "^5.1.1",

@@ -1,4 +1,5 @@
 import { defineRecipe } from '@pandacss/dev';
+import { buttonVariants } from '~/components/Button/buttonVariants';
 
 export const button = defineRecipe({
   className: 'button',
@@ -46,7 +47,7 @@ export const button = defineRecipe({
         bg: { base: 'gray.5', _osDark: 'gray.70' },
         color: { base: 'gray.80', _osDark: 'gray.5' },
         _hover: {
-          bg: { base: 'gray.2', _osDark: 'gray.60' },
+          bg: { base: 'gray.10', _osDark: 'gray.60' },
         },
         _active: {
           bg: { base: 'gray.20', _osDark: 'gray.100' },
@@ -94,7 +95,7 @@ export const button = defineRecipe({
         bg: 'transparent',
         color: { base: 'gray.80', _osDark: 'gray.5' },
         _hover: {
-          bg: { base: 'gray.2', _osDark: 'gray.60' },
+          bg: { base: 'gray.10', _osDark: 'gray.60' },
         },
         _active: {
           bg: { base: 'gray.20', _osDark: 'gray.100' },
@@ -110,7 +111,7 @@ export const button = defineRecipe({
         bg: { base: 'gray.80', _osDark: 'gray.5' },
         color: { base: 'gray.5', _osDark: 'gray.80' },
         _hover: {
-          bg: { base: 'gray.60', _osDark: 'gray.2' },
+          bg: { base: 'gray.60', _osDark: 'gray.20' },
         },
         _active: {
           bg: { base: 'gray.100', _osDark: 'gray.20' },
@@ -129,10 +130,10 @@ export const button = defineRecipe({
         py: '4',
         px: '12',
       },
-      medium: {
+      large: {
         fontSize: '16',
-        py: '2',
-        px: '8',
+        py: '8',
+        px: '14',
       },
       small: {
         fontSize: '14',

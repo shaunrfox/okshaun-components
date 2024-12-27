@@ -14,7 +14,7 @@ interface ButtonLoadingProps {
 
 export interface ButtonProps extends StyledButtonProps, ButtonLoadingProps {
   variant?: 'primary' | 'danger' | 'hollow' | 'utility' | 'standard';
-  size?: 'standard' | 'small' | 'medium';
+  size?: 'standard' | 'small' | 'large';
   to?: string;
   className?: string;
   children?: React.ReactNode;

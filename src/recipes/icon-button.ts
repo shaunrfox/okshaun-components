@@ -47,7 +47,7 @@ export const iconButton = defineRecipe({
         bg: { base: 'gray.5', _osDark: 'gray.70' },
         color: { base: 'gray.80', _osDark: 'gray.5' },
         _hover: {
-          bg: { base: 'gray.2', _osDark: 'gray.60' },
+          bg: { base: 'gray.10', _osDark: 'gray.60' },
         },
         _active: {
           bg: { base: 'gray.20', _osDark: 'gray.100' },
@@ -95,7 +95,7 @@ export const iconButton = defineRecipe({
         bg: 'transparent',
         color: { base: 'gray.80', _osDark: 'gray.5' },
         _hover: {
-          bg: { base: 'gray.2', _osDark: 'gray.60' },
+          bg: { base: 'gray.10', _osDark: 'gray.60' },
         },
         _active: {
           bg: { base: 'gray.20', _osDark: 'gray.100' },
@@ -111,7 +111,7 @@ export const iconButton = defineRecipe({
         bg: { base: 'gray.80', _osDark: 'gray.5' },
         color: { base: 'gray.5', _osDark: 'gray.80' },
         _hover: {
-          bg: { base: 'gray.60', _osDark: 'gray.2' },
+          bg: { base: 'gray.60', _osDark: 'gray.20' },
         },
         _active: {
           bg: { base: 'gray.100', _osDark: 'gray.20' },
@@ -129,9 +129,9 @@ export const iconButton = defineRecipe({
         fontSize: '16',
         p: '4',
       },
-      medium: {
+      large: {
         fontSize: '16',
-        p: '2',
+        p: '8',
       },
       small: {
         fontSize: '14',

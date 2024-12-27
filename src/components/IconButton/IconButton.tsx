@@ -17,7 +17,7 @@ export interface IconButtonProps
   extends StyledIconButtonProps,
     IconButtonLoadingProps {
   variant?: 'standard' | 'primary' | 'danger' | 'hollow' | 'utility';
-  size?: 'standard' | 'small' | 'medium';
+  size?: 'standard' | 'small' | 'large';
   to?: string;
   className?: string;
   children?: React.ReactNode;

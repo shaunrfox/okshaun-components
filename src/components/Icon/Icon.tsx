@@ -1,47 +1,34 @@
-/** @jsxImportSource @emotion/react */
-import { css, Theme } from "@emotion/react";
+import { cx } from '@styled-system/css';
+import { iconStyle } from './iconStyle';
+import { type HTMLStyledProps } from '@styled-system/types';
 
-type IconProps = {
+type IconProps = HTMLStyledProps<'svg'> & {
   name: string;
-  [key: string]: unknown | undefined;
 };
-
-const iconStyles = (theme: Theme) =>
-  css`
-    fill: currentColor;
-    width: ${theme.size[24]};
-    height: ${theme.size[24]};
-    use {
-      fill: currentColor;
-      width: ${theme.size[24]};
-      height: ${theme.size[24]};
-    }
-  `;
 
 const IconSVG = ({
   children,
-  theme,
-}: {
+  className,
+  ...props
+}: HTMLStyledProps<'svg'> & {
   children: React.ReactNode;
-  theme: Theme;
-}) => (
-  <svg
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-    width={theme.size[24]}
-    height={theme.size[24]}
-    css={iconStyles}
-  >
-    {children}
-  </svg>
-);
-
-export const Icon = ({ name, ...props }: IconProps) => {
+}) => {
   return (
-    <IconSVG {...props}>
-      <use xlinkHref={`~/src/components/Icon/utils/sprite.svg#${name}`} />
-    </IconSVG>
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      className={cx(iconStyle(), className)}
+      {...props}
+    >
+      {children}
+    </svg>
   );
 };
 
-export default Icon;
+export const Icon = ({ name, className, ...props }: IconProps) => {
+  return (
+    <IconSVG className={className} {...props}>
+      <use xlinkHref={`/sprite.svg#${name}`} />
+    </IconSVG>
+  );
+};
