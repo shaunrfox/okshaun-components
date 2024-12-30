@@ -5,6 +5,8 @@ import { Heading } from '~/components/Heading';
 import { Button } from '~/components/Button';
 import { IconButton } from '~/components/IconButton';
 import { Icon } from '~/components/Icon';
+import { Input } from '~/components/Input';
+import { Textarea } from '~/components/Textarea';
 
 export default function App() {
   return (
@@ -28,6 +30,15 @@ export default function App() {
           <IconButton variant="primary" size="large">
             <Icon name="arrow-right" />
           </IconButton>
+        </HStack>
+        <HStack gap={'24'}>
+          <Input label="First" type="text" />
+          <Input label="Last" type="text" />
+          <Input label="Email" type="email" internalLabel={true} />
+        </HStack>
+        <HStack gap={'24'}>
+          <Input label="Phone" type="tel" stacked={false} />
+          <Textarea label="Message" autoGrow={true} />
         </HStack>
         <VStack>
           <Text>

@@ -1,21 +1,21 @@
-import { css, Theme } from "@emotion/react";
-import { Text, TextProps } from "./Text";
+import { css } from '@styled-system/css';
+import { Text, TextProps } from '../Text';
 
 interface LabelProps extends TextProps {
   children: React.ReactNode;
-  htmlFor: string;
+  htmlFor?: string;
 }
 
-const labelStyles = (theme: Theme) => css`
-  font-size: ${theme.size[14]};
-  font-weight: ${theme.fontWeight.medium};
-  line-height: ${theme.leading.md};
-  cursor: default;
-`;
+const labelStyles = css({
+  fontSize: '14',
+  fontWeight: 'normal',
+  lineHeight: 'normal',
+  cursor: 'default',
+});
 
 export const Label = ({ children, htmlFor, ...props }: LabelProps) => {
   return (
-    <Text css={labelStyles} {...props}>
+    <Text as="label" htmlFor={htmlFor} className={labelStyles} {...props}>
       {children}
     </Text>
   );

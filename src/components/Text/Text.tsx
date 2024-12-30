@@ -5,6 +5,7 @@ import { textStyle } from './textStyle';
 
 type ParagraphProps = ComponentProps<'p'> & { as?: React.ElementType } & {
   [key: string]: any;
+  className?: string;
 };
 
 export const Text = styled('p', textStyle) as StyledComponent<

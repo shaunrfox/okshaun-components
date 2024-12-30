@@ -7,28 +7,10 @@ import pandaPandaPreset from '@pandacss/preset-panda';
 import * as tokens from './src/styles/tokens';
 import { globalCss } from './src/styles/globalStyle';
 
-// import { text } from './src/recipes/text'
-// import { heading } from "./src/recipes/heading"
-// import { admonition } from "~/recipes/admonition";
-// import { badge } from "~/recipes/badge";
 import { button } from './src/recipes/button';
 import { iconButton } from './src/recipes/icon-button';
-// import { colorPicker } from "~/recipes/color-picker";
-// import { combobox } from "~/recipes/combobox";
-// import { fileUpload } from "~/recipes/file-upload";
-// import { headingInput } from "~/recipes/heading-input";
-// import { input } from "~/recipes/input";
-// import { menu } from "~/recipes/menu";
-// import { popover } from "~/recipes/popover";
-// import { radioGroup } from "~/recipes/radio-group";
-// import { richCard } from "~/recipes/rich-card";
-// import { select } from "~/recipes/select";
-// import { table } from "~/recipes/table";
-// import { tabs } from "~/recipes/tabs";
-// import { tagsInput } from "~/recipes/tags-input";
-// import { toggleGroup } from "~/recipes/toggle-group";
-// import { tooltip } from "~/recipes/tooltip";
-// import { treeView } from "~/recipes/tree-view";
+import { input } from './src/recipes/input';
+import { textarea } from './src/recipes/textarea';
 
 // using pandas methods to define type-safe tokens
 const theme = {
@@ -99,31 +81,12 @@ export default defineConfig({
         xs: '480px',
       },
       recipes: {
-        // text: text,
-        // heading: heading,
-        // badge: badge,
-        // input: input,
-        // admonition: admonition,
         button: button,
         iconButton: iconButton,
-        // headingInput: headingInput,
-        // richCard: richCard,
+        input: input,
+        textarea: textarea,
       },
-      slotRecipes: {
-        // select: select,
-        // colorPicker: colorPicker,
-        // combobox: combobox,
-        // menu: menu,
-        // fileUpload: fileUpload,
-        // popover: popover,
-        // table: table,
-        // tagsInput: tagsInput,
-        // tabs: tabs,
-        // radioGroup: radioGroup,
-        // treeView: treeView,
-        // toggleGroup: toggleGroup,
-        // tooltip: tooltip,
-      },
+      slotRecipes: {},
     },
   },
 

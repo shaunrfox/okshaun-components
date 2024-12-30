@@ -1,5 +1,4 @@
 import { defineRecipe } from '@pandacss/dev';
-import { buttonVariants } from '~/components/Button/buttonVariants';
 
 export const button = defineRecipe({
   className: 'button',

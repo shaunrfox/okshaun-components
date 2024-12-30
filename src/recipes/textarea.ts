@@ -1,8 +1,8 @@
 import { defineRecipe } from '@pandacss/dev';
 
-export const input = defineRecipe({
-  className: 'input',
-  jsx: ['Input'],
+export const textarea = defineRecipe({
+  className: 'textarea',
+  jsx: ['Textarea'],
   base: {
     position: 'relative',
     display: 'inline-grid',
@@ -18,7 +18,7 @@ export const input = defineRecipe({
     // transitionDuration: 'fast',
     // transitionProperty: 'background, border-color, color, box-shadow',
     // transitionTimingFunction: 'default',
-    '& input': {
+    '&::after, & textarea': {
       width: 'auto',
       minWidth: '16',
       maxWidth: 'full',
@@ -32,6 +32,16 @@ export const input = defineRecipe({
       borderStyle: 'solid',
       borderRadius: '4',
       borderColor: 'transparent',
+    },
+    _after: {
+      content: 'attr(data-value) " "',
+      // visibility: 'hidden',
+      outline: '1px solid olive',
+      whiteSpace: 'pre-wrap',
+      transform: 'translate(4px, 4px)',
+      opacity: '0.3',
+    },
+    '& textarea': {
       // _disabled: {
       //   opacity: 0.4,
       //   cursor: 'not-allowed',
@@ -51,15 +61,26 @@ export const input = defineRecipe({
   defaultVariants: {
     stacked: true,
     internalLabel: false,
+    autoGrow: false,
   },
   compoundVariants: [],
   variants: {
+    autoGrow: {
+      false: {
+        width: 'full',
+      },
+      true: {
+        width: 'fit-content',
+      },
+    },
     stacked: {
       true: {
         gridTemplateRows: 'auto 1fr',
         alignItems: 'stretch',
-        '& input': {
+        '&::after, & textarea': {
           gridArea: '2 / 1',
+        },
+        '& textarea': {
           background: { base: 'gray.0', _osDark: 'gray.90' },
           borderColor: { base: 'gray.40', _osDark: 'gray.50' },
           // _hover: {
@@ -73,7 +94,7 @@ export const input = defineRecipe({
       false: {
         gridTemplateColumns: 'auto 1fr',
         alignItems: 'center',
-        '& input': {
+        '& textarea': {
           background: { base: 'gray.0', _osDark: 'gray.90' },
           borderColor: { base: 'green.40', _osDark: 'green.50' },
           // _hover: {

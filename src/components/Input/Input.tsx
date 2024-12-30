@@ -1,28 +1,32 @@
-/** @jsxImportSource @emotion/react */
-import React from "react";
-import { css, Theme } from "@emotion/react";
+import * as React from 'react';
+import { input } from '@styled-system/recipes';
+import { Label } from '~/components/Label';
+import { Text } from '~/components/Text';
 
-const inputStyles = (theme: Theme) => css`
-  background-color: ${theme.mode === "light"
-    ? theme.color.gray[0]
-    : theme.color.gray[90]};
-  border: 1px solid;
-  border-color: ${theme.mode === "light"
-    ? theme.color.gray[40]
-    : theme.color.gray[50]};
-  border-radius: 4px;
-  padding: 8px 12px;
-  &:focus {
-    outline: none;
-    border-color: ${theme.color.blue[40]};
-  }
-`;
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  stacked?: boolean;
+  internalLabel?: boolean;
+}
 
-export const Input = React.forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement>
->(({ ...props }, ref) => {
-  return <input css={inputStyles} ref={ref} {...props} />;
-});
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    { label, className, stacked = true, internalLabel = false, ...props },
+    ref,
+  ) => {
+    return (
+      <Label
+        className={input()}
+        stacked={stacked}
+        internalLabel={internalLabel}
+        htmlFor={props.id || ''}
+      >
+        {label && <Text as="span">{label}</Text>}
+        <input id={props.id} ref={ref} className={className} {...props} />
+      </Label>
+    );
+  },
+);
 
-Input.displayName = "Input";
+Input.displayName = 'Input';
