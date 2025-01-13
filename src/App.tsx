@@ -1,5 +1,6 @@
+import { ReactNode } from 'react';
 import { css } from '@styled-system/css';
-import { HStack, VStack, Container } from '@styled-system/jsx';
+import { HStack, VStack, Container, Flex } from '@styled-system/jsx';
 import { Text } from '~/components/Text';
 import { Heading } from '~/components/Heading';
 import { Button } from '~/components/Button';
@@ -7,12 +8,52 @@ import { IconButton } from '~/components/IconButton';
 import { Icon } from '~/components/Icon';
 import { Input } from '~/components/Input';
 import { Textarea } from '~/components/Textarea';
+import { IconNames, type IconNamesList } from '~/components/Icon';
+
+function IconList() {
+  return (
+    <Flex
+      className={css({
+        gap: '16',
+        // maxWidth: '800px',
+        p: '24',
+      })}
+    >
+      {(Object.keys(IconNames) as IconNamesList[]).map((icon) => (
+        <Icon key={icon} name={icon} />
+      ))}
+    </Flex>
+  );
+}
+
+const Section = ({ children }: { children?: ReactNode }) => {
+  return (
+    // This is a Flex component
+    <Flex
+      css={{
+        gap: '16',
+        borderTop: '1px solid',
+        borderColor: 'gray.50',
+        py: '24',
+      }}
+    >
+      <Container css={{ outline: '1px solid green', w: 'auto' }}>
+        {children}
+      </Container>
+    </Flex>
+  );
+};
 
 export default function App() {
   return (
-    <Container>
-      <VStack gap={'8'}>
+    <VStack gap={'8'}>
+      <Container>
         <Heading as="h1">OK Shaun Componentz</Heading>
+      </Container>
+      <Section>
+        <Heading as="h2" level={24}>
+          Buttons
+        </Heading>
         <HStack>
           <Button>Standard</Button>
           <Button variant="primary" size="large">
@@ -31,7 +72,12 @@ export default function App() {
             <Icon name="arrow-right" />
           </IconButton>
         </HStack>
-        <HStack gap={'24'}>
+      </Section>
+      <Section>
+        <Heading as="h2" level={24}>
+          Inputs
+        </Heading>
+        {/* <HStack gap={'24'}>
           <Input label="First" type="text" />
           <Input label="Last" type="text" />
           <Input label="Email" type="email" internalLabel={true} />
@@ -39,7 +85,12 @@ export default function App() {
         <HStack gap={'24'}>
           <Input label="Phone" type="tel" stacked={false} />
           <Textarea label="Message" autoGrow={true} />
-        </HStack>
+        </HStack> */}
+      </Section>
+      <Section>
+        <Heading as="h2" level={24}>
+          Text
+        </Heading>
         <VStack>
           <Text>
             Signs night have sixth hath that likeness us fill you're subdue fowl
@@ -59,18 +110,19 @@ export default function App() {
             waters male Fourth earth his face third night.
           </Text>
         </VStack>
-        <p
-          className={css({
-            fontFamily: 'serif',
-            fontStyle: 'italic',
-            color: 'blue.50',
-            fontWeight: 'bold',
-            textStyle: '4xl',
-          })}
-        >
-          beep
-        </p>
-      </VStack>
-    </Container>
+      </Section>
+      <IconList />
+      <p
+        className={css({
+          fontFamily: 'serif',
+          fontStyle: 'italic',
+          color: 'blue.50',
+          fontWeight: 'bold',
+          textStyle: '4xl',
+        })}
+      >
+        beep
+      </p>
+    </VStack>
   );
 }
