@@ -1,5 +1,5 @@
 import { css } from '@styled-system/css';
-import { HStack, VStack, Container } from '@styled-system/jsx';
+import { HStack, VStack, Container, Box } from '@styled-system/jsx';
 import { Text } from '~/components/Text';
 import { Heading } from '~/components/Heading';
 import { Button } from '~/components/Button';
@@ -13,6 +13,9 @@ export default function App() {
     <Container>
       <VStack gap={'8'}>
         <Heading as="h1">OK Shaun Componentz</Heading>
+        <Box bg={'gray.10'} px={'24'} borderRadius={'8'} m={'72'}>
+          <Text level={48} font={'serif'} italic>italic text</Text>
+        </Box>
         <HStack>
           <Button>Standard</Button>
           <Button variant="primary" size="large">

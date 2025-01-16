@@ -1,6 +1,6 @@
-import { cva, type RecipeVariantProps } from '../../../styled-system/css';
+import { cva, type RecipeVariantProps } from '@styled-system/css';
 
-export const textStyle = cva({
+export const text = cva({
   base: {
     margin: '0',
     lineHeight: 'normal',
@@ -49,4 +49,4 @@ export const textStyle = cva({
   },
 });
 
-export type TextVariantProps = RecipeVariantProps<typeof textStyle>[0];
+export type TextVariantProps = RecipeVariantProps<typeof text>[0];
