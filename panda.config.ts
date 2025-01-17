@@ -29,6 +29,7 @@ const theme = {
     fontSizes: tokens.sizes,
     fontWeights: tokens.fontWeights,
     sizes: tokens.sizes,
+    // sizes: { ...pandaPandaPreset.theme.tokens.sizes },
     spacing: tokens.sizes,
     radii: tokens.radii,
   }),
@@ -69,6 +70,7 @@ export default defineConfig({
       fonts: theme.tokens.fonts,
       fontSizes: theme.tokens.fontSizes,
       fontWeights: theme.tokens.fontWeights,
+      // sizes: { ...theme.tokens.sizes, ...tokens.sizes },
       sizes: theme.tokens.sizes,
       spacing: theme.tokens.sizes,
       radii: theme.tokens.radii,
@@ -89,6 +91,25 @@ export default defineConfig({
         textarea: textarea,
       },
       slotRecipes: {},
+    },
+  },
+
+  patterns: {
+    extend: {
+      container: {
+        transform(props) {
+          return Object.assign(
+            {
+              position: 'relative',
+              width: '100%',
+              maxWidth: '7xl',
+              mx: 'auto',
+              px: { base: '24', md: '20', sm: '16' },
+            },
+            props,
+          );
+        },
+      },
     },
   },
 

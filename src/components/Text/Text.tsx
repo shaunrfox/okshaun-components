@@ -18,9 +18,8 @@
 // SOURCE
 // https://www.adebayosegun.com/blog/typography-component-with-panda-css-recipes
 
-import { textStyle } from './textStyle';
+import { textStyle, type TextVariantProps } from './textStyle';
 import { cx } from '../../../styled-system/css';
-import { type TextVariantProps } from '~/recipes/text';
 
 type TypographyHTMLProps = React.HTMLAttributes<HTMLElement>;
 
@@ -32,5 +31,10 @@ export type TypographyProps = TextVariantProps &
 export function Text(props: TypographyProps) {
   const [variantProps, localProps] = textStyle.splitVariantProps(props);
   const { as: Component = 'p', className, ...restProps } = localProps;
-  return <Component className={cx(textStyle(variantProps), className)} {...restProps} />;
+  return (
+    <Component
+      className={cx(textStyle(variantProps), className)}
+      {...restProps}
+    />
+  );
 }

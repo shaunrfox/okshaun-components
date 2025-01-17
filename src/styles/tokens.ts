@@ -132,6 +132,7 @@ export const sizes = {
   32: { value: '2rem' },
   40: { value: '2.5rem' },
   48: { value: '3rem' },
+  56: { value: '3.5rem' },
   64: { value: '4rem' },
   72: { value: '4.5rem' },
   80: { value: '5rem' },
@@ -140,6 +141,19 @@ export const sizes = {
   min: { value: 'min-content' },
   max: { value: 'max-content' },
   fit: { value: 'fit-content' },
+  xs: { value: '20rem' }, // 320px
+  sm: { value: '24rem' }, // 384px
+  md: { value: '28rem' }, // 448px
+  lg: { value: '32rem' }, // 512px
+  xl: { value: '36rem' }, // 576px
+  '2xl': { value: '42rem' }, // 672px
+  '3xl': { value: '48rem' }, // 768px
+  '4xl': { value: '56rem' }, // 896px
+  '5xl': { value: '64rem' }, // 1024px
+  '6xl': { value: '72rem' }, // 1152px
+  '7xl': { value: '80rem' }, // 1280px
+  '8xl': { value: '90rem' }, // 1440px
+  prose: { value: '65ch' }, // 1040px
 };
 
 export const fontSizes = {
@@ -166,6 +180,89 @@ export const radii = {
   16: { value: '1rem' },
   100: { value: '100%' },
 };
+
+// export const textStyles: TextStyles = {
+//   xs: {
+//     value: {
+//       fontSize: '0.75rem',
+//       lineHeight: '1rem',
+//     },
+//   },
+//   sm: {
+//     value: {
+//       fontSize: '0.875rem',
+//       lineHeight: '1.25rem',
+//     },
+//   },
+//   md: {
+//     value: {
+//       fontSize: '1rem',
+//       lineHeight: '1.5rem',
+//     },
+//   },
+//   lg: {
+//     value: {
+//       fontSize: '1.125rem',
+//       lineHeight: '1.75rem',
+//     },
+//   },
+//   xl: {
+//     value: {
+//       fontSize: '1.25rem',
+//       lineHeight: '1.75rem',
+//     },
+//   },
+//   '2xl': {
+//     value: {
+//       fontSize: '1.5rem',
+//       lineHeight: '2rem',
+//     },
+//   },
+//   '3xl': {
+//     value: {
+//       fontSize: '1.875rem',
+//       lineHeight: '2.25rem',
+//     },
+//   },
+//   '4xl': {
+//     value: {
+//       fontSize: '2.25rem',
+//       lineHeight: '2.5rem',
+//     },
+//   },
+//   '5xl': {
+//     value: {
+//       fontSize: '3rem',
+//       lineHeight: '1',
+//     },
+//   },
+//   '6xl': {
+//     value: {
+//       fontSize: '3.75rem',
+//       lineHeight: '1',
+//     },
+//   },
+//   '7xl': {
+//     value: {
+//       fontSize: '4.5rem',
+//       lineHeight: '1',
+//     },
+//   },
+//   '8xl': {
+//     value: {
+//       fontSize: '6rem',
+//       lineHeight: '1',
+//     },
+//   },
+//   '9xl': {
+//     value: {
+//       fontSize: '8rem',
+//       lineHeight: '1',
+//     },
+//   },
+// };
+
+// https://github.com/chakra-ui/panda/tree/4b70f29a14e98d9a0b450273704d2565e3f2d0bd/packages/preset-panda/src
 
 // export const borders = {
 //   none: {

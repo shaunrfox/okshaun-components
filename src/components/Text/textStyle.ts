@@ -1,11 +1,11 @@
-import { cva, type RecipeVariantProps } from '../../../styled-system/css';
+import { cva, type RecipeVariantProps } from '@styled-system/css';
 
 export const textStyle = cva({
   base: {
     margin: '0',
     lineHeight: 'normal',
     fontWeight: 'normal',
-    color: 'gray.60',
+    color: { base: 'gray.70', _osDark: 'gray.20' },
   },
   variants: {
     level: {
@@ -21,6 +21,12 @@ export const textStyle = cva({
       72: { fontSize: 72 },
       80: { fontSize: 80 },
       96: { fontSize: 96 },
+    },
+    heading: {
+      1: {
+        fontSize: 48,
+        fontWeight: 'bold',
+      },
     },
     font: {
       sans: { fontFamily: 'sans' },

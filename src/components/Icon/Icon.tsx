@@ -27,8 +27,8 @@ const IconSVG = ({
 
 export const Icon = ({ name, className, ...props }: IconProps) => {
   return (
-    <IconSVG className={className} {...props}>
-      <use xlinkHref={`/sprite.svg#${name}`} />
+    <IconSVG className={className} width="24" height="24" {...props}>
+      <use xlinkHref={`/sprite.svg#${name}`} width="24" height="24" />
     </IconSVG>
   );
 };
