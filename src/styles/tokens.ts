@@ -181,86 +181,208 @@ export const radii = {
   100: { value: '100%' },
 };
 
-// export const textStyles: TextStyles = {
-//   xs: {
-//     value: {
-//       fontSize: '0.75rem',
-//       lineHeight: '1rem',
-//     },
-//   },
-//   sm: {
-//     value: {
-//       fontSize: '0.875rem',
-//       lineHeight: '1.25rem',
-//     },
-//   },
-//   md: {
-//     value: {
-//       fontSize: '1rem',
-//       lineHeight: '1.5rem',
-//     },
-//   },
-//   lg: {
-//     value: {
-//       fontSize: '1.125rem',
-//       lineHeight: '1.75rem',
-//     },
-//   },
-//   xl: {
-//     value: {
-//       fontSize: '1.25rem',
-//       lineHeight: '1.75rem',
-//     },
-//   },
-//   '2xl': {
-//     value: {
-//       fontSize: '1.5rem',
-//       lineHeight: '2rem',
-//     },
-//   },
-//   '3xl': {
-//     value: {
-//       fontSize: '1.875rem',
-//       lineHeight: '2.25rem',
-//     },
-//   },
-//   '4xl': {
-//     value: {
-//       fontSize: '2.25rem',
-//       lineHeight: '2.5rem',
-//     },
-//   },
-//   '5xl': {
-//     value: {
-//       fontSize: '3rem',
-//       lineHeight: '1',
-//     },
-//   },
-//   '6xl': {
-//     value: {
-//       fontSize: '3.75rem',
-//       lineHeight: '1',
-//     },
-//   },
-//   '7xl': {
-//     value: {
-//       fontSize: '4.5rem',
-//       lineHeight: '1',
-//     },
-//   },
-//   '8xl': {
-//     value: {
-//       fontSize: '6rem',
-//       lineHeight: '1',
-//     },
-//   },
-//   '9xl': {
-//     value: {
-//       fontSize: '8rem',
-//       lineHeight: '1',
-//     },
-//   },
-// };
+export const textStyles = {
+  display: {
+    base: {
+      fontFamily: 'sans',
+      fontWeight: 'bold',
+      color: { base: 'gray.90', _osDark: 'gray.5' },
+    },
+    lg: {
+      value: {
+        fontSize: '72',
+        lineHeight: '64',
+      },
+    },
+    md: {
+      value: {
+        fontSize: '64',
+        lineHeight: '64',
+      },
+    },
+    sm: {
+      value: {
+        fontSize: '56',
+        lineHeight: '56',
+      },
+    },
+    xs: {
+      value: {
+        fontSize: '48',
+        lineHeight: '56',
+      },
+    },
+  },
+  heading: {
+    base: {
+      fontFamily: 'sans',
+      fontWeight: 'bold',
+      color: { base: 'gray.90', _osDark: 'gray.5' },
+    },
+    lg: {
+      value: {
+        fontSize: '40',
+        lineHeight: '40',
+      },
+    },
+    md: {
+      value: {
+        fontSize: '32',
+        lineHeight: '32',
+      },
+    },
+    sm: {
+      value: {
+        fontSize: '24',
+        lineHeight: '24',
+      },
+    },
+    xs: {
+      value: {
+        fontSize: '20',
+        lineHeight: '24',
+      },
+    },
+  },
+  body: {
+    base: {
+      fontFamily: 'serif',
+      color: { base: 'gray.70', _osDark: 'gray.20' },
+    },
+    lg: {
+      value: {
+        fontSize: '20',
+        lineHeight: '24',
+      },
+    },
+    md: {
+      value: {
+        fontSize: '16',
+        lineHeight: '20',
+      },
+    },
+    sm: {
+      value: {
+        fontSize: '14',
+        lineHeight: '20',
+      },
+    },
+    xs: {
+      value: {
+        fontSize: '12',
+        lineHeight: '16',
+      },
+    },
+  },
+  mono: {
+    base: {
+      fontFamily: 'mono',
+      color: { base: 'gray.70', _osDark: 'gray.20' },
+    },
+    lg: {
+      value: {
+        fontSize: '20',
+        lineHeight: '24',
+      },
+    },
+    md: {
+      value: {
+        fontSize: '16',
+        lineHeight: '20',
+      },
+    },
+    sm: {
+      value: {
+        fontSize: '14',
+        lineHeight: '20',
+      },
+    },
+    xs: {
+      value: {
+        fontSize: '12',
+        lineHeight: '16',
+      },
+    },
+  },
+  //   xs: {
+  //     value: {
+  //       fontSize: '0.75rem',
+  //       lineHeight: '1rem',
+  //     },
+  //   },
+  //   sm: {
+  //     value: {
+  //       fontSize: '0.875rem',
+  //       lineHeight: '1.25rem',
+  //     },
+  //   },
+  //   md: {
+  //     value: {
+  //       fontSize: '1rem',
+  //       lineHeight: '1.5rem',
+  //     },
+  //   },
+  //   lg: {
+  //     value: {
+  //       fontSize: '1.125rem',
+  //       lineHeight: '1.75rem',
+  //     },
+  //   },
+  //   xl: {
+  //     value: {
+  //       fontSize: '1.25rem',
+  //       lineHeight: '1.75rem',
+  //     },
+  //   },
+  //   '2xl': {
+  //     value: {
+  //       fontSize: '1.5rem',
+  //       lineHeight: '2rem',
+  //     },
+  //   },
+  //   '3xl': {
+  //     value: {
+  //       fontSize: '1.875rem',
+  //       lineHeight: '2.25rem',
+  //     },
+  //   },
+  //   '4xl': {
+  //     value: {
+  //       fontSize: '2.25rem',
+  //       lineHeight: '2.5rem',
+  //     },
+  //   },
+  //   '5xl': {
+  //     value: {
+  //       fontSize: '3rem',
+  //       lineHeight: '1',
+  //     },
+  //   },
+  //   '6xl': {
+  //     value: {
+  //       fontSize: '3.75rem',
+  //       lineHeight: '1',
+  //     },
+  //   },
+  //   '7xl': {
+  //     value: {
+  //       fontSize: '4.5rem',
+  //       lineHeight: '1',
+  //     },
+  //   },
+  //   '8xl': {
+  //     value: {
+  //       fontSize: '6rem',
+  //       lineHeight: '1',
+  //     },
+  //   },
+  //   '9xl': {
+  //     value: {
+  //       fontSize: '8rem',
+  //       lineHeight: '1',
+  //     },
+  //   },
+};
 
 // https://github.com/chakra-ui/panda/tree/4b70f29a14e98d9a0b450273704d2565e3f2d0bd/packages/preset-panda/src
 

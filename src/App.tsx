@@ -6,8 +6,8 @@ import { Heading } from '~/components/Heading';
 import { Button } from '~/components/Button';
 import { IconButton } from '~/components/IconButton';
 import { Icon } from '~/components/Icon';
-import { Input } from '~/components/Input';
-import { Textarea } from '~/components/Textarea';
+// import { Input } from '~/components/Input';
+// import { Textarea } from '~/components/Textarea';
 import { IconNames, type IconNamesList } from '~/components/Icon';
 
 function IconList() {
@@ -116,7 +116,7 @@ export default function App() {
             </Heading>
             <IconList />
           </Section>
-          <Section>
+          {/* <Section>
             <Heading as="h2" level={24}>
               Inputs
             </Heading>
@@ -131,7 +131,7 @@ export default function App() {
                 <Textarea label="Message" autoGrow={true} />
               </HStack>
             </VStack>
-          </Section>
+          </Section> */}
         </VStack>
       </Container>
     </VStack>

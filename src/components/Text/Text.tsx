@@ -19,7 +19,7 @@
 // https://www.adebayosegun.com/blog/typography-component-with-panda-css-recipes
 
 import { textStyle, type TextVariantProps } from './textStyle';
-import { cx } from '../../../styled-system/css';
+import { cx } from '@styled-system/css';
 
 type TypographyHTMLProps = React.HTMLAttributes<HTMLElement>;
 

@@ -24,8 +24,7 @@ export const textStyle = cva({
     },
     heading: {
       1: {
-        fontSize: 48,
-        fontWeight: 'bold',
+        textStyle: 'heading.lg',
       },
     },
     font: {
