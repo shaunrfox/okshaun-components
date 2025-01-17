@@ -11,6 +11,7 @@ import { button } from './src/recipes/button';
 import { iconButton } from './src/recipes/icon-button';
 import { input } from './src/recipes/input';
 import { textarea } from './src/recipes/textarea';
+// import { text } from './src/recipes/text';
 
 // using pandas methods to define type-safe tokens
 const theme = {
@@ -81,6 +82,7 @@ export default defineConfig({
         xs: '480px',
       },
       recipes: {
+        // text: text,
         button: button,
         iconButton: iconButton,
         input: input,

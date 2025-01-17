@@ -142,7 +142,7 @@ export const sizes = {
   fit: { value: 'fit-content' },
 };
 
-export const fonrSizes = {
+export const fontSizes = {
   12: { value: '0.75rem' },
   14: { value: '0.875rem' },
   16: { value: '1rem' },
