@@ -19,12 +19,14 @@ export const iconButton = defineRecipe({
     fontSize: '16',
     fontWeight: 'normal',
     lineHeight: '1',
+    borderWidth: '1',
+    borderStyle: 'solid',
+    borderColor: 'transparent',
     borderRadius: '4',
     outlineWidth: 2,
     outlineStyle: 'solid',
     outlineColor: 'transparent',
     outlineOffset: 1,
-    // outline: 'none',
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
@@ -93,13 +95,14 @@ export const iconButton = defineRecipe({
       },
       hollow: {
         bg: 'transparent',
+        borderColor: { base: 'gray.30', _osDark: 'gray.60' },
         color: { base: 'gray.80', _osDark: 'gray.5' },
         _hover: {
           bg: { base: 'gray.10', _osDark: 'gray.60' },
         },
         _active: {
           bg: { base: 'gray.20', _osDark: 'gray.100' },
-          borderColor: 'transparent',
+          // borderColor: 'transparent',
         },
         _disabled: {
           _hover: {
@@ -127,15 +130,15 @@ export const iconButton = defineRecipe({
     size: {
       standard: {
         fontSize: '16',
-        p: '4',
+        p: '3',
       },
       large: {
         fontSize: '16',
-        p: '8',
+        p: '7',
       },
       small: {
         fontSize: '14',
-        p: '2',
+        p: '1',
       },
     },
   },

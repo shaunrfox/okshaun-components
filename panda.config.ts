@@ -11,7 +11,7 @@ import { button } from './src/recipes/button';
 import { iconButton } from './src/recipes/icon-button';
 import { input } from './src/recipes/input';
 import { textarea } from './src/recipes/textarea';
-// import { text } from './src/recipes/text';
+import { text } from './src/recipes/text';
 
 // using pandas methods to define type-safe tokens
 const theme = {
@@ -21,7 +21,7 @@ const theme = {
     easings: { ...pandaPandaPreset.theme.tokens.easings },
     durations: { ...pandaPandaPreset.theme.tokens.durations },
     letterSpacings: { ...pandaPandaPreset.theme.tokens.letterSpacings },
-    lineHeights: { ...pandaPandaPreset.theme.tokens.lineHeights },
+    lineHeights: { ...tokens.lineHeights },
     blurs: { ...pandaPandaPreset.theme.tokens.blurs },
     animations: { ...pandaPandaPreset.theme.tokens.animations },
     colors: tokens.colors,
@@ -29,7 +29,6 @@ const theme = {
     fontSizes: tokens.sizes,
     fontWeights: tokens.fontWeights,
     sizes: tokens.sizes,
-    // sizes: { ...pandaPandaPreset.theme.tokens.sizes },
     spacing: tokens.sizes,
     radii: tokens.radii,
   }),
@@ -70,7 +69,6 @@ export default defineConfig({
       fonts: theme.tokens.fonts,
       fontSizes: theme.tokens.fontSizes,
       fontWeights: theme.tokens.fontWeights,
-      // sizes: { ...theme.tokens.sizes, ...tokens.sizes },
       sizes: theme.tokens.sizes,
       spacing: theme.tokens.sizes,
       radii: theme.tokens.radii,
@@ -84,7 +82,7 @@ export default defineConfig({
         xs: '480px',
       },
       recipes: {
-        // text: text,
+        text: text,
         button: button,
         iconButton: iconButton,
         input: input,
@@ -116,9 +114,9 @@ export default defineConfig({
   globalCss: {
     ...globalCss,
     html: {
-      '--global-font-body': 'fonts.sans',
-      '--global-font-mono': 'fonts.mono',
+      '--global-font-sans': 'fonts.sans',
       '--global-font-serif': 'fonts.serif',
+      '--global-font-mono': 'fonts.mono',
     },
   },
 

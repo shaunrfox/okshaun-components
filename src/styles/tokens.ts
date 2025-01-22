@@ -120,8 +120,11 @@ export const sizes = {
   0: { value: '0' },
   1: { value: '0.0625rem' },
   2: { value: '0.125rem' },
+  3: { value: '0.1875rem' },
   4: { value: '0.25rem' },
+  5: { value: '0.3125rem' },
   6: { value: '0.375rem' },
+  7: { value: '0.4375rem' },
   8: { value: '0.5rem' },
   10: { value: '0.625rem' },
   12: { value: '0.75rem' },
@@ -171,6 +174,21 @@ export const fontSizes = {
   96: { value: '6rem' },
 };
 
+export const lineHeights = {
+  12: { value: '0.75rem' },
+  14: { value: '0.875rem' },
+  16: { value: '1rem' },
+  20: { value: '1.25rem' },
+  24: { value: '1.5rem' },
+  32: { value: '2rem' },
+  40: { value: '2.5rem' },
+  48: { value: '3rem' },
+  64: { value: '4rem' },
+  72: { value: '4.5rem' },
+  80: { value: '5rem' },
+  96: { value: '6rem' },
+};
+
 export const radii = {
   0: { value: '0' },
   1: { value: '0.0625rem' },
@@ -181,208 +199,208 @@ export const radii = {
   100: { value: '100%' },
 };
 
-export const textStyles = {
-  display: {
-    base: {
-      fontFamily: 'sans',
-      fontWeight: 'bold',
-      color: { base: 'gray.90', _osDark: 'gray.5' },
-    },
-    lg: {
-      value: {
-        fontSize: '72',
-        lineHeight: '64',
-      },
-    },
-    md: {
-      value: {
-        fontSize: '64',
-        lineHeight: '64',
-      },
-    },
-    sm: {
-      value: {
-        fontSize: '56',
-        lineHeight: '56',
-      },
-    },
-    xs: {
-      value: {
-        fontSize: '48',
-        lineHeight: '56',
-      },
-    },
-  },
-  heading: {
-    base: {
-      fontFamily: 'sans',
-      fontWeight: 'bold',
-      color: { base: 'gray.90', _osDark: 'gray.5' },
-    },
-    lg: {
-      value: {
-        fontSize: '40',
-        lineHeight: '40',
-      },
-    },
-    md: {
-      value: {
-        fontSize: '32',
-        lineHeight: '32',
-      },
-    },
-    sm: {
-      value: {
-        fontSize: '24',
-        lineHeight: '24',
-      },
-    },
-    xs: {
-      value: {
-        fontSize: '20',
-        lineHeight: '24',
-      },
-    },
-  },
-  body: {
-    base: {
-      fontFamily: 'serif',
-      color: { base: 'gray.70', _osDark: 'gray.20' },
-    },
-    lg: {
-      value: {
-        fontSize: '20',
-        lineHeight: '24',
-      },
-    },
-    md: {
-      value: {
-        fontSize: '16',
-        lineHeight: '20',
-      },
-    },
-    sm: {
-      value: {
-        fontSize: '14',
-        lineHeight: '20',
-      },
-    },
-    xs: {
-      value: {
-        fontSize: '12',
-        lineHeight: '16',
-      },
-    },
-  },
-  mono: {
-    base: {
-      fontFamily: 'mono',
-      color: { base: 'gray.70', _osDark: 'gray.20' },
-    },
-    lg: {
-      value: {
-        fontSize: '20',
-        lineHeight: '24',
-      },
-    },
-    md: {
-      value: {
-        fontSize: '16',
-        lineHeight: '20',
-      },
-    },
-    sm: {
-      value: {
-        fontSize: '14',
-        lineHeight: '20',
-      },
-    },
-    xs: {
-      value: {
-        fontSize: '12',
-        lineHeight: '16',
-      },
-    },
-  },
-  //   xs: {
-  //     value: {
-  //       fontSize: '0.75rem',
-  //       lineHeight: '1rem',
-  //     },
-  //   },
-  //   sm: {
-  //     value: {
-  //       fontSize: '0.875rem',
-  //       lineHeight: '1.25rem',
-  //     },
-  //   },
-  //   md: {
-  //     value: {
-  //       fontSize: '1rem',
-  //       lineHeight: '1.5rem',
-  //     },
-  //   },
-  //   lg: {
-  //     value: {
-  //       fontSize: '1.125rem',
-  //       lineHeight: '1.75rem',
-  //     },
-  //   },
-  //   xl: {
-  //     value: {
-  //       fontSize: '1.25rem',
-  //       lineHeight: '1.75rem',
-  //     },
-  //   },
-  //   '2xl': {
-  //     value: {
-  //       fontSize: '1.5rem',
-  //       lineHeight: '2rem',
-  //     },
-  //   },
-  //   '3xl': {
-  //     value: {
-  //       fontSize: '1.875rem',
-  //       lineHeight: '2.25rem',
-  //     },
-  //   },
-  //   '4xl': {
-  //     value: {
-  //       fontSize: '2.25rem',
-  //       lineHeight: '2.5rem',
-  //     },
-  //   },
-  //   '5xl': {
-  //     value: {
-  //       fontSize: '3rem',
-  //       lineHeight: '1',
-  //     },
-  //   },
-  //   '6xl': {
-  //     value: {
-  //       fontSize: '3.75rem',
-  //       lineHeight: '1',
-  //     },
-  //   },
-  //   '7xl': {
-  //     value: {
-  //       fontSize: '4.5rem',
-  //       lineHeight: '1',
-  //     },
-  //   },
-  //   '8xl': {
-  //     value: {
-  //       fontSize: '6rem',
-  //       lineHeight: '1',
-  //     },
-  //   },
-  //   '9xl': {
-  //     value: {
-  //       fontSize: '8rem',
-  //       lineHeight: '1',
-  //     },
-  //   },
-};
+// export const textStyles = {
+//   display: {
+//     base: {
+//       fontFamily: 'sans',
+//       fontWeight: 'bold',
+//       color: { base: 'gray.90', _osDark: 'gray.5' },
+//     },
+//     lg: {
+//       value: {
+//         fontSize: '72',
+//         lineHeight: '64',
+//       },
+//     },
+//     md: {
+//       value: {
+//         fontSize: '64',
+//         lineHeight: '64',
+//       },
+//     },
+//     sm: {
+//       value: {
+//         fontSize: '56',
+//         lineHeight: '56',
+//       },
+//     },
+//     xs: {
+//       value: {
+//         fontSize: '48',
+//         lineHeight: '56',
+//       },
+//     },
+//   },
+//   heading: {
+//     base: {
+//       fontFamily: 'sans',
+//       fontWeight: 'bold',
+//       color: { base: 'gray.90', _osDark: 'gray.5' },
+//     },
+//     lg: {
+//       value: {
+//         fontSize: '40',
+//         lineHeight: '40',
+//       },
+//     },
+//     md: {
+//       value: {
+//         fontSize: '32',
+//         lineHeight: '32',
+//       },
+//     },
+//     sm: {
+//       value: {
+//         fontSize: '24',
+//         lineHeight: '24',
+//       },
+//     },
+//     xs: {
+//       value: {
+//         fontSize: '20',
+//         lineHeight: '24',
+//       },
+//     },
+//   },
+//   body: {
+//     base: {
+//       fontFamily: 'serif',
+//       color: { base: 'gray.70', _osDark: 'gray.20' },
+//     },
+//     lg: {
+//       value: {
+//         fontSize: '20',
+//         lineHeight: '24',
+//       },
+//     },
+//     md: {
+//       value: {
+//         fontSize: '16',
+//         lineHeight: '20',
+//       },
+//     },
+//     sm: {
+//       value: {
+//         fontSize: '14',
+//         lineHeight: '20',
+//       },
+//     },
+//     xs: {
+//       value: {
+//         fontSize: '12',
+//         lineHeight: '16',
+//       },
+//     },
+//   },
+//   mono: {
+//     base: {
+//       fontFamily: 'mono',
+//       color: { base: 'gray.70', _osDark: 'gray.20' },
+//     },
+//     lg: {
+//       value: {
+//         fontSize: '20',
+//         lineHeight: '24',
+//       },
+//     },
+//     md: {
+//       value: {
+//         fontSize: '16',
+//         lineHeight: '20',
+//       },
+//     },
+//     sm: {
+//       value: {
+//         fontSize: '14',
+//         lineHeight: '20',
+//       },
+//     },
+//     xs: {
+//       value: {
+//         fontSize: '12',
+//         lineHeight: '16',
+//       },
+//     },
+//   },
+//   xs: {
+//     value: {
+//       fontSize: '0.75rem',
+//       lineHeight: '1rem',
+//     },
+//   },
+//   sm: {
+//     value: {
+//       fontSize: '0.875rem',
+//       lineHeight: '1.25rem',
+//     },
+//   },
+//   md: {
+//     value: {
+//       fontSize: '1rem',
+//       lineHeight: '1.5rem',
+//     },
+//   },
+//   lg: {
+//     value: {
+//       fontSize: '1.125rem',
+//       lineHeight: '1.75rem',
+//     },
+//   },
+//   xl: {
+//     value: {
+//       fontSize: '1.25rem',
+//       lineHeight: '1.75rem',
+//     },
+//   },
+//   '2xl': {
+//     value: {
+//       fontSize: '1.5rem',
+//       lineHeight: '2rem',
+//     },
+//   },
+//   '3xl': {
+//     value: {
+//       fontSize: '1.875rem',
+//       lineHeight: '2.25rem',
+//     },
+//   },
+//   '4xl': {
+//     value: {
+//       fontSize: '2.25rem',
+//       lineHeight: '2.5rem',
+//     },
+//   },
+//   '5xl': {
+//     value: {
+//       fontSize: '3rem',
+//       lineHeight: '1',
+//     },
+//   },
+//   '6xl': {
+//     value: {
+//       fontSize: '3.75rem',
+//       lineHeight: '1',
+//     },
+//   },
+//   '7xl': {
+//     value: {
+//       fontSize: '4.5rem',
+//       lineHeight: '1',
+//     },
+//   },
+//   '8xl': {
+//     value: {
+//       fontSize: '6rem',
+//       lineHeight: '1',
+//     },
+//   },
+//   '9xl': {
+//     value: {
+//       fontSize: '8rem',
+//       lineHeight: '1',
+//     },
+//   },
+// };
 
 // https://github.com/chakra-ui/panda/tree/4b70f29a14e98d9a0b450273704d2565e3f2d0bd/packages/preset-panda/src
 

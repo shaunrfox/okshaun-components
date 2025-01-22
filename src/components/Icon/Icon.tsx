@@ -1,9 +1,11 @@
 import { cx } from '@styled-system/css';
 import { iconStyle } from './iconStyle';
+import { IconNamesList } from './utils/icons';
 import { type HTMLStyledProps } from '@styled-system/types';
 
 type IconProps = HTMLStyledProps<'svg'> & {
-  name: string;
+  name: IconNamesList;
+  className?: string;
 };
 
 const IconSVG = ({
