@@ -1,35 +1,30 @@
-import { Box as pandaBox } from "../../../styled-system/jsx";
+import React, {
+  type ElementType,
+  type AllHTMLAttributes,
+  createElement,
+} from 'react';
+import {
+  splitCssProps, // Panda's runtime helper to split style props from others
+  styled,
+} from '@styled-system/jsx';
+import { css } from '@styled-system/css';
+import type { SystemStyleObject } from '@styled-system/types';
 
-export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
-  as?: React.ElementType;
-}
+export type BoxProps = Omit<AllHTMLAttributes<HTMLElement>, 'as'> &
+  SystemStyleObject & {
+    as?: ElementType;
+  };
 
-const boxStyles = (theme: Theme) => css`
-  min-width: 0;
-  padding: ${theme.size[16]};
-`;
+export const Box: React.FC<BoxProps> = ({ as = 'div', ...props }) => {
+  as = typeof as === 'string' && as.length > 0 ? as : 'div';
+  const [cssProps, otherProps] = splitCssProps(props);
+  const { css: cssProp, ...styleProps } = cssProps;
+  const className = css(cssProp, styleProps);
 
-const flexStyles = (theme: Theme) => css`
-  display: flex;
-  gap: ${theme.size[16]};
-`;
+  return createElement(as, {
+    className: { className },
+    ...otherProps,
+  });
+};
 
-const flexColumnStyles = css`
-  flex-direction: column;
-`;
-
-const Box = React.forwardRef<HTMLDivElement, BoxProps>(
-  ({ as: Component = "div", ...props }, ref) => {
-    return <Component ref={ref} css={boxStyles} {...props} />;
-  }
-);
-
-const Flex = React.forwardRef<HTMLDivElement, BoxProps>((props, ref) => (
-  <Box ref={ref} css={flexStyles} {...props} />
-));
-
-const FlexColumn = React.forwardRef<HTMLDivElement, BoxProps>((props, ref) => (
-  <Box ref={ref} css={[flexStyles, flexColumnStyles]} {...props} />
-));
-
-export { Box, Flex, FlexColumn };
+export default styled(Box);

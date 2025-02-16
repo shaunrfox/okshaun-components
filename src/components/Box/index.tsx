@@ -1,1 +1,1 @@
-export { Box, Flex, FlexColumn } from "./Box";
+export { Box, type BoxProps } from './Box';

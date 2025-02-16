@@ -1,54 +1,75 @@
 import * as React from 'react';
-import { styled } from '@styled-system/jsx';
-import { button } from '@styled-system/recipes';
+import { cx } from '@styled-system/css';
+import { Box, type BoxProps } from '~/components/Box';
+import { button, type ButtonVariantProps } from '@styled-system/recipes';
+import { ButtonContent } from './ButtonContent';
 
-export const StyledButton = styled('button', button);
+/**
+ * ButtonProps is now generic.
+ * It extends BoxProps for the element type E (default "button") and ButtonVariantProps.
+ * This means that any prop accepted by the underlying element (e.g. onClick) is automatically allowed.
+ */
+export type ButtonProps<E extends React.ElementType = 'button'> = BoxProps<E> &
+  ButtonVariantProps & {
+    href?: string;
+    loading?: boolean;
+    className?: string;
+    children?: React.ReactNode;
+    disabled?: boolean;
+  };
 
-export interface StyledButtonProps
-  extends React.ComponentProps<typeof StyledButton> {}
+/**
+ * Define a polymorphic ButtonComponent type.
+ * The ref type will be inferred from the element type E.
+ */
+type ButtonComponent = <E extends React.ElementType = 'button'>(
+  props: ButtonProps<E> & { ref?: React.ForwardedRef<Element> },
+) => JSX.Element;
 
-interface ButtonLoadingProps {
-  loading?: boolean;
-  loadingText?: React.ReactNode;
-}
-
-export interface ButtonProps extends StyledButtonProps, ButtonLoadingProps {
-  variant?: 'primary' | 'danger' | 'hollow' | 'utility' | 'standard';
-  size?: 'standard' | 'small' | 'large';
-  to?: string;
-  className?: string;
-  children?: React.ReactNode;
-  disabled?: boolean;
-  loading?: boolean;
-  loadingText?: string;
-}
-
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
+/**
+ * The Button component uses the polymorphic Box as its base.
+ * It automatically renders as an <a> if href is provided.
+ * Since ButtonProps extends BoxProps, any extra props (like onClick) are automatically allowed.
+ */
+export const Button = React.forwardRef(
+  <E extends React.ElementType = 'button'>(
     {
-      variant = 'standard',
-      size = 'standard',
+      variant,
+      size,
+      href,
       className,
+      children,
       loading,
       disabled,
-      loadingText,
-      children,
-      ...rest
-    },
-    ref,
+      ...props
+    }: ButtonProps<E>,
+    ref: React.ForwardedRef<Element>,
   ) => {
     const trulyDisabled = loading || disabled;
+    // Decide which element to render based on whether href is provided.
+    const asComponent = href ? 'a' : 'button';
+
     return (
-      <StyledButton
-        ref={ref}
-        variant={variant}
-        size={size}
+      // @ts-ignore
+      <Box
+        as={asComponent as E}
+        ref={ref as React.ForwardedRef<any>}
+        href={href}
         disabled={trulyDisabled}
-        className={className}
-        {...rest}
+        aria-disabled={trulyDisabled}
+        // Merge the classes from:
+        // 1. The button recipe (for variant and size)
+        // 2. The result of css(props) (for any extra style props)
+        // 3. Any extra className passed in
+        className={cx(button({ variant, size }), className)}
+        // Add "type" attribute when rendering a button
+        type={asComponent === 'button' ? 'button' : undefined}
+        {...props}
       >
-        {loading ? loadingText : children}
-      </StyledButton>
+        <>
+          <ButtonContent loading={!!loading}>{children}</ButtonContent>
+        </>
+      </Box>
     );
   },
-);
+) as ButtonComponent;

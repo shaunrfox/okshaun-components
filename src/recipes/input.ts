@@ -1,6 +1,6 @@
 import { defineRecipe } from '@pandacss/dev';
 
-export const input = defineRecipe({
+export const inputRecipe = defineRecipe({
   className: 'input',
   jsx: ['Input'],
   base: {

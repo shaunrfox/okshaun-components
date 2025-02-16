@@ -1,37 +1,40 @@
-// SOURCE
-// https://www.adebayosegun.com/blog/typography-component-with-panda-css-recipes
+import React, {
+  type ElementType,
+} from 'react';
+import { Box, type BoxProps } from '~/components/Box';
+import { splitCssProps } from '@styled-system/jsx';
+import { cx, css } from '@styled-system/css';
+import { text } from '@styled-system/recipes';
+import { type FontToken } from '@styled-system/tokens';
 
-import { text, type TextVariantProps } from '@styled-system/recipes';
-import { cx } from '@styled-system/css';
+export type TextProps = BoxProps & {
+  italic?: boolean;
+  family?: FontToken;
+  bold?: boolean;
+  underline?: boolean;
+  children?: string | React.ReactNode;
+  as?: ElementType;
+  className?: string;
+};
 
-type TextElement = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
-type TextProps = TextVariantProps &
-  React.HTMLAttributes<HTMLElement> & {
-    as?: TextElement;
-    className?: string;
-    font?: string;
-    italic?: boolean;
-    bold?: boolean;
-    underline?: boolean;
-    props?: any;
-  };
+export const Text: React.FC<TextProps> = (
+  { as, italic, family, bold, underline, children, ...props }: TextProps,
+) => {
+  const Component = as ?? 'p';
+  const [cssProps, otherProps] = splitCssProps(props);
+  const { css: cssProp, ...styleProps } = cssProps;
+  const className = css(cssProp, styleProps);
 
-export function Text({
-  as: Component = 'p',
-  className,
-  font,
-  italic,
-  bold,
-  underline,
-  ...props
-}: TextProps) {
   return (
-    <Component
+    <Box
+      as={Component}
       className={cx(
-        text({ font, italic, bold, underline, as: Component }),
+        text({ family, bold, underline, italic }),
         className,
       )}
-      {...props}
-    />
+      {...otherProps}
+    >
+      {children}
+    </Box>
   );
-}
+};

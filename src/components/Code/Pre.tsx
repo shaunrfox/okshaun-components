@@ -15,18 +15,20 @@ import { Code } from './Code';
 interface Props extends BoxProps {
   children: React.ReactNode;
   lang?: string;
+  as?: string;
 }
 
 export const Pre = (props: PropsWithChildren<Props>) => {
   const { children, lang, ...rest } = props;
   return (
     <Box
+      as="pre"
       borderRadius="8"
       overflow="hidden"
-      borderWidth="1"
-      borderColor="gray.60"
-      bg="gray.80"
-      color="gray.5"
+      borderWidth="0"
+      borderColor="slate.60"
+      bg="slate.80"
+      color="slate.5"
       px="16"
       py="8"
       my="8"

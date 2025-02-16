@@ -3,40 +3,51 @@ import {
   defineTokens,
   defineSemanticTokens,
 } from '@pandacss/dev';
-import pandaPandaPreset from '@pandacss/preset-panda';
 import * as tokens from './src/styles/tokens';
 import { globalCss } from './src/styles/globalStyle';
 
-import { button } from './src/recipes/button';
-import { iconButton } from './src/recipes/icon-button';
-import { input } from './src/recipes/input';
-import { textarea } from './src/recipes/textarea';
-import { text } from './src/recipes/text';
+import { buttonRecipe, iconButtonRecipe } from './src/recipes/button';
+import { inputRecipe } from './src/recipes/input';
+import { textareaRecipe } from './src/recipes/textarea';
+import { textRecipe, headingRecipe, linkRecipe } from './src/recipes/text';
+import { checkBoxRecipe } from './src/recipes/checkbox';
+import { conditions } from './src/styles/conditions';
 
-// using pandas methods to define type-safe tokens
 const theme = {
   tokens: defineTokens({
-    aspectRatios: { ...pandaPandaPreset.theme.tokens.aspectRatios },
-    shadows: { ...pandaPandaPreset.theme.tokens.shadows },
-    easings: { ...pandaPandaPreset.theme.tokens.easings },
-    durations: { ...pandaPandaPreset.theme.tokens.durations },
-    letterSpacings: { ...pandaPandaPreset.theme.tokens.letterSpacings },
-    lineHeights: { ...tokens.lineHeights },
-    blurs: { ...pandaPandaPreset.theme.tokens.blurs },
-    animations: { ...pandaPandaPreset.theme.tokens.animations },
+    aspectRatios: tokens.aspectRatios,
+    borders: tokens.borders,
+    shadows: tokens.shadows,
+    easings: tokens.easings,
+    durations: tokens.durations,
+    letterSpacings: tokens.letterSpacings,
+    lineHeights: tokens.lineHeights,
+    blurs: tokens.blurs,
+    animations: tokens.animations,
     colors: tokens.colors,
     fonts: tokens.fonts,
-    fontSizes: tokens.sizes,
+    fontSizes: tokens.fontSizes,
     fontWeights: tokens.fontWeights,
     sizes: tokens.sizes,
     spacing: tokens.sizes,
     radii: tokens.radii,
+    keyframes: tokens.keyframes,
+    containerSizes: tokens.containerSizes,
+    breakpoints: tokens.breakpoints,
   }),
   semanticTokens: defineSemanticTokens({
     colors: {
-      primary: tokens.colors.blue[50],
-      danger: tokens.colors.red[50],
-      success: tokens.colors.green[50],
+      success: tokens.colors.status.success,
+      warning: tokens.colors.status.warning,
+      danger: tokens.colors.status.danger,
+      utility: {
+        shadowColor: {
+          value: {
+            base: '{colors.slate.90/10}',
+            _dark: '{colors.slate.100/10}',
+          },
+        },
+      },
     },
   }),
 };
@@ -45,19 +56,22 @@ export default defineConfig({
   presets: ['@pandacss/dev/presets', '@pandacss/preset-base'],
   gitignore: true,
   jsxFramework: 'react',
+  jsxStyleProps: 'all',
   jsxFactory: 'styled',
   watch: true,
   include: ['./src/**/*.{js,jsx,ts,tsx}', './pages/**/*.{js,jsx,ts,tsx}'],
   preflight: true,
   exclude: [],
   strictTokens: true,
+  importMap: '@styled-system',
+  outdir: 'styled-system',
 
   theme: {
-    textStyles: { ...pandaPandaPreset.theme.textStyles },
-    containerSizes: { ...pandaPandaPreset.theme.containerSizes },
-    keyframes: { ...pandaPandaPreset.theme.keyframes },
+    containerSizes: tokens.containerSizes,
+    keyframes: tokens.keyframes,
     tokens: {
       aspectRatios: theme.tokens.aspectRatios,
+      borders: theme.tokens.borders,
       shadows: theme.tokens.shadows,
       easings: theme.tokens.easings,
       durations: theme.tokens.durations,
@@ -77,22 +91,39 @@ export default defineConfig({
       colors: theme.semanticTokens.colors,
     },
     extend: {
-      breakpoints: {
-        ...pandaPandaPreset.theme.breakpoints,
-        xs: '480px',
-      },
+      breakpoints: theme.tokens.breakpoints,
+      textStyles: tokens.textStyles,
       recipes: {
-        text: text,
-        button: button,
-        iconButton: iconButton,
-        input: input,
-        textarea: textarea,
+        text: textRecipe,
+        heading: headingRecipe,
+        link: linkRecipe,
+        button: buttonRecipe,
+        iconButton: iconButtonRecipe,
+        input: inputRecipe,
+        textarea: textareaRecipe,
+        checkbox: checkBoxRecipe,
       },
       slotRecipes: {},
     },
   },
 
   patterns: {
+    icon: {
+      properties: {
+        size: {
+          type: 'enum',
+          value: Object.keys(tokens.sizes),
+        },
+      },
+      transform(props) {
+        const { size, ...rest } = props;
+        return {
+          width: size,
+          height: size,
+          ...rest,
+        };
+      },
+    },
     extend: {
       container: {
         transform(props) {
@@ -121,23 +152,18 @@ export default defineConfig({
   },
 
   conditions: {
-    checked:
-      '&:is(:checked, [data-checked], [aria-checked=true], [data-state=checked])',
-    indeterminate:
-      '&:is(:indeterminate, [data-indeterminate], [aria-checked=mixed], [data-state=indeterminate])',
-    closed: '&:is([data-state=closed])',
-    open: '&:is([open], [data-state=open])',
+    ...conditions,
+
+    // States
     hidden: '&:is([hidden])',
     current: '&:is([data-current])',
     today: '&:is([data-today])',
-    placeholderShown: '&:is(:placeholder-shown, [data-placeholder-shown])',
     collapsed:
       '&:is([aria-collapsed=true], [data-collapsed], [data-state="collapsed"])',
+
+    // Containers
     containerSmall: '@container (max-width: 560px)',
     containerMedium: '@container (min-width: 561px) and (max-width: 999px)',
     containerLarge: '@container (min-width: 1000px)',
   },
-
-  // The output directory for your css system
-  outdir: 'styled-system',
 });
