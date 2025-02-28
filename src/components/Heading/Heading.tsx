@@ -1,32 +1,27 @@
-import React, { type ElementType } from 'react';
-import { Box, type BoxProps } from '~/components/Box';
-import { splitCssProps } from '@styled-system/jsx';
+import { Text, type TextProps } from '~/components/Text';
 import { heading, type HeadingVariantProps } from '@styled-system/recipes';
-import { cx, css } from '@styled-system/css';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 
-export type HeadingProps = BoxProps & {
-  as?: 'h1' | 'h2' | 'h3' | 'h4';
-  className?: string;
-  children?: string | React.ReactNode;
-};
+export type HeadingProps = Omit<TextProps, keyof HeadingVariantProps> &
+  HeadingVariantProps & {
+    children?: string | React.ReactNode;
+    level?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  };
 
 export const Heading: React.FC<HeadingProps> = ({
-  as,
+  level = 'h2',
   children,
   ...props
 }: HeadingProps) => {
-  const Component = as ?? 'h2';
-  const [cssProps, otherProps] = splitCssProps(props);
-  const { css: cssProp, ...styleProps } = cssProps;
-  const className = css(cssProp, styleProps);
-
+  const [className, otherProps] = splitProps(props);
   return (
-    <Box
-      as={Component}
-      className={cx(heading({ as: Component }), className)}
+    <Text
+      as={level}
+      className={cx(heading({ level }), className as string)}
       {...otherProps}
     >
       {children}
-    </Box>
+    </Text>
   );
 };

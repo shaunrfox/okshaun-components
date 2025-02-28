@@ -6,11 +6,21 @@ import {
 import * as tokens from './src/styles/tokens';
 import { globalCss } from './src/styles/globalStyle';
 
-import { buttonRecipe, iconButtonRecipe } from './src/recipes/button';
-import { inputRecipe } from './src/recipes/input';
-import { textareaRecipe } from './src/recipes/textarea';
-import { textRecipe, headingRecipe, linkRecipe } from './src/recipes/text';
-import { checkBoxRecipe } from './src/recipes/checkbox';
+import {
+  buttonRecipe,
+  iconButtonRecipe,
+  inputRecipe,
+  textareaRecipe,
+  headingRecipe,
+  linkRecipe,
+  labelRecipe,
+  textRecipe,
+  checkBoxRecipe,
+  spinnerRecipe,
+  preRecipe,
+  codeRecipe,
+  boxRecipe,
+} from './src/recipes/index';
 import { conditions } from './src/styles/conditions';
 
 const theme = {
@@ -59,7 +69,7 @@ export default defineConfig({
   jsxStyleProps: 'all',
   jsxFactory: 'styled',
   watch: true,
-  include: ['./src/**/*.{js,jsx,ts,tsx}', './pages/**/*.{js,jsx,ts,tsx}'],
+  include: ['./src/**/*.{js,jsx,ts,tsx}', './public/**/*'],
   preflight: true,
   exclude: [],
   strictTokens: true,
@@ -97,11 +107,16 @@ export default defineConfig({
         text: textRecipe,
         heading: headingRecipe,
         link: linkRecipe,
+        label: labelRecipe,
         button: buttonRecipe,
         iconButton: iconButtonRecipe,
         input: inputRecipe,
         textarea: textareaRecipe,
         checkbox: checkBoxRecipe,
+        code: codeRecipe,
+        pre: preRecipe,
+        spinner: spinnerRecipe,
+        box: boxRecipe,
       },
       slotRecipes: {},
     },
@@ -155,6 +170,8 @@ export default defineConfig({
     ...conditions,
 
     // States
+    indeterminate:
+      '&:is(:indeterminate, [data-indeterminate], [aria-checked=mixed], [data-state=indeterminate])',
     hidden: '&:is([hidden])',
     current: '&:is([data-current])',
     today: '&:is([data-today])',

@@ -1,44 +1,44 @@
-import { defineRecipe } from "@pandacss/dev";
+import { defineRecipe } from '@pandacss/dev';
 
 const checkBoxBase = {
-  width: "14px",
-  height: "14px",
-  borderRadius: "3px",
-  borderWidth: "1px",
+  width: '14px',
+  height: '14px',
+  borderRadius: '3px',
+  borderWidth: '1px',
   '& [type="checkbox"]': {
     position: 'absolute',
     appearance: 'none',
     '-webkit-appearance': 'none',
-  }
-}
+  },
+};
 
 const checkBoxVariants = {
   variant: {
     default: {
-      bg: { base: 'slate.0', _dark: 'slate.90' },
-      color: { base: 'slate.90', _dark: 'slate.0' },
-      borderColor: 'slate.20'
+      bg: { base: 'gray.0', _dark: 'gray.90' },
+      color: { base: 'gray.90', _dark: 'gray.0' },
+      borderColor: 'gray.20',
     },
     checked: {
-      bg: { base: 'slate.90', _dark: 'slate.0' },
-      color: { base: 'slate.0', _dark: 'slate.90' },
-      borderColor: { base: 'slate.90', _dark: 'slate.0' }
+      bg: { base: 'gray.90', _dark: 'gray.0' },
+      color: { base: 'gray.0', _dark: 'gray.90' },
+      borderColor: { base: 'gray.90', _dark: 'gray.0' },
     },
     indeterminate: {
-      bg: { base: 'slate.90', _dark: 'slate.0' },
-      color: { base: 'slate.0', _dark: 'slate.90' },
-      borderColor: { base: 'slate.90', _dark: 'slate.0' }
+      bg: { base: 'gray.90', _dark: 'gray.0' },
+      color: { base: 'gray.0', _dark: 'gray.90' },
+      borderColor: { base: 'gray.90', _dark: 'gray.0' },
     },
     disabled: {
-      bg: { base: 'slate.0', _dark: 'slate.90' },
-      opacity: 0.4
+      bg: { base: 'gray.0', _dark: 'gray.90' },
+      opacity: 0.4,
     },
     error: {
-      bg: { base: 'slate.0', _dark: 'slate.90' },
-      borderColor: 'red.50'
-    }
+      bg: { base: 'gray.0', _dark: 'gray.90' },
+      borderColor: 'red.50',
+    },
   },
-}
+};
 
 export const checkBoxRecipe = defineRecipe({
   className: 'checkbox',
@@ -46,6 +46,6 @@ export const checkBoxRecipe = defineRecipe({
   base: checkBoxBase,
   variants: checkBoxVariants,
   defaultVariants: {
-    variant: 'default'
-  }
-})
+    variant: 'default',
+  },
+});

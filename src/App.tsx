@@ -1,6 +1,5 @@
-import { type ReactNode } from 'react';
-import { css } from '@styled-system/css';
-import { HStack, VStack, Container, Box, Grid, Flex } from '@styled-system/jsx';
+import type { ReactNode } from 'react';
+import { HStack, VStack, Container, Grid, Flex, Box } from '@styled-system/jsx';
 import { Text } from '~/components/Text';
 import { Button } from '~/components/Button';
 import { IconButton } from '~/components/IconButton';
@@ -11,11 +10,11 @@ import { ThemeSwitcher } from '~/components/ThemeSwitcher';
 import { Heading } from '~/components/Heading';
 import { Link } from '~/components/Link';
 import { Spinner } from '~/components/Spinner';
-import { CheckBox } from './components/CheckBox';
+//import { CheckBox } from './components/CheckBox';
 // import { Input } from '~/components/Input';
 // import { Textarea } from '~/components/Textarea';
 
-function IconList() {
+export function IconList() {
   return (
     <Grid
       gap="16"
@@ -23,7 +22,7 @@ function IconList() {
       gridTemplateColumns={'repeat(auto-fill, minmax(200px, 1fr))'}
     >
       {(Object.keys(IconNames) as IconNamesList[]).map((icon) => (
-        <HStack key={icon} color={{ base: 'mint.40', _dark: 'yellow.20' }}>
+        <HStack key={icon} color={{ base: 'gold.40', _dark: 'gold.30' }}>
           <Icon name={icon} />
           <Text family={'mono'} fontSize={'14'}>
             {icon}
@@ -34,7 +33,7 @@ function IconList() {
   );
 }
 
-const Section = ({ children }: { children?: ReactNode }) => {
+export const Section = ({ children }: { children?: ReactNode }) => {
   return (
     <Grid
       gridTemplateColumns={'1fr 3fr'}
@@ -42,7 +41,7 @@ const Section = ({ children }: { children?: ReactNode }) => {
       w={'full'}
       borderTopWidth={'1'}
       borderTopStyle={'solid'}
-      borderColor={{ base: 'gray.10', _dark: 'gray.80' }}
+      borderColor={{ base: 'slate.10', _dark: 'slate.80' }}
       py={'24'}
       pb={'96'}
     >
@@ -51,21 +50,13 @@ const Section = ({ children }: { children?: ReactNode }) => {
   );
 };
 
-const SectionHeader = ({ children }: { children?: ReactNode }) => {
-  return (
-    <Box position="sticky" top="8" zIndex="1" h="fit">
-      <Heading as="h2">{children}</Heading>
-    </Box>
-  );
-};
-
 function AppContent() {
   return (
-    <VStack position="relative" gap={'24'}>
+    <VStack>
       <Flex
         w="full"
         py={'4'}
-        bg={{ base: 'gray.10', _dark: 'gray.80' }}
+        bg={{ base: 'slate.10', _dark: 'slate.80' }}
         mb={'56'}
         position={'sticky'}
         top={'0'}
@@ -81,6 +72,7 @@ function AppContent() {
               letterSpacing={'widest'}
               textTransform={'uppercase'}
               fontWeight={'bold'}
+              onClick={() => alert('clicked')}
             >
               Ok Shaun Componentz
             </Text>
@@ -91,12 +83,19 @@ function AppContent() {
       <Container maxW={'5xl'}>
         <VStack gap={'8'}>
           <Section>
-            <SectionHeader>Buttons</SectionHeader>
+            <Heading>Buttons</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
               <HStack>
-                <Button variant="primary">Primary</Button>
+                <Button
+                  variant="primary"
+                  onClick={() => alert('clicked')}
+                  bg="red.50"
+                >
+                  Primary
+                </Button>
                 <Button>Standard</Button>
                 <Button variant="hollow">Hollow</Button>
+                <Button variant="ghost">Ghost</Button>
                 <Button variant="cta">CTA</Button>
                 <Button variant="danger">Danger</Button>
               </HStack>
@@ -123,7 +122,8 @@ function AppContent() {
             </VStack>
           </Section>
           <Section>
-            <SectionHeader>Text</SectionHeader>
+            <Heading level="h2">Text</Heading>
+
             <VStack alignItems={'flex-start'}>
               <Grid
                 gridTemplateColumns={'minmax(auto, 1fr) 1fr'}
@@ -132,10 +132,7 @@ function AppContent() {
                 alignItems={'center'}
               >
                 <Box gridColumn={'1 / -1'}>
-                  <Heading
-                    as="h4"
-                    color={{ base: 'mint.40', _dark: 'yellow.20' }}
-                  >
+                  <Heading level="h3" color={'gold.40'}>
                     Text styles
                   </Heading>
                 </Box>
@@ -163,32 +160,29 @@ function AppContent() {
 	<Text as="span" bold>replenish</Text>
 	<Text as="span" underline>whales</Text>
 </Text>`}</Pre>
-                <Text font="mono">
+                <Text family={'mono'}>
                   Signs night have sixth hath that likeness us fill you're
                   subdue fowl.
                 </Text>
-                <Pre>{`<Text font="mono">...</Text>`}</Pre>
+                <Pre>
+                  {`<Text family="mono">...</Text>
+                    `}
+                </Pre>
                 <Box gridColumn={'1 / -1'} mt={'32'}>
-                  <Heading
-                    as="h4"
-                    color={{ base: 'mint.40', _dark: 'yellow.20' }}
-                  >
+                  <Heading level="h3" color={'gold.40'}>
                     Headings
                   </Heading>
                 </Box>
-                <Heading as="h1">Hamburgefonstiv</Heading>
+                <Heading level="h1">Hamburgefonstiv</Heading>
                 <Pre>{'<Heading as="h1">Hamburgefonstiv</Heading>'}</Pre>
                 <Heading>Hamburgefonstiv</Heading>
                 <Pre>{'<Heading>Hamburgefonstiv</Heading>'}</Pre>
-                <Heading as="h3">Hamburgefonstiv</Heading>
+                <Heading level="h3">Hamburgefonstiv</Heading>
                 <Pre>{'<Heading as="h3">Hamburgefonstiv</Heading>'}</Pre>
-                <Heading as="h4">Hamburgefonstiv</Heading>
+                <Heading level="h4">Hamburgefonstiv</Heading>
                 <Pre>{'<Heading as="h4">Hamburgefonstiv</Heading>'}</Pre>
                 <Box gridColumn={'1 / -1'} mt={'32'}>
-                  <Heading
-                    as="h4"
-                    color={{ base: 'mint.40', _dark: 'yellow.20' }}
-                  >
+                  <Heading level="h3" color={'gold.40'}>
                     Links
                   </Heading>
                 </Box>
@@ -224,7 +218,7 @@ function AppContent() {
             </VStack>
           </Section>
           <Section>
-            <SectionHeader>Spinner</SectionHeader>
+            <Heading level="h2">Spinner</Heading>
             <HStack gap={'40'} alignItems={'flex-end'}>
               <VStack>
                 <Spinner size="small" />
@@ -241,13 +235,25 @@ function AppContent() {
             </HStack>
           </Section>
           <Section>
-            <SectionHeader>Icons</SectionHeader>
+            <Heading level="h2">Icons</Heading>
             <IconList />
           </Section>
+          <Section>
+            <Heading level="h2">Checkboxes</Heading>
+            <HStack gap={'40'} alignItems={'flex-end'}>
+              {/*
+              <CheckBox />
+              <CheckBox variant="checked" />
+              <CheckBox variant="indeterminate" />
+              <CheckBox variant="disabled" />
+              <CheckBox variant="error" />
+              */}
+            </HStack>
+          </Section>
           {/* <Section>
-            <SectionHeader>
+            <Text as="h2">
               Inputs
-            </SectionHeader>
+            </Text>
             <VStack>
               <HStack gap={'24'}>
                 <Input label="First" type="text" />

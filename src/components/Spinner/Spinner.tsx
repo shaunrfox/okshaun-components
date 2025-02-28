@@ -1,38 +1,24 @@
-import * as React from 'react';
-import { cx } from '@styled-system/css';
 import { Box, type BoxProps } from '../Box/Box';
-import { spinnerStyle } from './spinnerStyles';
+import { spinner, type SpinnerVariantProps } from '@styled-system/recipes';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 
-/**
- * SpinnerProps is generic over an element type E (defaulting to 'div'),
- * and it extends BoxProps so that all style props and intrinsic element props
- * (like onClick, etc.) are automatically included.
- */
-export interface SpinnerProps<E extends React.ElementType = 'div'>
-  // @ts-ignore
-  extends BoxProps<E> {
-  size?: 'standard' | 'small' | 'large';
-  className?: string;
-}
+export type SpinnerProps = Omit<BoxProps, keyof SpinnerVariantProps> &
+  SpinnerVariantProps & {
+    size?: 'standard' | 'small' | 'large';
+    className?: string;
+  };
 
-/**
- * The Spinner component is built on top of Box.
- * It forwards all props (including style props and event handlers) and ref to Box.
- */
-export const Spinner = React.forwardRef(function Spinner<
-  E extends React.ElementType = 'div',
->(
-  { size = 'standard', className, ...props }: SpinnerProps<E>,
-  ref: React.ForwardedRef<Element>,
-) {
+export const Spinner: React.FC<SpinnerProps> = ({
+  size,
+  ...props
+}: SpinnerProps) => {
+  const [className, otherProps] = splitProps(props);
   return (
     <Box
       as="div"
-      ref={ref}
-      className={cx(spinnerStyle({ size }), className)}
-      {...props}
+      className={cx(spinner({ size }), className as string)}
+      {...otherProps}
     />
   );
-}) as <E extends React.ElementType = 'div'>(
-  props: SpinnerProps<E> & { ref?: React.ForwardedRef<Element> },
-) => JSX.Element;
+};

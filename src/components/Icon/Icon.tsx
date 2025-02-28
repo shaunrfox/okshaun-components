@@ -3,7 +3,7 @@ import { Box, type BoxProps } from '~/components/Box';
 import { splitCssProps } from '@styled-system/jsx';
 import { cx, css } from '@styled-system/css';
 // import { type ColorToken } from '@styled-system/tokens';
-import { type IconNamesList } from './icons.d.ts';
+import type { IconNamesList } from './icons';
 import { icon } from '@styled-system/patterns';
 import { numericSizes } from '~/styles/tokens';
 
@@ -38,7 +38,7 @@ export const Icon: React.FC<IconProps> = ({
       className={cx(icon({ size: size as AllowedIconSizes, fill }), className)}
       {...otherProps}
     >
-      <use xlinkHref={`/sprite.svg#${name}`} />
+      <use xlinkHref={`sprite.svg#${name}`} />
     </Box>
   );
 };
