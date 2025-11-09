@@ -130,26 +130,26 @@ export const colors = {
   utility: {
     shadowColor: {
       value: {
-        base: '{colors.slate.90/20}',
-        _dark: '{colors.slate.100/40}',
+        base: '{colors.gray.90/20}',
+        _dark: '{colors.gray.100/40}',
       },
     },
 		headingColor: {
 			value: {
-				base: '{colors.slate.90}',
-				_dark: '{colors.slate.5}',
+				base: '{colors.gray.90}',
+				_dark: '{colors.gray.5}',
 			},
 		},
 		textColor: {
 			value: {
-				base: '{colors.slate.60}',
-				_dark: '{colors.slate.30}',
+				base: '{colors.gray.60}',
+				_dark: '{colors.gray.30}',
 			},
 		},
 		borderColor: {
 			value: {
-				base: '{colors.slate.10}',
-				_dark: '{colors.slate.60}',
+				base: '{colors.gray.10}',
+				_dark: '{colors.gray.60}',
 			},
 		},
   },

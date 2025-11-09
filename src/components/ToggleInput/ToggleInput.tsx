@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { BoxProps } from '../Box';
+import { type BoxProps } from '../Box';
 import {
   toggleInput,
   type ToggleInputVariantProps,

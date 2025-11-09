@@ -51,7 +51,7 @@ export const Section = ({ children }: { children?: ReactNode }) => {
       w={'full'}
       borderTopWidth={'1'}
       borderTopStyle={'solid'}
-      borderColor={{ base: 'slate.10', _dark: 'slate.80' }}
+      borderColor={{ base: 'gray.10', _dark: 'gray.80' }}
       py={'24'}
       pb={'96'}
     >
@@ -66,7 +66,7 @@ function AppContent() {
       <Flex
         w="full"
         py={'4'}
-        bg={{ base: 'slate.10', _dark: 'slate.80' }}
+        bg={{ base: 'gray.10', _dark: 'gray.80' }}
         mb={'56'}
         position={'sticky'}
         top={'0'}
@@ -200,9 +200,7 @@ function AppContent() {
                   Internal:&emsp;
                   <Link href="https://shaunfox.com">okshaun</Link>
                 </Text>
-                <Pre>
-                  {'<Link href="https://shaunfox.com">okshaun</Link>'}
-                </Pre>
+                <Pre>{'<Link href="https://shaunfox.com">okshaun</Link>'}</Pre>
                 <Text>
                   External:&emsp;
                   <Link href="https://shaunfox.com" external>
@@ -210,9 +208,7 @@ function AppContent() {
                   </Link>
                 </Text>
                 <Pre>
-                  {
-                    '<Link href="https://shaunfox.com" external>okshaun</Link>'
-                  }
+                  {'<Link href="https://shaunfox.com" external>okshaun</Link>'}
                 </Pre>
                 <Box gridColumn={'1 / -1'}>
                   <Text>
@@ -251,20 +247,20 @@ function AppContent() {
           <Section>
             <Heading level="h2">Badge</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
-							<HStack gap={'16'}>
-								<Text>Solid</Text>
+              <HStack gap={'16'}>
+                <Text>Solid</Text>
                 <Badge variant="solid" size="sm"></Badge>
                 <Badge variant="solid"></Badge>
                 <Badge variant="solid" size="lg"></Badge>
               </HStack>
-							<HStack gap={'16'}>
-								<Text>Subtle</Text>
+              <HStack gap={'16'}>
+                <Text>Subtle</Text>
                 <Badge variant="subtle" size="sm"></Badge>
                 <Badge variant="subtle"></Badge>
                 <Badge variant="subtle" size="lg"></Badge>
               </HStack>
-							<HStack gap={'16'}>
-								<Text>Outline</Text>
+              <HStack gap={'16'}>
+                <Text>Outline</Text>
                 <Badge variant="outline" size="sm"></Badge>
                 <Badge variant="outline"></Badge>
                 <Badge variant="outline" size="lg"></Badge>
@@ -285,29 +281,51 @@ function AppContent() {
                 <Tag hue="pink">Pink</Tag>
               </HStack>
               <HStack gap={'8'} flexWrap={'wrap'}>
-                <Tag hue="slate" variant="bold">Slate Bold</Tag>
-                <Tag hue="red" variant="bold">Red Bold</Tag>
-                <Tag hue="orange" variant="bold">Orange Bold</Tag>
-                <Tag hue="yellow" variant="bold">Yellow Bold</Tag>
-                <Tag hue="green" variant="bold">Green Bold</Tag>
-                <Tag hue="blue" variant="bold">Blue Bold</Tag>
-                <Tag hue="purple" variant="bold">Purple Bold</Tag>
-                <Tag hue="pink" variant="bold">Pink Bold</Tag>
+                <Tag hue="slate" variant="bold">
+                  Slate Bold
+                </Tag>
+                <Tag hue="red" variant="bold">
+                  Red Bold
+                </Tag>
+                <Tag hue="orange" variant="bold">
+                  Orange Bold
+                </Tag>
+                <Tag hue="yellow" variant="bold">
+                  Yellow Bold
+                </Tag>
+                <Tag hue="green" variant="bold">
+                  Green Bold
+                </Tag>
+                <Tag hue="blue" variant="bold">
+                  Blue Bold
+                </Tag>
+                <Tag hue="purple" variant="bold">
+                  Purple Bold
+                </Tag>
+                <Tag hue="pink" variant="bold">
+                  Pink Bold
+                </Tag>
               </HStack>
               <HStack gap={'8'}>
-                <Tag hue="blue" iconName="check">With Icon Left</Tag>
-                <Tag hue="green" iconName="star" iconPosition="right">With Icon Right</Tag>
+                <Tag hue="blue" iconName="check">
+                  With Icon Left
+                </Tag>
+                <Tag hue="green" iconName="star" iconPosition="right">
+                  With Icon Right
+                </Tag>
               </HStack>
             </VStack>
           </Section>
           <Section>
             <Heading level="h2">Breadcrumbs</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
-              <Breadcrumbs items={[
-                { id: '1', label: 'Home', href: '#' },
-                { id: '2', label: 'Products', href: '#' },
-                { id: '3', label: 'Category' }
-              ]} />
+              <Breadcrumbs
+                items={[
+                  { id: '1', label: 'Home', href: '#' },
+                  { id: '2', label: 'Products', href: '#' },
+                  { id: '3', label: 'Category' },
+                ]}
+              />
             </VStack>
           </Section>
           <Section>
@@ -354,51 +372,39 @@ function AppContent() {
             <VStack alignItems={'flex-start'} gap={'24'}>
               <VStack alignItems={'flex-start'} gap={'8'}>
                 <Label htmlFor="email-input">Email Address</Label>
-                <TextInput id="email-input" name="email" placeholder="Enter your email" />
+                <TextInput
+                  id="email-input"
+                  name="email"
+                  placeholder="Enter your email"
+                />
               </VStack>
               <VStack alignItems={'flex-start'} gap={'8'}>
                 <Label htmlFor="name-input">Name</Label>
-                <TextInput id="name-input" name="name" size="large" placeholder="Enter your name" />
+                <TextInput
+                  id="name-input"
+                  name="name"
+                  size="large"
+                  placeholder="Enter your name"
+                />
               </VStack>
               <VStack alignItems={'flex-start'} gap={'8'}>
                 <Label htmlFor="error-input">With Error</Label>
-                <TextInput id="error-input" name="error" error placeholder="This field has an error" />
+                <TextInput
+                  id="error-input"
+                  name="error"
+                  error
+                  placeholder="This field has an error"
+                />
               </VStack>
             </VStack>
           </Section>
           <Section>
             <Heading level="h2">Checkboxes</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
-              <HStack gap={'16'}>
-                <Label>
-                  <Checkbox name="checkbox1" />
-                  <Text ml={'8'}>Default Checkbox</Text>
-                </Label>
-              </HStack>
-              <HStack gap={'16'}>
-                <Label>
-                  <Checkbox name="checkbox2" checked />
-                  <Text ml={'8'}>Checked Checkbox</Text>
-                </Label>
-              </HStack>
-              <HStack gap={'16'}>
-                <Label>
-                  <Checkbox name="checkbox3" indeterminate />
-                  <Text ml={'8'}>Indeterminate Checkbox</Text>
-                </Label>
-              </HStack>
-              <HStack gap={'16'}>
-                <Label>
-                  <Checkbox name="checkbox4" disabled />
-                  <Text ml={'8'}>Disabled Checkbox</Text>
-                </Label>
-              </HStack>
-              <HStack gap={'16'}>
-                <Label>
-                  <Checkbox name="checkbox5" error />
-                  <Text ml={'8'}>Error Checkbox</Text>
-                </Label>
-              </HStack>
+              <Label>
+                <Checkbox name="checkbox1" />
+                <Text ml={'8'}>Default Checkbox</Text>
+              </Label>
             </VStack>
           </Section>
           <Section>
@@ -464,7 +470,11 @@ function AppContent() {
                 <Tooltip text="Click to toggle" trigger="onClick">
                   <Button>Click me</Button>
                 </Tooltip>
-                <Tooltip title="Tooltip Title" text="This tooltip has a title" position="top">
+                <Tooltip
+                  title="Tooltip Title"
+                  text="This tooltip has a title"
+                  position="top"
+                >
                   <Button>With Title</Button>
                 </Tooltip>
               </HStack>
@@ -481,9 +491,21 @@ function AppContent() {
                       id: 'section1',
                       title: 'Options',
                       items: [
-                        { id: '1', label: 'Option 1', description: 'First option' },
-                        { id: '2', label: 'Option 2', description: 'Second option' },
-                        { id: '3', label: 'Option 3', description: 'Third option' },
+                        {
+                          id: '1',
+                          label: 'Option 1',
+                          description: 'First option',
+                        },
+                        {
+                          id: '2',
+                          label: 'Option 2',
+                          description: 'Second option',
+                        },
+                        {
+                          id: '3',
+                          label: 'Option 3',
+                          description: 'Third option',
+                        },
                       ],
                     },
                   ]}
