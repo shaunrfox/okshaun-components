@@ -1,4 +1,4 @@
-import { breadcrumbs, BreadcrumbsVariantProps } from "@styled-system/recipes";
+import { breadcrumbs } from "@styled-system/recipes";
 import { type BoxProps } from "../Box";
 import { splitProps } from "~/utils/splitProps";
 import { cx } from "@styled-system/css";
@@ -6,8 +6,7 @@ import { Text } from "../Text";
 import { Link } from "../Link";
 import React from "react";
 
-export type BreadcrumbsProps = Omit<BoxProps, keyof BreadcrumbsVariantProps> & 
-BreadcrumbsVariantProps & {
+export type BreadcrumbsProps = BoxProps & {
     items: {id: string, label: string, href?:string} []
 }
 
