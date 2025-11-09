@@ -1,6 +1,6 @@
-import { card, CardVariantProps } from '@styled-system/recipes';
-import { Box, BoxProps } from '../Box';
-import { ReactNode } from 'react';
+import { card, type CardVariantProps } from '@styled-system/recipes';
+import { Box, type BoxProps } from '../Box';
+import { type ReactNode } from 'react';
 import { splitProps } from '~/utils/splitProps';
 import { cx } from '@styled-system/css';
 

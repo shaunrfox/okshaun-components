@@ -72,7 +72,7 @@ export const checkboxRecipe = defineSlotRecipe({
       display: 'none',
       width: 24,
       height: 24,
-      "&:is([name='checkbox'])": {
+      "& ~ [name='checkbox']": {
         display: 'inline-grid',
         fill: { base: 'gray.30', _dark: 'gray.20' },
       },

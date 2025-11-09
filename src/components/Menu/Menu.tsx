@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Text } from '../Text';
 import { Divider } from '../Divider';
 import { Icon, type IconNamesList } from '../Icon';
-import { CheckBox } from '../Checkbox';
+import { Checkbox } from '../Checkbox';
 import { Toggle } from '../Toggle';
 import { Link } from '../Link';
 
@@ -173,7 +173,7 @@ export const Menu: React.FC<MenuProps> = ({
                     {variant === 'multi-select' &&
                       multiSelectType === 'checkbox' &&
                       !section?.link && (
-                        <CheckBox
+                        <Checkbox
                           checked={isSelected}
                           onChange={() => handleSelect(item.id)}
                         />
@@ -181,7 +181,8 @@ export const Menu: React.FC<MenuProps> = ({
                     {variant === 'multi-select' &&
                       multiSelectType === 'toggle' &&
                       !section?.link && (
-                        <Toggle
+											<Toggle
+												name='menu-toggle'
                           checked={isSelected}
                           onChange={() => handleSelect(item.id)}
                         />

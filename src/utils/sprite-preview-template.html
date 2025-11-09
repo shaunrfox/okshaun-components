@@ -182,7 +182,7 @@ for further details on how to create this embeddable sprite variant.
 -->
 
   <header>
-    <h1>Cetec Icon Preview <br /><code>./public/sprite.svg</code></h1>
+    <h1>Icon Preview <br /><code>./public/sprite.svg <span id="iconCount"></span></code></h1>
     <input class="search" type="text" placeholder="Type to filter icons..." autofocus />
   </header>
   <section>
@@ -227,6 +227,10 @@ embedded above. They may be styled via CSS.
     document.addEventListener('DOMContentLoaded', function () {
       const searchInput = document.querySelector('.search');
       const iconItems = document.querySelectorAll('.icons-container li');
+			const iconCountSpan = document.getElementById('iconCount');
+
+			// Display total icon count
+			iconCountSpan.textContent = `(${iconItems.length} icons)`;
 
       // Filter function
       function filterIcons(searchTerm) {

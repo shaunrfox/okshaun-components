@@ -198,27 +198,27 @@ function AppContent() {
                 </Box>
                 <Text>
                   Internal:&emsp;
-                  <Link href="https://cetecerp.com">Cetec ERP</Link>
+                  <Link href="https://shaunfox.com">okshaun</Link>
                 </Text>
                 <Pre>
-                  {'<Link href="https://cetecerp.com">Cetec ERP</Link>'}
+                  {'<Link href="https://shaunfox.com">okshaun</Link>'}
                 </Pre>
                 <Text>
                   External:&emsp;
-                  <Link href="https://cetecerp.com" external>
-                    Cetec ERP
+                  <Link href="https://shaunfox.com" external>
+                    okshaun
                   </Link>
                 </Text>
                 <Pre>
                   {
-                    '<Link href="https://cetecerp.com" external>Cetec ERP</Link>'
+                    '<Link href="https://shaunfox.com" external>okshaun</Link>'
                   }
                 </Pre>
                 <Box gridColumn={'1 / -1'}>
                   <Text>
                     Signs night have sixth hath that likeness us fill{' '}
-                    <Link href="https://cetecerp.com" external>
-                      Cetec ERP
+                    <Link href="https://shaunfox.com" external>
+                      okshaun
                     </Link>{' '}
                     you're subdue fowl brought divide beginning multiply brought
                     created after open given of made beginning multiply green.
@@ -251,20 +251,23 @@ function AppContent() {
           <Section>
             <Heading level="h2">Badge</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
-              <HStack gap={'16'}>
-                <Badge variant="solid" size="sm">Solid Small</Badge>
-                <Badge variant="solid">Solid Medium</Badge>
-                <Badge variant="solid" size="lg">Solid Large</Badge>
+							<HStack gap={'16'}>
+								<Text>Solid</Text>
+                <Badge variant="solid" size="sm"></Badge>
+                <Badge variant="solid"></Badge>
+                <Badge variant="solid" size="lg"></Badge>
               </HStack>
-              <HStack gap={'16'}>
-                <Badge variant="subtle" size="sm">Subtle Small</Badge>
-                <Badge variant="subtle">Subtle Medium</Badge>
-                <Badge variant="subtle" size="lg">Subtle Large</Badge>
+							<HStack gap={'16'}>
+								<Text>Subtle</Text>
+                <Badge variant="subtle" size="sm"></Badge>
+                <Badge variant="subtle"></Badge>
+                <Badge variant="subtle" size="lg"></Badge>
               </HStack>
-              <HStack gap={'16'}>
-                <Badge variant="outline" size="sm">Outline Small</Badge>
-                <Badge variant="outline">Outline Medium</Badge>
-                <Badge variant="outline" size="lg">Outline Large</Badge>
+							<HStack gap={'16'}>
+								<Text>Outline</Text>
+                <Badge variant="outline" size="sm"></Badge>
+                <Badge variant="outline"></Badge>
+                <Badge variant="outline" size="lg"></Badge>
               </HStack>
             </VStack>
           </Section>
