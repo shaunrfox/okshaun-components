@@ -11,9 +11,18 @@ import { ThemeSwitcher } from '~/components/ThemeSwitcher';
 import { Heading } from '~/components/Heading';
 import { Link } from '~/components/Link';
 import { Spinner } from '~/components/Spinner';
-//import { CheckBox } from './components/CheckBox';
-// import { Input } from '~/components/Input';
-// import { Textarea } from '~/components/Textarea';
+import { Badge } from '~/components/Badge';
+import { Breadcrumbs } from '~/components/Breadcrumbs';
+import { Card } from '~/components/Card';
+import { Divider } from '~/components/Divider';
+import { Label } from '~/components/Label';
+import { Menu } from '~/components/Menu';
+import { Radio } from '~/components/Radio';
+import { Tag } from '~/components/Tag';
+import { TextInput } from '~/components/TextInput';
+import { Toggle } from '~/components/Toggle';
+import { Tooltip } from '~/components/Tooltip';
+import { Checkbox } from '~/components/Checkbox';
 
 export function IconList() {
   return (
@@ -240,16 +249,261 @@ function AppContent() {
             <IconList />
           </Section>
           <Section>
+            <Heading level="h2">Badge</Heading>
+            <VStack alignItems={'flex-start'} gap={'24'}>
+              <HStack gap={'16'}>
+                <Badge variant="solid" size="sm">Solid Small</Badge>
+                <Badge variant="solid">Solid Medium</Badge>
+                <Badge variant="solid" size="lg">Solid Large</Badge>
+              </HStack>
+              <HStack gap={'16'}>
+                <Badge variant="subtle" size="sm">Subtle Small</Badge>
+                <Badge variant="subtle">Subtle Medium</Badge>
+                <Badge variant="subtle" size="lg">Subtle Large</Badge>
+              </HStack>
+              <HStack gap={'16'}>
+                <Badge variant="outline" size="sm">Outline Small</Badge>
+                <Badge variant="outline">Outline Medium</Badge>
+                <Badge variant="outline" size="lg">Outline Large</Badge>
+              </HStack>
+            </VStack>
+          </Section>
+          <Section>
+            <Heading level="h2">Tags</Heading>
+            <VStack alignItems={'flex-start'} gap={'24'}>
+              <HStack gap={'8'} flexWrap={'wrap'}>
+                <Tag hue="slate">Slate</Tag>
+                <Tag hue="red">Red</Tag>
+                <Tag hue="orange">Orange</Tag>
+                <Tag hue="yellow">Yellow</Tag>
+                <Tag hue="green">Green</Tag>
+                <Tag hue="blue">Blue</Tag>
+                <Tag hue="purple">Purple</Tag>
+                <Tag hue="pink">Pink</Tag>
+              </HStack>
+              <HStack gap={'8'} flexWrap={'wrap'}>
+                <Tag hue="slate" variant="bold">Slate Bold</Tag>
+                <Tag hue="red" variant="bold">Red Bold</Tag>
+                <Tag hue="orange" variant="bold">Orange Bold</Tag>
+                <Tag hue="yellow" variant="bold">Yellow Bold</Tag>
+                <Tag hue="green" variant="bold">Green Bold</Tag>
+                <Tag hue="blue" variant="bold">Blue Bold</Tag>
+                <Tag hue="purple" variant="bold">Purple Bold</Tag>
+                <Tag hue="pink" variant="bold">Pink Bold</Tag>
+              </HStack>
+              <HStack gap={'8'}>
+                <Tag hue="blue" iconName="check">With Icon Left</Tag>
+                <Tag hue="green" iconName="star" iconPosition="right">With Icon Right</Tag>
+              </HStack>
+            </VStack>
+          </Section>
+          <Section>
+            <Heading level="h2">Breadcrumbs</Heading>
+            <VStack alignItems={'flex-start'} gap={'24'}>
+              <Breadcrumbs items={[
+                { id: '1', label: 'Home', href: '#' },
+                { id: '2', label: 'Products', href: '#' },
+                { id: '3', label: 'Category' }
+              ]} />
+            </VStack>
+          </Section>
+          <Section>
+            <Heading level="h2">Cards</Heading>
+            <VStack alignItems={'flex-start'} gap={'24'}>
+              <Grid gridTemplateColumns={'repeat(3, 1fr)'} gap={'16'}>
+                <Card variant="default">
+                  <VStack p={'16'} gap={'8'}>
+                    <Heading level="h3">Default Card</Heading>
+                    <Text>This is a default card with shadow</Text>
+                  </VStack>
+                </Card>
+                <Card variant="flat">
+                  <VStack p={'16'} gap={'8'}>
+                    <Heading level="h3">Flat Card</Heading>
+                    <Text>This is a flat card with border</Text>
+                  </VStack>
+                </Card>
+                <Card variant="default" href="#">
+                  <VStack p={'16'} gap={'8'}>
+                    <Heading level="h3">Link Card</Heading>
+                    <Text>This card is a link</Text>
+                  </VStack>
+                </Card>
+              </Grid>
+            </VStack>
+          </Section>
+          <Section>
+            <Heading level="h2">Dividers</Heading>
+            <VStack alignItems={'flex-start'} gap={'24'} w={'full'}>
+              <VStack w={'full'} gap={'8'}>
+                <Text>Horizontal Divider</Text>
+                <Divider direction="horizontal" />
+              </VStack>
+              <HStack h={'80'} gap={'8'}>
+                <Text>Vertical Divider</Text>
+                <Divider direction="vertical" />
+                <Text>Between Content</Text>
+              </HStack>
+            </VStack>
+          </Section>
+          <Section>
+            <Heading level="h2">Labels & Inputs</Heading>
+            <VStack alignItems={'flex-start'} gap={'24'}>
+              <VStack alignItems={'flex-start'} gap={'8'}>
+                <Label htmlFor="email-input">Email Address</Label>
+                <TextInput id="email-input" name="email" placeholder="Enter your email" />
+              </VStack>
+              <VStack alignItems={'flex-start'} gap={'8'}>
+                <Label htmlFor="name-input">Name</Label>
+                <TextInput id="name-input" name="name" size="large" placeholder="Enter your name" />
+              </VStack>
+              <VStack alignItems={'flex-start'} gap={'8'}>
+                <Label htmlFor="error-input">With Error</Label>
+                <TextInput id="error-input" name="error" error placeholder="This field has an error" />
+              </VStack>
+            </VStack>
+          </Section>
+          <Section>
             <Heading level="h2">Checkboxes</Heading>
-            <HStack gap={'40'} alignItems={'flex-end'}>
-              {/*
-              <CheckBox />
-              <CheckBox variant="checked" />
-              <CheckBox variant="indeterminate" />
-              <CheckBox variant="disabled" />
-              <CheckBox variant="error" />
-              */}
-            </HStack>
+            <VStack alignItems={'flex-start'} gap={'24'}>
+              <HStack gap={'16'}>
+                <Label>
+                  <Checkbox name="checkbox1" />
+                  <Text ml={'8'}>Default Checkbox</Text>
+                </Label>
+              </HStack>
+              <HStack gap={'16'}>
+                <Label>
+                  <Checkbox name="checkbox2" checked />
+                  <Text ml={'8'}>Checked Checkbox</Text>
+                </Label>
+              </HStack>
+              <HStack gap={'16'}>
+                <Label>
+                  <Checkbox name="checkbox3" indeterminate />
+                  <Text ml={'8'}>Indeterminate Checkbox</Text>
+                </Label>
+              </HStack>
+              <HStack gap={'16'}>
+                <Label>
+                  <Checkbox name="checkbox4" disabled />
+                  <Text ml={'8'}>Disabled Checkbox</Text>
+                </Label>
+              </HStack>
+              <HStack gap={'16'}>
+                <Label>
+                  <Checkbox name="checkbox5" error />
+                  <Text ml={'8'}>Error Checkbox</Text>
+                </Label>
+              </HStack>
+            </VStack>
+          </Section>
+          <Section>
+            <Heading level="h2">Radio Buttons</Heading>
+            <VStack alignItems={'flex-start'} gap={'24'}>
+              <HStack gap={'16'}>
+                <Label>
+                  <Radio id="radio1" name="radioGroup" />
+                  <Text ml={'8'}>Option 1</Text>
+                </Label>
+                <Label>
+                  <Radio id="radio2" name="radioGroup" />
+                  <Text ml={'8'}>Option 2</Text>
+                </Label>
+                <Label>
+                  <Radio id="radio3" name="radioGroup" disabled />
+                  <Text ml={'8'}>Disabled</Text>
+                </Label>
+              </HStack>
+            </VStack>
+          </Section>
+          <Section>
+            <Heading level="h2">Toggles</Heading>
+            <VStack alignItems={'flex-start'} gap={'24'}>
+              <HStack gap={'16'}>
+                <Label>
+                  <Toggle name="toggle1" />
+                  <Text ml={'8'}>Default Toggle</Text>
+                </Label>
+              </HStack>
+              <HStack gap={'16'}>
+                <Label>
+                  <Toggle name="toggle2" checked />
+                  <Text ml={'8'}>Checked Toggle</Text>
+                </Label>
+              </HStack>
+              <HStack gap={'16'}>
+                <Label>
+                  <Toggle name="toggle3" disabled />
+                  <Text ml={'8'}>Disabled Toggle</Text>
+                </Label>
+              </HStack>
+            </VStack>
+          </Section>
+          <Section>
+            <Heading level="h2">Tooltips</Heading>
+            <VStack alignItems={'flex-start'} gap={'24'}>
+              <HStack gap={'16'}>
+                <Tooltip text="This is a tooltip" position="top">
+                  <Button>Hover me (top)</Button>
+                </Tooltip>
+                <Tooltip text="This is a tooltip" position="bottom">
+                  <Button>Hover me (bottom)</Button>
+                </Tooltip>
+                <Tooltip text="This is a tooltip" position="left">
+                  <Button>Hover me (left)</Button>
+                </Tooltip>
+                <Tooltip text="This is a tooltip" position="right">
+                  <Button>Hover me (right)</Button>
+                </Tooltip>
+              </HStack>
+              <HStack gap={'16'}>
+                <Tooltip text="Click to toggle" trigger="onClick">
+                  <Button>Click me</Button>
+                </Tooltip>
+                <Tooltip title="Tooltip Title" text="This tooltip has a title" position="top">
+                  <Button>With Title</Button>
+                </Tooltip>
+              </HStack>
+            </VStack>
+          </Section>
+          <Section>
+            <Heading level="h2">Menu</Heading>
+            <VStack alignItems={'flex-start'} gap={'24'}>
+              <Box maxW={'300'}>
+                <Menu
+                  variant="single-select"
+                  menuSection={[
+                    {
+                      id: 'section1',
+                      title: 'Options',
+                      items: [
+                        { id: '1', label: 'Option 1', description: 'First option' },
+                        { id: '2', label: 'Option 2', description: 'Second option' },
+                        { id: '3', label: 'Option 3', description: 'Third option' },
+                      ],
+                    },
+                  ]}
+                />
+              </Box>
+              <Box maxW={'300'}>
+                <Menu
+                  variant="multi-select"
+                  multiSelectType="checkbox"
+                  menuSection={[
+                    {
+                      id: 'section2',
+                      title: 'Features',
+                      items: [
+                        { id: '4', label: 'Feature 1' },
+                        { id: '5', label: 'Feature 2' },
+                        { id: '6', label: 'Feature 3' },
+                      ],
+                    },
+                  ]}
+                />
+              </Box>
+            </VStack>
           </Section>
           {/* <Section>
             <Text as="h2">

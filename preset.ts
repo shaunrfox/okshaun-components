@@ -7,7 +7,7 @@ import { globalCss } from './src/styles/globalStyle';
 import * as componentRecipes from './src/recipes/index';
 
 // Extract slot recipes separately
-const { checkBoxRecipe, radioRecipe, tooltipRecipe, menuRecipe, ...regularComponents} = componentRecipes;
+const { checkboxRecipe, radioRecipe, tooltipRecipe, menuRecipe, toggleRecipe, ...regularComponents} = componentRecipes;
 
 // Transform recipe keys: remove 'Recipe' suffix to match component imports
 // e.g., { boxRecipe: {...} } becomes { box: {...} }
@@ -60,10 +60,11 @@ export const okShaunPreset = definePreset({
         ...transformedRecipes,
 			},
 			slotRecipes: {
-				checkbox: checkBoxRecipe,
+				checkbox: checkboxRecipe,
 				radio: radioRecipe,
 				tooltip: tooltipRecipe,
 				menu: menuRecipe,
+				toggle: toggleRecipe,
 			},
     },
   },

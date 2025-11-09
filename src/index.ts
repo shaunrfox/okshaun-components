@@ -1,6 +1,7 @@
 export { Box } from './components/Box';
 export { Text } from './components/Text';
 export { Button } from './components/Button';
+export { Badge } from './components/Badge';
 export { IconButton } from './components/IconButton';
 export { Icon, IconNames } from './components/Icon';
 export { Pre } from './components/Code';
