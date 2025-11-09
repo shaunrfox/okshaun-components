@@ -1,12 +1,15 @@
 const outputDir = 'public';
 const optimizedDir = 'public/svgs';
+const previewTemplate = './src/utils/sprite-preview-template.html';
 
 const config = {
   mode: {
     symbol: {
       sprite: 'sprite.svg',
       dest: outputDir,
-      example: true,
+      example: {
+        template: previewTemplate,
+      },
     },
   },
   shape: {

@@ -1,32 +1,42 @@
-import * as React from 'react';
-import { input } from '@styled-system/recipes';
+import { Text, type TextProps } from '~/components/Text';
+import { Box, type BoxProps } from '~/components/Box';
 import { Label } from '~/components/Label';
-import { Text } from '~/components/Text';
+import { input, type InputVariantProps } from '@styled-system/recipes';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export type InputProps = Omit<BoxProps, keyof InputVariantProps | keyof TextProps> & TextProps & InputVariantProps & {
   label?: string;
-  stacked?: boolean;
-  internalLabel?: boolean;
-}
+  type?: string | HTMLInputElement;
+  variant?: 'stacked' | 'internalLabel';
+  children?: string | React.ReactNode;
+};
 
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (
-    { label, className, stacked = true, internalLabel = false, ...props },
-    ref,
-  ) => {
-    return (
-      <Label
-        className={input()}
-        stacked={stacked}
-        internalLabel={internalLabel}
+export const Input: React.FC<InputProps> = (
+  { 
+    label, 
+    variant,
+    type,
+    children,
+    ...props 
+  }: InputProps,
+) => {
+
+  const [ className, otherProps ] = splitProps(props);
+  return (
+    <Label>
+      <Text as='span'>{label}</Text>
+      <Box
+        as="input"
+        type={type}
+        className={cx(
+          input({ variant }),
+          className,
+        )}
         htmlFor={props.id || ''}
-      >
-        {label && <Text as="span">{label}</Text>}
-        <input id={props.id} ref={ref} className={className} {...props} />
-      </Label>
-    );
-  },
-);
+        {...otherProps}
+      />
+    </Label>
+  );
+};
 
-Input.displayName = 'Input';

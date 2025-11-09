@@ -1,51 +1,81 @@
-import { defineRecipe } from '@pandacss/dev';
+import { defineSlotRecipe } from '@pandacss/dev';
 
-const checkBoxBase = {
-  width: '14px',
-  height: '14px',
-  borderRadius: '3px',
-  borderWidth: '1px',
-  '& [type="checkbox"]': {
-    position: 'absolute',
-    appearance: 'none',
-    '-webkit-appearance': 'none',
-  },
-};
-
-const checkBoxVariants = {
-  variant: {
-    default: {
-      bg: { base: 'gray.0', _dark: 'gray.90' },
-      color: { base: 'gray.90', _dark: 'gray.0' },
-      borderColor: 'gray.20',
-    },
-    checked: {
-      bg: { base: 'gray.90', _dark: 'gray.0' },
-      color: { base: 'gray.0', _dark: 'gray.90' },
-      borderColor: { base: 'gray.90', _dark: 'gray.0' },
-    },
-    indeterminate: {
-      bg: { base: 'gray.90', _dark: 'gray.0' },
-      color: { base: 'gray.0', _dark: 'gray.90' },
-      borderColor: { base: 'gray.90', _dark: 'gray.0' },
-    },
-    disabled: {
-      bg: { base: 'gray.0', _dark: 'gray.90' },
-      opacity: 0.4,
-    },
-    error: {
-      bg: { base: 'gray.0', _dark: 'gray.90' },
-      borderColor: 'red.50',
-    },
-  },
-};
-
-export const checkBoxRecipe = defineRecipe({
+export const checkboxRecipe = defineSlotRecipe({
   className: 'checkbox',
   jsx: ['CheckBox'],
-  base: checkBoxBase,
-  variants: checkBoxVariants,
-  defaultVariants: {
-    variant: 'default',
+  slots: ['container', 'input', 'indicator'],
+  base: {
+    container: {
+      position: 'relative',
+      display: 'inline-grid',
+      gridTemplateColumns: 'auto 1fr',
+      gap: 4,
+      alignItems: 'start',
+      cursor: 'pointer',
+      userSelect: 'none',
+    },
+    input: {
+      position: 'absolute',
+      opacity: 0,
+      width: 'full',
+      height: 'full',
+      margin: '0',
+      padding: '0',
+      zIndex: 1,
+      cursor: 'inherit',
+      "& ~ [name='checkbox']": {
+        display: 'inline-grid',
+      },
+      _checked: {
+        "& ~ [name='checkbox-checked']": {
+          display: 'inline-grid',
+          fill: { base: 'gray.90', _dark: 'gray.0' },
+        },
+        "& ~ [name='checkbox']": {
+          display: 'none',
+        },
+      },
+      _indeterminate: {
+        "& ~ [name='checkbox-indeterminate']": {
+          display: 'inline-grid',
+          fill: { base: 'gray.90', _dark: 'gray.0' },
+          _disabled: {},
+        },
+        "& ~ [name='checkbox']": {
+          display: 'none',
+        },
+      },
+      _disabled: {
+        '& ~ svg': {
+          opacity: 0.4,
+          pointerEvents: 'none',
+          cursor: 'none',
+        },
+        display: 'inline-grid',
+      },
+      _error: {
+        display: 'inline-grid',
+        '& ~ svg': {
+          fill: { base: 'error.default', _dark: 'error.default' },
+        },
+      },
+      _focusVisible: {
+        "& ~ [name='checkbox-focus']": {
+          display: 'inline-grid',
+          position: 'absolute',
+          fill: { base: 'gray.90', _dark: 'gray.1' },
+        },
+      },
+    },
+    indicator: {
+      placeContent: 'center',
+      display: 'none',
+      width: 24,
+      height: 24,
+      "&:is([name='checkbox'])": {
+        display: 'inline-grid',
+        fill: { base: 'gray.30', _dark: 'gray.20' },
+      },
+    },
   },
 });

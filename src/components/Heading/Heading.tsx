@@ -18,7 +18,7 @@ export const Heading: React.FC<HeadingProps> = ({
   return (
     <Text
       as={level}
-      className={cx(heading({ level }), className as string)}
+      className={cx(heading({ level }), className)}
       {...otherProps}
     >
       {children}

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { HStack, VStack, Container, Grid, Flex, Box } from '@styled-system/jsx';
+import { HStack, VStack, Container, Grid, Flex } from '@styled-system/jsx';
+import { Box } from '~/components/Box';
 import { Text } from '~/components/Text';
 import { Button } from '~/components/Button';
 import { IconButton } from '~/components/IconButton';

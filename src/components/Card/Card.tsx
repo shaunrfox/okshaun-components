@@ -1,12 +1,38 @@
-import styled from '@emotion/styled';
-import { PropsWithChildren } from 'react';
+import { card, CardVariantProps } from '@styled-system/recipes';
+import { Box, BoxProps } from '../Box';
+import { ReactNode } from 'react';
+import { splitProps } from '~/utils/splitProps';
+import { cx } from '@styled-system/css';
 
-const StyledCard = styled.div`
-    border: 1px solid gray;
-    border-radius: 8px;
-    padding: 1rem;
-`;
+export type CardProps = Omit<BoxProps, keyof CardVariantProps> &
+  CardVariantProps & {
+    href?: string;
+    children?: string | ReactNode;
+    grabbed?: boolean;
+    disabled?: boolean;
+  };
 
-export default function Card({ children }: PropsWithChildren) {
-    return <StyledCard>{children}</StyledCard>;
-}
+export const Card: React.FC<CardProps> = ({
+  variant,
+  href,
+  children,
+  disabled,
+  grabbed,
+  ...props
+}: CardProps) => {
+  const [className, otherProps] = splitProps(props);
+
+  return (
+    <Box
+      as={href ? 'a' : 'button'}
+      disabled={disabled}
+      aria-disabled={disabled}
+      data-grabbed={grabbed}
+      className={cx(card({ variant }), className)}
+      {...(href ? { href } : { type: 'button' })}
+      {...otherProps}
+    >
+      {children}
+    </Box>
+  );
+};

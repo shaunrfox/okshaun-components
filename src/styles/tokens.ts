@@ -47,7 +47,11 @@ export const colors = {
     '90': { value: '#1E1E1E' },
     '100': { value: '#000000' },
   },
-  blue: {
+	blue: {
+		'1': { value: "#fafdff" },
+		'2': { value: "#f6fbff" },
+		'3': { value: "#f1f9ff" },
+		'4': { value: "#edf7ff" },
     '5': { value: '#E8F5FF' },
     '10': { value: '#CFE8FF' },
     '20': { value: '#A1D3FF' },
@@ -192,29 +196,6 @@ export const colors = {
     '80': { value: '#322D26' },
     '90': { value: '#191714' },
   },
-  status: {
-    success: {
-      lighter: { value: 'green.2' },
-      light: { value: 'green.10' },
-      base: { value: 'green.40' },
-      dark: { value: 'green.60' },
-      darker: { value: 'green.70' },
-    },
-    warning: {
-      lighter: { value: 'yellow.2' },
-      light: { value: 'yellow.10' },
-      base: { value: 'yellow.40' },
-      dark: { value: 'yellow.60' },
-      darker: { value: 'yellow.70' },
-    },
-    danger: {
-      lighter: { value: 'red.2' },
-      light: { value: 'red.10' },
-      base: { value: 'red.50' },
-      dark: { value: 'red.60' },
-      darker: { value: 'red.70' },
-    },
-  },
 };
 
 export const fonts = {
@@ -227,11 +208,11 @@ export const fonts = {
 };
 
 export const fontWeights = {
-  light: { value: 300 },
-  normal: { value: 400 },
-  medium: { value: 500 },
-  bold: { value: 700 },
-  black: { value: 900 },
+  light: { value: '300' },
+  normal: { value: '400' },
+  medium: { value: '500' },
+  bold: { value: '700' },
+  black: { value: '900' },
 };
 
 export const numericSizes = {
@@ -259,15 +240,35 @@ export const numericSizes = {
   '64': { value: '4rem' },
   '72': { value: '4.5rem' },
   '80': { value: '5rem' },
+  '88': { value: '5.5rem' },
   '96': { value: '6rem' },
+  '104': { value: '6.5rem' },
+  '112': { value: '7rem' },
+  '120': { value: '7.5rem' },
+  '128': { value: '8rem' },
+  '136': { value: '8.5rem' },
+  '144': { value: '9rem' },
+  '152': { value: '9.5rem' },
+  '160': { value: '10rem' },
+  '168': { value: '10.5rem' },
+  '176': { value: '11rem' },
+  '184': { value: '11.5rem' },
+  '192': { value: '12rem' },
+  '200': { value: '12.5rem' },
+  '208': { value: '13rem' },
+  '216': { value: '13.5rem' },
+  '224': { value: '14rem' },
+  '232': { value: '14.5rem' },
+  '240': { value: '15rem' },
+  '248': { value: '15.5rem' },
+  '256': { value: '16rem' },
+  '264': { value: '16.5rem' },
+  '272': { value: '17rem' },
+  '280': { value: '17.5rem' },
 };
 
-export const sizes = {
-  ...numericSizes,
-  full: { value: '100%' },
-  min: { value: 'min-content' },
-  max: { value: 'max-content' },
-  fit: { value: 'fit-content' },
+export const containerSizes = {
+  '2xs': { value: '16rem' }, // 256px
   xs: { value: '20rem' }, // 320px
   sm: { value: '24rem' }, // 384px
   md: { value: '28rem' }, // 448px
@@ -280,22 +281,55 @@ export const sizes = {
   '6xl': { value: '72rem' }, // 1152px
   '7xl': { value: '80rem' }, // 1280px
   '8xl': { value: '90rem' }, // 1440px
-  prose: { value: '65ch' }, // 1040px
+};
+
+export const utilitySizes = {
+  full: { value: '100%' },
+  half: { value: '50%' },
+  min: { value: 'min-content' },
+  max: { value: 'max-content' },
+  fit: { value: 'fit-content' },
+  prose: { value: '65ch' },
+  auto: { value: 'auto' },
+};
+
+export const sizes = {
+  ...numericSizes,
+  ...containerSizes,
+  ...utilitySizes,
+};
+
+// export const breakpoints = {
+//   xs: { value: '480px' },
+//   sm: { value: '640px' },
+//   md: { value: '768px' },
+//   lg: { value: '1024px' },
+//   xl: { value: '1280px' },
+//   '2xl': { value: '1536px' },
+// };
+
+export const breakpoints = {
+  xs: '480px',
+  sm: '640px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+  '2xl': '1536px',
 };
 
 export const fontSizes = {
-  '12': { value: '0.75rem' },
-  '14': { value: '0.875rem' },
-  '16': { value: '1rem' },
-  '20': { value: '1.25rem' },
-  '24': { value: '1.5rem' },
-  '32': { value: '2rem' },
-  '40': { value: '2.5rem' },
-  '48': { value: '3rem' },
-  '64': { value: '4rem' },
-  '72': { value: '4.5rem' },
-  '80': { value: '5rem' },
-  '96': { value: '6rem' },
+  '12': { value: '{sizes.12}' },
+  '14': { value: '{sizes.14}' },
+  '16': { value: '{sizes.16}' },
+  '20': { value: '{sizes.20}' },
+  '24': { value: '{sizes.24}' },
+  '32': { value: '{sizes.32}' },
+  '40': { value: '{sizes.40}' },
+  '48': { value: '{sizes.48}' },
+  '64': { value: '{sizes.64}' },
+  '72': { value: '{sizes.72}' },
+  '80': { value: '{sizes.80}' },
+  '96': { value: '{sizes.96}' },
 };
 
 export const lineHeights = {
@@ -320,13 +354,13 @@ export const lineHeights = {
 };
 
 export const radii = {
-  0: { value: '0' },
-  1: { value: '0.0625rem' },
-  2: { value: '0.125rem' },
-  4: { value: '0.25rem' },
-  8: { value: '0.5rem' },
-  16: { value: '1rem' },
-  100: { value: '100%' },
+  '0': { value: '{sizes.0}' },
+  '1': { value: '{sizes.1}' },
+  '2': { value: '{sizes.2}' },
+  '4': { value: '{sizes.4}' },
+  '8': { value: '{sizes.8}' },
+  '16': { value: '{sizes.16}' },
+  '100': { value: '100%' },
 };
 
 export const shadows = {
@@ -346,6 +380,15 @@ export const shadows = {
     value:
       'inset 0px 2px 1px {colors.utility.shadowColor}, inset 0px 3px 2px {colors.utility.shadowColor}',
   },
+};
+
+export const borderWidths = {
+  '0': { value: '{sizes.0}' },
+  '1': { value: '{sizes.1}' },
+  '2': { value: '{sizes.2}' },
+  '4': { value: '{sizes.4}' },
+  '8': { value: '{sizes.8}' },
+  '16': { value: '{sizes.16}' },
 };
 
 export const borders = {
@@ -477,21 +520,6 @@ export const animations = {
   },
 };
 
-export const containerSizes = {
-  xs: '320px',
-  sm: '384px',
-  md: '448px',
-  lg: '512px',
-  xl: '576px',
-  '2xl': '672px',
-  '3xl': '768px',
-  '4xl': '896px',
-  '5xl': '1024px',
-  '6xl': '1152px',
-  '7xl': '1280px',
-  '8xl': '1440px',
-};
-
 export const keyframes = {
   spin: {
     to: {
@@ -519,15 +547,6 @@ export const keyframes = {
       animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
     },
   },
-};
-
-export const breakpoints = {
-  xs: '480px',
-  sm: '640px',
-  md: '768px',
-  lg: '1024px',
-  xl: '1280px',
-  '2xl': '1536px',
 };
 
 const baseHeadingStyles = defineStyles({

@@ -7,7 +7,7 @@ interface ThemeContextType {
   setTheme: (theme: Theme) => void;
 }
 
-const THEME_STORAGE_KEY = 'cetec-theme-preference';
+const THEME_STORAGE_KEY = 'okshaun-theme-preference';
 
 function getInitialTheme(): Theme {
   // Check for stored preference

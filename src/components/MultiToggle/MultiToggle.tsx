@@ -96,7 +96,7 @@ export function MultiToggle({
       const left = Math.floor(selectedLabel.offsetLeft);
 
       highlightRef.current.style.width = `${width}px`;
-      highlightRef.current.style.transform = `translateX(${left}px)`;
+      highlightRef.current.style.transform = `trangrayX(${left}px)`;
     }
   };
 

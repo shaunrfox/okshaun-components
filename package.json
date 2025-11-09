@@ -4,15 +4,24 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "prepare": "npx panda codegen",
+    "panda": "npx panda codegen",
     "dev": "npx panda codegen --watch & vite",
     "build": "npx panda codegen && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "generate-sprite": "node src/utils/generate-sprite.js"
+    "generate-sprite": "node src/utils/generate-sprite.js",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
+  "files": [
+    "./dist/",
+    "./src/styles/*",
+    "./src/recipes/*",
+    "./src/tokens/*",
+    "./src/utils/*.ts"
+  ],
   "dependencies": {
     "@fontsource-variable/piazzolla": "^5.1.1",
     "@fontsource/ibm-plex-mono": "^5.1.0",
@@ -23,7 +32,15 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
-    "@pandacss/dev": "^0.51.1",
+    "@pandacss/dev": "^1.4.3",
+    "@storybook/addon-essentials": "^8.5.2",
+    "@storybook/addon-interactions": "^8.5.2",
+    "@storybook/addon-onboarding": "^8.5.2",
+    "@storybook/addon-themes": "^8.6.14",
+    "@storybook/blocks": "^8.5.2",
+    "@storybook/react": "^8.5.2",
+    "@storybook/react-vite": "^8.5.2",
+    "@storybook/test": "^8.5.2",
     "@types/node": "^22.7.7",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
@@ -37,12 +54,19 @@
     "eslint-plugin-storybook": "^0.11.2",
     "gh-pages": "^6.2.0",
     "globals": "^15.14.0",
-    "prettier": "^3.3.3",
     "postcss": "^8.5.1",
+    "prettier": "^3.3.3",
+    "storybook": "^8.5.2",
     "svg-sprite": "^2.0.4",
     "svgo": "^3.0.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }

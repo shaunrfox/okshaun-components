@@ -1,51 +1,44 @@
-import * as React from 'react';
-import { textarea } from '@styled-system/recipes';
-import { Label } from '~/components/Label';
-import { Text } from '~/components/Text';
+import { Box, type BoxProps } from '~/components/Box';
+import { textarea, type TextareaVariantProps } from '@styled-system/recipes';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label?: string;
-  stacked?: boolean;
-  internalLabel?: boolean;
-  autoGrow?: boolean;
+export type TextareaProps = Omit<BoxProps, keyof TextareaVariantProps > & TextareaVariantProps & {
+  name: string,
+  autoSize?: boolean,
+  error?: boolean,
+  disabled?:boolean,
+  id?: string,
 }
 
-export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  (
+export const Textarea: React.FC<TextareaProps> = (
     {
-      label,
-      className,
-      stacked = true,
-      internalLabel = false,
-      autoGrow = false,
+      size,
+      error,
+      autoSize= false,
+      id,
+      name,
+      disabled,
       ...props
-    },
-    ref,
-  ) => {
-    return (
-      <Label
-        className={textarea()}
-        stacked={stacked}
-        internalLabel={internalLabel}
-        autoGrow={autoGrow}
-        htmlFor={props.id || ''}
+    }: TextareaProps,
+) => {
+
+  const [ className, otherProps ] = splitProps(props);
+  return (
+      <Box
+        as="textarea"
+        id={id}
+        name={name}
+        {...error && { 'data-error': true }}
+        aria-disabled={disabled}
+        className={cx(
+          textarea({ size, autoSize }),
+          className,
+        )}
+        {...otherProps}
       >
-        {label && <Text as="span">{label}</Text>}
-        <textarea
-          id={props.id}
-          ref={ref}
-          className={className}
-          onInput={(e: React.FormEvent<HTMLTextAreaElement>) => {
-            const target = e.currentTarget;
-            const parent = target.parentNode as HTMLElement;
-            parent.dataset.value = target.value || '';
-          }}
-          {...props}
-        />
-      </Label>
-    );
-  },
-);
+      </Box>
+  );
+};
 
 Textarea.displayName = 'Textarea';

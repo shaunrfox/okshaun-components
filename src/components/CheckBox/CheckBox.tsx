@@ -1,34 +1,47 @@
-import { Box } from '../Box';
-import type { SystemStyleObject } from '@styled-system/types';
+import { Box, type BoxProps } from '../Box';
+import { Label } from '../Label';
 import { checkbox, type CheckboxVariantProps } from '@styled-system/recipes';
-import { Icon, type IconNamesList } from '../Icon';
+import { Icon } from '../Icon';
+import { type AriaAttributes } from 'react';
 
-type CheckBoxProps = CheckboxVariantProps &
-  Omit<React.ComponentProps<typeof Box>, 'as'> & {
-    variant?: string;
-  } & SystemStyleObject;
+export type CheckboxProps = Omit<BoxProps, keyof CheckboxVariantProps> &
+  CheckboxVariantProps & {
+    name: string;
+    indeterminate?: boolean;
+    disabled?: boolean;
+    error?: boolean;
+    id?: string;
+  } & AriaAttributes;
 
-const variantIcon: Record<'checked' | 'indeterminate', IconNamesList> = {
-  checked: 'check',
-  indeterminate: 'minus',
-};
-
-export function CheckBox({ variant = 'default' }: CheckBoxProps) {
-  const iconName: IconNamesList | undefined =
-    variantIcon[variant as keyof typeof variantIcon] ?? undefined;
+export const Checkbox: React.FC<CheckboxProps> = ({
+  indeterminate,
+  error,
+  id,
+  name,
+  ...props
+}) => {
+  const { container, input, indicator } = checkbox({});
 
   return (
-    <Box>
-      <Box as="input" type="checkbox" />
-      <Box className={checkbox({ variant })}>
-        {iconName && (
-          <Icon
-            size={12}
-            {...(iconName && { name: iconName })}
-            viewBox="0 0 12 12"
-          />
-        )}
-      </Box>
-    </Box>
+    <Label
+      className={container}
+      color={error ? 'red.50' : { base: 'gray.90', _dark: 'gray.0' }}
+    >
+      <Box
+        as="input"
+        type="checkbox"
+        className={input}
+        name={name}
+        id={id}
+        aria-label={name}
+        {...props}
+        {...(indeterminate && { 'data-indeterminate': true })}
+        {...(error && { 'data-error': true })}
+      />
+      <Icon className={indicator} name={'checkbox'} />
+      <Icon className={indicator} name={'checkbox-checked'} />
+      <Icon className={indicator} name={'checkbox-indeterminate'} />
+      <Icon className={indicator} name={'checkbox-focus'} />
+    </Label>
   );
-}
+};

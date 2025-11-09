@@ -2,7 +2,7 @@ import { css } from '@styled-system/css';
 
 export const themeSwitchStyles = css({
   position: 'relative',
-  borderWidth: 2,
+  borderWidth: '2',
   borderStyle: 'solid',
   borderColor: { base: 'gray.30', _dark: 'gray.70' },
   color: 'transparent',

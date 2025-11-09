@@ -11,6 +11,11 @@ export const globalCss = defineGlobalStyles({
     _focusVisible: {
       outlineColor: { base: 'gray.80', _dark: 'gray.5' },
     },
+    _disabled: {
+      opacity: 0.4,
+      cursor: 'not-allowed',
+      pointerEvents: 'none',
+    },
   },
   html: {
     fontSize: '16',
@@ -35,6 +40,12 @@ export const globalCss = defineGlobalStyles({
   'b, strong': {
     fontWeight: 'bolder',
   },
+  'i, em': {
+    fontStyle: 'italic',
+  },
+  u: {
+    textDecoration: 'underline',
+  },
   'code, kbd, samp, pre': {
     fontFamily: 'mono',
     fontSize: '1em',
@@ -45,7 +56,7 @@ export const globalCss = defineGlobalStyles({
   'button, input, optgroup, select, textarea': {
     fontFamily: 'inherit',
     fontSize: '100%',
-    lineHeight: '1.15',
+    lineHeight: 'calc(1em + 0.5rem)',
     margin: '0',
   },
   'button, [type="button"], [type="reset"], [type="submit"]': {

@@ -36,10 +36,10 @@ const meta: Meta<typeof Text> = {
       },
     },
     color: {
-      control: 'select', options: ['slate-90', 'blue-50', 'gold-50', ''],
+      control: 'select', options: ['gray-90', 'blue-50', 'gold-50', ''],
       description: 'Font Color',
       table: {
-        defaultValue: { summary: 'slate-90' },
+        defaultValue: { summary: 'gray-90' },
       },
     },
     as: {
@@ -76,7 +76,7 @@ export const Default: Story = {args: { children: "Text Component"}};
 export const AllColors: Story = {
   render: (args: TextProps) => (
     <>
-      <Text {...args} font="mono" color="slate.90">Slate-90</Text>
+      <Text {...args} font="mono" color="gray.90">gray-90</Text>
       <Text {...args} color="gold.50" >Gold-50</Text>
       <Text {...args} color="blue.50" >Blue-50</Text>
     </>

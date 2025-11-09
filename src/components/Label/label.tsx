@@ -1,22 +1,33 @@
-import { css } from '@styled-system/css';
-import { Text, TextProps } from '../Text';
+import { Box, type BoxProps } from '../Box';
+//import { Text, type TextProps } from '../Text';
+import { label, type LabelVariantProps } from '@styled-system/recipes';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 
-interface LabelProps extends TextProps {
-  children: React.ReactNode;
+export type LabelProps = Omit<BoxProps, keyof LabelVariantProps> & LabelVariantProps & {
   htmlFor?: string;
+  children?: string | React.ReactNode;
 }
 
-const labelStyles = css({
-  fontSize: '14',
-  fontWeight: 'normal',
-  lineHeight: 'normal',
-  cursor: 'default',
-});
-
-export const Label = ({ children, htmlFor, ...props }: LabelProps) => {
+export const Label: React.FC<LabelProps> = (
+  { 
+    htmlFor, 
+    children, 
+    ...props 
+  }: LabelProps,
+) => {
+  const [ className, otherProps ] = splitProps(props);
   return (
-    <Text as="label" htmlFor={htmlFor} className={labelStyles} {...props}>
+    <Box
+      htmlFor={htmlFor}
+      as="label" 
+      className={cx(
+        label({}),
+        className,
+      )} 
+      {...otherProps}
+    >
       {children}
-    </Text>
+    </Box>
   );
 };

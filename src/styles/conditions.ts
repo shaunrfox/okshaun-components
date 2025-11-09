@@ -3,23 +3,29 @@ export const conditions = {
   focus: '&:is(:focus, [data-focus])',
   focusWithin: '&:focus-within',
   focusVisible: '&:is(:focus-visible, [data-focus-visible])',
-  disabled: '&:is(:disabled, [disabled], [data-disabled])',
+  disabled:
+    '&:is(:disabled, [disabled], [data-disabled], [aria-disabled=true])',
   active: '&:is(:active, [data-active])',
   visited: '&:visited',
   target: '&:target',
-  readOnly: '&:is(:read-only, [data-read-only])',
+  readOnly: '&:is(:read-only, [data-read-only], [aria-readonly=true])',
   readWrite: '&:read-write',
   empty: '&:is(:empty, [data-empty])',
-  checked: '&:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"])',
+  checked:
+    '&:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"])',
   enabled: '&:enabled',
-  expanded: '&:is([aria-expanded=true], [data-expanded], [data-state="expanded"])',
+  expanded:
+    '&:is([aria-expanded=true], [data-expanded], [data-state="expanded"])',
   highlighted: '&[data-highlighted]',
+  complete: '&[data-complete]',
+  incomplete: '&[data-incomplete]',
+  dragging: '&[data-dragging]',
 
   before: '&::before',
   after: '&::after',
   firstLetter: '&::first-letter',
   firstLine: '&::first-line',
-  marker: '&::marker',
+  marker: '&::marker, &::-webkit-details-marker',
   selection: '&::selection',
   file: '&::file-selector-button',
   backdrop: '&::backdrop',
@@ -39,10 +45,13 @@ export const conditions = {
   peerActive: '.peer:is(:active, [data-active]) ~ &',
   peerFocusWithin: '.peer:focus-within ~ &',
   peerFocusVisible: '.peer:is(:focus-visible, [data-focus-visible]) ~ &',
-  peerDisabled: '.peer:is(:disabled, [disabled], [data-disabled]) ~ &',
-  peerChecked: '.peer:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"]) ~ &',
+  peerDisabled:
+    '.peer:is(:disabled, [disabled], [data-disabled], [aria-disabled=true]) ~ &',
+  peerChecked:
+    '.peer:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"]) ~ &',
   peerInvalid: '.peer:is(:invalid, [data-invalid], [aria-invalid=true]) ~ &',
-  peerExpanded: '.peer:is([aria-expanded=true], [data-expanded], [data-state="expanded"]) ~ &',
+  peerExpanded:
+    '.peer:is([aria-expanded=true], [data-expanded], [data-state="expanded"]) ~ &',
   peerPlaceholderShown: '.peer:placeholder-shown ~ &',
 
   groupFocus: '.group:is(:focus, [data-focus]) &',
@@ -50,32 +59,48 @@ export const conditions = {
   groupActive: '.group:is(:active, [data-active]) &',
   groupFocusWithin: '.group:focus-within &',
   groupFocusVisible: '.group:is(:focus-visible, [data-focus-visible]) &',
-  groupDisabled: '.group:is(:disabled, [disabled], [data-disabled]) &',
-  groupChecked: '.group:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"]) &',
-  groupExpanded: '.group:is([aria-expanded=true], [data-expanded], [data-state="expanded"]) &',
-  groupInvalid: '.group:invalid &',
+  groupDisabled:
+    '.group:is(:disabled, [disabled], [data-disabled], [aria-disabled=true]) &',
+  groupChecked:
+    '.group:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"]) &',
+  groupExpanded:
+    '.group:is([aria-expanded=true], [data-expanded], [data-state="expanded"]) &',
+  groupInvalid: '.group:is(:invalid, [data-invalid], [aria-invalid=true]) &',
 
-  indeterminate: '&:is(:indeterminate, [data-indeterminate], [aria-checked=mixed], [data-state="indeterminate"])',
+  indeterminate:
+    '&:is(:indeterminate, [data-indeterminate], [aria-checked=mixed], [data-state="indeterminate"])',
   required: '&:is(:required, [data-required], [aria-required=true])',
   valid: '&:is(:valid, [data-valid])',
-  invalid: '&:is(:invalid, [data-invalid])',
+  invalid: '&:is(:invalid, [data-invalid], [aria-invalid=true])',
   autofill: '&:autofill',
-  inRange: '&:in-range',
-  outOfRange: '&:out-of-range',
+  inRange: '&:is(:in-range, [data-in-range])',
+  outOfRange: '&:is(:out-of-range, [data-outside-range])',
   placeholder: '&::placeholder, &[data-placeholder]',
   placeholderShown: '&:is(:placeholder-shown, [data-placeholder-shown])',
   pressed: '&:is([aria-pressed=true], [data-pressed])',
   selected: '&:is([aria-selected=true], [data-selected])',
+  grabbed: '&:is([aria-grabbed=true], [data-grabbed])',
+  underValue: '&[data-state=under-value]',
+  overValue: '&[data-state=over-value]',
+  atValue: '&[data-state=at-value]',
 
   default: '&:default',
   optional: '&:optional',
-  open: '&:is([open], [data-open], [data-state="open"])',
+  open: '&:is([open], [data-open], [data-state="open"], :popover-open)',
   closed: '&:is([closed], [data-closed], [data-state="closed"])',
-  fullscreen: '&:fullscreen',
+  fullscreen: '&:is(:fullscreen, [data-fullscreen])',
   loading: '&:is([data-loading], [aria-busy=true])',
+  hidden: '&:is([hidden], [data-hidden])',
 
+  current: '&:is([aria-current=true], [data-current])',
   currentPage: '&[aria-current=page]',
   currentStep: '&[aria-current=step]',
+  today: '&[data-today]',
+  unavailable: '&[data-unavailable]',
+  rangeStart: '&[data-range-start]',
+  rangeEnd: '&[data-range-end]',
+  now: '&[data-now]',
+  topmost: '&[data-topmost]',
 
   motionReduce: '@media (prefers-reduced-motion: reduce)',
   motionSafe: '@media (prefers-reduced-motion: no-preference)',
@@ -83,8 +108,8 @@ export const conditions = {
   landscape: '@media (orientation: landscape)',
   portrait: '@media (orientation: portrait)',
 
-  dark: '.dark &, [data-color-mode=dark] &',
-  light: '.light &, [data-color-mode=light] &',
+  dark: '.dark &',
+  light: '.light &',
   osDark: '@media (prefers-color-scheme: dark)',
   osLight: '@media (prefers-color-scheme: light)',
 
@@ -92,8 +117,8 @@ export const conditions = {
   lessContrast: '@media (prefers-contrast: less)',
   moreContrast: '@media (prefers-contrast: more)',
 
-  ltr: '[dir=ltr] &',
-  rtl: '[dir=rtl] &',
+  ltr: ':where([dir=ltr], :dir(ltr)) &',
+  rtl: ':where([dir=rtl], :dir(rtl)) &',
 
   scrollbar: '&::-webkit-scrollbar',
   scrollbarThumb: '&::-webkit-scrollbar-thumb',
@@ -102,5 +127,8 @@ export const conditions = {
   horizontal: '&[data-orientation=horizontal]',
   vertical: '&[data-orientation=vertical]',
 
+  icon: '& :where(svg)',
   starting: '@starting-style',
-}
+  noscript: '@media (scripting: none)',
+  invertedColors: '@media (inverted-colors: inverted)',
+};
