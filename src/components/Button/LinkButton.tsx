@@ -65,7 +65,7 @@
 //     ref,
 //   ) => {
 //     const trulyDisabled = loading || disabled;
-    
+
 //     return (
 //       <StyledAnchor
 //         ref={ref}
@@ -84,4 +84,4 @@
 //       </StyledAnchor>
 //     );
 //   },
-// ); 
+// );

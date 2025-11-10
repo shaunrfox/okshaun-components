@@ -26,13 +26,7 @@ type BadgeComponent = <E extends React.ElementType = 'span'>(
  */
 export const Badge = React.forwardRef(
   <E extends React.ElementType = 'span'>(
-    {
-      variant,
-      size,
-      className,
-      children,
-      ...props
-    }: BadgeProps<E>,
+    { variant, size, className, children, ...props }: BadgeProps<E>,
     ref: React.ForwardedRef<Element>,
   ) => {
     return (

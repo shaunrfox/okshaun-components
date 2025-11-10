@@ -144,8 +144,8 @@ const tooltipVariants = {
         },
       },
     },
-    'top-end':{
-      tooltipContent:{
+    'top-end': {
+      tooltipContent: {
         bottom: '100%',
         right: '0',
         _after: {
@@ -154,7 +154,7 @@ const tooltipVariants = {
           transform: 'translate(0, -2%)',
           borderTopColor: { base: 'gray.90', _dark: 'gray.0' },
         },
-      }
+      },
     },
     'bottom-end': {
       tooltipContent: {
@@ -203,37 +203,38 @@ export const tooltipRecipe = defineSlotRecipe({
   jsx: ['Tooltip'],
   slots: ['wrapper', 'tooltipContent'],
   base: tooltipBase,
-  variants: {...tooltipVariants,
-    caret:{
-      true:{
-        tooltipContent:{
-          _after:{
+  variants: {
+    ...tooltipVariants,
+    caret: {
+      true: {
+        tooltipContent: {
+          _after: {
             display: 'block',
-          }
+          },
         },
-        _position:{
-          top:{
-            tooltipContent:{
+        _position: {
+          top: {
+            tooltipContent: {
               mb: '12',
-            }
-          }
-        }
-      },
-      false:{
-        tooltipContent:{
-          _after:{
-            display: 'none',
-          }
+            },
+          },
         },
-        _position:{
-          top:{
-            tooltipContent:{
-              mb: '8'
-            }
-          }
-        }
-      }
-    }
+      },
+      false: {
+        tooltipContent: {
+          _after: {
+            display: 'none',
+          },
+        },
+        _position: {
+          top: {
+            tooltipContent: {
+              mb: '8',
+            },
+          },
+        },
+      },
+    },
   },
   defaultVariants: {
     position: 'bottom',

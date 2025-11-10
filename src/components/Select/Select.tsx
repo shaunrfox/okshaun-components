@@ -1,9 +1,9 @@
-import * as React from "react";
-import * as SelectPrimitive from "@radix-ui/react-select";
-import { Icon } from "~/components/ui/Icon";
-import { css, Theme } from "@emotion/react";
-import { Button, ButtonProps } from "~/components/ui/Button";
-import { MenuItem, MenuItemProps } from "~/components/ui/MenuItem";
+import * as React from 'react';
+import * as SelectPrimitive from '@radix-ui/react-select';
+import { Icon } from '~/components/ui/Icon';
+import { css, Theme } from '@emotion/react';
+import { Button, ButtonProps } from '~/components/ui/Button';
+import { MenuItem, MenuItemProps } from '~/components/ui/MenuItem';
 
 const Select = SelectPrimitive.Root;
 
@@ -14,7 +14,7 @@ const SelectValue = SelectPrimitive.Value;
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & ButtonProps
->(({ children, variant = "default", size = "default", ...props }, ref) => (
+>(({ children, variant = 'default', size = 'default', ...props }, ref) => (
   <SelectPrimitive.Trigger asChild>
     <Button
       ref={ref}
@@ -41,13 +41,13 @@ const menuStyles = (theme: Theme) => css`
   display: flex;
   flex-direction: column;
   gap: ${theme.size[8]};
-  background-color: ${theme.mode === "light"
+  background-color: ${theme.mode === 'light'
     ? theme.color.gray[0]
     : theme.color.gray[80]};
   padding: ${theme.size[12]};
   border-radius: ${theme.radius[4]};
   margin-top: ${theme.size[4]};
-  box-shadow: ${theme.mode === "light"
+  box-shadow: ${theme.mode === 'light'
     ? theme.shadow.low.light
     : theme.shadow.low.dark};
 `;
@@ -76,7 +76,7 @@ SelectScrollDownButton.displayName =
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = "popper", ...props }, ref) => (
+>(({ className, children, position = 'popper', ...props }, ref) => (
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       css={menuStyles}

@@ -47,11 +47,11 @@ export const colors = {
     '90': { value: '#1E1E1E' },
     '100': { value: '#000000' },
   },
-	blue: {
-		'1': { value: "#fafdff" },
-		'2': { value: "#f6fbff" },
-		'3': { value: "#f1f9ff" },
-		'4': { value: "#edf7ff" },
+  blue: {
+    '1': { value: '#fafdff' },
+    '2': { value: '#f6fbff' },
+    '3': { value: '#f1f9ff' },
+    '4': { value: '#edf7ff' },
     '5': { value: '#E8F5FF' },
     '10': { value: '#CFE8FF' },
     '20': { value: '#A1D3FF' },

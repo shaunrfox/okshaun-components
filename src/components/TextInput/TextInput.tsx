@@ -2,7 +2,7 @@ import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box/Box';
 import { textinput, type TextinputVariantProps } from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
-import { AriaAttributes } from 'react';
+import { type AriaAttributes } from 'react';
 
 export type TextInputProps = Omit<BoxProps, keyof TextinputVariantProps> &
   TextinputVariantProps & {

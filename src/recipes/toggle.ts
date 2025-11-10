@@ -14,7 +14,7 @@ const toggleBase = {
     },
   },
 
-  background:{
+  background: {
     position: 'absolute',
     w: '40',
     h: '24',
@@ -71,13 +71,13 @@ const toggleBase = {
         opacity: 1,
         transform: 'translateX(16px)',
       },
-      "& ~ [name='toggle-bg']":{
+      "& ~ [name='toggle-bg']": {
         bg: { base: 'gray.90', _dark: 'gray.0' },
         borderColor: { base: 'gray.90 !important', _dark: 'gray.0 !important' },
       },
     },
-    _error:{
-      "& ~ [name='toggle-bg']":{
+    _error: {
+      "& ~ [name='toggle-bg']": {
         borderColor: 'error.default',
       },
     },

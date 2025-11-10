@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import { Box, type BoxProps } from '../Box';
 import { Label } from '../Label';
-import { Checkbox } from '../Checkbox/Checkbox';
+import { Checkbox } from '../Checkbox';
 
 export type CheckboxInputProps = BoxProps & {
   name: string;

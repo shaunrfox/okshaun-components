@@ -1,6 +1,5 @@
 export { buttonRecipe, iconButtonRecipe } from './button';
 export { badgeRecipe } from './badge';
-export { inputRecipe } from './input';
 export { textareaRecipe } from './textarea';
 export { textRecipe, headingRecipe, linkRecipe, labelRecipe } from './text';
 export { checkboxRecipe } from './checkbox';

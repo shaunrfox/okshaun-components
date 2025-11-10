@@ -1,11 +1,12 @@
-import React, { type SVGAttributes } from 'react';
+import React, { type SVGAttributes, useEffect } from 'react';
 import { Box, type BoxProps } from '~/components/Box';
 import { splitCssProps } from '@styled-system/jsx';
 import { cx, css } from '@styled-system/css';
-// import { type ColorToken } from '@styled-system/tokens';
+import { type ColorToken } from '@styled-system/tokens';
 import type { IconNamesList } from './icons';
 import { icon } from '@styled-system/patterns';
 import { numericSizes } from '~/styles/tokens';
+import { injectSprite } from '~/utils/injectSprite';
 
 /*
  * Using the size prop in this way cannot handle non-numeric sizes,
@@ -18,7 +19,7 @@ export type IconProps = Omit<BoxProps, 'size'> &
   SVGAttributes<SVGElement> & {
     name: IconNamesList;
     size?: AllowedIconSizes;
-    fill?: string;
+    fill?: ColorToken;
   };
 export const Icon: React.FC<IconProps> = ({
   name,
@@ -30,6 +31,11 @@ export const Icon: React.FC<IconProps> = ({
   const { css: cssProp, ...styleProps } = cssProps;
   const className = css(cssProp, styleProps);
 
+  // Inject sprite on first Icon render
+  useEffect(() => {
+    injectSprite();
+  }, []);
+
   return (
     <Box
       as={'svg'}
@@ -38,7 +44,7 @@ export const Icon: React.FC<IconProps> = ({
       className={cx(icon({ size: size as AllowedIconSizes, fill }), className)}
       {...otherProps}
     >
-      <use xlinkHref={`sprite.svg#${name}`} />
+      <use xlinkHref={`#${name}`} />
     </Box>
   );
 };

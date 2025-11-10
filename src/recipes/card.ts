@@ -1,7 +1,7 @@
 import { defineRecipe } from '@pandacss/dev';
 
 const cardBase = {
-  bg: {base: 'gray.0', _dark: 'gray.80'},
+  bg: { base: 'gray.0', _dark: 'gray.80' },
   borderRadius: '4',
   outlineWidth: '1',
   outlineStyle: 'solid',
@@ -23,7 +23,7 @@ const cardVariant = {
         _grabbed: {
           boxShadow: 'high',
           cursor: 'grabbing',
-        }
+        },
       },
       _focusVisible: {
         boxShadow: 'none',
@@ -33,12 +33,12 @@ const cardVariant = {
       },
       _disabled: {
         opacity: '0.4',
-        _hover:{
+        _hover: {
           boxShadow: 'low',
         },
-        _active:{
+        _active: {
           boxShadow: 'low',
-        }
+        },
       },
     },
     flat: {
@@ -53,22 +53,21 @@ const cardVariant = {
         _grabbed: {
           boxShadow: 'high',
           cursor: 'grabbing',
-        }
+        },
       },
       _focusVisible: {
         boxShadow: 'none',
         outlineColor: { base: 'gray.90', _dark: 'gray.0' },
         borderColor: { base: 'gray.90', _dark: 'gray.0' },
-
       },
       _disabled: {
         opacity: '0.4',
-        _hover:{
+        _hover: {
           borderColor: { base: 'gray.10', _dark: 'gray.70' },
         },
-        _active:{
+        _active: {
           borderColor: { base: 'gray.10', _dark: 'gray.70' },
-        }
+        },
       },
     },
   },

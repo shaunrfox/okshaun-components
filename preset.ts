@@ -1,4 +1,8 @@
-import { defineTokens, defineSemanticTokens, definePreset } from '@pandacss/dev';
+import {
+  defineTokens,
+  defineSemanticTokens,
+  definePreset,
+} from '@pandacss/dev';
 import pandaBasePreset from '@pandacss/preset-base';
 import * as tokens from './src/styles/tokens';
 import * as semanticTokens from './src/styles/semanticTokens';
@@ -7,7 +11,14 @@ import { globalCss } from './src/styles/globalStyle';
 import * as componentRecipes from './src/recipes/index';
 
 // Extract slot recipes separately
-const { checkboxRecipe, radioRecipe, tooltipRecipe, menuRecipe, toggleRecipe, ...regularComponents} = componentRecipes;
+const {
+  checkboxRecipe,
+  radioRecipe,
+  tooltipRecipe,
+  menuRecipe,
+  toggleRecipe,
+  ...regularComponents
+} = componentRecipes;
 
 // Transform recipe keys: remove 'Recipe' suffix to match component imports
 // e.g., { boxRecipe: {...} } becomes { box: {...} }
@@ -58,14 +69,14 @@ export const okShaunPreset = definePreset({
       textStyles: textStyles,
       recipes: {
         ...transformedRecipes,
-			},
-			slotRecipes: {
-				checkbox: checkboxRecipe,
-				radio: radioRecipe,
-				tooltip: tooltipRecipe,
-				menu: menuRecipe,
-				toggle: toggleRecipe,
-			},
+      },
+      slotRecipes: {
+        checkbox: checkboxRecipe,
+        radio: radioRecipe,
+        tooltip: tooltipRecipe,
+        menu: menuRecipe,
+        toggle: toggleRecipe,
+      },
     },
   },
   patterns: {

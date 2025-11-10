@@ -1,42 +1,59 @@
-import { Text, type TextProps } from "./index";
+import { Text, type TextProps } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Text> = {
-  title: "Components/Text",
+  title: 'Components/Text',
   component: Text,
   tags: ['autodocs', '!dev'],
 
   parameters: {
-    layout: "padded",
+    layout: 'padded',
     controls: {
       disable: true,
       disableSaveFromUI: true,
-    }
+    },
   },
   argTypes: {
     fontSize: {
-      control: 'select', options: ['body-lg', 'body-md', 'body-sm', 'body-xs', 'header-lg', 'header-md', 'header-sm', 'header-xs', 'display-lg', 'display-md', 'display-sm', 'display-xs'],
+      control: 'select',
+      options: [
+        'body-lg',
+        'body-md',
+        'body-sm',
+        'body-xs',
+        'header-lg',
+        'header-md',
+        'header-sm',
+        'header-xs',
+        'display-lg',
+        'display-md',
+        'display-sm',
+        'display-xs',
+      ],
       description: 'Text size',
       table: {
-          defaultValue: { summary: 'body-md' },
+        defaultValue: { summary: 'body-md' },
       },
     },
     fontFamily: {
-      control: 'select', options: ['mono', 'serif', 'sans'],
+      control: 'select',
+      options: ['mono', 'serif', 'sans'],
       description: 'Font family',
       table: {
         defaultValue: { summary: 'sans' },
       },
     },
     lineHeight: {
-      control: 'select', options: ['lg', 'md', 'sm', 'xs'],
+      control: 'select',
+      options: ['lg', 'md', 'sm', 'xs'],
       description: 'Line Height',
       table: {
         defaultValue: { summary: 'md' },
       },
     },
     color: {
-      control: 'select', options: ['gray-90', 'blue-50', 'gold-50', ''],
+      control: 'select',
+      options: ['gray-90', 'blue-50', 'gold-50', ''],
       description: 'Font Color',
       table: {
         defaultValue: { summary: 'gray-90' },
@@ -56,7 +73,7 @@ const meta: Meta<typeof Text> = {
 export default meta;
 
 type Story = StoryObj<typeof Text>;
-export const Default: Story = {args: { children: "Text Component"}};
+export const Default: Story = { args: { children: 'Text Component' } };
 
 //export const AllSizes = {
 //  parameters: {
@@ -72,13 +89,18 @@ export const Default: Story = {args: { children: "Text Component"}};
 //  )
 //};
 
-
 export const AllColors: Story = {
   render: (args: TextProps) => (
     <>
-      <Text {...args} font="mono" color="gray.90">gray-90</Text>
-      <Text {...args} color="gold.50" >Gold-50</Text>
-      <Text {...args} color="blue.50" >Blue-50</Text>
+      <Text {...args} font="mono" color="gray.90">
+        gray-90
+      </Text>
+      <Text {...args} color="gold.50">
+        Gold-50
+      </Text>
+      <Text {...args} color="blue.50">
+        Blue-50
+      </Text>
     </>
-  )
+  ),
 };

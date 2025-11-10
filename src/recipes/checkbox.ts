@@ -2,7 +2,7 @@ import { defineSlotRecipe } from '@pandacss/dev';
 
 export const checkboxRecipe = defineSlotRecipe({
   className: 'checkbox',
-  jsx: ['CheckBox'],
+  jsx: ['Checkbox'],
   slots: ['container', 'input', 'indicator'],
   base: {
     container: {

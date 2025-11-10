@@ -181,8 +181,8 @@ export const Menu: React.FC<MenuProps> = ({
                     {variant === 'multi-select' &&
                       multiSelectType === 'toggle' &&
                       !section?.link && (
-											<Toggle
-												name='menu-toggle'
+                        <Toggle
+                          name="menu-toggle"
                           checked={isSelected}
                           onChange={() => handleSelect(item.id)}
                         />

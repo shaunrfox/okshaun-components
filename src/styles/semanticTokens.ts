@@ -134,23 +134,23 @@ export const colors = {
         _dark: '{colors.gray.100/40}',
       },
     },
-		headingColor: {
-			value: {
-				base: '{colors.gray.90}',
-				_dark: '{colors.gray.5}',
-			},
-		},
-		textColor: {
-			value: {
-				base: '{colors.gray.60}',
-				_dark: '{colors.gray.30}',
-			},
-		},
-		borderColor: {
-			value: {
-				base: '{colors.gray.10}',
-				_dark: '{colors.gray.60}',
-			},
-		},
+    headingColor: {
+      value: {
+        base: '{colors.gray.90}',
+        _dark: '{colors.gray.5}',
+      },
+    },
+    textColor: {
+      value: {
+        base: '{colors.gray.60}',
+        _dark: '{colors.gray.30}',
+      },
+    },
+    borderColor: {
+      value: {
+        base: '{colors.gray.10}',
+        _dark: '{colors.gray.60}',
+      },
+    },
   },
 };

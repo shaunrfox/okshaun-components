@@ -7,7 +7,7 @@ import {
 } from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
 import { Box, type BoxProps } from '../Box';
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 
 export type RadioInputProps = BoxProps &
   RadioInputVariantProps & {

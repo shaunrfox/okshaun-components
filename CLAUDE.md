@@ -24,7 +24,7 @@ This is a React component library built with **Panda CSS** for styling and **Vit
 ### Icons
 - `npm run generate-sprite` - Generate SVG sprite from `src/utils/svgsSource/*.svg`
   - Optimizes SVGs with SVGO
-  - Creates sprite at `public/sprite.svg`
+  - Creates sprite at `dist/sprite.svg`
   - Generates TypeScript types at `src/components/Icon/icons.d.ts` and `iconNames.ts`
   - Opens preview HTML automatically
 
@@ -124,7 +124,7 @@ Icons use an SVG sprite workflow:
 1. Source SVGs in `src/utils/svgsSource/`
 2. Run `npm run generate-sprite` to:
    - Optimize SVGs (removes fill/stroke, adds 24x24 dimensions)
-   - Create sprite at `public/sprite.svg`
+   - Create sprite at `dist/sprite.svg`
    - Generate TypeScript types for icon names
 3. Use `Icon` component with type-safe icon names
 
