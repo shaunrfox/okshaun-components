@@ -1,2 +1,2 @@
 export { ThemeSwitcher } from './ThemeSwitcher';
-export { ThemeSwitcherButton } from './ThemeSwitcherButton';
+// export { ThemeSwitcherButton } from './ThemeSwitcherButton';

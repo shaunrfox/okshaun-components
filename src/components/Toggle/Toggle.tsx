@@ -43,7 +43,6 @@ export const Toggle: React.FC<ToggleProps> = ({
       <Icon
         name={'circle-check'}
         className={indicator}
-        fill={{ _dark: 'gray.90' }}
       />
     </Label>
   );

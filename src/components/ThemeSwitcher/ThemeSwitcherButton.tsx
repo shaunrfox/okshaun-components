@@ -1,21 +1,23 @@
-import { IconButton } from '~/components/IconButton';
-import { Icon } from '~/components/Icon';
-import { useTheme } from '~/contexts/ThemeContext';
+// archive
 
-export function ThemeSwitcherButton() {
-  const { theme, setTheme } = useTheme();
+// import { IconButton } from '~/components/IconButton';
+// import { Icon } from '~/components/Icon';
+// import { useTheme } from '~/contexts/ThemeContext';
 
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
+// export function ThemeSwitcherButton() {
+//   const { theme, setTheme } = useTheme();
 
-  return (
-    <IconButton
-      variant="ghost"
-      onClick={toggleTheme}
-      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
-    >
-      <Icon name={theme === 'light' ? 'moon-filled' : 'sun-filled'} />
-    </IconButton>
-  );
-}
+//   const toggleTheme = () => {
+//     setTheme(theme === 'light' ? 'dark' : 'light');
+//   };
+
+//   return (
+//     <IconButton
+//       variant="ghost"
+//       onClick={toggleTheme}
+//       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+//     >
+//       <Icon name={theme === 'light' ? 'moon-filled' : 'sun-filled'} />
+//     </IconButton>
+//   );
+// }

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { Button, IconButton } from './Button';
+import { Button } from './Button';
+import { IconButton } from '../IconButton';
 import { Icon } from '../Icon';
 
 const meta = {
@@ -109,19 +110,19 @@ export const AllVariants: Story = {
       </div>
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         <IconButton variant="default">
-          <Icon name="add" />
+          <Icon name="plus" />
         </IconButton>
         <IconButton variant="primary">
-          <Icon name="add" />
+          <Icon name="plus" />
         </IconButton>
         <IconButton variant="danger">
-          <Icon name="add" />
+          <Icon name="plus" />
         </IconButton>
         <IconButton variant="hollow">
-          <Icon name="add" />
+          <Icon name="plus" />
         </IconButton>
         <IconButton variant="utility">
-          <Icon name="add" />
+          <Icon name="plus" />
         </IconButton>
       </div>
     </div>

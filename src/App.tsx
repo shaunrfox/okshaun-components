@@ -82,7 +82,6 @@ function AppContent() {
               letterSpacing={'widest'}
               textTransform={'uppercase'}
               fontWeight={'bold'}
-              onClick={() => alert('clicked')}
             >
               Ok Shaun Componentz
             </Text>
@@ -483,7 +482,7 @@ function AppContent() {
           <Section>
             <Heading level="h2">Menu</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
-              <Box maxW={'300'}>
+              <Box maxW={'280'}>
                 <Menu
                   variant="single-select"
                   menuSection={[
@@ -511,7 +510,7 @@ function AppContent() {
                   ]}
                 />
               </Box>
-              <Box maxW={'300'}>
+              <Box maxW={'280'}>
                 <Menu
                   variant="multi-select"
                   multiSelectType="checkbox"

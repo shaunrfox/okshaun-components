@@ -59,7 +59,6 @@ const toggleBase = {
       transitionProperty: 'transform, opacity',
       transitionDuration: '200ms',
       transitionTimingFunction: 'ease-in-out',
-      // fill: {base: 'gray.90 !important', _dark: 'gray.0 !important'}
     },
 
     _checked: {
@@ -73,7 +72,7 @@ const toggleBase = {
       },
       "& ~ [name='toggle-bg']": {
         bg: { base: 'gray.90', _dark: 'gray.0' },
-        borderColor: { base: 'gray.90 !important', _dark: 'gray.0 !important' },
+        borderColor: { base: 'gray.90', _dark: 'gray.0' },
       },
     },
     _error: {
@@ -103,7 +102,7 @@ const toggleBase = {
     transitionDuration: '200ms',
     transitionTimingFunction: 'ease-in-out',
     "&:is([name='circle'])": {
-      fill: { base: 'gray.20 !important', _dark: 'gray.40 !important' },
+      fill: { base: 'gray.20', _dark: 'gray.40' },
     },
   },
 };
