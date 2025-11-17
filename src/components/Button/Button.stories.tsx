@@ -1,29 +1,30 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
-import { Button, IconButton } from "./Button";
-import { Icon } from "../Icon";
+import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
+import { Button } from './Button';
+import { IconButton } from '../IconButton';
+import { Icon } from '../Icon';
 
 const meta = {
-  title: "Components/Button",
+  title: 'Components/Button',
   component: Button,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     variant: {
-      control: "select",
-      options: ["default", "primary", "danger", "hollow", "utility"],
+      control: 'select',
+      options: ['default', 'primary', 'danger', 'hollow', 'utility'],
     },
     size: {
-      control: "select",
-      options: ["default", "small", "medium"],
+      control: 'select',
+      options: ['default', 'small', 'medium'],
     },
     iconButton: {
-      control: "boolean",
+      control: 'boolean',
     },
     isActive: {
-      control: "boolean",
+      control: 'boolean',
     },
   },
   args: { onClick: fn() },
@@ -93,35 +94,35 @@ export const AllVariants: Story = {
   render: () => (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "16px",
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '16px',
       }}
     >
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         <Button variant="default">Default</Button>
         <Button variant="primary">Primary</Button>
         <Button variant="danger">Danger</Button>
         <Button variant="hollow">Hollow</Button>
         <Button variant="utility">Utility</Button>
       </div>
-      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         <IconButton variant="default">
-          <Icon name="add" />
+          <Icon name="plus" />
         </IconButton>
         <IconButton variant="primary">
-          <Icon name="add" />
+          <Icon name="plus" />
         </IconButton>
         <IconButton variant="danger">
-          <Icon name="add" />
+          <Icon name="plus" />
         </IconButton>
         <IconButton variant="hollow">
-          <Icon name="add" />
+          <Icon name="plus" />
         </IconButton>
         <IconButton variant="utility">
-          <Icon name="add" />
+          <Icon name="plus" />
         </IconButton>
       </div>
     </div>

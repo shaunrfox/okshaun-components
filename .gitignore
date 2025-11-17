@@ -24,3 +24,10 @@ dist-ssr
 *.sw?
 
 *storybook.log
+
+## Panda
+styled-system
+styled-system-studio
+
+## Auto-generated sprite
+src/utils/spriteContent.ts

@@ -1,30 +1,52 @@
-/** @jsxImportSource @emotion/react */
-import { css, Theme } from "@emotion/react";
-import * as React from "react";
+import React, { type ElementType } from 'react';
+import { Box, type BoxProps } from '~/components/Box';
+import type {
+  FontToken,
+  FontSizeToken,
+  FontWeightToken,
+} from '@styled-system/tokens';
+import { text, type TextVariantProps } from '@styled-system/recipes';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 
-export interface TextProps {
-  level?: 12 | 14 | 16 | 20 | 24 | 32 | 40 | 48 | 64 | 72 | 80 | 96;
-  font?: "default" | "mono";
-  as?: "p" | "span" | "div";
-  children: React.ReactNode;
-}
+export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
+  TextVariantProps & {
+    italic?: boolean;
+    family?: FontToken;
+    bold?: boolean;
+    underline?: boolean;
+    size?: FontSizeToken;
+    weight?: FontWeightToken;
+    children?: string | React.ReactNode;
+    as?: ElementType;
+    className?: string;
+  };
 
-const textStyles = (theme: Theme, level: number, font: string) => css`
-  font-size: ${theme.size[level] || theme.size[16]};
-  line-height: ${theme.leading.md};
-  font-family: ${theme.font[font] || theme.font.default};
-  font-weight: normal;
-  color: ${theme.mode === "light"
-    ? theme.color.gray[80]
-    : theme.color.gray[20]};
-  margin: 0;
-`;
+export const Text: React.FC<TextProps> = ({
+  as = 'p',
+  italic,
+  family,
+  bold,
+  underline,
+  size,
+  weight,
+  children,
+  ...props
+}: TextProps) => {
+  const [className, otherProps] = splitProps(props);
 
-export const Text = ({ children, ...props }: TextProps) => {
   return (
-    <p css={textStyles(theme, props.level, props.font)} {...props}>
+    <Box
+      as={as}
+      className={cx(
+        text({ family, bold, underline, italic }),
+        className as string,
+      )}
+      fontSize={size}
+      fontWeight={weight}
+      {...otherProps}
+    >
       {children}
-    </p>
+    </Box>
   );
 };
-Text.displayName = "Text";

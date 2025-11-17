@@ -1,9 +1,9 @@
 // /** @jsxImportSource @emotion/react */
-import { css, Theme } from "@emotion/react";
-import { Box, BoxProps } from "./Box";
+import { css, Theme } from '@emotion/react';
+import { Box, BoxProps } from './Box';
 
 interface RuleProps extends BoxProps {
-  orientation?: "horizontal" | "vertical";
+  orientation?: 'horizontal' | 'vertical';
 }
 
 const ruleStyles = (theme: Theme) => css`
@@ -20,15 +20,15 @@ const ruleStyles = (theme: Theme) => css`
   mix-blend-mode: difference;
 `;
 
-const orientationStyles = (orientation: RuleProps["orientation"]) => css`
-  width: ${orientation === "vertical" ? "1px" : "100%"};
-  max-width: ${orientation === "vertical" ? "1px" : "100%"};
-  height: ${orientation === "vertical" ? "100%" : "1px"};
-  max-height: ${orientation === "vertical" ? "100%" : "1px"};
-  border-width: ${orientation === "vertical" ? "0 1px 0 0" : "0 0 1px 0"};
+const orientationStyles = (orientation: RuleProps['orientation']) => css`
+  width: ${orientation === 'vertical' ? '1px' : '100%'};
+  max-width: ${orientation === 'vertical' ? '1px' : '100%'};
+  height: ${orientation === 'vertical' ? '100%' : '1px'};
+  max-height: ${orientation === 'vertical' ? '100%' : '1px'};
+  border-width: ${orientation === 'vertical' ? '0 1px 0 0' : '0 0 1px 0'};
 `;
 
-export const Rule = ({ orientation = "horizontal", ...props }: RuleProps) => {
+export const Rule = ({ orientation = 'horizontal', ...props }: RuleProps) => {
   return (
     <Box
       css={(theme) => [ruleStyles(theme), orientationStyles(orientation)]}

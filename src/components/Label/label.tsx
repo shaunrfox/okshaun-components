@@ -1,22 +1,29 @@
-import { css, Theme } from "@emotion/react";
-import { Text, TextProps } from "./Text";
+import { Box, type BoxProps } from '../Box';
+//import { Text, type TextProps } from '../Text';
+import { label, type LabelVariantProps } from '@styled-system/recipes';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 
-interface LabelProps extends TextProps {
-  children: React.ReactNode;
-  htmlFor: string;
-}
+export type LabelProps = Omit<BoxProps, keyof LabelVariantProps> &
+  LabelVariantProps & {
+    htmlFor?: string;
+    children?: string | React.ReactNode;
+  };
 
-const labelStyles = (theme: Theme) => css`
-  font-size: ${theme.size[14]};
-  font-weight: ${theme.fontWeight.medium};
-  line-height: ${theme.leading.md};
-  cursor: default;
-`;
-
-export const Label = ({ children, htmlFor, ...props }: LabelProps) => {
+export const Label: React.FC<LabelProps> = ({
+  htmlFor,
+  children,
+  ...props
+}: LabelProps) => {
+  const [className, otherProps] = splitProps(props);
   return (
-    <Text css={labelStyles} {...props}>
+    <Box
+      htmlFor={htmlFor}
+      as="label"
+      className={cx(label({}), className)}
+      {...otherProps}
+    >
       {children}
-    </Text>
+    </Box>
   );
 };

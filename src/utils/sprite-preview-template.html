@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>SVG &lt;symbol&gt; sprite preview | svg-sprite</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Recursive:wght@300..1000&display=swap');
+
+    body {
+      padding: 0;
+      margin: 0;
+      color: #666;
+      font-family: 'Recursive', Arial, Helvetica, sans-serif;
+      font-variation-settings: 'CRSV' 0, 'CASL' 0;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5em 3em;
+      background-color: #fff;
+      border-bottom: 1px solid #eee;
+    }
+
+    section {
+      padding: 2em 3em;
+    }
+
+    section ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    section li {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 1em;
+      cursor: default;
+    }
+
+    .icon-box {
+      margin: 0;
+      width: 24px;
+      height: 24px;
+      position: relative;
+    }
+
+    .icon {
+      display: block;
+    }
+
+    h1 {
+      margin: 0;
+      color: #1e1e1e;
+      line-height: 1;
+    }
+
+    h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 0.9rem;
+      font-weight: 400;
+      white-space: nowrap;
+      color: #9f7803;
+    }
+
+    footer {
+      position: sticky;
+      bottom: 0;
+      background-color: #fff;
+      z-index: 100;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 3rem;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 0.7rem;
+    }
+
+    footer a {
+      color: #0f7595;
+      margin-left: 0;
+    }
+
+    /* Search styles */
+    .search {
+      width: clamp(200px, 100%, 400px);
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #fff;
+      box-sizing: border-box;
+
+      &:focus {
+        outline: 1px solid #1e1e1e;
+        border-color: #1e1e1e;
+        /* box-shadow: 0 0 0 2px rgba(15, 117, 149, 0.2); */
+      }
+    }
+
+    /* Hide filtered items */
+    .icons-container li.hidden {
+      display: none;
+    }
+
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+    }
+
+    code {
+      font-size: 0.6em;
+      font-weight: 400;
+      color: #9f7803;
+    }
+
+    .date {
+      font-weight: bold;
+      font-variation-settings: 'CRSV' 0, 'CASL' 0, 'MONO' 1;
+      color: #1e1e1e;
+    }
+  </style>
+
+  <!--
+Sprite shape dimensions
+====================================================================================================
+You will need to set the sprite shape dimensions via CSS when you use them as inline SVG, otherwise
+they would become a huge 100% in size. You may use the following dimension classes for doing so.
+They might well be outsourced to an external stylesheet of course.
+-->
+  <style>
+  {{#shapes}} {{#selector.dimensions}}{{expression}}{{^last}}, {{/last}}{{/selector.dimensions}} { width:
+    {{width.outer}}px; height: {{height.outer}}px; }
+  {{/shapes}}
+  </style>
+
+  <!--
+====================================================================================================
+-->
+</head>
+
+<body>
+  <!--
+Inline <symbol> SVG sprite
+====================================================================================================
+This is an inlined version of the generated SVG sprite. The single images may be <use>d everywhere
+below within this document. Please see
+
+  https://github.com/svg-sprite/svg-sprite/blob/main/docs/configuration.md#defs--symbol-mode
+
+for further details on how to create this embeddable sprite variant.
+-->
+
+  <svg width="0" height="0" style="position: absolute">
+    {{#shapes}} {{{svg}}} {{/shapes}}
+  </svg>
+
+  <!--
+====================================================================================================
+-->
+
+  <header>
+    <h1>Icon Preview <br /><code>./dist/sprite.svg <span id="iconCount"></span></code></h1>
+    <input class="search" type="text" placeholder="Type to filter icons..." autofocus />
+  </header>
+  <section>
+    <!--
+A) Inline SVG with embedded sprite
+====================================================================================================
+These SVG images make use of fragment identifiers (IDs) and are extracted out of the inline sprite
+embedded above. They may be styled via CSS.
+-->
+
+    <ul class="icons-container">
+      {{#shapes}}
+        <li title="{{name}}">
+          <div class="icon-box">
+            <svg
+              class="{{#selector.dimensions}}{{#last}}{{#classname}}{{raw}}{{/classname}}{{/last}}{{/selector.dimensions}}">
+              <use xlink:href="#{{name}}"></use>
+            </svg>
+          </div>
+          <h2>{{name}}</h2>
+        </li>
+      {{/shapes}}
+    </ul>
+
+    <div class="no-results">
+      <p>No icons match your filters</p>
+    </div>
+
+    <!--
+====================================================================================================
+-->
+  </section>
+
+  <footer>
+    <p>
+      Generated <span class="date">{{date}}</span> using
+      <a href="https://github.com/svg-sprite/svg-sprite" target="_blank" rel="noopener noreferrer">svg-sprite</a>.
+    </p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchInput = document.querySelector('.search');
+      const iconItems = document.querySelectorAll('.icons-container li');
+			const iconCountSpan = document.getElementById('iconCount');
+
+			// Display total icon count
+			iconCountSpan.textContent = `(${iconItems.length} icons)`;
+
+      // Filter function
+      function filterIcons(searchTerm) {
+        const term = searchTerm.toLowerCase();
+        let visibleCount = 0;
+
+        iconItems.forEach(function (item) {
+          const iconName = item.getAttribute('title');
+
+          if (iconName.indexOf(term) !== -1) {
+            item.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+
+        // Show/hide no results message
+        const noResults = document.querySelector('.no-results');
+        if (visibleCount === 0 && searchTerm.length > 0) {
+          noResults.style.display = 'block';
+        } else {
+          noResults.style.display = 'none';
+        }
+      }
+
+      // Search input event listener
+      searchInput.addEventListener('keyup', function (e) {
+        filterIcons(this.value);
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,11 +1,11 @@
-import * as React from "react";
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { css, Theme } from "@emotion/react";
-import Icon from "./Icon";
-import { Box } from "./Box";
-import { Button, ButtonProps } from "~/components/ui/Button";
-import { MenuItem, MenuItemProps } from "~/components/ui/MenuItem";
-import { Rule } from "./Rule";
+import * as React from 'react';
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import { css, Theme } from '@emotion/react';
+import Icon from './Icon';
+import { Box } from './Box';
+import { Button, ButtonProps } from '~/components/ui/Button';
+import { MenuItem, MenuItemProps } from '~/components/ui/MenuItem';
+import { Rule } from './Rule';
 
 // const DDM = DropdownMenuPrimitive;
 
@@ -22,13 +22,13 @@ const menuStyles = (theme: Theme) => css`
   gap: ${theme.size[4]};
   overflow-y: auto;
   min-width: 8rem;
-  background-color: ${theme.mode === "light"
+  background-color: ${theme.mode === 'light'
     ? theme.color.gray[0]
     : theme.color.gray[80]};
   padding: ${theme.size[8]};
   border-radius: ${theme.radius[4]};
   margin-top: ${theme.size[4]};
-  box-shadow: ${theme.mode === "light"
+  box-shadow: ${theme.mode === 'light'
     ? theme.shadow.low.light
     : theme.shadow.low.dark};
   z-index: 50;
@@ -58,7 +58,7 @@ const DropdownMenuItem = React.forwardRef<
 >(({ isActive, className, inset, children, ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
-    className={`${isActive ? "isActive" : ""} ${className || ""}`}
+    className={`${isActive ? 'isActive' : ''} ${className || ''}`}
     {...props}
   >
     <MenuItem isActive={isActive}>{children}</MenuItem>
@@ -146,7 +146,7 @@ const DropdownMenuLabel = React.forwardRef<
       padding-inline: ${theme.size[2]};
       font-size: ${theme.size[14]};
       font-weight: ${theme.font.weight.medium};
-      ${inset && "padding-left: ${theme.size[8]};"};
+      ${inset && 'padding-left: ${theme.size[8]};'};
     `}
     {...props}
   />
@@ -179,7 +179,7 @@ const DropdownMenuShortcut = ({
     />
   );
 };
-DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
+DropdownMenuShortcut.displayName = 'DropdownMenuShortcut';
 
 const DropdownMenuSubTrigger = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
@@ -190,7 +190,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
   <DropdownMenuPrimitive.SubTrigger ref={ref} asChild {...props}>
     <MenuItem>
       {children}
-      <Icon name="chevron-right" css={{ marginLeft: "auto" }} />
+      <Icon name="chevron-right" css={{ marginLeft: 'auto' }} />
     </MenuItem>
   </DropdownMenuPrimitive.SubTrigger>
 ));
@@ -212,9 +212,9 @@ const DropdownMenuSubContent = React.forwardRef<
       padding: ${theme.size[1]};
       color: ${theme.color.gray[100]};
       box-shadow: ${theme.shadow.lg};
-      data-[state="open"] {
+      data-[state='open'] {
       }
-      data-[state="closed"] {
+      data-[state='closed'] {
       }
     `}
     {...props}

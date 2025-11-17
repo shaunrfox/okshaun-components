@@ -1,2 +1,3 @@
-export { Icon } from "./Icon";
-export { IconNames, type IconNamesList } from "./utils/icons.d";
+export { Icon, type IconProps } from './Icon';
+export type { IconNamesList } from './icons';
+export { IconNames } from './iconNames';

@@ -1,5 +1,5 @@
-import * as React from "react";
-import { css, Theme } from "@emotion/react";
+import * as React from 'react';
+import { css, Theme } from '@emotion/react';
 
 export interface MultiToggleOption {
   value: string;
@@ -29,7 +29,7 @@ const multiToggleStyles = (theme: Theme, icons: boolean) => css`
     bottom: 0;
     width: 100%;
     height: 100%;
-    background-color: ${theme.mode === "light"
+    background-color: ${theme.mode === 'light'
       ? theme.color.gray[100]
       : theme.color.gray[0]};
     border-radius: 2rem;
@@ -45,7 +45,7 @@ const multiToggleStyles = (theme: Theme, icons: boolean) => css`
     cursor: pointer;
     border-radius: 50%;
     padding: ${theme.size[4]} ${theme.size[12]};
-    color: ${theme.mode === "light"
+    color: ${theme.mode === 'light'
       ? theme.color.gray[100]
       : theme.color.gray[100]};
     font-size: ${theme.size[14]};
@@ -76,7 +76,7 @@ export function MultiToggle({
   icons = false,
 }: MultiToggleProps) {
   const [selectedValue, setSelectedValue] = React.useState(
-    defaultValue || options[0].value
+    defaultValue || options[0].value,
   );
   const highlightRef = React.useRef<HTMLDivElement>(null);
   const labelsRef = React.useRef<(HTMLLabelElement | null)[]>([]);
@@ -96,7 +96,7 @@ export function MultiToggle({
       const left = Math.floor(selectedLabel.offsetLeft);
 
       highlightRef.current.style.width = `${width}px`;
-      highlightRef.current.style.transform = `translateX(${left}px)`;
+      highlightRef.current.style.transform = `trangrayX(${left}px)`;
     }
   };
 

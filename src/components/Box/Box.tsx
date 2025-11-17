@@ -1,37 +1,27 @@
-/** @jsxImportSource @emotion/react */
-import { css, Theme } from "@emotion/react";
-import * as React from "react";
+import React, {
+  type AriaAttributes,
+  type ComponentPropsWithoutRef,
+  type ElementType,
+  createElement,
+} from 'react';
+import { box, type BoxVariantProps } from '@styled-system/recipes';
+import type { SystemStyleObject } from '@styled-system/types';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
+/*
+ * Imports from recipes are placeholders for if we want to add some kind of styling to Box
+ */
+export type BoxProps = Omit<ComponentPropsWithoutRef<ElementType>, 'as'> &
+  SystemStyleObject &
+  BoxVariantProps & {
+    as?: ElementType;
+  } & AriaAttributes;
 
-export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
-  as?: React.ElementType;
-}
-
-const boxStyles = (theme: Theme) => css`
-  min-width: 0;
-  padding: ${theme.size[16]};
-`;
-
-const flexStyles = (theme: Theme) => css`
-  display: flex;
-  gap: ${theme.size[16]};
-`;
-
-const flexColumnStyles = css`
-  flex-direction: column;
-`;
-
-const Box = React.forwardRef<HTMLDivElement, BoxProps>(
-  ({ as: Component = "div", ...props }, ref) => {
-    return <Component ref={ref} css={boxStyles} {...props} />;
-  }
-);
-
-const Flex = React.forwardRef<HTMLDivElement, BoxProps>((props, ref) => (
-  <Box ref={ref} css={flexStyles} {...props} />
-));
-
-const FlexColumn = React.forwardRef<HTMLDivElement, BoxProps>((props, ref) => (
-  <Box ref={ref} css={[flexStyles, flexColumnStyles]} {...props} />
-));
-
-export { Box, Flex, FlexColumn };
+export const Box: React.FC<BoxProps> = ({ as = 'div', ...props }) => {
+  const [className, otherProps] = splitProps(props);
+  const comboClassName = cx(box({}), className);
+  return createElement(as, {
+    className: comboClassName,
+    ...otherProps,
+  });
+};
