@@ -2,33 +2,46 @@
   "name": "@okshaun/components",
   "private": false,
   "version": "0.1.0",
+  "description": "A comprehensive React component library with Panda CSS theming",
   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "panda": "npx panda codegen",
-    "dev": "npx panda codegen --watch & vite",
-    "build": "npx panda codegen && SKIP_OPEN=true npm run generate-sprite && vite build && SKIP_OPEN=true npm run generate-sprite && panda ship --outfile dist/panda.buildinfo.json",
-    "lint": "eslint .",
+    "dev": "npm run panda:watch & vite",
+    "build": "npm run panda && SKIP_OPEN=true npm run generate-sprite && vite build && npm run ship",
+    "ship": "panda ship --outfile dist/panda.buildinfo.json",
+    "panda": "panda codegen",
+    "panda:watch": "panda codegen --watch",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "generate-sprite": "node src/utils/generate-sprite.js",
+    "lint": "eslint .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "generate-sprite": "node src/utils/generate-sprite.js",
+    "prepublishOnly": "npm run build"
   },
   "files": [
-    "./dist/",
-    "./src/styles/*",
-    "./src/recipes/*",
-    "./src/tokens/*",
-    "./src/utils/*.ts"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
+  "keywords": [
+    "react",
+    "components",
+    "design-system",
+    "panda-css",
+    "ui-library",
+    "theme"
+  ],
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
   "dependencies": {
     "@fontsource-variable/piazzolla": "^5.1.1",
     "@fontsource/ibm-plex-mono": "^5.1.0",
     "@fontsource/ibm-plex-sans": "^5.1.0",
-    "date-fns": "^4.1.0",
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "date-fns": "^4.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
@@ -72,12 +85,23 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./preset": {
       "types": "./dist/preset.d.ts",
+      "import": "./dist/preset.js",
       "default": "./dist/preset.js"
     },
+    "./sprite.svg": "./dist/sprite.svg",
     "./panda.buildinfo.json": "./dist/panda.buildinfo.json"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaunrfox/okshaun-components.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shaunrfox/okshaun-components/issues"
+  },
+  "homepage": "https://github.com/shaunrfox/okshaun-components#readme"
 }
