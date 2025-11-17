@@ -47,15 +47,16 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           npm version ${{ inputs.version }} -m "chore: bump version to %s"
-          git push --follow-tags
 
       - name: Publish to NPM (using trusted publishing)
         run: npm publish --provenance --access public
 
-      - name: Get package version
+      - name: Push version bump and create release (if manual trigger)
         if: github.event_name == 'workflow_dispatch'
-        id: package-version
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+        run: |
+          git push --follow-tags
+          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+        id: version
 
       - name: Create GitHub Release (if manual trigger)
         if: github.event_name == 'workflow_dispatch'
@@ -63,7 +64,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.package-version.outputs.version }}
-          release_name: Release v${{ steps.package-version.outputs.version }}
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Release v${{ steps.version.outputs.version }}
           draft: false
           prerelease: false
