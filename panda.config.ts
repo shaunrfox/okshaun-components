@@ -1,5 +1,5 @@
 import { defineConfig } from '@pandacss/dev';
-import { okshaunPreset } from './okshaun-preset';
+import { okshaunPreset } from './preset';
 
 export default defineConfig({
   eject: true,
@@ -12,7 +12,7 @@ export default defineConfig({
   strictTokens: true,
   importMap: '@styled-system',
   outdir: 'styled-system',
-  prefix: 'okshaun',
+  prefix: 'oks',
 
   presets: ['@pandacss/dev/presets', okshaunPreset],
   include: ['./src/**/*.{js,jsx,ts,tsx}'],
