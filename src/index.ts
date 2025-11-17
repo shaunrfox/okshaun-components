@@ -7,6 +7,7 @@ export { Icon, IconNames } from './components/Icon';
 export { Pre } from './components/Code';
 export { Heading } from './components/Heading';
 export { Link } from './components/Link';
+export { Label } from './components/Label';
 export { Spinner } from './components/Spinner';
 export { Divider } from './components/Divider';
 export { Checkbox } from './components/Checkox';
