@@ -1,0 +1,12 @@
+import { Meta, StoryObj } from '@storybook/react';
+import { CheckboxInput } from './CheckboxInput';
+declare const meta: Meta<typeof CheckboxInput>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export declare const Default: Story;
+export declare const AllStates: Story;
+export declare const ExInteractive: Story;
+export declare const ExCheckboxGroup: Story;
+export declare const ExFormIntegration: Story;
+export declare const A11yAccessibilityCheck: Story;
+export declare const A11yKeyboardNavigation: Story;
