@@ -1,16 +1,15 @@
-import { BoxProps } from '../Box';
 import { IconButtonVariantProps } from '../../../styled-system/recipes';
 import { IconNamesList } from '../Icon';
 import * as React from 'react';
 /**
- * IconButtonProps is generic over an element type E (defaulting to 'button').
- * It extends BoxProps<E> (which already includes all intrinsic props, like onClick)
- * and the recipe variant props.
+ * IconButtonProps is generic and manages its own polymorphism.
+ * It includes props for the element type E (default "button") and IconButtonVariantProps.
  *
  * We've added a new optional prop 'iconName'. When provided (and if no children
  * are passed), IconButton will render the corresponding Icon automatically.
  */
-export type IconButtonProps<E extends React.ElementType = 'button'> = BoxProps<E> & IconButtonVariantProps & {
+export type IconButtonProps<E extends React.ElementType = 'button'> = React.ComponentPropsWithoutRef<E> & IconButtonVariantProps & {
+    as?: E;
     href?: string;
     loading?: boolean;
     loadingText?: React.ReactNode;
@@ -24,7 +23,7 @@ export type IconButtonProps<E extends React.ElementType = 'button'> = BoxProps<E
  */
 type IconButtonComponent = <E extends React.ElementType = 'button'>(props: IconButtonProps<E> & {
     ref?: React.ForwardedRef<Element>;
-}) => JSX.Element;
+}) => React.ReactElement;
 /**
  * The IconButton component builds on Box.
  * It automatically renders as a "button" (or an "a" if an href is provided)

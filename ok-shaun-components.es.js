@@ -1715,9 +1715,11 @@ const w0 = {
     {
       as: t,
       className: _(
-        i6({ family: o, bold: e, underline: r, italic: a, size: s, weight: n }),
+        i6({ family: o, bold: e, underline: r, italic: a }),
         w
       ),
+      fontSize: s,
+      fontWeight: n,
       ...p,
       children: i
     }
@@ -2270,7 +2272,9 @@ const P = ({
       target: a ? "_blank" : void 0,
       rel: a ? "noopener noreferrer" : void 0,
       "aria-disabled": o,
-      className: _(e6({ family: s, italic: i, bold: h, size: r, weight: n }), p),
+      className: _(e6({ family: s, italic: i, bold: h }), p),
+      fontSize: r,
+      fontWeight: n,
       onClick: g,
       ...x,
       children: [
@@ -2390,25 +2394,24 @@ const P = ({
     }
   );
 }, d5 = ({
-  size: t,
-  error: a,
-  autoSize: o = !1,
-  id: e,
-  name: r,
-  disabled: s,
-  ...n
+  error: t,
+  autoSize: a = !1,
+  id: o,
+  name: e,
+  disabled: r,
+  ...s
 }) => {
-  const [i, h] = S(n);
+  const [n, i] = S(s);
   return /* @__PURE__ */ l(
     v,
     {
       as: "textarea",
-      id: e,
-      name: r,
-      ...a && { "data-error": !0 },
-      "aria-disabled": s,
-      className: _(d6({ size: t, autoSize: o }), i),
-      ...h
+      id: o,
+      name: e,
+      ...t && { "data-error": !0 },
+      "aria-disabled": r,
+      className: _(d6({ autoGrow: a }), n),
+      ...i
     }
   );
 };
@@ -2951,6 +2954,7 @@ const B5 = ({
                     o === "multi-select" && e === "checkbox" && !(c != null && c.link) && /* @__PURE__ */ l(
                       n2,
                       {
+                        name: m.id,
                         checked: L,
                         onChange: () => N(m.id)
                       }
