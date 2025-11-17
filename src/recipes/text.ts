@@ -1,5 +1,4 @@
 import { defineRecipe } from '@pandacss/dev';
-import { fontSizes, fontWeights } from '~/styles/tokens';
 
 const textBase = {
   margin: '0',

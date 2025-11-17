@@ -12,7 +12,7 @@ export const splitProps = (
 
   const mergedClassName = cx(existingClassName, generatedClassName);
 
-  const { className, ...remainingProps } = otherProps;
+  const { className: _className, ...remainingProps } = otherProps;
 
   return [mergedClassName, remainingProps];
 };

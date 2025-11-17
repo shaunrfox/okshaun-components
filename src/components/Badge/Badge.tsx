@@ -32,7 +32,7 @@ export const Badge = React.forwardRef(
     ref: React.ForwardedRef<Element>,
   ) => {
     return (
-      // @ts-ignore
+      // @ts-expect-error - Polymorphic type inference issue
       <Box
         as={'span' as E}
         ref={ref as React.ForwardedRef<any>}

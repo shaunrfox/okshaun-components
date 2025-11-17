@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode: _mode }) => {
   const isGitHubPages = !!process.env.GH_REPO;
 
   if (isGitHubPages) {

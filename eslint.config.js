@@ -6,12 +6,19 @@ import reactPlugin from 'eslint-plugin-react';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  {
+    ignores: [
+      'dist',
+      'styled-system',
+      'storybook-static',
+      '**/*.stories.tsx',
+      '.storybook',
+    ],
+  },
   {
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
-      'plugin:prettier/recommended',
     ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -32,7 +39,6 @@ export default tseslint.config(
       react: reactPlugin,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      prettier: 'prettier',
     },
     settings: {
       react: {
@@ -45,7 +51,15 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-      'prettier/prettier': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 );

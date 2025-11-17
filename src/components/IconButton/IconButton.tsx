@@ -71,7 +71,7 @@ export const IconButton = React.forwardRef(
       children ?? (iconName ? <Icon name={iconName} size={iconSize} /> : null);
 
     return (
-      // @ts-ignore
+      // @ts-expect-error - Polymorphic type inference issue
       <Box
         as={asComponent as E}
         ref={ref as React.ForwardedRef<any>}

@@ -52,7 +52,7 @@ export const Button = React.forwardRef(
     const asComponent = href ? 'a' : 'button';
 
     return (
-      // @ts-ignore
+      // @ts-expect-error - Polymorphic type inference issue
       <Box
         as={asComponent as E}
         ref={ref as React.ForwardedRef<any>}

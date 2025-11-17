@@ -1,4 +1,4 @@
-import { defineRecipe, defineStyles } from '@pandacss/dev';
+import { defineRecipe } from '@pandacss/dev';
 
 const baseButtonStyles = {
   position: 'relative',

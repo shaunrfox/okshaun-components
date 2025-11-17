@@ -31,7 +31,7 @@ const transformedRecipes = Object.fromEntries(
 
 // https://panda-css.com/docs/concepts/extend#removing-something-from-the-base-presets
 // omit default patterns here
-const { box, divider, ...pandaBasePresetPatterns } = pandaBasePreset.patterns;
+const { box: _box, divider: _divider, ...pandaBasePresetPatterns } = pandaBasePreset.patterns;
 const pandaBasePresetConditions = pandaBasePreset.conditions;
 const pandaBasePresetUtilities = pandaBasePreset.utilities;
 const pandaBasePresetGlobalCss = pandaBasePreset.globalCss;
