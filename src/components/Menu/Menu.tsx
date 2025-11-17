@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Text } from '../Text';
 import { Divider } from '../Divider';
 import { Icon, type IconNamesList } from '../Icon';
-import { Checkbox } from '../Checkbox';
+import { Checkbox } from '../Checkox';
 import { Toggle } from '../Toggle';
 import { Link } from '../Link';
 

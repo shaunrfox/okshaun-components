@@ -1,14 +1,13 @@
 import { splitProps } from '~/utils/splitProps';
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactNode, ChangeEventHandler } from 'react';
 import { cx } from '@styled-system/css';
 import { type BoxProps } from '../Box';
 import { Label } from '../Label';
-import { Checkbox } from '../Checkbox/Checkbox';
+import { Checkbox } from '../Checkox';
 import {
   checkboxInput,
   type CheckboxInputVariantProps,
 } from '@styled-system/recipes';
-import { Text } from '../Text';
 
 export type CheckboxInputProps = BoxProps &
   CheckboxInputVariantProps & {
@@ -16,6 +15,8 @@ export type CheckboxInputProps = BoxProps &
     id?: string;
     error?: boolean;
     children?: string | ReactNode;
+    checked: boolean;
+    onChange: ChangeEventHandler<HTMLInputElement>;
   };
 
 export const CheckboxInput: FC<CheckboxInputProps> = ({
@@ -24,6 +25,8 @@ export const CheckboxInput: FC<CheckboxInputProps> = ({
   children,
   error,
   indeterminate,
+  checked,
+  onChange,
   ...props
 }: CheckboxInputProps) => {
   const [className, otherProps] = splitProps(props);
@@ -36,16 +39,13 @@ export const CheckboxInput: FC<CheckboxInputProps> = ({
       <Checkbox
         id={id}
         name={name}
-        labelledby={id ? `${id}-description` : undefined}
-        {...(error && { 'data-error': true })}
-        {...(indeterminate && { 'data-indeterminate': true })}
+        error={error}
+        checked={checked}
+        onChange={onChange}
+        indeterminate={indeterminate}
         {...props}
       />
-      {children && (
-        <Text as="span" id={`${id}-description`}>
-          {children}
-        </Text>
-      )}
+      {children}
     </Label>
   );
 };

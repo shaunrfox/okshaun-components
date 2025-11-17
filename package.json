@@ -1,12 +1,12 @@
 {
-  "name": "ok-shaun-components",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@okshaun/components",
+  "private": false,
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "panda": "npx panda codegen",
     "dev": "npx panda codegen --watch & vite",
-    "build": "npx panda codegen && vite build && npm run generate-sprite",
+    "build": "npx panda codegen && vite build && SKIP_OPEN=true npm run generate-sprite && panda ship --outfile dist/panda.buildinfo.json",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
@@ -68,5 +68,16 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./okshaun-preset": {
+      "types": "./dist/okshaun-preset.d.ts",
+      "default": "./dist/okshaun-preset.js"
+    },
+    "./panda.buildinfo.json": "./dist/panda.buildinfo.json"
   }
 }

@@ -13,7 +13,7 @@ export default defineConfig({
         filePath: filePath.replace('src/components/**/*.d.ts', 'index.d.ts'),
         content,
       }),
-      include: ['src/components/**/*.tsx'],
+      include: ['src/components/**/*.tsx', 'okshaun-preset.ts'],
       outDir: 'dist',
     }),
   ],
@@ -29,9 +29,17 @@ export default defineConfig({
     : {
         build: {
           lib: {
-            name: 'okShaunComponents',
-            fileName: (format) => `ok-shaun-components.${format}.js`,
-            entry: resolve(__dirname, 'src/index.ts'),
+            name: 'okshaunComponents',
+            fileName: (format, entryName) => {
+              if (entryName === 'okshaun-preset') {
+                return 'okshaun-preset.js';
+              }
+              return `okshaun-components.${format}.js`;
+            },
+            entry: {
+              index: resolve(__dirname, 'src/index.ts'),
+              'okshaun-preset': resolve(__dirname, 'okshaun-preset.ts'),
+            },
             formats: ['es'],
           },
           rollupOptions: {

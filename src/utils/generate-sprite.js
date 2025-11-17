@@ -183,7 +183,16 @@ async function main() {
 
     // log link to sprite.symbol.html using absolute path
     const spritePath = path.resolve(dirs.spriteOutput, 'sprite.symbol.html');
-    exec(`open ${spritePath}`);
+    // if running build, don't open the sprite
+    if (
+      process.env.SKIP_OPEN ||
+      process.env.NODE_ENV === 'production' ||
+      process.env.CI
+    ) {
+      console.log(`Sprite generated at ${spritePath}`);
+    } else {
+      exec(`open ${spritePath}`);
+    }
   } catch (error) {
     console.error('Error generating SVG sprite:', error);
     process.exit(1);

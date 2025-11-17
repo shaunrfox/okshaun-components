@@ -22,7 +22,7 @@ import { Tag } from '~/components/Tag';
 import { TextInput } from '~/components/TextInput';
 import { Toggle } from '~/components/Toggle';
 import { Tooltip } from '~/components/Tooltip';
-import { Checkbox } from '~/components/Checkbox';
+import { Checkbox } from '~/components/Checkox';
 import { CheckboxInput } from '~/components/CheckboxInput';
 
 export function IconList() {
@@ -84,7 +84,7 @@ function AppContent() {
               textTransform={'uppercase'}
               fontWeight={'bold'}
             >
-              Ok Shaun Componentz
+              okshaun Components
             </Text>
             <ThemeSwitcher />
           </HStack>

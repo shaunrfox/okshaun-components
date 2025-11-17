@@ -41,7 +41,7 @@ export const IconNames = {
   'bookmark': 'bookmark',
   'bookmarks': 'bookmarks',
   'broadcast': 'broadcast',
-  'building': 'building',
+  'Building': 'Building',
   'calendar-add': 'calendar-add',
   'calendar-view-day': 'calendar-view-day',
   'calendar-view-month': 'calendar-view-month',

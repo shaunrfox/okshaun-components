@@ -54,8 +54,8 @@ const theme = {
   }),
 };
 
-export const okShaunPreset = definePreset({
-  name: 'okShaunPreset',
+export const okshaunPreset = definePreset({
+  name: 'okshaunPreset',
   theme: {
     extend: {
       tokens: {

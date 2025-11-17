@@ -9,7 +9,7 @@ export { Heading } from './components/Heading';
 export { Link } from './components/Link';
 export { Spinner } from './components/Spinner';
 export { Divider } from './components/Divider';
-export { Checkbox } from './components/Checkbox';
+export { Checkbox } from './components/Checkox';
 export { Radio } from './components/Radio';
 export { TextInput } from './components/TextInput';
 export { Textarea } from './components/Textarea';
