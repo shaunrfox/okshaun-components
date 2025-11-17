@@ -1,4 +1,5 @@
 import React, {
+  type AriaAttributes,
   type ComponentPropsWithoutRef,
   type ElementType,
   createElement,
@@ -14,7 +15,7 @@ export type BoxProps = Omit<ComponentPropsWithoutRef<ElementType>, 'as'> &
   SystemStyleObject &
   BoxVariantProps & {
     as?: ElementType;
-  };
+  } & AriaAttributes;
 
 export const Box: React.FC<BoxProps> = ({ as = 'div', ...props }) => {
   const [className, otherProps] = splitProps(props);

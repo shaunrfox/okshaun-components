@@ -49,5 +49,14 @@
       "@styled-system/*": ["./styled-system/*"]
     }
   },
-  "include": ["src", "styled-system"]
+  "include": ["src", "styled-system"],
+  "exclude": [
+    "src/components/Dropdown/**",
+    "src/components/Select/**",
+    "src/components/Rule/**",
+    "src/components/MultiToggle/**",
+    "src/components/Icon/Icon.stories.tsx",
+    "src/components/Button/Button.stories.tsx",
+    "src/components/Code/copy-to-clipboard-button.tsx"
+  ]
 }

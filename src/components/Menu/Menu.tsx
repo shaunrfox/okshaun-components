@@ -174,6 +174,7 @@ export const Menu: React.FC<MenuProps> = ({
                       multiSelectType === 'checkbox' &&
                       !section?.link && (
                         <Checkbox
+                          name={item.id}
                           checked={isSelected}
                           onChange={() => handleSelect(item.id)}
                         />

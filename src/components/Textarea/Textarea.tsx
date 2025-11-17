@@ -13,7 +13,6 @@ export type TextareaProps = Omit<BoxProps, keyof TextareaVariantProps> &
   };
 
 export const Textarea: React.FC<TextareaProps> = ({
-  size,
   error,
   autoSize = false,
   id,
@@ -29,7 +28,7 @@ export const Textarea: React.FC<TextareaProps> = ({
       name={name}
       {...(error && { 'data-error': true })}
       aria-disabled={disabled}
-      className={cx(textarea({ size, autoSize }), className)}
+      className={cx(textarea({ autoGrow: autoSize }), className)}
       {...otherProps}
     ></Box>
   );

@@ -1,6 +1,6 @@
 import { Box, type BoxProps } from '../Box';
 import { tooltip, type TooltipVariantProps } from '@styled-system/recipes';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { Text } from '../Text';
 
 export type Position =

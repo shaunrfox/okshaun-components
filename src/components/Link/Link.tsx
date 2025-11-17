@@ -51,7 +51,9 @@ export const Link: React.FC<LinkProps> = ({
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
       aria-disabled={disabled}
-      className={cx(link({ family, italic, bold, size, weight }), className)}
+      className={cx(link({ family, italic, bold }), className)}
+      fontSize={size}
+      fontWeight={weight}
       onClick={handleClick}
       {...otherProps}
     >
