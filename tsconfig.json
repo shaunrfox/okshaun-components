@@ -51,6 +51,7 @@
   },
   "include": ["src", "styled-system"],
   "exclude": [
+    "src/App.tsx",
     "src/components/Dropdown/**",
     "src/components/Select/**",
     "src/components/Rule/**",
