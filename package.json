@@ -6,7 +6,7 @@
   "scripts": {
     "panda": "npx panda codegen",
     "dev": "npx panda codegen --watch & vite",
-    "build": "npx panda codegen && vite build && SKIP_OPEN=true npm run generate-sprite && panda ship --outfile dist/panda.buildinfo.json",
+    "build": "npx panda codegen && SKIP_OPEN=true npm run generate-sprite && vite build && SKIP_OPEN=true npm run generate-sprite && panda ship --outfile dist/panda.buildinfo.json",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
