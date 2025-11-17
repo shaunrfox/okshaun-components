@@ -23,6 +23,7 @@ import { TextInput } from '~/components/TextInput';
 import { Toggle } from '~/components/Toggle';
 import { Tooltip } from '~/components/Tooltip';
 import { Checkbox } from '~/components/Checkbox';
+import { CheckboxInput } from '~/components/CheckboxInput';
 
 export function IconList() {
   return (
@@ -404,6 +405,25 @@ function AppContent() {
                 <Checkbox name="checkbox1" />
                 <Text ml={'8'}>Default Checkbox</Text>
               </Label>
+            </VStack>
+          </Section>
+          <Section>
+            <Heading level="h2">Checkbox Input</Heading>
+            <VStack gap={'8'} alignItems={'flex-start'} maxW={'280'}>
+              <CheckboxInput name="normal">Aliqua irure veniam</CheckboxInput>
+              <CheckboxInput defaultChecked={true} name="default-checked">
+                elit consectetur elit cillum non eu laborum aute
+              </CheckboxInput>
+              <CheckboxInput indeterminate name="indeterminate">
+                Ut fugiat tempor ullamco voluptate dolor labore amet magna irure
+                reprehenderit est irure est anim eiusmod commodo tempor eu ut.
+              </CheckboxInput>
+              <CheckboxInput error name="error">
+                et qui sit
+              </CheckboxInput>
+              <CheckboxInput disabled name="disabled">
+                aliquip velit anim irure
+              </CheckboxInput>
             </VStack>
           </Section>
           <Section>

@@ -29,7 +29,7 @@ export const checkboxRecipe = defineSlotRecipe({
       _checked: {
         "& ~ [name='checkbox-checked']": {
           display: 'inline-grid',
-          fill: { base: 'gray.90', _dark: 'gray.0' },
+          fill: { base: 'slate.90', _dark: 'slate.0' },
         },
         "& ~ [name='checkbox']": {
           display: 'none',
@@ -38,7 +38,7 @@ export const checkboxRecipe = defineSlotRecipe({
       _indeterminate: {
         "& ~ [name='checkbox-indeterminate']": {
           display: 'inline-grid',
-          fill: { base: 'gray.90', _dark: 'gray.0' },
+          fill: { base: 'slate.90', _dark: 'slate.0' },
           _disabled: {},
         },
         "& ~ [name='checkbox']": {
@@ -63,7 +63,7 @@ export const checkboxRecipe = defineSlotRecipe({
         "& ~ [name='checkbox-focus']": {
           display: 'inline-grid',
           position: 'absolute',
-          fill: { base: 'gray.90', _dark: 'gray.1' },
+          fill: { base: 'slate.90', _dark: 'slate.1' },
         },
       },
     },
@@ -72,9 +72,9 @@ export const checkboxRecipe = defineSlotRecipe({
       display: 'none',
       width: 24,
       height: 24,
-      "& ~ [name='checkbox']": {
+      "&:is([name='checkbox'])": {
         display: 'inline-grid',
-        fill: { base: 'gray.30', _dark: 'gray.20' },
+        fill: { base: 'slate.30', _dark: 'slate.20' },
       },
     },
   },
