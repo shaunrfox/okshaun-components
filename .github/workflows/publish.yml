@@ -17,7 +17,6 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    environment: npm
     permissions:
       contents: write
       id-token: write # Required for provenance
