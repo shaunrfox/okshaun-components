@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Storybook build output
+storybook-static
+
+# npm pack output
+*.tgz
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

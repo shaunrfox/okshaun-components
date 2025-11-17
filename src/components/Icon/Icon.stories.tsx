@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import type { Meta, StoryObj } from '@storybook/react';
 import { Icon, IconNames } from '.';
 import { IconGallery, IconItem } from '@storybook/blocks';

@@ -28,13 +28,18 @@ This is a React component library built with **Panda CSS** for styling and **Vit
 
 - `npm run generate-sprite` - Generate SVG sprite from `src/utils/svgsSource/*.svg`
   - Optimizes SVGs with SVGO
-  - Creates sprite at `dist/sprite.svg`
+  - Generates `src/utils/spriteContent.ts` with bundled sprite data
   - Generates TypeScript types at `src/components/Icon/icons.d.ts` and `iconNames.ts`
-  - Opens preview HTML automatically
+  - Sprite is automatically injected into DOM when first Icon component renders
 
-### Deployment
+### Package & Publishing
 
-- `npm run deploy` - Deploy to GitHub Pages
+- `npm run build` - Build library for npm distribution
+  - Outputs: `dist/index.js`, `dist/preset.js`, type definitions, source maps
+  - Sprite content is bundled with components (no separate sprite.svg file)
+- `npm pack` - Create .tgz file for local testing
+- `npm run ship` - Generate `panda.buildinfo.json` for consuming apps
+- Publishing handled via GitHub Actions (see `.github/workflows/publish.yml`)
 
 ## Architecture
 
@@ -138,27 +143,60 @@ const { theme, setTheme } = useTheme();
 
 ### Icon System
 
-Icons use an SVG sprite workflow:
+Icons use a **bundled SVG sprite** workflow:
 
 1. Source SVGs in `src/utils/svgsSource/`
 2. Run `npm run generate-sprite` to:
    - Optimize SVGs (removes fill/stroke, adds 24x24 dimensions)
-   - Create sprite at `dist/sprite.svg`
-   - Generate TypeScript types for icon names
-3. Use `Icon` component with type-safe icon names
+   - Generate `src/utils/spriteContent.ts` with sprite data as JavaScript string
+   - Generate TypeScript types for icon names (`icons.d.ts`, `iconNames.ts`)
+3. **Sprite injection**:
+   - `src/utils/injectSprite.ts` imports `spriteContent.ts`
+   - Icon component calls `injectSprite()` on first render
+   - Sprite is bundled with the library - no separate file needed by consuming apps
+4. Use `Icon` component with type-safe icon names
+
+**Why bundled instead of separate file?**
+- Reduces HTTP requests for consuming apps
+- Self-contained distribution
+- Automatic setup - works out of the box
 
 ### Build Configuration
 
+The Vite configuration (`vite.config.ts`) has two modes:
+
 #### Library Mode (default)
 
-- Entry: `src/index.ts`
-- Output: ES module at `dist/okshaun-components.es.js`
-- Externals: react, react-dom, react/jsx-runtime
-- Includes TypeScript declarations via `vite-plugin-dts`
+Builds the distributable npm package:
+
+- **Entry points**:
+  - `src/index.ts` → `dist/index.js` (components)
+  - `preset.ts` → `dist/preset.js` (Panda CSS preset)
+- **Externals**: `react`, `react-dom`, `react/jsx-runtime`, `@pandacss/dev`
+- **Output**: ES modules with TypeScript declarations
+- **Bundling**: `preserveModules: false` (fully bundled)
+- **Source maps**: Enabled for debugging
+- **TypeScript**: Generated via `vite-plugin-dts` with rollup
+
+**Distribution structure**:
+```
+dist/
+  ├── index.js          # Components bundle (252 KB)
+  ├── index.d.ts        # Component types
+  ├── index.js.map      # Source map
+  ├── preset.js         # Panda preset (144 KB)
+  ├── preset.d.ts       # Preset types
+  ├── preset.js.map     # Source map
+  └── panda.buildinfo.json  # For consuming apps
+```
 
 #### GitHub Pages Mode
 
-When `GH_REPO` env var is set, builds as demo app instead of library.
+When `GH_REPO` env var is set (e.g., via GitHub Actions):
+
+- Builds Storybook for documentation
+- Deployed to GitHub Pages on push to main
+- See `.github/workflows/deploy.yml`
 
 ### TypeScript Configuration
 
@@ -167,14 +205,84 @@ When `GH_REPO` env var is set, builds as demo app instead of library.
 - Module resolution: `bundler` mode
 - Path aliases match Vite configuration
 
+### Package Distribution
+
+**package.json exports**:
+```json
+{
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./preset": {
+      "types": "./dist/preset.d.ts",
+      "import": "./dist/preset.js",
+      "default": "./dist/preset.js"
+    },
+    "./panda.buildinfo.json": "./dist/panda.buildinfo.json"
+  },
+  "files": ["dist", "README.md", "LICENSE"]
+}
+```
+
+**Consuming apps import**:
+```typescript
+// Components
+import { Button, Box, Text, Icon } from '@okshaun/components'
+
+// Theme
+import { ThemeProvider, useTheme, type Theme } from '@okshaun/components'
+
+// Panda preset
+import { okshaunPreset } from '@okshaun/components/preset'
+```
+
+**Key exports from `src/index.ts`**:
+- All components (Button, Box, Text, Icon, etc.)
+- Theme utilities: `ThemeProvider`, `useTheme`, `Theme` type
+- Icon utilities: `Icon`, `IconNames`
+
+## GitHub Actions Workflows
+
+### `.github/workflows/publish.yml` - NPM Publishing
+
+Publishes to npm when:
+- A GitHub release is created (automatic)
+- Manually triggered via workflow dispatch (with version bump option)
+
+**Setup required**:
+1. Create NPM granular access token with "Read and write" permissions
+2. Add to GitHub secrets as `NPM_TOKEN`
+3. Verify package name `@okshaun/components` is available
+
+**Manual publish**:
+- Go to Actions → "Publish to NPM" → Run workflow
+- Select version bump: patch, minor, or major
+- Workflow creates git tag, commits version, and publishes
+
+### `.github/workflows/deploy.yml` - Storybook Deployment
+
+Deploys Storybook to GitHub Pages on push to main:
+- Runs `panda codegen` to generate styles
+- Builds Storybook static site
+- Deploys to GitHub Pages
+
+**View deployed Storybook**: https://shaunrfox.github.io/okshaun-components
+
 ## Key Design Decisions
 
 1. **Panda CSS over other solutions**: Build-time CSS extraction, type-safe tokens, recipe system
 2. **Polymorphic components**: All components can render as different elements via `as` prop
 3. **Recipe-first styling**: Components use recipes, style props are supplementary
 4. **Theme via CSS custom properties**: Panda handles theme switching via CSS variables
-5. **SVG sprites over individual imports**: Better performance, single HTTP request
+5. **Bundled sprite over separate file**: Sprite content embedded in JS bundle for self-contained distribution
 6. **Strict TypeScript**: Catch errors early, especially with `noUncheckedIndexedAccess`
+7. **Peer dependencies for React**: Consuming apps provide React, reducing bundle duplication
 
 ## Important Workflows
 
@@ -198,8 +306,49 @@ When `GH_REPO` env var is set, builds as demo app instead of library.
 ### Adding Icons
 
 1. Place optimized SVG in `src/utils/svgsSource/`
-2. Run `npm run generate-sprite`
+2. Run `npm run generate-sprite` to:
+   - Generate `src/utils/spriteContent.ts` with new sprite data
+   - Update type definitions (`icons.d.ts`, `iconNames.ts`)
 3. Icon name is auto-generated as type-safe string literal
+4. **Important**: Sprite content is bundled with the library, so:
+   - No need to copy sprite files in consuming apps
+   - Icons work automatically when library is imported
+   - Rebuild library (`npm run build`) to include new icons in distribution
+
+### Testing the Package Locally
+
+Before publishing to npm, test the package in a local project:
+
+1. **Build the package**:
+   ```bash
+   npm run build
+   ```
+
+2. **Create test tarball**:
+   ```bash
+   npm pack
+   # Creates: okshaun-components-0.1.0.tgz
+   ```
+
+3. **Install in test project**:
+   ```bash
+   # In your test project
+   npm install /path/to/okshaun-components/okshaun-components-0.1.0.tgz
+   ```
+
+4. **Clear cache and test**:
+   ```bash
+   # Clear Vite cache
+   rm -rf node_modules/.vite
+
+   # Test the components
+   npm run dev
+   ```
+
+5. **Common issues**:
+   - Missing exports: Check `src/index.ts` exports
+   - Type errors: Rebuild with `npm run build` to regenerate `.d.ts` files
+   - Import errors: Verify package.json `exports` field
 
 ## Testing Component Changes
 

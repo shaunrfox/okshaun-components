@@ -20,7 +20,7 @@ export { ToggleInput } from './components/ToggleInput';
 export { RadioInput } from './components/RadioInput';
 export { CheckboxInput } from './components/CheckboxInput';
 export { ThemeSwitcher } from './components/ThemeSwitcher';
-export { ThemeProvider } from './contexts/ThemeContext';
+export { ThemeProvider, useTheme, type Theme } from './contexts/ThemeContext';
 export { Tooltip } from './components/Tooltip';
 export { Breadcrumbs } from './components/Breadcrumbs';
 export { Tag } from './components/Tag';
