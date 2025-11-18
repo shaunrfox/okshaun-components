@@ -3,7 +3,18 @@ import React from 'react';
 import { ThemeProvider } from '../src/contexts/ThemeContext';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
-// Import Panda CSS layers and fonts
+// Import fonts for Storybook
+import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/ibm-plex-sans/400-italic.css';
+import '@fontsource/ibm-plex-sans/500.css';
+import '@fontsource/ibm-plex-sans/500-italic.css';
+import '@fontsource/ibm-plex-sans/700.css';
+import '@fontsource/ibm-plex-sans/700-italic.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource-variable/piazzolla/index.css';
+
+// Import Panda CSS layers
 import '../src/styles/index.css';
 
 const preview: Preview = {

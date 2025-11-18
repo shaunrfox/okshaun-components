@@ -200,7 +200,10 @@ export const colors = {
 
 export const fonts = {
   sans: { value: "'IBM Plex Sans', Geneva, Tahoma, Verdana, sans-serif" },
-  serif: { value: "'Piazzolla', Georgia, 'Times New Roman', Times, serif" },
+  serif: {
+    value:
+      "'Piazzolla Variable', 'Piazzolla', Georgia, 'Times New Roman', Times, serif",
+  },
   mono: {
     value:
       "'IBM Plex Mono', Andale Mono, monaco, Consolas, Lucida Console, monospace",

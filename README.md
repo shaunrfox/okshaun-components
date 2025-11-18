@@ -338,6 +338,88 @@ const styles = css({
 })
 ```
 
+## Fonts
+
+The preset includes **IBM Plex Sans**, **IBM Plex Mono**, and **Piazzolla Variable** as the default font families. These fonts are **optional peer dependencies** - you can choose to use them or override with your own fonts.
+
+### Option 1: Use Default Fonts
+
+Install the font packages:
+
+```bash
+npm install @fontsource/ibm-plex-sans @fontsource/ibm-plex-mono @fontsource-variable/piazzolla
+```
+
+Import them in your app entry file (e.g., `src/main.tsx`):
+
+```typescript
+// Import default fonts
+import '@fontsource/ibm-plex-sans/400.css'
+import '@fontsource/ibm-plex-sans/400-italic.css'
+import '@fontsource/ibm-plex-sans/500.css'
+import '@fontsource/ibm-plex-sans/500-italic.css'
+import '@fontsource/ibm-plex-sans/700.css'
+import '@fontsource/ibm-plex-sans/700-italic.css'
+import '@fontsource/ibm-plex-mono/400.css'
+import '@fontsource/ibm-plex-mono/600.css'
+import '@fontsource-variable/piazzolla/index.css'
+```
+
+### Option 2: Use Custom Fonts
+
+Override the font tokens in your `panda.config.ts`:
+
+```typescript
+import { defineConfig } from '@pandacss/dev'
+import { okshaunPreset } from '@okshaun/components/preset'
+
+export default defineConfig({
+  presets: [okshaunPreset],
+  theme: {
+    extend: {
+      tokens: {
+        fonts: {
+          sans: { value: "'Inter', sans-serif" },
+          serif: { value: "'Merriweather', serif" },
+          mono: { value: "'Fira Code', monospace" }
+        }
+      }
+    }
+  }
+})
+```
+
+Then load your custom fonts using your preferred method:
+- `@fontsource` packages: `npm install @fontsource/inter`
+- Google Fonts CDN
+- Self-hosted font files
+
+### Option 3: Use System Fonts
+
+For minimal bundle size, use system fonts:
+
+```typescript
+theme: {
+  extend: {
+    tokens: {
+      fonts: {
+        sans: {
+          value: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui, sans-serif"
+        },
+        serif: {
+          value: "ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif"
+        },
+        mono: {
+          value: "ui-monospace, 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace"
+        }
+      }
+    }
+  }
+}
+```
+
+No additional font packages needed!
+
 ## Development
 
 ### Prerequisites
