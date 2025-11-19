@@ -10,6 +10,8 @@ const textBase = {
 
 const textVariants = {
   family: {
+    heading: { fontFamily: 'heading' },
+    body: { fontFamily: 'body' },
     sans: { fontFamily: 'sans' },
     serif: { fontFamily: 'serif' },
     mono: { fontFamily: 'mono' },
@@ -122,7 +124,7 @@ export const linkRecipe = defineRecipe({
   base: linkBase,
   variants: linkVariants,
   defaultVariants: {
-    family: 'sans',
+    family: 'body',
   },
 });
 
@@ -132,6 +134,6 @@ export const labelRecipe = defineRecipe({
   base: labelBase,
   variants: labelVariants,
   defaultVariants: {
-    family: 'sans',
+    family: 'body',
   },
 });

@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { cx } from '@styled-system/css';
+import { Grid, HStack } from '@styled-system/jsx';
+import { Spinner } from '~/components/Spinner';
 import { Box } from '~/components/Box';
 import { button, type ButtonVariantProps } from '@styled-system/recipes';
-import { ButtonContent } from './ButtonContent';
+import { Icon, type IconNamesList } from '~/components/Icon';
 
 /**
  * ButtonProps is generic and manages its own polymorphism.
  * It includes props for the element type E (default "button") and ButtonVariantProps.
  * This means that any prop accepted by the underlying element (e.g. onClick) is automatically allowed.
  */
-export type ButtonProps<E extends React.ElementType = 'button'> =
-  React.ComponentPropsWithoutRef<E> &
+export type ButtonProps<E extends React.ElementType = 'button'> = React.ComponentPropsWithoutRef<E> &
   ButtonVariantProps & {
     as?: E;
     href?: string;
@@ -18,6 +19,8 @@ export type ButtonProps<E extends React.ElementType = 'button'> =
     className?: string;
     children?: React.ReactNode;
     disabled?: boolean;
+    iconBefore?: IconNamesList;
+    iconAfter?: IconNamesList;
   };
 
 /**
@@ -35,21 +38,12 @@ type ButtonComponent = <E extends React.ElementType = 'button'>(
  */
 export const Button = React.forwardRef(
   <E extends React.ElementType = 'button'>(
-    {
-      variant,
-      size,
-      href,
-      className,
-      children,
-      loading,
-      disabled,
-      ...props
-    }: ButtonProps<E>,
+    { appearance, size, href, className, children, loading, disabled, iconBefore, iconAfter, ...props }: ButtonProps<E>,
     ref: React.ForwardedRef<Element>,
   ) => {
     const trulyDisabled = loading || disabled;
-    // Decide which element to render based on whether href is provided.
     const asComponent = href ? 'a' : 'button';
+    const classes = button({ appearance, size });
 
     return (
       // @ts-expect-error - Polymorphic type inference issue
@@ -59,17 +53,21 @@ export const Button = React.forwardRef(
         href={href}
         disabled={trulyDisabled}
         aria-disabled={trulyDisabled}
-        // Merge the classes from:
-        // 1. The button recipe (for variant and size)
-        // 2. The result of css(props) (for any extra style props)
-        // 3. Any extra className passed in
-        className={cx(button({ variant, size }), className)}
-        // Add "type" attribute when rendering a button
+        className={cx(classes.container, className)}
         type={asComponent === 'button' ? 'button' : undefined}
         {...props}
       >
         <>
-          <ButtonContent loading={!!loading}>{children}</ButtonContent>
+          <HStack gap="2" opacity={loading ? 0 : 1}>
+            {iconBefore && <Icon name={iconBefore} className={classes.icon} />}
+            {children}
+            {iconAfter && <Icon name={iconAfter} className={classes.icon} />}
+          </HStack>
+          {loading && (
+            <Grid position="absolute" top="0" left="0" right="0" bottom="0" placeItems="center">
+              <Spinner />
+            </Grid>
+          )}
         </>
       </Box>
     );

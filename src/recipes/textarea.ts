@@ -9,11 +9,11 @@ export const textareaRecipe = defineRecipe({
     verticalAlign: 'top',
     alignItems: 'center',
     padding: '0',
-    fontFamily: 'sans',
+    fontFamily: 'body',
     fontSize: '16',
     fontWeight: 'normal',
     lineHeight: 'normal',
-    color: { base: 'gray.90', _osDark: 'gray.5' },
+    color: { base: 'gray.90', _dark: 'gray.5' },
     borderRadius: '8',
     // transitionDuration: 'fast',
     // transitionProperty: 'background, border-color, color, box-shadow',
@@ -53,7 +53,7 @@ export const textareaRecipe = defineRecipe({
       //   },
       // },
       // _placeholder: {
-      //   color: { base: 'gray.50', _osDark: 'gray.60' },
+      //   color: { base: 'gray.50', _dark: 'gray.60' },
       //   opacity: 'full',
       // },
     },
@@ -81,13 +81,13 @@ export const textareaRecipe = defineRecipe({
           gridArea: '2 / 1',
         },
         '& textarea': {
-          background: { base: 'gray.0', _osDark: 'gray.90' },
-          borderColor: { base: 'gray.40', _osDark: 'gray.50' },
+          background: { base: 'gray.0', _dark: 'gray.90' },
+          borderColor: { base: 'gray.40', _dark: 'gray.50' },
           // _hover: {
-          //   borderColor: { base: 'gray.20', _osDark: 'gray.30' },
+          //   borderColor: { base: 'gray.20', _dark: 'gray.30' },
           // },
           // _focus: {
-          //   borderColor: { base: 'gray.90', _osDark: 'gray.5' },
+          //   borderColor: { base: 'gray.90', _dark: 'gray.5' },
           // },
         },
       },
@@ -95,13 +95,13 @@ export const textareaRecipe = defineRecipe({
         gridTemplateColumns: 'auto 1fr',
         alignItems: 'center',
         '& textarea': {
-          background: { base: 'gray.0', _osDark: 'gray.90' },
-          borderColor: { base: 'green.40', _osDark: 'green.50' },
+          background: { base: 'gray.0', _dark: 'gray.90' },
+          borderColor: { base: 'green.40', _dark: 'green.50' },
           // _hover: {
-          //   borderColor: { base: 'gray.20', _osDark: 'gray.30' },
+          //   borderColor: { base: 'gray.20', _dark: 'gray.30' },
           // },
           // _focus: {
-          //   borderColor: { base: 'gray.90', _osDark: 'gray.5' },
+          //   borderColor: { base: 'gray.90', _dark: 'gray.5' },
           // },
         },
       },
@@ -112,7 +112,7 @@ export const textareaRecipe = defineRecipe({
         // _focusWithin: {
         //   outlineWidth: 1,
         //   outlineStyle: 'solid',
-        //   outlineColor: { base: 'gray.90', _osDark: 'gray.5' },
+        //   outlineColor: { base: 'gray.90', _dark: 'gray.5' },
         //   // outlineOffset: 2,
         //   ml: '-4',
         // },

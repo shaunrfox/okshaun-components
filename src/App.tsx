@@ -27,11 +27,7 @@ import { CheckboxInput } from '~/components/CheckboxInput';
 
 export function IconList() {
   return (
-    <Grid
-      gap="16"
-      w="full"
-      gridTemplateColumns={'repeat(auto-fill, minmax(200px, 1fr))'}
-    >
+    <Grid gap="16" w="full" gridTemplateColumns={'repeat(auto-fill, minmax(200px, 1fr))'}>
       {(Object.keys(IconNames) as IconNamesList[]).map((icon) => (
         <HStack key={icon} color={{ base: 'gold.40', _dark: 'gold.30' }}>
           <Icon name={icon} />
@@ -96,36 +92,24 @@ function AppContent() {
             <Heading>Buttons</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
               <HStack>
-                <Button
-                  variant="primary"
-                  onClick={() => alert('clicked')}
-                  bg="red.50"
-                >
+                <Button appearance="primary" onClick={() => alert('clicked')}>
                   Primary
                 </Button>
-                <Button>Standard</Button>
-                <Button variant="hollow">Hollow</Button>
-                <Button variant="ghost">Ghost</Button>
-                <Button variant="cta">CTA</Button>
-                <Button variant="danger">Danger</Button>
+                <Button>Default</Button>
+                <Button appearance="subtle">Subtle</Button>
+                <Button appearance="hollow">Hollow</Button>
               </HStack>
               <HStack>
-                <IconButton variant="ghost">
-                  <Icon name="x" />
-                </IconButton>
-                <IconButton>
-                  <Icon name="arrow-left" />
-                </IconButton>
-                <IconButton variant="primary" size="large">
-                  <Icon name="arrow-right" />
-                </IconButton>
+                <IconButton appearance="subtle" iconName="x" />
+                <IconButton iconName="arrow-left" />
+                <IconButton appearance="primary" size="large" iconName="arrow-right" />
               </HStack>
               <HStack>
-                <Button variant="primary" loading>
+                <Button appearance="primary" loading>
                   Pepperoni
                 </Button>
                 <Button loading>Loading</Button>
-                <IconButton variant="primary" loading>
+                <IconButton appearance="primary" loading>
                   <Icon name="x" />
                 </IconButton>
               </HStack>
@@ -135,12 +119,7 @@ function AppContent() {
             <Heading level="h2">Text</Heading>
 
             <VStack alignItems={'flex-start'}>
-              <Grid
-                gridTemplateColumns={'minmax(auto, 1fr) 1fr'}
-                w={'full'}
-                gap={'24'}
-                alignItems={'center'}
-              >
+              <Grid gridTemplateColumns={'minmax(auto, 1fr) 1fr'} w={'full'} gap={'24'} alignItems={'center'}>
                 <Box gridColumn={'1 / -1'}>
                   <Heading level="h3" color={'gold.40'}>
                     Text styles
@@ -160,8 +139,8 @@ function AppContent() {
                     <Text as="span" underline>
                       whales
                     </Text>{' '}
-                    i tree under him given set set meat midst morning give image
-                    forth divided moving Also fill dry she'd have.
+                    i tree under him given set set meat midst morning give image forth divided moving Also fill dry
+                    she'd have.
                   </Text>
                 </VStack>
                 <Pre>{`<Text>
@@ -170,10 +149,7 @@ function AppContent() {
 	<Text as="span" bold>replenish</Text>
 	<Text as="span" underline>whales</Text>
 </Text>`}</Pre>
-                <Text family={'mono'}>
-                  Signs night have sixth hath that likeness us fill you're
-                  subdue fowl.
-                </Text>
+                <Text family={'mono'}>Signs night have sixth hath that likeness us fill you're subdue fowl.</Text>
                 <Pre>
                   {`<Text family="mono">...</Text>
                     `}
@@ -207,17 +183,15 @@ function AppContent() {
                     okshaun
                   </Link>
                 </Text>
-                <Pre>
-                  {'<Link href="https://shaunfox.com" external>okshaun</Link>'}
-                </Pre>
+                <Pre>{'<Link href="https://shaunfox.com" external>okshaun</Link>'}</Pre>
                 <Box gridColumn={'1 / -1'}>
                   <Text>
                     Signs night have sixth hath that likeness us fill{' '}
                     <Link href="https://shaunfox.com" external>
                       okshaun
                     </Link>{' '}
-                    you're subdue fowl brought divide beginning multiply brought
-                    created after open given of made beginning multiply green.
+                    you're subdue fowl brought divide beginning multiply brought created after open given of made
+                    beginning multiply green.
                   </Text>
                 </Box>
               </Grid>
@@ -372,29 +346,15 @@ function AppContent() {
             <VStack alignItems={'flex-start'} gap={'24'}>
               <VStack alignItems={'flex-start'} gap={'8'}>
                 <Label htmlFor="email-input">Email Address</Label>
-                <TextInput
-                  id="email-input"
-                  name="email"
-                  placeholder="Enter your email"
-                />
+                <TextInput id="email-input" name="email" placeholder="Enter your email" />
               </VStack>
               <VStack alignItems={'flex-start'} gap={'8'}>
                 <Label htmlFor="name-input">Name</Label>
-                <TextInput
-                  id="name-input"
-                  name="name"
-                  size="large"
-                  placeholder="Enter your name"
-                />
+                <TextInput id="name-input" name="name" size="large" placeholder="Enter your name" />
               </VStack>
               <VStack alignItems={'flex-start'} gap={'8'}>
                 <Label htmlFor="error-input">With Error</Label>
-                <TextInput
-                  id="error-input"
-                  name="error"
-                  error
-                  placeholder="This field has an error"
-                />
+                <TextInput id="error-input" name="error" error placeholder="This field has an error" />
               </VStack>
             </VStack>
           </Section>
@@ -415,8 +375,8 @@ function AppContent() {
                 elit consectetur elit cillum non eu laborum aute
               </CheckboxInput>
               <CheckboxInput indeterminate name="indeterminate">
-                Ut fugiat tempor ullamco voluptate dolor labore amet magna irure
-                reprehenderit est irure est anim eiusmod commodo tempor eu ut.
+                Ut fugiat tempor ullamco voluptate dolor labore amet magna irure reprehenderit est irure est anim
+                eiusmod commodo tempor eu ut.
               </CheckboxInput>
               <CheckboxInput error name="error">
                 et qui sit
@@ -489,11 +449,7 @@ function AppContent() {
                 <Tooltip text="Click to toggle" trigger="onClick">
                   <Button>Click me</Button>
                 </Tooltip>
-                <Tooltip
-                  title="Tooltip Title"
-                  text="This tooltip has a title"
-                  position="top"
-                >
+                <Tooltip title="Tooltip Title" text="This tooltip has a title" position="top">
                   <Button>With Title</Button>
                 </Tooltip>
               </HStack>

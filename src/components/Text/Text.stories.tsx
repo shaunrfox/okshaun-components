@@ -37,10 +37,10 @@ const meta: Meta<typeof Text> = {
     },
     fontFamily: {
       control: 'select',
-      options: ['mono', 'serif', 'sans'],
+      options: ['heading', 'body', 'mono', 'serif', 'sans'],
       description: 'Font family',
       table: {
-        defaultValue: { summary: 'sans' },
+        defaultValue: { summary: 'body' },
       },
     },
     lineHeight: {

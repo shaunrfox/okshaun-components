@@ -1,4 +1,3 @@
-export { buttonRecipe, iconButtonRecipe } from './button';
 export { badgeRecipe } from './badge';
 export { textareaRecipe } from './textarea';
 export { textRecipe, headingRecipe, linkRecipe, labelRecipe } from './text';
@@ -16,6 +15,7 @@ export { breadcrumbsRecipe } from './breadcrumbs';
 export { tagRecipe } from './tag';
 
 // Slot Recipes
+export { buttonRecipe, iconButtonRecipe } from './button';
 export { checkboxRecipe } from './checkbox';
 export { radioRecipe } from './radio';
 export { tooltipRecipe } from './tooltip';
