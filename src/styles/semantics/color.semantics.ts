@@ -1,6 +1,30 @@
 import { defineSemanticTokens } from '@pandacss/dev';
 
+// ============================================================================
+// BRAND PALETTE CONFIGURATION
+// Change this single variable to switch your entire brand color palette
+// ============================================================================
+const BRAND_PALETTE = 'yellow' as const;
+// Available options: 'yellow', 'blue', 'red', 'green', 'lime', 'orange',
+//                    'purple', 'magenta', 'indigo', 'teal', 'tan'
+
+// Helper to generate brand token values
+const brandPalette = (shade: string) => `{colors.${BRAND_PALETTE}.${shade}}` as const;
+
 export const colors = defineSemanticTokens.colors({
+  // Brand color palette - automatically uses the palette defined above
+  brand: {
+    '10': { value: brandPalette('10') },
+    '20': { value: brandPalette('20') },
+    '30': { value: brandPalette('30') },
+    '40': { value: brandPalette('40') },
+    '50': { value: brandPalette('50') },
+    '60': { value: brandPalette('60') },
+    '70': { value: brandPalette('70') },
+    '80': { value: brandPalette('80') },
+    '90': { value: brandPalette('90') },
+    '100': { value: brandPalette('100') },
+  },
   bg: {
     disabled: { value: { base: '{colors.neutral.10}', _dark: '{colors.darkNeutral.10}' } },
     neutral: {
@@ -38,36 +62,21 @@ export const colors = defineSemanticTokens.colors({
     },
     brand: {
       bold: {
-        DEFAULT: { value: { base: '{colors.neutral.100}', _dark: '{colors.darkNeutral.110}' } },
-        hovered: { value: { base: '{colors.neutral.90}', _dark: '{colors.darkNeutral.100}' } },
-        pressed: { value: { base: '{colors.neutral.80}', _dark: '{colors.darkNeutral.90}' } },
+        DEFAULT: { value: { base: '{colors.brand.70}', _dark: '{colors.brand.40}' } },
+        hovered: { value: { base: '{colors.brand.80}', _dark: '{colors.brand.30}' } },
+        pressed: { value: { base: '{colors.brand.90}', _dark: '{colors.brand.20}' } },
       },
-      'bold.og': {
-        DEFAULT: { value: { base: '{colors.blue.70}', _dark: '{colors.blue.40}' } },
-        hovered: { value: { base: '{colors.blue.80}', _dark: '{colors.blue.30}' } },
-        pressed: { value: { base: '{colors.blue.90}', _dark: '{colors.blue.20}' } },
-      },
-      // boldest: {
-      //   value: {},
-      //   hovered: {},
-      //   pressed: {},
-      // },
-      'boldest.og': {
-        DEFAULT: { value: { base: '{colors.blue.100}', _dark: '{colors.blue.10}' } },
-        hovered: { value: { base: '{colors.blue.90}', _dark: '{colors.blue.20}' } },
-        // hovered.2: { base: "blue.80", _dark: "blue.30" },
+      boldest: {
+        DEFAULT: { value: { base: '{colors.brand.100}', _dark: '{colors.brand.10}' } },
+        hovered: { value: { base: '{colors.brand.90}', _dark: '{colors.brand.20}' } },
+        // hovered.2: { base: "brand.80", _dark: "brand.30" },
         // pressed: {},
       },
       subtle: {
-        DEFAULT: { value: { base: '{colors.blue.10}', _dark: '{colors.blue.100}' } },
-        hovered: { value: { base: '{colors.blue.20}', _dark: '{colors.blue.90}' } },
-        pressed: { value: { base: '{colors.blue.30}', _dark: '{colors.blue.80}' } },
+        DEFAULT: { value: { base: '{colors.brand.10}', _dark: '{colors.brand.100}' } },
+        hovered: { value: { base: '{colors.brand.20}', _dark: '{colors.brand.90}' } },
+        pressed: { value: { base: '{colors.brand.30}', _dark: '{colors.brand.80}' } },
       },
-      // 'subtle.og': {
-      //   value: {},
-      //   hovered: {},
-      //   pressed: {},
-      // },
     },
     success: {
       DEFAULT: { value: { base: '{colors.lime.10}', _dark: '{colors.lime.100}' } },
@@ -145,7 +154,11 @@ export const colors = defineSemanticTokens.colors({
     disabled: { value: { base: '{colors.neutralA.40}', _dark: '{colors.darkNeutralA.40}' } },
     decorative: {
       DEFAULT: { value: { base: '{colors.neutral.50}', _dark: '{colors.darkNeutral.60}' } },
-      inverse: { value: { base: '{colors.neutral.30}', _dark: '{colors.darkNeutral.30}' } },
+      hovered: { value: { base: '{colors.neutral.100}', _dark: '{colors.neutral.0}' } },
+      inverse: {
+        DEFAULT: { value: { base: '{colors.neutral.30}', _dark: '{colors.darkNeutral.30}' } },
+        hovered: { value: { base: '{colors.neutral.0}', _dark: '{colors.darkNeutral.10}' } },
+      },
     },
     success: { value: { base: '{colors.lime.60}', _dark: '{colors.lime.50}' } },
     warning: {

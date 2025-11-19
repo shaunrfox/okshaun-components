@@ -23,12 +23,13 @@ const baseButtonStyles = {
     outlineWidth: 2,
     outlineStyle: 'solid',
     outlineColor: 'transparent',
-    outlineOffset: 1,
+    // outlineOffset: 1,
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
     _focusVisible: {
-      borderColor: 'border.focused',
+      // borderColor: 'border.focused',
+      outlineColor: 'border.focused',
     },
     _disabled: {
       cursor: 'not-allowed',
@@ -52,6 +53,9 @@ const baseButtonStyles = {
   },
   icon: {
     aspectRatio: 'square',
+    transitionDuration: 'fast',
+    transitionProperty: 'fill',
+    transitionTimingFunction: 'default',
   },
 };
 
@@ -64,11 +68,11 @@ const buttonVariants = {
         icon: { fill: 'icon.decorative' },
         _hover: {
           bg: 'bg.neutral.hovered',
-          icon: { fill: 'icon' },
+          icon: { fill: 'icon.decorative.hovered' },
         },
         _active: {
           bg: 'bg.neutral.pressed',
-          icon: { fill: 'icon' },
+          icon: { fill: 'icon.decorative.hovered' },
         },
       },
     },
@@ -94,11 +98,13 @@ const buttonVariants = {
         icon: { fill: 'icon.decorative' },
         _hover: {
           bg: 'bg.neutral.subtle.hovered',
-          icon: { fill: 'icon' },
+          color: 'text',
+          icon: { fill: 'icon.decorative.hovered' },
         },
         _active: {
           bg: 'bg.neutral.subtle.pressed',
-          icon: { fill: 'icon' },
+          color: 'text',
+          icon: { fill: 'icon.decorative.hovered' },
         },
       },
     },
@@ -110,13 +116,15 @@ const buttonVariants = {
         icon: { fill: 'icon.decorative' },
         _hover: {
           bg: 'bg.neutral.subtle.hovered',
+          color: 'text',
           borderColor: 'border',
-          icon: { fill: 'icon' },
+          icon: { fill: 'icon.decorative.hovered' },
         },
         _active: {
           bg: 'bg.neutral.subtle.pressed',
+          color: 'text',
           borderColor: 'border',
-          icon: { fill: 'icon' },
+          icon: { fill: 'icon.decorative.hovered' },
         },
         _disabled: {
           borderColor: 'border.disabled',

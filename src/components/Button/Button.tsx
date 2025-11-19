@@ -12,7 +12,7 @@ import { Icon, type IconNamesList } from '~/components/Icon';
  * This means that any prop accepted by the underlying element (e.g. onClick) is automatically allowed.
  */
 export type ButtonProps<E extends React.ElementType = 'button'> = React.ComponentPropsWithoutRef<E> &
-  ButtonVariantProps & {
+  Omit<ButtonVariantProps, 'iconBefore' | 'iconAfter'> & {
     as?: E;
     href?: string;
     loading?: boolean;
@@ -43,7 +43,7 @@ export const Button = React.forwardRef(
   ) => {
     const trulyDisabled = loading || disabled;
     const asComponent = href ? 'a' : 'button';
-    const classes = button({ appearance, size });
+    const classes = button({ appearance, size, iconBefore: Boolean(iconBefore), iconAfter: Boolean(iconAfter) });
 
     return (
       // @ts-expect-error - Polymorphic type inference issue
@@ -58,7 +58,7 @@ export const Button = React.forwardRef(
         {...props}
       >
         <>
-          <HStack gap="2" opacity={loading ? 0 : 1}>
+          <HStack gap="4" opacity={loading ? 0 : 1}>
             {iconBefore && <Icon name={iconBefore} className={classes.icon} />}
             {children}
             {iconAfter && <Icon name={iconAfter} className={classes.icon} />}

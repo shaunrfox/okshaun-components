@@ -100,6 +100,18 @@ function AppContent() {
                 <Button appearance="hollow">Hollow</Button>
               </HStack>
               <HStack>
+                <Button appearance="primary" iconBefore="user" onClick={() => alert('clicked')}>
+                  Primary
+                </Button>
+                <Button iconAfter="caret-down">Default</Button>
+                <Button iconAfter="plus" appearance="subtle">
+                  Subtle
+                </Button>
+                <Button iconBefore="aa-placeholder" appearance="hollow">
+                  Hollow
+                </Button>
+              </HStack>
+              <HStack>
                 <IconButton appearance="subtle" iconName="x" />
                 <IconButton iconName="arrow-left" />
                 <IconButton appearance="primary" size="large" iconName="arrow-right" />
