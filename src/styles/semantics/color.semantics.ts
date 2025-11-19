@@ -4,7 +4,7 @@ import { defineSemanticTokens } from '@pandacss/dev';
 // BRAND PALETTE CONFIGURATION
 // Change this single variable to switch your entire brand color palette
 // ============================================================================
-const BRAND_PALETTE = 'yellow' as const;
+const BRAND_PALETTE = 'gray' as const;
 // Available options: 'yellow', 'blue', 'red', 'green', 'lime', 'orange',
 //                    'purple', 'magenta', 'indigo', 'teal', 'tan'
 
@@ -67,10 +67,9 @@ export const colors = defineSemanticTokens.colors({
         pressed: { value: { base: '{colors.brand.90}', _dark: '{colors.brand.20}' } },
       },
       boldest: {
-        DEFAULT: { value: { base: '{colors.brand.100}', _dark: '{colors.brand.10}' } },
-        hovered: { value: { base: '{colors.brand.90}', _dark: '{colors.brand.20}' } },
-        // hovered.2: { base: "brand.80", _dark: "brand.30" },
-        // pressed: {},
+        DEFAULT: { value: { base: '{colors.brand.100}', _dark: '{colors.brand.20}' } },
+        hovered: { value: { base: '{colors.brand.90}', _dark: '{colors.brand.30}' } },
+        pressed: { value: { base: '{colors.brand.80}', _dark: '{colors.brand.40}' } },
       },
       subtle: {
         DEFAULT: { value: { base: '{colors.brand.10}', _dark: '{colors.brand.100}' } },

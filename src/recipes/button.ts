@@ -14,6 +14,7 @@ const baseButtonStyles = {
     userSelect: 'none',
     verticalAlign: 'middle',
     fontFamily: 'sans',
+    fontWeight: 'medium',
     fontSize: 16,
     lineHeight: 'default',
     borderWidth: 1,
@@ -78,15 +79,15 @@ const buttonVariants = {
     },
     primary: {
       container: {
-        bg: 'bg.brand.bold',
+        bg: 'bg.brand.boldest',
         color: 'text.inverse',
         icon: { fill: 'icon.decorative.inverse' },
         _hover: {
-          bg: 'bg.brand.bold.hovered',
+          bg: 'bg.brand.boldest.hovered',
           icon: { fill: 'icon.inverse' },
         },
         _active: {
-          bg: 'bg.brand.bold.pressed',
+          bg: 'bg.brand.boldest.pressed',
           icon: { fill: 'icon.inverse' },
         },
       },

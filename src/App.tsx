@@ -63,7 +63,7 @@ function AppContent() {
       <Flex
         w="full"
         py={'4'}
-        bg={{ base: 'gray.10', _dark: 'gray.80' }}
+        bg={'surface.overlay'}
         mb={'56'}
         position={'sticky'}
         top={'0'}
