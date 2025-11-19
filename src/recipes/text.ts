@@ -36,7 +36,7 @@ const textVariants = {
 const headingBase = {
   fontFamily: 'heading',
   fontWeight: 'black',
-  color: { base: 'gray.90', _dark: 'gray.5' },
+  color: { base: 'gray.90', _dark: 'gray.10' },
   lineHeight: 'default',
 };
 

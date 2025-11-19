@@ -19,7 +19,7 @@ const toggleBase = {
     w: '40',
     h: '24',
     rounded: '24',
-    bg: { base: 'gray.0', _dark: 'gray.90' },
+    bg: { base: 'gray.10', _dark: 'gray.90' },
     transitionProperty: 'border-color, background-color',
     transitionDuration: '200ms',
     transitionTimingFunction: 'ease-in-out',
@@ -71,8 +71,8 @@ const toggleBase = {
         transform: 'translateX(16px)',
       },
       "& ~ [name='toggle-bg']": {
-        bg: { base: 'gray.90', _dark: 'gray.0' },
-        borderColor: { base: 'gray.90', _dark: 'gray.0' },
+        bg: { base: 'gray.90', _dark: 'gray.10' },
+        borderColor: { base: 'gray.90', _dark: 'gray.10' },
       },
     },
     _error: {
@@ -84,7 +84,7 @@ const toggleBase = {
     _focusVisible: {
       appearance: 'none',
       opacity: 1,
-      outlineColor: { base: 'gray.80', _dark: 'gray.5' },
+      outlineColor: { base: 'gray.80', _dark: 'gray.10' },
       outlineOffset: 1,
       outlineWidth: 2,
       outlineStyle: 'solid',

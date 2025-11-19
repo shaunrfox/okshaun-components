@@ -1,7 +1,7 @@
 import { defineRecipe } from '@pandacss/dev';
 
 const cardBase = {
-  bg: { base: 'gray.0', _dark: 'gray.80' },
+  bg: { base: 'gray.10', _dark: 'gray.80' },
   borderRadius: '4',
   outlineWidth: '1',
   outlineStyle: 'solid',
@@ -28,8 +28,8 @@ const cardVariant = {
       _focusVisible: {
         boxShadow: 'none',
         borderWidth: '1',
-        outlineColor: { base: 'gray.90', _dark: 'gray.0' },
-        borderColor: { base: 'gray.90', _dark: 'gray.0' },
+        outlineColor: { base: 'gray.90', _dark: 'gray.10' },
+        borderColor: { base: 'gray.90', _dark: 'gray.10' },
       },
       _disabled: {
         opacity: '0.4',
@@ -46,10 +46,10 @@ const cardVariant = {
       borderStyle: 'solid',
       borderColor: { base: 'gray.10', _dark: 'gray.70' },
       _hover: {
-        borderColor: { base: 'gray.30', _dark: 'gray.50' },
+        borderColor: { base: 'gray.30', _dark: 'gray.100' },
       },
       _active: {
-        borderColor: { base: 'gray.50', _dark: 'gray.30' },
+        borderColor: { base: 'gray.100', _dark: 'gray.30' },
         _grabbed: {
           boxShadow: 'high',
           cursor: 'grabbing',
@@ -57,8 +57,8 @@ const cardVariant = {
       },
       _focusVisible: {
         boxShadow: 'none',
-        outlineColor: { base: 'gray.90', _dark: 'gray.0' },
-        borderColor: { base: 'gray.90', _dark: 'gray.0' },
+        outlineColor: { base: 'gray.90', _dark: 'gray.10' },
+        borderColor: { base: 'gray.90', _dark: 'gray.10' },
       },
       _disabled: {
         opacity: '0.4',

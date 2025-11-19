@@ -33,13 +33,7 @@ export type MenuProps = Omit<BoxProps, keyof MenuVariantProps> &
     onChange?: (selected: string[] | string | null) => void;
   };
 
-export const Menu: React.FC<MenuProps> = ({
-  menuSection,
-  iconPlacement,
-  variant,
-  multiSelectType,
-  onChange,
-}) => {
+export const Menu: React.FC<MenuProps> = ({ menuSection, iconPlacement, variant, multiSelectType, onChange }) => {
   const {
     wrapper,
     wrapperInner,
@@ -57,9 +51,7 @@ export const Menu: React.FC<MenuProps> = ({
     multiSelectType,
   });
   const [selected, setSelected] = useState<string[]>([]);
-  const [isChildren, setIsChildren] = useState([
-    { menu: menuSection, parentLabel: null as string | null },
-  ]);
+  const [isChildren, setIsChildren] = useState([{ menu: menuSection, parentLabel: null as string | null }]);
 
   const current = isChildren[isChildren.length - 1];
 
@@ -73,23 +65,13 @@ export const Menu: React.FC<MenuProps> = ({
         onChange?.(id);
       }
     } else {
-      setSelected((prev) =>
-        prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-      );
-      onChange?.(
-        selected.includes(id)
-          ? selected.filter((x) => x !== id)
-          : [...selected, id],
-      );
+      setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+      onChange?.(selected.includes(id) ? selected.filter((x) => x !== id) : [...selected, id]);
     }
   };
 
-  const handleOpenSubmenu = (
-    children: MenuProps['menuSection'],
-    parentLabel: string,
-  ) => {
-    if (children)
-      setIsChildren([...isChildren, { menu: children, parentLabel }]);
+  const handleOpenSubmenu = (children: MenuProps['menuSection'], parentLabel: string) => {
+    if (children) setIsChildren([...isChildren, { menu: children, parentLabel }]);
   };
 
   const handleBack = () => {
@@ -103,17 +85,14 @@ export const Menu: React.FC<MenuProps> = ({
           onClick={handleBack}
           className={parentLabel}
           textStyle={{ base: 'body-lg', md: 'body-md' }}
-          color={{ base: 'gray.90', _dark: 'gray.0' }}
+          color={{ base: 'gray.90', _dark: 'gray.10' }}
         >
           <Icon name="caret-left" />
           {current?.parentLabel || 'Back'}
         </Text>
       )}
 
-      <Box
-        data-anim={isChildren.length > 1 ? 'slide-left' : undefined}
-        className={wrapperInner}
-      >
+      <Box data-anim={isChildren.length > 1 ? 'slide-left' : undefined} className={wrapperInner}>
         {current?.menu?.map((section) => (
           <Box key={section.id}>
             {section.title && (
@@ -144,15 +123,8 @@ export const Menu: React.FC<MenuProps> = ({
                     aria-disabled={item?.disabled}
                     data-selected={isSelected}
                     onClick={activateItem}
-                    onKeyDown={(e: {
-                      key: string;
-                      preventDefault: () => void;
-                    }) => {
-                      if (
-                        e.key === ' ' ||
-                        e.key === 'Spacebar' ||
-                        e.key === 'Enter'
-                      ) {
+                    onKeyDown={(e: { key: string; preventDefault: () => void }) => {
+                      if (e.key === ' ' || e.key === 'Spacebar' || e.key === 'Enter') {
                         e.preventDefault();
                         activateItem();
                       }
@@ -161,39 +133,22 @@ export const Menu: React.FC<MenuProps> = ({
                     aria-pressed={isSelected}
                   >
                     {(iconPlacement || item?.iconName) && (
-                      <Box
-                        className={iconSection}
-                        color={{ base: 'gray.90', _dark: 'gray.0' }}
-                      >
-                        {item?.iconName && (
-                          <Icon name={`${item?.iconName as IconNamesList}`} />
-                        )}
+                      <Box className={iconSection} color={{ base: 'gray.90', _dark: 'gray.10' }}>
+                        {item?.iconName && <Icon name={`${item?.iconName as IconNamesList}`} />}
                       </Box>
                     )}
-                    {variant === 'multi-select' &&
-                      multiSelectType === 'checkbox' &&
-                      !section?.link && (
-                        <Checkbox
-                          name={item.id}
-                          checked={isSelected}
-                          onChange={() => handleSelect(item.id)}
-                        />
-                      )}
-                    {variant === 'multi-select' &&
-                      multiSelectType === 'toggle' &&
-                      !section?.link && (
-                        <Toggle
-                          name="menu-toggle"
-                          checked={isSelected}
-                          onChange={() => handleSelect(item.id)}
-                        />
-                      )}
+                    {variant === 'multi-select' && multiSelectType === 'checkbox' && !section?.link && (
+                      <Checkbox name={item.id} checked={isSelected} onChange={() => handleSelect(item.id)} />
+                    )}
+                    {variant === 'multi-select' && multiSelectType === 'toggle' && !section?.link && (
+                      <Toggle name="menu-toggle" checked={isSelected} onChange={() => handleSelect(item.id)} />
+                    )}
                     {!section?.link && (
                       <Box>
                         <Text
                           textStyle={{ base: 'body-lg', md: 'body-md' }}
                           className={menuLabel}
-                          color={{ base: 'gray.90', _dark: 'gray.5' }}
+                          color={{ base: 'gray.90', _dark: 'gray.10' }}
                         >
                           {item?.label}
                         </Text>
@@ -205,18 +160,12 @@ export const Menu: React.FC<MenuProps> = ({
                       </Box>
                     )}
                     {section?.link && (
-                      <Link
-                        href={`${item?.href}`}
-                        color={{ base: 'gray.90', _dark: 'gray.0' }}
-                      >
+                      <Link href={`${item?.href}`} color={{ base: 'gray.90', _dark: 'gray.10' }}>
                         {item?.label} <Icon name="arrow-square-out" />
                       </Link>
                     )}
                     {hasChildren && (
-                      <Box
-                        className={multiLevelIcon}
-                        color={{ base: 'gray.90', _dark: 'gray.0' }}
-                      >
+                      <Box className={multiLevelIcon} color={{ base: 'gray.90', _dark: 'gray.10' }}>
                         <Icon name="caret-right" />
                       </Box>
                     )}

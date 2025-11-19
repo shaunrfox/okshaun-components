@@ -21,15 +21,15 @@ export const themeSwitchStyles = css({
     opacity: 0,
     display: 'block',
     borderRadius: '100',
-    backgroundColor: { base: 'gray.98', _dark: 'gray.5' },
+    backgroundColor: 'bg.neutral',
     transition: 'all',
     transitionTimingFunction: 'default',
     transitionDuration: 'slow',
   },
   _hover: {
     cursor: 'pointer',
-    bg: { base: 'gray.90', _dark: 'gray.5' },
-    borderColor: { base: 'gray.90', _dark: 'gray.5' },
+    bg: { base: 'gray.90', _dark: 'gray.10' },
+    borderColor: { base: 'gray.90', _dark: 'gray.10' },
     '&:before': {
       inset: '-8',
       opacity: 0.25,

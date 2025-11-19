@@ -39,11 +39,11 @@ const textInputBase = {
   outlineColor: 'transparent',
   color: {
     base: 'gray.90',
-    _dark: 'gray.0',
+    _dark: 'gray.10',
   },
   _placeholder: {
     color: {
-      base: 'gray.50',
+      base: 'gray.100',
       _dark: 'gray.40',
     },
   },
@@ -52,8 +52,8 @@ const textInputBase = {
   },
 
   _focus: {
-    outlineColor: { base: 'gray.90', _dark: 'gray.0' },
-    borderColor: { base: 'gray.90', _dark: 'gray.0' },
+    outlineColor: { base: 'gray.90', _dark: 'gray.10' },
+    borderColor: { base: 'gray.90', _dark: 'gray.10' },
   },
   _error: {
     display: 'inline-grid',

@@ -79,8 +79,8 @@ export const tagRecipe = defineRecipe({
       hue: 'slate',
       variant: 'bold',
       css: {
-        color: { base: 'gray.0', _dark: 'gray.80' },
-        bg: { base: 'gray.50', _dark: 'gray.20' },
+        color: { base: 'gray.10', _dark: 'gray.80' },
+        bg: { base: 'gray.100', _dark: 'gray.20' },
       },
     },
     {
@@ -95,7 +95,7 @@ export const tagRecipe = defineRecipe({
       hue: 'tan',
       variant: 'bold',
       css: {
-        color: { base: 'gray.0', _dark: 'tan.80' },
+        color: { base: 'gray.10', _dark: 'tan.80' },
         bg: { base: 'tan.50', _dark: 'tan.20' },
       },
     },
@@ -111,7 +111,7 @@ export const tagRecipe = defineRecipe({
       hue: 'red',
       variant: 'bold',
       css: {
-        color: { base: 'gray.0', _dark: 'red.80' },
+        color: { base: 'gray.10', _dark: 'red.80' },
         bg: { base: 'red.50', _dark: 'red.20' },
       },
     },
@@ -127,7 +127,7 @@ export const tagRecipe = defineRecipe({
       hue: 'tomato',
       variant: 'bold',
       css: {
-        color: { base: 'gray.0', _dark: 'tomato.80' },
+        color: { base: 'gray.10', _dark: 'tomato.80' },
         bg: { base: 'tomato.50', _dark: 'tomato.20' },
       },
     },
@@ -175,7 +175,7 @@ export const tagRecipe = defineRecipe({
       hue: 'green',
       variant: 'bold',
       css: {
-        color: { base: 'gray.0', _dark: 'green.80' },
+        color: { base: 'gray.10', _dark: 'green.80' },
         bg: { base: 'green.50', _dark: 'green.20' },
       },
     },
@@ -191,7 +191,7 @@ export const tagRecipe = defineRecipe({
       hue: 'grass',
       variant: 'bold',
       css: {
-        color: { base: 'gray.0', _dark: 'grass.80' },
+        color: { base: 'gray.10', _dark: 'grass.80' },
         bg: { base: 'grass.60', _dark: 'grass.20' },
       },
     },
@@ -207,7 +207,7 @@ export const tagRecipe = defineRecipe({
       hue: 'mint',
       variant: 'bold',
       css: {
-        color: { base: 'gray.0', _dark: 'mint.80' },
+        color: { base: 'gray.10', _dark: 'mint.80' },
         bg: { base: 'mint.70', _dark: 'mint.20' },
       },
     },
@@ -239,7 +239,7 @@ export const tagRecipe = defineRecipe({
       hue: 'blue',
       variant: 'bold',
       css: {
-        color: { base: 'gray.0', _dark: 'blue.90' },
+        color: { base: 'gray.10', _dark: 'blue.90' },
         bg: { base: 'blue.50', _dark: 'blue.40' },
       },
     },
@@ -271,7 +271,7 @@ export const tagRecipe = defineRecipe({
       hue: 'purple',
       variant: 'bold',
       css: {
-        color: { base: 'gray.0', _dark: 'purple.80' },
+        color: { base: 'gray.10', _dark: 'purple.80' },
         bg: { base: 'purple.50', _dark: 'purple.20' },
       },
     },

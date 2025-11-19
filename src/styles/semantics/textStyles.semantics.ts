@@ -4,7 +4,7 @@ const baseHeadingStyles = defineStyles({
   value: {
     fontFamily: 'sans',
     fontWeight: 'bold',
-    color: { base: 'gray.90', _dark: 'gray.5' },
+    color: { base: 'gray.90', _dark: 'gray.10' },
     lineHeight: 'default',
   },
 });
