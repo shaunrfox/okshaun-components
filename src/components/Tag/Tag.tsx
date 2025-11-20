@@ -12,7 +12,7 @@ export type TagProps = BoxProps &
   };
 
 export const Tag: React.FC<TagProps> = ({
-  variant,
+  appearance,
   hue,
   iconPosition = 'left',
   children,
@@ -25,7 +25,7 @@ export const Tag: React.FC<TagProps> = ({
   return (
     <Box
       as="span"
-      className={cx(tag({ variant, hue, iconPosition, hasIcon }), className)}
+      className={cx(tag({ appearance, hue, iconPosition, hasIcon }), className)}
       {...otherProps}
     >
       {iconName && <Icon name={iconName} width={20} height={20} />}

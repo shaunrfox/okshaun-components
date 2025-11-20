@@ -72,7 +72,8 @@ function AppContent() {
   });
 
   const handleCheckboxChange =
-    (key: keyof typeof checkboxStates) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    (key: keyof typeof checkboxStates) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setCheckboxStates({ ...checkboxStates, [key]: e.target.checked });
     };
 
@@ -86,8 +87,12 @@ function AppContent() {
   });
 
   const handleCheckboxInputChange =
-    (key: keyof typeof checkboxInputStates) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setCheckboxInputStates({ ...checkboxInputStates, [key]: e.target.checked });
+    (key: keyof typeof checkboxInputStates) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCheckboxInputStates({
+        ...checkboxInputStates,
+        [key]: e.target.checked,
+      });
     };
 
   return (
@@ -311,50 +316,64 @@ function AppContent() {
           <Section>
             <Heading level="h2">Tags</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
-              <HStack gap={'8'} flexWrap={'wrap'}>
-                <Tag hue="slate">Slate</Tag>
+              <Grid gap={'8'} gridTemplateColumns={'repeat(13, auto)'}>
+                <Text textStyle="mono.sm">Default</Text>
+                <Tag>Gray</Tag>
                 <Tag hue="red">Red</Tag>
                 <Tag hue="orange">Orange</Tag>
                 <Tag hue="yellow">Yellow</Tag>
+                <Tag hue="lime">Lime</Tag>
                 <Tag hue="green">Green</Tag>
+                <Tag hue="teal">Teal</Tag>
                 <Tag hue="blue">Blue</Tag>
+                <Tag hue="indigo">Indigo</Tag>
                 <Tag hue="purple">Purple</Tag>
-                <Tag hue="pink">Pink</Tag>
-              </HStack>
-              <HStack gap={'8'} flexWrap={'wrap'}>
-                <Tag hue="slate" variant="bold">
-                  Slate Bold
+                <Tag hue="magenta">Magenta</Tag>
+                <Tag hue="tan">Tan</Tag>
+                <Text textStyle="mono.sm">Bold</Text>
+                <Tag appearance="bold">Gray</Tag>
+                <Tag hue="red" appearance="bold">
+                  Red
                 </Tag>
-                <Tag hue="red" variant="bold">
-                  Red Bold
+                <Tag hue="orange" appearance="bold">
+                  Orange
                 </Tag>
-                <Tag hue="orange" variant="bold">
-                  Orange Bold
+                <Tag hue="yellow" appearance="bold">
+                  Yellow
                 </Tag>
-                <Tag hue="yellow" variant="bold">
-                  Yellow Bold
+                <Tag hue="lime" appearance="bold">
+                  Lime
                 </Tag>
-                <Tag hue="green" variant="bold">
-                  Green Bold
+                <Tag hue="green" appearance="bold">
+                  Green
                 </Tag>
-                <Tag hue="blue" variant="bold">
-                  Blue Bold
+                <Tag hue="teal" appearance="bold">
+                  Teal
                 </Tag>
-                <Tag hue="purple" variant="bold">
-                  Purple Bold
+                <Tag hue="blue" appearance="bold">
+                  Blue
                 </Tag>
-                <Tag hue="pink" variant="bold">
-                  Pink Bold
+                <Tag hue="indigo" appearance="bold">
+                  Indigo
                 </Tag>
-              </HStack>
-              <HStack gap={'8'}>
+                <Tag hue="purple" appearance="bold">
+                  Purple
+                </Tag>
+                <Tag hue="magenta" appearance="bold">
+                  Magenta
+                </Tag>
+                <Tag hue="tan" appearance="bold">
+                  Tan
+                </Tag>
+              </Grid>
+              {/* <HStack gap={'8'}>
                 <Tag hue="blue" iconName="check">
                   With Icon Left
                 </Tag>
                 <Tag hue="green" iconName="star" iconPosition="right">
                   With Icon Right
                 </Tag>
-              </HStack>
+              </HStack> */}
             </VStack>
           </Section>
           <Section>

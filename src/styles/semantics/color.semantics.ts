@@ -69,6 +69,14 @@ export const colors = defineSemanticTokens.colors({
           },
         },
       },
+      boldest: {
+        DEFAULT: {
+          value: {
+            base: '{colors.neutral.100}',
+            _dark: '{colors.darkNeutral.110}',
+          },
+        },
+      },
       subtle: {
         DEFAULT: { value: { base: '#ffffff02', _dark: '#ffffff02' } },
         hovered: {
@@ -246,6 +254,194 @@ export const colors = defineSemanticTokens.colors({
       },
       pressed: {
         value: { base: '{colors.neutral.0}', _dark: '{colors.darkNeutral.20}' },
+      },
+    },
+    accent: {
+      // hue: {
+      // subtle: { DEFAULT: {}, hovered: {}, pressed: {}, },
+      // subtler: { DEFAULT: {}, hovered: {}, pressed: {}, },
+      // subtlest: { DEFAULT: {}, hovered: {}, pressed: {}, },
+      // bold: { DEFAULT: {}, hovered: {}, pressed: {}, }
+      // },
+      gray: {
+        subtle: {
+          value: {
+            base: '{colors.neutral.50}',
+            _dark: '{colors.darkNeutral.50}',
+          },
+        },
+        subtler: {
+          value: {
+            base: '{colors.neutral.30}',
+            _dark: '{colors.darkNeutral.40}',
+          },
+        },
+        subtlest: {
+          value: {
+            base: '{colors.neutral.20}',
+            _dark: '{colors.darkNeutral.30}',
+          },
+        },
+        bold: {
+          value: {
+            base: '{colors.neutral.70}',
+            _dark: '{colors.darkNeutral.70}',
+          },
+        },
+      },
+      blue: {
+        subtle: {
+          value: { base: '{colors.blue.40}', _dark: '{colors.blue.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.blue.20}', _dark: '{colors.blue.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.blue.10}', _dark: '{colors.blue.100}' },
+        },
+        bold: {
+          value: { base: '{colors.blue.70}', _dark: '{colors.blue.40}' },
+        },
+      },
+      green: {
+        subtle: {
+          value: { base: '{colors.green.40}', _dark: '{colors.green.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.green.20}', _dark: '{colors.green.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.green.10}', _dark: '{colors.green.90}' },
+        },
+        bold: {
+          value: { base: '{colors.green.70}', _dark: '{colors.green.40}' },
+        },
+      },
+      indigo: {
+        subtle: {
+          value: { base: '{colors.indigo.40}', _dark: '{colors.indigo.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.indigo.20}', _dark: '{colors.indigo.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.indigo.10}', _dark: '{colors.indigo.90}' },
+        },
+        bold: {
+          value: { base: '{colors.indigo.70}', _dark: '{colors.indigo.40}' },
+        },
+      },
+      lime: {
+        subtle: {
+          value: { base: '{colors.lime.40}', _dark: '{colors.lime.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.lime.20}', _dark: '{colors.lime.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.lime.10}', _dark: '{colors.lime.90}' },
+        },
+        bold: {
+          value: { base: '{colors.lime.70}', _dark: '{colors.lime.40}' },
+        },
+      },
+      magenta: {
+        subtle: {
+          value: { base: '{colors.magenta.40}', _dark: '{colors.magenta.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.magenta.20}', _dark: '{colors.magenta.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.magenta.10}', _dark: '{colors.magenta.90}' },
+        },
+        bold: {
+          value: { base: '{colors.magenta.70}', _dark: '{colors.magenta.40}' },
+        },
+      },
+      orange: {
+        subtle: {
+          value: { base: '{colors.orange.40}', _dark: '{colors.orange.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.orange.20}', _dark: '{colors.orange.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.orange.10}', _dark: '{colors.orange.90}' },
+        },
+        bold: {
+          value: { base: '{colors.orange.70}', _dark: '{colors.orange.40}' },
+        },
+      },
+      purple: {
+        subtle: {
+          value: { base: '{colors.purple.40}', _dark: '{colors.purple.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.purple.20}', _dark: '{colors.purple.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.purple.10}', _dark: '{colors.purple.90}' },
+        },
+        bold: {
+          value: { base: '{colors.purple.70}', _dark: '{colors.purple.40}' },
+        },
+      },
+      red: {
+        subtle: {
+          value: { base: '{colors.red.40}', _dark: '{colors.red.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.red.20}', _dark: '{colors.red.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.red.10}', _dark: '{colors.red.100}' },
+        },
+        bold: {
+          value: { base: '{colors.red.70}', _dark: '{colors.red.40}' },
+        },
+      },
+      tan: {
+        subtle: {
+          value: { base: '{colors.tan.40}', _dark: '{colors.tan.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.tan.20}', _dark: '{colors.tan.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.tan.10}', _dark: '{colors.tan.90}' },
+        },
+        bold: {
+          value: { base: '{colors.tan.70}', _dark: '{colors.tan.40}' },
+        },
+      },
+      teal: {
+        subtle: {
+          value: { base: '{colors.teal.40}', _dark: '{colors.teal.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.teal.20}', _dark: '{colors.teal.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.teal.10}', _dark: '{colors.teal.90}' },
+        },
+        bold: {
+          value: { base: '{colors.teal.70}', _dark: '{colors.teal.40}' },
+        },
+      },
+      yellow: {
+        subtle: {
+          value: { base: '{colors.yellow.30}', _dark: '{colors.yellow.80}' },
+        },
+        subtler: {
+          value: { base: '{colors.yellow.20}', _dark: '{colors.yellow.90}' },
+        },
+        subtlest: {
+          value: { base: '{colors.yellow.10}', _dark: '{colors.yellow.90}' },
+        },
+        bold: {
+          value: { base: '{colors.yellow.70}', _dark: '{colors.yellow.40}' },
+        },
       },
     },
   },
@@ -456,6 +652,110 @@ export const colors = defineSemanticTokens.colors({
     },
     danger: { value: { base: '{colors.red.80}', _dark: '{colors.red.30}' } },
     info: { value: { base: '{colors.blue.80}', _dark: '{colors.blue.30}' } },
+    accent: {
+      gray: {
+        DEFAULT: {
+          value: {
+            base: '{colors.neutral.80}',
+            _dark: '{colors.darkNeutral.80}',
+          },
+        },
+        bold: {
+          value: {
+            base: '{colors.neutral.100}',
+            _dark: '{colors.darkNeutral.100}',
+          },
+        },
+      },
+      red: {
+        DEFAULT: {
+          value: { base: '{colors.red.80}', _dark: '{colors.red.30}' },
+        },
+        bold: {
+          value: { base: '{colors.red.90}', _dark: '{colors.red.20}' },
+        },
+      },
+      orange: {
+        DEFAULT: {
+          value: { base: '{colors.orange.80}', _dark: '{colors.orange.30}' },
+        },
+        bold: {
+          value: { base: '{colors.orange.90}', _dark: '{colors.orange.20}' },
+        },
+      },
+      yellow: {
+        DEFAULT: {
+          value: { base: '{colors.yellow.80}', _dark: '{colors.yellow.30}' },
+        },
+        bold: {
+          value: { base: '{colors.yellow.90}', _dark: '{colors.yellow.20}' },
+        },
+      },
+      lime: {
+        DEFAULT: {
+          value: { base: '{colors.lime.80}', _dark: '{colors.lime.30}' },
+        },
+        bold: {
+          value: { base: '{colors.lime.90}', _dark: '{colors.lime.20}' },
+        },
+      },
+      green: {
+        DEFAULT: {
+          value: { base: '{colors.green.80}', _dark: '{colors.green.30}' },
+        },
+        bold: {
+          value: { base: '{colors.green.90}', _dark: '{colors.green.20}' },
+        },
+      },
+      teal: {
+        DEFAULT: {
+          value: { base: '{colors.teal.80}', _dark: '{colors.teal.30}' },
+        },
+        bold: {
+          value: { base: '{colors.teal.90}', _dark: '{colors.teal.20}' },
+        },
+      },
+      blue: {
+        DEFAULT: {
+          value: { base: '{colors.blue.80}', _dark: '{colors.blue.30}' },
+        },
+        bold: {
+          value: { base: '{colors.blue.90}', _dark: '{colors.blue.20}' },
+        },
+      },
+      indigo: {
+        DEFAULT: {
+          value: { base: '{colors.indigo.80}', _dark: '{colors.indigo.30}' },
+        },
+        bold: {
+          value: { base: '{colors.indigo.90}', _dark: '{colors.indigo.20}' },
+        },
+      },
+      purple: {
+        DEFAULT: {
+          value: { base: '{colors.purple.80}', _dark: '{colors.purple.30}' },
+        },
+        bold: {
+          value: { base: '{colors.purple.90}', _dark: '{colors.purple.20}' },
+        },
+      },
+      magenta: {
+        DEFAULT: {
+          value: { base: '{colors.magenta.80}', _dark: '{colors.magenta.30}' },
+        },
+        bold: {
+          value: { base: '{colors.magenta.90}', _dark: '{colors.magenta.20}' },
+        },
+      },
+      tan: {
+        DEFAULT: {
+          value: { base: '{colors.tan.80}', _dark: '{colors.tan.30}' },
+        },
+        bold: {
+          value: { base: '{colors.tan.90}', _dark: '{colors.tan.20}' },
+        },
+      },
+    },
   },
   utility: {
     shadowColor: {
