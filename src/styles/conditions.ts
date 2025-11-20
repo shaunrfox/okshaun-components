@@ -3,16 +3,19 @@ export const conditions = {
   focus: '&:is(:focus, [data-focus])',
   focusWithin: '&:focus-within',
   focusVisible: '&:is(:focus-visible, [data-focus-visible])',
-  disabled: '&:is(:disabled, [disabled], [data-disabled], [aria-disabled=true])',
+  disabled:
+    '&:is(:disabled, [disabled], [data-disabled], [aria-disabled=true])',
   active: '&:is(:active, [data-active])',
   visited: '&:visited',
   target: '&:target',
   readOnly: '&:is(:read-only, [data-read-only], [aria-readonly=true])',
   readWrite: '&:read-write',
   empty: '&:is(:empty, [data-empty])',
-  checked: '&:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"])',
+  checked:
+    '&:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"])',
   enabled: '&:enabled',
-  expanded: '&:is([aria-expanded=true], [data-expanded], [data-state="expanded"])',
+  expanded:
+    '&:is([aria-expanded=true], [data-expanded], [data-state="expanded"])',
   highlighted: '&[data-highlighted]',
   complete: '&[data-complete]',
   incomplete: '&[data-incomplete]',
@@ -42,10 +45,13 @@ export const conditions = {
   peerActive: '.peer:is(:active, [data-active]) ~ &',
   peerFocusWithin: '.peer:focus-within ~ &',
   peerFocusVisible: '.peer:is(:focus-visible, [data-focus-visible]) ~ &',
-  peerDisabled: '.peer:is(:disabled, [disabled], [data-disabled], [aria-disabled=true]) ~ &',
-  peerChecked: '.peer:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"]) ~ &',
+  peerDisabled:
+    '.peer:is(:disabled, [disabled], [data-disabled], [aria-disabled=true]) ~ &',
+  peerChecked:
+    '.peer:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"]) ~ &',
   peerInvalid: '.peer:is(:invalid, [data-invalid], [aria-invalid=true]) ~ &',
-  peerExpanded: '.peer:is([aria-expanded=true], [data-expanded], [data-state="expanded"]) ~ &',
+  peerExpanded:
+    '.peer:is([aria-expanded=true], [data-expanded], [data-state="expanded"]) ~ &',
   peerPlaceholderShown: '.peer:placeholder-shown ~ &',
 
   groupFocus: '.group:is(:focus, [data-focus]) &',
@@ -53,15 +59,20 @@ export const conditions = {
   groupActive: '.group:is(:active, [data-active]) &',
   groupFocusWithin: '.group:focus-within &',
   groupFocusVisible: '.group:is(:focus-visible, [data-focus-visible]) &',
-  groupDisabled: '.group:is(:disabled, [disabled], [data-disabled], [aria-disabled=true]) &',
-  groupChecked: '.group:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"]) &',
-  groupExpanded: '.group:is([aria-expanded=true], [data-expanded], [data-state="expanded"]) &',
+  groupDisabled:
+    '.group:is(:disabled, [disabled], [data-disabled], [aria-disabled=true]) &',
+  groupChecked:
+    '.group:is(:checked, [data-checked], [aria-checked=true], [data-state="checked"]) &',
+  groupExpanded:
+    '.group:is([aria-expanded=true], [data-expanded], [data-state="expanded"]) &',
   groupInvalid: '.group:is(:invalid, [data-invalid], [aria-invalid=true]) &',
 
-  indeterminate: '&:is(:indeterminate, [data-indeterminate], [aria-checked=mixed], [data-state="indeterminate"])',
+  indeterminate:
+    '&:is(:indeterminate, [data-indeterminate], [aria-checked=mixed], [data-state="indeterminate"])',
   required: '&:is(:required, [data-required], [aria-required=true])',
   valid: '&:is(:valid, [data-valid])',
   invalid: '&:is(:invalid, [data-invalid], [aria-invalid=true])',
+  error: '&:is([data-error], [data-error=true])',
   autofill: '&:autofill',
   inRange: '&:is(:in-range, [data-in-range])',
   outOfRange: '&:is(:out-of-range, [data-outside-range])',

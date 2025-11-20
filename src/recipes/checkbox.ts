@@ -13,9 +13,9 @@ export const checkboxRecipe = defineSlotRecipe({
       alignItems: 'start',
       cursor: 'pointer',
       userSelect: 'none',
-      color: 'icon.subtlest',
+      color: 'text',
       _error: {
-        color: 'icon.danger',
+        color: 'text.danger',
       },
     },
     input: {
@@ -51,11 +51,13 @@ export const checkboxRecipe = defineSlotRecipe({
       },
       _disabled: {
         '& ~ svg': {
-          opacity: 0.4,
+          // fill: 'icon.disabled',
           pointerEvents: 'none',
-          cursor: 'none',
         },
         display: 'inline-grid',
+        _hover: {
+          cursor: 'not-allowed',
+        },
       },
       _error: {
         display: 'inline-grid',
@@ -67,7 +69,7 @@ export const checkboxRecipe = defineSlotRecipe({
         "& ~ [name='checkbox-focus']": {
           display: 'inline-grid',
           position: 'absolute',
-          fill: 'icon',
+          fill: 'border.focused',
         },
       },
     },

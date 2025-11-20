@@ -41,6 +41,7 @@ export const Icon: React.FC<IconProps> = ({
       as={'svg'}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      name={name}
       className={cx(icon({ size: size as AllowedIconSizes, fill }), className)}
       {...otherProps}
     >

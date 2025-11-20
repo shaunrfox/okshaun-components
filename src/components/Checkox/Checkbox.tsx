@@ -53,6 +53,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   id,
   name,
   checked,
+  disabled,
   onChange,
   ...props
 }) => {
@@ -75,6 +76,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         id={id}
         checked={checked}
         onChange={onChange}
+        disabled={disabled}
         {...(indeterminate && { 'data-indeterminate': true })}
         {...(error && { 'data-error': true })}
         {...props}
