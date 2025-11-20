@@ -1,7 +1,7 @@
 import { Box, type BoxProps } from '../Box';
 import { checkbox, type CheckboxVariantProps } from '@styled-system/recipes';
 import { Icon } from '../Icon';
-import { type ChangeEventHandler } from 'react';
+import { ChangeEventHandler } from 'react';
 
 export type CheckboxProps = {
   /** Form field name */

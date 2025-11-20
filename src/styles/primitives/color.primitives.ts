@@ -51,7 +51,6 @@ export const colors = defineTokens.colors({
     '50': { value: '#E9F0FB5C' },
   },
   gray: {
-    // "#fbfcfd", "#e0e1e2", "#c5c5c6", "#a9aaab", "#8e8f8f", "#737374", "#585858", "#3c3d3d", "#212121", "#060606"
     '10': { value: '#fbfcfd' },
     '20': { value: '#e0e1e2' },
     '30': { value: '#c5c5c6' },

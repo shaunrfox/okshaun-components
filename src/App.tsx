@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { HStack, VStack, Container, Grid, Flex } from '@styled-system/jsx';
 import { Box } from '~/components/Box';
 import { Text } from '~/components/Text';
@@ -29,7 +29,7 @@ export function IconList() {
   return (
     <Grid gap="16" w="full" gridTemplateColumns={'repeat(auto-fill, minmax(200px, 1fr))'}>
       {(Object.keys(IconNames) as IconNamesList[]).map((icon) => (
-        <HStack key={icon} color={{ base: 'gold.40', _dark: 'gold.30' }}>
+        <HStack key={icon} color={{ base: 'blue.60', _dark: 'blue.40' }}>
           <Icon name={icon} />
           <Text family={'mono'} fontSize={'14'}>
             {icon}
@@ -48,7 +48,7 @@ export const Section = ({ children }: { children?: ReactNode }) => {
       w={'full'}
       borderTopWidth={'1'}
       borderTopStyle={'solid'}
-      borderColor={{ base: 'gray.10', _dark: 'gray.80' }}
+      borderColor={'border'}
       py={'24'}
       pb={'96'}
     >
@@ -58,20 +58,18 @@ export const Section = ({ children }: { children?: ReactNode }) => {
 };
 
 function AppContent() {
+  const [checked, setChecked] = useState(false);
   return (
     <VStack>
-      <Flex
-        w="full"
-        py={'4'}
-        bg={'surface.overlay'}
-        mb={'56'}
-        position={'sticky'}
-        top={'0'}
-        zIndex={'100'}
-        boxShadow={'medium'}
-      >
+      <Flex w="full" bg={'surface'} mb={'56'} position={'sticky'} top={'0'} zIndex={'100'}>
         <Container maxW={'5xl'}>
-          <HStack justify={'space-between'}>
+          <HStack
+            justify={'space-between'}
+            borderBottomWidth={'1'}
+            borderStyle={'solid'}
+            borderColor={'border'}
+            py={'4'}
+          >
             <Text
               as={'div'}
               family={'mono'}
@@ -79,6 +77,7 @@ function AppContent() {
               letterSpacing={'widest'}
               textTransform={'uppercase'}
               fontWeight={'bold'}
+              color={'text.bold'}
             >
               okshaun Components
             </Text>
@@ -372,29 +371,54 @@ function AppContent() {
           </Section>
           <Section>
             <Heading level="h2">Checkboxes</Heading>
-            <VStack alignItems={'flex-start'} gap={'24'}>
-              <Label>
-                <Checkbox name="checkbox1" />
-                <Text ml={'8'}>Default Checkbox</Text>
-              </Label>
-            </VStack>
+            <HStack gap={'40'} alignItems={'flex-end'}>
+              <Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} name="normal" />
+              <Checkbox
+                checked={checked}
+                onChange={(e) => setChecked(e.target.checked)}
+                defaultChecked={true}
+                name="default-checked"
+              />
+              <Checkbox
+                checked={checked}
+                onChange={(e) => setChecked(e.target.checked)}
+                indeterminate
+                name="indeterminate"
+              />
+              <Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} error name="error" />
+              <Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} disabled name="disabled" />
+            </HStack>
           </Section>
           <Section>
             <Heading level="h2">Checkbox Input</Heading>
-            <VStack gap={'8'} alignItems={'flex-start'} maxW={'280'}>
-              <CheckboxInput name="normal">Aliqua irure veniam</CheckboxInput>
-              <CheckboxInput defaultChecked={true} name="default-checked">
-                elit consectetur elit cillum non eu laborum aute
+            <VStack gap={'8'} alignItems={'flex-start'} maxW={'xs'}>
+              <CheckboxInput name="normal" checked={checked} onChange={(e) => setChecked(e.target.checked)}>
+                <Text>Aliqua irure veniam</Text>
               </CheckboxInput>
-              <CheckboxInput indeterminate name="indeterminate">
-                Ut fugiat tempor ullamco voluptate dolor labore amet magna irure reprehenderit est irure est anim
-                eiusmod commodo tempor eu ut.
+              <CheckboxInput
+                defaultChecked={true}
+                name="default-checked"
+                checked={checked}
+                onChange={(e) => setChecked(e.target.checked)}
+              >
+                <Text>elit consectetur elit cillum non eu laborum aute</Text>
               </CheckboxInput>
-              <CheckboxInput error name="error">
-                et qui sit
+              <CheckboxInput
+                indeterminate
+                name="indeterminate"
+                checked={checked}
+                onChange={(e) => setChecked(e.target.checked)}
+              >
+                <Text>
+                  Ut fugiat tempor ullamco voluptate dolor labore amet magna irure reprehenderit est irure est anim
+                  eiusmod commodo tempor eu ut.
+                </Text>
               </CheckboxInput>
-              <CheckboxInput disabled name="disabled">
-                aliquip velit anim irure
+              <CheckboxInput error name="error" checked={checked} onChange={(e) => setChecked(e.target.checked)}>
+                <Text>et qui sit</Text>
+              </CheckboxInput>
+              <CheckboxInput disabled name="disabled" checked={checked} onChange={(e) => setChecked(e.target.checked)}>
+                <Text>aliquip velit anim irure</Text>
               </CheckboxInput>
             </VStack>
           </Section>

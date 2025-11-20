@@ -1,8 +1,4 @@
-import {
-  defineTokens,
-  defineSemanticTokens,
-  definePreset,
-} from '@pandacss/dev';
+import { defineTokens, defineSemanticTokens, definePreset } from '@pandacss/dev';
 import pandaBasePreset from '@pandacss/preset-base';
 import * as tokens from './src/styles/primitives';
 import * as semantics from './src/styles/semantics';
@@ -13,8 +9,8 @@ import * as componentRecipes from './src/recipes';
 
 // Extract slot recipes separately
 const {
-	buttonRecipe,
-	iconButtonRecipe,
+  buttonRecipe,
+  iconButtonRecipe,
   checkboxRecipe,
   radioRecipe,
   tooltipRecipe,
@@ -26,19 +22,12 @@ const {
 // Transform recipe keys: remove 'Recipe' suffix to match component imports
 // e.g., { boxRecipe: {...} } becomes { box: {...} }
 const transformedRecipes = Object.fromEntries(
-  Object.entries(regularComponents).map(([key, value]) => [
-    key.replace(/Recipe$/, ''),
-    value,
-  ]),
+  Object.entries(regularComponents).map(([key, value]) => [key.replace(/Recipe$/, ''), value]),
 );
 
 // https://panda-css.com/docs/concepts/extend#removing-something-from-the-base-presets
 // omit default patterns here
-const {
-  box: _box,
-  divider: _divider,
-  ...pandaBasePresetPatterns
-} = pandaBasePreset.patterns;
+const { box: _box, divider: _divider, ...pandaBasePresetPatterns } = pandaBasePreset.patterns;
 const pandaBasePresetConditions = pandaBasePreset.conditions;
 const pandaBasePresetUtilities = pandaBasePreset.utilities;
 const pandaBasePresetGlobalCss = pandaBasePreset.globalCss;
@@ -77,9 +66,9 @@ export const okshaunPreset = definePreset({
       recipes: {
         ...transformedRecipes,
       },
-			slotRecipes: {
-				button: buttonRecipe,
-				iconButton: iconButtonRecipe,
+      slotRecipes: {
+        button: buttonRecipe,
+        iconButton: iconButtonRecipe,
         checkbox: checkboxRecipe,
         radio: radioRecipe,
         tooltip: tooltipRecipe,
@@ -144,7 +133,6 @@ export const okshaunPreset = definePreset({
   conditions: {
     ...pandaBasePresetConditions,
     ...conditions,
-    collapsed:
-      '&:is([aria-collapsed=true], [data-collapsed], [data-state="collapsed"])',
+    collapsed: '&:is([aria-collapsed=true], [data-collapsed], [data-state="collapsed"])',
   },
 });

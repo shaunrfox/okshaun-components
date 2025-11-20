@@ -5,7 +5,7 @@ import { cx, css } from '@styled-system/css';
 import { type ColorToken } from '@styled-system/tokens';
 import type { IconNamesList } from './icons';
 import { icon } from '@styled-system/patterns';
-import { numericSizes } from '~/styles/tokens';
+import { numericSizes } from '~/styles/primitives';
 import { injectSprite } from '~/utils/injectSprite';
 
 /*

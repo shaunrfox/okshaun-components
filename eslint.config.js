@@ -7,7 +7,13 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['dist', 'styled-system', 'storybook-static', '**/*.stories.tsx', '.storybook'],
+    ignores: [
+      'dist',
+      'styled-system',
+      'storybook-static',
+      '**/*.stories.tsx',
+      '.storybook',
+    ],
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
@@ -37,9 +43,12 @@ export default tseslint.config(
       },
     },
     rules: {
-      'max-len': ['warn', { code: 120, ignoreComments: true }],
+      // 'max-len': ['warn', { code: 80, ignoreComments: true }],
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
       '@typescript-eslint/no-unused-vars': [
         'error',
         {

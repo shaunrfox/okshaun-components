@@ -5,7 +5,7 @@ const textBase = {
   lineHeight: 'default',
   fontWeight: 'normal',
   fontSize: '16',
-  color: { base: 'gray.70', _dark: 'gray.20' },
+  color: 'text',
 };
 
 const textVariants = {
@@ -36,7 +36,7 @@ const textVariants = {
 const headingBase = {
   fontFamily: 'heading',
   fontWeight: 'black',
-  color: { base: 'gray.90', _dark: 'gray.10' },
+  color: 'text.bold',
   lineHeight: 'default',
 };
 

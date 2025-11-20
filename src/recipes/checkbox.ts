@@ -13,6 +13,10 @@ export const checkboxRecipe = defineSlotRecipe({
       alignItems: 'start',
       cursor: 'pointer',
       userSelect: 'none',
+      color: 'icon.subtlest',
+      _error: {
+        color: 'icon.danger',
+      },
     },
     input: {
       position: 'absolute',
@@ -29,7 +33,7 @@ export const checkboxRecipe = defineSlotRecipe({
       _checked: {
         "& ~ [name='checkbox-checked']": {
           display: 'inline-grid',
-          fill: { base: 'slate.90', _dark: 'slate.0' },
+          fill: 'icon',
         },
         "& ~ [name='checkbox']": {
           display: 'none',
@@ -38,7 +42,7 @@ export const checkboxRecipe = defineSlotRecipe({
       _indeterminate: {
         "& ~ [name='checkbox-indeterminate']": {
           display: 'inline-grid',
-          fill: { base: 'slate.90', _dark: 'slate.0' },
+          fill: 'icon',
           _disabled: {},
         },
         "& ~ [name='checkbox']": {
@@ -56,14 +60,14 @@ export const checkboxRecipe = defineSlotRecipe({
       _error: {
         display: 'inline-grid',
         '& ~ svg': {
-          fill: { base: 'error.default', _dark: 'error.default' },
+          fill: 'icon.danger',
         },
       },
       _focusVisible: {
         "& ~ [name='checkbox-focus']": {
           display: 'inline-grid',
           position: 'absolute',
-          fill: { base: 'slate.90', _dark: 'slate.1' },
+          fill: 'icon',
         },
       },
     },
@@ -74,7 +78,7 @@ export const checkboxRecipe = defineSlotRecipe({
       height: 24,
       "&:is([name='checkbox'])": {
         display: 'inline-grid',
-        fill: { base: 'slate.30', _dark: 'slate.20' },
+        fill: 'icon.subtlest',
       },
     },
   },
