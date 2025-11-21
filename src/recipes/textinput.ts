@@ -17,6 +17,11 @@ const textInputVariants = {
       px: 12,
       fontSize: '16',
     },
+    xlarge: {
+      fontSize: '20',
+      py: '9',
+      px: '16',
+    },
   },
   // autoSize: {
   //   true: {

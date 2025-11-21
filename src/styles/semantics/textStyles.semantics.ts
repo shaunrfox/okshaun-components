@@ -4,7 +4,7 @@ const baseHeadingStyles = defineStyles({
   value: {
     fontFamily: 'sans',
     fontWeight: 'bold',
-    color: { base: 'gray.90', _dark: 'gray.10' },
+    color: 'text',
     lineHeight: 'default',
   },
 });
@@ -13,7 +13,7 @@ const baseBodyTextStyles = defineStyles({
   value: {
     fontFamily: 'serif',
     fontWeight: 'normal',
-    color: { base: 'gray.60', _dark: 'gray.20' },
+    color: 'text.subtlest',
     lineHeight: 'default',
   },
 });
@@ -22,7 +22,7 @@ const baseMonoStyles = defineStyles({
   value: {
     fontFamily: 'mono',
     fontWeight: 'normal',
-    color: { base: 'gray.60', _dark: 'gray.20' },
+    color: 'text.subtlest',
     lineHeight: 'default',
   },
 });

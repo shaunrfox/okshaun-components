@@ -20,6 +20,12 @@ const textareaVariants = {
       fontSize: '16',
       minHeight: '80',
     },
+    xlarge: {
+      py: '9',
+      px: '16',
+      fontSize: '20',
+      minHeight: '96',
+    },
   },
   // autoGrow: {
   //   false: {

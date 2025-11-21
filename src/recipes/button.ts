@@ -157,6 +157,17 @@ export const buttonRecipe = defineSlotRecipe({
           h: '24',
         },
       },
+      xlarge: {
+        container: {
+          fontSize: '20',
+          py: '9',
+          px: '16',
+        },
+        icon: {
+          w: '28',
+          h: '28',
+        },
+      },
       large: {
         container: {
           fontSize: '16',
@@ -228,6 +239,20 @@ export const buttonRecipe = defineSlotRecipe({
       iconAfter: true,
       css: {
         container: { pe: '5' },
+      },
+    },
+    {
+      size: 'xlarge',
+      iconBefore: true,
+      css: {
+        container: { ps: '7' },
+      },
+    },
+    {
+      size: 'xlarge',
+      iconAfter: true,
+      css: {
+        container: { pe: '7' },
       },
     },
   ],
