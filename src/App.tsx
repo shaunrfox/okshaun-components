@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { HStack, VStack, Container, Grid, Flex } from '@styled-system/jsx';
 import { Box } from '~/components/Box';
 import { Text } from '~/components/Text';
@@ -24,6 +24,7 @@ import { Toggle } from '~/components/Toggle';
 import { Tooltip } from '~/components/Tooltip';
 import { Checkbox } from '~/components/Checkox';
 import { CheckboxInput } from '~/components/CheckboxInput';
+import { Textarea } from './components/Textarea';
 
 export function IconList() {
   return (
@@ -33,7 +34,7 @@ export function IconList() {
       gridTemplateColumns={'repeat(auto-fill, minmax(200px, 1fr))'}
     >
       {(Object.keys(IconNames) as IconNamesList[]).map((icon) => (
-        <HStack key={icon} color={{ base: 'gold.40', _dark: 'gold.30' }}>
+        <HStack key={icon} color={{ base: 'blue.60', _dark: 'blue.40' }}>
           <Icon name={icon} />
           <Text family={'mono'} fontSize={'14'}>
             {icon}
@@ -52,7 +53,7 @@ export const Section = ({ children }: { children?: ReactNode }) => {
       w={'full'}
       borderTopWidth={'1'}
       borderTopStyle={'solid'}
-      borderColor={{ base: 'gray.10', _dark: 'gray.80' }}
+      borderColor={'border'}
       py={'24'}
       pb={'96'}
     >
@@ -62,20 +63,57 @@ export const Section = ({ children }: { children?: ReactNode }) => {
 };
 
 function AppContent() {
+  // Checkbox states using Storybook pattern
+  const [checkboxStates, setCheckboxStates] = useState({
+    normal: false,
+    defaultChecked: true,
+    indeterminate: false,
+    error: false,
+    disabled: false,
+  });
+
+  const handleCheckboxChange =
+    (key: keyof typeof checkboxStates) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCheckboxStates({ ...checkboxStates, [key]: e.target.checked });
+    };
+
+  // CheckboxInput states using Storybook pattern
+  const [checkboxInputStates, setCheckboxInputStates] = useState({
+    normal: false,
+    defaultChecked: true,
+    indeterminate: false,
+    error: false,
+    disabled: false,
+  });
+
+  const handleCheckboxInputChange =
+    (key: keyof typeof checkboxInputStates) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCheckboxInputStates({
+        ...checkboxInputStates,
+        [key]: e.target.checked,
+      });
+    };
+
   return (
     <VStack>
       <Flex
         w="full"
-        py={'4'}
-        bg={{ base: 'gray.10', _dark: 'gray.80' }}
+        bg={'surface'}
         mb={'56'}
         position={'sticky'}
         top={'0'}
         zIndex={'100'}
-        boxShadow={'medium'}
       >
         <Container maxW={'5xl'}>
-          <HStack justify={'space-between'}>
+          <HStack
+            justify={'space-between'}
+            borderBottomWidth={'1'}
+            borderStyle={'solid'}
+            borderColor={'border'}
+            py={'4'}
+          >
             <Text
               as={'div'}
               family={'mono'}
@@ -83,6 +121,7 @@ function AppContent() {
               letterSpacing={'widest'}
               textTransform={'uppercase'}
               fontWeight={'bold'}
+              color={'text.bold'}
             >
               okshaun Components
             </Text>
@@ -96,36 +135,44 @@ function AppContent() {
             <Heading>Buttons</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
               <HStack>
+                <Button appearance="primary" onClick={() => alert('clicked')}>
+                  Primary
+                </Button>
+                <Button>Default</Button>
+                <Button appearance="subtle">Subtle</Button>
+                <Button appearance="hollow">Hollow</Button>
+              </HStack>
+              <HStack>
                 <Button
-                  variant="primary"
+                  appearance="primary"
+                  iconBefore="user"
                   onClick={() => alert('clicked')}
-                  bg="red.50"
                 >
                   Primary
                 </Button>
-                <Button>Standard</Button>
-                <Button variant="hollow">Hollow</Button>
-                <Button variant="ghost">Ghost</Button>
-                <Button variant="cta">CTA</Button>
-                <Button variant="danger">Danger</Button>
+                <Button iconAfter="caret-down">Default</Button>
+                <Button iconAfter="plus" appearance="subtle">
+                  Subtle
+                </Button>
+                <Button iconBefore="aa-placeholder" appearance="hollow">
+                  Hollow
+                </Button>
               </HStack>
               <HStack>
-                <IconButton variant="ghost">
-                  <Icon name="x" />
-                </IconButton>
-                <IconButton>
-                  <Icon name="arrow-left" />
-                </IconButton>
-                <IconButton variant="primary" size="large">
-                  <Icon name="arrow-right" />
-                </IconButton>
+                <IconButton appearance="subtle" iconName="x" />
+                <IconButton iconName="arrow-left" />
+                <IconButton
+                  appearance="primary"
+                  size="large"
+                  iconName="arrow-right"
+                />
               </HStack>
               <HStack>
-                <Button variant="primary" loading>
+                <Button appearance="primary" loading>
                   Pepperoni
                 </Button>
                 <Button loading>Loading</Button>
-                <IconButton variant="primary" loading>
+                <IconButton appearance="primary" loading>
                   <Icon name="x" />
                 </IconButton>
               </HStack>
@@ -270,50 +317,64 @@ function AppContent() {
           <Section>
             <Heading level="h2">Tags</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
-              <HStack gap={'8'} flexWrap={'wrap'}>
-                <Tag hue="slate">Slate</Tag>
+              <Grid gap={'8'} gridTemplateColumns={'repeat(13, auto)'}>
+                <Text textStyle="mono.sm">Default</Text>
+                <Tag>Gray</Tag>
                 <Tag hue="red">Red</Tag>
                 <Tag hue="orange">Orange</Tag>
                 <Tag hue="yellow">Yellow</Tag>
+                <Tag hue="lime">Lime</Tag>
                 <Tag hue="green">Green</Tag>
+                <Tag hue="teal">Teal</Tag>
                 <Tag hue="blue">Blue</Tag>
+                <Tag hue="indigo">Indigo</Tag>
                 <Tag hue="purple">Purple</Tag>
-                <Tag hue="pink">Pink</Tag>
-              </HStack>
-              <HStack gap={'8'} flexWrap={'wrap'}>
-                <Tag hue="slate" variant="bold">
-                  Slate Bold
+                <Tag hue="magenta">Magenta</Tag>
+                <Tag hue="tan">Tan</Tag>
+                <Text textStyle="mono.sm">Bold</Text>
+                <Tag appearance="bold">Gray</Tag>
+                <Tag hue="red" appearance="bold">
+                  Red
                 </Tag>
-                <Tag hue="red" variant="bold">
-                  Red Bold
+                <Tag hue="orange" appearance="bold">
+                  Orange
                 </Tag>
-                <Tag hue="orange" variant="bold">
-                  Orange Bold
+                <Tag hue="yellow" appearance="bold">
+                  Yellow
                 </Tag>
-                <Tag hue="yellow" variant="bold">
-                  Yellow Bold
+                <Tag hue="lime" appearance="bold">
+                  Lime
                 </Tag>
-                <Tag hue="green" variant="bold">
-                  Green Bold
+                <Tag hue="green" appearance="bold">
+                  Green
                 </Tag>
-                <Tag hue="blue" variant="bold">
-                  Blue Bold
+                <Tag hue="teal" appearance="bold">
+                  Teal
                 </Tag>
-                <Tag hue="purple" variant="bold">
-                  Purple Bold
+                <Tag hue="blue" appearance="bold">
+                  Blue
                 </Tag>
-                <Tag hue="pink" variant="bold">
-                  Pink Bold
+                <Tag hue="indigo" appearance="bold">
+                  Indigo
                 </Tag>
-              </HStack>
-              <HStack gap={'8'}>
+                <Tag hue="purple" appearance="bold">
+                  Purple
+                </Tag>
+                <Tag hue="magenta" appearance="bold">
+                  Magenta
+                </Tag>
+                <Tag hue="tan" appearance="bold">
+                  Tan
+                </Tag>
+              </Grid>
+              {/* <HStack gap={'8'}>
                 <Tag hue="blue" iconName="check">
                   With Icon Left
                 </Tag>
                 <Tag hue="green" iconName="star" iconPosition="right">
                   With Icon Right
                 </Tag>
-              </HStack>
+              </HStack> */}
             </VStack>
           </Section>
           <Section>
@@ -370,59 +431,163 @@ function AppContent() {
           <Section>
             <Heading level="h2">Labels & Inputs</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
-              <VStack alignItems={'flex-start'} gap={'8'}>
-                <Label htmlFor="email-input">Email Address</Label>
-                <TextInput
-                  id="email-input"
-                  name="email"
-                  placeholder="Enter your email"
-                />
-              </VStack>
-              <VStack alignItems={'flex-start'} gap={'8'}>
-                <Label htmlFor="name-input">Name</Label>
-                <TextInput
-                  id="name-input"
-                  name="name"
-                  size="large"
-                  placeholder="Enter your name"
-                />
-              </VStack>
-              <VStack alignItems={'flex-start'} gap={'8'}>
-                <Label htmlFor="error-input">With Error</Label>
-                <TextInput
-                  id="error-input"
-                  name="error"
-                  error
-                  placeholder="This field has an error"
-                />
-              </VStack>
+              <HStack alignItems={'flex-start'} gap={'24'}>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="email-input">Email Address</Label>
+                  <TextInput
+                    id="email-input"
+                    name="email"
+                    placeholder="Enter your email"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="name-input">Name</Label>
+                  <TextInput
+                    id="name-input"
+                    name="name"
+                    size="small"
+                    placeholder="Enter your name"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="name-input">Name</Label>
+                  <TextInput
+                    id="name-input"
+                    name="name"
+                    size="large"
+                    placeholder="Enter your real name"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="error-input">With Error</Label>
+                  <TextInput
+                    id="error-input"
+                    name="error"
+                    error
+                    placeholder="This field has an error"
+                  />
+                </VStack>
+              </HStack>
+              <Grid
+                gridTemplateColumns={'repeat(4, auto)'}
+                alignItems={'flex-start'}
+                gap={'24'}
+              >
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="things">Things</Label>
+                  <Textarea
+                    id="things"
+                    name="things"
+                    placeholder="Enter your secrets"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="stuff">Stuff</Label>
+                  <Textarea
+                    id="stuff"
+                    name="stuff"
+                    size="small"
+                    placeholder="Enter your stuff"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="stuff">Stuff</Label>
+                  <Textarea
+                    id="stuff"
+                    name="stuff"
+                    size="large"
+                    placeholder="Enter your stuff"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="stuff">Error</Label>
+                  <Textarea
+                    id="error"
+                    name="error"
+                    error
+                    placeholder="somethin' broke"
+                  />
+                </VStack>
+              </Grid>
             </VStack>
           </Section>
           <Section>
             <Heading level="h2">Checkboxes</Heading>
-            <VStack alignItems={'flex-start'} gap={'24'}>
-              <Label>
-                <Checkbox name="checkbox1" />
-                <Text ml={'8'}>Default Checkbox</Text>
-              </Label>
-            </VStack>
+            <HStack gap={'40'} alignItems={'flex-end'}>
+              <Checkbox
+                checked={checkboxStates.normal}
+                onChange={handleCheckboxChange('normal')}
+                name="normal"
+              />
+              <Checkbox
+                checked={checkboxStates.defaultChecked}
+                onChange={handleCheckboxChange('defaultChecked')}
+                name="default-checked"
+              />
+              <Checkbox
+                checked={checkboxStates.indeterminate}
+                onChange={handleCheckboxChange('indeterminate')}
+                indeterminate
+                name="indeterminate"
+              />
+              <Checkbox
+                checked={checkboxStates.error}
+                onChange={handleCheckboxChange('error')}
+                error
+                name="error"
+              />
+              <Checkbox
+                checked={checkboxStates.disabled}
+                onChange={handleCheckboxChange('disabled')}
+                disabled
+                name="disabled"
+              />
+            </HStack>
           </Section>
           <Section>
             <Heading level="h2">Checkbox Input</Heading>
-            <VStack gap={'8'} alignItems={'flex-start'} maxW={'280'}>
-              <CheckboxInput name="normal">Aliqua irure veniam</CheckboxInput>
-              <CheckboxInput defaultChecked={true} name="default-checked">
-                elit consectetur elit cillum non eu laborum aute
+            <VStack gap={'8'} alignItems={'flex-start'} maxW={'xs'}>
+              <CheckboxInput
+                name="normal"
+                checked={checkboxInputStates.normal}
+                onChange={handleCheckboxInputChange('normal')}
+              >
+                <Text>Aliqua irure veniam</Text>
               </CheckboxInput>
-              <CheckboxInput indeterminate name="indeterminate">
-                Ut fugiat tempor ullamco voluptate dolor labore amet magna irure
-                reprehenderit est irure est anim eiusmod commodo tempor eu ut.
+              <CheckboxInput
+                name="default-checked"
+                checked={checkboxInputStates.defaultChecked}
+                onChange={handleCheckboxInputChange('defaultChecked')}
+              >
+                <Text>elit consectetur elit cillum non eu laborum aute</Text>
               </CheckboxInput>
-              <CheckboxInput error name="error">
-                et qui sit
+              <CheckboxInput
+                indeterminate
+                name="indeterminate"
+                checked={checkboxInputStates.indeterminate}
+                onChange={handleCheckboxInputChange('indeterminate')}
+              >
+                <Text>
+                  Ut fugiat tempor ullamco voluptate dolor labore amet magna
+                  irure reprehenderit est irure est anim eiusmod commodo tempor
+                  eu ut.
+                </Text>
               </CheckboxInput>
-              <CheckboxInput disabled name="disabled">
-                aliquip velit anim irure
+              <CheckboxInput
+                error
+                name="error"
+                checked={checkboxInputStates.error}
+                onChange={handleCheckboxInputChange('error')}
+              >
+                <Text>et qui sit</Text>
+              </CheckboxInput>
+              <CheckboxInput
+                disabled
+                name="disabled"
+                checked={checkboxInputStates.disabled}
+                onChange={handleCheckboxInputChange('disabled')}
+              >
+                <Text>aliquip velit anim irure</Text>
               </CheckboxInput>
             </VStack>
           </Section>

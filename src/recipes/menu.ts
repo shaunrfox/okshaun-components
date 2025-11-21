@@ -6,7 +6,7 @@ const menuBase = {
     left: '0',
     bottom: '0',
     width: { base: 'full', md: '260' },
-    bg: { base: 'gray.0', _dark: 'gray.80' },
+    bg: { base: 'gray.10', _dark: 'gray.80' },
     py: { base: '12', md: '4' },
     boxShadow: 'medium',
     borderRadius: {
@@ -16,7 +16,7 @@ const menuBase = {
     borderBottomLeftRadius: { base: '0', md: '4' },
     borderBottomRightRadius: { base: '0', md: '4' },
     '& ~ svg': {
-      fill: { base: 'gray.90', _dark: 'gray.0' },
+      fill: { base: 'gray.90', _dark: 'gray.10' },
       mr: 'auto',
     },
     overflow: 'hidden',
@@ -44,14 +44,14 @@ const menuBase = {
     },
 
     _hover: {
-      bg: { base: 'gray.2', _dark: 'gray.50' },
+      bg: { base: 'gray.2', _dark: 'gray.100' },
       cursor: 'pointer',
     },
     _active: {
       bg: { base: 'gray.10', _dark: 'gray.100' },
     },
     _focusVisible: {
-      outlineColor: { base: 'gray.90', _dark: 'gray.0' },
+      outlineColor: { base: 'gray.90', _dark: 'gray.10' },
       outlineOffset: '-2',
     },
     _disabled: {
@@ -83,7 +83,7 @@ const menuBase = {
     py: '4',
     pr: '12',
     pl: '4',
-    bg: { base: 'gray.5', _dark: 'gray.60' },
+    bg: { base: 'gray.10', _dark: 'gray.60' },
     cursor: 'pointer',
   },
 

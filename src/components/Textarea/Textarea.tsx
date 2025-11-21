@@ -1,20 +1,18 @@
-import { Box, type BoxProps } from '~/components/Box';
-import { textarea, type TextareaVariantProps } from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
+import { Box, type BoxProps } from '~/components/Box';
+import { textarea, type TextareaVariantProps } from '@styled-system/recipes';
 
 export type TextareaProps = Omit<BoxProps, keyof TextareaVariantProps> &
   TextareaVariantProps & {
     name: string;
-    autoSize?: boolean;
     error?: boolean;
-    disabled?: boolean;
     id?: string;
   };
 
 export const Textarea: React.FC<TextareaProps> = ({
+  size,
   error,
-  autoSize = false,
   id,
   name,
   disabled,
@@ -28,10 +26,8 @@ export const Textarea: React.FC<TextareaProps> = ({
       name={name}
       {...(error && { 'data-error': true })}
       aria-disabled={disabled}
-      className={cx(textarea({ autoGrow: autoSize }), className)}
+      className={cx(textarea({ size }), className)}
       {...otherProps}
-    ></Box>
+    />
   );
 };
-
-Textarea.displayName = 'Textarea';

@@ -12,21 +12,23 @@ import {
 export type CheckboxInputProps = BoxProps &
   CheckboxInputVariantProps & {
     name: string;
+    checked: boolean;
+    onChange: ChangeEventHandler<HTMLInputElement>;
     id?: string;
     error?: boolean;
     children?: string | ReactNode;
-    checked: boolean;
-    onChange: ChangeEventHandler<HTMLInputElement>;
+    disabled?: boolean;
   };
 
 export const CheckboxInput: FC<CheckboxInputProps> = ({
-  id,
   name,
-  children,
-  error,
-  indeterminate,
   checked,
   onChange,
+  id,
+  error,
+  children,
+  disabled,
+  indeterminate,
   ...props
 }: CheckboxInputProps) => {
   const [className, otherProps] = splitProps(props);
@@ -35,6 +37,7 @@ export const CheckboxInput: FC<CheckboxInputProps> = ({
       className={cx(checkboxInput(), className)}
       {...otherProps}
       htmlFor={id}
+      disabled={disabled}
     >
       <Checkbox
         id={id}
@@ -43,6 +46,7 @@ export const CheckboxInput: FC<CheckboxInputProps> = ({
         checked={checked}
         onChange={onChange}
         indeterminate={indeterminate}
+        disabled={disabled}
         {...props}
       />
       {children}

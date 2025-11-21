@@ -1,7 +1,7 @@
 import { Box, type BoxProps } from '../Box';
 import { checkbox, type CheckboxVariantProps } from '@styled-system/recipes';
 import { Icon } from '../Icon';
-import { type ChangeEventHandler } from 'react';
+import { ChangeEventHandler } from 'react';
 
 export type CheckboxProps = {
   /** Form field name */
@@ -53,6 +53,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   id,
   name,
   checked,
+  disabled,
   onChange,
   ...props
 }) => {
@@ -75,6 +76,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         id={id}
         checked={checked}
         onChange={onChange}
+        disabled={disabled}
         {...(indeterminate && { 'data-indeterminate': true })}
         {...(error && { 'data-error': true })}
         {...props}

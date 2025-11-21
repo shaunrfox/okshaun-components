@@ -16,10 +16,7 @@ export default tseslint.config(
     ],
   },
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-    ],
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
@@ -46,6 +43,7 @@ export default tseslint.config(
       },
     },
     rules: {
+      // 'max-len': ['warn', { code: 80, ignoreComments: true }],
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',

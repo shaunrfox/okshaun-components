@@ -5,14 +5,17 @@ const textBase = {
   lineHeight: 'default',
   fontWeight: 'normal',
   fontSize: '16',
-  color: { base: 'gray.70', _dark: 'gray.20' },
+  color: 'text',
 };
 
 const textVariants = {
   family: {
+    heading: { fontFamily: 'heading' },
+    body: { fontFamily: 'body' },
     sans: { fontFamily: 'sans' },
     serif: { fontFamily: 'serif' },
     mono: { fontFamily: 'mono' },
+    inherit: { fontFamily: 'inherit' },
   },
   bold: {
     true: {
@@ -34,7 +37,7 @@ const textVariants = {
 const headingBase = {
   fontFamily: 'heading',
   fontWeight: 'black',
-  color: { base: 'gray.90', _dark: 'gray.5' },
+  color: 'text.bold',
   lineHeight: 'default',
 };
 
@@ -52,16 +55,20 @@ const linkBase = {
   alignItems: 'center',
   fontWeight: 'medium',
   gap: '1',
-  color: { base: 'blue.50', _dark: 'blue.40' },
-  textDecoration: 'none',
+  color: { base: 'blue.70', _dark: 'blue.40' },
   backgroundImage: 'linear-gradient(90deg, transparent 0% 100%)',
   backgroundSize: '100% 1px',
   backgroundRepeat: 'no-repeat',
   backgroundPositionY: '100%',
   width: 'fit-content',
   cursor: 'pointer',
+  textDecoration: 'none',
   _hover: {
-    color: { base: 'blue.40', _dark: 'blue.30' },
+    color: { base: 'blue.60', _dark: 'blue.40' },
+    backgroundColor: { base: 'blue.10', _dark: 'blue.100' },
+    backgroundImage: 'linear-gradient(90deg, currentColor 0% 100%)',
+  },
+  'p &': {
     backgroundImage: 'linear-gradient(90deg, currentColor 0% 100%)',
   },
 };
@@ -102,7 +109,7 @@ export const textRecipe = defineRecipe({
   base: textBase,
   variants: textVariants,
   defaultVariants: {
-    family: 'sans',
+    family: 'inherit',
   },
 });
 
@@ -122,7 +129,7 @@ export const linkRecipe = defineRecipe({
   base: linkBase,
   variants: linkVariants,
   defaultVariants: {
-    family: 'sans',
+    family: 'inherit',
   },
 });
 
@@ -132,6 +139,6 @@ export const labelRecipe = defineRecipe({
   base: labelBase,
   variants: labelVariants,
   defaultVariants: {
-    family: 'sans',
+    family: 'inherit',
   },
 });

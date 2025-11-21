@@ -65,10 +65,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
     const index = clockWisePlacement.indexOf(start);
     if (index === -1) return clockWisePlacement;
 
-    const reordered = [
-      ...clockWisePlacement.slice(index + 1),
-      ...clockWisePlacement.slice(0, index),
-    ];
+    const reordered = [...clockWisePlacement.slice(index + 1), ...clockWisePlacement.slice(0, index)];
     return reordered;
   }
 
@@ -102,18 +99,11 @@ export const Tooltip: React.FC<TooltipProps> = ({
     setCurrentPlacement(resolvedPlacement);
   };
 
-  function getSimulatedRect(
-    triggerRect: DOMRect,
-    tooltipWidth: number,
-    tooltipHeight: number,
-    place: Position,
-  ) {
+  function getSimulatedRect(triggerRect: DOMRect, tooltipWidth: number, tooltipHeight: number, place: Position) {
     const gap = 8;
 
-    const verticalCenter =
-      triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2;
-    const horizontalCenter =
-      triggerRect.top + triggerRect.height / 2 - tooltipHeight / 2;
+    const verticalCenter = triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2;
+    const horizontalCenter = triggerRect.top + triggerRect.height / 2 - tooltipHeight / 2;
 
     switch (place) {
       case 'top':
@@ -257,21 +247,12 @@ export const Tooltip: React.FC<TooltipProps> = ({
       {show && (
         <Box className={tooltipContent} ref={tooltipRef}>
           {title && (
-            <Text
-              as="p"
-              textStyle="body-md"
-              bold
-              color={{ base: 'gray.0', _dark: 'gray.90' }}
-            >
+            <Text as="p" textStyle="body-md" bold color={{ base: 'gray.10', _dark: 'gray.90' }}>
               {title}
             </Text>
           )}
           {text && (
-            <Text
-              as="span"
-              textStyle="body-sm"
-              color={{ base: 'gray.0', _dark: 'gray.90' }}
-            >
+            <Text as="span" textStyle="body-sm" color={{ base: 'gray.10', _dark: 'gray.90' }}>
               {text}
             </Text>
           )}

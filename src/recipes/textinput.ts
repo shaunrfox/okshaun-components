@@ -18,49 +18,61 @@ const textInputVariants = {
       fontSize: '16',
     },
   },
-  autoSize: {
-    true: {
-      fieldSizing: 'content',
-    },
-  },
+  // autoSize: {
+  //   true: {
+  //     fieldSizing: 'content',
+  //   },
+  // },
 };
 
 const textInputBase = {
+  display: 'inline-grid',
   position: 'relative',
   width: 'full',
   borderWidth: '1',
-  borderColor: 'gray.30',
   borderStyle: 'solid',
+  borderColor: 'border.input',
   borderRadius: '4',
-  lineHeight: 'default',
-  fontFamily: 'body',
-  outlineWidth: '1',
+  outlineWidth: '2',
+  outlineOffset: '-1',
   outlineStyle: 'solid',
   outlineColor: 'transparent',
-  color: {
-    base: 'gray.90',
-    _dark: 'gray.0',
-  },
+  lineHeight: 'default',
+  fontFamily: 'body',
+  bg: 'bg.input',
+  color: 'text',
+  transitionDuration: 'fast',
+  transitionProperty: 'background, border-color, color, outline-color',
+  transitionTimingFunction: 'default',
   _placeholder: {
-    color: {
-      base: 'gray.50',
-      _dark: 'gray.40',
-    },
+    color: 'text.subtlest',
+  },
+  _hover: {
+    bg: 'bg.input.hovered',
+  },
+  _focus: {
+    bg: 'bg.input.pressed',
+    borderColor: 'border.focused',
+    outlineColor: 'border.focused',
   },
   _disabled: {
-    opacity: 0.4,
-  },
-
-  _focus: {
-    outlineColor: { base: 'gray.90', _dark: 'gray.0' },
-    borderColor: { base: 'gray.90', _dark: 'gray.0' },
+    bg: 'bg.disabled',
+    borderColor: 'border.disabled',
+    color: 'text.disabled',
   },
   _error: {
     display: 'inline-grid',
-    borderColor: 'error.default',
+    bg: 'bg.danger',
+    borderColor: 'border.danger',
+    color: 'text.danger',
+    _hover: {
+      bg: 'bg.danger.hovered',
+      borderColor: 'border.danger',
+    },
     _focus: {
-      borderColor: { base: 'error.default', _dark: 'error.default' },
-      outlineColor: { base: 'error.default', _dark: 'error.default' },
+      bg: 'bg.danger',
+      borderColor: 'border.danger',
+      outlineColor: 'border.danger',
     },
   },
 };

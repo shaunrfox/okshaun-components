@@ -9,7 +9,7 @@ export const globalCss = defineGlobalStyles({
     margin: 0,
     padding: 0,
     _focusVisible: {
-      outlineColor: { base: 'gray.80', _dark: 'gray.5' },
+      borderColor: 'border.focused',
     },
     _disabled: {
       opacity: 0.4,
@@ -25,13 +25,13 @@ export const globalCss = defineGlobalStyles({
   },
   body: {
     fontFamily: 'body',
-    bg: { base: 'gray.0', _dark: 'gray.90' },
-    color: { base: 'gray.60', _dark: 'gray.20' },
+    bg: 'surface',
+    color: 'text.subtlest',
     fontWeight: 'normal',
   },
   'h1, h2, h3, h4, h5, h6': {
-    color: { base: 'gray.90', _dark: 'gray.5' },
-    fontWeight: 'black',
+    color: 'text',
+    fontWeight: 'bold',
     lineHeight: 'calc(1em + 0.5rem)',
   },
   p: {
@@ -51,7 +51,7 @@ export const globalCss = defineGlobalStyles({
     fontSize: '1em',
   },
   table: {
-    borderColor: 'currentcolor',
+    borderColor: 'border.subtle',
   },
   'button, input, optgroup, select, textarea': {
     fontFamily: 'inherit',

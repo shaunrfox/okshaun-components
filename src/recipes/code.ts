@@ -15,7 +15,7 @@ const preBase = {
   borderWidth: '0',
   borderColor: 'gray.60',
   bg: 'gray.80',
-  color: 'gray.5',
+  color: 'gray.10',
   px: '16',
   py: '8',
   my: '8',

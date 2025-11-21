@@ -1,17 +1,16 @@
-import {
-  defineTokens,
-  defineSemanticTokens,
-  definePreset,
-} from '@pandacss/dev';
+import { defineTokens, defineSemanticTokens, definePreset } from '@pandacss/dev';
 import pandaBasePreset from '@pandacss/preset-base';
-import * as tokens from './src/styles/tokens';
-import * as semanticTokens from './src/styles/semanticTokens';
+import * as tokens from './src/styles/primitives';
+import * as semantics from './src/styles/semantics';
+import { textStyles } from './src/styles/semantics/textStyles.semantics';
 import { conditions } from './src/styles/conditions';
 import { globalCss } from './src/styles/globalStyle';
-import * as componentRecipes from './src/recipes/index';
+import * as componentRecipes from './src/recipes';
 
 // Extract slot recipes separately
 const {
+  buttonRecipe,
+  iconButtonRecipe,
   checkboxRecipe,
   radioRecipe,
   tooltipRecipe,
@@ -23,10 +22,7 @@ const {
 // Transform recipe keys: remove 'Recipe' suffix to match component imports
 // e.g., { boxRecipe: {...} } becomes { box: {...} }
 const transformedRecipes = Object.fromEntries(
-  Object.entries(regularComponents).map(([key, value]) => [
-    key.replace(/Recipe$/, ''),
-    value,
-  ]),
+  Object.entries(regularComponents).map(([key, value]) => [key.replace(/Recipe$/, ''), value]),
 );
 
 // https://panda-css.com/docs/concepts/extend#removing-something-from-the-base-presets
@@ -42,7 +38,7 @@ const sizeKeys = Object.keys(tokens.sizes);
 // Exclude textStyles, breakpoints, and keyframes from tokens
 // textStyles is already processed by defineTextStyles
 // breakpoints and keyframes are passed separately at theme level
-const { textStyles, breakpoints, keyframes, ...rawTokens } = tokens;
+const { breakpoints, keyframes, ...rawTokens } = tokens;
 
 const theme = {
   tokens: defineTokens({
@@ -50,7 +46,7 @@ const theme = {
     spacing: tokens.sizes, // Map spacing to our size scale for consistent sizing
   }),
   semanticTokens: defineSemanticTokens({
-    ...semanticTokens,
+    ...semantics,
   }),
 };
 
@@ -71,6 +67,8 @@ export const okshaunPreset = definePreset({
         ...transformedRecipes,
       },
       slotRecipes: {
+        button: buttonRecipe,
+        iconButton: iconButtonRecipe,
         checkbox: checkboxRecipe,
         radio: radioRecipe,
         tooltip: tooltipRecipe,
@@ -123,8 +121,10 @@ export const okshaunPreset = definePreset({
     ...pandaBasePresetGlobalCss,
     ...globalCss,
     html: {
-      '--global-font-heading': 'fonts.sans',
-      '--global-font-body': 'fonts.serif',
+      '--global-font-heading': 'fonts.heading',
+      '--global-font-body': 'fonts.body',
+      '--global-font-sans': 'fonts.sans',
+      '--global-font-serif': 'fonts.serif',
       '--global-font-mono': 'fonts.mono',
     },
   },
@@ -133,7 +133,6 @@ export const okshaunPreset = definePreset({
   conditions: {
     ...pandaBasePresetConditions,
     ...conditions,
-    collapsed:
-      '&:is([aria-collapsed=true], [data-collapsed], [data-state="collapsed"])',
+    collapsed: '&:is([aria-collapsed=true], [data-collapsed], [data-state="collapsed"])',
   },
 });

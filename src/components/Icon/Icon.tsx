@@ -5,7 +5,7 @@ import { cx, css } from '@styled-system/css';
 import { type ColorToken } from '@styled-system/tokens';
 import type { IconNamesList } from './icons';
 import { icon } from '@styled-system/patterns';
-import { numericSizes } from '~/styles/tokens';
+import { numericSizes } from '~/styles/primitives';
 import { injectSprite } from '~/utils/injectSprite';
 
 /*
@@ -41,6 +41,7 @@ export const Icon: React.FC<IconProps> = ({
       as={'svg'}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      name={name}
       className={cx(icon({ size: size as AllowedIconSizes, fill }), className)}
       {...otherProps}
     >

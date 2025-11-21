@@ -14,7 +14,7 @@ const BreadcrumbsBase = {
     },
   },
   '& p': {
-    color: { base: 'gray.90', _dark: 'gray.0' },
+    color: { base: 'gray.90', _dark: 'gray.10' },
   },
   '& span': {
     mx: '6',
