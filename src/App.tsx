@@ -24,6 +24,7 @@ import { Toggle } from '~/components/Toggle';
 import { Tooltip } from '~/components/Tooltip';
 import { Checkbox } from '~/components/Checkox';
 import { CheckboxInput } from '~/components/CheckboxInput';
+import { Textarea } from './components/Textarea';
 
 export function IconList() {
   return (
@@ -430,32 +431,84 @@ function AppContent() {
           <Section>
             <Heading level="h2">Labels & Inputs</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
-              <VStack alignItems={'flex-start'} gap={'8'}>
-                <Label htmlFor="email-input">Email Address</Label>
-                <TextInput
-                  id="email-input"
-                  name="email"
-                  placeholder="Enter your email"
-                />
-              </VStack>
-              <VStack alignItems={'flex-start'} gap={'8'}>
-                <Label htmlFor="name-input">Name</Label>
-                <TextInput
-                  id="name-input"
-                  name="name"
-                  size="large"
-                  placeholder="Enter your name"
-                />
-              </VStack>
-              <VStack alignItems={'flex-start'} gap={'8'}>
-                <Label htmlFor="error-input">With Error</Label>
-                <TextInput
-                  id="error-input"
-                  name="error"
-                  error
-                  placeholder="This field has an error"
-                />
-              </VStack>
+              <HStack alignItems={'flex-start'} gap={'24'}>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="email-input">Email Address</Label>
+                  <TextInput
+                    id="email-input"
+                    name="email"
+                    placeholder="Enter your email"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="name-input">Name</Label>
+                  <TextInput
+                    id="name-input"
+                    name="name"
+                    size="small"
+                    placeholder="Enter your name"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="name-input">Name</Label>
+                  <TextInput
+                    id="name-input"
+                    name="name"
+                    size="large"
+                    placeholder="Enter your real name"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="error-input">With Error</Label>
+                  <TextInput
+                    id="error-input"
+                    name="error"
+                    error
+                    placeholder="This field has an error"
+                  />
+                </VStack>
+              </HStack>
+              <Grid
+                gridTemplateColumns={'repeat(4, auto)'}
+                alignItems={'flex-start'}
+                gap={'24'}
+              >
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="things">Things</Label>
+                  <Textarea
+                    id="things"
+                    name="things"
+                    placeholder="Enter your secrets"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="stuff">Stuff</Label>
+                  <Textarea
+                    id="stuff"
+                    name="stuff"
+                    size="small"
+                    placeholder="Enter your stuff"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="stuff">Stuff</Label>
+                  <Textarea
+                    id="stuff"
+                    name="stuff"
+                    size="large"
+                    placeholder="Enter your stuff"
+                  />
+                </VStack>
+                <VStack alignItems={'flex-start'} gap={'4'}>
+                  <Label htmlFor="stuff">Error</Label>
+                  <Textarea
+                    id="error"
+                    name="error"
+                    error
+                    placeholder="somethin' broke"
+                  />
+                </VStack>
+              </Grid>
             </VStack>
           </Section>
           <Section>

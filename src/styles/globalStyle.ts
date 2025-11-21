@@ -9,7 +9,7 @@ export const globalCss = defineGlobalStyles({
     margin: 0,
     padding: 0,
     _focusVisible: {
-      outlineColor: 'border.focused',
+      borderColor: 'border.focused',
     },
     _disabled: {
       opacity: 0.4,
