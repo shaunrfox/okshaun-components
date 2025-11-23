@@ -25,6 +25,7 @@ import { Tooltip } from '~/components/Tooltip';
 import { Checkbox } from '~/components/Checkox';
 import { CheckboxInput } from '~/components/CheckboxInput';
 import { Textarea } from './components/Textarea';
+import { BreakpointIndicator } from './components/BreakpointIndicator';
 
 export function IconList() {
   return (
@@ -125,7 +126,10 @@ function AppContent() {
             >
               okshaun Components
             </Text>
-            <ThemeSwitcher />
+            <HStack>
+              <BreakpointIndicator />
+              <ThemeSwitcher />
+            </HStack>
           </HStack>
         </Container>
       </Flex>

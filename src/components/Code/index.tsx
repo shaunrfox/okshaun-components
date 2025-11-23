@@ -1,2 +1,2 @@
-export { Code } from './Code';
-export { Pre } from './Pre';
+export { Code, type CodeProps } from './Code';
+export { Pre, type PreProps } from './Pre';
