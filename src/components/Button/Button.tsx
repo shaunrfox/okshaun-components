@@ -11,17 +11,18 @@ import { Icon, type IconNamesList } from '~/components/Icon';
  * It includes props for the element type E (default "button") and ButtonVariantProps.
  * This means that any prop accepted by the underlying element (e.g. onClick) is automatically allowed.
  */
-export type ButtonProps<E extends React.ElementType = 'button'> = React.ComponentPropsWithoutRef<E> &
-  Omit<ButtonVariantProps, 'iconBefore' | 'iconAfter'> & {
-    as?: E;
-    href?: string;
-    loading?: boolean;
-    className?: string;
-    children?: React.ReactNode;
-    disabled?: boolean;
-    iconBefore?: IconNamesList;
-    iconAfter?: IconNamesList;
-  };
+export type ButtonProps<E extends React.ElementType = 'button'> =
+  React.ComponentPropsWithoutRef<E> &
+    Omit<ButtonVariantProps, 'iconBefore' | 'iconAfter'> & {
+      as?: E;
+      href?: string;
+      loading?: boolean;
+      className?: string;
+      children?: React.ReactNode;
+      disabled?: boolean;
+      iconBefore?: IconNamesList;
+      iconAfter?: IconNamesList;
+    };
 
 /**
  * Define a polymorphic ButtonComponent type.
@@ -38,12 +39,28 @@ type ButtonComponent = <E extends React.ElementType = 'button'>(
  */
 export const Button = React.forwardRef(
   <E extends React.ElementType = 'button'>(
-    { appearance, size, href, className, children, loading, disabled, iconBefore, iconAfter, ...props }: ButtonProps<E>,
+    {
+      appearance,
+      size,
+      href,
+      className,
+      children,
+      loading,
+      disabled,
+      iconBefore,
+      iconAfter,
+      ...props
+    }: ButtonProps<E>,
     ref: React.ForwardedRef<Element>,
   ) => {
     const trulyDisabled = loading || disabled;
     const asComponent = href ? 'a' : 'button';
-    const classes = button({ appearance, size, iconBefore: Boolean(iconBefore), iconAfter: Boolean(iconAfter) });
+    const classes = button({
+      appearance,
+      size,
+      iconBefore: Boolean(iconBefore),
+      iconAfter: Boolean(iconAfter),
+    });
 
     return (
       // @ts-expect-error - Polymorphic type inference issue
@@ -64,7 +81,14 @@ export const Button = React.forwardRef(
             {iconAfter && <Icon name={iconAfter} className={classes.icon} />}
           </HStack>
           {loading && (
-            <Grid position="absolute" top="0" left="0" right="0" bottom="0" placeItems="center">
+            <Grid
+              position="absolute"
+              top="0"
+              left="0"
+              right="0"
+              bottom="0"
+              placeItems="center"
+            >
               <Spinner />
             </Grid>
           )}

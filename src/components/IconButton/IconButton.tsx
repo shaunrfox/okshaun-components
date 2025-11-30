@@ -3,7 +3,10 @@ import { cx } from '@styled-system/css';
 import { Grid, HStack } from '@styled-system/jsx';
 import { Spinner } from '~/components/Spinner';
 import { Box } from '~/components/Box';
-import { iconButton, type IconButtonVariantProps } from '@styled-system/recipes';
+import {
+  iconButton,
+  type IconButtonVariantProps,
+} from '@styled-system/recipes';
 import { Icon, type IconNamesList } from '~/components/Icon';
 
 /**
@@ -13,15 +16,16 @@ import { Icon, type IconNamesList } from '~/components/Icon';
  * We've added a new optional prop 'iconName'. When provided (and if no children
  * are passed), IconButton will render the corresponding Icon automatically.
  */
-export type IconButtonProps<E extends React.ElementType = 'button'> = React.ComponentPropsWithoutRef<E> &
-  IconButtonVariantProps & {
-    as?: E;
-    href?: string;
-    loading?: boolean;
-    disabled?: boolean;
-    className?: string;
-    iconName?: IconNamesList;
-  };
+export type IconButtonProps<E extends React.ElementType = 'button'> =
+  React.ComponentPropsWithoutRef<E> &
+    IconButtonVariantProps & {
+      as?: E;
+      href?: string;
+      loading?: boolean;
+      disabled?: boolean;
+      className?: string;
+      iconName?: IconNamesList;
+    };
 
 /**
  * Define the polymorphic component type for IconButton.
@@ -40,7 +44,16 @@ type IconButtonComponent = <E extends React.ElementType = 'button'>(
  */
 export const IconButton = React.forwardRef(
   <E extends React.ElementType = 'button'>(
-    { appearance, size, href, className, loading, disabled, iconName, ...props }: IconButtonProps<E>,
+    {
+      appearance,
+      size,
+      href,
+      className,
+      loading,
+      disabled,
+      iconName,
+      ...props
+    }: IconButtonProps<E>,
     ref: React.ForwardedRef<Element>,
   ) => {
     const trulyDisabled = loading || disabled;
@@ -65,7 +78,14 @@ export const IconButton = React.forwardRef(
             <Icon name={iconName || 'menu'} className={classes.icon} />
           </HStack>
           {loading && (
-            <Grid position="absolute" top="0" left="0" right="0" bottom="0" placeItems="center">
+            <Grid
+              position="absolute"
+              top="0"
+              left="0"
+              right="0"
+              bottom="0"
+              placeItems="center"
+            >
               <Spinner />
             </Grid>
           )}
