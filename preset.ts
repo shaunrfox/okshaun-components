@@ -125,6 +125,11 @@ export const okshaunPreset = definePreset({
   },
   utilities: {
     ...pandaBasePresetUtilities,
+    // Custom utility for transitionProperty that uses our transition tokens
+    transitionProperty: {
+      className: 'transition-property',
+      values: 'transitions',
+    },
   },
 
   // Global styles

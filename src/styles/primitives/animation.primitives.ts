@@ -83,3 +83,47 @@ export const durations = {
     value: '500ms',
   },
 };
+
+/**
+ * Transition property tokens for use with strictTokens.
+ * These are common CSS property combinations for transitions.
+ * Usage: transitionProperty: 'colors' or transitionProperty: 'transform'
+ */
+export const transitions = {
+  none: {
+    value: 'none',
+  },
+  all: {
+    value: 'all',
+  },
+  common: {
+    value: 'background-color, border-color, color, fill, stroke, opacity, box-shadow, transform',
+  },
+  colors: {
+    value: 'background-color, border-color, color, fill, stroke',
+  },
+  opacity: {
+    value: 'opacity',
+  },
+  shadow: {
+    value: 'box-shadow',
+  },
+  transform: {
+    value: 'transform',
+  },
+  position: {
+    value: 'top, right, bottom, left',
+  },
+  size: {
+    value: 'width, height',
+  },
+  spacing: {
+    value: 'margin, padding',
+  },
+  outline: {
+    value: 'outline, outline-color, outline-offset',
+  },
+  border: {
+    value: 'border, border-color',
+  },
+};

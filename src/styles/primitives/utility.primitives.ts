@@ -83,3 +83,44 @@ export const blurs = {
     value: '64px',
   },
 };
+
+/**
+ * Border shorthand tokens for common border combinations.
+ * Uses semantic color tokens for theming support.
+ * Usage: border: 'subtle' or border: 'default'
+ */
+export const borders = {
+  none: {
+    value: 'none',
+  },
+  subtle: {
+    value: '1px solid {colors.border}',
+  },
+  default: {
+    value: '1px solid {colors.border}',
+  },
+  strong: {
+    value: '2px solid {colors.border.bold}',
+  },
+  input: {
+    value: '1px solid {colors.border.input}',
+  },
+  focused: {
+    value: '2px solid {colors.border.focused}',
+  },
+  selected: {
+    value: '2px solid {colors.border.selected}',
+  },
+  success: {
+    value: '1px solid {colors.border.success}',
+  },
+  warning: {
+    value: '1px solid {colors.border.warning}',
+  },
+  danger: {
+    value: '1px solid {colors.border.danger}',
+  },
+  info: {
+    value: '1px solid {colors.border.info}',
+  },
+};
