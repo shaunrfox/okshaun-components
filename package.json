@@ -9,7 +9,8 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "npm run panda:watch & vite",
-    "build": "npm run panda && SKIP_OPEN=true npm run generate-sprite && vite build && npm run ship",
+    "build": "npm run panda && SKIP_OPEN=true npm run generate-sprite && vite build && SKIP_OPEN=true npm run generate-sprite:dist && npm run ship",
+    "generate-sprite:dist": "node src/utils/generate-sprite-dist.js",
     "ship": "panda ship --outfile dist/panda.buildinfo.json",
     "panda": "panda codegen",
     "panda:watch": "panda codegen --watch",
