@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { userEvent, within, expect } from '@storybook/test';
 import { CheckboxInput } from './CheckboxInput';
-import { CheckboxChangeHandler } from '../Checkox';
+import { CheckboxChangeHandler } from '../Checkbox';
 import { Box } from '../Box';
 import { Text } from '../Text';
 import { Button } from '../Button';

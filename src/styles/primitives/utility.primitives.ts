@@ -34,6 +34,9 @@ export const shadows = {
     value:
       'inset 0px 2px 1px {colors.utility.shadowColor}, inset 0px 3px 2px {colors.utility.shadowColor}',
   },
+  none: {
+    value: '0 0 0 {colors.transparent}',
+  },
 };
 
 export const aspectRatios = {

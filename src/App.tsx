@@ -16,13 +16,18 @@ import { Breadcrumbs } from '~/components/Breadcrumbs';
 import { Card } from '~/components/Card';
 import { Divider } from '~/components/Divider';
 import { Label } from '~/components/Label';
-import { Menu } from '~/components/Menu';
+import {
+  Menu,
+  MenuTrigger,
+  MenuItem,
+  MenuGroup,
+} from '~/components/Menu';
 import { Radio } from '~/components/Radio';
 import { Tag } from '~/components/Tag';
 import { TextInput } from '~/components/TextInput';
 import { Toggle } from '~/components/Toggle';
 import { Tooltip } from '~/components/Tooltip';
-import { Checkbox } from '~/components/Checkox';
+import { Checkbox } from '~/components/Checkbox';
 import { CheckboxInput } from '~/components/CheckboxInput';
 import { Textarea } from './components/Textarea';
 import { BreakpointIndicator } from './components/BreakpointIndicator';
@@ -62,6 +67,95 @@ export const Section = ({ children }: { children?: ReactNode }) => {
     </Grid>
   );
 };
+
+function MenuDemo() {
+  const [openSingle, setOpenSingle] = useState(false);
+  const [openMulti, setOpenMulti] = useState(false);
+  const [selected, setSelected] = useState<string>('option1');
+  const [multiSelected, setMultiSelected] = useState<Set<string>>(
+    new Set(['feature1'])
+  );
+
+  const toggleMulti = (value: string) => {
+    setMultiSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(value)) {
+        next.delete(value);
+      } else {
+        next.add(value);
+      }
+      return next;
+    });
+  };
+
+  return (
+    <HStack gap="24">
+      <Menu open={openSingle} onOpenChange={setOpenSingle}>
+        <MenuTrigger>
+          <Button>Single Select</Button>
+        </MenuTrigger>
+        <MenuGroup label="Options">
+          <MenuItem
+            type="single-select"
+            label="Option 1"
+            description="First option"
+            selected={selected === 'option1'}
+            onSelect={() => setSelected('option1')}
+            index={0}
+          />
+          <MenuItem
+            type="single-select"
+            label="Option 2"
+            description="Second option"
+            selected={selected === 'option2'}
+            onSelect={() => setSelected('option2')}
+            index={1}
+          />
+          <MenuItem
+            type="single-select"
+            label="Option 3"
+            description="Third option"
+            selected={selected === 'option3'}
+            onSelect={() => setSelected('option3')}
+            index={2}
+          />
+        </MenuGroup>
+      </Menu>
+
+      <Menu open={openMulti} onOpenChange={setOpenMulti}>
+        <MenuTrigger>
+          <Button>Multi Select</Button>
+        </MenuTrigger>
+        <MenuGroup label="Features">
+          <MenuItem
+            type="multi-select"
+            label="Feature 1"
+            selectionIndicator="checkbox"
+            selected={multiSelected.has('feature1')}
+            onSelect={() => toggleMulti('feature1')}
+            index={0}
+          />
+          <MenuItem
+            type="multi-select"
+            label="Feature 2"
+            selectionIndicator="checkbox"
+            selected={multiSelected.has('feature2')}
+            onSelect={() => toggleMulti('feature2')}
+            index={1}
+          />
+          <MenuItem
+            type="multi-select"
+            label="Feature 3"
+            selectionIndicator="checkbox"
+            selected={multiSelected.has('feature3')}
+            onSelect={() => toggleMulti('feature3')}
+            index={2}
+          />
+        </MenuGroup>
+      </Menu>
+    </HStack>
+  );
+}
 
 function AppContent() {
   // Checkbox states using Storybook pattern
@@ -671,51 +765,7 @@ function AppContent() {
           <Section>
             <Heading level="h2">Menu</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
-              <Box maxW={'280'}>
-                <Menu
-                  variant="single-select"
-                  menuSection={[
-                    {
-                      id: 'section1',
-                      title: 'Options',
-                      items: [
-                        {
-                          id: '1',
-                          label: 'Option 1',
-                          description: 'First option',
-                        },
-                        {
-                          id: '2',
-                          label: 'Option 2',
-                          description: 'Second option',
-                        },
-                        {
-                          id: '3',
-                          label: 'Option 3',
-                          description: 'Third option',
-                        },
-                      ],
-                    },
-                  ]}
-                />
-              </Box>
-              <Box maxW={'280'}>
-                <Menu
-                  variant="multi-select"
-                  multiSelectType="checkbox"
-                  menuSection={[
-                    {
-                      id: 'section2',
-                      title: 'Features',
-                      items: [
-                        { id: '4', label: 'Feature 1' },
-                        { id: '5', label: 'Feature 2' },
-                        { id: '6', label: 'Feature 3' },
-                      ],
-                    },
-                  ]}
-                />
-              </Box>
+              <MenuDemo />
             </VStack>
           </Section>
           {/* <Section>

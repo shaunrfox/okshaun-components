@@ -52,6 +52,7 @@
     }
   },
   "dependencies": {
+    "@floating-ui/react": "^0.27.16",
     "date-fns": "^4.1.0"
   },
   "devDependencies": {

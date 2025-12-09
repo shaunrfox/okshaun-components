@@ -3,7 +3,7 @@ import type { FC, ReactNode, ChangeEventHandler } from 'react';
 import { cx } from '@styled-system/css';
 import { type BoxProps } from '../Box';
 import { Label } from '../Label';
-import { Checkbox } from '../Checkox';
+import { Checkbox } from '../Checkbox';
 import {
   checkboxInput,
   type CheckboxInputVariantProps,

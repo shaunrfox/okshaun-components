@@ -10,7 +10,7 @@ export { Link, type LinkProps } from './components/Link';
 export { Label, type LabelProps } from './components/Label';
 export { Spinner, type SpinnerProps } from './components/Spinner';
 export { Divider, type DividerProps } from './components/Divider';
-export { Checkbox, type CheckboxProps } from './components/Checkox';
+export { Checkbox, type CheckboxProps } from './components/Checkbox';
 export { Radio, type RadioProps } from './components/Radio';
 export { TextInput, type TextInputProps } from './components/TextInput';
 export { Textarea, type TextareaProps } from './components/Textarea';
@@ -25,7 +25,21 @@ export {
 export { Tooltip, type TooltipProps } from './components/Tooltip';
 export { Breadcrumbs, type BreadcrumbsProps } from './components/Breadcrumbs';
 export { Tag, type TagProps } from './components/Tag';
-export { Menu, type MenuProps } from './components/Menu';
+export {
+  Menu,
+  MenuTrigger,
+  MenuItem,
+  MenuDivider,
+  MenuGroup,
+  useMenuContext,
+  type MenuProps,
+  type MenuTriggerProps,
+  type MenuItemProps,
+  type MenuDividerProps,
+  type MenuGroupProps,
+  type MenuItemType,
+  type SelectionIndicator,
+} from './components/Menu';
 
 export { ThemeSwitcher } from './components/ThemeSwitcher';
 export { ThemeProvider, useTheme, type Theme } from './contexts/ThemeContext';

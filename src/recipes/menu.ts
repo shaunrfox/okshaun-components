@@ -1,149 +1,205 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
 const menuBase = {
-  wrapper: {
-    position: { base: 'fixed', md: 'relative' },
-    left: '0',
-    bottom: '0',
-    width: { base: 'full', md: '260' },
-    bg: { base: 'gray.10', _dark: 'gray.80' },
-    py: { base: '12', md: '4' },
-    boxShadow: 'medium',
-    borderRadius: {
-      base: '8',
-      md: '4',
-    },
-    borderBottomLeftRadius: { base: '0', md: '4' },
-    borderBottomRightRadius: { base: '0', md: '4' },
-    '& ~ svg': {
-      fill: { base: 'gray.90', _dark: 'gray.10' },
-      mr: 'auto',
-    },
-    overflow: 'hidden',
-    zIndex: 1,
-  },
-
-  wrapperInner: {
+  // Floating container
+  menu: {
     display: 'flex',
     flexDirection: 'column',
-    '&[data-anim=slide-left]': { animation: 'slideLeft' },
-    '&[data-anim=slide-right]': { animation: 'slideRight' },
+    minWidth: '200',
+    maxWidth: '320',
+    maxHeight: '400',
+    overflowY: 'auto',
+    bg: 'surface.overlay',
+    borderRadius: '8',
+    boxShadow: 'medium',
+    outline: 'none',
+    zIndex: 1000,
   },
 
+  // Individual menu item row
   menuItem: {
     display: 'flex',
-    gap: '4',
-    px: { base: '20', md: '12' },
-    outline: '2px solid transparent',
-    outlineOffset: '0',
-
-    '& a': {
-      display: 'flex',
-      justifyContent: 'space-between',
-      w: 'full',
-    },
+    alignItems: 'flex-start',
+    gap: '8',
+    px: '12',
+    py: '8',
+    cursor: 'pointer',
+    outline: 'none',
+    transitionProperty: 'background-color, color',
+    transitionDuration: 'fast',
+    bg: 'surface.overlay',
 
     _hover: {
-      bg: { base: 'gray.2', _dark: 'gray.100' },
-      cursor: 'pointer',
-    },
-    _active: {
-      bg: { base: 'gray.10', _dark: 'gray.100' },
+      bg: 'surface.overlay.hovered',
     },
     _focusVisible: {
-      outlineColor: { base: 'gray.90', _dark: 'gray.10' },
-      outlineOffset: '-2',
+      bg: 'surface.overlay.hovered',
     },
-    _disabled: {
-      opacity: 0.4,
-      _hover: {
-        bg: 'transparent',
-        pointerEvents: 'none',
-        cursor: 'not-allowed',
-      },
-      _active: { bg: 'transparent' },
-      _focusVisible: { outlineColor: 'transparent' },
+    _active: {
+      bg: 'surface.overlay.pressed',
     },
-
-    "&[data-selected='true']": {
-      bg: { base: 'gray.10', _dark: 'gray.100' },
+    '&[aria-disabled="true"]': {
+      opacity: 0.5,
+      cursor: 'not-allowed',
+      pointerEvents: 'none',
+    },
+    '&[data-selected="true"]': {
+      bg: 'bg.selected',
+    },
+    '&[data-active="true"]': {
+      bg: 'surface.overlay.hovered',
     },
   },
 
-  sectionTitle: {
-    px: { base: '20', md: '12' },
-    pt: { base: '20', md: '12' },
-    pb: { base: '12', md: '4' },
-  },
-
-  menuLabel: { fontWeight: 'normal' },
-
-  parentLabel: {
+  // Selection indicator area (checkmark or checkbox)
+  menuItemIndicator: {
     display: 'flex',
-    py: '4',
-    pr: '12',
-    pl: '4',
-    bg: { base: 'gray.10', _dark: 'gray.60' },
-    cursor: 'pointer',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    w: '24',
+    h: '24',
+    color: { base: 'icon.selected', _dark: 'icon.selected' },
   },
 
-  multiLevelIcon: { ml: 'auto' },
-
-  dividerSection: {
-    py: { base: '8', md: '12' },
-    px: { base: '20', md: '12' },
+  // Left icon area
+  menuItemIconLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    w: '24',
+    h: '24',
+    color: { base: 'icon.decorative', _dark: 'icon.decorative' },
   },
 
-  spacerSection: { h: { base: '24', md: '16' } },
+  // Right icon area
+  menuItemIconRight: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    w: '24',
+    h: '24',
+    ml: 'auto',
+    color: { base: 'icon.subtlest', _dark: 'icon.subtlest' },
+  },
 
-  iconSection: { w: '24' },
+  // Content wrapper (label + description)
+  menuItemContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    minWidth: 0, // Enable text truncation
+  },
 
-  toggleMenu: { py: '6' },
+  // Primary label
+  menuItemLabel: {
+    textStyle: 'body-md',
+    color: { base: 'text', _dark: 'text' },
+    fontWeight: 'normal',
+
+    // Highlight match styling for autocomplete
+    '& mark': {
+      bg: { base: 'bg.warning', _dark: 'bg.warning' },
+      color: { base: 'text', _dark: 'text' },
+      borderRadius: '2',
+      px: '2',
+    },
+  },
+
+  // Secondary description
+  menuItemDescription: {
+    textStyle: 'body-sm',
+    color: { base: 'text.subtlest', _dark: 'text.subtlest' },
+    mt: '2',
+  },
+
+  // Divider between items/groups
+  menuDivider: {
+    h: '1',
+    mx: '12',
+    my: '4',
+    bg: { base: 'border', _dark: 'border' },
+  },
+
+  // Group container
+  menuGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  // Group label
+  menuGroupLabel: {
+    textStyle: 'body-xs',
+    color: { base: 'text.subtlest', _dark: 'text.subtlest' },
+    fontWeight: 'medium',
+    textTransform: 'uppercase',
+    letterSpacing: 'wide',
+    px: '12',
+    py: '8',
+  },
 };
 
 const menuVariants = {
-  iconPlacement: {
+  // Size variants
+  size: {
+    default: {
+      menu: { minWidth: '200' },
+      menuItem: { py: '8' },
+    },
+    compact: {
+      menu: { minWidth: '160' },
+      menuItem: { py: '4', px: '8' },
+      menuItemIconLeft: { w: '20', h: '20' },
+      menuItemIconRight: { w: '20', h: '20' },
+      menuItemIndicator: { w: '20', h: '20' },
+    },
+    comfortable: {
+      menu: { minWidth: '240' },
+      menuItem: { py: '12', px: '16' },
+    },
+  },
+
+  // Selection indicator position
+  indicatorPosition: {
     left: {
-      menuItem: { flexDirection: 'row' },
+      menuItem: {
+        flexDirection: 'row',
+      },
     },
     right: {
       menuItem: {
-        flexDirection: 'row-reverse',
-        justifyContent: 'space-between',
+        flexDirection: 'row',
       },
-    },
-  },
-  multiSelectType: {
-    toggle: {
-      menuItem: { py: { base: '16', md: '6' }, gap: '12' },
-    },
-    checkbox: {
-      menuItem: { py: { base: '12', md: '4' } },
+      menuItemIndicator: {
+        order: 999, // Move to end
+        ml: 'auto',
+      },
     },
   },
 };
 
 export const menuRecipe = defineSlotRecipe({
   className: 'menu',
-  jsx: ['Menu'],
+  jsx: ['Menu', 'MenuItem', 'MenuTrigger', 'MenuDivider', 'MenuGroup'],
   slots: [
-    'wrapper',
-    'sectionTitle',
+    'menu',
     'menuItem',
-    'menuLabel',
-    'menuDescription',
-    'parentLabel',
-    'multiLevelIcon',
-    'dividerSection',
-    'spacerSection',
-    'wrapperInner',
-    'iconSection',
-    'toggleMenu',
+    'menuItemIndicator',
+    'menuItemIconLeft',
+    'menuItemIconRight',
+    'menuItemContent',
+    'menuItemLabel',
+    'menuItemDescription',
+    'menuDivider',
+    'menuGroup',
+    'menuGroupLabel',
   ],
   base: menuBase,
   variants: menuVariants,
   defaultVariants: {
-    iconPlacement: 'left',
-    multiSelectType: 'checkbox',
+    size: 'default',
+    indicatorPosition: 'left',
   },
 });
