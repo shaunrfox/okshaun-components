@@ -195,7 +195,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
                   return (
                     <Box
                       key={option.id}
-                      ref={(node) => {
+                      ref={(node: HTMLElement | null) => {
                         listRef.current[index] = node;
                       }}
                       role="option"
@@ -204,7 +204,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
                       data-active={isActive}
                       className={classes.menuItem}
                       onClick={() => handleOptionClick(option)}
-                      {...(getItemProps({ index }) as Record<string, unknown>)}
+                      {...getItemProps()}
                     >
                       {option.icon && (
                         <Box className={classes.menuItemIconLeft}>

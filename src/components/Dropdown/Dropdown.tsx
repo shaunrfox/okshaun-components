@@ -6,7 +6,9 @@ import { css } from '@styled-system/css';
 import type { DropdownProps } from './types';
 
 const caretStyles = css({
-  transition: 'transform 0.2s ease',
+  transitionProperty: '[transform]',
+  transitionDuration: 'normal',
+  transitionTimingFunction: 'default',
   '&[data-open="true"]': {
     transform: 'rotate(180deg)',
   },
