@@ -36,18 +36,15 @@ const menuBase = {
       bg: 'surface.overlay.hovered',
     },
     _active: {
-      bg: 'surface.overlay.pressed',
+      bg: 'surface.overlay.hovered',
     },
-    '&[aria-disabled="true"]': {
+    _disabled: {
       opacity: 0.5,
       cursor: 'not-allowed',
       pointerEvents: 'none',
     },
-    '&[data-selected="true"]': {
+    _selected: {
       bg: 'bg.selected',
-    },
-    '&[data-active="true"]': {
-      bg: 'surface.overlay.hovered',
     },
   },
 
@@ -59,7 +56,7 @@ const menuBase = {
     flexShrink: 0,
     w: '24',
     h: '24',
-    color: { base: 'icon.selected', _dark: 'icon.selected' },
+    color: 'icon.selected',
   },
 
   // Left icon area
@@ -70,7 +67,7 @@ const menuBase = {
     flexShrink: 0,
     w: '24',
     h: '24',
-    color: { base: 'icon.decorative', _dark: 'icon.decorative' },
+    color: 'icon.decorative',
   },
 
   // Right icon area
@@ -82,7 +79,7 @@ const menuBase = {
     w: '24',
     h: '24',
     ml: 'auto',
-    color: { base: 'icon.subtlest', _dark: 'icon.subtlest' },
+    color: 'icon.subtlest',
   },
 
   // Content wrapper (label + description)
@@ -95,24 +92,25 @@ const menuBase = {
 
   // Primary label
   menuItemLabel: {
-    textStyle: 'body-md',
-    color: { base: 'text', _dark: 'text' },
+    fontSize: 'md',
+    color: 'text',
+    fontFamily: 'sans',
     fontWeight: 'normal',
 
     // Highlight match styling for autocomplete
     '& mark': {
-      bg: { base: 'bg.warning', _dark: 'bg.warning' },
-      color: { base: 'text', _dark: 'text' },
+      bg: 'bg.warning.hovered',
+      color: 'text.bold',
       borderRadius: '2',
-      px: '2',
+      // px: '2',
     },
   },
 
   // Secondary description
   menuItemDescription: {
-    textStyle: 'body-sm',
-    color: { base: 'text.subtlest', _dark: 'text.subtlest' },
-    mt: '2',
+    fontSize: 'xs',
+    fontFamily: 'sans',
+    color: 'text.subtlest',
   },
 
   // Divider between items/groups
@@ -120,7 +118,7 @@ const menuBase = {
     h: '1',
     mx: '12',
     my: '4',
-    bg: { base: 'border', _dark: 'border' },
+    bg: 'border',
   },
 
   // Group container
@@ -131,13 +129,15 @@ const menuBase = {
 
   // Group label
   menuGroupLabel: {
-    textStyle: 'body-xs',
-    color: { base: 'text.subtlest', _dark: 'text.subtlest' },
+    fontSize: 'xs',
+    color: 'text.subtlest',
+    fontFamily: 'sans',
     fontWeight: 'medium',
     textTransform: 'uppercase',
     letterSpacing: 'wide',
     px: '12',
-    py: '8',
+    pt: '16',
+    pb: '4',
   },
 };
 

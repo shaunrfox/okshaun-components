@@ -57,7 +57,8 @@ export const Menu: React.FC<MenuProps> = ({
   const listNavigation = useListNavigation(context, {
     listRef,
     activeIndex,
-    onNavigate: setActiveIndex,
+    // below disabled because it was causing the first MenuItem to appear focused immediately on open
+    // onNavigate: setActiveIndex,
   });
   const typeahead = useTypeahead(context, {
     listRef: listContentRef,
@@ -67,13 +68,9 @@ export const Menu: React.FC<MenuProps> = ({
     },
   });
 
-  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
-    click,
-    dismiss,
-    role,
-    listNavigation,
-    typeahead,
-  ]);
+  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
+    [click, dismiss, role, listNavigation, typeahead],
+  );
 
   // Context value
   const contextValue: MenuContextValue = useMemo(
@@ -103,16 +100,16 @@ export const Menu: React.FC<MenuProps> = ({
       getItemProps,
       activeIndex,
       classes,
-    ]
+    ],
   );
 
   // Separate trigger children from menu content children
   const triggerChild = React.Children.toArray(children).find(
-    (child) => React.isValidElement(child) && child.type === MenuTrigger
+    (child) => React.isValidElement(child) && child.type === MenuTrigger,
   );
 
   const menuChildren = React.Children.toArray(children).filter(
-    (child) => !(React.isValidElement(child) && child.type === MenuTrigger)
+    (child) => !(React.isValidElement(child) && child.type === MenuTrigger),
   );
 
   return (

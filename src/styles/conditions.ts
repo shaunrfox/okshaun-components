@@ -79,7 +79,7 @@ export const conditions = {
   placeholder: '&::placeholder, &[data-placeholder]',
   placeholderShown: '&:is(:placeholder-shown, [data-placeholder-shown])',
   pressed: '&:is([aria-pressed=true], [data-pressed])',
-  selected: '&:is([aria-selected=true], [data-selected])',
+  selected: '&:is([aria-selected=true], [data-selected=true])',
   grabbed: '&:is([aria-grabbed=true], [data-grabbed])',
   underValue: '&[data-state=under-value]',
   overValue: '&[data-state=over-value]',

@@ -40,6 +40,12 @@ export {
   type MenuItemType,
   type SelectionIndicator,
 } from './components/Menu';
+export { Dropdown, type DropdownProps } from './components/Dropdown';
+export {
+  Autocomplete,
+  type AutocompleteProps,
+  type AutocompleteOption,
+} from './components/Autocomplete';
 
 export { ThemeSwitcher } from './components/ThemeSwitcher';
 export { ThemeProvider, useTheme, type Theme } from './contexts/ThemeContext';
