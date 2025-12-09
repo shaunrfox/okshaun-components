@@ -451,14 +451,44 @@ npm run build
 
 ## Publishing
 
-To publish a new version to npm:
+Publishing is handled via GitHub Actions with a manual workflow that prevents common pitfalls like tag conflicts.
 
-1. Update version in `package.json`
-2. Create a git tag: `git tag v1.0.0`
-3. Push tag: `git push --tags`
-4. Create a GitHub release, or use the manual workflow in GitHub Actions
+### How to Publish
 
-The package will be automatically published to npm via GitHub Actions.
+1. Go to the repository on GitHub
+2. Click **Actions** tab
+3. Select **"Publish to NPM"** workflow from the left sidebar
+4. Click **"Run workflow"** button (dropdown on the right)
+5. Select the version bump type:
+   - **patch** (0.3.4 → 0.3.5) - Bug fixes, minor changes
+   - **minor** (0.3.4 → 0.4.0) - New features, backward compatible
+   - **major** (0.3.4 → 1.0.0) - Breaking changes
+6. Click **"Run workflow"**
+
+### What the Workflow Does
+
+1. Builds and lints the package
+2. **Validates** the new version doesn't already exist (on npm or as a git tag)
+3. Bumps `package.json` version and commits
+4. Pushes the commit to `main`
+5. Publishes to npm with provenance
+6. Creates git tag and GitHub release (only after successful publish)
+
+### Troubleshooting
+
+**"Tag already exists" error:**
+```bash
+# Delete the conflicting tag locally and remotely
+git tag -d v0.3.5
+git push origin :refs/tags/v0.3.5
+```
+
+**"Version already published" error:**
+- Choose a higher version bump level (e.g., minor instead of patch)
+
+**Workflow failed mid-way:**
+- Safe to re-run - the workflow validates before making changes
+- If version commit was pushed but npm publish failed, fix the issue and re-run
 
 ## Storybook
 
