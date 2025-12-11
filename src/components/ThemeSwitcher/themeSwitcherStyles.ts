@@ -13,6 +13,9 @@ export const themeSwitchStyles = css({
   lineHeight: 'none',
   width: '14',
   height: '14',
+  minWidth: '14',
+  minHeight: '14',
+  aspectRatio: 'square',
   transition: 'all',
   '&:before': {
     content: '""',
