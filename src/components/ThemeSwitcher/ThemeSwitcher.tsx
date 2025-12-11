@@ -1,5 +1,5 @@
 import { useTheme } from '~/contexts/ThemeContext';
-import { themeSwitchStyles } from './themeSwitcherStyles';
+import { themeSwitcher } from '@styled-system/recipes';
 
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
@@ -10,11 +10,11 @@ export function ThemeSwitcher() {
 
   return (
     <button
-      className={themeSwitchStyles}
+      className={themeSwitcher()}
       onClick={toggleTheme}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
     >
-      <span></span>
+      <span>0</span>
     </button>
   );
 }
