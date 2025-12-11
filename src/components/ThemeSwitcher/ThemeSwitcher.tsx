@@ -13,8 +13,6 @@ export function ThemeSwitcher() {
       className={themeSwitcher()}
       onClick={toggleTheme}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
-    >
-      <span>0</span>
-    </button>
+    />
   );
 }

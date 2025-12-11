@@ -93,6 +93,12 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       inverse: {
+        bold: {
+          value: {
+            base: '{colors.darkNeutral.0}',
+            _dark: '{colors.neutral.0}',
+          },
+        },
         subtle: {
           DEFAULT: { value: { base: '#00000029', _dark: '#ffffff29' } },
           hovered: { value: { base: '#0000003d', _dark: '#ffffff3d' } },
