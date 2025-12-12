@@ -115,7 +115,7 @@ export const okshaunPreset = definePreset({
               width: '100%',
               maxWidth: '8xl',
               mx: 'auto',
-              px: { base: '24', md: '20', sm: '16' },
+              px: { base: '24', md: '32', lg: '48' },
             },
             props,
           );
@@ -149,7 +149,5 @@ export const okshaunPreset = definePreset({
   conditions: {
     ...pandaBasePresetConditions,
     ...conditions,
-    collapsed:
-      '&:is([aria-collapsed=true], [data-collapsed], [data-state="collapsed"])',
   },
 });

@@ -16,6 +16,8 @@ export const conditions = {
   enabled: '&:enabled',
   expanded:
     '&:is([aria-expanded=true], [data-expanded], [data-state="expanded"])',
+  collapsed:
+    '&:is([aria-collapsed=true], [data-collapsed], [data-state="collapsed"])',
   highlighted: '&[data-highlighted]',
   complete: '&[data-complete]',
   incomplete: '&[data-incomplete]',
@@ -96,7 +98,7 @@ export const conditions = {
   current: '&:is([aria-current=true], [data-current])',
   currentPage: '&[aria-current=page]',
   currentStep: '&[aria-current=step]',
-  today: '&[data-today]',
+  today: '&:is([data-today])',
   unavailable: '&[data-unavailable]',
   rangeStart: '&[data-range-start]',
   rangeEnd: '&[data-range-end]',
@@ -105,6 +107,7 @@ export const conditions = {
 
   motionReduce: '@media (prefers-reduced-motion: reduce)',
   motionSafe: '@media (prefers-reduced-motion: no-preference)',
+  paused: '&:is([data-paused=true])',
   print: '@media print',
   landscape: '@media (orientation: landscape)',
   portrait: '@media (orientation: portrait)',
