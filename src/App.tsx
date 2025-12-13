@@ -16,12 +16,7 @@ import { Breadcrumbs } from '~/components/Breadcrumbs';
 import { Card } from '~/components/Card';
 import { Divider } from '~/components/Divider';
 import { Label } from '~/components/Label';
-import {
-  Menu,
-  MenuTrigger,
-  MenuItem,
-  MenuGroup,
-} from '~/components/Menu';
+import { Menu, MenuTrigger, MenuItem, MenuGroup } from '~/components/Menu';
 import { Radio } from '~/components/Radio';
 import { Tag } from '~/components/Tag';
 import { TextInput } from '~/components/TextInput';
@@ -73,7 +68,7 @@ function MenuDemo() {
   const [openMulti, setOpenMulti] = useState(false);
   const [selected, setSelected] = useState<string>('option1');
   const [multiSelected, setMultiSelected] = useState<Set<string>>(
-    new Set(['feature1'])
+    new Set(['feature1']),
   );
 
   const toggleMulti = (value: string) => {

@@ -78,7 +78,7 @@ const linkVariants = {
   _disabled: {
     true: {
       cursor: 'not-allowed',
-      opacity: 0.7,
+      color: 'text.disabled',
       pointerEvents: 'none',
     },
   },
@@ -87,7 +87,7 @@ const linkVariants = {
 const labelBase = {
   fontSize: '14',
   fontWeight: 'normal',
-  lineHeight: 'normal',
+  lineHeight: 'tight',
   cursor: 'default',
 };
 
@@ -97,7 +97,7 @@ const labelVariants = {
   _disabled: {
     true: {
       cursor: 'not-allowed',
-      opacity: 0.7,
+      color: 'text.disabled',
       pointerEvents: 'none',
     },
   },
@@ -139,6 +139,6 @@ export const labelRecipe = defineRecipe({
   base: labelBase,
   variants: labelVariants,
   defaultVariants: {
-    family: 'inherit',
+    family: 'sans',
   },
 });

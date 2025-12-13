@@ -50,11 +50,11 @@ const textInputBase = {
   transitionProperty: 'background, border-color, color, outline-color',
   transitionTimingFunction: 'default',
   _placeholder: {
-    color: 'text.subtlest',
+    color: 'text.placeholder',
   },
-  _hover: {
-    bg: 'bg.input.hovered',
-  },
+  // _hover: {
+  // bg: 'bg.input.hovered',
+  // },
   _focus: {
     bg: 'bg.input.pressed',
     borderColor: 'border.focused',
@@ -70,6 +70,9 @@ const textInputBase = {
     bg: 'bg.danger',
     borderColor: 'border.danger',
     color: 'text.danger',
+    _placeholder: {
+      color: 'text.danger/60',
+    },
     _hover: {
       bg: 'bg.danger.hovered',
       borderColor: 'border.danger',
