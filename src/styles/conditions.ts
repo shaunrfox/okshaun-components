@@ -2,7 +2,7 @@ export const conditions = {
   hover: '&:is(:hover, [data-hover=true])',
   focus: '&:is(:focus, [data-focus=true])',
   focusWithin: '&:focus-within',
-  focusVisible: '&:is(:focus-visible, [data-focus-visible]=true)',
+  focusVisible: '&:is(:focus-visible, [data-focus-visible=true])',
   disabled:
     '&:is(:disabled, [disabled], [data-disabled], [aria-disabled=true])',
   active: '&:is(:active, [data-active=true])',
