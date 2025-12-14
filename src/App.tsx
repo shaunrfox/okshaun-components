@@ -512,11 +512,21 @@ function AppContent() {
             <VStack alignItems={'flex-start'} gap={'24'} w={'full'}>
               <VStack w={'full'} gap={'8'}>
                 <Text>Horizontal Divider</Text>
-                <Divider direction="horizontal" />
+                <Divider />
+                <Divider weight="medium" />
+                <Divider weight="thick" />
+                <Divider weight="thicker" color="yellow.60" />
               </VStack>
               <HStack h={'80'} gap={'8'}>
                 <Text>Vertical Divider</Text>
                 <Divider direction="vertical" />
+                <Divider direction="vertical" weight="medium" />
+                <Divider direction="vertical" weight="thick" />
+                <Divider
+                  direction="vertical"
+                  weight="thicker"
+                  color="yellow.60"
+                />
                 <Text>Between Content</Text>
               </HStack>
             </VStack>
