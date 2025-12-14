@@ -25,6 +25,7 @@ export {
 export { Tooltip, type TooltipProps } from './components/Tooltip';
 export { Breadcrumbs, type BreadcrumbsProps } from './components/Breadcrumbs';
 export { Tag, type TagProps } from './components/Tag';
+export { Chip, type ChipProps } from './components/Chip';
 export {
   Menu,
   MenuTrigger,

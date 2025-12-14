@@ -13,6 +13,7 @@ export { textinputRecipe } from './textinput';
 export { cardRecipe } from './card';
 export { breadcrumbsRecipe } from './breadcrumbs';
 export { tagRecipe } from './tag';
+export { chipRecipe } from './chip';
 export { themeSwitcherRecipe } from './themeSwitcher';
 
 // Slot Recipes
