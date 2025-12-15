@@ -5,6 +5,7 @@ export const conditions = {
   focusVisible: '&:is(:focus-visible, [data-focus-visible=true])',
   disabled:
     '&:is(:disabled, [disabled], [data-disabled], [aria-disabled=true])',
+  deleted: '&:is(:deleted, [deleted], [data-deleted=true])',
   active: '&:is(:active, [data-active=true])',
   visited: '&:visited',
   target: '&:target',
@@ -92,7 +93,7 @@ export const conditions = {
   open: '&:is([open], [data-open], [data-state="open"], :popover-open)',
   closed: '&:is([closed], [data-closed], [data-state="closed"])',
   fullscreen: '&:is(:fullscreen, [data-fullscreen])',
-  loading: '&:is([data-loading], [aria-busy=true])',
+  loading: '&:is([data-loading=true], [aria-busy=true])',
   hidden: '&:is([hidden], [data-hidden])',
 
   current: '&:is([aria-current=true], [data-current])',

@@ -1,39 +1,82 @@
-import { chip, type ChipVariantProps } from '@styled-system/recipes';
-import { Box, type BoxProps } from '../Box';
 import { type ReactNode } from 'react';
-import { splitProps } from '~/utils/splitProps';
 import { cx } from '@styled-system/css';
-import { Icon, type IconNamesList } from '../Icon';
+import { splitProps } from '~/utils/splitProps';
+import { HStack, Grid } from '@styled-system/jsx';
+import { chip, type ChipVariantProps } from '@styled-system/recipes';
+import { Box, type BoxProps } from '~/components/Box';
+import { Icon, type IconNames, type AllowedIconSizes } from '~/components/Icon';
+import { Spinner } from '~/components/Spinner';
+
+// Map chip sizes to icon sizes
+const chipSizeToIconSize: Record<string, AllowedIconSizes> = {
+  small: '20',
+  default: '20',
+  large: '24',
+};
 
 export type ChipProps = BoxProps &
   ChipVariantProps & {
     children: string | ReactNode;
-    iconName?: IconNamesList;
+    iconBefore?: keyof typeof IconNames;
+    iconAfter?: keyof typeof IconNames;
+    disabled?: boolean;
+    loading?: boolean;
+    deleted?: boolean;
   };
 
 export const Chip: React.FC<ChipProps> = ({
-  state = 'resolved',
-  hue = 'blue',
+  size = 'default',
   children,
-  iconName,
+  loading,
+  disabled,
+  deleted,
+  iconBefore,
+  iconAfter,
   onClick,
   ...props
 }) => {
   const [className, otherProps] = splitProps(props);
-  const hasIcon = !!iconName;
-  const isClickable = state === 'resolved' || state === 'placeholder';
+  const classes = chip({
+    size,
+    iconBefore: Boolean(iconBefore),
+    iconAfter: Boolean(iconAfter),
+  });
+  const iconSize = chipSizeToIconSize[size];
 
   return (
     <Box
-      as="span"
-      className={cx(chip({ state, hue, hasIcon }), className)}
-      onClick={isClickable ? onClick : undefined}
-      role={isClickable ? 'button' : undefined}
-      tabIndex={isClickable ? 0 : undefined}
+      as="button"
+      className={cx(classes.container, className)}
+      onClick={onClick || undefined}
+      disabled={disabled ? true : undefined}
+      aria-disabled={disabled ? true : undefined}
+      data-loading={loading ? true : undefined}
+      aria-busy={loading ? true : undefined}
+      type="button"
+      data-deleted={deleted ? true : undefined}
       {...otherProps}
     >
-      {iconName && <Icon name={iconName} width={14} height={14} />}
-      {children}
+      <HStack gap="4" opacity={loading ? 0 : 1}>
+        {iconBefore && (
+          <Icon name={iconBefore} size={iconSize} className={classes.icon} />
+        )}
+        {children}
+        {iconAfter && (
+          <Icon name={iconAfter} size={iconSize} className={classes.icon} />
+        )}
+      </HStack>
+      {loading && (
+        <Grid
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          placeItems="center"
+        >
+          <Spinner />
+        </Grid>
+      )}
     </Box>
   );
 };

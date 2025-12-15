@@ -1,266 +1,182 @@
-import { defineRecipe } from '@pandacss/dev';
+import { defineSlotRecipe } from '@pandacss/dev';
 
 const chipBase = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '1',
-  px: '2',
-  py: '0',
-  borderRadius: '2',
-  fontFamily: 'sans',
-  fontSize: 'inherit',
-  lineHeight: 'inherit',
-  fontWeight: '500',
-  whiteSpace: 'nowrap',
-  verticalAlign: 'baseline',
-  cursor: 'pointer',
-  transitionProperty: 'common',
-  transitionDuration: 'fast',
-  userSelect: 'none',
+  container: {
+    position: 'relative',
+    display: 'inline-flex',
+    alignItems: 'center',
+    width: 'fit',
+    borderRadius: 'full',
+    fontFamily: 'sans',
+    lineHeight: 'default',
+    fontWeight: 'medium',
+    whiteSpace: 'nowrap',
+    verticalAlign: 'middle',
+    cursor: 'pointer',
+    transitionDuration: 'fast',
+    transitionProperty: 'background, border-color, color, box-shadow',
+    transitionTimingFunction: 'default',
+    userSelect: 'none',
+    outlineWidth: 2,
+    outlineStyle: 'solid',
+    outlineColor: 'transparent',
+    bg: 'bg.neutral',
+    color: 'text',
+    icon: { fill: 'icon.decorative' },
+    _hover: {
+      bg: 'bg.neutral.hovered',
+      icon: { fill: 'icon.decorative.hovered' },
+    },
+    _active: {
+      bg: 'bg.neutral.pressed',
+      icon: { fill: 'icon.decorative.hovered' },
+    },
+    _focusVisible: {
+      outlineColor: 'border.focused',
+    },
+    _loading: {
+      cursor: 'wait',
+      animation: 'pulse',
+    },
+    _deleted: {
+      textDecoration: 'line-through',
+      cursor: 'not-allowed',
+      opacity: 0.6,
+    },
+    _disabled: {
+      cursor: 'not-allowed',
+      bg: 'bg.disabled',
+      color: 'text.disabled',
+      borderColor: 'border.disabled',
+      icon: { fill: 'icon.disabled' },
+      _hover: {
+        bg: 'bg.disabled',
+        color: 'text.disabled',
+        borderColor: 'border.disabled',
+        icon: { fill: 'icon.disabled' },
+      },
+    },
+    _selected: {
+      bg: 'bg.brand.boldest',
+      color: 'text.inverse',
+      icon: { fill: 'icon.decorative.inverse' },
+      _hover: {
+        bg: 'bg.brand.boldest.hovered',
+        icon: { fill: 'icon.inverse' },
+      },
+      _active: {
+        bg: 'bg.brand.boldest.pressed',
+        icon: { fill: 'icon.inverse' },
+      },
+    },
+  },
+  icon: {
+    aspectRatio: 'square',
+    transitionDuration: 'fast',
+    transitionProperty: 'fill',
+    transitionTimingFunction: 'default',
+  },
 };
 
-export const chipRecipe = defineRecipe({
+export const chipRecipe = defineSlotRecipe({
   className: 'chip',
   jsx: ['Chip'],
+  slots: ['container', 'icon'],
   base: chipBase,
   variants: {
-    state: {
-      resolved: {},
-      placeholder: {
-        borderStyle: 'dashed',
-        borderWidth: '1px',
+    size: {
+      default: {
+        container: {
+          gap: '4',
+          h: '24',
+          px: '8',
+          py: '1',
+          fontSize: '14',
+        },
+        icon: {
+          w: '20',
+          h: '20',
+        },
       },
-      loading: {
-        cursor: 'wait',
-        animation: 'pulse',
+      small: {
+        container: {
+          gap: '2',
+          h: '20',
+          px: '6',
+          py: '0',
+          fontSize: '14',
+        },
+        icon: {
+          w: '20',
+          h: '20',
+        },
       },
-      deleted: {
-        textDecoration: 'line-through',
-        cursor: 'not-allowed',
-        opacity: 0.5,
+      large: {
+        container: {
+          gap: '4',
+          h: '32',
+          px: '10',
+          py: '4',
+          fontSize: '16',
+        },
+        icon: {
+          w: '24',
+          h: '24',
+        },
       },
     },
-    hue: {
-      blue: {},
-      purple: {},
-      orange: {},
-      green: {},
-      gray: {},
+    iconBefore: {
+      true: { container: {} },
     },
-    hasIcon: {
-      true: { pl: '1' },
-      false: {},
+    iconAfter: {
+      true: { container: {} },
     },
-  },
-  defaultVariants: {
-    state: 'resolved',
-    hue: 'blue',
-    hasIcon: false,
   },
   compoundVariants: [
-    // Blue hue (page)
     {
-      hue: 'blue',
-      state: 'resolved',
+      size: 'default',
+      iconBefore: true,
       css: {
-        color: { base: 'blue.70', _dark: 'blue.20' },
-        bg: { base: 'blue.20', _dark: 'blue.90' },
-        _hover: {
-          bg: { base: 'blue.30', _dark: 'blue.80' },
-        },
+        container: { ps: '3' },
       },
     },
     {
-      hue: 'blue',
-      state: 'placeholder',
+      size: 'default',
+      iconAfter: true,
       css: {
-        color: { base: 'blue.50', _dark: 'blue.40' },
-        borderColor: { base: 'blue.40', _dark: 'blue.60' },
-        bg: 'transparent',
-        _hover: {
-          bg: { base: 'blue.10', _dark: 'blue.90/50' },
-        },
+        container: { pe: '3' },
       },
     },
     {
-      hue: 'blue',
-      state: 'loading',
+      size: 'small',
+      iconBefore: true,
       css: {
-        color: { base: 'blue.50', _dark: 'blue.40' },
-        bg: { base: 'blue.10', _dark: 'blue.90' },
+        container: { ps: '2' },
       },
     },
     {
-      hue: 'blue',
-      state: 'deleted',
+      size: 'small',
+      iconAfter: true,
       css: {
-        color: { base: 'blue.40', _dark: 'blue.60' },
-        bg: { base: 'blue.10', _dark: 'blue.90' },
-      },
-    },
-
-    // Purple hue (daily_note)
-    {
-      hue: 'purple',
-      state: 'resolved',
-      css: {
-        color: { base: 'purple.70', _dark: 'purple.20' },
-        bg: { base: 'purple.20', _dark: 'purple.90' },
-        _hover: {
-          bg: { base: 'purple.30', _dark: 'purple.80' },
-        },
+        container: { pe: '2' },
       },
     },
     {
-      hue: 'purple',
-      state: 'placeholder',
+      size: 'large',
+      iconBefore: true,
       css: {
-        color: { base: 'purple.50', _dark: 'purple.40' },
-        borderColor: { base: 'purple.40', _dark: 'purple.60' },
-        bg: 'transparent',
-        _hover: {
-          bg: { base: 'purple.10', _dark: 'purple.90/50' },
-        },
+        container: { ps: '6' },
       },
     },
     {
-      hue: 'purple',
-      state: 'loading',
+      size: 'large',
+      iconAfter: true,
       css: {
-        color: { base: 'purple.50', _dark: 'purple.40' },
-        bg: { base: 'purple.10', _dark: 'purple.90' },
-      },
-    },
-    {
-      hue: 'purple',
-      state: 'deleted',
-      css: {
-        color: { base: 'purple.40', _dark: 'purple.60' },
-        bg: { base: 'purple.10', _dark: 'purple.90' },
-      },
-    },
-
-    // Orange hue (event)
-    {
-      hue: 'orange',
-      state: 'resolved',
-      css: {
-        color: { base: 'orange.70', _dark: 'orange.20' },
-        bg: { base: 'orange.20', _dark: 'orange.100' },
-        _hover: {
-          bg: { base: 'orange.30', _dark: 'orange.90' },
-        },
-      },
-    },
-    {
-      hue: 'orange',
-      state: 'placeholder',
-      css: {
-        color: { base: 'orange.50', _dark: 'orange.40' },
-        borderColor: { base: 'orange.40', _dark: 'orange.60' },
-        bg: 'transparent',
-        _hover: {
-          bg: { base: 'orange.10', _dark: 'orange.90/50' },
-        },
-      },
-    },
-    {
-      hue: 'orange',
-      state: 'loading',
-      css: {
-        color: { base: 'orange.50', _dark: 'orange.40' },
-        bg: { base: 'orange.10', _dark: 'orange.100' },
-      },
-    },
-    {
-      hue: 'orange',
-      state: 'deleted',
-      css: {
-        color: { base: 'orange.40', _dark: 'orange.60' },
-        bg: { base: 'orange.10', _dark: 'orange.100' },
-      },
-    },
-
-    // Green hue (person)
-    {
-      hue: 'green',
-      state: 'resolved',
-      css: {
-        color: { base: 'green.70', _dark: 'green.20' },
-        bg: { base: 'green.20', _dark: 'green.90' },
-        _hover: {
-          bg: { base: 'green.30', _dark: 'green.80' },
-        },
-      },
-    },
-    {
-      hue: 'green',
-      state: 'placeholder',
-      css: {
-        color: { base: 'green.50', _dark: 'green.40' },
-        borderColor: { base: 'green.40', _dark: 'green.60' },
-        bg: 'transparent',
-        _hover: {
-          bg: { base: 'green.10', _dark: 'green.90/50' },
-        },
-      },
-    },
-    {
-      hue: 'green',
-      state: 'loading',
-      css: {
-        color: { base: 'green.50', _dark: 'green.40' },
-        bg: { base: 'green.10', _dark: 'green.90' },
-      },
-    },
-    {
-      hue: 'green',
-      state: 'deleted',
-      css: {
-        color: { base: 'green.40', _dark: 'green.60' },
-        bg: { base: 'green.10', _dark: 'green.90' },
-      },
-    },
-
-    // Gray hue (default/fallback)
-    {
-      hue: 'gray',
-      state: 'resolved',
-      css: {
-        color: 'text.subtle',
-        bg: 'bg.neutral',
-        _hover: {
-          bg: 'bg.neutral.hovered',
-        },
-      },
-    },
-    {
-      hue: 'gray',
-      state: 'placeholder',
-      css: {
-        color: 'text.subtlest',
-        borderColor: 'border.default',
-        bg: 'transparent',
-        _hover: {
-          bg: 'bg.neutral',
-        },
-      },
-    },
-    {
-      hue: 'gray',
-      state: 'loading',
-      css: {
-        color: 'text.subtlest',
-        bg: 'bg.neutral',
-      },
-    },
-    {
-      hue: 'gray',
-      state: 'deleted',
-      css: {
-        color: 'text.disabled',
-        bg: 'bg.neutral',
+        container: { pe: '6' },
       },
     },
   ],
+  defaultVariants: {
+    size: 'default',
+  },
 });

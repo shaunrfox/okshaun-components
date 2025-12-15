@@ -20,6 +20,7 @@ const {
   tooltipRecipe,
   menuRecipe,
   toggleRecipe,
+  chipRecipe,
   ...regularComponents
 } = componentRecipes;
 
@@ -85,6 +86,7 @@ export const okshaunPreset = definePreset({
         tooltip: tooltipRecipe,
         menu: menuRecipe,
         toggle: toggleRecipe,
+        chip: chipRecipe,
       },
     },
   },

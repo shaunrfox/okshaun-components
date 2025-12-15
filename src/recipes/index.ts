@@ -13,7 +13,6 @@ export { textinputRecipe } from './textinput';
 export { cardRecipe } from './card';
 export { breadcrumbsRecipe } from './breadcrumbs';
 export { tagRecipe } from './tag';
-export { chipRecipe } from './chip';
 export { themeSwitcherRecipe } from './themeSwitcher';
 
 // Slot Recipes
@@ -22,3 +21,4 @@ export { checkboxRecipe } from './checkbox';
 export { radioRecipe } from './radio';
 export { tooltipRecipe } from './tooltip';
 export { menuRecipe } from './menu';
+export { chipRecipe } from './chip';

@@ -19,10 +19,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "generate-sprite": "node src/utils/generate-sprite.js",
-    "prepublishOnly": "npm run build",
-    "publish-patch": "npm version patch && npm publish",
-    "publish-minor": "npm version minor && npm publish",
-    "publish-major": "npm version major && npm publish"
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "dist",
