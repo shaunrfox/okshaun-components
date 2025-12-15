@@ -125,52 +125,52 @@ export const chipRecipe = defineSlotRecipe({
         },
       },
     },
-    iconBefore: {
+    before: {
       true: { container: {} },
     },
-    iconAfter: {
+    after: {
       true: { container: {} },
     },
   },
   compoundVariants: [
     {
       size: 'default',
-      iconBefore: true,
+      before: true,
       css: {
         container: { ps: '3' },
       },
     },
     {
       size: 'default',
-      iconAfter: true,
+      after: true,
       css: {
         container: { pe: '3' },
       },
     },
     {
       size: 'small',
-      iconBefore: true,
+      before: true,
       css: {
         container: { ps: '2' },
       },
     },
     {
       size: 'small',
-      iconAfter: true,
+      after: true,
       css: {
         container: { pe: '2' },
       },
     },
     {
       size: 'large',
-      iconBefore: true,
+      before: true,
       css: {
         container: { ps: '6' },
       },
     },
     {
       size: 'large',
-      iconAfter: true,
+      after: true,
       css: {
         container: { pe: '6' },
       },

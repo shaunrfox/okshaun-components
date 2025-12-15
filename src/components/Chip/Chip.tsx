@@ -4,12 +4,12 @@ import { splitProps } from '~/utils/splitProps';
 import { HStack, Grid } from '@styled-system/jsx';
 import { chip, type ChipVariantProps } from '@styled-system/recipes';
 import { Box, type BoxProps } from '~/components/Box';
-import { Icon, type IconNames, type AllowedIconSizes } from '~/components/Icon';
+import { Icon, type AllowedIconSizes } from '~/components/Icon';
 import { Spinner } from '~/components/Spinner';
 import { useChipGroup } from './ChipGroupContext';
 import { NumericSizeToken } from '@styled-system/tokens';
 
-// Map chip sizes to icon sizes
+// Map chip sizes to icon sizes (for internal icons like check/x)
 const chipSizeToIconSize: Record<string, AllowedIconSizes> = {
   small: '20',
   default: '20',
@@ -17,10 +17,12 @@ const chipSizeToIconSize: Record<string, AllowedIconSizes> = {
 };
 
 export type ChipProps = BoxProps &
-  ChipVariantProps & {
+  Omit<ChipVariantProps, 'before' | 'after'> & {
     children: string | ReactNode;
-    iconBefore?: keyof typeof IconNames;
-    iconAfter?: keyof typeof IconNames;
+    /** Content to render before the label (e.g., Icon, Avatar) */
+    before?: ReactNode;
+    /** Content to render after the label (e.g., Badge, Icon) */
+    after?: ReactNode;
     disabled?: boolean;
     loading?: boolean;
     deleted?: boolean;
@@ -36,8 +38,8 @@ export const Chip: React.FC<ChipProps> = ({
   loading,
   disabled,
   deleted,
-  iconBefore,
-  iconAfter,
+  before,
+  after,
   dismissable,
   onDismiss,
   value,
@@ -71,15 +73,14 @@ export const Chip: React.FC<ChipProps> = ({
   const isMultiSelected =
     isSelectable && groupContext.type === 'multi' && isSelected;
 
-  // Dismissable chips always show X icon
-  const hasIconAfter = Boolean(iconAfter) || dismissable;
-  // MultiSelect selected state or user-provided iconBefore
-  const hasIconBefore = Boolean(iconBefore) || isMultiSelected;
+  // Determine if there's content before/after for padding adjustments
+  const hasBefore = Boolean(before) || isMultiSelected;
+  const hasAfter = Boolean(after) || dismissable;
 
   const classes = chip({
     size,
-    iconBefore: hasIconBefore,
-    iconAfter: hasIconAfter,
+    before: hasBefore,
+    after: hasAfter,
   });
   const iconSize = chipSizeToIconSize[size];
 
@@ -180,16 +181,12 @@ export const Chip: React.FC<ChipProps> = ({
             aria-hidden
           />
         )}
-        {iconBefore && (
-          <Icon name={iconBefore} size={iconSize} className={classes.icon} />
-        )}
+        {before}
         {children}
         {dismissable ? (
           <Icon name="x" size={iconSize} className={classes.icon} aria-hidden />
         ) : (
-          iconAfter && (
-            <Icon name={iconAfter} size={iconSize} className={classes.icon} />
-          )
+          after
         )}
       </HStack>
       {loading && (

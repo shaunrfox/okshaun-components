@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Flex } from '@styled-system/jsx';
 import { Chip } from './Chip';
 import { ChipGroup } from './ChipGroup';
 import { Box } from '../Box';
 import { Text } from '../Text';
+import { Icon } from '../Icon';
+import { Badge } from '../Badge';
 
 const meta: Meta<typeof Chip> = {
   title: 'Components/Chip',
@@ -15,15 +18,13 @@ const meta: Meta<typeof Chip> = {
       options: ['default', 'small', 'large'],
       description: 'Size variant of the chip',
     },
-    iconBefore: {
-      control: 'select',
-      options: ['file', 'calendar', 'user', 'plus', 'check'],
-      description: 'Icon displayed before the label',
+    before: {
+      control: false,
+      description: 'Content to render before the label (e.g., Icon, Avatar)',
     },
-    iconAfter: {
-      control: 'select',
-      options: ['x', 'chevron-down', 'external-link'],
-      description: 'Icon displayed after the label',
+    after: {
+      control: false,
+      description: 'Content to render after the label (e.g., Badge, Icon)',
     },
     disabled: {
       control: 'boolean',
@@ -63,11 +64,11 @@ export const Default: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <Box display="flex" gap="4" alignItems="center">
+    <Flex gap="4" alignItems="center">
       <Chip size="small">Small</Chip>
       <Chip size="default">Default</Chip>
       <Chip size="large">Large</Chip>
-    </Box>
+    </Flex>
   ),
 };
 
@@ -75,51 +76,79 @@ export const Sizes: Story = {
 // WITH ICONS
 // =============================================================================
 
-export const WithIconBefore: Story = {
+export const WithBefore: Story = {
   render: () => (
-    <Box display="flex" gap="4" alignItems="center">
-      <Chip size="small" iconBefore="file">
-        Small
-      </Chip>
-      <Chip size="default" iconBefore="file">
-        Default
-      </Chip>
-      <Chip size="large" iconBefore="file">
-        Large
-      </Chip>
-    </Box>
+    <Flex gap="4" flexDir="column" alignItems="center">
+      <Flex gap="4" alignItems="center">
+        <Chip
+          size="small"
+          before={<Badge count="2" size="sm" appearance="success" />}
+        >
+          Small
+        </Chip>
+        <Chip size="default" before={<Badge count="30" appearance="neutral" />}>
+          Default
+        </Chip>
+        <Chip size="large" before={<Badge count="100" size="lg" />}>
+          Large
+        </Chip>
+      </Flex>
+      <Flex gap="4" alignItems="center">
+        <Chip size="small" before={<Icon name="file" size="20" />}>
+          Small
+        </Chip>
+        <Chip size="default" before={<Icon name="file" size="20" />}>
+          Default
+        </Chip>
+        <Chip size="large" before={<Icon name="file" size="24" />}>
+          Large
+        </Chip>
+      </Flex>
+    </Flex>
   ),
 };
 
-export const WithIconAfter: Story = {
+export const WithAfter: Story = {
   render: () => (
-    <Box display="flex" gap="4" alignItems="center">
-      <Chip size="small" iconAfter="x">
+    <Flex gap="4" alignItems="center">
+      <Chip size="small" after={<Icon name="x" size="20" />}>
         Small
       </Chip>
-      <Chip size="default" iconAfter="x">
+      <Chip size="default" after={<Icon name="x" size="20" />}>
         Default
       </Chip>
-      <Chip size="large" iconAfter="x">
+      <Chip size="large" after={<Icon name="x" size="24" />}>
         Large
       </Chip>
-    </Box>
+    </Flex>
   ),
 };
 
-export const WithBothIcons: Story = {
+export const WithBeforeAndAfter: Story = {
   render: () => (
-    <Box display="flex" gap="4" alignItems="center">
-      <Chip size="small" iconBefore="user" iconAfter="x">
+    <Flex gap="4" alignItems="center">
+      <Chip
+        size="small"
+        before={<Icon name="user" size="20" />}
+        after={<Icon name="x" size="20" />}
+      >
         Small
       </Chip>
-      <Chip size="default" iconBefore="user" iconAfter="x">
+      <Chip
+        size="default"
+        before={<Icon name="user" size="20" />}
+        after={<Icon name="x" size="20" />}
+      >
         Default
       </Chip>
-      <Chip size="large" iconBefore="user" iconAfter="x">
+      <Chip
+        size="large"
+        before={<Icon name="user" size="24" />}
+        after={<Icon name="x" size="24" />}
+      >
         Large
       </Chip>
-    </Box>
+    </Flex>
   ),
 };
 
@@ -129,38 +158,38 @@ export const WithBothIcons: Story = {
 
 export const States: Story = {
   render: () => (
-    <Box display="flex" flexDir="column" gap="4">
-      <Box display="flex" gap="2" alignItems="center">
+    <Flex flexDir="column" gap="4">
+      <Flex gap="2" alignItems="center">
         <Text fontWeight="500" w="100">
           Default:
         </Text>
-        <Chip iconBefore="file">Interactive</Chip>
-      </Box>
-      <Box display="flex" gap="2" alignItems="center">
+        <Chip before={<Icon name="file" size="20" />}>Interactive</Chip>
+      </Flex>
+      <Flex gap="2" alignItems="center">
         <Text fontWeight="500" w="100">
           Disabled:
         </Text>
-        <Chip disabled iconBefore="file">
+        <Chip disabled before={<Icon name="file" size="20" />}>
           Disabled
         </Chip>
-      </Box>
-      <Box display="flex" gap="2" alignItems="center">
+      </Flex>
+      <Flex gap="2" alignItems="center">
         <Text fontWeight="500" w="100">
           Loading:
         </Text>
-        <Chip loading iconBefore="file">
+        <Chip loading before={<Icon name="file" size="20" />}>
           Loading...
         </Chip>
-      </Box>
-      <Box display="flex" gap="2" alignItems="center">
+      </Flex>
+      <Flex gap="2" alignItems="center">
         <Text fontWeight="500" w="100">
           Deleted:
         </Text>
-        <Chip deleted iconBefore="file">
+        <Chip deleted before={<Icon name="file" size="20" />}>
           Deleted Item
         </Chip>
-      </Box>
-    </Box>
+      </Flex>
+    </Flex>
   ),
 };
 
@@ -170,18 +199,24 @@ export const States: Story = {
 
 export const Interactive: Story = {
   render: () => (
-    <Box display="flex" flexDir="column" gap="4">
+    <Flex flexDir="column" gap="4">
       <Text>Chips can be interactive buttons:</Text>
-      <Box display="flex" gap="2">
+      <Flex gap="2">
         <Chip onClick={() => alert('Clicked!')}>Click Me</Chip>
-        <Chip iconBefore="plus" onClick={() => alert('Add clicked!')}>
+        <Chip
+          before={<Icon name="plus" size="20" />}
+          onClick={() => alert('Add clicked!')}
+        >
           Add Item
         </Chip>
-        <Chip iconAfter="x" onClick={() => alert('Remove clicked!')}>
+        <Chip
+          after={<Icon name="x" size="20" />}
+          onClick={() => alert('Remove clicked!')}
+        >
           Remove
         </Chip>
-      </Box>
-    </Box>
+      </Flex>
+    </Flex>
   ),
 };
 
@@ -189,60 +224,72 @@ export const Interactive: Story = {
 // ALL SIZES WITH ICONS MATRIX
 // =============================================================================
 
-export const SizesWithIconsMatrix: Story = {
+export const SizesMatrix: Story = {
   render: () => (
-    <Box display="flex" flexDir="column" gap="6">
-      <Box display="flex" flexDir="column" gap="2">
-        <Text fontWeight="600">No Icons</Text>
-        <Box display="flex" gap="4" alignItems="center">
+    <Flex flexDir="column" gap="6">
+      <Flex flexDir="column" gap="2">
+        <Text fontWeight="600">No Content Before/After</Text>
+        <Flex gap="4" alignItems="center">
           <Chip size="small">Small</Chip>
           <Chip size="default">Default</Chip>
           <Chip size="large">Large</Chip>
-        </Box>
-      </Box>
-      <Box display="flex" flexDir="column" gap="2">
-        <Text fontWeight="600">Icon Before</Text>
-        <Box display="flex" gap="4" alignItems="center">
-          <Chip size="small" iconBefore="file">
+        </Flex>
+      </Flex>
+      <Flex flexDir="column" gap="2">
+        <Text fontWeight="600">With Before</Text>
+        <Flex gap="4" alignItems="center">
+          <Chip size="small" before={<Icon name="file" size="20" />}>
             Small
           </Chip>
-          <Chip size="default" iconBefore="file">
+          <Chip size="default" before={<Icon name="file" size="20" />}>
             Default
           </Chip>
-          <Chip size="large" iconBefore="file">
+          <Chip size="large" before={<Icon name="file" size="24" />}>
             Large
           </Chip>
-        </Box>
-      </Box>
-      <Box display="flex" flexDir="column" gap="2">
-        <Text fontWeight="600">Icon After</Text>
-        <Box display="flex" gap="4" alignItems="center">
-          <Chip size="small" iconAfter="x">
+        </Flex>
+      </Flex>
+      <Flex flexDir="column" gap="2">
+        <Text fontWeight="600">With After</Text>
+        <Flex gap="4" alignItems="center">
+          <Chip size="small" after={<Icon name="x" size="20" />}>
             Small
           </Chip>
-          <Chip size="default" iconAfter="x">
+          <Chip size="default" after={<Icon name="x" size="20" />}>
             Default
           </Chip>
-          <Chip size="large" iconAfter="x">
+          <Chip size="large" after={<Icon name="x" size="24" />}>
             Large
           </Chip>
-        </Box>
-      </Box>
-      <Box display="flex" flexDir="column" gap="2">
-        <Text fontWeight="600">Both Icons</Text>
-        <Box display="flex" gap="4" alignItems="center">
-          <Chip size="small" iconBefore="user" iconAfter="x">
+        </Flex>
+      </Flex>
+      <Flex flexDir="column" gap="2">
+        <Text fontWeight="600">With Before and After</Text>
+        <Flex gap="4" alignItems="center">
+          <Chip
+            size="small"
+            before={<Icon name="user" size="20" />}
+            after={<Icon name="x" size="20" />}
+          >
             Small
           </Chip>
-          <Chip size="default" iconBefore="user" iconAfter="x">
+          <Chip
+            size="default"
+            before={<Icon name="user" size="20" />}
+            after={<Icon name="x" size="20" />}
+          >
             Default
           </Chip>
-          <Chip size="large" iconBefore="user" iconAfter="x">
+          <Chip
+            size="large"
+            before={<Icon name="user" size="24" />}
+            after={<Icon name="x" size="24" />}
+          >
             Large
           </Chip>
-        </Box>
-      </Box>
-    </Box>
+        </Flex>
+      </Flex>
+    </Flex>
   ),
 };
 
@@ -252,11 +299,13 @@ export const SizesWithIconsMatrix: Story = {
 
 export const InlineWithText: Story = {
   render: () => (
-    <Box maxW="600">
+    <Box maxW="lg">
       <Text>
         Chips can appear inline within text, like tagging{' '}
-        <Chip iconBefore="user">John Doe</Chip> in a conversation or referencing{' '}
-        <Chip iconBefore="file">Project Plan</Chip> in your notes.
+        <Chip before={<Icon name="user" size="20" />}>John Doe</Chip> in a
+        conversation or referencing{' '}
+        <Chip before={<Icon name="file" size="20" />}>Project Plan</Chip> in
+        your notes.
       </Text>
     </Box>
   ),
@@ -268,33 +317,33 @@ export const InlineWithText: Story = {
 
 export const UseCases: Story = {
   render: () => (
-    <Box display="flex" flexDir="column" gap="6">
-      <Box display="flex" flexDir="column" gap="2">
+    <Flex flexDir="column" gap="6">
+      <Flex flexDir="column" gap="2">
         <Text fontWeight="600">Filter Tags</Text>
-        <Box display="flex" gap="2" flexWrap="wrap">
-          <Chip iconAfter="x">React</Chip>
-          <Chip iconAfter="x">TypeScript</Chip>
-          <Chip iconAfter="x">Panda CSS</Chip>
-          <Chip iconBefore="plus">Add Filter</Chip>
-        </Box>
-      </Box>
-      <Box display="flex" flexDir="column" gap="2">
+        <Flex gap="2" flexWrap="wrap">
+          <Chip after={<Icon name="x" size="20" />}>React</Chip>
+          <Chip after={<Icon name="x" size="20" />}>TypeScript</Chip>
+          <Chip after={<Icon name="x" size="20" />}>Panda CSS</Chip>
+          <Chip before={<Icon name="plus" size="20" />}>Add Filter</Chip>
+        </Flex>
+      </Flex>
+      <Flex flexDir="column" gap="2">
         <Text fontWeight="600">Categories</Text>
-        <Box display="flex" gap="2" flexWrap="wrap">
-          <Chip iconBefore="file">Documentation</Chip>
-          <Chip iconBefore="calendar">Events</Chip>
-          <Chip iconBefore="user">People</Chip>
-        </Box>
-      </Box>
-      <Box display="flex" flexDir="column" gap="2">
+        <Flex gap="2" flexWrap="wrap">
+          <Chip before={<Icon name="file" size="20" />}>Documentation</Chip>
+          <Chip before={<Icon name="calendar" size="20" />}>Events</Chip>
+          <Chip before={<Icon name="user" size="20" />}>People</Chip>
+        </Flex>
+      </Flex>
+      <Flex flexDir="column" gap="2">
         <Text fontWeight="600">Actions</Text>
-        <Box display="flex" gap="2" flexWrap="wrap">
-          <Chip iconBefore="plus">New Item</Chip>
-          <Chip iconBefore="check">Approve</Chip>
+        <Flex gap="2" flexWrap="wrap">
+          <Chip before={<Icon name="plus" size="20" />}>New Item</Chip>
+          <Chip before={<Icon name="check" size="20" />}>Approve</Chip>
           <Chip deleted>Archived</Chip>
-        </Box>
-      </Box>
-    </Box>
+        </Flex>
+      </Flex>
+    </Flex>
   ),
 };
 
@@ -315,17 +364,17 @@ const DismissableExample = () => {
   };
 
   return (
-    <Box display="flex" flexDir="column" gap="4">
+    <Flex flexDir="column" gap="4">
       <Text>Click the X to dismiss tags:</Text>
-      <Box display="flex" gap="2" flexWrap="wrap">
+      <Flex gap="2" flexWrap="wrap">
         {tags.map((tag) => (
           <Chip key={tag} dismissable onDismiss={() => handleDismiss(tag)}>
             {tag}
           </Chip>
         ))}
-      </Box>
+      </Flex>
       {tags.length === 0 && <Text color="text.muted">All tags dismissed!</Text>}
-    </Box>
+    </Flex>
   );
 };
 
@@ -333,19 +382,31 @@ export const Dismissable: Story = {
   render: () => <DismissableExample />,
 };
 
-export const DismissableWithIcons: Story = {
+export const DismissableWithBefore: Story = {
   render: () => (
-    <Box display="flex" gap="2">
-      <Chip dismissable iconBefore="file" onDismiss={() => {}}>
+    <Flex gap="2">
+      <Chip
+        dismissable
+        before={<Icon name="file" size="20" />}
+        onDismiss={() => {}}
+      >
         Document
       </Chip>
-      <Chip dismissable iconBefore="user" onDismiss={() => {}}>
+      <Chip
+        dismissable
+        before={<Icon name="user" size="20" />}
+        onDismiss={() => {}}
+      >
         Person
       </Chip>
-      <Chip dismissable iconBefore="calendar" onDismiss={() => {}}>
+      <Chip
+        dismissable
+        before={<Icon name="calendar" size="20" />}
+        onDismiss={() => {}}
+      >
         Event
       </Chip>
-    </Box>
+    </Flex>
   ),
 };
 
@@ -357,7 +418,7 @@ const SingleSelectExample = () => {
   const [selected, setSelected] = useState('medium');
 
   return (
-    <Box display="flex" flexDir="column" gap="4">
+    <Flex flexDir="column" gap="4">
       <Text>Select one size:</Text>
       <ChipGroup
         type="single"
@@ -371,7 +432,7 @@ const SingleSelectExample = () => {
         <Chip value="xlarge">X-Large</Chip>
       </ChipGroup>
       <Text color="text.muted">Selected: {selected}</Text>
-    </Box>
+    </Flex>
   );
 };
 
@@ -379,11 +440,11 @@ export const SingleSelect: Story = {
   render: () => <SingleSelectExample />,
 };
 
-const SingleSelectWithIconsExample = () => {
+const SingleSelectWithBeforeExample = () => {
   const [selected, setSelected] = useState('grid');
 
   return (
-    <Box display="flex" flexDir="column" gap="4">
+    <Flex flexDir="column" gap="4">
       <Text>Select a view:</Text>
       <ChipGroup
         type="single"
@@ -391,23 +452,23 @@ const SingleSelectWithIconsExample = () => {
         onChange={(value) => setSelected(value as string)}
         label="View selection"
       >
-        <Chip value="list" iconBefore="menu">
+        <Chip value="list" before={<Icon name="menu" size="20" />}>
           List
         </Chip>
-        <Chip value="grid" iconBefore="grid">
+        <Chip value="grid" before={<Icon name="view-grid" size="20" />}>
           Grid
         </Chip>
-        <Chip value="calendar" iconBefore="calendar">
+        <Chip value="calendar" before={<Icon name="calendar" size="20" />}>
           Calendar
         </Chip>
       </ChipGroup>
       <Text color="text.muted">Selected: {selected}</Text>
-    </Box>
+    </Flex>
   );
 };
 
-export const SingleSelectWithIcons: Story = {
-  render: () => <SingleSelectWithIconsExample />,
+export const SingleSelectWithBefore: Story = {
+  render: () => <SingleSelectWithBeforeExample />,
 };
 
 // =============================================================================
@@ -418,7 +479,7 @@ const MultiSelectExample = () => {
   const [selected, setSelected] = useState<string[]>(['react', 'typescript']);
 
   return (
-    <Box display="flex" flexDir="column" gap="4">
+    <Flex flexDir="column" gap="4">
       <Text>Select your skills (check icon appears when selected):</Text>
       <ChipGroup
         type="multi"
@@ -433,7 +494,7 @@ const MultiSelectExample = () => {
         <Chip value="svelte">Svelte</Chip>
       </ChipGroup>
       <Text color="text.muted">Selected: {selected.join(', ') || 'None'}</Text>
-    </Box>
+    </Flex>
   );
 };
 
@@ -441,11 +502,11 @@ export const MultiSelect: Story = {
   render: () => <MultiSelectExample />,
 };
 
-const MultiSelectWithIconsExample = () => {
+const MultiSelectWithBeforeExample = () => {
   const [selected, setSelected] = useState<string[]>(['docs']);
 
   return (
-    <Box display="flex" flexDir="column" gap="4">
+    <Flex flexDir="column" gap="4">
       <Text>Filter by category:</Text>
       <ChipGroup
         type="multi"
@@ -453,26 +514,26 @@ const MultiSelectWithIconsExample = () => {
         onChange={(value) => setSelected(value as string[])}
         label="Category filter"
       >
-        <Chip value="docs" iconBefore="file">
+        <Chip value="docs" before={<Icon name="file" size="20" />}>
           Documents
         </Chip>
-        <Chip value="images" iconBefore="image">
+        <Chip value="images" before={<Icon name="image" size="20" />}>
           Images
         </Chip>
-        <Chip value="videos" iconBefore="video">
+        <Chip value="videos" before={<Icon name="video" size="20" />}>
           Videos
         </Chip>
-        <Chip value="audio" iconBefore="volume-2">
+        <Chip value="audio" before={<Icon name="broadcast" size="20" />}>
           Audio
         </Chip>
       </ChipGroup>
       <Text color="text.muted">Selected: {selected.join(', ') || 'None'}</Text>
-    </Box>
+    </Flex>
   );
 };
 
-export const MultiSelectWithIcons: Story = {
-  render: () => <MultiSelectWithIconsExample />,
+export const MultiSelectWithBefore: Story = {
+  render: () => <MultiSelectWithBeforeExample />,
 };
 
 // =============================================================================
@@ -481,19 +542,19 @@ export const MultiSelectWithIcons: Story = {
 
 export const KeyboardNavigation: Story = {
   render: () => (
-    <Box display="flex" flexDir="column" gap="6">
-      <Box display="flex" flexDir="column" gap="2">
+    <Flex flexDir="column" gap="6">
+      <Flex flexDir="column" gap="2">
         <Text fontWeight="600">
           Single Select (arrow keys navigate & select):
         </Text>
         <SingleSelectExample />
-      </Box>
-      <Box display="flex" flexDir="column" gap="2">
+      </Flex>
+      <Flex flexDir="column" gap="2">
         <Text fontWeight="600">
           Multi Select (tab between, space/enter toggles):
         </Text>
         <MultiSelectExample />
-      </Box>
-    </Box>
+      </Flex>
+    </Flex>
   ),
 };
