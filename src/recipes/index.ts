@@ -22,3 +22,4 @@ export { tooltipRecipe } from './tooltip';
 export { menuRecipe } from './menu';
 export { chipRecipe } from './chip';
 export { badgeRecipe } from './badge';
+export { avatarRecipe } from './avatar';

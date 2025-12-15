@@ -137,14 +137,14 @@ export const chipRecipe = defineSlotRecipe({
       size: 'default',
       before: true,
       css: {
-        container: { ps: '3' },
+        container: { ps: '2' },
       },
     },
     {
       size: 'default',
       after: true,
       css: {
-        container: { pe: '3' },
+        container: { pe: '2' },
       },
     },
     {
@@ -165,14 +165,14 @@ export const chipRecipe = defineSlotRecipe({
       size: 'large',
       before: true,
       css: {
-        container: { ps: '6' },
+        container: { ps: '4' },
       },
     },
     {
       size: 'large',
       after: true,
       css: {
-        container: { pe: '6' },
+        container: { pe: '4' },
       },
     },
   ],

@@ -7,6 +7,16 @@ import { Box } from '../Box';
 import { Text } from '../Text';
 import { Icon } from '../Icon';
 import { Badge } from '../Badge';
+import { Avatar } from '../Avatar';
+
+// Sample avatar images (using placeholder service)
+const sampleImages = {
+  user1: 'https://i.pravatar.cc/150?img=1',
+  user2: 'https://i.pravatar.cc/150?img=2',
+  user3: 'https://i.pravatar.cc/150?img=3',
+  user4: 'https://i.pravatar.cc/150?img=4',
+  user5: 'https://i.pravatar.cc/150?img=5',
+};
 
 const meta: Meta<typeof Chip> = {
   title: 'Components/Chip',
@@ -90,6 +100,26 @@ export const WithBefore: Story = {
           Default
         </Chip>
         <Chip size="large" before={<Badge count="100" size="lg" />}>
+          Large
+        </Chip>
+      </Flex>
+      <Flex gap="4" alignItems="center">
+        <Chip
+          size="small"
+          before={<Avatar size="xs" src={sampleImages.user1} name="John Doe" />}
+        >
+          Small
+        </Chip>
+        <Chip
+          size="default"
+          before={<Avatar size="sm" src={sampleImages.user1} name="John Doe" />}
+        >
+          Default
+        </Chip>
+        <Chip
+          size="large"
+          before={<Avatar src={sampleImages.user1} name="John Doe" />}
+        >
           Large
         </Chip>
       </Flex>

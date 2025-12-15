@@ -22,6 +22,7 @@ const {
   menuRecipe,
   toggleRecipe,
   chipRecipe,
+  avatarRecipe,
   ...regularComponents
 } = componentRecipes;
 
@@ -89,6 +90,7 @@ export const okshaunPreset = definePreset({
         menu: menuRecipe,
         toggle: toggleRecipe,
         chip: chipRecipe,
+        avatar: avatarRecipe,
       },
     },
   },
