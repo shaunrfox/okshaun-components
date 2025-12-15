@@ -303,7 +303,12 @@ export const UseCases: Story = {
 // =============================================================================
 
 const DismissableExample = () => {
-  const [tags, setTags] = useState(['React', 'TypeScript', 'Panda CSS', 'Vite']);
+  const [tags, setTags] = useState([
+    'React',
+    'TypeScript',
+    'Panda CSS',
+    'Vite',
+  ]);
 
   const handleDismiss = (tag: string) => {
     setTags((prev) => prev.filter((t) => t !== tag));
@@ -478,11 +483,15 @@ export const KeyboardNavigation: Story = {
   render: () => (
     <Box display="flex" flexDir="column" gap="6">
       <Box display="flex" flexDir="column" gap="2">
-        <Text fontWeight="600">Single Select (arrow keys navigate & select):</Text>
+        <Text fontWeight="600">
+          Single Select (arrow keys navigate & select):
+        </Text>
         <SingleSelectExample />
       </Box>
       <Box display="flex" flexDir="column" gap="2">
-        <Text fontWeight="600">Multi Select (tab between, space/enter toggles):</Text>
+        <Text fontWeight="600">
+          Multi Select (tab between, space/enter toggles):
+        </Text>
         <MultiSelectExample />
       </Box>
     </Box>

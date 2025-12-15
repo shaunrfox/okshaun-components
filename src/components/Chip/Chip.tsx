@@ -7,6 +7,7 @@ import { Box, type BoxProps } from '~/components/Box';
 import { Icon, type IconNames, type AllowedIconSizes } from '~/components/Icon';
 import { Spinner } from '~/components/Spinner';
 import { useChipGroup } from './ChipGroupContext';
+import { NumericSizeToken } from '@styled-system/tokens';
 
 // Map chip sizes to icon sizes
 const chipSizeToIconSize: Record<string, AllowedIconSizes> = {
@@ -26,6 +27,7 @@ export type ChipProps = BoxProps &
     dismissable?: boolean;
     onDismiss?: () => void;
     value?: string;
+    gap?: NumericSizeToken;
   };
 
 export const Chip: React.FC<ChipProps> = ({
@@ -39,6 +41,7 @@ export const Chip: React.FC<ChipProps> = ({
   dismissable,
   onDismiss,
   value,
+  gap,
   onClick,
   ...props
 }) => {
@@ -65,7 +68,8 @@ export const Chip: React.FC<ChipProps> = ({
     : false;
 
   // MultiSelect shows check icon when selected
-  const isMultiSelected = isSelectable && groupContext.type === 'multi' && isSelected;
+  const isMultiSelected =
+    isSelectable && groupContext.type === 'multi' && isSelected;
 
   // Dismissable chips always show X icon
   const hasIconAfter = Boolean(iconAfter) || dismissable;
@@ -167,9 +171,14 @@ export const Chip: React.FC<ChipProps> = ({
       data-deleted={deleted ? true : undefined}
       {...otherProps}
     >
-      <HStack gap="4" opacity={loading ? 0 : 1}>
+      <HStack gap={gap || '4'} opacity={loading ? 0 : 1}>
         {isMultiSelected && (
-          <Icon name="check" size={iconSize} className={classes.icon} aria-hidden />
+          <Icon
+            name="check"
+            size={iconSize}
+            className={classes.icon}
+            aria-hidden
+          />
         )}
         {iconBefore && (
           <Icon name={iconBefore} size={iconSize} className={classes.icon} />

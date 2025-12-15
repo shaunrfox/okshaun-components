@@ -13,6 +13,7 @@ import * as componentRecipes from './src/recipes';
 
 // Extract slot recipes separately
 const {
+  badgeRecipe,
   buttonRecipe,
   iconButtonRecipe,
   checkboxRecipe,
@@ -79,6 +80,7 @@ export const okshaunPreset = definePreset({
         ...transformedRecipes,
       },
       slotRecipes: {
+        badge: badgeRecipe,
         button: buttonRecipe,
         iconButton: iconButtonRecipe,
         checkbox: checkboxRecipe,

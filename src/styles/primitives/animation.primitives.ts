@@ -40,6 +40,28 @@ export const keyframes = {
       animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
     },
   },
+  badgePop: {
+    '0%': {
+      transform: 'translate(50%, -50%) scale(1)',
+    },
+    '50%': {
+      transform: 'translate(50%, -50%) scale(1.2)',
+    },
+    '100%': {
+      transform: 'translate(50%, -50%) scale(1)',
+    },
+  },
+  badgePopStandalone: {
+    '0%': {
+      transform: 'scale(1)',
+    },
+    '50%': {
+      transform: 'scale(1.2)',
+    },
+    '100%': {
+      transform: 'scale(1)',
+    },
+  },
 };
 
 export const easings = {

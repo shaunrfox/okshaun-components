@@ -1,7 +1,7 @@
 export { Box, type BoxProps } from './components/Box';
 export { Text, type TextProps } from './components/Text';
 export { Button, type ButtonProps } from './components/Button';
-export { Badge, type BadgeProps } from './components/Badge';
+export { Badge, type BadgeProps, type BadgeAppearance } from './components/Badge';
 export { IconButton, type IconButtonProps } from './components/IconButton';
 export { Icon, IconNames, type IconProps } from './components/Icon';
 export { Code, Pre, type CodeProps, type PreProps } from './components/Code';

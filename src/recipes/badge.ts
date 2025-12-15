@@ -1,74 +1,203 @@
-import { defineRecipe } from '@pandacss/dev';
+import { defineSlotRecipe } from '@pandacss/dev';
 
-export const badgeRecipe = defineRecipe({
+export const badgeRecipe = defineSlotRecipe({
   className: 'badge',
   jsx: ['Badge'],
-  staticCss: [{ size: ['sm', 'md', 'lg'] }],
+  slots: ['root', 'indicator'],
+  staticCss: [
+    {
+      size: ['sm', 'md', 'lg'],
+      standalone: ['true', 'false'],
+      dot: ['true', 'false'],
+      appearance: [
+        'neutral',
+        'inverted',
+        'subtle',
+        'subtle-inverted',
+        'success',
+        'danger',
+        'warning',
+        'info',
+      ],
+    },
+  ],
   base: {
-    alignItems: 'center',
-    borderRadius: 'full',
-    colorPalette: 'accent',
-    display: 'inline-flex',
-    fontWeight: 'medium',
-    userSelect: 'none',
-    whiteSpace: 'nowrap',
-  },
-  defaultVariants: {
-    variant: 'subtle',
-    size: 'md',
+    root: {
+      display: 'inline-flex',
+      position: 'relative',
+      verticalAlign: 'middle',
+    },
+    indicator: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 'full',
+      fontWeight: 'medium',
+      fontFamily: 'sans',
+      lineHeight: '1',
+      whiteSpace: 'nowrap',
+      userSelect: 'none',
+      zIndex: '1',
+    },
   },
   variants: {
-    variant: {
-      solid: {
-        background: 'colorPalette.default',
-        color: 'colorPalette.fg',
-      },
-      subtle: {
-        background: 'bg.subtle',
-        borderColor: 'border.subtle',
-        borderWidth: '1px',
-        color: 'fg.default',
-        '& svg': {
-          color: 'fg.muted',
-        },
-      },
-      outline: {
-        color: 'fg.default',
-        borderWidth: '2px',
-        borderColor: 'border.default',
-      },
-    },
     size: {
       sm: {
-        textStyle: 'xs',
-        px: '2',
-        h: '5',
-        gap: '1',
-        '& svg': {
-          width: '3',
-          height: '3',
+        indicator: {
+          h: '6',
+          fontSize: '10',
+          p: '3',
         },
       },
       md: {
-        textStyle: 'xs',
-        px: '2.5',
-        h: '6',
-        gap: '1.5',
-        '& svg': {
-          width: '4',
-          height: '4',
+        indicator: {
+          h: '8',
+          fontSize: '12',
+          p: '4',
         },
       },
       lg: {
-        textStyle: 'sm',
-        px: '3',
-        h: '7',
-        gap: '1.5',
-        '& svg': {
-          width: '4',
-          height: '4',
+        indicator: {
+          h: '10',
+          fontSize: '14',
+          p: '5',
         },
       },
     },
+    // When standalone (no children), don't use absolute positioning
+    standalone: {
+      true: {
+        root: {
+          display: 'inline-flex',
+        },
+        indicator: {
+          position: 'static',
+          transform: 'none',
+        },
+      },
+      false: {
+        root: {
+          display: 'inline-flex',
+          position: 'relative',
+          verticalAlign: 'middle',
+        },
+        indicator: {
+          position: 'absolute',
+          top: '0',
+          right: '0',
+          transform: 'translate(50%, -50%)',
+        },
+      },
+    },
+    // Dot mode: smaller, no text
+    dot: {
+      true: {
+        indicator: {
+          // Dot mode styles handled by base + size variants
+        },
+      },
+      false: {
+        indicator: {
+          // Count mode - compound variants handle sizing
+        },
+      },
+    },
+    // Appearance variants for color schemes
+    appearance: {
+      neutral: {
+        indicator: {
+          bg: { base: 'neutral.30', _dark: 'darkNeutral.40' },
+          color: 'text',
+        },
+      },
+      subtle: {
+        indicator: {
+          bg: 'bg.neutral',
+          color: 'text',
+        },
+      },
+      inverted: {
+        indicator: {
+          bg: 'bg.neutral.inverse.bold',
+          color: 'text.inverse',
+        },
+      },
+      'subtle-inverted': {
+        indicator: {
+          bg: 'bg.neutral.inverse.subtle',
+          color: 'text',
+        },
+      },
+      success: {
+        indicator: {
+          bg: 'bg.success.bold',
+          color: 'text.inverse',
+        },
+      },
+      danger: {
+        indicator: {
+          bg: 'bg.danger.bold',
+          color: 'text.inverse',
+        },
+      },
+      warning: {
+        indicator: {
+          bg: 'bg.warning.bold',
+          color: 'text.warning.inverse',
+        },
+      },
+      info: {
+        indicator: {
+          bg: 'bg.info.bold',
+          color: 'text.inverse',
+        },
+      },
+    },
+  },
+  compoundVariants: [
+    // Count mode sizes (smaller than count mode)
+    {
+      dot: false,
+      size: 'sm',
+      css: {
+        indicator: {
+          minW: '16',
+          h: 'fit',
+          // w: '4',
+          // h: '4',
+          // p: '3',
+        },
+      },
+    },
+    {
+      dot: false,
+      size: 'md',
+      css: {
+        indicator: {
+          minW: '20',
+          h: 'fit',
+          // w: '6',
+          // h: '6',
+          // p: '4',
+        },
+      },
+    },
+    {
+      dot: false,
+      size: 'lg',
+      css: {
+        indicator: {
+          minW: '24',
+          h: 'fit',
+          // w: '8',
+          // h: '8',
+          // p: '5',
+        },
+      },
+    },
+  ],
+  defaultVariants: {
+    size: 'md',
+    appearance: 'danger',
   },
 });

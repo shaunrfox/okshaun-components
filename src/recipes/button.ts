@@ -8,6 +8,8 @@ const baseButtonStyles = {
     alignItems: 'center',
     gap: 4,
     minWidth: 0,
+    width: 'fit',
+    height: 'fit',
     transitionDuration: 'fast',
     transitionProperty: 'background, border-color, color, box-shadow',
     transitionTimingFunction: 'default',
@@ -24,12 +26,10 @@ const baseButtonStyles = {
     outlineWidth: 2,
     outlineStyle: 'solid',
     outlineColor: 'transparent',
-    // outlineOffset: 1,
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
     _focusVisible: {
-      // borderColor: 'border.focused',
       outlineColor: 'border.focused',
     },
     _disabled: {

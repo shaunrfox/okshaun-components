@@ -5,6 +5,7 @@ import { Spinner } from '~/components/Spinner';
 import { Box } from '~/components/Box';
 import { button, type ButtonVariantProps } from '@styled-system/recipes';
 import { Icon, type IconNamesList } from '~/components/Icon';
+import { NumericSizeToken } from '@styled-system/tokens';
 
 /**
  * ButtonProps is generic and manages its own polymorphism.
@@ -22,6 +23,7 @@ export type ButtonProps<E extends React.ElementType = 'button'> =
       disabled?: boolean;
       iconBefore?: IconNamesList;
       iconAfter?: IconNamesList;
+      gap?: NumericSizeToken;
     };
 
 /**
@@ -49,6 +51,7 @@ export const Button = React.forwardRef(
       disabled,
       iconBefore,
       iconAfter,
+      gap,
       ...props
     }: ButtonProps<E>,
     ref: React.ForwardedRef<Element>,
@@ -74,7 +77,7 @@ export const Button = React.forwardRef(
         {...props}
       >
         <>
-          <HStack gap="4" opacity={loading ? 0 : 1}>
+          <HStack gap={gap || '4'} opacity={loading ? 0 : 1}>
             {iconBefore && <Icon name={iconBefore} className={classes.icon} />}
             {children}
             {iconAfter && <Icon name={iconAfter} className={classes.icon} />}

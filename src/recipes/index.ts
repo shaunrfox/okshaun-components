@@ -1,4 +1,3 @@
-export { badgeRecipe } from './badge';
 export { textareaRecipe } from './textarea';
 export { textRecipe, headingRecipe, linkRecipe, labelRecipe } from './text';
 export { checkboxInputRecipe } from './checkboxinput';
@@ -22,3 +21,4 @@ export { radioRecipe } from './radio';
 export { tooltipRecipe } from './tooltip';
 export { menuRecipe } from './menu';
 export { chipRecipe } from './chip';
+export { badgeRecipe } from './badge';
