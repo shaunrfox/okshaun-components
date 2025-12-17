@@ -85,7 +85,7 @@ export const Chip: React.FC<ChipProps> = ({
   const iconSize = chipSizeToIconSize[size];
 
   // Handle click based on chip type
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (dismissable && onDismiss) {
       onDismiss();
     } else if (isSelectable && groupContext) {
@@ -102,7 +102,8 @@ export const Chip: React.FC<ChipProps> = ({
         groupContext.onChange(newValues);
       }
     } else if (onClick) {
-      onClick();
+      // Forward the event to the onClick prop
+      onClick(e);
     }
   };
 
