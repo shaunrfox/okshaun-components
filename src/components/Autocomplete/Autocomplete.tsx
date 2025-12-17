@@ -14,10 +14,8 @@ import {
   FloatingFocusManager,
   size as floatingSize,
 } from '@floating-ui/react';
-import { Box } from '../Box';
 import { TextInput } from '../TextInput';
-import { Icon } from '../Icon';
-import { menu as menuRecipe } from '@styled-system/recipes';
+import { MenuList, MenuListItem } from '../Menu';
 import type { AutocompleteProps, AutocompleteOption } from './types';
 import type { IconNamesList } from '../Icon';
 
@@ -46,8 +44,6 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const listRef = useRef<(HTMLElement | null)[]>([]);
-
-  const classes = menuRecipe({ size, indicatorPosition });
 
   // Filter options based on input value
   const filteredOptions = useMemo(() => {
@@ -161,69 +157,48 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
       {open && (
         <FloatingPortal>
           <FloatingFocusManager context={context} modal={false} initialFocus={-1}>
-            <Box
+            <MenuList
               ref={refs.setFloating}
               style={floatingStyles}
-              className={classes.menu}
               id={`${id ?? name}-listbox`}
               role="listbox"
+              size={size}
+              indicatorPosition={indicatorPosition}
               {...(getFloatingProps() as Record<string, unknown>)}
             >
               {filteredOptions.length === 0 ? (
-                <Box className={classes.menuItem} aria-disabled="true">
-                  <Box className={classes.menuItemContent}>
-                    <Box className={classes.menuItemLabel}>{noResultsMessage}</Box>
-                  </Box>
-                </Box>
+                <MenuListItem
+                  label={noResultsMessage}
+                  disabled
+                  size={size}
+                  indicatorPosition={indicatorPosition}
+                />
               ) : (
                 filteredOptions.map((option, index) => {
                   const isActive = activeIndex === index;
 
-                  // Highlight matching text
-                  const highlightLabel = () => {
-                    if (!value) return option.label;
-                    const regex = new RegExp(
-                      `(${value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
-                      'gi'
-                    );
-                    const parts = option.label.split(regex);
-                    return parts.map((part, i) =>
-                      regex.test(part) ? <mark key={i}>{part}</mark> : part
-                    );
-                  };
-
                   return (
-                    <Box
+                    <MenuListItem
                       key={option.id}
                       ref={(node: HTMLElement | null) => {
                         listRef.current[index] = node;
                       }}
-                      role="option"
+                      active={isActive}
                       aria-selected={isActive}
-                      aria-disabled={option.disabled}
-                      data-active={isActive}
-                      className={classes.menuItem}
+                      disabled={option.disabled}
+                      label={option.label}
+                      description={option.description}
+                      iconLeft={option.icon as IconNamesList}
+                      highlightMatch={value || undefined}
                       onClick={() => handleOptionClick(option)}
+                      size={size}
+                      indicatorPosition={indicatorPosition}
                       {...getItemProps()}
-                    >
-                      {option.icon && (
-                        <Box className={classes.menuItemIconLeft}>
-                          <Icon name={option.icon as IconNamesList} size="24" />
-                        </Box>
-                      )}
-                      <Box className={classes.menuItemContent}>
-                        <Box className={classes.menuItemLabel}>{highlightLabel()}</Box>
-                        {option.description && (
-                          <Box className={classes.menuItemDescription}>
-                            {option.description}
-                          </Box>
-                        )}
-                      </Box>
-                    </Box>
+                    />
                   );
                 })
               )}
-            </Box>
+            </MenuList>
           </FloatingFocusManager>
         </FloatingPortal>
       )}

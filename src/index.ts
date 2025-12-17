@@ -46,6 +46,10 @@ export {
   MenuItem,
   MenuDivider,
   MenuGroup,
+  MenuList,
+  MenuListItem,
+  MenuListDivider,
+  MenuListGroup,
   useMenuContext,
   type MenuProps,
   type MenuTriggerProps,
@@ -54,6 +58,10 @@ export {
   type MenuGroupProps,
   type MenuItemType,
   type SelectionIndicator,
+  type MenuListProps,
+  type MenuListItemProps,
+  type MenuListDividerProps,
+  type MenuListGroupProps,
 } from './components/Menu';
 export { Dropdown, type DropdownProps } from './components/Dropdown';
 export {
