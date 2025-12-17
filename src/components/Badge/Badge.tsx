@@ -31,12 +31,17 @@ export type BadgeProps = BoxProps &
   };
 
 // Animation styles
+// Animation styles
 const animationStyles = {
   pop: css({
-    animation: 'badgePop 200ms ease-out',
+    animationName: 'badgePop',
+    animationDuration: 'normal',
+    animationTimingFunction: 'default',
   }),
   popStandalone: css({
-    animation: 'badgePopStandalone 200ms ease-out',
+    animationName: 'badgePopStandalone',
+    animationDuration: 'normal',
+    animationTimingFunction: 'default',
   }),
 };
 

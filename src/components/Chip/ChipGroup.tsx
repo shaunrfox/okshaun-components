@@ -26,11 +26,11 @@ export const ChipGroup: React.FC<ChipGroupProps> = ({
   const role = type === 'single' ? 'radiogroup' : 'group';
 
   // Track chip refs for keyboard navigation
-  const chipRefs = useRef<Map<string, RefObject<HTMLButtonElement>>>(new Map());
+  const chipRefs = useRef<Map<string, RefObject<HTMLButtonElement | null>>>(new Map());
   const chipValuesRef = useRef<string[]>([]);
 
   const registerChip = useCallback(
-    (chipValue: string, ref: RefObject<HTMLButtonElement>) => {
+    (chipValue: string, ref: RefObject<HTMLButtonElement | null>) => {
       chipRefs.current.set(chipValue, ref);
       if (!chipValuesRef.current.includes(chipValue)) {
         chipValuesRef.current.push(chipValue);
