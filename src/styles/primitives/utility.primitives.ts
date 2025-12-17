@@ -6,6 +6,7 @@ export const radii = {
   '8': { value: '{sizes.8}' },
   '16': { value: '{sizes.16}' },
   '100': { value: '100%' },
+  '999': { value: '999px' },
 };
 
 export const borderWidths = {
