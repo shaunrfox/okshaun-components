@@ -35,6 +35,9 @@ const menuBase = {
     _focusVisible: {
       bg: 'surface.overlay.hovered',
     },
+    _active: {
+      bg: 'surface.overlay.hovered',
+    },
     _disabled: {
       opacity: 0.5,
       cursor: 'not-allowed',
