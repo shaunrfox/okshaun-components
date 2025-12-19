@@ -35,9 +35,6 @@ const menuBase = {
     _focusVisible: {
       bg: 'surface.overlay.hovered',
     },
-    _active: {
-      bg: 'surface.overlay.hovered',
-    },
     _disabled: {
       opacity: 0.5,
       cursor: 'not-allowed',
@@ -79,7 +76,7 @@ const menuBase = {
     w: '24',
     h: '24',
     ml: 'auto',
-    color: 'icon.subtlest',
+    color: 'icon.decorative',
   },
 
   // Content wrapper (label + description)

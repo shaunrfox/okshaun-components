@@ -6,11 +6,11 @@ const spinnerBase = {
   borderWidth: '3',
   borderStyle: 'solid',
   borderColor: 'transparent',
-  borderTopColor: 'gray.90',
-  borderBottomColor: 'gray.90',
+  borderTopColor: 'icon',
+  borderBottomColor: 'icon',
   animation: 'spin',
-  filter: 'invert(1)',
-  mixBlendMode: 'difference',
+  // filter: 'invert(1)',
+  // mixBlendMode: 'difference',
   isolation: 'isolate',
 };
 
@@ -27,6 +27,12 @@ const spinnerVariants = {
     large: {
       height: '32',
       minHeight: '32',
+    },
+  },
+  inverse: {
+    true: {
+      borderTopColor: 'icon.inverse',
+      borderBottomColor: 'icon.inverse',
     },
   },
 };

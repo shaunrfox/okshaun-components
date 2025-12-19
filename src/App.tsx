@@ -16,7 +16,16 @@ import { Breadcrumbs } from '~/components/Breadcrumbs';
 import { Card } from '~/components/Card';
 import { Divider } from '~/components/Divider';
 import { Label } from '~/components/Label';
-import { Menu, MenuTrigger, MenuItem, MenuGroup } from '~/components/Menu';
+import {
+  Menu,
+  MenuTrigger,
+  MenuItem,
+  MenuGroup,
+  MenuList,
+  MenuListGroup,
+  MenuListItem,
+  MenuListDivider,
+} from '~/components/Menu';
 import { Radio } from '~/components/Radio';
 import { Tag } from '~/components/Tag';
 import { TextInput } from '~/components/TextInput';
@@ -224,6 +233,20 @@ function AppContent() {
       </Flex>
       <Container maxW={'5xl'}>
         <VStack gap={'8'}>
+          <Section>
+            <Heading>Menu</Heading>
+            <MenuList>
+              <MenuListGroup label="Account">
+                <MenuListItem label="Profile" iconLeft="user" />
+                <MenuListItem label="Settings" iconLeft="settings" />
+              </MenuListGroup>
+              <MenuListDivider />
+              <MenuListGroup label="Actions">
+                <MenuListItem label="Help" iconLeft="help" />
+                <MenuListItem label="Log Out" iconLeft="arrow-square-out" />
+              </MenuListGroup>
+            </MenuList>
+          </Section>
           <Section>
             <Heading>Buttons</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>

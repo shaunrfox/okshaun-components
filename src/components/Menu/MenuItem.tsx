@@ -13,11 +13,14 @@ import type { MenuItemProps } from './types';
 const highlightText = (text: string, match?: string): React.ReactNode => {
   if (!match || typeof text !== 'string') return text;
 
-  const regex = new RegExp(`(${match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const regex = new RegExp(
+    `(${match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
+    'gi',
+  );
   const parts = text.split(regex);
 
   return parts.map((part, i) =>
-    regex.test(part) ? <mark key={i}>{part}</mark> : part
+    regex.test(part) ? <mark key={i}>{part}</mark> : part,
   );
 };
 
@@ -37,7 +40,8 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   ...props
 }) => {
   const [cssClassName, otherProps] = splitProps(props);
-  const { getItemProps, activeIndex, listRef, classes, setOpen } = useMenuContext();
+  const { getItemProps, activeIndex, listRef, classes, setOpen } =
+    useMenuContext();
   const itemRef = useRef<HTMLDivElement>(null);
 
   // Register this item in the list for keyboard navigation
@@ -71,7 +75,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         handleClick();
       }
     },
-    [disabled, handleClick]
+    [disabled, handleClick],
   );
 
   // Render selection indicator
@@ -95,7 +99,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
     // Checkmark indicator
     return (
       <Box className={classes.menuItemIndicator}>
-        {selected && <Icon name="check" size="20" />}
+        {selected && <Icon name="check" size="24" />}
       </Box>
     );
   };
@@ -121,7 +125,10 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       className={cx(classes.menuItem, cssClassName, className)}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      {...(getItemProps({ index, active: isActive }) as Record<string, unknown>)}
+      {...(getItemProps({ index, active: isActive }) as Record<
+        string,
+        unknown
+      >)}
       {...otherProps}
     >
       {/* Selection indicator (left position by default) */}

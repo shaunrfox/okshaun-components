@@ -45,7 +45,7 @@ export const conditions = {
 
   peerFocus: '.peer:is(:focus, [data-focus]) ~ &',
   peerHover: '.peer:is(:hover, [data-hover]) ~ &',
-  peerActive: '.peer:is(:active, [data-active]) ~ &',
+  peerActive: '.peer:is(:active, [data-active=true]) ~ &',
   peerFocusWithin: '.peer:focus-within ~ &',
   peerFocusVisible: '.peer:is(:focus-visible, [data-focus-visible]) ~ &',
   peerDisabled:
@@ -59,7 +59,7 @@ export const conditions = {
 
   groupFocus: '.group:is(:focus, [data-focus]) &',
   groupHover: '.group:is(:hover, [data-hover]) &',
-  groupActive: '.group:is(:active, [data-active]) &',
+  groupActive: '.group:is(:active, [data-active=true]) &',
   groupFocusWithin: '.group:focus-within &',
   groupFocusVisible: '.group:is(:focus-visible, [data-focus-visible]) &',
   groupDisabled:

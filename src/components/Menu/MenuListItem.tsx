@@ -13,11 +13,14 @@ import type { MenuListItemProps } from './types';
 const highlightText = (text: string, match?: string): React.ReactNode => {
   if (!match || typeof text !== 'string') return text;
 
-  const regex = new RegExp(`(${match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const regex = new RegExp(
+    `(${match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
+    'gi',
+  );
   const parts = text.split(regex);
 
   return parts.map((part, i) =>
-    regex.test(part) ? <mark key={i}>{part}</mark> : part
+    regex.test(part) ? <mark key={i}>{part}</mark> : part,
   );
 };
 
@@ -41,7 +44,7 @@ export const MenuListItem = React.forwardRef<HTMLDivElement, MenuListItemProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [cssClassName, otherProps] = splitProps(props);
     const classes = menuRecipe({ size, indicatorPosition });
@@ -55,7 +58,7 @@ export const MenuListItem = React.forwardRef<HTMLDivElement, MenuListItemProps>(
         if (disabled) return;
         onClick?.(event);
       },
-      [disabled, onClick]
+      [disabled, onClick],
     );
 
     // Render selection indicator
@@ -79,7 +82,7 @@ export const MenuListItem = React.forwardRef<HTMLDivElement, MenuListItemProps>(
       // Checkmark indicator
       return (
         <Box className={classes.menuItemIndicator}>
-          {selected && <Icon name="check" size="20" />}
+          {selected && <Icon name="check" size="24" />}
         </Box>
       );
     };
@@ -132,7 +135,7 @@ export const MenuListItem = React.forwardRef<HTMLDivElement, MenuListItemProps>(
         )}
       </Box>
     );
-  }
+  },
 );
 
 MenuListItem.displayName = 'MenuListItem';

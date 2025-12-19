@@ -91,7 +91,9 @@ export const Button = React.forwardRef(
               bottom="0"
               placeItems="center"
             >
-              <Spinner />
+              <Spinner
+                {...(appearance === 'primary' ? { inverse: true } : {})}
+              />
             </Grid>
           )}
         </>

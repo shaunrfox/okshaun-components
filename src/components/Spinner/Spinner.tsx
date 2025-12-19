@@ -7,17 +7,19 @@ export type SpinnerProps = Omit<BoxProps, keyof SpinnerVariantProps> &
   SpinnerVariantProps & {
     size?: 'standard' | 'small' | 'large';
     className?: string;
+    inverse?: boolean;
   };
 
 export const Spinner: React.FC<SpinnerProps> = ({
   size,
+  inverse,
   ...props
 }: SpinnerProps) => {
   const [className, otherProps] = splitProps(props);
   return (
     <Box
       as="div"
-      className={cx(spinner({ size }), className as string)}
+      className={cx(spinner({ size, inverse }), className as string)}
       {...otherProps}
     />
   );
