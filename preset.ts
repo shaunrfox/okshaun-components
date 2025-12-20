@@ -1,14 +1,18 @@
-import {
-  defineTokens,
-  defineSemanticTokens,
-  definePreset,
-} from '@pandacss/dev';
+import { definePreset } from '@pandacss/dev';
 import pandaBasePreset from '@pandacss/preset-base';
 import * as tokens from './src/styles/primitives';
-import * as semantics from './src/styles/semantics';
-import { textStyles } from './src/styles/semantics/textStyles.semantics';
-import { conditions } from './src/styles/conditions';
-import { globalCss } from './src/styles/globalStyle';
+import * as semanticTokens from './src/styles/semantics';
+import {
+  breakpoints,
+  conditions,
+  containerSizes,
+  filtersProperty,
+  globalCss,
+  keyframes,
+  layerStyles,
+  textStyles,
+  transitionProperty,
+} from './src/styles/utilities';
 import * as componentRecipes from './src/recipes';
 
 // Extract slot recipes separately
@@ -52,16 +56,16 @@ const sizeKeys = Object.keys(tokens.sizes);
 // Exclude textStyles, breakpoints, and keyframes from tokens
 // textStyles is already processed by defineTextStyles
 // breakpoints and keyframes are passed separately at theme level
-const { breakpoints, keyframes, ...rawTokens } = tokens;
+// const { breakpoints, keyframes, ...rawTokens } = tokens;
 
 const theme = {
-  tokens: defineTokens({
-    ...rawTokens,
-    spacing: tokens.sizes, // Map spacing to our size scale for consistent sizing
-  }),
-  semanticTokens: defineSemanticTokens({
-    ...semantics,
-  }),
+  tokens: {
+    ...tokens,
+  },
+  semanticTokens: {
+    colors: semanticTokens.colors,
+    shadows: semanticTokens.shadows,
+  },
 };
 
 export const okshaunPreset = definePreset({
@@ -72,10 +76,13 @@ export const okshaunPreset = definePreset({
         ...theme.tokens,
       },
       semanticTokens: {
-        ...theme.semanticTokens,
+        colors: theme.semanticTokens.colors,
+        shadows: theme.semanticTokens.shadows,
       },
       breakpoints: breakpoints,
+      containerSizes: containerSizes,
       keyframes: keyframes,
+      layerStyles: layerStyles,
       textStyles: textStyles,
       recipes: {
         ...transformedRecipes,
@@ -132,10 +139,8 @@ export const okshaunPreset = definePreset({
   utilities: {
     ...pandaBasePresetUtilities,
     // Custom utility for transitionProperty that uses our transition tokens
-    transitionProperty: {
-      className: 'transition-property',
-      values: 'transitions',
-    },
+    filtersProperty,
+    transitionProperty,
   },
 
   // Global styles

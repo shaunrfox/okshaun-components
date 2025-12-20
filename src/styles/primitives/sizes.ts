@@ -1,3 +1,5 @@
+import { defineTokens } from '@pandacss/dev';
+
 export const numericSizes = {
   '0': { value: '0' },
   '1': { value: '0.0625rem' },
@@ -23,34 +25,21 @@ export const numericSizes = {
   '64': { value: '4rem' },
   '72': { value: '4.5rem' },
   '80': { value: '5rem' },
-  '88': { value: '5.5rem' },
   '96': { value: '6rem' },
-  '104': { value: '6.5rem' },
-  '112': { value: '7rem' },
-  '120': { value: '7.5rem' },
-  '128': { value: '8rem' },
-  '136': { value: '8.5rem' },
-  '144': { value: '9rem' },
-  '152': { value: '9.5rem' },
-  '160': { value: '10rem' },
-  '168': { value: '10.5rem' },
-  '176': { value: '11rem' },
-  '184': { value: '11.5rem' },
-  '192': { value: '12rem' },
-  '200': { value: '12.5rem' },
-  '208': { value: '13rem' },
-  '216': { value: '13.5rem' },
-  '224': { value: '14rem' },
-  '232': { value: '14.5rem' },
-  '240': { value: '15rem' },
-  '248': { value: '15.5rem' },
-  '256': { value: '16rem' },
-  '264': { value: '16.5rem' },
-  '272': { value: '17rem' },
-  '280': { value: '17.5rem' },
 };
 
-export const containerSizes = {
+export const utilitySizes = {
+  full: { value: '100%' },
+  half: { value: '50%' },
+  min: { value: 'min-content' },
+  max: { value: 'max-content' },
+  fit: { value: 'fit-content' },
+  prose: { value: '65ch' },
+  auto: { value: 'auto' },
+};
+
+// Container size tokens for the sizes scale (with value wrappers)
+const containerSizeTokens = {
   '2xs': { value: '16rem' }, // 256px
   xs: { value: '20rem' }, // 320px
   sm: { value: '24rem' }, // 384px
@@ -66,27 +55,8 @@ export const containerSizes = {
   '8xl': { value: '90rem' }, // 1440px
 };
 
-export const utilitySizes = {
-  full: { value: '100%' },
-  half: { value: '50%' },
-  min: { value: 'min-content' },
-  max: { value: 'max-content' },
-  fit: { value: 'fit-content' },
-  prose: { value: '65ch' },
-  auto: { value: 'auto' },
-};
-
-export const sizes = {
+export const sizes = defineTokens.sizes({
   ...numericSizes,
-  ...containerSizes,
   ...utilitySizes,
-};
-
-export const breakpoints = {
-  xs: '480px',
-  sm: '640px',
-  md: '768px',
-  lg: '1024px',
-  xl: '1280px',
-  '2xl': '1536px',
-};
+  ...containerSizeTokens,
+});

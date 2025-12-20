@@ -2,7 +2,7 @@ export const conditions = {
   hover: '&:is(:hover, [data-hover=true])',
   focus: '&:is(:focus, [data-focus=true])',
   focusWithin: '&:focus-within',
-  focusVisible: '&:is(:focus-visible, [data-focus-visible=true])',
+  focusVisible: '&:is(:focus-visible, [data-focus-visible]=true)',
   disabled:
     '&:is(:disabled, [disabled], [data-disabled], [aria-disabled=true])',
   deleted: '&:is(:deleted, [deleted], [data-deleted=true])',
@@ -45,7 +45,7 @@ export const conditions = {
 
   peerFocus: '.peer:is(:focus, [data-focus]) ~ &',
   peerHover: '.peer:is(:hover, [data-hover]) ~ &',
-  peerActive: '.peer:is(:active, [data-active=true]) ~ &',
+  peerActive: '.peer:is(:active, [data-active]) ~ &',
   peerFocusWithin: '.peer:focus-within ~ &',
   peerFocusVisible: '.peer:is(:focus-visible, [data-focus-visible]) ~ &',
   peerDisabled:
@@ -59,7 +59,7 @@ export const conditions = {
 
   groupFocus: '.group:is(:focus, [data-focus]) &',
   groupHover: '.group:is(:hover, [data-hover]) &',
-  groupActive: '.group:is(:active, [data-active=true]) &',
+  groupActive: '.group:is(:active, [data-active]) &',
   groupFocusWithin: '.group:focus-within &',
   groupFocusVisible: '.group:is(:focus-visible, [data-focus-visible]) &',
   groupDisabled:
@@ -93,7 +93,7 @@ export const conditions = {
   open: '&:is([open], [data-open], [data-state="open"], :popover-open)',
   closed: '&:is([closed], [data-closed], [data-state="closed"])',
   fullscreen: '&:is(:fullscreen, [data-fullscreen])',
-  loading: '&:is([data-loading=true], [aria-busy=true])',
+  loading: '&:is([data-loading], [aria-busy=true])',
   hidden: '&:is([hidden], [data-hidden])',
 
   current: '&:is([aria-current=true], [data-current])',

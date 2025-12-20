@@ -1,2 +1,2 @@
-export * from './color.semantics';
-// export * from './textStyles.semantics';
+export * from './colors';
+export * from './shadows';

@@ -3,6 +3,7 @@ import { defineTokens } from '@pandacss/dev';
 export const colors = defineTokens.colors({
   transparent: { value: 'transparent' },
   current: { value: 'currentColor' },
+  inherit: { value: 'inherit' },
   neutral: {
     '0': { value: '#FFFFFF' },
     '10': { value: '#F8F8F8' },
@@ -206,6 +207,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#191714' },
   },
   slate: {
+    DEFAULYT: { value: '#1E1E1E' },
     '0': { value: '#FFFFFF' },
     '1': { value: '#FAFAFA' },
     '2': { value: '#F9F8F6' },

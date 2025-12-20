@@ -54,7 +54,7 @@ export const globalCss = defineGlobalStyles({
     borderColor: 'border.subtle',
   },
   'button, input, optgroup, select, textarea': {
-    fontFamily: 'inherit',
+    fontFamily: 'body',
     fontSize: '100%',
     lineHeight: 'calc(1em + 0.5rem)',
     margin: '0',
