@@ -509,22 +509,40 @@ function AppContent() {
             <Heading level="h2">Cards</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
               <Grid gridTemplateColumns={'repeat(3, 1fr)'} gap={'16'}>
-                <Card variant="default">
+                <Card appearance="elevated">
                   <VStack p={'16'} gap={'8'}>
-                    <Heading level="h3">Default Card</Heading>
-                    <Text>This is a default card with shadow</Text>
+                    <Heading level="h3">Elevated Card</Heading>
+                    <Text>Static card with shadow (non-interactive)</Text>
                   </VStack>
                 </Card>
-                <Card variant="flat">
+                <Card appearance="flat">
                   <VStack p={'16'} gap={'8'}>
                     <Heading level="h3">Flat Card</Heading>
-                    <Text>This is a flat card with border</Text>
+                    <Text>Static card with border (non-interactive)</Text>
                   </VStack>
                 </Card>
-                <Card variant="default" href="#">
+                <Card appearance="ghost">
+                  <VStack p={'16'} gap={'8'}>
+                    <Heading level="h3">Ghost Card</Heading>
+                    <Text>Transparent background (non-interactive)</Text>
+                  </VStack>
+                </Card>
+                <Card appearance="elevated" href="#">
                   <VStack p={'16'} gap={'8'}>
                     <Heading level="h3">Link Card</Heading>
-                    <Text>This card is a link</Text>
+                    <Text>This card is a link (auto-interactive)</Text>
+                  </VStack>
+                </Card>
+                <Card appearance="flat" interactive onClick={() => alert('Clicked!')}>
+                  <VStack p={'16'} gap={'8'}>
+                    <Heading level="h3">Button Card</Heading>
+                    <Text>Click me - renders as button</Text>
+                  </VStack>
+                </Card>
+                <Card as="article" appearance="elevated">
+                  <VStack p={'16'} gap={'8'}>
+                    <Heading level="h3">Article Card</Heading>
+                    <Text>Semantic article element</Text>
                   </VStack>
                 </Card>
               </Grid>
