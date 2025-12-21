@@ -2,12 +2,13 @@ import * as React from 'react';
 import { cx } from '@styled-system/css';
 import { Grid, HStack } from '@styled-system/jsx';
 import { Spinner } from '~/components/Spinner';
-import { Box } from '~/components/Box';
+import { Box, type BoxProps } from '~/components/Box';
 import {
   iconButton,
   type IconButtonVariantProps,
 } from '@styled-system/recipes';
 import { Icon, type IconNamesList } from '~/components/Icon';
+import { splitProps } from '~/utils/splitProps';
 
 /**
  * IconButtonProps is generic and manages its own polymorphism.
@@ -16,16 +17,18 @@ import { Icon, type IconNamesList } from '~/components/Icon';
  * We've added a new optional prop 'iconName'. When provided (and if no children
  * are passed), IconButton will render the corresponding Icon automatically.
  */
-export type IconButtonProps<E extends React.ElementType = 'button'> =
-  React.ComponentPropsWithoutRef<E> &
-    IconButtonVariantProps & {
-      as?: E;
-      href?: string;
-      loading?: boolean;
-      disabled?: boolean;
-      className?: string;
-      iconName?: IconNamesList;
-    };
+export type IconButtonProps<E extends React.ElementType = 'button'> = Omit<
+  BoxProps,
+  keyof IconButtonVariantProps | 'as'
+> &
+  IconButtonVariantProps & {
+    as?: E;
+    href?: string;
+    loading?: boolean;
+    disabled?: boolean;
+    className?: string;
+    iconName?: IconNamesList;
+  };
 
 /**
  * Define the polymorphic component type for IconButton.
@@ -60,6 +63,8 @@ export const IconButton = React.forwardRef(
     const asComponent = href ? 'a' : 'button';
     const classes = iconButton({ appearance, size });
 
+    const [styleClassName, otherProps] = splitProps(props);
+
     return (
       <Box
         as={asComponent as E}
@@ -67,10 +72,10 @@ export const IconButton = React.forwardRef(
         href={href}
         disabled={trulyDisabled}
         aria-disabled={trulyDisabled}
-        className={cx(classes.container, className)}
+        className={cx(classes.container, className, styleClassName)}
         // Add "type" attribute when rendering a button
         type={asComponent === 'button' ? 'button' : undefined}
-        {...props}
+        {...otherProps}
       >
         <>
           <HStack gap="2" opacity={loading ? 0 : 1}>

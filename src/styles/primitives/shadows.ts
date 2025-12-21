@@ -1,6 +1,10 @@
 import { defineTokens } from '@pandacss/dev';
 
 export const shadows = defineTokens.shadows({
+  zeroShadow: {
+    value:
+      '{sizes.0} {sizes.0} {sizes.0} rgba(0, 0, 0, 0), {sizes.0} {sizes.0} {sizes.0} rgba(0, 0, 0, 0)',
+  },
   raisedLight: {
     value:
       '{sizes.0} {sizes.1} {sizes.1} rgba(30, 31, 33, 0.25), {sizes.0} {sizes.0} {sizes.1} rgba(30, 31, 33, 0.31)',
@@ -8,6 +12,14 @@ export const shadows = defineTokens.shadows({
   raisedDark: {
     value:
       '{sizes.0} {sizes.0} {sizes.0} rgba(0, 0, 0, 0), {sizes.0} {sizes.1} {sizes.1} rgba(1, 4, 4, 0.5), {sizes.0} {sizes.0} {sizes.1} rgba(1, 4, 4, 0.5)',
+  },
+  elevatedLight: {
+    value:
+      '{sizes.0} {sizes.4} {sizes.7} rgba(30, 31, 33, 0.2), {sizes.0} {sizes.0} {sizes.1} rgba(30, 31, 33, 0.31)',
+  },
+  elevatedDark: {
+    value:
+      '{sizes.0} {sizes.0} {sizes.0} rgba(95, 95, 95, 0.06), {sizes.0} {sizes.4} {sizes.7} rgba(1, 4, 4, 0.43), {sizes.0} {sizes.0} {sizes.1} rgba(1, 4, 4, 0.5)',
   },
   overlayLight: {
     value:

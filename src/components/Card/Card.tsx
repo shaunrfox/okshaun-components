@@ -1,27 +1,30 @@
 import * as React from 'react';
 import { card, type CardVariantProps } from '@styled-system/recipes';
-import { Box } from '../Box';
+import { Box, type BoxProps } from '../Box';
 import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 
 /**
  * CardProps is generic and manages its own polymorphism.
  * Default element is 'div' for non-interactive cards.
  * Automatically renders as 'a' when href is provided, or 'button' when interactive without href.
  */
-export type CardProps<E extends React.ElementType = 'div'> =
-  React.ComponentPropsWithoutRef<E> &
-    Omit<CardVariantProps, 'interactive'> & {
-      as?: E;
-      href?: string;
-      children?: React.ReactNode;
-      className?: string;
-      disabled?: boolean;
-      /**
-       * When true, the card becomes interactive (button or link).
-       * Automatically true when href or onClick is provided.
-       */
-      interactive?: boolean;
-    };
+export type CardProps<E extends React.ElementType = 'div'> = Omit<
+  BoxProps,
+  keyof CardVariantProps | 'as'
+> &
+  Omit<CardVariantProps, 'interactive'> & {
+    as?: E;
+    href?: string;
+    children?: React.ReactNode;
+    className?: string;
+    disabled?: boolean;
+    /**
+     * When true, the card becomes interactive (button or link).
+     * Automatically true when href or onClick is provided.
+     */
+    interactive?: boolean;
+  };
 
 /**
  * Define a polymorphic CardComponent type.
@@ -69,21 +72,28 @@ export const Card = React.forwardRef(
     const isButton = asComponent === 'button';
     const isLink = asComponent === 'a';
 
+    const [styleClassName, otherProps] = splitProps(props);
+
     return (
       <Box
         as={asComponent as E}
         ref={ref as React.ForwardedRef<any>}
-        className={cx(card({ appearance, interactive: isInteractive }), className)}
+        className={cx(
+          card({ appearance, interactive: isInteractive }),
+          className,
+          styleClassName,
+        )}
         {...(href && { href })}
         {...(isButton && { type: 'button' })}
-        {...(isInteractive && disabled && {
-          disabled: true,
-          'aria-disabled': true,
-          ...(isLink && { tabIndex: -1 }),
-        })}
+        {...(isInteractive &&
+          disabled && {
+            disabled: true,
+            'aria-disabled': true,
+            ...(isLink && { tabIndex: -1 }),
+          })}
         {...(!isInteractive && disabled && { 'aria-disabled': true })}
         onClick={onClick}
-        {...props}
+        {...otherProps}
       >
         {children}
       </Box>

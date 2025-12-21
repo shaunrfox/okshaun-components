@@ -1,5 +1,5 @@
 import { useMemo, useSyncExternalStore, RefObject } from 'react';
-import { containerSizes } from '~/styles/primitives';
+import { containerSizes } from '~/styles/utilities';
 
 type ContainerSizeKey = keyof typeof containerSizes;
 type QueryDirection = 'min' | 'max';

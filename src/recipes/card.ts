@@ -1,12 +1,33 @@
 import { defineRecipe } from '@pandacss/dev';
 
+const interactiveHoverStyles = {
+  cursor: 'pointer',
+  transition: 'all',
+  _hover: {
+    bg: 'surface',
+    boxShadow: 'elevated',
+  },
+  _focusVisible: {
+    bg: 'surface',
+    boxShadow: 'elevated',
+    borderWidth: '1',
+    outlineColor: 'border.focused',
+    borderColor: 'border.focused',
+  },
+  _disabled: {
+    opacity: '0.4',
+    cursor: 'not-allowed',
+  },
+};
+
 export const cardRecipe = defineRecipe({
   className: 'card',
   jsx: ['Card'],
   base: {
     display: 'block',
-    bg: { base: 'gray.10', _dark: 'gray.80' },
-    borderRadius: '4',
+    textAlign: 'left',
+    bg: 'surface',
+    borderRadius: '8',
     outlineWidth: '1',
     outlineStyle: 'solid',
     outlineColor: 'transparent',
@@ -14,15 +35,23 @@ export const cardRecipe = defineRecipe({
   },
   variants: {
     appearance: {
-      elevated: {
-        boxShadow: 'low',
+      default: {
+        bg: 'surface.raised',
+        boxShadow: 'raised',
         borderWidth: '1',
         borderColor: 'transparent',
       },
       flat: {
         borderWidth: '1',
         borderStyle: 'solid',
-        borderColor: { base: 'gray.20', _dark: 'gray.70' },
+        borderColor: 'border',
+        boxShadow: 'zero',
+      },
+      sunken: {
+        bg: 'surface.sunken',
+        borderWidth: '1',
+        borderStyle: 'solid',
+        borderColor: 'transparent',
       },
       ghost: {
         bg: 'transparent',
@@ -30,41 +59,32 @@ export const cardRecipe = defineRecipe({
         borderStyle: 'solid',
         borderColor: 'transparent',
       },
+      overlay: {
+        bg: 'surface.overlay',
+        boxShadow: 'overlay',
+        borderWidth: '1',
+        borderColor: 'transparent',
+      },
     },
     interactive: {
       true: {
         cursor: 'pointer',
-        transition: 'all 0.15s ease-in-out',
       },
-      false: {},
+      false: {
+        cursor: 'default',
+      },
     },
   },
   compoundVariants: [
-    // Elevated + interactive
+    // Default + interactive
     {
-      appearance: 'elevated',
+      appearance: 'default',
       interactive: true,
       css: {
-        _hover: {
-          boxShadow: 'medium',
-        },
-        _active: {
-          boxShadow: 'inset',
-        },
-        _focusVisible: {
-          boxShadow: 'none',
-          borderWidth: '1',
-          outlineColor: { base: 'gray.90', _dark: 'gray.10' },
-          borderColor: { base: 'gray.90', _dark: 'gray.10' },
-        },
+        ...interactiveHoverStyles,
         _disabled: {
-          opacity: '0.4',
-          cursor: 'not-allowed',
           _hover: {
-            boxShadow: 'low',
-          },
-          _active: {
-            boxShadow: 'low',
+            boxShadow: 'raised',
           },
         },
       },
@@ -74,25 +94,23 @@ export const cardRecipe = defineRecipe({
       appearance: 'flat',
       interactive: true,
       css: {
-        _hover: {
-          borderColor: { base: 'gray.30', _dark: 'gray.100' },
-        },
-        _active: {
-          borderColor: { base: 'gray.100', _dark: 'gray.30' },
-        },
-        _focusVisible: {
-          boxShadow: 'none',
-          outlineColor: { base: 'gray.90', _dark: 'gray.10' },
-          borderColor: { base: 'gray.90', _dark: 'gray.10' },
-        },
+        ...interactiveHoverStyles,
         _disabled: {
-          opacity: '0.4',
-          cursor: 'not-allowed',
           _hover: {
-            borderColor: { base: 'gray.20', _dark: 'gray.70' },
+            boxShadow: 'none',
           },
-          _active: {
-            borderColor: { base: 'gray.20', _dark: 'gray.70' },
+        },
+      },
+    },
+    // Sunken + interactive
+    {
+      appearance: 'sunken',
+      interactive: true,
+      css: {
+        ...interactiveHoverStyles,
+        _disabled: {
+          _hover: {
+            boxShadow: 'none',
           },
         },
       },
@@ -102,30 +120,29 @@ export const cardRecipe = defineRecipe({
       appearance: 'ghost',
       interactive: true,
       css: {
-        _hover: {
-          bg: { base: 'gray.10', _dark: 'gray.80' },
-          borderColor: { base: 'gray.20', _dark: 'gray.70' },
-        },
-        _active: {
-          bg: { base: 'gray.20', _dark: 'gray.70' },
-        },
-        _focusVisible: {
-          outlineColor: { base: 'gray.90', _dark: 'gray.10' },
-          borderColor: { base: 'gray.90', _dark: 'gray.10' },
-        },
+        ...interactiveHoverStyles,
         _disabled: {
-          opacity: '0.4',
-          cursor: 'not-allowed',
           _hover: {
-            bg: 'transparent',
-            borderColor: 'transparent',
+            boxShadow: 'none',
+          },
+        },
+      },
+    },
+    // Overlay + interactive
+    {
+      appearance: 'overlay',
+      interactive: true,
+      css: {
+        _disabled: {
+          _hover: {
+            boxShadow: 'raised',
           },
         },
       },
     },
   ],
   defaultVariants: {
-    appearance: 'elevated',
+    appearance: 'default',
     interactive: false,
   },
 });

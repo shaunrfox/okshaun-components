@@ -1,8 +1,14 @@
 import { defineSemanticTokens } from '@pandacss/dev';
 
 export const shadows = defineSemanticTokens.shadows({
+  zero: {
+    value: { base: '{shadows.zeroShadow}', _dark: '{shadows.zeroShadow}' },
+  },
   raised: {
     value: { base: '{shadows.raisedLight}', _dark: '{shadows.raisedDark}' },
+  },
+  elevated: {
+    value: { base: '{shadows.elevatedLight}', _dark: '{shadows.elevatedDark}' },
   },
   overlay: {
     value: { base: '{shadows.overlayLight}', _dark: '{shadows.overlayDark}' },

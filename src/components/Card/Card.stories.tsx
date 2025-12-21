@@ -2,24 +2,25 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { Card } from './Card';
 import { css } from '@styled-system/css';
-import { HStack, VStack, Grid } from '@styled-system/jsx';
+import { HStack, VStack, Grid, Flex, Wrap } from '@styled-system/jsx';
 import { Text } from '../Text';
 import { Heading } from '../Heading';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
+import { Box } from '../Box';
 
 /**
  * Card component for containing content with optional interactivity.
  *
  * Features:
  * - Non-interactive by default (renders as div)
- * - Three visual appearances: elevated, flat, ghost
+ * - Five visual appearances: default, flat, sunken, ghost, overlay
  * - Polymorphic `as` prop for semantic elements (article, section, etc.)
  * - Interactive mode for clickable cards
  * - Auto-interactive when href or onClick is provided
  * - Accessible focus and disabled states
  */
-const meta = {
+const meta: Meta<typeof Card> = {
   title: 'Components/Card',
   component: Card,
   parameters: {
@@ -29,15 +30,16 @@ const meta = {
   argTypes: {
     appearance: {
       control: 'select',
-      options: ['elevated', 'flat', 'ghost'],
+      options: ['default', 'flat', 'ghost', 'sunken', 'overlay'],
       description: 'Visual style appearance',
       table: {
-        defaultValue: { summary: 'elevated' },
+        defaultValue: { summary: 'default' },
       },
     },
     interactive: {
       control: 'boolean',
-      description: 'Makes card interactive (clickable). Auto-set when href or onClick provided.',
+      description:
+        'Makes card interactive (clickable). Auto-set when href or onClick provided.',
       table: {
         defaultValue: { summary: 'false' },
       },
@@ -48,7 +50,8 @@ const meta = {
     },
     href: {
       control: 'text',
-      description: 'When provided, card renders as anchor and becomes interactive',
+      description:
+        'When provided, card renders as anchor and becomes interactive',
     },
     as: {
       control: 'select',
@@ -67,223 +70,166 @@ const meta = {
 } satisfies Meta<typeof Card>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Card>;
 
 // Helper component for card content
-const CardContent = ({ title, description }: { title: string; description: string }) => (
+const CardContent = ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) => (
   <VStack p="16" gap="8" alignItems="flex-start">
     <Heading level="h3">{title}</Heading>
     <Text>{description}</Text>
   </VStack>
 );
 
-// ============================================================================
-// Basic Appearances
-// ============================================================================
-
-/**
- * Elevated appearance - shadow for depth (default)
- */
-export const Elevated: Story = {
-  args: {
-    appearance: 'elevated',
-    children: <CardContent title="Elevated Card" description="Uses box-shadow for visual depth. Great for important content." />,
-  },
-};
-
-/**
- * Flat appearance - border instead of shadow
- */
-export const Flat: Story = {
-  args: {
-    appearance: 'flat',
-    children: <CardContent title="Flat Card" description="Uses border for definition. More subtle than elevated." />,
-  },
-};
-
-/**
- * Ghost appearance - transparent background
- */
-export const Ghost: Story = {
-  args: {
-    appearance: 'ghost',
-    children: <CardContent title="Ghost Card" description="No background or border. Content-focused presentation." />,
-  },
-};
-
-/**
- * All appearances comparison
- */
-export const AllAppearances: Story = {
+export const Default: Story = {
+  name: 'Static',
   render: () => (
-    <HStack gap="16" alignItems="flex-start">
-      <Card appearance="elevated">
-        <CardContent title="Elevated" description="Shadow for depth" />
+    <Wrap justifyContent="center" gap="24" p="40">
+      <Card>
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Default Card</Heading>
+          <Text>Static card with shadow</Text>
+        </Flex>
       </Card>
       <Card appearance="flat">
-        <CardContent title="Flat" description="Border for definition" />
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Flat Card</Heading>
+          <Text>Static card with flat style</Text>
+        </Flex>
+      </Card>
+      <Card appearance="sunken">
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Sunken Card</Heading>
+          <Text>Static with sunken background</Text>
+        </Flex>
       </Card>
       <Card appearance="ghost">
-        <CardContent title="Ghost" description="Minimal styling" />
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Ghost Card</Heading>
+          <Text>Static with transparent background</Text>
+        </Flex>
       </Card>
-    </HStack>
+      <Card appearance="overlay">
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Overlay Card</Heading>
+          <Text>Static card with shadow</Text>
+        </Flex>
+      </Card>
+    </Wrap>
   ),
-  parameters: { controls: { disable: true } },
 };
 
-// ============================================================================
-// Interactive Cards
-// ============================================================================
-
-/**
- * Interactive card (button) - explicitly set interactive prop
- */
 export const Interactive: Story = {
-  args: {
-    appearance: 'elevated',
-    interactive: true,
-    children: <CardContent title="Interactive Card" description="Click me! Renders as button with hover/focus states." />,
-  },
+  name: 'Interactive',
+  render: () => (
+    <Wrap justifyContent="center" gap="24" p="40">
+      <Card onClick={() => alert('Default clicked')}>
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Default Card</Heading>
+          <Text>Static card with shadow</Text>
+        </Flex>
+      </Card>
+      <Card appearance="flat" onClick={() => alert('Flat clicked')}>
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Flat Card</Heading>
+          <Text>Static card with flat style</Text>
+        </Flex>
+      </Card>
+      <Card appearance="sunken" onClick={() => alert('Sunken clicked')}>
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Sunken Card</Heading>
+          <Text>Static with sunken background</Text>
+        </Flex>
+      </Card>
+      <Card appearance="ghost" onClick={() => alert('Ghost clicked')}>
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Ghost Card</Heading>
+          <Text>Static with transparent background</Text>
+        </Flex>
+      </Card>
+    </Wrap>
+  ),
 };
 
-/**
- * Link card - auto-interactive when href provided
- */
 export const LinkCard: Story = {
-  args: {
-    appearance: 'elevated',
-    href: '#link-target',
-    children: <CardContent title="Link Card" description="Renders as anchor element automatically." />,
-  },
-};
-
-/**
- * Interactive states across all appearances
- */
-export const InteractiveAppearances: Story = {
+  name: 'Link Card',
   render: () => (
-    <HStack gap="16" alignItems="flex-start">
-      <Card appearance="elevated" interactive onClick={() => alert('Elevated clicked')}>
-        <CardContent title="Elevated" description="Click to interact" />
-      </Card>
-      <Card appearance="flat" interactive onClick={() => alert('Flat clicked')}>
-        <CardContent title="Flat" description="Click to interact" />
-      </Card>
-      <Card appearance="ghost" interactive onClick={() => alert('Ghost clicked')}>
-        <CardContent title="Ghost" description="Click to interact" />
-      </Card>
-    </HStack>
+    <Card href="#link-target">
+      <Flex flexDir="column" p={'16'}>
+        <Heading level="h3">Link Card</Heading>
+        <Text>Renders as anchor element automatically.</Text>
+      </Flex>
+    </Card>
   ),
-  parameters: { controls: { disable: true } },
 };
 
-// ============================================================================
-// Disabled State
-// ============================================================================
-
-/**
- * Disabled interactive card
- */
 export const Disabled: Story = {
-  args: {
-    appearance: 'elevated',
-    interactive: true,
-    disabled: true,
-    children: <CardContent title="Disabled Card" description="Cannot be clicked or focused." />,
-  },
-};
-
-/**
- * Disabled cards across appearances
- */
-export const DisabledVariants: Story = {
+  name: 'Disabled states',
   render: () => (
-    <HStack gap="16" alignItems="flex-start">
-      <Card appearance="elevated" interactive disabled>
-        <CardContent title="Elevated Disabled" description="Non-interactive" />
+    <Wrap justifyContent="center" gap="24" p="40">
+      <Card disabled>
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Default Card</Heading>
+          <Text>Static card with shadow</Text>
+        </Flex>
       </Card>
-      <Card appearance="flat" interactive disabled>
-        <CardContent title="Flat Disabled" description="Non-interactive" />
+      <Card appearance="flat" disabled>
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Flat Card</Heading>
+          <Text>Static card with flat style</Text>
+        </Flex>
       </Card>
-    </HStack>
+      <Card appearance="sunken" disabled>
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Sunken Card</Heading>
+          <Text>Static with sunken background</Text>
+        </Flex>
+      </Card>
+      <Card appearance="ghost" disabled>
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Ghost Card</Heading>
+          <Text>Static with transparent background</Text>
+        </Flex>
+      </Card>
+      <Card appearance="overlay" disabled>
+        <Flex flexDir="column" p={'16'}>
+          <Heading level="h3">Overlay Card</Heading>
+          <Text>Static card with shadow</Text>
+        </Flex>
+      </Card>
+    </Wrap>
   ),
-  parameters: { controls: { disable: true } },
 };
 
-// ============================================================================
-// Semantic Elements (Polymorphic)
-// ============================================================================
-
-/**
- * Card as article element - for blog posts, news items
- */
-export const AsArticle: Story = {
-  args: {
-    as: 'article',
-    appearance: 'elevated',
-    children: (
-      <VStack p="16" gap="8" alignItems="flex-start">
-        <Heading level="h3">Blog Post Title</Heading>
-        <Text color="text.muted">Published on Dec 20, 2025</Text>
-        <Text>This card renders as an article element for semantic correctness.</Text>
-      </VStack>
-    ),
-  },
-};
-
-/**
- * Card as section element - for grouped content
- */
-export const AsSection: Story = {
-  args: {
-    as: 'section',
-    appearance: 'flat',
-    children: (
-      <VStack p="16" gap="8" alignItems="flex-start">
-        <Heading level="h3">Settings Section</Heading>
-        <Text>This card renders as a section element.</Text>
-      </VStack>
-    ),
-  },
-};
-
-/**
- * Card as aside element - for sidebar content
- */
-export const AsAside: Story = {
-  args: {
-    as: 'aside',
-    appearance: 'ghost',
-    children: (
-      <VStack p="16" gap="8" alignItems="flex-start">
-        <Heading level="h4">Related Links</Heading>
-        <Text>This card renders as an aside element for supplementary content.</Text>
-      </VStack>
-    ),
-  },
-};
-
-/**
- * Various semantic elements
- */
 export const SemanticElements: Story = {
   render: () => (
     <Grid gridTemplateColumns="repeat(3, 1fr)" gap="16">
-      <Card as="article" appearance="elevated">
+      <Card as="article">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: 'xs', color: 'blue.50' })}>article</code>
+          <code className={css({ fontSize: 'xs', color: 'blue.50' })}>
+            article
+          </code>
           <Text>For blog posts, news</Text>
         </VStack>
       </Card>
       <Card as="section" appearance="flat">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: 'xs', color: 'blue.50' })}>section</code>
+          <code className={css({ fontSize: 'xs', color: 'blue.50' })}>
+            section
+          </code>
           <Text>For grouped content</Text>
         </VStack>
       </Card>
       <Card as="aside" appearance="ghost">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: 'xs', color: 'blue.50' })}>aside</code>
+          <code className={css({ fontSize: 'xs', color: 'blue.50' })}>
+            aside
+          </code>
           <Text>For supplementary content</Text>
         </VStack>
       </Card>
@@ -292,23 +238,19 @@ export const SemanticElements: Story = {
   parameters: { controls: { disable: true } },
 };
 
-// ============================================================================
-// Common Use Cases
-// ============================================================================
-
-/**
- * Product card with image area
- */
 export const ProductCard: Story = {
+  name: 'Product Card',
   render: () => (
-    <Card appearance="elevated" interactive onClick={() => alert('View product')}>
+    <Card overflow="hidden">
       <VStack gap="0">
-        <div className={css({ bg: 'gray.20', h: '120', w: 'full', borderTopRadius: '4' })} />
-        <VStack p="16" gap="8" alignItems="flex-start">
+        <Box bg="blue.50" aspectRatio="wide" w="280" />
+        <Flex flexDir="column" p="16" gap="8" alignItems="flex-start" w="full">
           <Heading level="h4">Product Name</Heading>
           <Text>$99.99</Text>
-          <Button size="small" appearance="primary">Add to Cart</Button>
-        </VStack>
+          <Button appearance="primary" onClick={() => alert('View product')}>
+            Add to Cart
+          </Button>
+        </Flex>
       </VStack>
     </Card>
   ),
@@ -319,25 +261,29 @@ export const ProductCard: Story = {
  * Profile card
  */
 export const ProfileCard: Story = {
+  name: 'Profile',
   render: () => (
     <Card appearance="flat">
       <HStack p="16" gap="16">
-        <div className={css({
-          bg: 'blue.40',
-          w: '64',
-          h: '64',
-          borderRadius: 'full',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        })}>
-          <Icon name="user" size={32} />
-        </div>
-        <VStack gap="4" alignItems="flex-start">
+        <Box
+          bg="blue.60"
+          w="64"
+          h="64"
+          borderRadius="full"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexShrink="0"
+        >
+          <Icon name="user" size="32" fill="icon.inverse" />
+        </Box>
+        <Flex flexDir="column" alignItems="flex-start" w="full">
           <Heading level="h4">Jane Doe</Heading>
           <Text color="text.muted">Product Designer</Text>
-          <Button size="small" appearance="subtle">View Profile</Button>
-        </VStack>
+          <Button size="small" mt="12">
+            View Profile
+          </Button>
+        </Flex>
       </HStack>
     </Card>
   ),
@@ -348,20 +294,29 @@ export const ProfileCard: Story = {
  * Stats card
  */
 export const StatsCard: Story = {
+  name: 'Stats Card',
   render: () => (
     <HStack gap="16">
-      <Card appearance="elevated">
+      <Card appearance="overlay">
         <VStack p="16" gap="4" alignItems="flex-start">
-          <Text color="text.muted" fontSize="14">Total Users</Text>
+          <Text color="text.subtlest" fontSize="14">
+            Total Users
+          </Text>
           <Heading level="h2">12,345</Heading>
-          <Text color="green.50" fontSize="14">+12% from last month</Text>
+          <Text color="text.subtlest" fontSize="14">
+            +12% from last month
+          </Text>
         </VStack>
       </Card>
-      <Card appearance="elevated">
+      <Card appearance="overlay">
         <VStack p="16" gap="4" alignItems="flex-start">
-          <Text color="text.muted" fontSize="14">Revenue</Text>
+          <Text color="text.subtlest" fontSize="14">
+            Revenue
+          </Text>
           <Heading level="h2">$54,321</Heading>
-          <Text color="green.50" fontSize="14">+8% from last month</Text>
+          <Text color="text.subtlest" fontSize="14">
+            +8% from last month
+          </Text>
         </VStack>
       </Card>
     </HStack>
@@ -374,7 +329,7 @@ export const StatsCard: Story = {
  */
 export const CardGrid: Story = {
   render: () => (
-    <Grid gridTemplateColumns="repeat(3, 1fr)" gap="16" w="600">
+    <Grid gridTemplateColumns="repeat(3, 1fr)" gap="16" w="4xl" p="40">
       {[1, 2, 3, 4, 5, 6].map((i) => (
         <Card key={i} appearance="flat" interactive>
           <VStack p="16" gap="8" alignItems="flex-start">
@@ -392,25 +347,36 @@ export const CardGrid: Story = {
  * Interactive vs Non-interactive comparison
  */
 export const InteractiveComparison: Story = {
+  name: 'Interactive vs Non-interactive',
   render: () => (
     <VStack gap="24" alignItems="flex-start">
       <div>
-        <div className={css({ mb: '8', fontSize: 'sm', fontWeight: 'semibold' })}>
+        <div
+          className={css({ mb: '8', fontSize: 'sm', fontWeight: 'semibold' })}
+        >
           Non-Interactive (Content Container)
         </div>
-        <Card appearance="elevated">
-          <VStack p="16" gap="8" alignItems="flex-start">
+        <Card>
+          <VStack p="16" gap="0" alignItems="flex-start">
             <Heading level="h4">Static Card</Heading>
             <Text>This is a content container. No hover effects.</Text>
-            <Button size="small">Action Inside</Button>
+            <Button
+              appearance="primary"
+              mt="16"
+              onClick={() => alert('Button clicked!')}
+            >
+              Action Inside
+            </Button>
           </VStack>
         </Card>
       </div>
       <div>
-        <div className={css({ mb: '8', fontSize: 'sm', fontWeight: 'semibold' })}>
+        <div
+          className={css({ mb: '8', fontSize: 'sm', fontWeight: 'semibold' })}
+        >
           Interactive (Clickable Card)
         </div>
-        <Card appearance="elevated" interactive onClick={() => alert('Card clicked!')}>
+        <Card onClick={() => alert('Card clicked!')}>
           <VStack p="16" gap="8" alignItems="flex-start">
             <Heading level="h4">Clickable Card</Heading>
             <Text>The entire card is clickable. Hover to see effects.</Text>
@@ -431,9 +397,13 @@ export const InteractiveComparison: Story = {
  */
 export const Playground: Story = {
   args: {
-    appearance: 'elevated',
     interactive: false,
     disabled: false,
-    children: <CardContent title="Playground Card" description="Adjust the controls to see different variations." />,
+    children: (
+      <CardContent
+        title="Playground Card"
+        description="Adjust the controls to see different variations."
+      />
+    ),
   },
 };

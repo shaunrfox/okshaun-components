@@ -1,5 +1,5 @@
 import { useMemo, useSyncExternalStore } from 'react';
-import { breakpoints } from '~/styles/primitives';
+import { breakpoints } from '~/styles/utilities';
 
 type BreakpointKey = keyof typeof breakpoints;
 type QueryDirection = 'min' | 'max';

@@ -509,42 +509,69 @@ function AppContent() {
             <Heading level="h2">Cards</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
               <Grid gridTemplateColumns={'repeat(3, 1fr)'} gap={'16'}>
-                <Card appearance="elevated">
-                  <VStack p={'16'} gap={'8'}>
-                    <Heading level="h3">Elevated Card</Heading>
-                    <Text>Static card with shadow (non-interactive)</Text>
-                  </VStack>
-                </Card>
-                <Card appearance="flat">
-                  <VStack p={'16'} gap={'8'}>
-                    <Heading level="h3">Flat Card</Heading>
-                    <Text>Static card with border (non-interactive)</Text>
-                  </VStack>
-                </Card>
-                <Card appearance="ghost">
-                  <VStack p={'16'} gap={'8'}>
-                    <Heading level="h3">Ghost Card</Heading>
-                    <Text>Transparent background (non-interactive)</Text>
-                  </VStack>
-                </Card>
-                <Card appearance="elevated" href="#">
-                  <VStack p={'16'} gap={'8'}>
-                    <Heading level="h3">Link Card</Heading>
-                    <Text>This card is a link (auto-interactive)</Text>
-                  </VStack>
-                </Card>
-                <Card appearance="flat" interactive onClick={() => alert('Clicked!')}>
-                  <VStack p={'16'} gap={'8'}>
-                    <Heading level="h3">Button Card</Heading>
-                    <Text>Click me - renders as button</Text>
-                  </VStack>
-                </Card>
-                <Card as="article" appearance="elevated">
-                  <VStack p={'16'} gap={'8'}>
-                    <Heading level="h3">Article Card</Heading>
-                    <Text>Semantic article element</Text>
-                  </VStack>
-                </Card>
+                <Grid gridTemplateColumns="1fr 1fr" gap="24" minW="lg">
+                  <Text textStyle="heading.xs">Static</Text>
+                  <Text textStyle="heading.xs">Interactive</Text>
+
+                  <Card>
+                    <Flex flexDir="column" p={'16'}>
+                      <Heading level="h3">Default Card</Heading>
+                      <Text>Static card with shadow</Text>
+                    </Flex>
+                  </Card>
+                  <Card interactive>
+                    <Flex flexDir="column" p={'16'}>
+                      <Heading level="h3">Default Card</Heading>
+                      <Text>Interactive card with shadow</Text>
+                    </Flex>
+                  </Card>
+
+                  <Card appearance="flat">
+                    <Flex flexDir="column" p={'16'}>
+                      <Heading level="h3">Flat Card</Heading>
+                      <Text>Static card with flat style</Text>
+                    </Flex>
+                  </Card>
+                  <Card appearance="flat" interactive>
+                    <Flex flexDir="column" p={'16'}>
+                      <Heading level="h3">Flat Card</Heading>
+                      <Text>Interactive card with flat style</Text>
+                    </Flex>
+                  </Card>
+
+                  <Card appearance="sunken">
+                    <Flex flexDir="column" p={'16'}>
+                      <Heading level="h3">Sunken Card</Heading>
+                      <Text>Static with sunken background</Text>
+                    </Flex>
+                  </Card>
+                  <Card interactive appearance="sunken">
+                    <Flex flexDir="column" p={'16'}>
+                      <Heading level="h3">Sunken Card</Heading>
+                      <Text>Interactive with sunken background</Text>
+                    </Flex>
+                  </Card>
+
+                  <Card appearance="ghost">
+                    <Flex flexDir="column" p={'16'}>
+                      <Heading level="h3">Ghost Card</Heading>
+                      <Text>Static with transparent background</Text>
+                    </Flex>
+                  </Card>
+                  <Card interactive appearance="ghost">
+                    <Flex flexDir="column" p={'16'}>
+                      <Heading level="h3">Ghost Card</Heading>
+                      <Text>Interactive with transparent background</Text>
+                    </Flex>
+                  </Card>
+
+                  <Card appearance="overlay">
+                    <Flex flexDir="column" p={'16'}>
+                      <Heading level="h3">Overlay Card</Heading>
+                      <Text>Static card with shadow</Text>
+                    </Flex>
+                  </Card>
+                </Grid>
               </Grid>
             </VStack>
           </Section>

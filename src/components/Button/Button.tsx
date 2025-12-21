@@ -2,29 +2,32 @@ import * as React from 'react';
 import { cx } from '@styled-system/css';
 import { Grid, HStack } from '@styled-system/jsx';
 import { Spinner } from '~/components/Spinner';
-import { Box } from '~/components/Box';
+import { Box, type BoxProps } from '~/components/Box';
 import { button, type ButtonVariantProps } from '@styled-system/recipes';
 import { Icon, type IconNamesList } from '~/components/Icon';
 import { NumericSizeToken } from '@styled-system/tokens';
+import { splitProps } from '~/utils/splitProps';
 
 /**
  * ButtonProps is generic and manages its own polymorphism.
  * It includes props for the element type E (default "button") and ButtonVariantProps.
  * This means that any prop accepted by the underlying element (e.g. onClick) is automatically allowed.
  */
-export type ButtonProps<E extends React.ElementType = 'button'> =
-  React.ComponentPropsWithoutRef<E> &
-    Omit<ButtonVariantProps, 'iconBefore' | 'iconAfter'> & {
-      as?: E;
-      href?: string;
-      loading?: boolean;
-      className?: string;
-      children?: React.ReactNode;
-      disabled?: boolean;
-      iconBefore?: IconNamesList;
-      iconAfter?: IconNamesList;
-      gap?: NumericSizeToken;
-    };
+export type ButtonProps<E extends React.ElementType = 'button'> = Omit<
+  BoxProps,
+  keyof ButtonVariantProps | 'as'
+> &
+  Omit<ButtonVariantProps, 'iconBefore' | 'iconAfter'> & {
+    as?: E;
+    href?: string;
+    loading?: boolean;
+    className?: string;
+    children?: React.ReactNode;
+    disabled?: boolean;
+    iconBefore?: IconNamesList;
+    iconAfter?: IconNamesList;
+    gap?: NumericSizeToken;
+  };
 
 /**
  * Define a polymorphic ButtonComponent type.
@@ -65,6 +68,8 @@ export const Button = React.forwardRef(
       iconAfter: Boolean(iconAfter),
     });
 
+    const [styleClassName, otherProps] = splitProps(props);
+
     return (
       <Box
         as={asComponent as E}
@@ -72,9 +77,9 @@ export const Button = React.forwardRef(
         href={href}
         disabled={trulyDisabled}
         aria-disabled={trulyDisabled}
-        className={cx(classes.container, className)}
+        className={cx(classes.container, className, styleClassName)}
         type={asComponent === 'button' ? 'button' : undefined}
-        {...props}
+        {...otherProps}
       >
         <>
           <HStack gap={gap || '4'} opacity={loading ? 0 : 1}>
