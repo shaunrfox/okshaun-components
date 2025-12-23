@@ -24,9 +24,11 @@ const {
   radioRecipe,
   tooltipRecipe,
   menuRecipe,
+  selectRecipe,
   toggleRecipe,
   chipRecipe,
   avatarRecipe,
+  modalRecipe,
   ...regularComponents
 } = componentRecipes;
 
@@ -95,9 +97,11 @@ export const okshaunPreset = definePreset({
         radio: radioRecipe,
         tooltip: tooltipRecipe,
         menu: menuRecipe,
+        select: selectRecipe,
         toggle: toggleRecipe,
         chip: chipRecipe,
         avatar: avatarRecipe,
+        modal: modalRecipe,
       },
     },
   },

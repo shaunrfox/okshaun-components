@@ -23,7 +23,7 @@ export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
   };
 
 export const Text: React.FC<TextProps> = ({
-  as = 'p',
+  as = 'span',
   italic,
   family,
   bold,

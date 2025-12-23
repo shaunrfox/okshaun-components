@@ -1,7 +1,11 @@
 export { Box, type BoxProps } from './components/Box';
 export { Text, type TextProps } from './components/Text';
 export { Button, type ButtonProps } from './components/Button';
-export { Badge, type BadgeProps, type BadgeAppearance } from './components/Badge';
+export {
+  Badge,
+  type BadgeProps,
+  type BadgeAppearance,
+} from './components/Badge';
 export {
   Avatar,
   type AvatarProps,
@@ -65,6 +69,16 @@ export {
 } from './components/Menu';
 export { Dropdown, type DropdownProps } from './components/Dropdown';
 export {
+  Select,
+  SelectOption,
+  SelectTrigger,
+  useSelectContext,
+  type SelectProps,
+  type SelectOptionProps,
+  type SelectTriggerProps,
+  type SelectContextValue,
+} from './components/Select';
+export {
   Autocomplete,
   type AutocompleteProps,
   type AutocompleteOption,
@@ -73,5 +87,16 @@ export {
 export { ThemeSwitcher } from './components/ThemeSwitcher';
 export { ThemeProvider, useTheme, type Theme } from './contexts/ThemeContext';
 export { BreakpointIndicator } from './components/BreakpointIndicator';
+export {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useModalContext,
+  type ModalProps,
+  type ModalHeaderProps,
+  type ModalBodyProps,
+  type ModalFooterProps,
+} from './components/Modal';
 export { splitProps } from './utils/splitProps';
 export { useMediaQuery, useContainerQuery } from './hooks';

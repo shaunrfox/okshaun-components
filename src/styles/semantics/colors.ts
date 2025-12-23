@@ -452,8 +452,8 @@ export const colors = defineSemanticTokens.colors({
     },
   },
   blanket: {
-    DEFAULT: { value: { base: '#ef5c4814', _dark: '#e3493514' } },
-    danger: { value: { base: '#17171775', _dark: '#10121499' } },
+    DEFAULT: { value: { base: '#17171775', _dark: '#10121499' } },
+    danger: { value: { base: '#ef5c4814', _dark: '#e3493514' } },
     selected: { value: { base: '#388bff14', _dark: '#1d7afc14' } },
   },
   border: {

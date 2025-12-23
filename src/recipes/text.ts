@@ -1,6 +1,7 @@
 import { defineRecipe } from '@pandacss/dev';
 
 const textBase = {
+  display: 'inline-block',
   margin: '0',
   lineHeight: 'default',
   fontWeight: 'normal',

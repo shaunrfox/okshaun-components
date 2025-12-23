@@ -26,6 +26,7 @@ import {
   MenuListItem,
   MenuListDivider,
 } from '~/components/Menu';
+import { Select, SelectOption } from '~/components/Select';
 import { Radio } from '~/components/Radio';
 import { Tag } from '~/components/Tag';
 import { TextInput } from '~/components/TextInput';
@@ -186,6 +187,8 @@ function AppContent() {
     disabled: false,
   });
 
+  const [value, setValue] = useState<string | string[] | null>(null);
+
   const handleCheckboxInputChange =
     (key: keyof typeof checkboxInputStates) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -233,6 +236,19 @@ function AppContent() {
       </Flex>
       <Container maxW={'5xl'}>
         <VStack gap={'8'}>
+          <Section>
+            <Heading>Select</Heading>
+            <Select
+              value={value}
+              onChange={(value) => setValue(value as string | string[] | null)}
+              placeholder="Choose an option..."
+            >
+              <SelectOption value="option1" label="Option 1" />
+              <SelectOption value="option2" label="Option 2" />
+              <SelectOption value="option3" label="Option 3" />
+            </Select>
+            <p>Selected: {value}</p>
+          </Section>
           <Section>
             <Heading>Menu</Heading>
             <MenuList>

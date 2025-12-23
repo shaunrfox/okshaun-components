@@ -20,6 +20,8 @@ export { checkboxRecipe } from './checkbox';
 export { radioRecipe } from './radio';
 export { tooltipRecipe } from './tooltip';
 export { menuRecipe } from './menu';
+export { selectRecipe } from './select';
 export { chipRecipe } from './chip';
 export { badgeRecipe } from './badge';
 export { avatarRecipe } from './avatar';
+export { modalRecipe } from './modal';

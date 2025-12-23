@@ -123,12 +123,12 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       data-selected={selected}
       data-active={isActive}
       className={cx(classes.menuItem, cssClassName, className)}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
-      {...(getItemProps({ index, active: isActive }) as Record<
-        string,
-        unknown
-      >)}
+      {...(getItemProps({
+        index,
+        active: isActive,
+        onClick: handleClick,
+        onKeyDown: handleKeyDown,
+      }) as Record<string, unknown>)}
       {...otherProps}
     >
       {/* Selection indicator (left position by default) */}
