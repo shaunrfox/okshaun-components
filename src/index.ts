@@ -87,16 +87,13 @@ export {
 export { ThemeSwitcher } from './components/ThemeSwitcher';
 export { ThemeProvider, useTheme, type Theme } from './contexts/ThemeContext';
 export { BreakpointIndicator } from './components/BreakpointIndicator';
+export { Modal, ModalHeader, ModalBody, ModalFooter } from './components/Modal';
 export {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   useModalContext,
   type ModalProps,
   type ModalHeaderProps,
   type ModalBodyProps,
   type ModalFooterProps,
-} from './components/Modal';
+} from './components/Modal/exports';
 export { splitProps } from './utils/splitProps';
 export { useMediaQuery, useContainerQuery } from './hooks';
