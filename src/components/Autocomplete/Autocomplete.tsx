@@ -19,7 +19,10 @@ import { MenuList, MenuListItem } from '../Menu';
 import type { AutocompleteProps, AutocompleteOption } from './types';
 import type { IconNamesList } from '../Icon';
 
-const defaultFilter = (option: AutocompleteOption, inputValue: string): boolean => {
+const defaultFilter = (
+  option: AutocompleteOption,
+  inputValue: string,
+): boolean => {
   return option.label.toLowerCase().includes(inputValue.toLowerCase());
 };
 
@@ -83,27 +86,29 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
     loop: true,
   });
 
-  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
-    click,
-    dismiss,
-    role,
-    listNavigation,
-  ]);
+  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
+    [click, dismiss, role, listNavigation],
+  );
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       onChange(e.target.value);
       if (!open) setOpen(true);
     },
-    [onChange, open]
+    [onChange, open],
   );
 
   const handleInputKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter' && activeIndex !== null && filteredOptions[activeIndex]) {
+      if (e.key === 'Enter' && open && filteredOptions.length > 0) {
         e.preventDefault();
-        const option = filteredOptions[activeIndex];
-        if (!option.disabled) {
+        e.stopPropagation();
+
+        // Use activeIndex if set, otherwise use first option
+        const indexToSelect = activeIndex !== null ? activeIndex : 0;
+        const option = filteredOptions[indexToSelect];
+
+        if (option && !option.disabled) {
           onSelect(option);
           onChange(option.label);
           setOpen(false);
@@ -114,7 +119,26 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
         setOpen(true);
       }
     },
-    [activeIndex, filteredOptions, onSelect, onChange]
+    [activeIndex, filteredOptions, onSelect, onChange, open],
+  );
+
+  const handleMenuKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (
+        e.key === 'Enter' &&
+        activeIndex !== null &&
+        filteredOptions[activeIndex]
+      ) {
+        e.preventDefault();
+        const option = filteredOptions[activeIndex];
+        if (!option.disabled) {
+          onSelect(option);
+          onChange(option.label);
+          setOpen(false);
+        }
+      }
+    },
+    [activeIndex, filteredOptions, onSelect, onChange],
   );
 
   const handleOptionClick = useCallback(
@@ -124,7 +148,18 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
       onChange(option.label);
       setOpen(false);
     },
-    [onSelect, onChange]
+    [onSelect, onChange],
+  );
+
+  const handleOptionKeyDown = useCallback(
+    (e: React.KeyboardEvent, option: AutocompleteOption) => {
+      if (option.disabled) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleOptionClick(option);
+      }
+    },
+    [handleOptionClick],
   );
 
   const handleInputFocus = useCallback(() => {
@@ -141,7 +176,6 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
         id={id}
         value={value}
         onChange={handleInputChange}
-        onKeyDown={handleInputKeyDown}
         onFocus={handleInputFocus}
         placeholder={placeholder}
         disabled={disabled}
@@ -150,13 +184,19 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
         aria-autocomplete="list"
         aria-expanded={open}
         aria-controls={open ? `${id ?? name}-listbox` : undefined}
-        {...(getReferenceProps() as Record<string, unknown>)}
+        {...(getReferenceProps({
+          onKeyDown: handleInputKeyDown,
+        } as any) as Record<string, unknown>)}
         {...inputProps}
       />
 
       {open && (
         <FloatingPortal>
-          <FloatingFocusManager context={context} modal={false} initialFocus={-1}>
+          <FloatingFocusManager
+            context={context}
+            modal={false}
+            initialFocus={-1}
+          >
             <MenuList
               ref={refs.setFloating}
               style={floatingStyles}
@@ -164,6 +204,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
               role="listbox"
               size={size}
               indicatorPosition={indicatorPosition}
+              onKeyDown={handleMenuKeyDown}
               {...(getFloatingProps() as Record<string, unknown>)}
             >
               {filteredOptions.length === 0 ? (
@@ -190,10 +231,15 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
                       description={option.description}
                       iconLeft={option.icon as IconNamesList}
                       highlightMatch={value || undefined}
-                      onClick={() => handleOptionClick(option)}
                       size={size}
                       indicatorPosition={indicatorPosition}
-                      {...getItemProps()}
+                      {...(getItemProps({
+                        index,
+                        active: isActive,
+                        onClick: () => handleOptionClick(option),
+                        onKeyDown: (e: React.KeyboardEvent) =>
+                          handleOptionKeyDown(e, option),
+                      } as any) as Record<string, unknown>)}
                     />
                   );
                 })

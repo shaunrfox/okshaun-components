@@ -19,13 +19,13 @@ const toggleBase = {
     w: '40',
     h: '24',
     rounded: '24',
-    bg: { base: 'gray.10', _dark: 'gray.90' },
+    bg: 'surface',
     transitionProperty: 'border-color, background-color',
     transitionDuration: '200ms',
     transitionTimingFunction: 'ease-in-out',
     borderWidth: '2',
     borderStyle: 'solid',
-    borderColor: { base: 'gray.20', _dark: 'gray.40' },
+    borderColor: 'border',
   },
 
   input: {
@@ -48,12 +48,12 @@ const toggleBase = {
       transitionProperty: 'transform, opacity',
       transitionDuration: '200ms',
       transitionTimingFunction: 'ease-in-out',
+      color: 'icon.decorative/80',
     },
 
     "& ~ [name='circle-check']": {
       display: 'inline-grid',
       position: 'absolute',
-      filter: { base: 'invert(100%)', _dark: 'invert(0%)' },
       opacity: 0,
       transform: 'translateX(0)',
       transitionProperty: 'transform, opacity',
@@ -69,10 +69,11 @@ const toggleBase = {
       "& ~ [name='circle-check']": {
         opacity: 1,
         transform: 'translateX(16px)',
+        color: 'icon.inverse',
       },
       "& ~ [name='toggle-bg']": {
-        bg: { base: 'gray.90', _dark: 'gray.10' },
-        borderColor: { base: 'gray.90', _dark: 'gray.10' },
+        bg: 'bg.neutral.inverse',
+        borderColor: 'bg.neutral.inverse',
       },
     },
     _error: {

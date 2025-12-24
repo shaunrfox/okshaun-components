@@ -30,7 +30,6 @@ import { Select, SelectOption } from '~/components/Select';
 import { Radio } from '~/components/Radio';
 import { Tag } from '~/components/Tag';
 import { TextInput } from '~/components/TextInput';
-import { Toggle } from '~/components/Toggle';
 import { Tooltip } from '~/components/Tooltip';
 import { Checkbox } from '~/components/Checkbox';
 import { CheckboxInput } from '~/components/CheckboxInput';
@@ -793,29 +792,6 @@ function AppContent() {
                 <Label>
                   <Radio id="radio3" name="radioGroup" disabled />
                   <Text ml={'8'}>Disabled</Text>
-                </Label>
-              </HStack>
-            </VStack>
-          </Section>
-          <Section>
-            <Heading level="h2">Toggles</Heading>
-            <VStack alignItems={'flex-start'} gap={'24'}>
-              <HStack gap={'16'}>
-                <Label>
-                  <Toggle name="toggle1" />
-                  <Text ml={'8'}>Default Toggle</Text>
-                </Label>
-              </HStack>
-              <HStack gap={'16'}>
-                <Label>
-                  <Toggle name="toggle2" checked />
-                  <Text ml={'8'}>Checked Toggle</Text>
-                </Label>
-              </HStack>
-              <HStack gap={'16'}>
-                <Label>
-                  <Toggle name="toggle3" disabled />
-                  <Text ml={'8'}>Disabled Toggle</Text>
                 </Label>
               </HStack>
             </VStack>

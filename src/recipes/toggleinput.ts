@@ -5,6 +5,7 @@ const toggleInputBase = {
   gap: '8',
   gridTemplateColumns: '40px auto',
   userSelect: 'none',
+  fontSize: '16',
 };
 
 export const toggleInputRecipe = defineRecipe({

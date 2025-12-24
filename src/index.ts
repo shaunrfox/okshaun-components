@@ -22,12 +22,22 @@ export { Link, type LinkProps } from './components/Link';
 export { Label, type LabelProps } from './components/Label';
 export { Spinner, type SpinnerProps } from './components/Spinner';
 export { Divider, type DividerProps } from './components/Divider';
-export { Checkbox, type CheckboxProps } from './components/Checkbox';
+export {
+  Checkbox,
+  type CheckboxProps,
+  type CheckboxChangeEvent,
+  type CheckboxChangeHandler,
+} from './components/Checkbox';
 export { Radio, type RadioProps } from './components/Radio';
 export { TextInput, type TextInputProps } from './components/TextInput';
 export { Textarea, type TextareaProps } from './components/Textarea';
 export { Card, type CardProps } from './components/Card';
-export { Toggle, type ToggleProps } from './components/Toggle';
+export {
+  Toggle,
+  type ToggleProps,
+  type ToggleChangeEvent,
+  type ToggleChangeHandler,
+} from './components/Toggle';
 export { ToggleInput, type ToggleInputProps } from './components/ToggleInput';
 export { RadioInput, type RadioInputProps } from './components/RadioInput';
 export {
