@@ -172,10 +172,10 @@ export const avatarRecipe = defineSlotRecipe({
     shape: {
       circle: {
         root: {
-          borderRadius: 'full',
+          borderRadius: '999',
         },
         image: {
-          borderRadius: 'full',
+          borderRadius: '999',
         },
       },
       square: {

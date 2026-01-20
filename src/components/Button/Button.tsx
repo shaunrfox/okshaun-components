@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ReactNode, forwardRef } from 'react';
 import { cx } from '@styled-system/css';
 import { Grid, HStack } from '@styled-system/jsx';
 import { Spinner } from '~/components/Spinner';
@@ -8,78 +8,62 @@ import { Icon, type IconNamesList } from '~/components/Icon';
 import { NumericSizeToken } from '@styled-system/tokens';
 import { splitProps } from '~/utils/splitProps';
 
-/**
- * ButtonProps is generic and manages its own polymorphism.
- * It includes props for the element type E (default "button") and ButtonVariantProps.
- * This means that any prop accepted by the underlying element (e.g. onClick) is automatically allowed.
- */
-export type ButtonProps<E extends React.ElementType = 'button'> = Omit<
-  BoxProps,
-  keyof ButtonVariantProps | 'as'
-> &
+export type ButtonProps = BoxProps &
   Omit<ButtonVariantProps, 'iconBefore' | 'iconAfter'> & {
-    as?: E;
     href?: string;
+    onClick?: () => void;
     loading?: boolean;
     className?: string;
-    children?: React.ReactNode;
+    children?: string | ReactNode;
     disabled?: boolean;
     iconBefore?: IconNamesList;
     iconAfter?: IconNamesList;
     gap?: NumericSizeToken;
+    type?: 'submit' | 'reset' | 'button';
   };
 
-/**
- * Define a polymorphic ButtonComponent type.
- * The ref type will be inferred from the element type E.
- */
-type ButtonComponent = <E extends React.ElementType = 'button'>(
-  props: ButtonProps<E> & { ref?: React.ForwardedRef<Element> },
-) => React.ReactElement;
-
-/**
- * The Button component uses the polymorphic Box as its base.
- * It automatically renders as an <a> if href is provided.
- * Since ButtonProps extends BoxProps, any extra props (like onClick) are automatically allowed.
- */
-export const Button = React.forwardRef(
-  <E extends React.ElementType = 'button'>(
-    {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, ref) => {
+    const {
       appearance,
       size,
       href,
+      onClick,
       className,
       children,
       loading,
       disabled,
+      type = 'button',
       iconBefore,
       iconAfter,
       gap,
-      ...props
-    }: ButtonProps<E>,
-    ref: React.ForwardedRef<Element>,
-  ) => {
-    const trulyDisabled = loading || disabled;
-    const asComponent = href ? 'a' : 'button';
+      ...rest
+    } = props;
     const classes = button({
       appearance,
       size,
       iconBefore: Boolean(iconBefore),
       iconAfter: Boolean(iconAfter),
     });
-
-    const [styleClassName, otherProps] = splitProps(props);
+    const [styleClassName, otherProps] = splitProps(rest);
+    const trulyDisabled = loading || disabled;
 
     return (
       <Box
-        as={asComponent as E}
-        ref={ref as React.ForwardedRef<any>}
-        href={href}
+        as={href ? 'a' : 'button'}
+        ref={ref}
+        {...(href ? { href } : { type })}
+        onClick={onClick}
         disabled={trulyDisabled}
         aria-disabled={trulyDisabled}
-        className={cx(classes.container, className, styleClassName)}
-        type={asComponent === 'button' ? 'button' : undefined}
+        aria-label={children}
+        className={cx(classes.container, styleClassName, className)}
         {...otherProps}
+        {...(trulyDisabled &&
+          href && {
+            onClick: (e: React.MouseEvent<HTMLAnchorElement>) =>
+              e.preventDefault(),
+          })}
       >
         <>
           <HStack gap={gap || '4'} opacity={loading ? 0 : 1}>
@@ -97,6 +81,7 @@ export const Button = React.forwardRef(
               placeItems="center"
             >
               <Spinner
+                size="sm"
                 {...(appearance === 'primary' ? { inverse: true } : {})}
               />
             </Grid>
@@ -105,4 +90,6 @@ export const Button = React.forwardRef(
       </Box>
     );
   },
-) as ButtonComponent;
+);
+
+export default Button;

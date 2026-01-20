@@ -180,7 +180,7 @@ export const ExSettingsPanel: Story = {
       };
 
     return (
-      <Box display="flex" flexDirection="column" gap="16" minWidth="300">
+      <Box display="flex" flexDirection="column" gap="16" minWidth="xl">
         <Text fontWeight="semibold" fontSize="18">
           Settings
         </Text>
@@ -298,7 +298,7 @@ export const ExFeatureFlags: Story = {
       };
 
     return (
-      <Box display="flex" flexDirection="column" gap="16" minWidth="300">
+      <Box display="flex" flexDirection="column" gap="16" minWidth="xl">
         <Text fontWeight="semibold" fontSize="18">
           Developer Options
         </Text>
@@ -405,12 +405,7 @@ export const A11yKeyboardNavigation: Story = {
   name: 'A11y: Keyboard Navigation',
   render: () => (
     <Box display="flex" flexDirection="column" gap="12">
-      <ToggleInput
-        name="first"
-        id="first"
-        checked={false}
-        onChange={() => {}}
-      >
+      <ToggleInput name="first" id="first" checked={false} onChange={() => {}}>
         First toggle
       </ToggleInput>
       <ToggleInput
@@ -421,12 +416,7 @@ export const A11yKeyboardNavigation: Story = {
       >
         Second toggle
       </ToggleInput>
-      <ToggleInput
-        name="third"
-        id="third"
-        checked={false}
-        onChange={() => {}}
-      >
+      <ToggleInput name="third" id="third" checked={false} onChange={() => {}}>
         Third toggle
       </ToggleInput>
     </Box>

@@ -5,8 +5,6 @@ import { splitProps } from '~/utils/splitProps';
 
 export type SpinnerProps = Omit<BoxProps, keyof SpinnerVariantProps> &
   SpinnerVariantProps & {
-    size?: 'standard' | 'small' | 'large';
-    className?: string;
     inverse?: boolean;
   };
 

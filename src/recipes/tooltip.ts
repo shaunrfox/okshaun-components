@@ -5,7 +5,6 @@ const tooltipBase = {
     position: 'relative',
     width: 'fit-content',
     height: 'fit-content',
-    lineHeight: 'fit-content',
     cursor: 'default',
   },
   tooltipContent: {
@@ -14,10 +13,7 @@ const tooltipBase = {
     gap: '4',
     bg: { base: 'gray.90', _dark: 'gray.10' },
     color: { base: 'gray.10', _dark: 'gray.90' },
-    py: '8',
-    px: '12',
-    fontFamily: 'body',
-    fontSize: '14',
+    fontFamily: 'sans',
     fontWeight: 'normal',
     borderRadius: '4',
     position: 'absolute',
@@ -35,6 +31,13 @@ const tooltipBase = {
       borderStyle: 'solid',
       borderColor: 'transparent',
     },
+  },
+  title: {
+    fontWeight: 'bold',
+    color: 'text',
+  },
+  text: {
+    color: 'text.subtlest',
   },
 };
 
@@ -196,48 +199,88 @@ const tooltipVariants = {
       },
     },
   },
-};
-
-export const tooltipRecipe = defineSlotRecipe({
-  className: 'tooltip',
-  jsx: ['Tooltip'],
-  slots: ['wrapper', 'tooltipContent'],
-  base: tooltipBase,
-  variants: {
-    ...tooltipVariants,
-    caret: {
-      true: {
-        tooltipContent: {
-          _after: {
-            display: 'block',
-          },
+  caret: {
+    true: {
+      tooltipContent: {
+        _after: {
+          display: 'block',
         },
-        _position: {
-          top: {
-            tooltipContent: {
-              mb: '12',
-            },
+      },
+      _position: {
+        top: {
+          tooltipContent: {
+            mb: '12',
           },
         },
       },
-      false: {
-        tooltipContent: {
-          _after: {
-            display: 'none',
-          },
+    },
+    false: {
+      tooltipContent: {
+        _after: {
+          display: 'none',
         },
-        _position: {
-          top: {
-            tooltipContent: {
-              mb: '8',
-            },
+      },
+      _position: {
+        top: {
+          tooltipContent: {
+            mb: '8',
           },
         },
       },
     },
   },
+  size: {
+    sm: {
+      tooltipContent: {
+        py: '4',
+        px: '8',
+      },
+      title: {
+        fontSize: '12',
+      },
+      text: {
+        fontSize: '12',
+      },
+    },
+    md: {
+      tooltipContent: {
+        py: '8',
+        px: '12',
+      },
+      title: {
+        fontSize: '14',
+      },
+      text: {
+        fontSize: '14',
+      },
+    },
+    lg: {
+      tooltipContent: {
+        py: '12',
+        px: '16',
+      },
+      title: {
+        fontSize: '16',
+      },
+      text: {
+        fontSize: '16',
+      },
+    },
+  },
+};
+
+export const tooltipRecipe = defineSlotRecipe({
+  className: 'tooltip',
+  jsx: ['Tooltip'],
+  slots: ['wrapper', 'tooltipContent', 'title', 'text'],
+  base: tooltipBase,
+  variants: {
+    ...tooltipVariants,
+  },
   defaultVariants: {
     position: 'bottom',
+    caret: true,
+    size: 'md',
   },
   compoundVariants: [
     {

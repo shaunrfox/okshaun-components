@@ -24,8 +24,16 @@ export const Default: Story = {
   render: () => (
     <Dropdown label="Options">
       <MenuItem label="Edit" onSelect={() => console.log('Edit')} index={0} />
-      <MenuItem label="Duplicate" onSelect={() => console.log('Duplicate')} index={1} />
-      <MenuItem label="Delete" onSelect={() => console.log('Delete')} index={2} />
+      <MenuItem
+        label="Duplicate"
+        onSelect={() => console.log('Duplicate')}
+        index={1}
+      />
+      <MenuItem
+        label="Delete"
+        onSelect={() => console.log('Delete')}
+        index={2}
+      />
     </Dropdown>
   ),
 };
@@ -171,13 +179,28 @@ export const WithGroups: Story = {
   render: () => (
     <Dropdown label="User Menu">
       <MenuGroup label="Account">
-        <MenuItem label="Profile" iconLeft="user" onSelect={() => {}} index={0} />
-        <MenuItem label="Settings" iconLeft="settings" onSelect={() => {}} index={1} />
+        <MenuItem
+          label="Profile"
+          iconLeft="user"
+          onSelect={() => {}}
+          index={0}
+        />
+        <MenuItem
+          label="Settings"
+          iconLeft="settings"
+          onSelect={() => {}}
+          index={1}
+        />
       </MenuGroup>
       <MenuDivider />
       <MenuGroup label="Actions">
         <MenuItem label="Help" iconLeft="help" onSelect={() => {}} index={2} />
-        <MenuItem label="Log Out" iconLeft="arrow-square-out" onSelect={() => {}} index={3} />
+        <MenuItem
+          label="Log Out"
+          iconLeft="arrow-square-out"
+          onSelect={() => {}}
+          index={3}
+        />
       </MenuGroup>
     </Dropdown>
   ),
@@ -242,7 +265,11 @@ export const SizeCompact: Story = {
 
 export const SizeComfortable: Story = {
   render: () => (
-    <Dropdown label="Comfortable" size="comfortable" triggerProps={{ size: 'large' }}>
+    <Dropdown
+      label="Comfortable"
+      size="comfortable"
+      triggerProps={{ size: 'lg' }}
+    >
       <MenuItem
         label="Option 1"
         description="First option"
@@ -267,11 +294,26 @@ export const CustomTrigger: Story = {
   render: () => (
     <Dropdown
       label="Primary Action"
-      triggerProps={{ appearance: 'primary', size: 'large' }}
+      triggerProps={{ appearance: 'primary', size: 'lg' }}
     >
-      <MenuItem label="Create Project" iconLeft="square-add" onSelect={() => {}} index={0} />
-      <MenuItem label="Import Data" iconLeft="upload" onSelect={() => {}} index={1} />
-      <MenuItem label="Generate Report" iconLeft="file" onSelect={() => {}} index={2} />
+      <MenuItem
+        label="Create Project"
+        iconLeft="square-add"
+        onSelect={() => {}}
+        index={0}
+      />
+      <MenuItem
+        label="Import Data"
+        iconLeft="upload"
+        onSelect={() => {}}
+        index={1}
+      />
+      <MenuItem
+        label="Generate Report"
+        iconLeft="file"
+        onSelect={() => {}}
+        index={2}
+      />
     </Dropdown>
   ),
 };

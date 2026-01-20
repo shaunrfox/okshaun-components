@@ -2,39 +2,39 @@ import { defineRecipe } from '@pandacss/dev';
 
 const textareaVariants = {
   size: {
-    medium: {
+    md: {
       py: '3',
       px: '10',
       fontSize: '16',
       minHeight: '64',
     },
-    small: {
+    sm: {
       py: '0',
       px: '8',
       minHeight: '48',
       fontSize: '14',
     },
-    large: {
+    lg: {
       py: '7',
       px: '12',
       fontSize: '16',
       minHeight: '80',
     },
-    xlarge: {
+    xl: {
       py: '9',
       px: '16',
       fontSize: '20',
       minHeight: '96',
     },
   },
-  // autoGrow: {
-  //   false: {
-  //     width: 'full',
-  //   },
-  //   true: {
-  //     width: 'fit-content',
-  //   },
-  // },
+  autoSize: {
+    false: {
+      width: 'full',
+    },
+    true: {
+      width: 'fit-content',
+    },
+  },
   // stacked: {
   //   true: {
   //     gridTemplateRows: 'auto 1fr',
@@ -144,7 +144,7 @@ export const textareaRecipe = defineRecipe({
   base: textareaBase,
   variants: textareaVariants,
   defaultVariants: {
-    size: 'medium',
+    size: 'md',
     // stacked: true,
     // internalLabel: false,
     // autoGrow: false,

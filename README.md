@@ -172,7 +172,7 @@ function App() {
         Hello from Okshaun Components!
       </Text>
 
-      <Button variant="primary" size="md">
+      <Button appearance="primary" size="md">
         Click Me
       </Button>
 
@@ -248,12 +248,12 @@ function Examples() {
       </Box>
 
       {/* Button as a link */}
-      <Button as="a" href="https://example.com" variant="primary">
+      <Button as="a" href="https://example.com" appearance="primary">
         External Link
       </Button>
 
       {/* Button as React Router Link */}
-      <Button as={Link} to="/about" variant="secondary">
+      <Button as={Link} to="/about">
         About Page
       </Button>
     </>

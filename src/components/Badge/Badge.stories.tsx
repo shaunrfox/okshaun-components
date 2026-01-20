@@ -104,10 +104,10 @@ export const CountStandalone: Story = {
         <Button>
           Button <Badge count={5} />
         </Button>
-        <Button size="large" appearance="primary" gap="8">
+        <Button size="lg" appearance="primary" gap="8">
           Button <Badge count={12} />
         </Button>
-        <Button size="small" appearance="subtle">
+        <Button size="sm" appearance="subtle">
           Button <Badge count={99} size="sm" />
         </Button>
       </Flex>
@@ -135,12 +135,12 @@ export const CountWithChildren: Story = {
           <Button>Button</Button>
         </Badge>
         <Badge count={12}>
-          <Button size="large" appearance="primary">
+          <Button size="lg" appearance="primary">
             Button
           </Button>
         </Badge>
         <Badge count={99} size="sm">
-          <Button size="small" appearance="subtle">
+          <Button size="sm" appearance="subtle">
             Button
           </Button>
         </Badge>
@@ -414,13 +414,13 @@ const AnimationDemo = () => {
         </Badge>
         <IconButton
           appearance="hollow"
-          size="small"
+          size="sm"
           iconName="minus"
           onClick={() => setCount((c) => Math.max(0, c - 1))}
         />
         <IconButton
           appearance="hollow"
-          size="small"
+          size="sm"
           iconName="plus"
           onClick={() => setCount((c) => c + 1)}
         />

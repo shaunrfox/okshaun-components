@@ -38,6 +38,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
   id,
   disabled = false,
   error = false,
+  packing,
   size,
   indicatorPosition,
   filterFn = defaultFilter,
@@ -175,6 +176,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
         name={name}
         id={id}
         value={value}
+        size={size}
         onChange={handleInputChange}
         onFocus={handleInputFocus}
         placeholder={placeholder}
@@ -202,7 +204,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
               style={floatingStyles}
               id={`${id ?? name}-listbox`}
               role="listbox"
-              size={size}
+              packing={packing}
               indicatorPosition={indicatorPosition}
               onKeyDown={handleMenuKeyDown}
               {...(getFloatingProps() as Record<string, unknown>)}
@@ -211,7 +213,6 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
                 <MenuListItem
                   label={noResultsMessage}
                   disabled
-                  size={size}
                   indicatorPosition={indicatorPosition}
                 />
               ) : (
@@ -231,7 +232,6 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
                       description={option.description}
                       iconLeft={option.icon as IconNamesList}
                       highlightMatch={value || undefined}
-                      size={size}
                       indicatorPosition={indicatorPosition}
                       {...(getItemProps({
                         index,

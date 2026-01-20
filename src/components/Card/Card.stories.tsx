@@ -280,7 +280,7 @@ export const ProfileCard: Story = {
         <Flex flexDir="column" alignItems="flex-start" w="full">
           <Heading level="h4">Jane Doe</Heading>
           <Text color="text.muted">Product Designer</Text>
-          <Button size="small" mt="12">
+          <Button size="sm" mt="12">
             View Profile
           </Button>
         </Flex>

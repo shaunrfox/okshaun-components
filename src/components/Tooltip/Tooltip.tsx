@@ -30,6 +30,7 @@ export type TooltipProps = Omit<BoxProps, keyof TooltipVariantProps> &
 export const Tooltip: React.FC<TooltipProps> = ({
   trigger = 'onHover',
   caret = true,
+  size = 'md',
   text,
   title,
   children,
@@ -40,6 +41,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   const { wrapper, tooltipContent } = tooltip({
     position: currentPlacement,
     caret,
+    size,
   });
   const [show, setShow] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -65,7 +67,10 @@ export const Tooltip: React.FC<TooltipProps> = ({
     const index = clockWisePlacement.indexOf(start);
     if (index === -1) return clockWisePlacement;
 
-    const reordered = [...clockWisePlacement.slice(index + 1), ...clockWisePlacement.slice(0, index)];
+    const reordered = [
+      ...clockWisePlacement.slice(index + 1),
+      ...clockWisePlacement.slice(0, index),
+    ];
     return reordered;
   }
 
@@ -99,11 +104,18 @@ export const Tooltip: React.FC<TooltipProps> = ({
     setCurrentPlacement(resolvedPlacement);
   };
 
-  function getSimulatedRect(triggerRect: DOMRect, tooltipWidth: number, tooltipHeight: number, place: Position) {
+  function getSimulatedRect(
+    triggerRect: DOMRect,
+    tooltipWidth: number,
+    tooltipHeight: number,
+    place: Position,
+  ) {
     const gap = 8;
 
-    const verticalCenter = triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2;
-    const horizontalCenter = triggerRect.top + triggerRect.height / 2 - tooltipHeight / 2;
+    const verticalCenter =
+      triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2;
+    const horizontalCenter =
+      triggerRect.top + triggerRect.height / 2 - tooltipHeight / 2;
 
     switch (place) {
       case 'top':
@@ -233,8 +245,15 @@ export const Tooltip: React.FC<TooltipProps> = ({
     if (trigger === 'onClick') setShow((prev) => !prev);
   };
 
+  const classes = tooltip({
+    wrapper,
+    tooltipContent,
+    title,
+    text,
+  });
+
   return (
-    <Box {...props} className={wrapper}>
+    <Box {...props} className={classes.wrapper}>
       <Box
         ref={triggerRef}
         onMouseEnter={trigger === 'onHover' ? handleMouseEnter : undefined}
@@ -245,17 +264,9 @@ export const Tooltip: React.FC<TooltipProps> = ({
       </Box>
 
       {show && (
-        <Box className={tooltipContent} ref={tooltipRef}>
-          {title && (
-            <Text as="p" textStyle="body-md" bold color={{ base: 'gray.10', _dark: 'gray.90' }}>
-              {title}
-            </Text>
-          )}
-          {text && (
-            <Text as="span" textStyle="body-sm" color={{ base: 'gray.10', _dark: 'gray.90' }}>
-              {text}
-            </Text>
-          )}
+        <Box className={classes.tooltipContent} ref={tooltipRef}>
+          {title && <Text className={classes.title}>{title}</Text>}
+          {text && <Text className={classes.text}>{text}</Text>}
         </Box>
       )}
     </Box>

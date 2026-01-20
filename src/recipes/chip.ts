@@ -92,7 +92,7 @@ export const chipRecipe = defineSlotRecipe({
   base: chipBase,
   variants: {
     size: {
-      default: {
+      md: {
         container: {
           gap: '4',
           h: '24',
@@ -105,7 +105,7 @@ export const chipRecipe = defineSlotRecipe({
           h: '20',
         },
       },
-      small: {
+      sm: {
         container: {
           gap: '2',
           h: '20',
@@ -118,7 +118,7 @@ export const chipRecipe = defineSlotRecipe({
           h: '20',
         },
       },
-      large: {
+      lg: {
         container: {
           gap: '4',
           h: '32',
@@ -141,42 +141,42 @@ export const chipRecipe = defineSlotRecipe({
   },
   compoundVariants: [
     {
-      size: 'default',
+      size: 'md',
       before: true,
       css: {
         container: { ps: '2' },
       },
     },
     {
-      size: 'default',
+      size: 'md',
       after: true,
       css: {
         container: { pe: '2' },
       },
     },
     {
-      size: 'small',
+      size: 'sm',
       before: true,
       css: {
         container: { ps: '2' },
       },
     },
     {
-      size: 'small',
+      size: 'sm',
       after: true,
       css: {
         container: { pe: '2' },
       },
     },
     {
-      size: 'large',
+      size: 'lg',
       before: true,
       css: {
         container: { ps: '4' },
       },
     },
     {
-      size: 'large',
+      size: 'lg',
       after: true,
       css: {
         container: { pe: '4' },
@@ -184,6 +184,6 @@ export const chipRecipe = defineSlotRecipe({
     },
   ],
   defaultVariants: {
-    size: 'default',
+    size: 'md',
   },
 });

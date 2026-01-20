@@ -16,7 +16,7 @@
     "panda:watch": "panda codegen --watch",
     "preview": "vite preview",
     "lint": "eslint .",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 && panda codegen --watch",
     "build-storybook": "storybook build",
     "generate-sprite": "node src/utils/generate-sprite.js",
     "prepublishOnly": "npm run build"

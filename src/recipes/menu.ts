@@ -143,7 +143,7 @@ const menuBase = {
 
 const menuVariants = {
   // Size variants
-  size: {
+  packing: {
     default: {
       menu: { minWidth: '200' },
       menuItem: { py: '8' },
@@ -199,7 +199,7 @@ export const menuRecipe = defineSlotRecipe({
   base: menuBase,
   variants: menuVariants,
   defaultVariants: {
-    size: 'default',
+    packing: 'default',
     indicatorPosition: 'left',
   },
 });

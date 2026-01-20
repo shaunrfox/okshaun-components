@@ -11,7 +11,7 @@ import { HStack, VStack } from '@styled-system/jsx';
  *
  * Features:
  * - Multiple visual appearances (default, primary, subtle, hollow)
- * - Four sizes (small, default, large, xlarge)
+ * - Four sizes (sm, mf, lg, xl)
  * - Icon support via string names (iconBefore, iconAfter)
  * - Loading and disabled states
  * - Auto-renders as anchor when href is provided
@@ -35,7 +35,7 @@ const meta = {
     },
     size: {
       control: 'select',
-      options: ['small', 'default', 'large', 'xlarge'],
+      options: ['sm', 'md', 'lg', 'xl'],
       description: 'Button size',
       table: {
         defaultValue: { summary: 'default' },
@@ -133,7 +133,7 @@ export const Hollow: Story = {
 export const Small: Story = {
   args: {
     children: 'Small',
-    size: 'small',
+    size: 'sm',
   },
 };
 
@@ -153,7 +153,7 @@ export const DefaultSize: Story = {
 export const Large: Story = {
   args: {
     children: 'Large',
-    size: 'large',
+    size: 'lg',
   },
 };
 
@@ -163,7 +163,7 @@ export const Large: Story = {
 export const XLarge: Story = {
   args: {
     children: 'Extra Large',
-    size: 'xlarge',
+    size: 'xl',
   },
 };
 
@@ -173,10 +173,10 @@ export const XLarge: Story = {
 export const AllSizes: Story = {
   render: () => (
     <HStack gap="4" alignItems="center" flexWrap="wrap">
-      <Button size="small">Small</Button>
-      <Button size="default">Default</Button>
-      <Button size="large">Large</Button>
-      <Button size="xlarge">Extra Large</Button>
+      <Button size="sm">Small</Button>
+      <Button size="md">Default</Button>
+      <Button size="lg">Large</Button>
+      <Button size="xl">Extra Large</Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -192,20 +192,29 @@ export const AllSizes: Story = {
 export const AllVariants: Story = {
   render: () => (
     <VStack gap="6" alignItems="flex-start">
-      {(['default', 'primary', 'subtle', 'hollow'] as const).map((appearance) => (
-        <div key={appearance}>
-          <div className={css({ mb: '2', fontSize: 'sm', fontWeight: 'semibold', textTransform: 'capitalize' })}>
-            {appearance}
+      {(['default', 'primary', 'subtle', 'hollow'] as const).map(
+        (appearance) => (
+          <div key={appearance}>
+            <div
+              className={css({
+                mb: '2',
+                fontSize: 'sm',
+                fontWeight: 'semibold',
+                textTransform: 'capitalize',
+              })}
+            >
+              {appearance}
+            </div>
+            <HStack gap="4" flexWrap="wrap" alignItems="center">
+              {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+                <Button key={size} appearance={appearance} size={size}>
+                  {size}
+                </Button>
+              ))}
+            </HStack>
           </div>
-          <HStack gap="4" flexWrap="wrap" alignItems="center">
-            {(['small', 'default', 'large', 'xlarge'] as const).map((size) => (
-              <Button key={size} appearance={appearance} size={size}>
-                {size}
-              </Button>
-            ))}
-          </HStack>
-        </div>
-      ))}
+        ),
+      )}
     </VStack>
   ),
   parameters: { controls: { disable: true } },
@@ -231,10 +240,18 @@ export const Disabled: Story = {
 export const DisabledVariants: Story = {
   render: () => (
     <HStack gap="4" flexWrap="wrap">
-      <Button appearance="default" disabled>Default Disabled</Button>
-      <Button appearance="primary" disabled>Primary Disabled</Button>
-      <Button appearance="subtle" disabled>Subtle Disabled</Button>
-      <Button appearance="hollow" disabled>Hollow Disabled</Button>
+      <Button appearance="default" disabled>
+        Default Disabled
+      </Button>
+      <Button appearance="primary" disabled>
+        Primary Disabled
+      </Button>
+      <Button appearance="subtle" disabled>
+        Subtle Disabled
+      </Button>
+      <Button appearance="hollow" disabled>
+        Hollow Disabled
+      </Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -256,10 +273,18 @@ export const Loading: Story = {
 export const LoadingVariants: Story = {
   render: () => (
     <HStack gap="4" flexWrap="wrap">
-      <Button appearance="default" loading>Default</Button>
-      <Button appearance="primary" loading>Primary</Button>
-      <Button appearance="subtle" loading>Subtle</Button>
-      <Button appearance="hollow" loading>Hollow</Button>
+      <Button appearance="default" loading>
+        Default
+      </Button>
+      <Button appearance="primary" loading>
+        Primary
+      </Button>
+      <Button appearance="subtle" loading>
+        Subtle
+      </Button>
+      <Button appearance="hollow" loading>
+        Hollow
+      </Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -306,10 +331,18 @@ export const WithBothIcons: Story = {
 export const IconVariants: Story = {
   render: () => (
     <HStack gap="4" flexWrap="wrap">
-      <Button appearance="default" iconBefore="plus">Add</Button>
-      <Button appearance="primary" iconBefore="check">Confirm</Button>
-      <Button appearance="subtle" iconBefore="edit">Edit</Button>
-      <Button appearance="hollow" iconAfter="arrow-square-out">Open</Button>
+      <Button appearance="default" iconBefore="plus">
+        Add
+      </Button>
+      <Button appearance="primary" iconBefore="check">
+        Confirm
+      </Button>
+      <Button appearance="subtle" iconBefore="edit">
+        Edit
+      </Button>
+      <Button appearance="hollow" iconAfter="arrow-square-out">
+        Open
+      </Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -321,10 +354,18 @@ export const IconVariants: Story = {
 export const IconSizes: Story = {
   render: () => (
     <HStack gap="4" alignItems="center" flexWrap="wrap">
-      <Button size="small" iconBefore="plus">Small</Button>
-      <Button size="default" iconBefore="plus">Default</Button>
-      <Button size="large" iconBefore="plus">Large</Button>
-      <Button size="xlarge" iconBefore="plus">XLarge</Button>
+      <Button size="sm" iconBefore="plus">
+        Small
+      </Button>
+      <Button size="md" iconBefore="plus">
+        Default
+      </Button>
+      <Button size="lg" iconBefore="plus">
+        Large
+      </Button>
+      <Button size="xl" iconBefore="plus">
+        XLarge
+      </Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -340,10 +381,18 @@ export const IconSizes: Story = {
 export const CustomGap: Story = {
   render: () => (
     <VStack gap="4" alignItems="flex-start">
-      <Button iconBefore="plus" gap="2">Gap 2</Button>
-      <Button iconBefore="plus" gap="4">Gap 4 (default)</Button>
-      <Button iconBefore="plus" gap="6">Gap 6</Button>
-      <Button iconBefore="plus" gap="8">Gap 8</Button>
+      <Button iconBefore="plus" gap="2">
+        Gap 2
+      </Button>
+      <Button iconBefore="plus" gap="4">
+        Gap 4 (default)
+      </Button>
+      <Button iconBefore="plus" gap="6">
+        Gap 6
+      </Button>
+      <Button iconBefore="plus" gap="8">
+        Gap 8
+      </Button>
     </VStack>
   ),
   parameters: { controls: { disable: true } },
@@ -370,10 +419,18 @@ export const AsLink: Story = {
 export const LinkVariants: Story = {
   render: () => (
     <HStack gap="4" flexWrap="wrap">
-      <Button href="#" appearance="default">Default Link</Button>
-      <Button href="#" appearance="primary">Primary Link</Button>
-      <Button href="#" appearance="subtle">Subtle Link</Button>
-      <Button href="#" appearance="hollow" iconAfter="arrow-square-out">External</Button>
+      <Button href="#" appearance="default">
+        Default Link
+      </Button>
+      <Button href="#" appearance="primary">
+        Primary Link
+      </Button>
+      <Button href="#" appearance="subtle">
+        Subtle Link
+      </Button>
+      <Button href="#" appearance="hollow" iconAfter="arrow-square-out">
+        External
+      </Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -390,7 +447,9 @@ export const IconButtons: Story = {
   render: () => (
     <VStack gap="6" alignItems="flex-start">
       <div>
-        <div className={css({ mb: '2', fontSize: 'sm', fontWeight: 'semibold' })}>
+        <div
+          className={css({ mb: '2', fontSize: 'sm', fontWeight: 'semibold' })}
+        >
           IconButton Appearances
         </div>
         <HStack gap="4">
@@ -409,17 +468,19 @@ export const IconButtons: Story = {
         </HStack>
       </div>
       <div>
-        <div className={css({ mb: '2', fontSize: 'sm', fontWeight: 'semibold' })}>
+        <div
+          className={css({ mb: '2', fontSize: 'sm', fontWeight: 'semibold' })}
+        >
           IconButton Sizes
         </div>
         <HStack gap="4" alignItems="center">
-          <IconButton size="small" aria-label="Add">
+          <IconButton size="sm" aria-label="Add">
             <Icon name="plus" />
           </IconButton>
           <IconButton size="default" aria-label="Add">
             <Icon name="plus" />
           </IconButton>
-          <IconButton size="large" aria-label="Add">
+          <IconButton size="lg" aria-label="Add">
             <Icon name="plus" />
           </IconButton>
         </HStack>
@@ -439,7 +500,9 @@ export const IconButtons: Story = {
 export const ActionGroup: Story = {
   render: () => (
     <HStack gap="4">
-      <Button appearance="primary" iconBefore="check">Confirm</Button>
+      <Button appearance="primary" iconBefore="check">
+        Confirm
+      </Button>
       <Button appearance="hollow">Cancel</Button>
     </HStack>
   ),
@@ -454,7 +517,9 @@ export const FormActions: Story = {
     <HStack gap="4" justifyContent="flex-end">
       <Button appearance="subtle">Reset</Button>
       <Button appearance="hollow">Save Draft</Button>
-      <Button appearance="primary" iconAfter="arrow-right">Submit</Button>
+      <Button appearance="primary" iconAfter="arrow-right">
+        Submit
+      </Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -466,8 +531,12 @@ export const FormActions: Story = {
 export const Navigation: Story = {
   render: () => (
     <HStack gap="4" justifyContent="space-between" width="300px">
-      <Button appearance="hollow" iconBefore="arrow-left">Back</Button>
-      <Button appearance="primary" iconAfter="arrow-right">Next</Button>
+      <Button appearance="hollow" iconBefore="arrow-left">
+        Back
+      </Button>
+      <Button appearance="primary" iconAfter="arrow-right">
+        Next
+      </Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -479,9 +548,15 @@ export const Navigation: Story = {
 export const CrudActions: Story = {
   render: () => (
     <HStack gap="3" flexWrap="wrap">
-      <Button appearance="primary" size="small" iconBefore="plus">Create</Button>
-      <Button appearance="hollow" size="small" iconBefore="edit">Edit</Button>
-      <Button appearance="subtle" size="small" iconBefore="trash">Delete</Button>
+      <Button appearance="primary" size="sm" iconBefore="plus">
+        Create
+      </Button>
+      <Button appearance="hollow" size="sm" iconBefore="edit">
+        Edit
+      </Button>
+      <Button appearance="subtle" size="sm" iconBefore="trash">
+        Delete
+      </Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -493,8 +568,12 @@ export const CrudActions: Story = {
 export const FormSubmitting: Story = {
   render: () => (
     <HStack gap="4">
-      <Button appearance="hollow" disabled>Cancel</Button>
-      <Button appearance="primary" loading>Saving...</Button>
+      <Button appearance="hollow" disabled>
+        Cancel
+      </Button>
+      <Button appearance="primary" loading>
+        Saving...
+      </Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -509,7 +588,8 @@ export const FormSubmitting: Story = {
  */
 export const LongText: Story = {
   args: {
-    children: 'This is a button with extremely long text content that might cause layout issues',
+    children:
+      'This is a button with extremely long text content that might cause layout issues',
   },
 };
 

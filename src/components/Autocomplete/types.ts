@@ -22,6 +22,8 @@ export type AutocompleteProps = MenuVariantProps & {
   value: string;
   /** Callback when input value changes */
   onChange: (value: string) => void;
+  /** Size of the input */
+  size: 'sm' | 'md' | 'lg' | 'xl';
   /** Available options to filter and display */
   options: AutocompleteOption[];
   /** Callback when an option is selected */
@@ -43,5 +45,8 @@ export type AutocompleteProps = MenuVariantProps & {
   /** Message to show when no options match */
   noResultsMessage?: string;
   /** Props to pass to the TextInput */
-  inputProps?: Omit<TextInputProps, 'name' | 'value' | 'onChange' | 'disabled' | 'error' | 'id'>;
+  inputProps?: Omit<
+    TextInputProps,
+    'name' | 'value' | 'onChange' | 'disabled' | 'error' | 'id'
+  >;
 };

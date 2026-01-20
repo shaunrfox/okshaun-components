@@ -146,7 +146,7 @@ export const buttonRecipe = defineSlotRecipe({
   variants: {
     ...buttonVariants,
     size: {
-      default: {
+      md: {
         container: {
           fontSize: '16',
           py: '3',
@@ -157,7 +157,7 @@ export const buttonRecipe = defineSlotRecipe({
           h: '24',
         },
       },
-      xlarge: {
+      xl: {
         container: {
           fontSize: '20',
           py: '9',
@@ -168,7 +168,7 @@ export const buttonRecipe = defineSlotRecipe({
           h: '28',
         },
       },
-      large: {
+      lg: {
         container: {
           fontSize: '16',
           py: '7',
@@ -179,7 +179,7 @@ export const buttonRecipe = defineSlotRecipe({
           h: '24',
         },
       },
-      small: {
+      sm: {
         container: {
           fontSize: '14',
           py: '1',
@@ -200,56 +200,56 @@ export const buttonRecipe = defineSlotRecipe({
   },
   compoundVariants: [
     {
-      size: 'default',
+      size: 'md',
       iconBefore: true,
       css: {
         container: { ps: '3' },
       },
     },
     {
-      size: 'default',
+      size: 'md',
       iconAfter: true,
       css: {
         container: { pe: '3' },
       },
     },
     {
-      size: 'small',
+      size: 'sm',
       iconBefore: true,
       css: {
         container: { ps: '2' },
       },
     },
     {
-      size: 'small',
+      size: 'sm',
       iconAfter: true,
       css: {
         container: { pe: '2' },
       },
     },
     {
-      size: 'large',
+      size: 'lg',
       iconBefore: true,
       css: {
         container: { ps: '5' },
       },
     },
     {
-      size: 'large',
+      size: 'lg',
       iconAfter: true,
       css: {
         container: { pe: '5' },
       },
     },
     {
-      size: 'xlarge',
+      size: 'xl',
       iconBefore: true,
       css: {
         container: { ps: '7' },
       },
     },
     {
-      size: 'xlarge',
+      size: 'xl',
       iconAfter: true,
       css: {
         container: { pe: '7' },
@@ -258,7 +258,7 @@ export const buttonRecipe = defineSlotRecipe({
   ],
   defaultVariants: {
     appearance: 'default',
-    size: 'default',
+    size: 'md',
   },
 });
 
@@ -270,7 +270,7 @@ export const iconButtonRecipe = defineSlotRecipe({
   variants: {
     ...buttonVariants,
     size: {
-      default: {
+      md: {
         container: {
           fontSize: '16',
           p: '3',
@@ -280,17 +280,7 @@ export const iconButtonRecipe = defineSlotRecipe({
           h: '24',
         },
       },
-      large: {
-        container: {
-          fontSize: '16',
-          p: '7',
-        },
-        icon: {
-          w: '24',
-          h: '24',
-        },
-      },
-      small: {
+      sm: {
         container: {
           fontSize: '14',
           p: '1',
@@ -300,10 +290,30 @@ export const iconButtonRecipe = defineSlotRecipe({
           h: '22',
         },
       },
+      lg: {
+        container: {
+          fontSize: '16',
+          p: '7',
+        },
+        icon: {
+          w: '24',
+          h: '24',
+        },
+      },
+      xl: {
+        container: {
+          fontSize: '20',
+          p: '9',
+        },
+        icon: {
+          w: '28',
+          h: '28',
+        },
+      },
     },
   },
   defaultVariants: {
     appearance: 'default',
-    size: 'default',
+    size: 'md',
   },
 });

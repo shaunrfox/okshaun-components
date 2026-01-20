@@ -11,9 +11,9 @@ import { NumericSizeToken } from '@styled-system/tokens';
 
 // Map chip sizes to icon sizes (for internal icons like check/x)
 const chipSizeToIconSize: Record<string, AllowedIconSizes> = {
-  small: '20',
-  default: '20',
-  large: '24',
+  sm: '20',
+  md: '20',
+  lg: '24',
 };
 
 export type ChipProps = BoxProps &

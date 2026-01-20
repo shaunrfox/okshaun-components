@@ -11,12 +11,12 @@ const dividerBase = {
 const dividerVariants = {
   direction: {
     horizontal: {
-      width: 'full',
+      width: 'stretch',
       borderTopStyle: 'solid',
       borderTopWidth: 'var(--divider-weight)',
     },
     vertical: {
-      height: 'full',
+      height: 'stretch',
       borderLeftStyle: 'solid',
       borderLeftWidth: 'var(--divider-weight)',
     },

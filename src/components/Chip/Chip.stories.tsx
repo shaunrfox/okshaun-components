@@ -25,7 +25,7 @@ const meta: Meta<typeof Chip> = {
   argTypes: {
     size: {
       control: 'select',
-      options: ['default', 'small', 'large'],
+      options: ['md', 'sm', 'lg'],
       description: 'Size variant of the chip',
     },
     before: {
@@ -75,9 +75,9 @@ export const Default: Story = {
 export const Sizes: Story = {
   render: () => (
     <Flex gap="4" alignItems="center">
-      <Chip size="small">Small</Chip>
-      <Chip size="default">Default</Chip>
-      <Chip size="large">Large</Chip>
+      <Chip size="sm">Small</Chip>
+      <Chip size="md">Default</Chip>
+      <Chip size="lg">Large</Chip>
     </Flex>
   ),
 };
@@ -91,7 +91,7 @@ export const WithBefore: Story = {
     <Flex gap="4" flexDir="column" alignItems="center">
       <Flex gap="4" alignItems="center">
         <Chip
-          size="small"
+          size="sm"
           before={<Badge count="2" size="sm" appearance="success" />}
         >
           Small
@@ -99,13 +99,13 @@ export const WithBefore: Story = {
         <Chip size="default" before={<Badge count="30" appearance="neutral" />}>
           Default
         </Chip>
-        <Chip size="large" before={<Badge count="100" size="lg" />}>
+        <Chip size="lg" before={<Badge count="100" size="lg" />}>
           Large
         </Chip>
       </Flex>
       <Flex gap="4" alignItems="center">
         <Chip
-          size="small"
+          size="sm"
           before={<Avatar size="xs" src={sampleImages.user1} name="John Doe" />}
         >
           Small
@@ -117,20 +117,20 @@ export const WithBefore: Story = {
           Default
         </Chip>
         <Chip
-          size="large"
+          size="lg"
           before={<Avatar src={sampleImages.user1} name="John Doe" />}
         >
           Large
         </Chip>
       </Flex>
       <Flex gap="4" alignItems="center">
-        <Chip size="small" before={<Icon name="file" size="20" />}>
+        <Chip size="sm" before={<Icon name="file" size="20" />}>
           Small
         </Chip>
         <Chip size="default" before={<Icon name="file" size="20" />}>
           Default
         </Chip>
-        <Chip size="large" before={<Icon name="file" size="24" />}>
+        <Chip size="lg" before={<Icon name="file" size="24" />}>
           Large
         </Chip>
       </Flex>
@@ -141,13 +141,13 @@ export const WithBefore: Story = {
 export const WithAfter: Story = {
   render: () => (
     <Flex gap="4" alignItems="center">
-      <Chip size="small" after={<Icon name="x" size="20" />}>
+      <Chip size="sm" after={<Icon name="x" size="20" />}>
         Small
       </Chip>
       <Chip size="default" after={<Icon name="x" size="20" />}>
         Default
       </Chip>
-      <Chip size="large" after={<Icon name="x" size="24" />}>
+      <Chip size="lg" after={<Icon name="x" size="24" />}>
         Large
       </Chip>
     </Flex>
@@ -158,7 +158,7 @@ export const WithBeforeAndAfter: Story = {
   render: () => (
     <Flex gap="4" alignItems="center">
       <Chip
-        size="small"
+        size="sm"
         before={<Icon name="user" size="20" />}
         after={<Icon name="x" size="20" />}
       >
@@ -172,7 +172,7 @@ export const WithBeforeAndAfter: Story = {
         Default
       </Chip>
       <Chip
-        size="large"
+        size="lg"
         before={<Icon name="user" size="24" />}
         after={<Icon name="x" size="24" />}
       >
@@ -260,21 +260,21 @@ export const SizesMatrix: Story = {
       <Flex flexDir="column" gap="2">
         <Text fontWeight="600">No Content Before/After</Text>
         <Flex gap="4" alignItems="center">
-          <Chip size="small">Small</Chip>
-          <Chip size="default">Default</Chip>
-          <Chip size="large">Large</Chip>
+          <Chip size="sm">Small</Chip>
+          <Chip size="md">Default</Chip>
+          <Chip size="lg">Large</Chip>
         </Flex>
       </Flex>
       <Flex flexDir="column" gap="2">
         <Text fontWeight="600">With Before</Text>
         <Flex gap="4" alignItems="center">
-          <Chip size="small" before={<Icon name="file" size="20" />}>
+          <Chip size="sm" before={<Icon name="file" size="20" />}>
             Small
           </Chip>
           <Chip size="default" before={<Icon name="file" size="20" />}>
             Default
           </Chip>
-          <Chip size="large" before={<Icon name="file" size="24" />}>
+          <Chip size="lg" before={<Icon name="file" size="24" />}>
             Large
           </Chip>
         </Flex>
@@ -282,13 +282,13 @@ export const SizesMatrix: Story = {
       <Flex flexDir="column" gap="2">
         <Text fontWeight="600">With After</Text>
         <Flex gap="4" alignItems="center">
-          <Chip size="small" after={<Icon name="x" size="20" />}>
+          <Chip size="sm" after={<Icon name="x" size="20" />}>
             Small
           </Chip>
           <Chip size="default" after={<Icon name="x" size="20" />}>
             Default
           </Chip>
-          <Chip size="large" after={<Icon name="x" size="24" />}>
+          <Chip size="lg" after={<Icon name="x" size="24" />}>
             Large
           </Chip>
         </Flex>
@@ -297,7 +297,7 @@ export const SizesMatrix: Story = {
         <Text fontWeight="600">With Before and After</Text>
         <Flex gap="4" alignItems="center">
           <Chip
-            size="small"
+            size="sm"
             before={<Icon name="user" size="20" />}
             after={<Icon name="x" size="20" />}
           >
@@ -311,7 +311,7 @@ export const SizesMatrix: Story = {
             Default
           </Chip>
           <Chip
-            size="large"
+            size="lg"
             before={<Icon name="user" size="24" />}
             after={<Icon name="x" size="24" />}
           >
@@ -456,10 +456,10 @@ const SingleSelectExample = () => {
         onChange={(value) => setSelected(value as string)}
         label="Size selection"
       >
-        <Chip value="small">Small</Chip>
-        <Chip value="medium">Medium</Chip>
-        <Chip value="large">Large</Chip>
-        <Chip value="xlarge">X-Large</Chip>
+        <Chip value="sm">Small</Chip>
+        <Chip value="md">Medium</Chip>
+        <Chip value="lg">Large</Chip>
+        <Chip value="xl">X-Large</Chip>
       </ChipGroup>
       <Text color="text.muted">Selected: {selected}</Text>
     </Flex>

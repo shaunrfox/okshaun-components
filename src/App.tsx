@@ -294,7 +294,7 @@ function AppContent() {
                 <IconButton iconName="arrow-left" />
                 <IconButton
                   appearance="primary"
-                  size="large"
+                  size="lg"
                   iconName="arrow-right"
                 />
               </HStack>
@@ -405,7 +405,7 @@ function AppContent() {
             <Heading level="h2">Spinner</Heading>
             <HStack gap={'40'} alignItems={'flex-end'}>
               <VStack>
-                <Spinner size="small" />
+                <Spinner size="sm" />
                 <Text>Small</Text>
               </VStack>
               <VStack>
@@ -413,7 +413,7 @@ function AppContent() {
                 <Text>Standard</Text>
               </VStack>
               <VStack>
-                <Spinner size="large" />
+                <Spinner size="lg" />
                 <Text>Large</Text>
               </VStack>
             </HStack>
@@ -631,7 +631,7 @@ function AppContent() {
                   <TextInput
                     id="name-input"
                     name="name"
-                    size="small"
+                    size="sm"
                     placeholder="Enter your name"
                   />
                 </VStack>
@@ -640,7 +640,7 @@ function AppContent() {
                   <TextInput
                     id="name-input"
                     name="name"
-                    size="large"
+                    size="lg"
                     placeholder="Enter your real name"
                   />
                 </VStack>
@@ -672,7 +672,7 @@ function AppContent() {
                   <Textarea
                     id="stuff"
                     name="stuff"
-                    size="small"
+                    size="sm"
                     placeholder="Enter your stuff"
                   />
                 </VStack>
@@ -681,7 +681,7 @@ function AppContent() {
                   <Textarea
                     id="stuff"
                     name="stuff"
-                    size="large"
+                    size="lg"
                     placeholder="Enter your stuff"
                   />
                 </VStack>

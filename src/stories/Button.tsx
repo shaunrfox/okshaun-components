@@ -8,7 +8,7 @@ export interface ButtonProps {
   /** What background color to use */
   backgroundColor?: string;
   /** How large should the button be? */
-  size?: 'small' | 'medium' | 'large';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   /** Button contents */
   label: string;
   /** Optional click handler */
@@ -18,7 +18,7 @@ export interface ButtonProps {
 /** Primary UI component for user interaction */
 export const Button = ({
   primary = false,
-  size = 'medium',
+  size = 'md',
   backgroundColor,
   label,
   ...props

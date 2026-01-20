@@ -83,40 +83,48 @@ const selectBase = {
 
 const selectVariants = {
   size: {
-    compact: {
+    md: {
       trigger: {
-        py: '4',
-        px: '8',
-        fontSize: '14',
-        minHeight: '32',
-      },
-      icon: {
-        w: '16',
-        h: '16',
-      },
-    },
-    default: {
-      trigger: {
-        py: '8',
+        py: '3',
         px: '12',
         fontSize: '16',
-        minHeight: '40',
-      },
-      icon: {
-        w: '20',
-        h: '20',
-      },
-    },
-    comfortable: {
-      trigger: {
-        py: '12',
-        px: '16',
-        fontSize: '16',
-        minHeight: '48',
       },
       icon: {
         w: '24',
         h: '24',
+      },
+    },
+    xl: {
+      trigger: {
+        py: '9',
+        px: '16',
+        fontSize: '20',
+      },
+      icon: {
+        w: '28',
+        h: '28',
+      },
+    },
+    lg: {
+      trigger: {
+        py: '7',
+        px: '14',
+        fontSize: '16',
+      },
+      icon: {
+        w: '24',
+        h: '24',
+      },
+    },
+    sm: {
+      trigger: {
+        py: '1',
+        px: '8',
+        fontSize: '14',
+      },
+      icon: {
+        w: '22',
+        h: '22',
       },
     },
   },
@@ -129,6 +137,6 @@ export const selectRecipe = defineSlotRecipe({
   base: selectBase,
   variants: selectVariants,
   defaultVariants: {
-    size: 'default',
+    size: 'md',
   },
 });

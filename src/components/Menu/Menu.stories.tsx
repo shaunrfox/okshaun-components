@@ -34,8 +34,14 @@ export const ActionDefault: Story = {
           <Button>Open Menu</Button>
         </MenuTrigger>
         <MenuItem label="Edit" onSelect={() => console.log('Edit clicked')} />
-        <MenuItem label="Duplicate" onSelect={() => console.log('Duplicate clicked')} />
-        <MenuItem label="Delete" onSelect={() => console.log('Delete clicked')} />
+        <MenuItem
+          label="Duplicate"
+          onSelect={() => console.log('Duplicate clicked')}
+        />
+        <MenuItem
+          label="Delete"
+          onSelect={() => console.log('Delete clicked')}
+        />
       </Menu>
     );
   },
@@ -67,9 +73,21 @@ export const ActionWithRightIcon: Story = {
         <MenuTrigger>
           <Button>Navigate</Button>
         </MenuTrigger>
-        <MenuItem label="Settings" iconRight="chevron-right" onSelect={() => {}} />
-        <MenuItem label="Profile" iconRight="chevron-right" onSelect={() => {}} />
-        <MenuItem label="Help" iconRight="arrow-square-out" onSelect={() => {}} />
+        <MenuItem
+          label="Settings"
+          iconRight="chevron-right"
+          onSelect={() => {}}
+        />
+        <MenuItem
+          label="Profile"
+          iconRight="chevron-right"
+          onSelect={() => {}}
+        />
+        <MenuItem
+          label="Help"
+          iconRight="arrow-square-out"
+          onSelect={() => {}}
+        />
       </Menu>
     );
   },
@@ -263,7 +281,9 @@ export const SingleSelectWithIcons: Story = {
 export const MultiSelectCheckbox: Story = {
   render: () => {
     const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState<Set<string>>(new Set(['name', 'date']));
+    const [selected, setSelected] = useState<Set<string>>(
+      new Set(['name', 'date']),
+    );
 
     const toggleSelection = (value: string) => {
       setSelected((prev) => {
@@ -387,13 +407,33 @@ export const WithGroups: Story = {
           <Button>User Menu</Button>
         </MenuTrigger>
         <MenuGroup label="Account">
-          <MenuItem label="Profile" iconLeft="user" onSelect={() => {}} index={0} />
-          <MenuItem label="Settings" iconLeft="settings" onSelect={() => {}} index={1} />
+          <MenuItem
+            label="Profile"
+            iconLeft="user"
+            onSelect={() => {}}
+            index={0}
+          />
+          <MenuItem
+            label="Settings"
+            iconLeft="settings"
+            onSelect={() => {}}
+            index={1}
+          />
         </MenuGroup>
         <MenuDivider />
         <MenuGroup label="Actions">
-          <MenuItem label="Help" iconLeft="help" onSelect={() => {}} index={2} />
-          <MenuItem label="Log Out" iconLeft="arrow-square-out" onSelect={() => {}} index={3} />
+          <MenuItem
+            label="Help"
+            iconLeft="help"
+            onSelect={() => {}}
+            index={2}
+          />
+          <MenuItem
+            label="Log Out"
+            iconLeft="arrow-square-out"
+            onSelect={() => {}}
+            index={3}
+          />
         </MenuGroup>
       </Menu>
     );
@@ -409,12 +449,27 @@ export const WithDividers: Story = {
         <MenuTrigger>
           <Button>File</Button>
         </MenuTrigger>
-        <MenuItem label="New" iconLeft="file-add" onSelect={() => {}} index={0} />
+        <MenuItem
+          label="New"
+          iconLeft="file-add"
+          onSelect={() => {}}
+          index={0}
+        />
         <MenuItem label="Open" iconLeft="file" onSelect={() => {}} index={1} />
         <MenuItem label="Save" onSelect={() => {}} index={2} />
         <MenuDivider />
-        <MenuItem label="Export" iconLeft="export" onSelect={() => {}} index={3} />
-        <MenuItem label="Print" iconLeft="printer" onSelect={() => {}} index={4} />
+        <MenuItem
+          label="Export"
+          iconLeft="export"
+          onSelect={() => {}}
+          index={3}
+        />
+        <MenuItem
+          label="Print"
+          iconLeft="printer"
+          onSelect={() => {}}
+          index={4}
+        />
         <MenuDivider />
         <MenuItem label="Close" onSelect={() => {}} index={5} />
       </Menu>
@@ -437,10 +492,28 @@ export const WithDisabledItems: Story = {
         </MenuTrigger>
         <MenuItem label="Cut" iconLeft="cut" onSelect={() => {}} index={0} />
         <MenuItem label="Copy" iconLeft="copy" onSelect={() => {}} index={1} />
-        <MenuItem label="Paste" iconLeft="clipboard" disabled onSelect={() => {}} index={2} />
+        <MenuItem
+          label="Paste"
+          iconLeft="clipboard"
+          disabled
+          onSelect={() => {}}
+          index={2}
+        />
         <MenuDivider />
-        <MenuItem label="Undo" iconLeft="arrow-undo" disabled onSelect={() => {}} index={3} />
-        <MenuItem label="Redo" iconLeft="arrow-redo" disabled onSelect={() => {}} index={4} />
+        <MenuItem
+          label="Undo"
+          iconLeft="arrow-undo"
+          disabled
+          onSelect={() => {}}
+          index={3}
+        />
+        <MenuItem
+          label="Redo"
+          iconLeft="arrow-redo"
+          disabled
+          onSelect={() => {}}
+          index={4}
+        />
       </Menu>
     );
   },
@@ -498,7 +571,7 @@ export const SizeCompact: Story = {
     return (
       <Menu open={open} onOpenChange={setOpen} size="compact">
         <MenuTrigger>
-          <Button size="small">Compact Menu</Button>
+          <Button size="sm">Compact Menu</Button>
         </MenuTrigger>
         <MenuItem label="Option 1" onSelect={() => {}} index={0} />
         <MenuItem label="Option 2" onSelect={() => {}} index={1} />
@@ -515,7 +588,7 @@ export const SizeComfortable: Story = {
     return (
       <Menu open={open} onOpenChange={setOpen} size="comfortable">
         <MenuTrigger>
-          <Button size="large">Comfortable Menu</Button>
+          <Button size="lg">Comfortable Menu</Button>
         </MenuTrigger>
         <MenuItem
           label="Option 1"
@@ -601,7 +674,11 @@ export const PlacementVariants: Story = {
           <MenuItem label="Item 2" onSelect={() => {}} />
         </Menu>
 
-        <Menu open={openBottom} onOpenChange={setOpenBottom} placement="bottom-end">
+        <Menu
+          open={openBottom}
+          onOpenChange={setOpenBottom}
+          placement="bottom-end"
+        >
           <MenuTrigger>
             <Button>Bottom End</Button>
           </MenuTrigger>
@@ -617,7 +694,11 @@ export const PlacementVariants: Story = {
           <MenuItem label="Item 2" onSelect={() => {}} />
         </Menu>
 
-        <Menu open={openRight} onOpenChange={setOpenRight} placement="right-start">
+        <Menu
+          open={openRight}
+          onOpenChange={setOpenRight}
+          placement="right-start"
+        >
           <MenuTrigger>
             <Button>Right Start</Button>
           </MenuTrigger>
@@ -637,7 +718,9 @@ export const KitchenSink: Story = {
   render: () => {
     const [open, setOpen] = useState(false);
     const [view, setView] = useState<string>('grid');
-    const [columns, setColumns] = useState<Set<string>>(new Set(['name', 'date']));
+    const [columns, setColumns] = useState<Set<string>>(
+      new Set(['name', 'date']),
+    );
 
     const toggleColumn = (col: string) => {
       setColumns((prev) => {
