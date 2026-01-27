@@ -6,19 +6,15 @@ import { textarea, type TextareaVariantProps } from '@styled-system/recipes';
 export type TextareaProps = Omit<BoxProps, keyof TextareaVariantProps> &
   TextareaVariantProps & {
     name: string;
+    autoSize?: boolean;
     error?: boolean;
+    disabled?: boolean;
     id?: string;
   };
 
-export const Textarea: React.FC<TextareaProps> = ({
-  size,
-  error,
-  id,
-  name,
-  disabled,
-  ...props
-}: TextareaProps) => {
-  const [className, otherProps] = splitProps(props);
+export const Textarea = (props: TextareaProps) => {
+  const { size, error, autoSize = false, id, name, disabled, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
   return (
     <Box
       as="textarea"
@@ -26,7 +22,7 @@ export const Textarea: React.FC<TextareaProps> = ({
       name={name}
       {...(error && { 'data-error': true })}
       aria-disabled={disabled}
-      className={cx(textarea({ size }), className)}
+      className={cx(textarea({ size, autoSize }), className)}
       {...otherProps}
     />
   );

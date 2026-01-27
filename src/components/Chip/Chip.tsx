@@ -16,7 +16,7 @@ const chipSizeToIconSize: Record<string, AllowedIconSizes> = {
   lg: '24',
 };
 
-export type ChipProps = BoxProps &
+export type ChipProps = Omit<BoxProps, keyof ChipVariantProps> &
   Omit<ChipVariantProps, 'before' | 'after'> & {
     children: string | ReactNode;
     /** Content to render before the label (e.g., Icon, Avatar) */
@@ -32,22 +32,23 @@ export type ChipProps = BoxProps &
     gap?: NumericSizeToken;
   };
 
-export const Chip: React.FC<ChipProps> = ({
-  size = 'default',
-  children,
-  loading,
-  disabled,
-  deleted,
-  before,
-  after,
-  dismissable,
-  onDismiss,
-  value,
-  gap,
-  onClick,
-  ...props
-}) => {
-  const [className, otherProps] = splitProps(props);
+export const Chip = (props: ChipProps) => {
+  const {
+    size = 'md',
+    children,
+    loading,
+    disabled,
+    deleted,
+    before,
+    after,
+    dismissable,
+    onDismiss,
+    value,
+    gap,
+    onClick,
+    ...rest
+  } = props;
+  const [className, otherProps] = splitProps(rest);
   const groupContext = useChipGroup();
   const buttonRef = useRef<HTMLButtonElement>(null);
 

@@ -64,7 +64,6 @@ export {
   MenuListItem,
   MenuListDivider,
   MenuListGroup,
-  useMenuContext,
   type MenuProps,
   type MenuTriggerProps,
   type MenuItemProps,
@@ -77,33 +76,68 @@ export {
   type MenuListDividerProps,
   type MenuListGroupProps,
 } from './components/Menu';
+export {
+  useMenuContext,
+  type MenuContext,
+} from './components/Menu/MenuContext';
 export { Dropdown, type DropdownProps } from './components/Dropdown';
 export {
   Select,
   SelectOption,
   SelectTrigger,
-  useSelectContext,
   type SelectProps,
   type SelectOptionProps,
   type SelectTriggerProps,
-  type SelectContextValue,
 } from './components/Select';
+export {
+  useSelectContext,
+  type SelectContext,
+} from './components/Select/SelectContext';
 export {
   Autocomplete,
   type AutocompleteProps,
   type AutocompleteOption,
 } from './components/Autocomplete';
-
 export { ThemeSwitcher } from './components/ThemeSwitcher';
-export { ThemeProvider, useTheme, type Theme } from './contexts/ThemeContext';
+export { ThemeProvider } from './contexts/ThemeProvider';
+export { useTheme, type Theme } from './contexts/ThemeContext';
 export { BreakpointIndicator } from './components/BreakpointIndicator';
-export { Modal, ModalHeader, ModalBody, ModalFooter } from './components/Modal';
 export {
-  useModalContext,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   type ModalProps,
   type ModalHeaderProps,
   type ModalBodyProps,
   type ModalFooterProps,
-} from './components/Modal/exports';
+} from './components/Modal';
+export {
+  useModalContext,
+  type ModalContext,
+} from './components/Modal/ModalContext';
+export { FormField, type FormFieldProps } from './components/FormField';
+
 export { splitProps } from './utils/splitProps';
 export { useMediaQuery, useContainerQuery } from './hooks';
+
+// Export the Panda CSS preset
+export { okshaunPreset } from './preset';
+
+// Load minimal Panda helper type shims for declaration output (used during build)
+import './types/panda-augment';
+export type {
+  RecipeVariantRecord,
+  RecipeConfig,
+  SlotRecipeVariantRecord,
+  SlotRecipeConfig,
+  SystemStyleObject,
+  GlobalStyleObject,
+  CompositionStyles,
+  PatternProperties,
+  PatternConfig,
+  Parts,
+  TextStyles,
+  AnimationStyles,
+  LayerStyles,
+} from './types/panda-augment';

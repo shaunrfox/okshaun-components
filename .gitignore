@@ -32,7 +32,7 @@ storybook-static
 *storybook.log
 
 ## Panda
-styled-system
+src/styled-system
 styled-system-studio
 
 ## Auto-generated sprite

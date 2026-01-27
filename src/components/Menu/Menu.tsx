@@ -13,28 +13,49 @@ import {
   autoUpdate,
   FloatingPortal,
   FloatingFocusManager,
+  Placement,
 } from '@floating-ui/react';
-import { Box } from '../Box';
-import { menu as menuRecipe } from '@styled-system/recipes';
+import { Box, type BoxProps } from '../Box';
+import {
+  menu as menuRecipe,
+  type MenuVariantProps,
+} from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
 import { MenuContext } from './MenuContext';
 import { MenuTrigger } from './MenuTrigger';
-import type { MenuProps, MenuContextValue } from './types';
+import { type MenuContextValue } from './MenuContext';
 
-export const Menu: React.FC<MenuProps> = ({
-  open,
-  onOpenChange,
-  placement = 'bottom-start',
-  offset = 4,
-  children,
-  id,
-  size,
-  indicatorPosition,
-  ...props
-}) => {
-  const [className, otherProps] = splitProps(props);
-  const classes = menuRecipe({ size, indicatorPosition });
+export type MenuProps = Omit<BoxProps, keyof MenuVariantProps> &
+  MenuVariantProps & {
+    /** Controlled open state (REQUIRED) */
+    open: boolean;
+    /** Callback when open state should change (REQUIRED) */
+    onOpenChange: (open: boolean) => void;
+    /** Floating UI placement */
+    placement?: Placement;
+    /** Offset distance from trigger (in pixels) */
+    offset?: number;
+    /** Children (MenuTrigger, MenuItem, MenuGroup, etc.) */
+    children: React.ReactNode;
+    /** Optional ID for ARIA attributes */
+    id?: string;
+  };
+
+export const Menu = (props: MenuProps) => {
+  const {
+    open,
+    onOpenChange,
+    placement = 'bottom-start',
+    offset = 4,
+    children,
+    id,
+    packing,
+    indicatorPosition,
+    ...rest
+  } = props;
+  const [className, otherProps] = splitProps(rest);
+  const classes = menuRecipe({ packing, indicatorPosition });
 
   // List navigation state
   const [activeIndex, setActiveIndex] = useState<number | null>(null);

@@ -1,0 +1,85 @@
+import { Meta, Unstyled } from '@storybook/blocks';
+import { Box } from '../../components/Box';
+import { Heading } from '../../components/Heading';
+import { Text } from '../../components/Text';
+import { VStack, HStack, Grid, Flex } from '@styled-system/jsx';
+import { Link } from '../../components/Link';
+import { Divider } from '../../components/Divider';
+import { Icon } from '../../components/Icon';
+
+<Meta title="Tokens/Overview" />
+
+<Unstyled>
+<Flex direction="column" gap="16">
+<Heading level="h1">Design Tokens Overview</Heading>
+
+<Text maxW="prose" display="inline-block">Welcome to the Cetec Design System token library. This overview provides a high-level view of all available design tokens, organized by category.</Text>
+
+<Divider weight="thick" color="border" my="32" />
+
+<Heading level="h3">How Tokens Work</Heading>
+
+  <Grid columns={2} gap="24" alignItems="flex-start">
+    <Box p="16" border="default" rounded="16">
+      <Heading level="h4" textStyle="body.lg" fontWeight="bold" color="text">Primitive Tokens</Heading>
+      <Text>Raw design values defined in `src/styles/primitives/`. These are the foundation and don't change based on theme.</Text>
+    </Box>
+
+    <Box p="16" border="default" rounded="16">
+      <Heading level="h4" textStyle="body.lg" fontWeight="bold" color="text">Semantic Tokens</Heading>
+      <Text>Theme-aware tokens defined in `src/styles/semantics/`. These reference primitive tokens and automatically switch values for light/dark themes.</Text>
+    </Box>
+  </Grid>
+
+<Divider weight="thick" color="border" my="32" />
+
+<Heading level="h3">Token Categories</Heading>
+
+<Grid columns={2} gap="24">
+  <Box p="16" border="default" rounded="16">
+    <Text textStyle="body.lg" fontWeight="bold" color="text">Colors</Text>
+    <Text>Base color palettes and semantic color tokens that adapt to light/dark themes.</Text>
+    <Link href="/?path=/docs/tokens-colors--docs">View Colors</Link>
+  </Box>
+
+  <Box p="16" border="default" rounded="16">
+    <Text textStyle="body.lg" fontWeight="bold" color="text">Typography</Text>
+    <Text>Font families, sizes, weights, and complete text styles for headings and body text.</Text>
+    <Link href="/?path=/docs/tokens-typography--docs">View Typography</Link>
+  </Box>
+
+  <Box p="16" border="default" rounded="16">
+    <Text textStyle="body.lg" fontWeight="bold" color="text">Spacing & Sizing</Text>
+    <Text>Spacing scales, container sizes, and sizing tokens for consistent layouts.</Text>
+    <Link href="/?path=/docs/tokens-spacing-sizing--docs">View Spacing</Link>
+  </Box>
+
+  <Box p="16" border="default" rounded="16">
+    <Text textStyle="body.lg" fontWeight="bold" color="text">Shadows</Text>
+    <Text>Elevation shadows and semantic shadow tokens that adapt to light/dark themes.</Text>
+    <Link href="/?path=/docs/tokens-shadows--docs">View Shadows</Link>
+  </Box>
+</Grid>
+
+<Divider weight="thick" color="border" my="32" />
+
+<Heading level="h3">Best Practices</Heading>
+
+  <Grid gridTemplateColumns="auto auto 1fr" gap="12" alignItems="flex-start">
+    <Icon name="check" />
+    <Text fontWeight="bold" color="text">Use semantic tokens</Text>
+    <Text>Prefer `bg.surface.default` over raw color values for theme compatibility</Text>
+    <Icon name="check" />
+    <Text fontWeight="bold" color="text">Follow spacing scale</Text>
+    <Text>Use predefined spacing values (4, 8, 16, 24, etc.) instead of arbitrary values</Text>
+    <Icon name="check" />
+    <Text fontWeight="bold" color="text">Use text styles</Text>
+    <Text>Choose appropriate `textStyle.*` tokens for consistent typography hierarchy</Text>
+    <Icon name="check" />
+    <Text fontWeight="bold" color="text">Test in both themes</Text>
+    <Text>Semantic tokens automatically adapt, but verify the result looks good in light and dark modes</Text>
+  </Grid>
+
+  <Divider weight="thick" color="border" my="32" />
+</Flex>
+</Unstyled>

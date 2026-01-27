@@ -33,7 +33,7 @@ export default function useContainerQuery(
 ): boolean {
   // Memoize the query string based on size and direction
   const query = useMemo(() => {
-    const sizeValue = containerSizes[size].value;
+    const sizeValue = containerSizes[size];
     const sizeNum = parseFloat(sizeValue);
 
     return direction === 'min'
@@ -50,7 +50,7 @@ export default function useContainerQuery(
       }
 
       const element = containerRef.current;
-      const sizeValue = containerSizes[size].value;
+      const sizeValue = containerSizes[size];
       const sizeNum = parseFloat(sizeValue);
       const threshold = direction === 'min' ? sizeNum : sizeNum - 0.0625;
 
@@ -111,7 +111,7 @@ export default function useContainerQuery(
       }
 
       const element = containerRef.current;
-      const sizeValue = containerSizes[size].value;
+      const sizeValue = containerSizes[size];
       const sizeNum = parseFloat(sizeValue);
       const threshold = direction === 'min' ? sizeNum : sizeNum - 0.0625;
 

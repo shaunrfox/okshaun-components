@@ -73,6 +73,7 @@ type Story = StoryObj<typeof meta>;
 // 1. Default - Most common usage
 export const Default: Story = {
   render: () => {
+    const Component = () => {
     const [checked, setChecked] = useState(false);
     const handleChange: ToggleChangeHandler = (e) =>
       setChecked(e.target.checked);
@@ -87,6 +88,8 @@ export const Default: Story = {
         Enable notifications
       </ToggleInput>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -146,6 +149,7 @@ export const AllStates: Story = {
 export const ExInteractive: Story = {
   name: 'Ex: Interactive Toggle',
   render: () => {
+    const Component = () => {
     const [checked, setChecked] = useState(false);
 
     return (
@@ -160,12 +164,15 @@ export const ExInteractive: Story = {
         </ToggleInput>
       </Box>
     );
+    };
+    return <Component />;
   },
 };
 
 export const ExSettingsPanel: Story = {
   name: 'Ex: Settings Panel',
   render: () => {
+    const Component = () => {
     const [settings, setSettings] = useState({
       darkMode: false,
       notifications: true,
@@ -222,12 +229,15 @@ export const ExSettingsPanel: Story = {
         </ToggleInput>
       </Box>
     );
+    };
+    return <Component />;
   },
 };
 
 export const ExFormIntegration: Story = {
   name: 'Ex: Form Integration',
   render: () => {
+    const Component = () => {
     const [formData, setFormData] = useState({
       marketing: false,
       terms: false,
@@ -279,12 +289,15 @@ export const ExFormIntegration: Story = {
         </Box>
       </Box>
     );
+    };
+    return <Component />;
   },
 };
 
 export const ExFeatureFlags: Story = {
   name: 'Ex: Feature Flags',
   render: () => {
+    const Component = () => {
     const [features, setFeatures] = useState({
       betaFeatures: false,
       experimentalUI: false,
@@ -346,6 +359,8 @@ export const ExFeatureFlags: Story = {
         </ToggleInput>
       </Box>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -353,6 +368,7 @@ export const ExFeatureFlags: Story = {
 export const A11yAccessibilityCheck: Story = {
   name: 'A11y: Accessibility Check',
   render: () => {
+    const Component = () => {
     const [checked, setChecked] = useState(false);
     const handleChange: ToggleChangeHandler = (e) =>
       setChecked(e.target.checked);
@@ -367,6 +383,8 @@ export const A11yAccessibilityCheck: Story = {
         Accessible toggle
       </ToggleInput>
     );
+    };
+    return <Component />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

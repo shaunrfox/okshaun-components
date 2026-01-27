@@ -1,0 +1,116 @@
+import { Meta, Title, Unstyled } from '@storybook/blocks';
+import { Grid, Flex } from '@styled-system/jsx';
+import { Divider } from '../../components/Divider';
+import { Text } from '../../components/Text';
+
+<Meta title="Guides / Build Reasoning" />
+
+<Unstyled>
+
+<Flex direction="column" gap="16">
+
+# Build Reasoning
+
+<Text textStyle="body.lg" color="text" maxW="prose">This document captures the final packaging and export decisions for the design system. It exists to keep future adjustments aligned with the current consumer compatibility goals and build outcomes.</Text>
+
+<Divider weight="thick" color="border" mb="32" />
+
+### Decisions
+
+1. Keep the public export surface minimal to avoid confusion for consumers
+2. Ensure `dist` bundles include the preset and the index entry points at the root.
+3. Separate the `staticCss` output from the component build so consumers can import only what they need. These declarations are currently only used for Storybook, are not needed for production, and were adding ~2.4mb of weight to our generated styles when built as a single CSS file.
+4. Generate consumable CSS files that can be used for non-React environments, and generate helpers that can be used by consuming apps as needed.
+
+### Recent changes Jan 2026
+
+- Added `PANDA_STATIC` flag to control static CSS generation.
+- Updated scripts in package.json
+- Moved `cetec-preset.ts` --> `src/cetec-preset.ts` to keep the preset alongside other source exports and align Vite entry resolution.
+- `src/index.ts` updated to re-export the relocated preset and keep the public export surface stable for consumers.
+- `src/types/panda-augment.ts` added to extend Panda type generation without leaking `@pandacss/types` into consumer projects.
+- `src/types/panda-shim.ts` added as a minimal shim to stabilize type identity across build and consumer environments.
+- `src/types/index.d.ts` template file is copied to `dist/index.d.ts` to provide type declarations entry point for consumers.
+- We export `cetecPreset` as `any` to avoid Panda type identity conflicts in Astro
+
+
+### Distribution Output
+
+The expected `dist` shape includes the compiled bundle, generated type declarations, and a packaged preset entry so consumers can import from a single surface.
+
+```jsx
+dist/
+├── index.js            // primary entry point
+├── index.d.ts          // types entry point
+├── preset.js           // our packaged preset exported as 'cetecPreset'
+│
+├── styles.css          // barrel index for CSS files
+├── styles/             // consumable CSS files for non-React environments
+│   ├── recipes/        // CSS file for each component recipe
+│   ├── recipes.css     // barrel index for component recipes
+│   ├── global.css      // global styles for the design system
+│   ├── reset.css       // generated, but unused
+│   ├── tokens.css      // CSS variables for all tokens
+│   └── utilities.css   // utility classes for common styles
+│
+├── cetec-logo.svg      // logo file
+├── sprite.svg          // SVG sprite containing all icons
+├── sprite.symbol.html  // HTML page to easily view available icons (consumes sprite.svg)
+├── svgs/               // directory containing individual SVG files
+│
+├── types/
+│   ├── index.d.ts      // packaged types for the design system
+│   └── preset.d.ts     // preset-specific types
+│
+├── specs/              // generated json spec files for our theme
+├── .mcp.json           // entrypoint to expose our design system to AI tools
+├── index.js.map        // source map for index.js
+└── preset.js.map       // source map for preset.js
+```
+
+### Explanation of updated NPM scripts
+
+<Grid gridTemplateColumns="auto 1fr" gap="2" mb="32" rounded="16" overflow="hidden" className="definitions-grid">
+
+  <Text as="p" gridColumn="1 / -1" textStyle="mono.lg" color="text">npm run build</Text>
+
+**`rm -rf dist`**
+
+Clear the dist folder before building
+
+**`&& PANDA_STATIC=true`**
+
+Custom flag consumed in `panda.config.ts` lets us selectively include the `staticCss` in build scripts
+
+**`&& npx panda codegen`**
+
+Generates typescript component styles
+
+**`&& npx panda cssgen --splitting`**
+
+Generates folder of separate CSS files
+
+**`&& npx panda spec`**
+
+Generates a json spec that describes the structure of the design system
+
+**`&& npx panda init-mcp --client claude`**
+
+Generates an file that tells AI agents how to use the panda mcp
+
+**`&& vite build`**
+
+General build, now also copies the new files above into `./dist`
+
+<Divider weight="medium" color="transparent" gridColumn="1 / -1" />
+
+<Text as="p" gridColumn="1 / -1" textStyle="mono.lg" color="text">npm run panda-mcp</Text>
+
+**`npx panda mcp`**
+
+Starts the MCP (Model Context Protocol) server for AI assistants, exposing the design system to AI tools.
+
+</Grid>
+
+</Flex>
+</Unstyled>

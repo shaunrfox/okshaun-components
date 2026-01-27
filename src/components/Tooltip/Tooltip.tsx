@@ -1,7 +1,9 @@
+import { type ReactNode, useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
-import { tooltip, type TooltipVariantProps } from '@styled-system/recipes';
-import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { Text } from '../Text';
+import { tooltip, type TooltipVariantProps } from '@styled-system/recipes';
 
 export type Position =
   | 'top'
@@ -27,28 +29,26 @@ export type TooltipProps = Omit<BoxProps, keyof TooltipVariantProps> &
     trigger?: 'onHover' | 'onClick';
   };
 
-export const Tooltip: React.FC<TooltipProps> = ({
-  trigger = 'onHover',
-  caret = true,
-  size = 'md',
-  text,
-  title,
-  children,
-  position = 'bottom',
-  ...props
-}) => {
+export const Tooltip = (props: TooltipProps) => {
+  const {
+    trigger = 'onHover',
+    caret = true,
+    size = 'md',
+    text,
+    title,
+    children,
+    position = 'bottom',
+    ...rest
+  } = props;
+  const [className, otherProps] = splitProps(rest);
   const [currentPlacement, setCurrentPlacement] = useState(position);
-  const { wrapper, tooltipContent } = tooltip({
-    position: currentPlacement,
-    caret,
-    size,
-  });
+
   const [show, setShow] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const resolvedPlacement = typeof position === 'string' ? position : 'bottom';
 
-  const clockWisePlacement: Position[] = [
+  const clockWisePlacement = useMemo(() => [
     'bottom',
     'bottom-start',
     'bottom-end',
@@ -61,20 +61,20 @@ export const Tooltip: React.FC<TooltipProps> = ({
     'right',
     'right-start',
     'right-end',
-  ];
+  ], []);
 
-  function getClockwise(start: Position): Position[] {
-    const index = clockWisePlacement.indexOf(start);
-    if (index === -1) return clockWisePlacement;
+  const getClockwise = useCallback((start: Position): Position[] => {
+    const index = clockWisePlacement.indexOf(start as string);
+    if (index === -1) return clockWisePlacement as Position[];
 
     const reordered = [
-      ...clockWisePlacement.slice(index + 1),
-      ...clockWisePlacement.slice(0, index),
+      ...clockWisePlacement.slice(index + 1) as Position[],
+      ...clockWisePlacement.slice(0, index) as Position[],
     ];
     return reordered;
-  }
+  }, [clockWisePlacement]);
 
-  const checkPosition = () => {
+  const checkPosition = useCallback(() => {
     const tooltipPositioning = tooltipRef.current;
     const triggerPositioning = triggerRef.current;
     if (!tooltipPositioning || !triggerPositioning) return;
@@ -102,7 +102,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       }
     }
     setCurrentPlacement(resolvedPlacement);
-  };
+  }, [resolvedPlacement, getClockwise]);
 
   function getSimulatedRect(
     triggerRect: DOMRect,
@@ -213,7 +213,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       window.addEventListener('resize', checkPosition);
       return () => window.removeEventListener('resize', checkPosition);
     }
-  }, [show, position]);
+  }, [show, checkPosition]);
 
   useEffect(() => {
     if (trigger !== 'onClick') return;
@@ -246,14 +246,13 @@ export const Tooltip: React.FC<TooltipProps> = ({
   };
 
   const classes = tooltip({
-    wrapper,
-    tooltipContent,
-    title,
-    text,
+    position: currentPlacement,
+    caret,
+    size,
   });
 
   return (
-    <Box {...props} className={classes.wrapper}>
+    <Box className={classes.wrapper} {...otherProps}>
       <Box
         ref={triggerRef}
         onMouseEnter={trigger === 'onHover' ? handleMouseEnter : undefined}
@@ -264,7 +263,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       </Box>
 
       {show && (
-        <Box className={classes.tooltipContent} ref={tooltipRef}>
+        <Box className={cx(classes.tooltipContent, className)} ref={tooltipRef}>
           {title && <Text className={classes.title}>{title}</Text>}
           {text && <Text className={classes.text}>{text}</Text>}
         </Box>

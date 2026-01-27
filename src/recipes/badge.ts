@@ -9,7 +9,7 @@ export const badgeRecipe = defineSlotRecipe({
       size: ['sm', 'md', 'lg'],
       standalone: ['true', 'false'],
       dot: ['true', 'false'],
-      appearance: [
+      variant: [
         'neutral',
         'inverted',
         'subtle',
@@ -102,8 +102,8 @@ export const badgeRecipe = defineSlotRecipe({
         },
       },
     },
-    // Appearance variants for color schemes
-    appearance: {
+    // variant variants for color schemes
+    variant: {
       neutral: {
         indicator: {
           bg: { base: 'neutral.30', _dark: 'darkNeutral.40' },
@@ -198,6 +198,6 @@ export const badgeRecipe = defineSlotRecipe({
   ],
   defaultVariants: {
     size: 'md',
-    appearance: 'danger',
+    variant: 'danger',
   },
 });

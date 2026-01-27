@@ -1,5 +1,13 @@
 import { createContext, useContext } from 'react';
-import type { ModalContextValue } from './types';
+
+export interface ModalContextValue {
+  /** Whether the modal is open */
+  open: boolean;
+  /** Callback to close the modal */
+  onClose: () => void;
+  /** Whether overlay clicks should close the modal */
+  preventOverlayClose?: boolean;
+}
 
 export const ModalContext = createContext<ModalContextValue | null>(null);
 

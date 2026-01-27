@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Menu } from './Menu';
 import { MenuTrigger } from './MenuTrigger';
@@ -26,6 +26,7 @@ type Story = StoryObj<typeof Menu>;
 
 export const ActionDefault: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -44,11 +45,14 @@ export const ActionDefault: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
 export const ActionWithLeftIcon: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -61,11 +65,14 @@ export const ActionWithLeftIcon: Story = {
         <MenuItem label="Delete" iconLeft="trash" onSelect={() => {}} />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
 export const ActionWithRightIcon: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -90,11 +97,14 @@ export const ActionWithRightIcon: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
 export const ActionWithDescription: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -119,11 +129,14 @@ export const ActionWithDescription: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
 export const ActionWithDescriptionAndIcons: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -153,6 +166,8 @@ export const ActionWithDescriptionAndIcons: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -162,6 +177,7 @@ export const ActionWithDescriptionAndIcons: Story = {
 
 export const SingleSelectCheckmark: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<string>('name');
 
@@ -193,11 +209,14 @@ export const SingleSelectCheckmark: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
 export const SingleSelectWithDescription: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<string>('standard');
 
@@ -232,11 +251,14 @@ export const SingleSelectWithDescription: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
 export const SingleSelectWithIcons: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<string>('grid');
 
@@ -271,6 +293,8 @@ export const SingleSelectWithIcons: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -280,6 +304,7 @@ export const SingleSelectWithIcons: Story = {
 
 export const MultiSelectCheckbox: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<Set<string>>(
       new Set(['name', 'date']),
@@ -336,11 +361,14 @@ export const MultiSelectCheckbox: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
 export const MultiSelectWithDescriptions: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<Set<string>>(new Set(['email']));
 
@@ -390,6 +418,8 @@ export const MultiSelectWithDescriptions: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -399,6 +429,7 @@ export const MultiSelectWithDescriptions: Story = {
 
 export const WithGroups: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -437,11 +468,14 @@ export const WithGroups: Story = {
         </MenuGroup>
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
 export const WithDividers: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -474,6 +508,8 @@ export const WithDividers: Story = {
         <MenuItem label="Close" onSelect={() => {}} index={5} />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -483,6 +519,7 @@ export const WithDividers: Story = {
 
 export const WithDisabledItems: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -516,6 +553,8 @@ export const WithDisabledItems: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -525,6 +564,7 @@ export const WithDisabledItems: Story = {
 
 export const HighlightMatch: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
     const searchTerm = 'doc';
 
@@ -557,6 +597,8 @@ export const HighlightMatch: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -566,6 +608,7 @@ export const HighlightMatch: Story = {
 
 export const SizeCompact: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -578,11 +621,14 @@ export const SizeCompact: Story = {
         <MenuItem label="Option 3" onSelect={() => {}} index={2} />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
 export const SizeComfortable: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -610,6 +656,8 @@ export const SizeComfortable: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -619,6 +667,7 @@ export const SizeComfortable: Story = {
 
 export const IndicatorRight: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<string>('option1');
 
@@ -650,6 +699,8 @@ export const IndicatorRight: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -659,6 +710,7 @@ export const IndicatorRight: Story = {
 
 export const PlacementVariants: Story = {
   render: () => {
+    const Component = () => {
     const [openTop, setOpenTop] = useState(false);
     const [openBottom, setOpenBottom] = useState(false);
     const [openLeft, setOpenLeft] = useState(false);
@@ -707,6 +759,8 @@ export const PlacementVariants: Story = {
         </Menu>
       </Box>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -716,6 +770,7 @@ export const PlacementVariants: Story = {
 
 export const KitchenSink: Story = {
   render: () => {
+    const Component = () => {
     const [open, setOpen] = useState(false);
     const [view, setView] = useState<string>('grid');
     const [columns, setColumns] = useState<Set<string>>(
@@ -813,5 +868,7 @@ export const KitchenSink: Story = {
         />
       </Menu>
     );
+    };
+    return <Component />;
   },
 };

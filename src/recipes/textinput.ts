@@ -24,7 +24,11 @@ const textInputVariants = {
     },
   },
   autoSize: {
+    false: {
+      width: 'full',
+    },
     true: {
+      width: 'fit-content',
       fieldSizing: 'content',
     },
   },

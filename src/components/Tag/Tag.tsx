@@ -1,25 +1,26 @@
-import { tag, type TagVariantProps } from '@styled-system/recipes';
-import { Box, type BoxProps } from '../Box';
 import { type ReactNode } from 'react';
 import { splitProps } from '~/utils/splitProps';
 import { cx } from '@styled-system/css';
+import { Box, type BoxProps } from '../Box';
 import { Icon, type IconNamesList } from '../Icon';
+import { tag, type TagVariantProps } from '@styled-system/recipes';
 
-export type TagProps = BoxProps &
+export type TagProps = Omit<BoxProps, keyof TagVariantProps> &
   TagVariantProps & {
     children: string | ReactNode;
     iconName?: IconNamesList;
   };
 
-export const Tag: React.FC<TagProps> = ({
-  appearance,
-  hue,
-  iconPosition = 'left',
-  children,
-  iconName,
-  ...props
-}) => {
-  const [className, otherProps] = splitProps(props);
+export const Tag = (props: TagProps) => {
+  const {
+    appearance,
+    hue,
+    iconPosition = 'left',
+    children,
+    iconName,
+    ...rest
+  } = props;
+  const [className, otherProps] = splitProps(rest);
   const hasIcon = !!iconName;
 
   return (

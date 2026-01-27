@@ -1,9 +1,32 @@
 import React, { useState } from 'react';
+import type { Placement } from '@floating-ui/react';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 import { Menu, MenuTrigger } from '../Menu';
-import { Button } from '../Button';
+import { Button, type ButtonProps } from '../Button';
 import { Icon } from '../Icon';
 import { css } from '@styled-system/css';
-import type { DropdownProps } from './types';
+import {
+  menu as menuRecipe,
+  type MenuVariantProps,
+} from '@styled-system/recipes';
+
+export type DropdownProps = MenuVariantProps & {
+  /** Trigger button label */
+  label: string;
+  /** Floating UI placement */
+  placement?: Placement;
+  /** Offset distance from trigger (in pixels) */
+  offset?: number;
+  /** Children (MenuItem, MenuGroup, MenuDivider, etc.) */
+  children: React.ReactNode;
+  /** Optional ID for ARIA attributes */
+  id?: string;
+  /** Disable the dropdown */
+  disabled?: boolean;
+  /** Props to pass to the trigger Button */
+  triggerProps?: Omit<ButtonProps, 'children' | 'disabled'>;
+};
 
 const caretStyles = css({
   transitionProperty: 'transform',
@@ -14,17 +37,21 @@ const caretStyles = css({
   },
 });
 
-export const Dropdown: React.FC<DropdownProps> = ({
-  label,
-  placement = 'bottom-start',
-  offset = 4,
-  children,
-  id,
-  disabled = false,
-  size,
-  indicatorPosition,
-  triggerProps,
-}) => {
+export const Dropdown = (props: DropdownProps) => {
+  const {
+    label,
+    placement = 'bottom-start',
+    offset = 4,
+    children,
+    id,
+    disabled = false,
+    packing,
+    indicatorPosition,
+    triggerProps,
+    ...rest
+  } = props;
+  const [className, otherProps] = splitProps(rest);
+  const classes = menuRecipe({ packing, indicatorPosition });
   const [open, setOpen] = useState(false);
 
   return (
@@ -34,8 +61,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
       placement={placement}
       offset={offset}
       id={id}
-      size={size}
+      packing={packing}
       indicatorPosition={indicatorPosition}
+      className={cx(classes.menu, className)}
+      {...otherProps}
     >
       <MenuTrigger disabled={disabled}>
         <Button disabled={disabled} {...triggerProps}>

@@ -18,6 +18,11 @@ export const globalCss = defineGlobalStyles({
     },
   },
   html: {
+    '--global-font-heading': 'fonts.heading',
+    '--global-font-body': 'fonts.body',
+    '--global-font-sans': 'fonts.sans',
+    '--global-font-serif': 'fonts.serif',
+    '--global-font-mono': 'fonts.mono',
     fontSize: '16',
     lineHeight: 'calc(1em + 0.5rem)',
     '-webkit-text-size-adjust': '100%',

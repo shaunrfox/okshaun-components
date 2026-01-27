@@ -51,7 +51,7 @@ const meta: Meta<typeof Chip> = {
   },
   args: {
     children: 'Chip Label',
-    size: 'default',
+    size: 'md',
   },
 };
 
@@ -92,14 +92,14 @@ export const WithBefore: Story = {
       <Flex gap="4" alignItems="center">
         <Chip
           size="sm"
-          before={<Badge count="2" size="sm" appearance="success" />}
+          before={<Badge count={2} size="sm" variant="success" />}
         >
           Small
         </Chip>
-        <Chip size="default" before={<Badge count="30" appearance="neutral" />}>
+        <Chip size="md" before={<Badge count={30} variant="neutral" />}>
           Default
         </Chip>
-        <Chip size="lg" before={<Badge count="100" size="lg" />}>
+        <Chip size="lg" before={<Badge count={100} size="lg" />}>
           Large
         </Chip>
       </Flex>
@@ -111,7 +111,7 @@ export const WithBefore: Story = {
           Small
         </Chip>
         <Chip
-          size="default"
+          size="md"
           before={<Avatar size="sm" src={sampleImages.user1} name="John Doe" />}
         >
           Default
@@ -127,7 +127,7 @@ export const WithBefore: Story = {
         <Chip size="sm" before={<Icon name="file" size="20" />}>
           Small
         </Chip>
-        <Chip size="default" before={<Icon name="file" size="20" />}>
+        <Chip size="md" before={<Icon name="file" size="20" />}>
           Default
         </Chip>
         <Chip size="lg" before={<Icon name="file" size="24" />}>
@@ -144,7 +144,7 @@ export const WithAfter: Story = {
       <Chip size="sm" after={<Icon name="x" size="20" />}>
         Small
       </Chip>
-      <Chip size="default" after={<Icon name="x" size="20" />}>
+      <Chip size="md" after={<Icon name="x" size="20" />}>
         Default
       </Chip>
       <Chip size="lg" after={<Icon name="x" size="24" />}>
@@ -165,7 +165,7 @@ export const WithBeforeAndAfter: Story = {
         Small
       </Chip>
       <Chip
-        size="default"
+        size="md"
         before={<Icon name="user" size="20" />}
         after={<Icon name="x" size="20" />}
       >
@@ -271,7 +271,7 @@ export const SizesMatrix: Story = {
           <Chip size="sm" before={<Icon name="file" size="20" />}>
             Small
           </Chip>
-          <Chip size="default" before={<Icon name="file" size="20" />}>
+          <Chip size="md" before={<Icon name="file" size="20" />}>
             Default
           </Chip>
           <Chip size="lg" before={<Icon name="file" size="24" />}>
@@ -285,7 +285,7 @@ export const SizesMatrix: Story = {
           <Chip size="sm" after={<Icon name="x" size="20" />}>
             Small
           </Chip>
-          <Chip size="default" after={<Icon name="x" size="20" />}>
+          <Chip size="md" after={<Icon name="x" size="20" />}>
             Default
           </Chip>
           <Chip size="lg" after={<Icon name="x" size="24" />}>
@@ -304,7 +304,7 @@ export const SizesMatrix: Story = {
             Small
           </Chip>
           <Chip
-            size="default"
+            size="md"
             before={<Icon name="user" size="20" />}
             after={<Icon name="x" size="20" />}
           >

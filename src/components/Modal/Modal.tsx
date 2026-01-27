@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   FloatingPortal,
   FloatingFocusManager,
@@ -7,23 +7,40 @@ import {
   useInteractions,
   FloatingOverlay,
 } from '@floating-ui/react';
-import { Box } from '../Box';
-import { modal as modalRecipe } from '@styled-system/recipes';
+import { Box, type BoxProps } from '../Box';
+import {
+  modal as modalRecipe,
+  type ModalVariantProps,
+} from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
-import { ModalContext } from './ModalContext';
-import type { ModalProps, ModalContextValue } from './types';
+import { ModalContext, ModalContextValue } from './ModalContext';
 
-export const Modal: React.FC<ModalProps> = ({
-  open,
-  onOpenChange,
-  size = 'md',
-  preventOverlayClose = false,
-  children,
-  id,
-  ...props
-}) => {
-  const [className, otherProps] = splitProps(props);
+export type ModalProps = Omit<BoxProps, keyof ModalVariantProps> &
+  ModalVariantProps & {
+    /** Controlled open state (REQUIRED) */
+    open: boolean;
+    /** Callback when open state should change (REQUIRED) */
+    onOpenChange: (open: boolean) => void;
+    /** Whether clicking the overlay should close the modal */
+    preventOverlayClose?: boolean;
+    /** Children (ModalHeader, ModalBody, ModalFooter) */
+    children: React.ReactNode;
+    /** Optional ID for ARIA attributes */
+    id?: string;
+  };
+
+export const Modal = (props: ModalProps) => {
+  const {
+    open,
+    onOpenChange,
+    size = 'md',
+    preventOverlayClose = false,
+    children,
+    id,
+    ...rest
+  } = props;
+  const [className, otherProps] = splitProps(rest);
   const classes = modalRecipe({ size });
   const [isClosing, setIsClosing] = useState(false);
   const [shouldRender, setShouldRender] = useState(open);

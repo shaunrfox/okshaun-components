@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Dropdown } from './Dropdown';
 import { MenuItem, MenuDivider, MenuGroup } from '../Menu';
@@ -82,33 +82,36 @@ export const WithDescriptions: Story = {
 
 export const SingleSelect: Story = {
   render: () => {
-    const [selected, setSelected] = useState<string>('name');
+    const Component = () => {
+      const [selected, setSelected] = useState<string>('name');
 
-    return (
-      <Dropdown label={`Sort by: ${selected}`}>
-        <MenuItem
-          type="single-select"
-          label="Name"
-          selected={selected === 'name'}
-          onSelect={() => setSelected('name')}
-          index={0}
-        />
-        <MenuItem
-          type="single-select"
-          label="Date"
-          selected={selected === 'date'}
-          onSelect={() => setSelected('date')}
-          index={1}
-        />
-        <MenuItem
-          type="single-select"
-          label="Size"
-          selected={selected === 'size'}
-          onSelect={() => setSelected('size')}
-          index={2}
-        />
-      </Dropdown>
-    );
+      return (
+        <Dropdown label={`Sort by: ${selected}`}>
+          <MenuItem
+            type="single-select"
+            label="Name"
+            selected={selected === 'name'}
+            onSelect={() => setSelected('name')}
+            index={0}
+          />
+          <MenuItem
+            type="single-select"
+            label="Date"
+            selected={selected === 'date'}
+            onSelect={() => setSelected('date')}
+            index={1}
+          />
+          <MenuItem
+            type="single-select"
+            label="Size"
+            selected={selected === 'size'}
+            onSelect={() => setSelected('size')}
+            index={2}
+          />
+        </Dropdown>
+      );
+    };
+    return <Component />;
   },
 };
 
@@ -118,56 +121,59 @@ export const SingleSelect: Story = {
 
 export const MultiSelect: Story = {
   render: () => {
-    const [selected, setSelected] = useState<Set<string>>(new Set(['name']));
+    const Component = () => {
+      const [selected, setSelected] = useState<Set<string>>(new Set(['name']));
 
-    const toggle = (value: string) => {
-      setSelected((prev) => {
-        const next = new Set(prev);
-        if (next.has(value)) {
-          next.delete(value);
-        } else {
-          next.add(value);
-        }
-        return next;
-      });
+      const toggle = (value: string) => {
+        setSelected((prev) => {
+          const next = new Set(prev);
+          if (next.has(value)) {
+            next.delete(value);
+          } else {
+            next.add(value);
+          }
+          return next;
+        });
+      };
+
+      return (
+        <Dropdown label={`Columns (${selected.size})`}>
+          <MenuItem
+            type="multi-select"
+            label="Name"
+            selectionIndicator="checkbox"
+            selected={selected.has('name')}
+            onSelect={() => toggle('name')}
+            index={0}
+          />
+          <MenuItem
+            type="multi-select"
+            label="Date"
+            selectionIndicator="checkbox"
+            selected={selected.has('date')}
+            onSelect={() => toggle('date')}
+            index={1}
+          />
+          <MenuItem
+            type="multi-select"
+            label="Size"
+            selectionIndicator="checkbox"
+            selected={selected.has('size')}
+            onSelect={() => toggle('size')}
+            index={2}
+          />
+          <MenuItem
+            type="multi-select"
+            label="Type"
+            selectionIndicator="checkbox"
+            selected={selected.has('type')}
+            onSelect={() => toggle('type')}
+            index={3}
+          />
+        </Dropdown>
+      );
     };
-
-    return (
-      <Dropdown label={`Columns (${selected.size})`}>
-        <MenuItem
-          type="multi-select"
-          label="Name"
-          selectionIndicator="checkbox"
-          selected={selected.has('name')}
-          onSelect={() => toggle('name')}
-          index={0}
-        />
-        <MenuItem
-          type="multi-select"
-          label="Date"
-          selectionIndicator="checkbox"
-          selected={selected.has('date')}
-          onSelect={() => toggle('date')}
-          index={1}
-        />
-        <MenuItem
-          type="multi-select"
-          label="Size"
-          selectionIndicator="checkbox"
-          selected={selected.has('size')}
-          onSelect={() => toggle('size')}
-          index={2}
-        />
-        <MenuItem
-          type="multi-select"
-          label="Type"
-          selectionIndicator="checkbox"
-          selected={selected.has('type')}
-          onSelect={() => toggle('type')}
-          index={3}
-        />
-      </Dropdown>
-    );
+    return <Component />;
   },
 };
 
@@ -253,9 +259,13 @@ export const PlacementVariants: Story = {
 // SIZE VARIANTS
 // ============================================================================
 
-export const SizeCompact: Story = {
+export const PackingCompact: Story = {
   render: () => (
-    <Dropdown label="Compact" size="compact" triggerProps={{ size: 'small' }}>
+    <Dropdown
+      label="Compact"
+      packing="compact"
+      triggerProps={{ size: 'small' }}
+    >
       <MenuItem label="Option 1" onSelect={() => {}} index={0} />
       <MenuItem label="Option 2" onSelect={() => {}} index={1} />
       <MenuItem label="Option 3" onSelect={() => {}} index={2} />
@@ -263,11 +273,11 @@ export const SizeCompact: Story = {
   ),
 };
 
-export const SizeComfortable: Story = {
+export const PackingComfortable: Story = {
   render: () => (
     <Dropdown
       label="Comfortable"
-      size="comfortable"
+      packing="comfortable"
       triggerProps={{ size: 'lg' }}
     >
       <MenuItem

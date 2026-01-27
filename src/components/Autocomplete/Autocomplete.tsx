@@ -13,11 +13,61 @@ import {
   FloatingPortal,
   FloatingFocusManager,
   size as floatingSize,
+  Placement,
 } from '@floating-ui/react';
-import { TextInput } from '../TextInput';
+import { TextInput, type TextInputProps } from '../TextInput';
 import { MenuList, MenuListItem } from '../Menu';
-import type { AutocompleteProps, AutocompleteOption } from './types';
+import type { MenuVariantProps } from '@styled-system/recipes';
 import type { IconNamesList } from '../Icon';
+
+export interface AutocompleteOption {
+  /** Unique identifier for the option */
+  id: string;
+  /** Display label */
+  label: string;
+  /** Optional description */
+  description?: string;
+  /** Optional icon name */
+  icon?: string;
+  /** Whether this option is disabled */
+  disabled?: boolean;
+}
+
+export type AutocompleteProps = MenuVariantProps & {
+  /** Input name attribute */
+  name: string;
+  /** Current input value */
+  value: string;
+  /** Callback when input value changes */
+  onChange: (value: string) => void;
+  /** Size of the input */
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Available options to filter and display */
+  options: AutocompleteOption[];
+  /** Callback when an option is selected */
+  onSelect: (option: AutocompleteOption) => void;
+  /** Placeholder text for the input */
+  placeholder?: string;
+  /** Floating UI placement */
+  placement?: Placement;
+  /** Offset distance from input (in pixels) */
+  offset?: number;
+  /** Optional ID for ARIA attributes */
+  id?: string;
+  /** Disable the autocomplete */
+  disabled?: boolean;
+  /** Show error state */
+  error?: boolean;
+  /** Custom filter function (defaults to case-insensitive label match) */
+  filterFn?: (option: AutocompleteOption, inputValue: string) => boolean;
+  /** Message to show when no options match */
+  noResultsMessage?: string;
+  /** Props to pass to the TextInput */
+  inputProps?: Omit<
+    TextInputProps,
+    'name' | 'value' | 'onChange' | 'disabled' | 'error' | 'id'
+  >;
+};
 
 const defaultFilter = (
   option: AutocompleteOption,
@@ -26,25 +76,26 @@ const defaultFilter = (
   return option.label.toLowerCase().includes(inputValue.toLowerCase());
 };
 
-export const Autocomplete: React.FC<AutocompleteProps> = ({
-  name,
-  value,
-  onChange,
-  options,
-  onSelect,
-  placeholder,
-  placement = 'bottom-start',
-  offset = 4,
-  id,
-  disabled = false,
-  error = false,
-  packing,
-  size,
-  indicatorPosition,
-  filterFn = defaultFilter,
-  noResultsMessage = 'No results found',
-  inputProps,
-}) => {
+export const Autocomplete = (props: AutocompleteProps) => {
+  const {
+    name,
+    value,
+    onChange,
+    options,
+    onSelect,
+    placeholder,
+    placement = 'bottom-start',
+    offset = 4,
+    id,
+    disabled = false,
+    error = false,
+    packing,
+    size,
+    indicatorPosition,
+    filterFn = defaultFilter,
+    noResultsMessage = 'No results found',
+    inputProps,
+  } = props;
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const listRef = useRef<(HTMLElement | null)[]>([]);
@@ -188,7 +239,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
         aria-controls={open ? `${id ?? name}-listbox` : undefined}
         {...(getReferenceProps({
           onKeyDown: handleInputKeyDown,
-        } as any) as Record<string, unknown>)}
+        }) as Record<string, unknown>)}
         {...inputProps}
       />
 
@@ -239,7 +290,10 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
                         onClick: () => handleOptionClick(option),
                         onKeyDown: (e: React.KeyboardEvent) =>
                           handleOptionKeyDown(e, option),
-                      } as any) as Record<string, unknown>)}
+                      } as React.HTMLProps<HTMLElement> & {
+                        index?: number;
+                        active?: boolean;
+                      }) as Record<string, unknown>)}
                     />
                   );
                 })

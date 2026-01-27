@@ -1,4 +1,6 @@
-import React, { type ElementType } from 'react';
+import { ReactNode, ElementType } from 'react';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '~/components/Box';
 import type {
   FontToken,
@@ -6,8 +8,6 @@ import type {
   FontWeightToken,
 } from '@styled-system/tokens';
 import { text, type TextVariantProps } from '@styled-system/recipes';
-import { cx } from '@styled-system/css';
-import { splitProps } from '~/utils/splitProps';
 
 export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
   TextVariantProps & {
@@ -17,23 +17,23 @@ export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
     underline?: boolean;
     size?: FontSizeToken;
     weight?: FontWeightToken;
-    children?: string | React.ReactNode;
+    children?: string | ReactNode;
     as?: ElementType;
-    className?: string;
   };
 
-export const Text: React.FC<TextProps> = ({
-  as = 'span',
-  italic,
-  family,
-  bold,
-  underline,
-  size,
-  weight,
-  children,
-  ...props
-}: TextProps) => {
-  const [className, otherProps] = splitProps(props);
+export const Text = (props: TextProps) => {
+  const {
+    as = 'span',
+    italic,
+    family,
+    bold,
+    underline,
+    size,
+    weight,
+    children,
+    ...rest
+  } = props;
+  const [className, otherProps] = splitProps(rest);
 
   return (
     <Box

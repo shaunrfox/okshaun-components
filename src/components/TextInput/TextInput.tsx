@@ -6,19 +6,15 @@ import { textinput, type TextinputVariantProps } from '@styled-system/recipes';
 export type TextInputProps = Omit<BoxProps, keyof TextinputVariantProps> &
   TextinputVariantProps & {
     name: string;
+    autoSize?: boolean;
     error?: boolean;
+    disabled?: boolean;
     id?: string;
   };
 
-export const TextInput: React.FC<TextInputProps> = ({
-  size,
-  error,
-  id,
-  name,
-  disabled,
-  ...props
-}: TextInputProps) => {
-  const [className, otherProps] = splitProps(props);
+export const TextInput = (props: TextInputProps) => {
+  const { size, error, autoSize = false, id, name, disabled, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
   return (
     <Box
       as="input"
@@ -26,7 +22,7 @@ export const TextInput: React.FC<TextInputProps> = ({
       name={name}
       {...(error && { 'data-error': true })}
       aria-disabled={disabled}
-      className={cx(textinput({ size }), className)}
+      className={cx(textinput({ size, autoSize }), className)}
       {...otherProps}
     />
   );

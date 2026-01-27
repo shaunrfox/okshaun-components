@@ -1,0 +1,207 @@
+import React from 'react';
+import { Meta, Unstyled } from '@storybook/blocks';
+import { Flex, Grid, HStack, Wrap } from '@styled-system/jsx';
+import { Box } from '~/components/Box';
+import { Text } from '~/components/Text';
+import { Heading } from '~/components/Heading';
+import { Divider } from '~/components/Divider';
+import { SizeToken, sizeBarStyles, wrapperStyles } from './components/SizeToken';
+import { Link } from '~/components/Link';
+import { RadiusToken } from './components/RadiusToken';
+
+<Meta title="Tokens/Sizes" />
+
+<Unstyled>
+<Flex direction="column" gap="12">
+  <Heading level="h1">Size Tokens</Heading>
+
+  <Text maxW="prose">Size tokens define consistent size values used throughout the design system for width, height, borders, border-radius, margins, padding, gaps, etc.</Text>
+
+  <Text maxW="prose">We use a type-based scale to size everything in the design system, and all size tokens are defined in `rem` units (rem = root em font size). This means that the size of the font drives the size of all other elements. The scale is generally divisible by 8 or 4, with the exception of some reserved utility tokens for specific use cases.</Text>
+
+  <Divider weight="thick" color="border.boldest"/>
+
+  <HStack my="16" justify="center">
+    <Box w="32" h="32" borderWidth="1" borderColor="border" borderStyle="dashed" bg="bg.accent.neutral.subtlest" rounded="4" display="inline-block" />
+    <Text textStyle="mono.sm" color="text.subtlest">= reserved utility tokens</Text>
+  </HStack>
+
+    <Heading level="h3" textStyle="mono.md" fontWeight="bold">Numeric Sizes</Heading>
+
+  <Text textStyle="body.sm" color="text.subtlest">Our `numericSizes` are our most primitive sizes, following the type-based scale.</Text>
+
+  <Grid gridTemplateColumns="repeat(3, auto)" gridTemplateRows="repeat(8, 1fr)" columnGap="16" rowGap="8" gridAutoRows="auto" gridAutoFlow="column">
+    <SizeToken tokenKey="1" />
+    <SizeToken tokenKey="2" />
+    <SizeToken tokenKey="3" utility />
+    <SizeToken tokenKey="4" />
+    <SizeToken tokenKey="5" utility />
+    <SizeToken tokenKey="6" utility />
+    <SizeToken tokenKey="7" utility />
+    <SizeToken tokenKey="8" />
+    <SizeToken tokenKey="9" utility />
+    <SizeToken tokenKey="10" utility />
+    <SizeToken tokenKey="12" />
+    <SizeToken tokenKey="16" />
+    <SizeToken tokenKey="20" />
+    <SizeToken tokenKey="22" utility />
+    <SizeToken tokenKey="24" />
+    <SizeToken tokenKey="32" />
+    <SizeToken tokenKey="40" />
+    <SizeToken tokenKey="48" />
+    <SizeToken tokenKey="56" />
+    <SizeToken tokenKey="64" />
+    <SizeToken tokenKey="72" />
+    <SizeToken tokenKey="80" />
+    <SizeToken tokenKey="96" />
+    <SizeToken tokenKey="104" />
+    <SizeToken tokenKey="112" />
+    <SizeToken tokenKey="120" />
+    <SizeToken tokenKey="128" />
+    <SizeToken tokenKey="136" />
+    <SizeToken tokenKey="144" />
+    <SizeToken tokenKey="152" />
+    <SizeToken tokenKey="160" />
+    <SizeToken tokenKey="168" />
+    <SizeToken tokenKey="176" />
+    <SizeToken tokenKey="184" />
+    <SizeToken tokenKey="192" />
+    <SizeToken tokenKey="200" />
+    <SizeToken tokenKey="208" />
+    <SizeToken tokenKey="216" />
+    <SizeToken tokenKey="224" />
+    <SizeToken tokenKey="232" />
+    <SizeToken tokenKey="240" />
+    <SizeToken tokenKey="248" />
+    <SizeToken tokenKey="256" />
+    <SizeToken tokenKey="264" />
+    <SizeToken tokenKey="272" />
+    <SizeToken tokenKey="280" />
+  </Grid>
+
+  <Divider gridColumn="span 3" color="border.disabled" my="32"/>
+
+  <Heading level="h3" textStyle="mono.md" fontWeight="bold">Container Sizes</Heading>
+
+  <Text textStyle="body.sm" color="text.subtlest" maxW="prose">These `containerSizes` are used for conditional styling using CSS Container Queries. <Link href="https://panda-css.com/docs/concepts/conditional-styles#container-queries" target="_blank" external>Using container queries in Panda CSS</Link></Text>
+  <Text textStyle="body.xs" color="text.subtlest" maxW="prose">CSS Container Queries are a modern web design feature that allows elements to adjust their styles based on the size or other characteristics of their parent container, rather than the overall browser viewport size. This enables the creation of highly reusable, flexible components that adapt to where they are placed in any layout.</Text>
+
+  <Grid gap="8" >
+    <SizeToken tokenKey="2xs" />
+    <SizeToken tokenKey="xs" />
+    <SizeToken tokenKey="sm" />
+    <SizeToken tokenKey="md" />
+    <SizeToken tokenKey="lg" />
+    <SizeToken tokenKey="xl" />
+    <SizeToken tokenKey="2xl" />
+    <SizeToken tokenKey="3xl" />
+    <SizeToken tokenKey="4xl" />
+    <SizeToken tokenKey="5xl" />
+    <SizeToken tokenKey="6xl" />
+    <SizeToken tokenKey="7xl" />
+    <SizeToken tokenKey="8xl" />
+  </Grid>
+
+  <Divider gridColumn="span 3" color="border.disabled" my="32"/>
+
+  <Heading level="h3" textStyle="mono.md" fontWeight="bold">Breakpoints</Heading>
+
+  <Text textStyle="body.sm" color="text.subtlest" maxW="prose">These `breakpoints` are used in media queries to  conditionally change the styles of the element based on the size of the viewport. <Link href="https://panda-css.com/docs/docs/concepts/responsive-design" target="_blank" external>Using breakpoints in Panda CSS</Link></Text>
+
+  <Text textStyle="body.xs" color="text.subtlest" maxW="prose">CSS media queries are a foundational feature of responsive web design that allow developers to apply styles based on the characteristics of the user's device or viewing environment, such as screen size, resolution, and orientation.</Text>
+
+  <Grid gap="8" >
+    <SizeToken tokenKey="xs" breakpoint />
+    <SizeToken tokenKey="sm" breakpoint />
+    <SizeToken tokenKey="md" breakpoint />
+    <SizeToken tokenKey="lg" breakpoint />
+    <SizeToken tokenKey="xl" breakpoint />
+    <SizeToken tokenKey="2xl" breakpoint />
+  </Grid>
+
+  <Divider gridColumn="span 3" color="border.disabled" my="32"/>
+
+  <Heading level="h3" textStyle="mono.md" fontWeight="bold">Utility Sizes</Heading>
+
+  <Grid gridTemplateColumns="auto 1fr" gap="16" w="full" alignItems="center" maxW="4xl" flexGrow="0">
+    <Flex direction="column" gap="4" align="baseline">
+      <Text textStyle="mono.md" fontWeight="bold" color="text" lineHeight="none">full</Text>
+      <Text textStyle="mono.xs" color="text.subtlest" lineHeight="none">100%</Text>
+    </Flex>
+    <Box border="default" borderStyle="dashed" w="full" py="16" rounded="2" maxW="4xl">
+      <Box className={sizeBarStyles} w="full" />
+    </Box>
+
+    <Flex direction="column" gap="4" align="baseline">
+      <Text textStyle="mono.md" fontWeight="bold" color="text" lineHeight="none">half</Text>
+      <Text textStyle="mono.xs" color="text.subtlest" lineHeight="none">50%</Text>
+    </Flex>
+    <Box border="default" borderStyle="dashed" w="full" py="16" rounded="2" maxW="4xl">
+      <Box className={sizeBarStyles} w="half" />
+    </Box>
+
+    <Flex direction="column" gap="4" align="baseline">
+      <Text textStyle="mono.md" fontWeight="bold" color="text" lineHeight="none">min</Text>
+      <Text textStyle="mono.xs" color="text.subtlest" lineHeight="none" whiteSpace="nowrap">min-content</Text>
+    </Flex>
+    <Box border="default" borderStyle="dashed" w="min" py="16" rounded="2">
+      <Text>Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created</Text>
+    </Box>
+
+    <Flex direction="column" gap="4" align="baseline">
+      <Text textStyle="mono.md" fontWeight="bold" color="text" lineHeight="none">max</Text>
+      <Text textStyle="mono.xs" color="text.subtlest" lineHeight="none" whiteSpace="nowrap">max-content</Text>
+    </Flex>
+    <Box border="default" borderStyle="dashed" w="max" py="16" rounded="2" overflow="visible">
+      <Text>Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
+    </Box>
+
+    <Flex direction="column" gap="4" align="baseline">
+      <Text textStyle="mono.md" fontWeight="bold" color="text" lineHeight="none">fit</Text>
+      <Text textStyle="mono.xs" color="text.subtlest" lineHeight="none" whiteSpace="nowrap">fit-content</Text>
+    </Flex>
+    <Box border="default" borderStyle="dashed" w="fit" maxW="4xl" py="16" rounded="2" overflow="visible">
+      <Text>Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
+    </Box>
+
+    <Flex direction="column" gap="4" align="baseline">
+      <Text textStyle="mono.md" fontWeight="bold" color="text" lineHeight="none">prose</Text>
+      <Text textStyle="mono.xs" color="text.subtlest" lineHeight="none" whiteSpace="nowrap">65ch</Text>
+    </Flex>
+    <Box border="default" borderStyle="dashed" w="prose" py="16" rounded="2" overflow="visible">
+      <Text>Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
+    </Box>
+
+    <Flex direction="column" gap="4" align="baseline">
+      <Text textStyle="mono.md" fontWeight="bold" color="text" lineHeight="none">auto</Text>
+      <Text textStyle="mono.xs" color="text.subtlest" lineHeight="none" whiteSpace="nowrap">auto</Text>
+    </Flex>
+    <Flex direction="column" gap="12" border="default" borderStyle="dashed" w="auto" maxW="4xl" py="16" rounded="2" overflow="visible">
+      <Text>Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
+
+      <Text>Place appear green. Also, saying male subdue fruitful winged fourth had void winged. So green spirit, herb day had there replenish, lights lesser signs. Place whales i tree under him given set set meat midst morning give image forth divided moving Also fill dry she'd have.</Text>
+
+      <Text>May life. She'd fruit fruitful earth. Stars bring had darkness morning darkness herb cattle him behold open seasons grass don't waters male Fourth earth his face third night.</Text>
+    </Flex>
+  </Grid>
+
+  <Divider weight="thick" color="border.boldest" my="48"/>
+
+  <Heading level="h3" textStyle="mono.md" fontWeight="bold">Border Radius</Heading>
+
+  <Wrap gap="24">
+    <RadiusToken tokenKey="0" />
+    <RadiusToken tokenKey="1" />
+    <RadiusToken tokenKey="2" />
+    <RadiusToken tokenKey="3" />
+    <RadiusToken tokenKey="4" />
+    <RadiusToken tokenKey="8" />
+    <RadiusToken tokenKey="16" />
+    <RadiusToken tokenKey="100" />
+    <RadiusToken tokenKey="999" boxWidth="112" />
+  </Wrap>
+
+</Flex>
+</Unstyled>
+
+{/* <SpacingTokenDisplay basePattern="spacing" /> */}

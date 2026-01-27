@@ -1,30 +1,82 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import {
+  useState,
+  useMemo,
+  useCallback,
+  Children,
+  isValidElement,
+  ReactElement,
+} from 'react';
+import type { Placement } from '@floating-ui/react';
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 import { Menu } from '../Menu';
 import { MenuTrigger } from '../Menu/MenuTrigger';
 import { MenuItem } from '../Menu/MenuItem';
-import { Box } from '../Box';
+import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
 import { SelectContext } from './SelectContext';
-import type { SelectProps, SelectOptionProps } from './types';
-import { select } from '@styled-system/recipes';
+import type { SelectOptionProps } from './SelectOption';
+import {
+  select,
+  type SelectVariantProps,
+  type MenuVariantProps,
+} from '@styled-system/recipes';
 
-export const Select: React.FC<SelectProps> = ({
-  value: controlledValue,
-  onChange,
-  multiple = false,
-  placeholder = 'Select...',
-  open: controlledOpen,
-  onOpenChange,
-  placement = 'bottom-start',
-  offset = 4,
-  children,
-  id,
-  disabled = false,
-  error = false,
-  size = 'default',
-  indicatorPosition = 'left',
-  ...props
-}) => {
+export type SelectProps = Omit<BoxProps, keyof SelectVariantProps> &
+  Pick<MenuVariantProps, 'packing'> &
+  SelectVariantProps & {
+    /** Selected value(s) */
+    value?: string | string[] | null;
+    /** Callback when value changes */
+    onChange?: (value: string | string[] | null) => void;
+    /** Allow multiple selections */
+    multiple?: boolean;
+    /** Placeholder text when no selection */
+    placeholder?: string;
+    /** Controlled open state */
+    open?: boolean;
+    /** Callback when open state should change */
+    onOpenChange?: (open: boolean) => void;
+    /** Floating UI placement */
+    placement?: Placement;
+    /** Offset distance from trigger (in pixels) */
+    offset?: number;
+    /** Children (SelectTrigger, SelectOption) */
+    children: React.ReactNode;
+    /** Optional ID for ARIA attributes */
+    id?: string;
+    /** Disabled state */
+    disabled?: boolean;
+    /** Error state */
+    error?: boolean;
+    /** Size variant */
+    size?: 'sm' | 'md' | 'lg' | 'xl';
+    /** Selection indicator position */
+    indicatorPosition?: 'left' | 'right';
+    packing?: 'default' | 'compact' | 'comfortable';
+  };
+
+export const Select = (props: SelectProps) => {
+  const {
+    value: controlledValue,
+    onChange,
+    multiple = false,
+    placeholder = 'Select...',
+    open: controlledOpen,
+    onOpenChange,
+    placement = 'bottom-start',
+    offset = 4,
+    children,
+    id,
+    disabled = false,
+    error = false,
+    size = 'md',
+    indicatorPosition = 'left',
+    packing = 'default',
+    ...rest
+  } = props;
+  const [className, otherProps] = splitProps(rest);
+
   // Internal state for uncontrolled component
   const [internalOpen, setInternalOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string | string[] | null>(
@@ -66,14 +118,14 @@ export const Select: React.FC<SelectProps> = ({
   );
 
   // Collect all options to build display text
-  const options = React.Children.toArray(children).filter((child) => {
+  const options = Children.toArray(children).filter((child) => {
     return (
-      React.isValidElement(child) &&
+      isValidElement(child) &&
       typeof child.props === 'object' &&
       child.props !== null &&
       'value' in child.props
     );
-  }) as React.ReactElement<SelectOptionProps>[];
+  }) as ReactElement<SelectOptionProps>[];
 
   // Find selected option(s) for display
   const getDisplayText = () => {
@@ -117,16 +169,17 @@ export const Select: React.FC<SelectProps> = ({
         placement={placement}
         offset={offset}
         id={id}
-        size={size}
+        packing={packing}
         indicatorPosition={indicatorPosition}
         role="listbox"
         aria-orientation="vertical"
         {...(error && { 'data-error': true })}
-        {...props}
+        {...otherProps}
       >
         <MenuTrigger disabled={disabled}>
           <Box
-            className={styles.trigger}
+            className={cx(styles.trigger, className)}
+            size={size}
             {...(disabled && { 'data-disabled': true })}
             {...(error && { 'data-error': true })}
           >
@@ -143,8 +196,8 @@ export const Select: React.FC<SelectProps> = ({
         </MenuTrigger>
 
         {/* Convert SelectOption children to MenuItem components */}
-        {React.Children.map(children, (child, index) => {
-          if (!React.isValidElement(child)) return child;
+        {Children.map(children, (child, index) => {
+          if (!isValidElement(child)) return child;
 
           // Check if this is a SelectOption by looking for the value prop
           if (

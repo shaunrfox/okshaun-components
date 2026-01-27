@@ -1,7 +1,14 @@
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
+import { Box, type BoxProps } from '~/components/Box';
 import { useTheme } from '~/contexts/ThemeContext';
 import { themeSwitcher } from '@styled-system/recipes';
 
-export function ThemeSwitcher() {
+export type ThemeSwitcherProps = BoxProps;
+
+export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
+  const [className, otherProps] = splitProps(props);
+
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
@@ -9,10 +16,12 @@ export function ThemeSwitcher() {
   };
 
   return (
-    <button
-      className={themeSwitcher()}
+    <Box
+      as="button"
+      className={cx(themeSwitcher(), className)}
       onClick={toggleTheme}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+      {...otherProps}
     />
   );
-}
+};

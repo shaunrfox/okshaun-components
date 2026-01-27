@@ -1,0 +1,33 @@
+import { Meta, Unstyled } from '@storybook/blocks';
+import { Box } from '../components/Box';
+import { Text } from '../components/Text';
+import '../styles/font-imports.css';
+
+<Meta title="Intro" />
+# Cetec-ERP Design System
+
+## General Info
+<Text>
+  - currently on 8.5.5
+  - story files live alongside components
+  - Can use React hooks as “advanced” cases, but recommend args
+  - May not be possible to have Docs in “tab” instead of side-nav since SB7
+</Text>
+
+## Using This Storybook
+
+## Formatting Story Files
+<Text>
+  - export default
+    - Describes the Component
+    - title: the story “folder” title
+    - component: from the imported component, what will be in the story
+    - export variable NAME where NAME == story inside of folder
+    - component proptypes = docs argos
+    - agrTypes will allow SB to deal with custom event props (e.g. “handleClick” instead of “onClick”)
+    - Use “ tags: ["autodocs"],” to generate documentation
+  - Named Export
+    - Describes the individual story/ies
+    - Will show in sidebar as Function name, but could also use “name” arg to rename, useful for special chars or restricted JS words
+    - Can build stories using other stories: https://storybook.js.org/docs/writing-stories#how-to-write-stories
+</Text>

@@ -1,5 +1,15 @@
 import { createContext, useContext } from 'react';
-import type { SelectContextValue } from './types';
+
+export interface SelectContextValue {
+  /** Current selected value */
+  value: string | string[] | null;
+  /** Callback when value changes */
+  onChange: (value: string | string[] | null) => void;
+  /** Whether multiple selection is allowed */
+  multiple: boolean;
+  /** Placeholder text when no selection */
+  placeholder: string;
+}
 
 export const SelectContext = createContext<SelectContextValue | null>(null);
 

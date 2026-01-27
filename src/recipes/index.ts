@@ -25,3 +25,4 @@ export { chipRecipe } from './chip';
 export { badgeRecipe } from './badge';
 export { avatarRecipe } from './avatar';
 export { modalRecipe } from './modal';
+export { formFieldRecipe } from './formField';

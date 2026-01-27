@@ -33,6 +33,7 @@ const textareaVariants = {
     },
     true: {
       width: 'fit-content',
+      fieldSizing: 'content',
     },
   },
   // stacked: {

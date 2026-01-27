@@ -61,7 +61,7 @@ const baseButtonStyles = {
 };
 
 const buttonVariants = {
-  appearance: {
+  variant: {
     default: {
       container: {
         bg: 'bg.neutral',
@@ -257,7 +257,7 @@ export const buttonRecipe = defineSlotRecipe({
     },
   ],
   defaultVariants: {
-    appearance: 'default',
+    variant: 'default',
     size: 'md',
   },
 });
@@ -313,7 +313,7 @@ export const iconButtonRecipe = defineSlotRecipe({
     },
   },
   defaultVariants: {
-    appearance: 'default',
+    variant: 'default',
     size: 'md',
   },
 });

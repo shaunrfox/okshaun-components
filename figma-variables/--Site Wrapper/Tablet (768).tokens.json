@@ -1,0 +1,17 @@
+{
+  "px": {
+    "$type": "number",
+    "$value": 32,
+    "$extensions": {
+      "com.figma.variableId": "VariableID:49:1081",
+      "com.figma.scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "$extensions": {
+    "com.figma.modeName": "Tablet (768)"
+  }
+}

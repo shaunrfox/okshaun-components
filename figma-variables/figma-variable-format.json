@@ -1,0 +1,50 @@
+{
+  "red": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.8886906504631042, 0.15790081024169922, 0.15790081024169922
+      ],
+      "alpha": 1,
+      "hex": "#E32828"
+    }
+  },
+  "danger": {
+    "$type": "color",
+    "$value": "{red}"
+  },
+  "border-radius-default": {
+    "$type": "number",
+    "$value": 5
+  },
+  "button-text": {
+    "$type": "string",
+    "$value": "Click here"
+  },
+  "visibility": {
+    "$type": "number",
+    "$value": 0,
+    "$extensions": {
+      "com.figma.type": "boolean"
+    }
+  },
+  "padding-default": {
+    "$type": "dimension",
+    "$value": {
+      "value": 16,
+      "unit": "px"
+    }
+  },
+  "heading-font": {
+    "$type": "fontFamily",
+    "$value": "Inter"
+  },
+  "transition-duration": {
+    "$type": "duration",
+    "$value": {
+      "value": 0.3,
+      "unit": "s"
+    }
+  }
+}

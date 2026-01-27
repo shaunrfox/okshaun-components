@@ -1,6 +1,6 @@
-import { splitProps } from '~/utils/splitProps';
-import type { FC, ReactNode, ChangeEventHandler } from 'react';
+import type { ReactNode, ChangeEventHandler } from 'react';
 import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 import { type BoxProps } from '../Box';
 import { Label } from '../Label';
 import { Toggle } from '../Toggle';
@@ -9,7 +9,7 @@ import {
   type ToggleInputVariantProps,
 } from '@styled-system/recipes';
 
-export type ToggleInputProps = BoxProps &
+export type ToggleInputProps = Omit<BoxProps, keyof ToggleInputVariantProps> &
   ToggleInputVariantProps & {
     name: string;
     checked: boolean;
@@ -20,20 +20,13 @@ export type ToggleInputProps = BoxProps &
     disabled?: boolean;
   };
 
-export const ToggleInput: FC<ToggleInputProps> = ({
-  name,
-  checked,
-  onChange,
-  id,
-  error,
-  children,
-  disabled,
-  ...props
-}: ToggleInputProps) => {
-  const [className, otherProps] = splitProps(props);
+export const ToggleInput = (props: ToggleInputProps) => {
+  const { name, checked, onChange, id, error, children, disabled, ...rest } =
+    props;
+  const [className, otherProps] = splitProps(rest);
   return (
     <Label
-      className={cx(toggleInput({}), className)}
+      className={cx(toggleInput(), className)}
       {...otherProps}
       htmlFor={id}
       disabled={disabled}
@@ -45,11 +38,8 @@ export const ToggleInput: FC<ToggleInputProps> = ({
         checked={checked}
         onChange={onChange}
         disabled={disabled}
-        {...props}
       />
       {children}
     </Label>
   );
 };
-
-export default ToggleInput;

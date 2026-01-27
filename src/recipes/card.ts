@@ -34,7 +34,7 @@ export const cardRecipe = defineRecipe({
     outlineOffset: '0',
   },
   variants: {
-    appearance: {
+    variant: {
       default: {
         bg: 'surface.raised',
         boxShadow: 'raised',
@@ -78,7 +78,7 @@ export const cardRecipe = defineRecipe({
   compoundVariants: [
     // Default + interactive
     {
-      appearance: 'default',
+      variant: 'default',
       interactive: true,
       css: {
         ...interactiveHoverStyles,
@@ -91,7 +91,7 @@ export const cardRecipe = defineRecipe({
     },
     // Flat + interactive
     {
-      appearance: 'flat',
+      variant: 'flat',
       interactive: true,
       css: {
         ...interactiveHoverStyles,
@@ -104,7 +104,7 @@ export const cardRecipe = defineRecipe({
     },
     // Sunken + interactive
     {
-      appearance: 'sunken',
+      variant: 'sunken',
       interactive: true,
       css: {
         ...interactiveHoverStyles,
@@ -117,7 +117,7 @@ export const cardRecipe = defineRecipe({
     },
     // Ghost + interactive
     {
-      appearance: 'ghost',
+      variant: 'ghost',
       interactive: true,
       css: {
         ...interactiveHoverStyles,
@@ -130,7 +130,7 @@ export const cardRecipe = defineRecipe({
     },
     // Overlay + interactive
     {
-      appearance: 'overlay',
+      variant: 'overlay',
       interactive: true,
       css: {
         _disabled: {
@@ -142,7 +142,7 @@ export const cardRecipe = defineRecipe({
     },
   ],
   defaultVariants: {
-    appearance: 'default',
+    variant: 'default',
     interactive: false,
   },
 });

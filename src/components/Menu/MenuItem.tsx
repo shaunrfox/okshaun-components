@@ -1,11 +1,38 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Box } from '../Box';
-import { Icon } from '../Icon';
+import { Box, type BoxProps } from '../Box';
+import { Icon, type IconNamesList } from '../Icon';
 import { Checkbox } from '../Checkbox';
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
 import { useMenuContext } from './MenuContext';
-import type { MenuItemProps } from './types';
+
+export type MenuItemType = 'action' | 'single-select' | 'multi-select';
+export type SelectionIndicator = 'checkmark' | 'checkbox';
+
+export type MenuItemProps = Omit<BoxProps, 'children'> & {
+  /** Item behavior type */
+  type?: MenuItemType;
+  /** Selected state (for single-select and multi-select) */
+  selected?: boolean;
+  /** Callback when item is selected/activated */
+  onSelect?: () => void;
+  /** Disable the item */
+  disabled?: boolean;
+  /** Primary label (required) */
+  label: string | React.ReactNode;
+  /** Secondary description text */
+  description?: string;
+  /** Icon on the left side */
+  iconLeft?: IconNamesList;
+  /** Icon on the right side */
+  iconRight?: IconNamesList;
+  /** Text to highlight (for autocomplete/search scenarios) */
+  highlightMatch?: string;
+  /** Selection indicator style (only for select types) */
+  selectionIndicator?: SelectionIndicator;
+  /** Index for keyboard navigation (managed internally via context) */
+  index?: number;
+};
 
 /**
  * Highlights matching text within a string by wrapping matches in <mark> tags
@@ -24,22 +51,22 @@ const highlightText = (text: string, match?: string): React.ReactNode => {
   );
 };
 
-export const MenuItem: React.FC<MenuItemProps> = ({
-  type = 'action',
-  selected = false,
-  onSelect,
-  disabled = false,
-  label,
-  description,
-  iconLeft,
-  iconRight,
-  highlightMatch,
-  selectionIndicator = 'checkmark',
-  index,
-  className,
-  ...props
-}) => {
-  const [cssClassName, otherProps] = splitProps(props);
+export const MenuItem = (props: MenuItemProps) => {
+  const {
+    type = 'action',
+    selected = false,
+    onSelect,
+    disabled = false,
+    label,
+    description,
+    iconLeft,
+    iconRight,
+    highlightMatch,
+    selectionIndicator = 'checkmark',
+    index,
+    ...rest
+  } = props;
+  const [className, otherProps] = splitProps(rest);
   const { getItemProps, activeIndex, listRef, classes, setOpen } =
     useMenuContext();
   const itemRef = useRef<HTMLDivElement>(null);
@@ -122,7 +149,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       aria-disabled={disabled}
       data-selected={selected}
       data-active={isActive}
-      className={cx(classes.menuItem, cssClassName, className)}
+      className={cx(classes.menuItem, className)}
       {...(getItemProps({
         index,
         active: isActive,

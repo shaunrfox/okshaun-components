@@ -14,7 +14,7 @@ import { Box } from '../Box';
  *
  * Features:
  * - Non-interactive by default (renders as div)
- * - Five visual appearances: default, flat, sunken, ghost, overlay
+ * - Five visual variants: default, flat, sunken, ghost, overlay
  * - Polymorphic `as` prop for semantic elements (article, section, etc.)
  * - Interactive mode for clickable cards
  * - Auto-interactive when href or onClick is provided
@@ -28,10 +28,10 @@ const meta: Meta<typeof Card> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    appearance: {
+    variant: {
       control: 'select',
       options: ['default', 'flat', 'ghost', 'sunken', 'overlay'],
-      description: 'Visual style appearance',
+      description: 'Visual style variant',
       table: {
         defaultValue: { summary: 'default' },
       },
@@ -96,25 +96,25 @@ export const Default: Story = {
           <Text>Static card with shadow</Text>
         </Flex>
       </Card>
-      <Card appearance="flat">
+      <Card variant="flat">
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Flat Card</Heading>
           <Text>Static card with flat style</Text>
         </Flex>
       </Card>
-      <Card appearance="sunken">
+      <Card variant="sunken">
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Sunken Card</Heading>
           <Text>Static with sunken background</Text>
         </Flex>
       </Card>
-      <Card appearance="ghost">
+      <Card variant="ghost">
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Ghost Card</Heading>
           <Text>Static with transparent background</Text>
         </Flex>
       </Card>
-      <Card appearance="overlay">
+      <Card variant="overlay">
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Overlay Card</Heading>
           <Text>Static card with shadow</Text>
@@ -134,19 +134,19 @@ export const Interactive: Story = {
           <Text>Static card with shadow</Text>
         </Flex>
       </Card>
-      <Card appearance="flat" onClick={() => alert('Flat clicked')}>
+      <Card variant="flat" onClick={() => alert('Flat clicked')}>
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Flat Card</Heading>
           <Text>Static card with flat style</Text>
         </Flex>
       </Card>
-      <Card appearance="sunken" onClick={() => alert('Sunken clicked')}>
+      <Card variant="sunken" onClick={() => alert('Sunken clicked')}>
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Sunken Card</Heading>
           <Text>Static with sunken background</Text>
         </Flex>
       </Card>
-      <Card appearance="ghost" onClick={() => alert('Ghost clicked')}>
+      <Card variant="ghost" onClick={() => alert('Ghost clicked')}>
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Ghost Card</Heading>
           <Text>Static with transparent background</Text>
@@ -178,25 +178,25 @@ export const Disabled: Story = {
           <Text>Static card with shadow</Text>
         </Flex>
       </Card>
-      <Card appearance="flat" disabled>
+      <Card variant="flat" disabled>
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Flat Card</Heading>
           <Text>Static card with flat style</Text>
         </Flex>
       </Card>
-      <Card appearance="sunken" disabled>
+      <Card variant="sunken" disabled>
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Sunken Card</Heading>
           <Text>Static with sunken background</Text>
         </Flex>
       </Card>
-      <Card appearance="ghost" disabled>
+      <Card variant="ghost" disabled>
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Ghost Card</Heading>
           <Text>Static with transparent background</Text>
         </Flex>
       </Card>
-      <Card appearance="overlay" disabled>
+      <Card variant="overlay" disabled>
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Overlay Card</Heading>
           <Text>Static card with shadow</Text>
@@ -211,23 +211,23 @@ export const SemanticElements: Story = {
     <Grid gridTemplateColumns="repeat(3, 1fr)" gap="16">
       <Card as="article">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: 'xs', color: 'blue.50' })}>
+          <code className={css({ fontSize: '12', color: 'blue.50' })}>
             article
           </code>
           <Text>For blog posts, news</Text>
         </VStack>
       </Card>
-      <Card as="section" appearance="flat">
+      <Card as="section" variant="flat">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: 'xs', color: 'blue.50' })}>
+          <code className={css({ fontSize: '12', color: 'blue.50' })}>
             section
           </code>
           <Text>For grouped content</Text>
         </VStack>
       </Card>
-      <Card as="aside" appearance="ghost">
+      <Card as="aside" variant="ghost">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: 'xs', color: 'blue.50' })}>
+          <code className={css({ fontSize: '12', color: 'blue.50' })}>
             aside
           </code>
           <Text>For supplementary content</Text>
@@ -247,7 +247,7 @@ export const ProductCard: Story = {
         <Flex flexDir="column" p="16" gap="8" alignItems="flex-start" w="full">
           <Heading level="h4">Product Name</Heading>
           <Text>$99.99</Text>
-          <Button appearance="primary" onClick={() => alert('View product')}>
+          <Button variant="primary" onClick={() => alert('View product')}>
             Add to Cart
           </Button>
         </Flex>
@@ -263,13 +263,13 @@ export const ProductCard: Story = {
 export const ProfileCard: Story = {
   name: 'Profile',
   render: () => (
-    <Card appearance="flat">
+    <Card variant="flat">
       <HStack p="16" gap="16">
         <Box
           bg="blue.60"
           w="64"
           h="64"
-          borderRadius="full"
+          rounded="full"
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -297,7 +297,7 @@ export const StatsCard: Story = {
   name: 'Stats Card',
   render: () => (
     <HStack gap="16">
-      <Card appearance="overlay">
+      <Card variant="overlay">
         <VStack p="16" gap="4" alignItems="flex-start">
           <Text color="text.subtlest" fontSize="14">
             Total Users
@@ -308,7 +308,7 @@ export const StatsCard: Story = {
           </Text>
         </VStack>
       </Card>
-      <Card appearance="overlay">
+      <Card variant="overlay">
         <VStack p="16" gap="4" alignItems="flex-start">
           <Text color="text.subtlest" fontSize="14">
             Revenue
@@ -331,7 +331,7 @@ export const CardGrid: Story = {
   render: () => (
     <Grid gridTemplateColumns="repeat(3, 1fr)" gap="16" w="4xl" p="40">
       {[1, 2, 3, 4, 5, 6].map((i) => (
-        <Card key={i} appearance="flat" interactive>
+        <Card key={i} variant="flat" interactive>
           <VStack p="16" gap="8" alignItems="flex-start">
             <Heading level="h4">Card {i}</Heading>
             <Text>Card content goes here.</Text>
@@ -351,9 +351,7 @@ export const InteractiveComparison: Story = {
   render: () => (
     <VStack gap="24" alignItems="flex-start">
       <div>
-        <div
-          className={css({ mb: '8', fontSize: 'sm', fontWeight: 'semibold' })}
-        >
+        <div className={css({ mb: '8', fontSize: '14', fontWeight: 'bold' })}>
           Non-Interactive (Content Container)
         </div>
         <Card>
@@ -361,7 +359,7 @@ export const InteractiveComparison: Story = {
             <Heading level="h4">Static Card</Heading>
             <Text>This is a content container. No hover effects.</Text>
             <Button
-              appearance="primary"
+              variant="primary"
               mt="16"
               onClick={() => alert('Button clicked!')}
             >
@@ -371,9 +369,7 @@ export const InteractiveComparison: Story = {
         </Card>
       </div>
       <div>
-        <div
-          className={css({ mb: '8', fontSize: 'sm', fontWeight: 'semibold' })}
-        >
+        <div className={css({ mb: '8', fontSize: '14', fontWeight: 'bold' })}>
           Interactive (Clickable Card)
         </div>
         <Card onClick={() => alert('Card clicked!')}>

@@ -171,7 +171,7 @@ export const Error: Story = {
         <SelectOption value="option2" label="Option 2" />
         <SelectOption value="option3" label="Option 3" />
       </Select>
-      <Box fontSize="sm" color="text.error">
+      <Box fontSize="14" color="text.error">
         Please select an option
       </Box>
     </Box>
@@ -184,7 +184,7 @@ export const Controlled: Story = {
     const [value, setValue] = React.useState<string | null>(null);
 
     return (
-      <Box display="flex" flexDirection="column" gap="4" width="300">
+      <Box display="flex" flexDirection="column" gap="4" width="xs">
         <Select
           value={value}
           onChange={setValue}
@@ -194,7 +194,7 @@ export const Controlled: Story = {
           <SelectOption value="option2" label="Option 2" />
           <SelectOption value="option3" label="Option 3" />
         </Select>
-        <Box fontSize="sm" color="text.subtlest">
+        <Box fontSize="14" color="text.subtlest">
           Selected value: {value || 'None'}
         </Box>
       </Box>

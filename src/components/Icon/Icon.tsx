@@ -1,4 +1,4 @@
-import React, { type SVGAttributes, useEffect } from 'react';
+import { type SVGAttributes, useEffect } from 'react';
 import { Box, type BoxProps } from '~/components/Box';
 import { cx } from '@styled-system/css';
 import { type ColorToken } from '@styled-system/tokens';
@@ -21,13 +21,9 @@ export type IconProps = Omit<BoxProps, 'size'> &
     size?: AllowedIconSizes;
     fill?: ColorToken;
   };
-export const Icon: React.FC<IconProps> = ({
-  name,
-  size = '24',
-  fill = 'current',
-  ...props
-}: IconProps) => {
-  const [className, otherProps] = splitProps(props);
+export const Icon = (props: IconProps) => {
+  const { name, size = '24', fill, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
 
   // Inject sprite on first Icon render
   useEffect(() => {

@@ -1,35 +1,26 @@
-import js from '@eslint/js';
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import reactPlugin from 'eslint-plugin-react';
-import tseslint from 'typescript-eslint';
+import prettierConfig from 'eslint-config-prettier';
 
-export default tseslint.config(
+export default [
+  { ignores: ['dist', 'src/styled-system'] },
+
+  // TypeScript + React files
   {
-    ignores: [
-      'dist',
-      'styled-system',
-      'storybook-static',
-      '**/*.stories.tsx',
-      '.storybook',
-    ],
-  },
-  {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
+    ...eslint.configs.recommended,
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 'latest',
       globals: {
         ...globals.browser,
         ...globals.node,
-        React: true,
-        JSX: true,
       },
       parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
+        ecmaFeatures: { jsx: true },
       },
     },
     plugins: {
@@ -38,13 +29,12 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
     },
     settings: {
-      react: {
-        version: 'detect',
-      },
+      react: { version: 'detect' },
     },
     rules: {
-      // 'max-len': ['warn', { code: 80, ignoreComments: true }],
       ...reactHooks.configs.recommended.rules,
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
@@ -57,7 +47,12 @@ export default tseslint.config(
           caughtErrorsIgnorePattern: '^_',
         },
       ],
-      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
-);
+
+  // TypeScript-specific rules
+  ...tseslint.configs.recommended,
+
+  // Prettier — must be last to override conflicting rules
+  prettierConfig,
+];

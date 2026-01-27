@@ -4,17 +4,14 @@ import { splitProps } from '~/utils/splitProps';
 import { cx } from '@styled-system/css';
 import { Text } from '../Text';
 import { Link } from '../Link';
-import React from 'react';
 
 export type BreadcrumbsProps = BoxProps & {
   items: { id: string; label: string; href?: string }[];
 };
 
-export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
-  items,
-  ...props
-}: BreadcrumbsProps) => {
-  const [className, otherProps] = splitProps(props);
+export const Breadcrumbs = (props: BreadcrumbsProps) => {
+  const { items, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
 
   return (
     <Text as="ul" className={cx(breadcrumbs({}), className)} {...otherProps}>

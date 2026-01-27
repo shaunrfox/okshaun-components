@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react';
 import React from 'react';
-import { ThemeProvider } from '../src/contexts/ThemeContext';
+import { ThemeProvider } from '../src/contexts/ThemeProvider';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
 // Import fonts for Storybook

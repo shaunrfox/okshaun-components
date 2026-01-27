@@ -1,6 +1,5 @@
 {
   "name": "@okshaun/components",
-  "private": false,
   "version": "0.5.8",
   "description": "A comprehensive React component library with Panda CSS theming",
   "type": "module",
@@ -8,23 +7,25 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "dev": "npm run panda:watch & vite",
-    "build": "npm run panda && SKIP_OPEN=true npm run generate-sprite && vite build && SKIP_OPEN=true npm run generate-sprite:dist && npm run ship",
-    "generate-sprite:dist": "node src/utils/generate-sprite-dist.js",
-    "ship": "panda ship --outfile dist/panda.buildinfo.json",
-    "panda": "panda codegen",
-    "panda:watch": "panda codegen --watch",
-    "preview": "vite preview",
+    "prepare": "npx panda codegen",
+    "dev": "npx panda codegen --watch & vite",
+    "build": "rm -rf dist && PANDA_STATIC=true npx panda codegen && npx panda cssgen --splitting && npx panda spec && npx panda init-mcp --client claude && vite build",
     "lint": "eslint .",
-    "storybook": "storybook dev -p 6006 && panda codegen --watch",
-    "build-storybook": "storybook build",
+    "preview": "vite preview",
     "generate-sprite": "node src/utils/generate-sprite.js",
-    "prepublishOnly": "npm run build"
+    "storybook": "PANDA_STATIC=true storybook dev -p 6006",
+    "storybook:build": "PANDA_STATIC=true storybook build",
+    "panda-mcp": "npx panda mcp",
+    "prepublishOnly": "npm run build",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'"
   },
   "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
+    "./dist/",
+    "./src/styles/*",
+    "./src/recipes/*",
+    "./src/tokens/*",
+    "./src/utils/*.ts",
+    "README.md"
   ],
   "keywords": [
     "react",
@@ -38,8 +39,8 @@
     "@fontsource-variable/piazzolla": "^5.1.1",
     "@fontsource/ibm-plex-mono": "^5.1.0",
     "@fontsource/ibm-plex-sans": "^5.1.0",
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "peerDependenciesMeta": {
     "@fontsource-variable/piazzolla": {
@@ -61,22 +62,20 @@
     "@fontsource-variable/piazzolla": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/ibm-plex-sans": "^5.2.8",
-    "@pandacss/dev": "^1.4.3",
-    "@storybook/addon-essentials": "^8.5.2",
-    "@storybook/addon-interactions": "^8.5.2",
-    "@storybook/addon-onboarding": "^8.5.2",
-    "@storybook/addon-themes": "^8.6.14",
-    "@storybook/blocks": "^8.5.2",
-    "@storybook/react": "^8.5.2",
-    "@storybook/react-vite": "^8.5.2",
-    "@storybook/test": "^8.5.2",
-    "@types/node": "^22.7.7",
+    "@pandacss/dev": "^1.8.0",
+    "@storybook/addon-essentials": "^8.6.15",
+    "@storybook/addon-interactions": "^8.6.15",
+    "@storybook/addon-themes": "^8.6.15",
+    "@storybook/blocks": "^8.6.15",
+    "@storybook/react": "^8.6.15",
+    "@storybook/react-vite": "^8.6.15",
+    "@storybook/test": "^8.6.15",
+    "@types/node": "^22.15.30",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
@@ -85,13 +84,14 @@
     "globals": "^15.14.0",
     "postcss": "^8.5.1",
     "prettier": "^3.3.3",
-    "storybook": "^8.5.2",
+    "storybook": "^8.6.15",
     "svg-sprite": "^2.0.4",
     "svgo": "^3.0.2",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.18.2",
+    "typescript-eslint": "^8.54.0",
     "vite": "^6.0.5",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-static-copy": "^3.1.4"
   },
   "eslintConfig": {
     "extends": [
@@ -100,24 +100,26 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./preset": {
-      "types": "./dist/preset.d.ts",
+      "types": "./dist/types/preset.d.ts",
       "import": "./dist/preset.js",
       "default": "./dist/preset.js"
     },
     "./sprite.svg": "./dist/sprite.svg",
-    "./panda.buildinfo.json": "./dist/panda.buildinfo.json"
+    "./styles.css": "./dist/styles.css"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shaunrfox/okshaun-components.git"
   },
+  "private": false,
+  "author": "Shaun Fox",
   "bugs": {
     "url": "https://github.com/shaunrfox/okshaun-components/issues"
   },
-  "homepage": "https://github.com/shaunrfox/okshaun-components#readme"
+  "homepage": "https://shaunfox.com/okshaun-components"
 }

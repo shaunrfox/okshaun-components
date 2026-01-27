@@ -1,6 +1,5 @@
-import React, {
-  type AriaAttributes,
-  type ComponentPropsWithoutRef,
+import {
+  ComponentPropsWithRef,
   type ElementType,
   createElement,
 } from 'react';
@@ -11,13 +10,14 @@ import { splitProps } from '~/utils/splitProps';
 /*
  * Imports from recipes are placeholders for if we want to add some kind of styling to Box
  */
-export type BoxProps = Omit<ComponentPropsWithoutRef<ElementType>, 'as'> &
+export type BoxProps = Omit<ComponentPropsWithRef<ElementType>, 'as'> &
   SystemStyleObject &
   BoxVariantProps & {
     as?: ElementType;
-  } & AriaAttributes;
+  };
 
-export const Box: React.FC<BoxProps> = ({ as = 'div', ...props }) => {
+// export const Box: React.FC<BoxProps> = ({ as = 'div', ...props }) => {
+export const Box = ({ as = 'div', ...props }: BoxProps) => {
   const [className, otherProps] = splitProps(props);
   const comboClassName = cx(box({}), className);
   return createElement(as, {

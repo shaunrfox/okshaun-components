@@ -1,0 +1,767 @@
+import React from 'react';
+import { Meta, Unstyled } from '@storybook/blocks';
+import { ColorToken } from './components/ColorToken';
+import { colors } from '~/styles/primitives/colors';
+import { colors as semanticColors } from '~/styles/semantics/colors';
+import { Box } from '~/components/Box';
+import { Text } from '~/components/Text';
+import { Heading } from '~/components/Heading';
+import { Flex, Grid, VStack, Wrap } from '@styled-system/jsx';
+import { Divider } from '~/components/Divider';
+import { css } from '@styled-system/css';
+import { SemanticColorToken } from './components/SemanticColorToken';
+
+<Meta title="Tokens/Colors" />
+
+<Unstyled>
+<Flex direction="column" gap="12">
+  <Heading level="h1">Color Tokens</Heading>
+
+  <Box>
+    <Heading level="h2" textStyle="heading.sm">Primitives</Heading>
+    <Text>Primitive color tokens are the base colors used throughout the design system.</Text>
+  </Box>
+
+  <Divider weight="thick" color="border.boldest" mb="32"/>
+  
+  <Grid gridTemplateColumns="auto auto 1fr" columnGap="16" rowGap="16" mb="96">
+
+    <Heading level="h3" textStyle="mono.md" fontWeight="bold">Neutrals</Heading>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">neutral</Text>
+    <Flex gap="8">
+      {Object.entries(colors.neutral).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`neutral.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">darkNeutral</Text>
+    <Flex gap="8">
+      {Object.entries(colors.darkNeutral).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`darkNeutral.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">neutralA</Text>
+    <Flex gap="8">
+      {Object.entries(colors.neutralA).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`neutralA.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">darkNeutralA</Text>
+    <Flex gap="8">
+      {Object.entries(colors.darkNeutralA).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`darkNeutralA.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Divider gridColumn="span 3" color="border.disabled" my="32"/>
+
+    <Heading level="h3" textStyle="mono.md" fontWeight="bold">Brand</Heading>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">slate</Text>
+    <Flex gap="8">
+      {Object.entries(colors.slate).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`slate.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">gold</Text>
+    <Flex gap="8">
+      {Object.entries(colors.gold).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`gold.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Divider gridColumn="span 3" color="border.disabled" my="32"/>
+
+    <Heading level="h3" textStyle="mono.md" fontWeight="bold">Status</Heading>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">blue</Text>
+    <Flex gap="8">
+      {Object.entries(colors.blue).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`blue.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">green</Text>
+    <Flex gap="8">
+      {Object.entries(colors.green).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`green.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">yellow</Text>
+    <Flex gap="8">
+      {Object.entries(colors.yellow).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`yellow.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">red</Text>
+    <Flex gap="8">
+      {Object.entries(colors.red).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`red.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Divider gridColumn="span 3" color="border.disabled" my="32"/>
+
+    <Heading level="h3" textStyle="mono.md" fontWeight="bold">Expressive</Heading>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">tomato</Text>
+    <Flex gap="8">
+      {Object.entries(colors.tomato).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`tomato.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">tan</Text>
+    <Flex gap="8">
+      {Object.entries(colors.tan).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`tan.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">orange</Text>
+    <Flex gap="8">
+      {Object.entries(colors.orange).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`orange.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">pear</Text>
+    <Flex gap="8">
+      {Object.entries(colors.pear).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`pear.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">grass</Text>
+    <Flex gap="8">
+      {Object.entries(colors.grass).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`grass.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">mint</Text>
+    <Flex gap="8">
+      {Object.entries(colors.mint).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`mint.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">cyan</Text>
+    <Flex gap="8">
+      {Object.entries(colors.cyan).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`cyan.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">indigo</Text>
+    <Flex gap="8">
+      {Object.entries(colors.indigo).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`indigo.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">purple</Text>
+    <Flex gap="8">
+      {Object.entries(colors.purple).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`purple.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">violet</Text>
+    <Flex gap="8">
+      {Object.entries(colors.violet).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`violet.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">pink</Text>
+    <Flex gap="8">
+      {Object.entries(colors.pink).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`pink.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">rose</Text>
+    <Flex gap="8">
+      {Object.entries(colors.rose).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`rose.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+    <Text textStyle="mono.sm" fontWeight="bold" gridColumnStart="2" mt="4" textAlign="right">magenta</Text>
+    <Flex gap="8">
+      {Object.entries(colors.magenta).map(([key]) => (
+        <Flex key={key} direction="column" align="center" gap="2">
+          <ColorToken tokenKey={`magenta.${key}`} />
+        </Flex>
+      ))}
+    </Flex>
+
+  </Grid>
+
+  <Heading level="h3" textStyle="mono.md" fontWeight="bold" color="text.inverse">—</Heading>
+  
+  <Box>
+    <Heading level="h2" textStyle="heading.sm">Semantics</Heading>
+    <Text>Semantic color tokens are the theme-aware colors that are named based on their intended use-case.</Text>
+  </Box>
+
+  <Divider weight="thick" color="border.boldest" />
+
+  <Flex flexDirection="column" gap="16">
+
+    <Heading level="h3" textStyle="mono.lg" fontWeight="bold">Backgrounds</Heading>
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8" w="fit">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.neutral</Text>
+        <SemanticColorToken token="bg.neutral" />
+        <SemanticColorToken token="bg.neutral.hovered" />
+        <SemanticColorToken token="bg.neutral.pressed" />
+      </Flex>
+      <Flex direction="column" gap="8" w="fit">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.neutral.bold</Text>
+        <SemanticColorToken token="bg.neutral.bold" />
+        <SemanticColorToken token="bg.neutral.bold.hovered" />
+        <SemanticColorToken token="bg.neutral.bold.pressed" />
+      </Flex>
+      <Flex direction="column" gap="8" w="fit">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.neutral.subtle</Text>
+        <SemanticColorToken token="bg.neutral.subtle" />
+        <SemanticColorToken token="bg.neutral.subtle.hovered" />
+        <SemanticColorToken token="bg.neutral.subtle.pressed" />
+      </Flex>
+      <Flex direction="column" gap="8" w="fit">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.neutral.inverse</Text>
+        <SemanticColorToken token="bg.neutral.inverse" />
+        <SemanticColorToken token="bg.neutral.inverse.subtle" />
+      </Flex>
+      <Flex direction="column" gap="8" w="fit">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.neutral.boldest</Text>
+        <SemanticColorToken token="bg.neutral.boldest" />
+      </Flex>
+    </Grid>
+
+    <Divider color="border.disabled"/>
+
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.success</Text>
+        <SemanticColorToken token="bg.success" />
+        <SemanticColorToken token="bg.success.hovered" />
+        <SemanticColorToken token="bg.success.pressed" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.success.bold</Text>
+        <SemanticColorToken token="bg.success.bold" />
+        <SemanticColorToken token="bg.success.bold.hovered" />
+        <SemanticColorToken token="bg.success.bold.pressed" />
+      </Flex>
+    </Grid>
+
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.warning</Text>
+        <SemanticColorToken token="bg.warning" />
+        <SemanticColorToken token="bg.warning.hovered" />
+        <SemanticColorToken token="bg.warning.pressed" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.warning.bold</Text>
+        <SemanticColorToken token="bg.warning.bold" />
+        <SemanticColorToken token="bg.warning.bold.hovered" />
+        <SemanticColorToken token="bg.warning.bold.pressed" />
+      </Flex>
+    </Grid>
+
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.danger</Text>
+        <SemanticColorToken token="bg.danger" />
+        <SemanticColorToken token="bg.danger.hovered" />
+        <SemanticColorToken token="bg.danger.pressed" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.danger.bold</Text>
+        <SemanticColorToken token="bg.danger.bold" />
+        <SemanticColorToken token="bg.danger.bold.hovered" />
+        <SemanticColorToken token="bg.danger.bold.pressed" />
+      </Flex>
+    </Grid>
+
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.info</Text>
+        <SemanticColorToken token="bg.info" />
+        <SemanticColorToken token="bg.info.hovered" />
+        <SemanticColorToken token="bg.info.pressed" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.info.bold</Text>
+        <SemanticColorToken token="bg.info.bold" />
+        <SemanticColorToken token="bg.info.bold.hovered" />
+        <SemanticColorToken token="bg.info.bold.pressed" />
+      </Flex>
+    </Grid>
+
+    <Divider color="border.disabled"/>
+
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.input</Text>
+        <SemanticColorToken token="bg.input" />
+        <SemanticColorToken token="bg.input.hovered" />
+        <SemanticColorToken token="bg.input.pressed" />
+      </Flex>
+      <Flex direction="column" gap="8" w="fit">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.disabled</Text>
+        <SemanticColorToken token="bg.disabled" label="default" />
+      </Flex>
+    </Grid>
+
+    <Divider color="border.disabled"/>
+
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.neutral</Text>
+        <SemanticColorToken token="bg.accent.neutral" />
+        <SemanticColorToken token="bg.accent.neutral.subtle" />
+        <SemanticColorToken token="bg.accent.neutral.subtlest" />
+        <SemanticColorToken token="bg.accent.neutral.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.gold</Text>
+        <SemanticColorToken token="bg.accent.gold" />
+        <SemanticColorToken token="bg.accent.gold.subtle" />
+        <SemanticColorToken token="bg.accent.gold.subtlest" />
+        <SemanticColorToken token="bg.accent.gold.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.blue</Text>
+        <SemanticColorToken token="bg.accent.blue" />
+        <SemanticColorToken token="bg.accent.blue.subtle" />
+        <SemanticColorToken token="bg.accent.blue.subtlest" />
+        <SemanticColorToken token="bg.accent.blue.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.green</Text>
+        <SemanticColorToken token="bg.accent.green" />
+        <SemanticColorToken token="bg.accent.green.subtle" />
+        <SemanticColorToken token="bg.accent.green.subtlest" />
+        <SemanticColorToken token="bg.accent.green.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.yellow</Text>
+        <SemanticColorToken token="bg.accent.yellow" />
+        <SemanticColorToken token="bg.accent.yellow.subtle" />
+        <SemanticColorToken token="bg.accent.yellow.subtlest" />
+        <SemanticColorToken token="bg.accent.yellow.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.red</Text>
+        <SemanticColorToken token="bg.accent.red" />
+        <SemanticColorToken token="bg.accent.red.subtle" />
+        <SemanticColorToken token="bg.accent.red.subtlest" />
+        <SemanticColorToken token="bg.accent.red.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.tomato</Text>
+        <SemanticColorToken token="bg.accent.tomato" />
+        <SemanticColorToken token="bg.accent.tomato.subtle" />
+        <SemanticColorToken token="bg.accent.tomato.subtlest" />
+        <SemanticColorToken token="bg.accent.tomato.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.tan</Text>
+        <SemanticColorToken token="bg.accent.tan" />
+        <SemanticColorToken token="bg.accent.tan.subtle" />
+        <SemanticColorToken token="bg.accent.tan.subtlest" />
+        <SemanticColorToken token="bg.accent.tan.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.orange</Text>
+        <SemanticColorToken token="bg.accent.orange" />
+        <SemanticColorToken token="bg.accent.orange.subtle" />
+        <SemanticColorToken token="bg.accent.orange.subtlest" />
+        <SemanticColorToken token="bg.accent.orange.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.pear</Text>
+        <SemanticColorToken token="bg.accent.pear" />
+        <SemanticColorToken token="bg.accent.pear.subtle" />
+        <SemanticColorToken token="bg.accent.pear.subtlest" />
+        <SemanticColorToken token="bg.accent.pear.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.grass</Text>
+        <SemanticColorToken token="bg.accent.grass" />
+        <SemanticColorToken token="bg.accent.grass.subtle" />
+        <SemanticColorToken token="bg.accent.grass.subtlest" />
+        <SemanticColorToken token="bg.accent.grass.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.mint</Text>
+        <SemanticColorToken token="bg.accent.mint" />
+        <SemanticColorToken token="bg.accent.mint.subtle" />
+        <SemanticColorToken token="bg.accent.mint.subtlest" />
+        <SemanticColorToken token="bg.accent.mint.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.cyan</Text>
+        <SemanticColorToken token="bg.accent.cyan" />
+        <SemanticColorToken token="bg.accent.cyan.subtle" />
+        <SemanticColorToken token="bg.accent.cyan.subtlest" />
+        <SemanticColorToken token="bg.accent.cyan.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.indigo</Text>
+        <SemanticColorToken token="bg.accent.indigo" />
+        <SemanticColorToken token="bg.accent.indigo.subtle" />
+        <SemanticColorToken token="bg.accent.indigo.subtlest" />
+        <SemanticColorToken token="bg.accent.indigo.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.purple</Text>
+        <SemanticColorToken token="bg.accent.purple" />
+        <SemanticColorToken token="bg.accent.purple.subtle" />
+        <SemanticColorToken token="bg.accent.purple.subtlest" />
+        <SemanticColorToken token="bg.accent.purple.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.violet</Text>
+        <SemanticColorToken token="bg.accent.violet" />
+        <SemanticColorToken token="bg.accent.violet.subtle" />
+        <SemanticColorToken token="bg.accent.violet.subtlest" />
+        <SemanticColorToken token="bg.accent.violet.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.pink</Text>
+        <SemanticColorToken token="bg.accent.pink" />
+        <SemanticColorToken token="bg.accent.pink.subtle" />
+        <SemanticColorToken token="bg.accent.pink.subtlest" />
+        <SemanticColorToken token="bg.accent.pink.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.rose</Text>
+        <SemanticColorToken token="bg.accent.rose" />
+        <SemanticColorToken token="bg.accent.rose.subtle" />
+        <SemanticColorToken token="bg.accent.rose.subtlest" />
+        <SemanticColorToken token="bg.accent.rose.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">bg.accent.magenta</Text>
+        <SemanticColorToken token="bg.accent.magenta" />
+        <SemanticColorToken token="bg.accent.magenta.subtle" />
+        <SemanticColorToken token="bg.accent.magenta.subtlest" />
+        <SemanticColorToken token="bg.accent.magenta.bold" />
+      </Flex>
+    </Grid> 
+
+    <Divider weight="thick" color="border.boldest" />
+
+    <Heading level="h3" textStyle="mono.lg" fontWeight="bold">Blanket</Heading>
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="blanket" />
+        <SemanticColorToken token="blanket.danger" />
+      </Flex>
+    </Grid>
+
+    <Divider weight="thick" color="border.boldest" />
+
+    <Heading level="h3" textStyle="mono.lg" fontWeight="bold">Borders</Heading>
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="border" />
+        <SemanticColorToken token="border.bold" />
+        <SemanticColorToken token="border.inverse" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="border.disabled" />
+        <SemanticColorToken token="border.focused" />
+        <SemanticColorToken token="border.focused.inverse" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="border.success" />
+        <SemanticColorToken token="border.warning" />
+        <SemanticColorToken token="border.danger" />
+        <SemanticColorToken token="border.info" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="border.input" />
+      </Flex>
+    </Grid>
+
+    <Divider weight="thick" color="border.boldest" />
+    
+    <Heading level="h3" textStyle="mono.lg" fontWeight="bold">Icons</Heading>
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="icon" />
+        <SemanticColorToken token="icon.subtle" />
+        <SemanticColorToken token="icon.subtlest" />
+        <SemanticColorToken token="icon.inverse" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="icon.decorative" />
+        <SemanticColorToken token="icon.decorative.hovered" />
+        <SemanticColorToken token="icon.decorative.inverse" />
+        <SemanticColorToken token="icon.decorative.inverse.hovered" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="icon.success" />
+        <SemanticColorToken token="icon.warning" />
+        <SemanticColorToken token="icon.danger" />
+        <SemanticColorToken token="icon.info" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="icon.disabled" />
+      </Flex>
+    </Grid>
+
+    <Divider weight="thick" color="border.boldest" />
+    
+    <Heading level="h3" textStyle="mono.lg" fontWeight="bold">Links</Heading>
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="link" />
+        <SemanticColorToken token="link.pressed" />
+      </Flex>
+    </Grid>
+
+    <Divider weight="thick" color="border.boldest" />
+    
+    <Heading level="h3" textStyle="mono.lg" fontWeight="bold">Surfaces</Heading>
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="surface" />
+        <SemanticColorToken token="surface.hovered" />
+        <SemanticColorToken token="surface.pressed" />
+        <SemanticColorToken token="surface.sunken" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="surface.overlay" />
+        <SemanticColorToken token="surface.overlay.hovered" />
+        <SemanticColorToken token="surface.overlay.pressed" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="surface.raised" />
+        <SemanticColorToken token="surface.raised.hovered" />
+        <SemanticColorToken token="surface.raised.pressed" />
+      </Flex>
+    </Grid>
+
+    <Divider weight="thick" color="border.boldest" />
+
+    <Heading level="h3" textStyle="mono.lg" fontWeight="bold">Text</Heading>
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text" />
+        <SemanticColorToken token="text.subtle" />
+        <SemanticColorToken token="text.subtlest" />
+        <SemanticColorToken token="text.bold" />
+        <SemanticColorToken token="text.inverse" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.success" />
+        <SemanticColorToken token="text.warning" />
+        <SemanticColorToken token="text.warning.inverse" />
+        <SemanticColorToken token="text.danger" />
+        <SemanticColorToken token="text.info" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.disabled" />
+        <SemanticColorToken token="text.placeholder" />
+      </Flex>
+    </Grid>
+
+    <Divider color="border.disabled"/>
+
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.neutral" />
+        <SemanticColorToken token="text.accent.neutral.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.gold" />
+        <SemanticColorToken token="text.accent.gold.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.blue" />
+        <SemanticColorToken token="text.accent.blue.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.green" />
+        <SemanticColorToken token="text.accent.green.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.yellow" />
+        <SemanticColorToken token="text.accent.yellow.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.red" />
+        <SemanticColorToken token="text.accent.red.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.tomato" />
+        <SemanticColorToken token="text.accent.tomato.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.tan" />
+        <SemanticColorToken token="text.accent.tan.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.orange" />
+        <SemanticColorToken token="text.accent.orange.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.pear" />
+        <SemanticColorToken token="text.accent.pear.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.grass" />
+        <SemanticColorToken token="text.accent.grass.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.mint" />
+        <SemanticColorToken token="text.accent.mint.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.cyan" />
+        <SemanticColorToken token="text.accent.cyan.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.indigo" />
+        <SemanticColorToken token="text.accent.indigo.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.purple" />
+        <SemanticColorToken token="text.accent.purple.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.violet" />
+        <SemanticColorToken token="text.accent.violet.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.pink" />
+        <SemanticColorToken token="text.accent.pink.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.rose" />
+        <SemanticColorToken token="text.accent.rose.bold" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <SemanticColorToken token="text.accent.magenta" />
+        <SemanticColorToken token="text.accent.magenta.bold" />
+      </Flex>
+    </Grid>
+
+    <Divider weight="thick" color="border.boldest" />
+
+    <Heading level="h3" textStyle="mono.lg" fontWeight="bold">Legacy</Heading>
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">brand</Text>
+        <Flex gap="8">
+          <ColorToken tokenKey="brand.slate" />
+          <ColorToken tokenKey="brand.gold" />
+        </Flex>
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">utility</Text>
+        <SemanticColorToken token="utility.shadowColor" />
+        <SemanticColorToken token="utility.headingColor" />
+        <SemanticColorToken token="utility.textColor" />
+        <SemanticColorToken token="utility.borderColor" />
+      </Flex>
+    </Grid>
+
+    <Divider color="border.disabled"/>
+
+    <Grid gridTemplateColumns="repeat(auto-fill, minmax(min(240px, 100%), 1fr))" gap="40" py="32">
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">success</Text>
+        <SemanticColorToken token="success.lighter" />
+        <SemanticColorToken token="success.light" />
+        <SemanticColorToken token="success.default" />
+        <SemanticColorToken token="success.dark" />
+        <SemanticColorToken token="success.darker" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">warning</Text>
+        <SemanticColorToken token="warning.lighter" />
+        <SemanticColorToken token="warning.light" />
+        <SemanticColorToken token="warning.default" />
+        <SemanticColorToken token="warning.dark" />
+        <SemanticColorToken token="warning.darker" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">error</Text>
+        <SemanticColorToken token="error.lighter" />
+        <SemanticColorToken token="error.light" />
+        <SemanticColorToken token="error.default" />
+        <SemanticColorToken token="error.dark" />
+        <SemanticColorToken token="error.darker" />
+      </Flex>
+      <Flex direction="column" gap="8">
+        <Text textStyle="mono.sm" fontWeight="bold">info</Text>
+        <SemanticColorToken token="info.lighter" />
+        <SemanticColorToken token="info.light" />
+        <SemanticColorToken token="info.default" />
+        <SemanticColorToken token="info.dark" />
+        <SemanticColorToken token="info.darker" />
+      </Flex>
+    </Grid>
+  </Flex>
+</Flex>
+
+</Unstyled>

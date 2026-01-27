@@ -1,23 +1,18 @@
-import React from 'react';
 import { Box } from '../Box';
 import { cx } from '@styled-system/css';
 import { menu as menuRecipe } from '@styled-system/recipes';
 import { splitProps } from '~/utils/splitProps';
-import type { MenuListDividerProps } from './types';
+import type { MenuListDividerProps } from './MenuList';
 
-export const MenuListDivider: React.FC<MenuListDividerProps> = ({
-  size,
-  indicatorPosition,
-  className,
-  ...props
-}) => {
-  const [cssClassName, otherProps] = splitProps(props);
-  const classes = menuRecipe({ size, indicatorPosition });
+export const MenuListDivider = (props: MenuListDividerProps) => {
+  const { packing, indicatorPosition, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
+  const classes = menuRecipe({ packing, indicatorPosition });
 
   return (
     <Box
       role="separator"
-      className={cx(classes.menuDivider, cssClassName, className)}
+      className={cx(classes.menuDivider, className)}
       {...otherProps}
     />
   );

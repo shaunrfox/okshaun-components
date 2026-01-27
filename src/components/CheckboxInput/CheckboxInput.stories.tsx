@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import { userEvent, within, expect } from '@storybook/test';
 import { CheckboxInput } from './CheckboxInput';
 import { CheckboxChangeHandler } from '../Checkbox';
@@ -82,6 +82,7 @@ type Story = StoryObj<typeof meta>;
 // 1. Default - Most common usage
 export const Default: Story = {
   render: () => {
+    const Component = () => {
     const [checked, setChecked] = useState(false);
     const handleChange: CheckboxChangeHandler = (e) =>
       setChecked(e.target.checked);
@@ -96,6 +97,8 @@ export const Default: Story = {
         I accept the terms and conditions
       </CheckboxInput>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -164,6 +167,7 @@ export const AllStates: Story = {
 export const ExInteractive: Story = {
   name: 'Ex: Interactive Toggle',
   render: () => {
+    const Component = () => {
     const [checked, setChecked] = useState(false);
 
     return (
@@ -172,18 +176,23 @@ export const ExInteractive: Story = {
           name="interactive"
           id="interactive"
           checked={checked}
-          onChange={(e: any) => setChecked(e.target.checked)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setChecked(e.target.checked)
+          }
         >
           Click to toggle (currently: {checked ? 'checked' : 'unchecked'})
         </CheckboxInput>
       </Box>
     );
+    };
+    return <Component />;
   },
 };
 
 export const ExCheckboxGroup: Story = {
   name: 'Ex: Checkbox Group with Select All',
   render: () => {
+    const Component = () => {
     const [selections, setSelections] = useState({
       option1: false,
       option2: true,
@@ -191,9 +200,11 @@ export const ExCheckboxGroup: Story = {
       option4: false,
     });
 
-    const handleChange = (key: keyof typeof selections) => (e: any) => {
-      setSelections({ ...selections, [key]: e.target.checked });
-    };
+    const handleChange =
+      (key: keyof typeof selections) =>
+      (e: ChangeEvent<HTMLInputElement>) => {
+        setSelections({ ...selections, [key]: e.target.checked });
+      };
 
     // Calculate if parent should be indeterminate
     const checkedCount = Object.values(selections).filter(Boolean).length;
@@ -201,7 +212,7 @@ export const ExCheckboxGroup: Story = {
     const someChecked =
       checkedCount > 0 && checkedCount < Object.keys(selections).length;
 
-    const handleSelectAll = (e: any) => {
+    const handleSelectAll = (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.checked;
       setSelections({
         option1: newValue,
@@ -259,12 +270,15 @@ export const ExCheckboxGroup: Story = {
         </Box>
       </Box>
     );
+    };
+    return <Component />;
   },
 };
 
 export const ExFormIntegration: Story = {
   name: 'Ex: Form Integration',
   render: () => {
+    const Component = () => {
     const [formData, setFormData] = useState({
       newsletter: false,
       terms: false,
@@ -293,7 +307,7 @@ export const ExFormIntegration: Story = {
           name="newsletter"
           id="newsletter"
           checked={formData.newsletter}
-          onChange={(e: any) =>
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setFormData({ ...formData, newsletter: e.target.checked })
           }
         >
@@ -304,7 +318,7 @@ export const ExFormIntegration: Story = {
           name="terms"
           id="terms"
           checked={formData.terms}
-          onChange={(e: any) =>
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setFormData({ ...formData, terms: e.target.checked })
           }
           error={!formData.terms}
@@ -316,7 +330,7 @@ export const ExFormIntegration: Story = {
           name="privacy"
           id="privacy"
           checked={formData.privacy}
-          onChange={(e: any) =>
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setFormData({ ...formData, privacy: e.target.checked })
           }
           error={!formData.privacy}
@@ -331,6 +345,8 @@ export const ExFormIntegration: Story = {
         </Box>
       </Box>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -338,6 +354,7 @@ export const ExFormIntegration: Story = {
 export const A11yAccessibilityCheck: Story = {
   name: 'A11y: Accessibility Check',
   render: () => {
+    const Component = () => {
     const [checked, setChecked] = useState(false);
     const handleChange: CheckboxChangeHandler = (e) =>
       setChecked(e.target.checked);
@@ -352,6 +369,8 @@ export const A11yAccessibilityCheck: Story = {
         Accessible checkbox
       </CheckboxInput>
     );
+    };
+    return <Component />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

@@ -6,7 +6,7 @@ import { Button } from '~/components/Button';
 import { IconButton } from '~/components/IconButton';
 import { Icon, IconNames, type IconNamesList } from '~/components/Icon';
 import { Pre } from '~/components/Code';
-import { ThemeProvider } from '~/contexts/ThemeContext';
+import { ThemeProvider } from '~/contexts/ThemeProvider';
 import { ThemeSwitcher } from '~/components/ThemeSwitcher';
 import { Heading } from '~/components/Heading';
 import { Link } from '~/components/Link';
@@ -197,6 +197,37 @@ function AppContent() {
       });
     };
 
+  // Radio states using Storybook pattern
+  const [radioStates, setRadioStates] = useState({
+    normal: false,
+    defaultChecked: true,
+    error: false,
+    disabled: false,
+  });
+
+  const handleRadioChange =
+    (key: keyof typeof radioStates) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setRadioStates({ ...radioStates, [key]: e.target.checked });
+    };
+
+  // RadioInput states using Storybook pattern
+  // const [radioInputStates, setRadioInputStates] = useState({
+  //   normal: false,
+  //   defaultChecked: true,
+  //   error: false,
+  //   disabled: false,
+  // });
+
+  // const handleRadioInputChange =
+  //   (key: keyof typeof radioInputStates) =>
+  //   (e: React.ChangeEvent<HTMLInputElement>) => {
+  //     setRadioInputStates({
+  //       ...radioInputStates,
+  //       [key]: e.target.checked,
+  //     });
+  //   };
+
   return (
     <VStack>
       <Flex
@@ -266,44 +297,44 @@ function AppContent() {
             <Heading>Buttons</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
               <HStack>
-                <Button appearance="primary" onClick={() => alert('clicked')}>
+                <Button variant="primary" onClick={() => alert('clicked')}>
                   Primary
                 </Button>
                 <Button>Default</Button>
-                <Button appearance="subtle">Subtle</Button>
-                <Button appearance="hollow">Hollow</Button>
+                <Button variant="subtle">Subtle</Button>
+                <Button variant="hollow">Hollow</Button>
               </HStack>
               <HStack>
                 <Button
-                  appearance="primary"
+                  variant="primary"
                   iconBefore="user"
                   onClick={() => alert('clicked')}
                 >
                   Primary
                 </Button>
                 <Button iconAfter="caret-down">Default</Button>
-                <Button iconAfter="plus" appearance="subtle">
+                <Button iconAfter="plus" variant="subtle">
                   Subtle
                 </Button>
-                <Button iconBefore="aa-placeholder" appearance="hollow">
+                <Button iconBefore="aa-placeholder" variant="hollow">
                   Hollow
                 </Button>
               </HStack>
               <HStack>
-                <IconButton appearance="subtle" iconName="x" />
+                <IconButton variant="subtle" iconName="x" />
                 <IconButton iconName="arrow-left" />
                 <IconButton
-                  appearance="primary"
+                  variant="primary"
                   size="lg"
                   iconName="arrow-right"
                 />
               </HStack>
               <HStack>
-                <Button appearance="primary" loading>
+                <Button variant="primary" loading>
                   Pepperoni
                 </Button>
                 <Button loading>Loading</Button>
-                <IconButton appearance="primary" loading>
+                <IconButton variant="primary" loading>
                   <Icon name="x" />
                 </IconButton>
               </HStack>
@@ -423,29 +454,6 @@ function AppContent() {
             <IconList />
           </Section>
           <Section>
-            <Heading level="h2">Badge</Heading>
-            <VStack alignItems={'flex-start'} gap={'24'}>
-              <HStack gap={'16'}>
-                <Text>Solid</Text>
-                <Badge variant="solid" size="sm"></Badge>
-                <Badge variant="solid"></Badge>
-                <Badge variant="solid" size="lg"></Badge>
-              </HStack>
-              <HStack gap={'16'}>
-                <Text>Subtle</Text>
-                <Badge variant="subtle" size="sm"></Badge>
-                <Badge variant="subtle"></Badge>
-                <Badge variant="subtle" size="lg"></Badge>
-              </HStack>
-              <HStack gap={'16'}>
-                <Text>Outline</Text>
-                <Badge variant="outline" size="sm"></Badge>
-                <Badge variant="outline"></Badge>
-                <Badge variant="outline" size="lg"></Badge>
-              </HStack>
-            </VStack>
-          </Section>
-          <Section>
             <Heading level="h2">Tags</Heading>
             <VStack alignItems={'flex-start'} gap={'24'}>
               <Grid gap={'8'} gridTemplateColumns={'repeat(13, auto)'}>
@@ -541,46 +549,46 @@ function AppContent() {
                     </Flex>
                   </Card>
 
-                  <Card appearance="flat">
+                  <Card variant="flat">
                     <Flex flexDir="column" p={'16'}>
                       <Heading level="h3">Flat Card</Heading>
                       <Text>Static card with flat style</Text>
                     </Flex>
                   </Card>
-                  <Card appearance="flat" interactive>
+                  <Card variant="flat" interactive>
                     <Flex flexDir="column" p={'16'}>
                       <Heading level="h3">Flat Card</Heading>
                       <Text>Interactive card with flat style</Text>
                     </Flex>
                   </Card>
 
-                  <Card appearance="sunken">
+                  <Card variant="sunken">
                     <Flex flexDir="column" p={'16'}>
                       <Heading level="h3">Sunken Card</Heading>
                       <Text>Static with sunken background</Text>
                     </Flex>
                   </Card>
-                  <Card interactive appearance="sunken">
+                  <Card interactive variant="sunken">
                     <Flex flexDir="column" p={'16'}>
                       <Heading level="h3">Sunken Card</Heading>
                       <Text>Interactive with sunken background</Text>
                     </Flex>
                   </Card>
 
-                  <Card appearance="ghost">
+                  <Card variant="ghost">
                     <Flex flexDir="column" p={'16'}>
                       <Heading level="h3">Ghost Card</Heading>
                       <Text>Static with transparent background</Text>
                     </Flex>
                   </Card>
-                  <Card interactive appearance="ghost">
+                  <Card interactive variant="ghost">
                     <Flex flexDir="column" p={'16'}>
                       <Heading level="h3">Ghost Card</Heading>
                       <Text>Interactive with transparent background</Text>
                     </Flex>
                   </Card>
 
-                  <Card appearance="overlay">
+                  <Card variant="overlay">
                     <Flex flexDir="column" p={'16'}>
                       <Heading level="h3">Overlay Card</Heading>
                       <Text>Static card with shadow</Text>
@@ -782,15 +790,31 @@ function AppContent() {
             <VStack alignItems={'flex-start'} gap={'24'}>
               <HStack gap={'16'}>
                 <Label>
-                  <Radio id="radio1" name="radioGroup" />
+                  <Radio
+                    id="radio1"
+                    name="radioGroup"
+                    checked={radioStates.normal}
+                    onChange={handleRadioChange('normal')}
+                  />
                   <Text ml={'8'}>Option 1</Text>
                 </Label>
                 <Label>
-                  <Radio id="radio2" name="radioGroup" />
+                  <Radio
+                    id="radio2"
+                    name="radioGroup"
+                    checked={radioStates.defaultChecked}
+                    onChange={handleRadioChange('defaultChecked')}
+                  />
                   <Text ml={'8'}>Option 2</Text>
                 </Label>
                 <Label>
-                  <Radio id="radio3" name="radioGroup" disabled />
+                  <Radio
+                    id="radio3"
+                    name="radioGroup"
+                    checked={radioStates.disabled}
+                    onChange={handleRadioChange('disabled')}
+                    disabled
+                  />
                   <Text ml={'8'}>Disabled</Text>
                 </Label>
               </HStack>

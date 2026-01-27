@@ -92,7 +92,7 @@ const menuBase = {
 
   // Primary label
   menuItemLabel: {
-    fontSize: 'md',
+    fontSize: '16',
     color: 'text',
     fontFamily: 'sans',
     fontWeight: 'normal',
@@ -108,7 +108,7 @@ const menuBase = {
 
   // Secondary description
   menuItemDescription: {
-    fontSize: 'xs',
+    fontSize: '12',
     fontFamily: 'sans',
     color: 'text.subtlest',
   },
@@ -129,12 +129,12 @@ const menuBase = {
 
   // Group label
   menuGroupLabel: {
-    fontSize: 'xs',
+    fontSize: '12',
     color: 'text.subtlest',
     fontFamily: 'sans',
-    fontWeight: 'medium',
-    textTransform: 'uppercase',
-    letterSpacing: 'wide',
+    // fontWeight: 'medium',
+    // textTransform: 'uppercase',
+    // letterSpacing: 'wide',
     px: '12',
     pt: '16',
     pb: '4',

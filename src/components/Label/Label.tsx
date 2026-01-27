@@ -11,16 +11,13 @@ export type LabelProps = Omit<BoxProps, keyof LabelVariantProps> &
     children?: string | React.ReactNode;
   };
 
-export const Label: React.FC<LabelProps> = ({
-  htmlFor,
-  children,
-  ...props
-}: LabelProps) => {
-  const [className, otherProps] = splitProps(props);
+export const Label = (props: LabelProps) => {
+  const { htmlFor, children, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
   return (
     <Box
-      htmlFor={htmlFor}
       as="label"
+      htmlFor={htmlFor}
       className={cx(label({}), className)}
       {...otherProps}
     >

@@ -1,23 +1,28 @@
+import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { toggle, type ToggleVariantProps } from '@styled-system/recipes';
 import { Icon } from '../Icon';
 import { ChangeEventHandler } from 'react';
 
-export type ToggleProps = {
-  /** Form field name */
-  name: string;
-  /** Controlled checked state (REQUIRED) */
-  checked: boolean;
-  /** Change handler (REQUIRED) */
-  onChange: ChangeEventHandler<HTMLInputElement>;
-  /** Unique identifier for the toggle */
-  id?: string;
-  /** Disable the toggle */
-  disabled?: boolean;
-  /** Display error state */
-  error?: boolean;
-} & Omit<BoxProps, 'checked' | 'onChange' | keyof ToggleVariantProps> &
-  ToggleVariantProps;
+export type ToggleProps = Omit<
+  BoxProps,
+  'checked' | 'onChange' | keyof ToggleVariantProps
+> &
+  ToggleVariantProps & {
+    /** Form field name */
+    name: string;
+    /** Controlled checked state (REQUIRED) */
+    checked: boolean;
+    /** Change handler (REQUIRED) */
+    onChange: ChangeEventHandler<HTMLInputElement>;
+    /** Unique identifier for the toggle */
+    id?: string;
+    /** Disable the toggle */
+    disabled?: boolean;
+    /** Display error state */
+    error?: boolean;
+  };
 
 /**
  * Helper type for toggle change events
@@ -45,39 +50,34 @@ export type ToggleChangeHandler = (e: ToggleChangeEvent) => void;
  *   onChange={(e) => setChecked(e.target.checked)}
  * />
  */
-export const Toggle: React.FC<ToggleProps> = ({
-  name,
-  id,
-  checked,
-  onChange,
-  disabled,
-  error,
-  ...props
-}) => {
+export const Toggle = (props: ToggleProps) => {
+  const { name, id, checked, onChange, disabled, error, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
   const { container, input, indicator, background } = toggle({});
+
+  // Determine which icon to render based on state
+  const iconName = checked ? 'circle-check' : 'circle';
 
   return (
     <Box
-      className={container}
+      className={cx(container, className)}
       {...(disabled && { 'data-disabled': true })}
       {...(error && { 'data-error': true })}
+      {...otherProps}
     >
       <Box
         as="input"
         type="checkbox"
+        className={input}
         name={name}
         id={id}
-        aria-label={name}
-        className={input}
         checked={checked}
         onChange={onChange}
         disabled={disabled}
         {...(error && { 'data-error': true })}
-        {...props}
       />
       <Box as="span" className={background} name={'toggle-bg'} />
-      <Icon name={'circle'} className={indicator} />
-      <Icon name={'circle-check'} className={indicator} />
+      <Icon name={iconName} className={indicator} />
     </Box>
   );
 };

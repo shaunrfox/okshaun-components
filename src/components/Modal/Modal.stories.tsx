@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Modal } from './Modal';
 import { ModalHeader } from './ModalHeader';
@@ -39,6 +39,7 @@ type Story = StoryObj<typeof Modal>;
 
 export const Default: Story = {
   render: () => {
+    const Component = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -67,6 +68,8 @@ export const Default: Story = {
         </Modal>
       </>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -76,6 +79,7 @@ export const Default: Story = {
 
 export const Small: Story = {
   render: () => {
+    const Component = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -97,6 +101,8 @@ export const Small: Story = {
         </Modal>
       </>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -106,6 +112,7 @@ export const Small: Story = {
 
 export const Large: Story = {
   render: () => {
+    const Component = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -131,6 +138,8 @@ export const Large: Story = {
         </Modal>
       </>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -140,6 +149,7 @@ export const Large: Story = {
 
 export const NoCloseButton: Story = {
   render: () => {
+    const Component = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -169,6 +179,8 @@ export const NoCloseButton: Story = {
         </Modal>
       </>
     );
+    };
+    return <Component />;
   },
 };
 
@@ -178,6 +190,7 @@ export const NoCloseButton: Story = {
 
 export const PreventOverlayClose: Story = {
   render: () => {
+    const Component = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -207,5 +220,7 @@ export const PreventOverlayClose: Story = {
         </Modal>
       </>
     );
+    };
+    return <Component />;
   },
 };

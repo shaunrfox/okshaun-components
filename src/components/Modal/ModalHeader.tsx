@@ -1,20 +1,23 @@
-import React from 'react';
-import { Box } from '../Box';
+import { Box, type BoxProps } from '../Box';
 import { IconButton } from '../IconButton';
 import { modal as modalRecipe } from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
 import { useModalContext } from './ModalContext';
-import type { ModalHeaderProps } from './types';
 import { Heading } from '../Heading';
 
-export const ModalHeader: React.FC<ModalHeaderProps> = ({
-  title,
-  showCloseButton = true,
-  children,
-  ...props
-}) => {
-  const [className, otherProps] = splitProps(props);
+export type ModalHeaderProps = Omit<BoxProps, 'children'> & {
+  /** Title text */
+  title?: string | React.ReactNode;
+  /** Whether to show the close button */
+  showCloseButton?: boolean;
+  /** Children (custom header content) */
+  children?: React.ReactNode;
+};
+
+export const ModalHeader = (props: ModalHeaderProps) => {
+  const { title, showCloseButton = true, children, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
   const classes = modalRecipe();
   const { onClose } = useModalContext();
 

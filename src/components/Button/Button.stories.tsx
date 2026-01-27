@@ -10,7 +10,7 @@ import { HStack, VStack } from '@styled-system/jsx';
  * Button component with comprehensive variant support.
  *
  * Features:
- * - Multiple visual appearances (default, primary, subtle, hollow)
+ * - Multiple visual variants (default, primary, subtle, hollow)
  * - Four sizes (sm, mf, lg, xl)
  * - Icon support via string names (iconBefore, iconAfter)
  * - Loading and disabled states
@@ -25,10 +25,10 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    appearance: {
+    variant: {
       control: 'select',
       options: ['default', 'primary', 'subtle', 'hollow'],
-      description: 'Visual style appearance',
+      description: 'Visual style variant',
       table: {
         defaultValue: { summary: 'default' },
       },
@@ -80,46 +80,46 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ============================================================================
-// Basic Appearances
+// Basic variants
 // ============================================================================
 
 /**
- * Default button appearance - neutral styling
+ * Default button variant - neutral styling
  */
 export const Default: Story = {
   args: {
     children: 'Default Button',
-    appearance: 'default',
+    variant: 'default',
   },
 };
 
 /**
- * Primary appearance - bold brand styling for primary actions
+ * Primary variant - bold brand styling for primary actions
  */
 export const Primary: Story = {
   args: {
     children: 'Primary Button',
-    appearance: 'primary',
+    variant: 'primary',
   },
 };
 
 /**
- * Subtle appearance - minimal styling for secondary actions
+ * Subtle variant - minimal styling for secondary actions
  */
 export const Subtle: Story = {
   args: {
     children: 'Subtle Button',
-    appearance: 'subtle',
+    variant: 'subtle',
   },
 };
 
 /**
- * Hollow appearance - bordered with transparent background
+ * Hollow variant - bordered with transparent background
  */
 export const Hollow: Story = {
   args: {
     children: 'Hollow Button',
-    appearance: 'hollow',
+    variant: 'hollow',
   },
 };
 
@@ -143,7 +143,7 @@ export const Small: Story = {
 export const DefaultSize: Story = {
   args: {
     children: 'Default',
-    size: 'default',
+    size: 'md',
   },
 };
 
@@ -183,38 +183,36 @@ export const AllSizes: Story = {
 };
 
 // ============================================================================
-// Appearance × Size Matrix
+// variant × Size Matrix
 // ============================================================================
 
 /**
- * Complete matrix showing all appearance and size combinations
+ * Complete matrix showing all variant and size combinations
  */
 export const AllVariants: Story = {
   render: () => (
     <VStack gap="6" alignItems="flex-start">
-      {(['default', 'primary', 'subtle', 'hollow'] as const).map(
-        (appearance) => (
-          <div key={appearance}>
-            <div
-              className={css({
-                mb: '2',
-                fontSize: 'sm',
-                fontWeight: 'semibold',
-                textTransform: 'capitalize',
-              })}
-            >
-              {appearance}
-            </div>
-            <HStack gap="4" flexWrap="wrap" alignItems="center">
-              {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
-                <Button key={size} appearance={appearance} size={size}>
-                  {size}
-                </Button>
-              ))}
-            </HStack>
+      {(['default', 'primary', 'subtle', 'hollow'] as const).map((variant) => (
+        <div key={variant}>
+          <div
+            className={css({
+              mb: '2',
+              fontSize: '14',
+              fontWeight: 'bold',
+              textTransform: 'capitalize',
+            })}
+          >
+            {variant}
           </div>
-        ),
-      )}
+          <HStack gap="4" flexWrap="wrap" alignItems="center">
+            {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+              <Button key={size} variant={variant} size={size}>
+                {size}
+              </Button>
+            ))}
+          </HStack>
+        </div>
+      ))}
     </VStack>
   ),
   parameters: { controls: { disable: true } },
@@ -235,21 +233,21 @@ export const Disabled: Story = {
 };
 
 /**
- * Disabled state across all appearances
+ * Disabled state across all variants
  */
 export const DisabledVariants: Story = {
   render: () => (
     <HStack gap="4" flexWrap="wrap">
-      <Button appearance="default" disabled>
+      <Button variant="default" disabled>
         Default Disabled
       </Button>
-      <Button appearance="primary" disabled>
+      <Button variant="primary" disabled>
         Primary Disabled
       </Button>
-      <Button appearance="subtle" disabled>
+      <Button variant="subtle" disabled>
         Subtle Disabled
       </Button>
-      <Button appearance="hollow" disabled>
+      <Button variant="hollow" disabled>
         Hollow Disabled
       </Button>
     </HStack>
@@ -268,21 +266,21 @@ export const Loading: Story = {
 };
 
 /**
- * Loading state across all appearances
+ * Loading state across all variants
  */
 export const LoadingVariants: Story = {
   render: () => (
     <HStack gap="4" flexWrap="wrap">
-      <Button appearance="default" loading>
+      <Button variant="default" loading>
         Default
       </Button>
-      <Button appearance="primary" loading>
+      <Button variant="primary" loading>
         Primary
       </Button>
-      <Button appearance="subtle" loading>
+      <Button variant="subtle" loading>
         Subtle
       </Button>
-      <Button appearance="hollow" loading>
+      <Button variant="hollow" loading>
         Hollow
       </Button>
     </HStack>
@@ -326,21 +324,21 @@ export const WithBothIcons: Story = {
 };
 
 /**
- * Icon buttons across all appearances
+ * Icon buttons across all variants
  */
 export const IconVariants: Story = {
   render: () => (
     <HStack gap="4" flexWrap="wrap">
-      <Button appearance="default" iconBefore="plus">
+      <Button variant="default" iconBefore="plus">
         Add
       </Button>
-      <Button appearance="primary" iconBefore="check">
+      <Button variant="primary" iconBefore="check">
         Confirm
       </Button>
-      <Button appearance="subtle" iconBefore="edit">
+      <Button variant="subtle" iconBefore="edit">
         Edit
       </Button>
-      <Button appearance="hollow" iconAfter="arrow-square-out">
+      <Button variant="hollow" iconAfter="arrow-square-out">
         Open
       </Button>
     </HStack>
@@ -414,21 +412,21 @@ export const AsLink: Story = {
 };
 
 /**
- * Link buttons with different appearances
+ * Link buttons with different variants
  */
 export const LinkVariants: Story = {
   render: () => (
     <HStack gap="4" flexWrap="wrap">
-      <Button href="#" appearance="default">
+      <Button href="#" variant="default">
         Default Link
       </Button>
-      <Button href="#" appearance="primary">
+      <Button href="#" variant="primary">
         Primary Link
       </Button>
-      <Button href="#" appearance="subtle">
+      <Button href="#" variant="subtle">
         Subtle Link
       </Button>
-      <Button href="#" appearance="hollow" iconAfter="arrow-square-out">
+      <Button href="#" variant="hollow" iconAfter="arrow-square-out">
         External
       </Button>
     </HStack>
@@ -447,37 +445,33 @@ export const IconButtons: Story = {
   render: () => (
     <VStack gap="6" alignItems="flex-start">
       <div>
-        <div
-          className={css({ mb: '2', fontSize: 'sm', fontWeight: 'semibold' })}
-        >
-          IconButton Appearances
+        <div className={css({ mb: '2', fontSize: '14', fontWeight: 'bold' })}>
+          IconButton variants
         </div>
         <HStack gap="4">
-          <IconButton appearance="default" aria-label="Add">
+          <IconButton variant="default" aria-label="Add">
             <Icon name="plus" />
           </IconButton>
-          <IconButton appearance="primary" aria-label="Confirm">
+          <IconButton variant="primary" aria-label="Confirm">
             <Icon name="check" />
           </IconButton>
-          <IconButton appearance="subtle" aria-label="Settings">
+          <IconButton variant="subtle" aria-label="Settings">
             <Icon name="settings" />
           </IconButton>
-          <IconButton appearance="hollow" aria-label="Delete">
+          <IconButton variant="hollow" aria-label="Delete">
             <Icon name="trash" />
           </IconButton>
         </HStack>
       </div>
       <div>
-        <div
-          className={css({ mb: '2', fontSize: 'sm', fontWeight: 'semibold' })}
-        >
+        <div className={css({ mb: '2', fontSize: '14', fontWeight: 'bold' })}>
           IconButton Sizes
         </div>
         <HStack gap="4" alignItems="center">
           <IconButton size="sm" aria-label="Add">
             <Icon name="plus" />
           </IconButton>
-          <IconButton size="default" aria-label="Add">
+          <IconButton size="md" aria-label="Add">
             <Icon name="plus" />
           </IconButton>
           <IconButton size="lg" aria-label="Add">
@@ -500,10 +494,10 @@ export const IconButtons: Story = {
 export const ActionGroup: Story = {
   render: () => (
     <HStack gap="4">
-      <Button appearance="primary" iconBefore="check">
+      <Button variant="primary" iconBefore="check">
         Confirm
       </Button>
-      <Button appearance="hollow">Cancel</Button>
+      <Button variant="hollow">Cancel</Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
@@ -515,9 +509,9 @@ export const ActionGroup: Story = {
 export const FormActions: Story = {
   render: () => (
     <HStack gap="4" justifyContent="flex-end">
-      <Button appearance="subtle">Reset</Button>
-      <Button appearance="hollow">Save Draft</Button>
-      <Button appearance="primary" iconAfter="arrow-right">
+      <Button variant="subtle">Reset</Button>
+      <Button variant="hollow">Save Draft</Button>
+      <Button variant="primary" iconAfter="arrow-right">
         Submit
       </Button>
     </HStack>
@@ -530,11 +524,11 @@ export const FormActions: Story = {
  */
 export const Navigation: Story = {
   render: () => (
-    <HStack gap="4" justifyContent="space-between" width="300px">
-      <Button appearance="hollow" iconBefore="arrow-left">
+    <HStack gap="4" justifyContent="space-between" width="xs">
+      <Button variant="hollow" iconBefore="arrow-left">
         Back
       </Button>
-      <Button appearance="primary" iconAfter="arrow-right">
+      <Button variant="primary" iconAfter="arrow-right">
         Next
       </Button>
     </HStack>
@@ -548,13 +542,13 @@ export const Navigation: Story = {
 export const CrudActions: Story = {
   render: () => (
     <HStack gap="3" flexWrap="wrap">
-      <Button appearance="primary" size="sm" iconBefore="plus">
+      <Button variant="primary" size="sm" iconBefore="plus">
         Create
       </Button>
-      <Button appearance="hollow" size="sm" iconBefore="edit">
+      <Button variant="hollow" size="sm" iconBefore="edit">
         Edit
       </Button>
-      <Button appearance="subtle" size="sm" iconBefore="trash">
+      <Button variant="subtle" size="sm" iconBefore="trash">
         Delete
       </Button>
     </HStack>
@@ -568,10 +562,10 @@ export const CrudActions: Story = {
 export const FormSubmitting: Story = {
   render: () => (
     <HStack gap="4">
-      <Button appearance="hollow" disabled>
+      <Button variant="hollow" disabled>
         Cancel
       </Button>
-      <Button appearance="primary" loading>
+      <Button variant="primary" loading>
         Saving...
       </Button>
     </HStack>
@@ -618,8 +612,8 @@ export const VaryingContentLength: Story = {
  */
 export const Playground: Story = {
   args: {
-    appearance: 'default',
-    size: 'default',
+    variant: 'default',
+    size: 'md',
     children: 'Click Me',
     disabled: false,
     loading: false,

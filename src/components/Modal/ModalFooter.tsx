@@ -1,12 +1,16 @@
-import React from 'react';
-import { Box } from '../Box';
+import { Box, type BoxProps } from '../Box';
 import { modal as modalRecipe } from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
-import type { ModalFooterProps } from './types';
 
-export const ModalFooter: React.FC<ModalFooterProps> = ({ children, ...props }) => {
-  const [className, otherProps] = splitProps(props);
+export type ModalFooterProps = Omit<BoxProps, 'children'> & {
+  /** Footer content (typically action buttons) */
+  children: React.ReactNode;
+};
+
+export const ModalFooter = (props: ModalFooterProps) => {
+  const { children, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
   const classes = modalRecipe();
 
   return (
@@ -15,4 +19,3 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ children, ...props }) 
     </Box>
   );
 };
-

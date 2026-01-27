@@ -83,91 +83,90 @@ function getInitials(name: string): string {
  * Avatar component for displaying user or entity images with optional
  * presence and status indicators.
  */
-export const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
-  (props, ref) => {
-    const {
-      src,
-      alt = '',
-      name,
-      size = 'md' as AvatarSize,
-      shape = 'circle' as AvatarShape,
-      presence,
-      status,
-      fallback,
-      borderColor,
-      ...rest
-    } = props;
+export const Avatar = (props: AvatarProps) => {
+  const {
+    src,
+    alt = '',
+    name,
+    size = 'md' as AvatarSize,
+    shape = 'circle' as AvatarShape,
+    presence,
+    status,
+    fallback,
+    borderColor,
+    ref,
+    ...rest
+  } = props;
 
-    const [className, otherProps] = splitProps(rest);
-    const [imageError, setImageError] = React.useState(false);
-    const [imageLoaded, setImageLoaded] = React.useState(false);
+  const [className, otherProps] = splitProps(rest);
+  const [imageError, setImageError] = React.useState(false);
+  const [imageLoaded, setImageLoaded] = React.useState(false);
 
-    // Reset error state when src changes
-    React.useEffect(() => {
-      setImageError(false);
-      setImageLoaded(false);
-    }, [src]);
+  // Reset error state when src changes
+  React.useEffect(() => {
+    setImageError(false);
+    setImageLoaded(false);
+  }, [src]);
 
-    // Type-safe size for indexing
-    const safeSize = size as AvatarSize;
-    const classes = avatar({ size: safeSize, shape });
+  // Type-safe size for indexing
+  const safeSize = size as AvatarSize;
+  const classes = avatar({ size: safeSize, shape });
 
-    // Determine what to show: image, fallback, or initials
-    const showImage = src && !imageError;
-    const initials = name ? getInitials(name) : null;
+  // Determine what to show: image, fallback, or initials
+  const showImage = src && !imageError;
+  const initials = name ? getInitials(name) : null;
 
-    // Get icon size based on avatar size
-    const iconSize = sizeToStatusIconSize[safeSize];
+  // Get icon size based on avatar size
+  const iconSize = sizeToStatusIconSize[safeSize];
 
-    return (
-      <span
-        ref={ref}
-        className={cx(classes.root, className)}
-        style={borderColor ? { borderColor } : undefined}
-        {...otherProps}
-      >
-        {/* Image */}
-        {showImage && (
-          <img
-            src={src}
-            alt={alt}
-            className={classes.image}
-            onError={() => setImageError(true)}
-            onLoad={() => setImageLoaded(true)}
-            style={{ opacity: imageLoaded ? 1 : 0 }}
-          />
-        )}
+  return (
+    <span
+      ref={ref}
+      className={cx(classes.root, className)}
+      style={borderColor ? { borderColor } : undefined}
+      {...otherProps}
+    >
+      {/* Image */}
+      {showImage && (
+        <img
+          src={src}
+          alt={alt}
+          className={classes.image}
+          onError={() => setImageError(true)}
+          onLoad={() => setImageLoaded(true)}
+          style={{ opacity: imageLoaded ? 1 : 0 }}
+        />
+      )}
 
-        {/* Fallback content (shown when no image or image failed) */}
-        {(!showImage || !imageLoaded) && (
-          <span className={classes.fallback}>
-            {fallback || initials || <Icon name="user" />}
-          </span>
-        )}
+      {/* Fallback content (shown when no image or image failed) */}
+      {(!showImage || !imageLoaded) && (
+        <span className={classes.fallback}>
+          {fallback || initials || <Icon name="user" />}
+        </span>
+      )}
 
-        {/* Presence indicator */}
-        {presence && (
-          <span
-            className={cx(
-              classes.presence,
-              presenceStyles[presence as AvatarPresence],
-            )}
-          />
-        )}
+      {/* Presence indicator */}
+      {presence && (
+        <span
+          className={cx(
+            classes.presence,
+            presenceStyles[presence as AvatarPresence],
+          )}
+        />
+      )}
 
-        {/* Status indicator */}
-        {status && (
-          <span
-            className={cx(classes.status, statusStyles[status as AvatarStatus])}
-          >
-            {status === 'approved' && <Icon name="check" size={iconSize} />}
-            {status === 'declined' && <Icon name="x" size={iconSize} />}
-            {status === 'locked' && <Icon name="lock" size={iconSize} />}
-          </span>
-        )}
-      </span>
-    );
-  },
-);
+      {/* Status indicator */}
+      {status && (
+        <span
+          className={cx(classes.status, statusStyles[status as AvatarStatus])}
+        >
+          {status === 'approved' && <Icon name="check" size={iconSize} />}
+          {status === 'declined' && <Icon name="x" size={iconSize} />}
+          {status === 'locked' && <Icon name="lock" size={iconSize} />}
+        </span>
+      )}
+    </span>
+  );
+};
 
 Avatar.displayName = 'Avatar';

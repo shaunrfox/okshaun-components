@@ -1,24 +1,76 @@
 import React from 'react';
-import { Box } from '../Box';
-import { menu as menuRecipe } from '@styled-system/recipes';
+import { Box, type BoxProps } from '../Box';
+import type { IconNamesList } from '../Icon';
+import {
+  menu as menuRecipe,
+  type MenuVariantProps,
+} from '@styled-system/recipes';
+import { SelectionIndicator, type MenuItemType } from './MenuItem';
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
-import type { MenuListProps } from './types';
 
-export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
-  ({ size, indicatorPosition, role = 'listbox', className, ...props }, ref) => {
-    const [cssClassName, otherProps] = splitProps(props);
-    const classes = menuRecipe({ size, indicatorPosition });
+export type MenuListProps = Omit<BoxProps, keyof MenuVariantProps> &
+  MenuVariantProps;
 
-    return (
-      <Box
-        ref={ref}
-        role={role}
-        className={cx(classes.menu, cssClassName, className)}
-        {...otherProps}
-      />
-    );
-  }
-);
+export type MenuListItemProps = Omit<
+  BoxProps,
+  'children' | 'onClick' | keyof MenuVariantProps
+> &
+  MenuVariantProps & {
+    /** Item behavior type */
+    type?: MenuItemType;
+    /** Selected state (for single-select and multi-select) */
+    selected?: boolean;
+    /** Active highlight state (controlled externally) */
+    active?: boolean;
+    /** Click handler */
+    onClick?: React.MouseEventHandler<HTMLDivElement>;
+    /** Disable the item */
+    disabled?: boolean;
+    /** Primary label (required) */
+    label: string | React.ReactNode;
+    /** Secondary description text */
+    description?: string;
+    /** Icon on the left side */
+    iconLeft?: IconNamesList;
+    /** Icon on the right side */
+    iconRight?: IconNamesList;
+    /** Text to highlight (for autocomplete/search scenarios) */
+    highlightMatch?: string;
+    /** Selection indicator style (only for select types) */
+    selectionIndicator?: SelectionIndicator;
+  };
+
+export type MenuListDividerProps = Omit<
+  BoxProps,
+  'children' | keyof MenuVariantProps
+> &
+  MenuVariantProps;
+
+export type MenuListGroupProps = Omit<
+  BoxProps,
+  'title' | keyof MenuVariantProps
+> &
+  MenuVariantProps & {
+    /** Group label */
+    label?: string;
+    /** Children (MenuListItem components) */
+    children: React.ReactNode;
+  };
+
+export const MenuList = (props: MenuListProps) => {
+  const { packing, indicatorPosition, role = 'listbox', ref, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
+  const classes = menuRecipe({ packing, indicatorPosition });
+
+  return (
+    <Box
+      ref={ref}
+      role={role}
+      className={cx(classes.menu, className)}
+      {...otherProps}
+    />
+  );
+};
 
 MenuList.displayName = 'MenuList';

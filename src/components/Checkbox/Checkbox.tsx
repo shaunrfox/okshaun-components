@@ -1,25 +1,30 @@
+import { ChangeEventHandler } from 'react';
+import { splitProps } from '~/utils/splitProps';
+import { cx } from '@styled-system/css';
 import { Box, type BoxProps } from '../Box';
 import { checkbox, type CheckboxVariantProps } from '@styled-system/recipes';
 import { Icon } from '../Icon';
-import { ChangeEventHandler } from 'react';
 
-export type CheckboxProps = {
-  /** Form field name */
-  name: string;
-  /** Controlled checked state (REQUIRED) */
-  checked: boolean;
-  /** Change handler (REQUIRED) */
-  onChange: ChangeEventHandler<HTMLInputElement>;
-  /** Unique identifier for the checkbox */
-  id?: string;
-  /** Display indeterminate state (partially checked) */
-  indeterminate?: boolean;
-  /** Disable the checkbox */
-  disabled?: boolean;
-  /** Display error state */
-  error?: boolean;
-} & Omit<BoxProps, 'checked' | 'onChange' | keyof CheckboxVariantProps> &
-  CheckboxVariantProps;
+export type CheckboxProps = Omit<
+  BoxProps,
+  'checked' | 'onChange' | keyof CheckboxVariantProps
+> &
+  CheckboxVariantProps & {
+    /** Form field name */
+    name: string;
+    /** Controlled checked state (REQUIRED) */
+    checked: boolean;
+    /** Change handler (REQUIRED) */
+    onChange: ChangeEventHandler<HTMLInputElement>;
+    /** Unique identifier for the checkbox */
+    id?: string;
+    /** Display indeterminate state (partially checked) */
+    indeterminate?: boolean;
+    /** Disable the checkbox */
+    disabled?: boolean;
+    /** Display error state */
+    error?: boolean;
+  };
 
 /**
  * Helper type for checkbox change events
@@ -47,16 +52,18 @@ export type CheckboxChangeHandler = (e: CheckboxChangeEvent) => void;
  * />
  */
 
-export const Checkbox: React.FC<CheckboxProps> = ({
-  indeterminate,
-  error,
-  id,
-  name,
-  checked,
-  disabled,
-  onChange,
-  ...props
-}) => {
+export const Checkbox = (props: CheckboxProps) => {
+  const {
+    name,
+    checked,
+    onChange,
+    id,
+    indeterminate,
+    disabled,
+    error,
+    ...rest
+  } = props;
+  const [className, otherProps] = splitProps(rest);
   const { container, input, indicator } = checkbox({});
 
   // Determine which icon to render based on state
@@ -67,7 +74,11 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       : 'checkbox';
 
   return (
-    <Box className={container} {...(error && { 'data-error': true })}>
+    <Box
+      className={cx(container, className)}
+      {...(error && { 'data-error': true })}
+      {...otherProps}
+    >
       <Box
         as="input"
         type="checkbox"
@@ -79,7 +90,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         disabled={disabled}
         {...(indeterminate && { 'data-indeterminate': true })}
         {...(error && { 'data-error': true })}
-        {...props}
       />
       <Icon className={indicator} name={iconName} />
       <Icon className={indicator} name="checkbox-focus" />
