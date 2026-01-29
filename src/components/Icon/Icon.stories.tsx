@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Icon, IconNames } from '.';
-import { IconGallery, IconItem } from '@storybook/blocks';
+import { Box } from '../Box';
+import { Wrap } from '@styled-system/jsx';
 
 const meta = {
   title: 'Components/Icon',
@@ -19,12 +20,12 @@ export const Default: Story = {
     name: 'aa-placeholder', // or any default icon name
   },
   render: () => (
-    <IconGallery>
-      {Object.entries(IconNames).map(([key, name]) => (
-        <IconItem key={key} name={name}>
-          <Icon name={name} />
-        </IconItem>
-      ))}
-    </IconGallery>
+    <Box>
+      <Wrap>
+        {Object.entries(IconNames).map(([key, name]) => (
+          <Icon key={key} name={name} />
+        ))}
+      </Wrap>
+    </Box>
   ),
 };

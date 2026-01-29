@@ -55,9 +55,6 @@ export const Toggle = (props: ToggleProps) => {
   const [className, otherProps] = splitProps(rest);
   const { container, input, indicator, background } = toggle({});
 
-  // Determine which icon to render based on state
-  const iconName = checked ? 'circle-check' : 'circle';
-
   return (
     <Box
       className={cx(container, className)}
@@ -77,7 +74,8 @@ export const Toggle = (props: ToggleProps) => {
         {...(error && { 'data-error': true })}
       />
       <Box as="span" className={background} name={'toggle-bg'} />
-      <Icon name={iconName} className={indicator} />
+      <Icon name={'circle'} className={indicator} />
+      <Icon name={'circle-check'} className={indicator} />
     </Box>
   );
 };

@@ -9,8 +9,8 @@ import { exec } from 'child_process';
 // Directory paths
 const dirs = {
   svgsSource: 'src/utils/svgsSource',
-  svgsOptimized: 'dist/svgs',
-  spriteOutput: 'dist',
+  svgsOptimized: 'public/svgs',
+  spriteOutput: 'public',
   typesOutput: 'src/components/Icon',
 };
 

@@ -48,7 +48,7 @@ const toggleBase = {
       transitionProperty: 'transform, opacity',
       transitionDuration: '200ms',
       transitionTimingFunction: 'ease-in-out',
-      color: 'icon.decorative/80',
+      fill: 'icon.decorative/80',
     },
 
     "& ~ [name='circle-check']": {
@@ -69,7 +69,7 @@ const toggleBase = {
       "& ~ [name='circle-check']": {
         opacity: 1,
         transform: 'translateX(16px)',
-        color: 'icon.inverse',
+        fill: 'icon.inverse',
       },
       "& ~ [name='toggle-bg']": {
         bg: 'bg.neutral.inverse',
