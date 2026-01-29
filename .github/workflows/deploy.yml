@@ -36,7 +36,7 @@ jobs:
         run: npm run generate-sprite
 
       - name: Build Storybook
-        run: npm run build-storybook
+        run: npm run storybook:build
         env:
           GH_REPO: ${{ github.event.repository.name }}
 
