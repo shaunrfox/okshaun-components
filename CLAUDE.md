@@ -83,7 +83,7 @@ Key concepts:
 #### Import Aliases
 
 - `~/*` - Maps to `./src/*`
-- `@styled-system/*` - Maps to `./styled-system/*` (Panda CSS generated code)
+- `@styled-system/*` - Maps to `./src/styled-system/*` (Panda CSS generated code)
 
 ### Component Architecture
 

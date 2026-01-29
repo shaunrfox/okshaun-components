@@ -96,9 +96,8 @@ import ReactDOM from 'react-dom/client'
 import { ThemeProvider } from '@okshaun/components'
 import App from './App'
 
-// Import your app styles and Panda CSS output
+// Import your app styles as the Panda CSS entrypoint
 import './index.css'
-import '../styled-system/styles.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -132,7 +131,7 @@ Update `tsconfig.json` to include Panda CSS path aliases:
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@styled-system/*": ["./styled-system/*"]
+      "@styled-system/*": ["./src/styled-system/*"]
     }
   }
 }
@@ -151,7 +150,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@styled-system': resolve(__dirname, './styled-system'),
+      '@styled-system': resolve(__dirname, './src/styled-system'),
     },
   },
 })
@@ -163,7 +162,7 @@ export default defineConfig({
 
 ```typescript
 import { Button, Box, Text, Icon } from '@okshaun/components'
-import { css } from '../styled-system/css'
+import { css } from '@styled-system/css'
 
 function App() {
   return (
@@ -312,7 +311,7 @@ export default defineConfig({
 The preset provides comprehensive design tokens:
 
 ```typescript
-import { css } from '../styled-system/css'
+import { css } from '@styled-system/css'
 
 const styles = css({
   // Colors from semantic tokens

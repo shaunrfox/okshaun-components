@@ -16,7 +16,7 @@ export default defineConfig(({ mode: _mode }) => {
       resolve: {
         alias: {
           '~': resolve(__dirname, './src'),
-          '@styled-system': resolve(__dirname, './styled-system'),
+          '@styled-system': resolve(__dirname, './src/styled-system'),
         },
       },
       build: {
