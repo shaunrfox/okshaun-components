@@ -42,10 +42,7 @@ export default defineConfig({
   exclude: [],
 
   // Use the okshaun preset
-  presets: [
-    '@pandacss/preset-base',
-    okshaunPreset
-  ],
+  presets: [ okshaunPreset ],
 
   // Optional: customize the preset
   theme: {
@@ -57,7 +54,7 @@ export default defineConfig({
   },
 
   // Configure output
-  outdir: 'styled-system',
+  outdir: 'src/styled-system',
   jsxFramework: 'react',
 
   // Recommended settings
@@ -115,9 +112,9 @@ Add Panda CSS generation to your scripts:
 ```json
 {
   "scripts": {
-    "dev": "panda codegen --watch & vite",
-    "build": "panda codegen && tsc && vite build",
-    "panda": "panda codegen"
+    "dev": "npx panda codegen --watch & vite",
+    "build": "npx panda codegen && tsc && vite build",
+    "prepare": "npx panda codegen"
   }
 }
 ```
@@ -171,7 +168,7 @@ function App() {
         Hello from Okshaun Components!
       </Text>
 
-      <Button appearance="primary" size="md">
+      <Button variant="primary" size="md">
         Click Me
       </Button>
 
@@ -221,8 +218,8 @@ import { Icon } from '@okshaun/components'
 function MyComponent() {
   return (
     <>
-      <Icon name="check" size="md" fill="success.default" />
-      <Icon name="close" size="lg" fill="error.default" />
+      <Icon name="check" size="md" fill="icon.success" />
+      <Icon name="close" size="lg" fill="icon.error" />
     </>
   )
 }
@@ -247,7 +244,7 @@ function Examples() {
       </Box>
 
       {/* Button as a link */}
-      <Button as="a" href="https://example.com" appearance="primary">
+      <Button as="a" href="https://example.com" variant="primary">
         External Link
       </Button>
 
@@ -315,9 +312,9 @@ import { css } from '@styled-system/css'
 
 const styles = css({
   // Colors from semantic tokens
-  bg: 'surface.default',
-  color: 'text.default',
-  borderColor: 'border.default',
+  bg: 'bg.surface',
+  color: 'text',
+  borderColor: 'border',
 
   // Spacing (0-280 + container sizes)
   p: '4',
@@ -325,13 +322,13 @@ const styles = css({
   gap: '2',
 
   // Border radius
-  borderRadius: 'md', // xs, sm, md, lg, xl, 2xl, 3xl, full
+  borderRadius: '8',
 
   // Shadows
-  boxShadow: 'md', // sm, md, lg, xl, 2xl
+  boxShadow: 'raised',
 
   // Typography
-  fontSize: 'md',
+  fontSize: '14',
   fontWeight: 'medium',
   lineHeight: 'normal'
 })
@@ -370,7 +367,7 @@ Override the font tokens in your `panda.config.ts`:
 
 ```typescript
 import { defineConfig } from '@pandacss/dev'
-import { okshaunPreset } from '@okshaun/components/preset'
+import { okshaunPreset } from '@okshaun/components'
 
 export default defineConfig({
   presets: [okshaunPreset],
@@ -433,7 +430,7 @@ No additional font packages needed!
 npm install
 
 # Generate Panda CSS
-npm run panda
+npm run prepare
 
 # Start development server
 npm run dev
@@ -491,7 +488,7 @@ git push origin :refs/tags/v0.3.5
 
 ## Storybook
 
-View all components in Storybook: [https://shaunrfox.github.io/okshaun-components](https://shaunrfox.github.io/okshaun-components)
+View all components in Storybook: [shaunfox.com/okshaun-components](https://shaunfox.com/okshaun-components)
 
 ## License
 

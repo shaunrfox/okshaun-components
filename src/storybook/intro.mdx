@@ -14,20 +14,19 @@ import { Button } from '../components/Button';
 <Unstyled>
 
 <Flex direction="column" gap="24">
-<Heading level="h1">okshaun components</Heading>
 
-<Text maxW="prose" textStyle="body.lg" display="inline-block">
-  A React component library built with TypeScript and Panda CSS. This design system provides a comprehensive set of accessible, themeable components following a tokens-first approach.
-</Text>
+# okshaun components
+
+<Text textStyle="body.lg" display="inline-block">A React component library built with TypeScript and Panda CSS. This design system provides a comprehensive set of accessible, themeable components following a tokens-first approach.</Text>
 
 <Divider weight="thick" color="border" my="32" />
 
-<Heading level="h2">Key Principles</Heading>
+## Key Principles
 
 <Grid columns={{ base: 1, md: 2 }} gap="24">
   <Card p="24" variant="flat">
     <HStack mb="12">
-      <Icon name="color" color="icon.info" size="32" />
+      <Icon name="color" fill="icon.info" size="32" />
       <Text textStyle="body.lg" fontWeight="bold" color="text">Tokens-First</Text>
     </HStack>
     <Text>No hard-coded hex colors or pixel values. All styling uses design tokens for consistency and theme support.</Text>
@@ -35,7 +34,7 @@ import { Button } from '../components/Button';
 
   <Card p="24" variant="flat">
     <HStack mb="12">
-      <Icon name="widgets" color="icon.info" size="32" />
+      <Icon name="widgets" fill="icon.info" size="32" />
       <Text textStyle="body.lg" fontWeight="bold" color="text">Recipe-Based</Text>
     </HStack>
     <Text>Components use Panda CSS recipes for style variants, ensuring consistent patterns across the system.</Text>
@@ -43,7 +42,7 @@ import { Button } from '../components/Button';
 
   <Card p="24" variant="flat">
     <HStack mb="12">
-      <Icon name="devices" color="icon.info" size="32" />
+      <Icon name="devices" fill="icon.info" size="32" />
       <Text textStyle="body.lg" fontWeight="bold" color="text">Responsive by Default</Text>
     </HStack>
     <Text>Container queries and breakpoints built-in for responsive design out of the box.</Text>
@@ -51,7 +50,7 @@ import { Button } from '../components/Button';
 
   <Card p="24" variant="flat">
     <HStack mb="12">
-      <Icon name="cursor-click" color="icon.info" size="32" />
+      <Icon name="cursor-click" fill="icon.info" size="32" />
       <Text textStyle="body.lg" fontWeight="bold" color="text">Accessible</Text>
     </HStack>
     <Text>Semantic HTML, visible focus states, and keyboard navigation support throughout.</Text>
@@ -60,7 +59,7 @@ import { Button } from '../components/Button';
 
 <Divider weight="thick" color="border" my="32" />
 
-<Heading level="h2">The System</Heading>
+## The System
 
 <Grid columns={{ base: 1, md: 2 }} gap="24">
   <Flex flexDirection="column" gap="4">
@@ -108,13 +107,13 @@ import { Button } from '../components/Button';
 
 <Divider weight="thick" color="border" my="32" />
 
-<Heading level="h2">Quick Start</Heading>
+## Quick Start
 
 <Grid columns={{ base: 1, md: 2 }} gap="24" alignItems="flex-start">
   <Box>
     <Text textStyle="body.lg" fontWeight="bold" color="text" mb="12">Installation</Text>
     <Card p="16" variant="sunken" mb="16">
-      <Text textStyle="mono.sm" fontFamily="mono">npm install cetec-design-system</Text>
+      <Text textStyle="mono.sm" fontFamily="mono">npm install @okshaun/components</Text>
     </Card>
     <Text textStyle="mono.sm" color="text">Install the package in your project to start using components.</Text>
   </Box>
@@ -122,7 +121,7 @@ import { Button } from '../components/Button';
   <Box>
     <Text textStyle="body.lg" fontWeight="bold" color="text" mb="12">Usage</Text>
     <Card p="16" variant="sunken" mb="16">
-      <Text textStyle="mono.sm" fontFamily="mono" whiteSpace="pre-wrap">{`import { Button, Text } from 'cetec-design-system';
+      <Text textStyle="mono.sm" fontFamily="mono" whiteSpace="pre-wrap">{`import { Button, Text } from '@okshaun/components';
 
 <Button intent="primary">
   Click me
@@ -134,7 +133,7 @@ import { Button } from '../components/Button';
 
 <Divider weight="thick" color="border" my="32" />
 
-<Heading level="h2">Contributions</Heading>
+## Contributions
 
 <Box p="24" border="default" rounded="16" bg="bg.surface.subtle">
   <Text textStyle="body.lg" fontWeight="bold" color="text" mb="16">Storybook Guidelines</Text>

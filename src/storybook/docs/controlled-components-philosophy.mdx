@@ -18,154 +18,157 @@ import { Flex, Wrap, Grid } from '@styled-system/jsx';
 
 <Unstyled>
 
-  <Flex flexDirection="column" gap="16">
-    <Heading level="h1">Controlled Components Philosophy</Heading>
+<Flex flexDirection="column" gap="16">
 
-    <Text>This document explains why this design system uses `controlled components` as the standard pattern for form inputs, including checkboxes, radios, text inputs, and other interactive elements.</Text>
+# Controlled Components Philosophy
 
-    <Divider my="16"/>
+<Text>This document explains why this design system uses `controlled components` as the standard pattern for form inputs, including checkboxes, radios, text inputs, and other interactive elements.</Text>
 
-    <Heading level="h2">What's the Difference?</Heading>
+<Divider my="16"/>
 
-    <Wrap gap="24">
-      <Flex flexDirection="column">
-        <Heading level="h4">Controlled Component</Heading>
+# What's the Difference?
 
-        Components where the parent explicitly controls the state:
+<Grid columns={2} gap="24">
+  <Flex flexDirection="column">
+    #### Controlled Component
+    
+    Components where the parent explicitly controls the state:
+    
+    ```typescript
+    // Parent controls the state explicitly
+    const [isChecked, setIsChecked] = useState(false);
+    
+    <Checkbox
+      name="terms"
+      checked={isChecked}
+      onChange={(e) => setIsChecked(e.target.checked)}
+    />
+    ```
+  </Flex>
+  
+  <Flex flexDirection="column">
+    #### Uncontrolled Component
+    
+    <Text as="span">Components that manage their own internal state:</Text>
+    
+    ```typescript
+    // Component manages its own state internally
+    <Checkbox name="terms" onChange={handleChange} />
+    // User doesn't control checked state - component does
+    ```
+  </Flex>
+</Grid>
 
-        ```typescript
-        // Parent controls the state explicitly
-        const [isChecked, setIsChecked] = useState(false);
+<Divider my="16"/>
 
-        <Checkbox
-          name="terms"
-          checked={isChecked}
-          onChange={(e) => setIsChecked(e.target.checked)}
-        />
-        ```
-      </Flex>
+## Why Controlled Components for Design Systems
 
-      <Flex flexDirection="column">
-        <Heading level="h4">Uncontrolled Component</Heading>
+### 1. Predictability & Debugging
 
-        <Text as="span">Components that manage their own internal state:</Text>
+<Grid columns={2} gap="24">
+<Flex flexDirection="column">
 
-        ```typescript
-        // Component manages its own state internally
-        <Checkbox name="terms" onChange={handleChange} />
-        // User doesn't control checked state - component does
-        ```
-      </Flex>
-    </Wrap>
+#### Controlled
 
-    <Divider my="16"/>
+- State is explicit and visible in parent component
+- Easy to debug: "What's the checkbox state?" → Look at the state variable
+- No hidden internal state
+- Single source of truth
 
-    <Heading level="h2">Why Controlled Components for Design Systems</Heading>
-
-    <Heading level="h3">1. Predictability & Debugging</Heading>
-
-    <Grid columns={2} gap="24">
-      <Flex flexDirection="column">
-        <Heading level="h4">Controlled</Heading>
-
-        <Box as="ul" gap="8" pl="24">
-          <Box as="li" listStyleType="disc">State is explicit and visible in parent component</Box>
-          <Box as="li" listStyleType="disc">Easy to debug: "What's the checkbox state?" → Look at the state variable</Box>
-          <Box as="li" listStyleType="disc">No hidden internal state</Box>
-          <Box as="li" listStyleType="disc">Single source of truth</Box>
-        </Box>
-      </Flex>
+</Flex>
 
 
-      <Flex flexDirection="column">
-        <Heading level="h4">Uncontrolled</Heading>
+<Flex flexDirection="column">
 
-        <Box as="ul" gap="8" pl="24">
-          <Box as="li" listStyleType="disc">State hidden inside component</Box>
-          <Box as="li" listStyleType="disc">Harder to debug: "Why is this checked?" → Need to inspect DOM or component internals</Box>
-          <Box as="li" listStyleType="disc">Multiple sources of truth</Box>
-          <Box as="li" listStyleType="disc">Requires refs and imperative APIs</Box>
-        </Box>
-      </Flex>
-    </Grid>
+#### Uncontrolled
 
-    <Box py="8" px="16" bg="warning.lighter" color="warning.dark" borderRadius="4" width="fit-content"><b>Design System Goal:</b> Components should be predictable and transparent.</Box>
+- State hidden inside component
+- Harder to debug: "Why is this checked?" → Need to inspect DOM or component internals
+- Multiple sources of truth
+- Requires refs and imperative APIs
 
+</Flex>
+</Grid>
+
+  <Box py="8" px="16" bg="bg.warning" color="text.warning" borderRadius="4" width="fit-content"><b>Design System Goal:</b> Components should be predictable and transparent.</Box>
+
+  <Flex flexDirection="column">
+    Example:
+
+    ```typescript
+    // Controlled - clear state visibility
+    const [accepted, setAccepted] = useState(false);
+    console.log('Terms accepted:', accepted); // Always accurate
+
+    <Checkbox checked={accepted} onChange={e => setAccepted(e.target.checked)} />
+    ```
+  </Flex>
+
+  <Divider my="16"/>
+
+  ### 2. Composability & Integration
+
+  Design systems are building blocks that integrate with:
+
+  - Form libraries (React Hook Form, Formik, Final Form
+  - State management (Redux, Zustand, Context API
+  - URL state synchronization
+  - Local storage persistence
+  - Real-time collaboration
+
+  <Grid columns={2} gap="24">
     <Flex flexDirection="column">
-      <Text>Example:</Text>
-
+      #### Controlled
+      
+      Controlled components integrate seamlessly:
+  
       ```typescript
-      // Controlled - clear state visibility
-      const [accepted, setAccepted] = useState(false);
-      console.log('Terms accepted:', accepted); // Always accurate
-
-      <Checkbox checked={accepted} onChange={e => setAccepted(e.target.checked)} />
+      // React Hook Form
+      const { register, watch } = useForm();
+      const terms = watch('terms');
+  
+      <Checkbox
+        {...register('terms')}
+        checked={terms}
+      />
+  
+      // Redux
+      <Checkbox
+        checked={termsAccepted}
+        onChange={() => dispatch(toggleTerms())}
+      />
+  
+      // URL state sync
+      const [searchParams, setSearchParams] = useSearchParams();
+      <Checkbox
+        checked={searchParams.get('filter') === 'active'}
+        onChange={e => setSearchParams({ filter: e.target.checked ? 'active' : 'all' })}
+      />
       ```
     </Flex>
 
-    <Divider my="16"/>
-
-    <Heading level="h3">2. Composability & Integration</Heading>
-
-    <Text>Design systems are building blocks that integrate with:</Text>
-
-    <Box as="ul" gap="8" pl="24">
-      <Box as="li" listStyleType="disc">Form libraries (React Hook Form, Formik, Final Form)</Box>
-      <Box as="li" listStyleType="disc">State management (Redux, Zustand, Context API)</Box>
-      <Box as="li" listStyleType="disc">URL state synchronization</Box>
-      <Box as="li" listStyleType="disc">Local storage persistence</Box>
-      <Box as="li" listStyleType="disc">Real-time collaboration</Box>
-    </Box>
-
-    <Grid columns={2} gap="24">
-      <Flex flexDirection="column">
-        <Heading level="h4">Controlled</Heading>
-        <Text>Controlled components integrate seamlessly:</Text>
-
-        ```typescript
-        // React Hook Form
-        const { register, watch } = useForm();
-        const terms = watch('terms');
-
-        <Checkbox
-          {...register('terms')}
-          checked={terms}
-        />
-
-        // Redux
-        <Checkbox
-          checked={termsAccepted}
-          onChange={() => dispatch(toggleTerms())}
-        />
-
-        // URL state sync
-        const [searchParams, setSearchParams] = useSearchParams();
-        <Checkbox
-          checked={searchParams.get('filter') === 'active'}
-          onChange={e => setSearchParams({ filter: e.target.checked ? 'active' : 'all' })}
-        />
-        ```
-      </Flex>
-
-      <Flex flexDirection="column">
-        <Heading level="h4">Uncontrolled</Heading>
-        <Text>Uncontrolled components fight these patterns:</Text>
-        ```typescript
-        // Need refs and imperative APIs - messy and error-prone
-        const checkboxRef = useRef();
-        // Then manually sync state... defeats the purpose
-        ```
-      </Flex>
-    </Grid>
-
-    <Box py="8" px="16" bg="warning.lighter" color="warning.dark" borderRadius="4" width="fit-content"><b>Design System Goal:</b> Work seamlessly with the ecosystem.</Box>
-
-    <Divider my="16"/>
-
-    <Heading level="h3">3. Derived State & Validation</Heading>
-
     <Flex flexDirection="column">
-      <Text>Real applications need checkbox state to derive other UI:</Text>
+      #### Uncontrolled
+      
+      Uncontrolled components fight these patterns:
+      
+      ```typescript
+      // Need refs and imperative APIs - messy and error-prone
+      const checkboxRef = useRef();
+      // Then manually sync state... defeats the purpose
+      ```
+    </Flex>
+  </Grid>
+
+  <Box py="8" px="16" bg="bg.warning" color="text.warning" borderRadius="4" width="fit-content"><b>Design System Goal:</b> Work seamlessly with the ecosystem.</Box>
+
+  <Divider my="16"/>
+
+  ### 3. Derived State & Validation
+
+  <Flex flexDirection="column">
+    
+    Real applications need checkbox state to derive other UI:
 
     ```typescript
     const [terms, setTerms] = useState(false);
@@ -208,61 +211,64 @@ import { Flex, Wrap, Grid } from '@styled-system/jsx';
       </>
     );
     ```
-    </Flex>
+  </Flex>
+  
+  <Flex flexDirection="column">
+    With uncontrolled components:
+  
+    - Query DOM on every state check (expensive)
+    - Or maintain parallel state anyway (defeats purpose)
+    - Can't derive state reliably
+  </Flex>
+
+  <Box py="8" px="16" bg="bg.warning" color="text.warning" borderRadius="4" width="fit-content"><b>Design System Goal:</b> Support real-world application patterns.</Box>
+
+  <Divider my="16"/>
+
+  ### 4. Testing & Documentation
+
+  <Grid columns={2} gap="24">
     <Flex flexDirection="column">
-      <Text>With uncontrolled components:</Text>
-      <Box as="ul" gap="8" pl="24">
-        <Box as="li" listStyleType="disc">Query DOM on every state check (expensive)</Box>
-        <Box as="li" listStyleType="disc">Or maintain parallel state anyway (defeats purpose)</Box>
-        <Box as="li" listStyleType="disc">Can't derive state reliably</Box>
-      </Box>
+      #### Controlled
+      
+      Controlled components are easier to test:
+
+      ```typescript
+      // Set up exact state - no user interaction needed
+      render(
+        <Checkbox
+          checked={true}
+          onChange={mockFn}
+        />
+      );
+
+      // Assert on state
+      expect(screen.getByRole('checkbox')).toBeChecked();
+
+      // Test state changes
+      fireEvent.click(screen.getByRole('checkbox'));
+      expect(mockFn).toHaveBeenCalledWith(expect.objectContaining({
+        target: expect.objectContaining({ checked: false })
+      }));
+      ```
     </Flex>
-
-    <Box py="8" px="16" bg="warning.lighter" color="warning.dark" borderRadius="4" width="fit-content"><b>Design System Goal:</b> Support real-world application patterns.</Box>
-
-    <Divider my="16"/>
-
-    <Heading level="h3">4. Testing & Documentation</Heading>
-
-    <Grid columns={2} gap="24">
-      <Flex flexDirection="column">
-        <Heading level="h4">Controlled</Heading>
-        <Text>Controlled components are easier to test:</Text>
-
-        ```typescript
-        // Set up exact state - no user interaction needed
-        render(
-          <Checkbox
-            checked={true}
-            onChange={mockFn}
-          />
-        );
-
-        // Assert on state
-        expect(screen.getByRole('checkbox')).toBeChecked();
-
-        // Test state changes
-        fireEvent.click(screen.getByRole('checkbox'));
-        expect(mockFn).toHaveBeenCalledWith(expect.objectContaining({
-          target: expect.objectContaining({ checked: false })
-        }));
-        ```
-      </Flex>
-      <Flex flexDirection="column">
-        <Heading level="h4">Uncontrolled</Heading>
-        <Text>Uncontrolled components require:</Text>
-
-        ```typescript
-        // Must simulate user interaction
-        userEvent.click(screen.getByRole('checkbox'));
-        // Hope internal state updated correctly
-        // Can't set up specific states without clicking
-        ```
-      </Flex>
-    </Grid>
-
+    
     <Flex flexDirection="column">
-      <Text>Storybook benefits:</Text>
+      #### Uncontrolled
+      
+      Uncontrolled components require:
+
+      ```typescript
+      // Must simulate user interaction
+      userEvent.click(screen.getByRole('checkbox'));
+      // Hope internal state updated correctly
+      // Can't set up specific states without clicking
+      ```
+    </Flex>
+  </Grid>
+
+  <Flex flexDirection="column">
+    Storybook benefits:
 
     ```typescript
     // Controlled - can show every state combination
@@ -278,426 +284,418 @@ import { Flex, Wrap, Grid } from '@styled-system/jsx';
       )
     };
     ```
-    </Flex>
-
-    <Box py="8" px="16" bg="warning.lighter" color="warning.dark" borderRadius="4" width="fit-content"><b>Design System Goal:</b> Easy to document, test, and demonstrate.</Box>
-
-    <Divider my="16"/>
-
-    <Heading level="h3">5. React Philosophy & Future</Heading>
-
-    <Flex flexDirection="column" gap="8">
-      <Text>React's mental model strongly favors controlled components:</Text>
-
-      <Grid columns={3} gap="16">
-        <Flex flexDirection="column">
-          <Text><b>One-way data flow:</b></Text>
-          <Box as="ul" gap="8" pl="24">
-            <Box as="li" listStyleType="disc">Props flow down</Box>
-            <Box as="li" listStyleType="disc">Events flow up</Box>
-            <Box as="li" listStyleType="disc">Clear, unidirectional data path</Box>
-          </Box>
-        </Flex>
-
-        <Flex flexDirection="column">
-          <Text><b>Declarative UI:</b></Text>
-          <Box as="ul" gap="8" pl="24">
-            <Box as="li" listStyleType="disc">UI is a function of state</Box>
-            <Box as="li" listStyleType="disc">`UI = f(state)`</Box>
-            <Box as="li" listStyleType="disc">State changes trigger re-renders</Box>
-          </Box>
-        </Flex>
-
-        <Flex flexDirection="column">
-          <Text><b>React Server Components:</b></Text>
-          <Box as="ul" gap="8" pl="24">
-            <Box as="li" listStyleType="disc">Uncontrolled components don't work in RSC patterns</Box>
-            <Box as="li" listStyleType="disc">Server components can't manage client state</Box>
-            <Box as="li" listStyleType="disc">Controlled pattern is future-proof</Box>
-          </Box>
-        </Flex>
-      </Grid>
-
-      <Flex flexDirection="column">
-        <Text><b>From React documentation:</b></Text>
-        <Text as="blockquote" textStyle="body-lg" p="12" borderLeftWidth="4" borderLeftColor="slate.20" borderLeftStyle="solid" my="8" maxW="prose">
-          <i>"We recommend using controlled components to implement forms. In a controlled component, form data is handled by a React component."</i>
-        </Text>
-      </Flex>
-
-      <Box py="8" px="16" bg="warning.lighter" color="warning.dark" borderRadius="4" width="fit-content"><b>Design System Goal:</b> Align with framework best practices and future direction.</Box>
-    </Flex>
-
-    <Divider my="16"/>
-
-    <Heading level="h2">When Uncontrolled Makes Sense</Heading>
-
-
-    <Grid columns={2} gap="24" alignItems="center">
-      <Flex flexDirection="column">
-        <Heading level="h4">Traditional Form Submission</Heading>
-        <Text>If using native HTML form posts (not SPA patterns) that post directly to a server without JavaScript interaction.</Text>
-      </Flex>
-
-      ```html
-      <form action="/submit" method="POST">
-        <input type="checkbox" name="terms" />
-        <button type="submit">Submit</button>
-      </form>
-      ```
-    
-      <Flex flexDirection="column">
-        <Heading level="h4">Quick Prototypes</Heading>
-        <Text>When prototyping and you genuinely don't need to access the state:</Text>
-      </Flex>
-
-      ```typescript
-      // Throwaway code for testing
-        <Checkbox name="temp" />
-      ```
-    
-      <Flex flexDirection="column">
-        <Heading level="h4">Legacy Codebases</Heading>
-        <Text>When integrating with legacy systems that expect uncontrolled inputs.</Text>
-      </Flex>
-    </Grid>
-
-    <Divider my="16"/>
-
-    <Heading level="h2">The Trade-off</Heading>
-
-    <Heading level="h3">Verbosity</Heading>
-
-    <Grid columns={2} gap="24">
-      <Flex flexDirection="column">
-        <Heading level="h4">Controlled</Heading>
-        <Text>Controlled requires boilerplate:</Text>
-        ```typescript
-        const [checked, setChecked] = useState(false);
-        <Checkbox checked={checked} onChange={e => setChecked(e.target.checked)} />
-        ```
-      </Flex>
-      <Flex flexDirection="column">
-        <Heading level="h4">Uncontrolled</Heading>
-        <Text>Uncontrolled is shorter:</Text>
-        ```typescript
-        <Checkbox name="terms" />
-        ```
-      </Flex>
-    </Grid>
-
-    <Heading level="h3">But Consider</Heading>
-
-    <Text>In real applications, you almost always need that state anyway for:</Text>
-    <Box as="ul" gap="8" pl="24">
-      <Box as="li" listStyleType="disc">Form validation</Box>
-      <Box as="li" listStyleType="disc">Submit button enable/disable</Box>
-      <Box as="li" listStyleType="disc">Conditional rendering</Box>
-      <Box as="li" listStyleType="disc">Success/error messages</Box>
-      <Box as="li" listStyleType="disc">Analytics tracking</Box>
-    </Box>
-
-    <Text>So the "extra" boilerplate is just making explicit what you'd need regardless.</Text>
-
-    <Divider my="16"/>
-
-    <Heading level="h2">Implementation Options Considered</Heading>
-
-    <Heading level="h3">Option A: Controlled Only (Chosen)</Heading>
-
-    ```typescript
-    type CheckboxProps = {
-      checked: boolean;      // Required!
-      onChange: ChangeEventHandler<HTMLInputElement>; // Required!
-      name: string;
-      // ...
-    };
-    ```
-
-    <Grid gridTemplateColumns="auto auto" gap="24" w="fit">
-      <Flex flexDirection="column" w="fit">
-        <Text><b>Pros</b></Text>
-        <Box as="ul" gap="8" pl="24">
-          <Box as="li" listStyleType="disc">Explicit contract</Box>
-          <Box as="li" listStyleType="disc">No hidden state</Box>
-          <Box as="li" listStyleType="disc">Forces best practices</Box>
-          <Box as="li" listStyleType="disc">Simpler component code</Box>
-          <Box as="li" listStyleType="disc">Clear documentation</Box>
-        </Box>
-      </Flex>
-
-      <Flex flexDirection="column" w="fit">
-        <Text><b>Cons</b></Text>
-        <Box as="ul" gap="8" pl="24">
-          <Box as="li" listStyleType="disc">More verbose for consumers</Box>
-          <Box as="li" listStyleType="disc">Can't use without state management</Box>
-        </Box>
-      </Flex>
-    </Grid>
-
-    <Divider my="16"/>
-
-    <Heading level="h3">Option B: Controlled with Smart Defaults</Heading>
-
-    ```typescript
-    type CheckboxProps = {
-      checked?: boolean;
-      defaultChecked?: boolean;  // Initial uncontrolled state
-      onChange?: ChangeEventHandler<HTMLInputElement>;
-      // ...
-    };
-
-    // Component manages both modes
-    const isControlled = checked !== undefined;
-    const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
-    const actualChecked = isControlled ? checked : internalChecked;
-    ```
-
-    <Grid gridTemplateColumns="auto auto" gap="24" w="fit">
-      <Flex flexDirection="column">
-        <Text><b>Pros</b></Text>
-        <Box as="ul" gap="8" pl="24">
-          <Box as="li" listStyleType="disc">Supports both patterns</Box>
-          <Box as="li" listStyleType="disc">Flexible for edge cases</Box>
-          <Box as="li" listStyleType="disc">Better DX for simple use cases</Box>
-        </Box>
-      </Flex>
-
-      <Flex flexDirection="column">
-        <Text><b>Cons</b></Text>
-        <Box as="ul" gap="8" pl="24">
-          <Box as="li" listStyleType="disc">More complex component code</Box>
-          <Box as="li" listStyleType="disc">Can encourage anti-patterns</Box>
-          <Box as="li" listStyleType="disc">Needs careful documentation about which mode you're in</Box>
-          <Box as="li" listStyleType="disc">Dual-mode bugs harder to debug</Box>
-        </Box>
-      </Flex>
-    </Grid>
-
-    <Text>Verdict: ❌ Too complex, enables anti-patterns</Text>
-
-    <Divider my="16"/>
-
-    <Heading level="h3">Option C: Controlled Only + Helper Hook</Heading>
-
-    ```typescript
-    // Design system exports helper
-    export function useCheckbox(defaultChecked = false) {
-      const [checked, setChecked] = useState(defaultChecked);
-      const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setChecked(e.target.checked);
-      };
-      return { checked, onChange };
-    }
-
-    // Consumer usage - still controlled but less boilerplate
-    const termsCheckbox = useCheckbox();
-    <Checkbox {...termsCheckbox} name="terms" />
-    ```
-
-    <Grid gridTemplateColumns="auto auto" gap="24" w="fit">
-      <Flex flexDirection="column">
-        <Text><b>Pros</b></Text>
-        <Box as="ul" gap="8" pl="24">
-          <Box as="li" listStyleType="disc">Maintains controlled pattern</Box>
-          <Box as="li" listStyleType="disc">Reduces boilerplate</Box>
-          <Box as="li" listStyleType="disc">Encourages best practices</Box>
-          <Box as="li" listStyleType="disc">Easy to extend with validation</Box>
-        </Box>
-      </Flex>
-      <Flex flexDirection="column">
-        <Text><b>Cons</b></Text>
-        <Box as="ul" gap="8" pl="24">
-          <Box as="li" listStyleType="disc">One more concept to learn</Box>
-          <Box as="li" listStyleType="disc">Still need the hook import</Box>
-        </Box>
-      </Flex>
-    </Grid>
-
-    <Text>Verdict: ✅ Good future enhancement</Text>
-
-    <Divider my="16"/>
-
-    <Heading level="h3">Why Controlled Components Are Right for Cetec:</Heading>
-
-    <Box as="ol" gap="8" pl="24">
-      <Box as="li" listStyleType="decimal">**Target audience:** Developers building complex enterprise ERP applications</Box>
-      <Box as="li" listStyleType="decimal">**Integration needs:** Must work with forms, validation, complex state management</Box>
-      <Box as="li" listStyleType="decimal">**Documentation:** Storybook already demonstrates controlled patterns</Box>
-      <Box as="li" listStyleType="decimal">**Simplicity:** Simpler component internals (no dual-mode complexity)</Box>
-      <Box as="li" listStyleType="decimal">**Standards alignment:** Follows React team recommendations</Box>
-      <Box as="li" listStyleType="decimal">**Testing:** Easier to test and debug</Box>
-      <Box as="li" listStyleType="decimal">**Future-proof:** Compatible with React Server Components</Box>
-    </Box>
-
-    <Heading level="h3">Documentation Approach</Heading>
-
-    All controlled components should clearly document:
-
-    ```typescript
-    /**
-     * Checkbox is a controlled component.
-    * You must pass `checked` and `onChange` props.
-    *
-    * @example
-    * ```tsx
-    * const [checked, setChecked] = useState(false);
-    *
-    * <Checkbox
-    *   name="terms"
-    *   checked={checked}
-    *   onChange={(e) => setChecked(e.target.checked)}
-    * >
-    *   I accept the terms
-    * </Checkbox>
-    * ```
-    */
-    ```
-
-    <Divider my="16"/>
-
-    <Heading level="h2">Real-World Examples</Heading>
-
-    <Heading level="h4">Simple Form</Heading>
-
-    ```typescript
-    function NewsletterSignup() {
-      const [email, setEmail] = useState('');
-      const [consent, setConsent] = useState(false);
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        if (consent) {
-          subscribe(email);
-        }
-      };
-
-      return (
-        <form onSubmit={handleSubmit}>
-          <TextInput
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-          <Checkbox
-            checked={consent}
-            onChange={e => setConsent(e.target.checked)}
-          >
-            I consent to receive emails
-          </Checkbox>
-          <Button type="submit" disabled={!consent}>
-            Sign Up
-          </Button>
-        </form>
-      );
-    }
-    ```
-
-    <Heading level="h4">Select All Pattern</Heading>
-
-    ```typescript
-    function TaskList() {
-      const [tasks, setTasks] = useState([
-        { id: 1, name: 'Task 1', completed: false },
-        { id: 2, name: 'Task 2', completed: true },
-        { id: 3, name: 'Task 3', completed: false },
-      ]);
-
-      const allCompleted = tasks.every(t => t.completed);
-      const someCompleted = tasks.some(t => t.completed) && !allCompleted;
-
-      const handleSelectAll = (checked) => {
-        setTasks(tasks.map(t => ({ ...t, completed: checked })));
-      };
-
-      const handleToggle = (id, checked) => {
-        setTasks(tasks.map(t =>
-          t.id === id ? { ...t, completed: checked } : t
-        ));
-      };
-
-      return (
-        <>
-          <Checkbox
-            checked={allCompleted}
-            indeterminate={someCompleted}
-            onChange={e => handleSelectAll(e.target.checked)}
-          >
-            Select All
-          </Checkbox>
-
-          {tasks.map(task => (
-            <Checkbox
-              key={task.id}
-              checked={task.completed}
-              onChange={e => handleToggle(task.id, e.target.checked)}
-            >
-              {task.name}
-            </Checkbox>
-          ))}
-        </>
-      );
-    }
-    ```
-
-    <Heading level="h4">Form Library Integration</Heading>
-
-    ```typescript
-    import { useForm } from 'react-hook-form';
-
-    function RegistrationForm() {
-      const { register, watch, handleSubmit } = useForm();
-      const terms = watch('terms');
-      const privacy = watch('privacy');
-
-      const onSubmit = (data) => {
-        console.log(data);
-      };
-
-      return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Checkbox
-            {...register('terms', { required: true })}
-            checked={terms}
-          >
-            I accept the terms
-          </Checkbox>
-
-          <Checkbox
-            {...register('privacy', { required: true })}
-            checked={privacy}
-          >
-            I accept the privacy policy
-          </Checkbox>
-
-          <Button type="submit" disabled={!terms || !privacy}>
-            Register
-          </Button>
-        </form>
-      );
-    }
-    ```
-
-    <Divider my="16"/>
-
-    <Heading level="h2">Summary</Heading>
-
-    The controlled component pattern is the right choice for the Cetec Design System because:
-
-    <Box as="ol" gap="8" pl="24">
-      <Box as="li" listStyleType="decimal">**Predictable**: State is always visible and debuggable</Box>
-      <Box as="li" listStyleType="decimal">**Composable**: Works seamlessly with forms, validation, state management</Box>
-      <Box as="li" listStyleType="decimal">**Testable**: Easy to test all states without user simulation</Box>
-      <Box as="li" listStyleType="decimal">**Standard**: Aligns with React best practices and future direction</Box>
-      <Box as="li" listStyleType="decimal">**Practical**: Matches real-world enterprise application needs</Box>
-    </Box>
-
-    While it requires slightly more boilerplate, this explicitness leads to:
-    <Box as="ul" gap="8" pl="24">
-      <Box as="li" listStyleType="disc">More maintainable code</Box>
-      <Box as="li" listStyleType="disc">Fewer bugs</Box>
-      <Box as="li" listStyleType="disc">Better developer experience over time</Box>
-      <Box as="li" listStyleType="disc">Future-proof architecture</Box>
-    </Box>
-
   </Flex>
+
+  <Box py="8" px="16" bg="bg.warning" color="text.warning" borderRadius="4" width="fit-content"><b>Design System Goal:</b> Easy to document, test, and demonstrate.</Box>
+
+  <Divider my="16"/>
+
+  ### 5. React Philosophy & Future
+
+  <Flex flexDirection="column" gap="8">
+    <Text>React's mental model strongly favors controlled components:</Text>
+
+    <Grid columns={3} gap="16">
+      <Flex flexDirection="column">
+        **One-way data flow:**
+        
+        - Props flow down
+        - Events flow up
+        - Clear, unidirectional data path
+      </Flex>
+
+      <Flex flexDirection="column">
+        **Declarative UI:**
+        
+        - UI is a function of state
+        - `UI = f(state)`
+        - State changes trigger re-renders
+      </Flex>
+
+      <Flex flexDirection="column">
+        **React Server Components:**
+        
+        - Uncontrolled components don't work in RSC patterns
+        - Server components can't manage client state
+        - Controlled pattern is future-proof
+      </Flex>
+    </Grid>
+
+    <Flex flexDirection="column">
+      **From React documentation:**
+      
+      <Text textStyle="body.lg" italic p="12" borderLeftWidth="4" borderLeftColor="slate.20" borderLeftStyle="solid" my="8">"We recommend using controlled components to implement forms. In a controlled component, form data is handled by a React component."</Text>
+    </Flex>
+
+    <Box py="8" px="16" bg="bg.warning" color="text.warning" borderRadius="4" width="fit-content"><b>Design System Goal:</b> Align with framework best practices and future direction.</Box>
+  </Flex>
+
+  <Divider my="16"/>
+
+  ## When Uncontrolled Makes Sense
+
+
+  <Grid columns={2} gap="24" alignItems="center">
+    <Flex flexDirection="column">
+      #### Traditional Form Submission
+      
+      If using native HTML form posts (not SPA patterns) that post directly to a server without JavaScript interaction.
+    </Flex>
+
+    ```html
+    <form action="/submit" method="POST">
+      <input type="checkbox" name="terms" />
+      <button type="submit">Submit</button>
+    </form>
+    ```
+  
+    <Flex flexDirection="column">
+      #### Quick Prototypes
+      
+      When prototyping and you genuinely don't need to access the state:
+    </Flex>
+
+    ```typescript
+    // Throwaway code for testing
+      <Checkbox name="temp" />
+    ```
+  
+    <Flex flexDirection="column">
+      #### Legacy Codebases
+      
+      When integrating with legacy systems that expect uncontrolled inputs.
+    </Flex>
+  </Grid>
+
+  <Divider my="16"/>
+
+  ## The Trade-off
+
+  ### Verbosity
+
+  <Grid columns={2} gap="24">
+    <Flex flexDirection="column">
+      #### Controlled
+      
+      Controlled requires boilerplate:
+      
+      ```typescript
+      const [checked, setChecked] = useState(false);
+      <Checkbox checked={checked} onChange={e => setChecked(e.target.checked)} />
+      ```
+    </Flex>
+    <Flex flexDirection="column">
+      #### Uncontrolled
+      
+      Uncontrolled is shorter:
+      
+      ```typescript
+      <Checkbox name="terms" />
+      ```
+    </Flex>
+  </Grid>
+
+  ### But Consider
+
+  In real applications, you almost always need that state anyway for:
+
+  - Form validation
+  - Submit button enable/disable
+  - Conditional rendering
+  - Success/error messages
+  - Analytics tracking
+
+  So the "extra" boilerplate is just making explicit what you'd need regardless.
+
+  <Divider my="16"/>
+
+  ## Implementation Options Considered
+
+  ### Option A: Controlled Only (Chosen)
+
+  ```typescript
+  type CheckboxProps = {
+    checked: boolean;      // Required!
+    onChange: ChangeEventHandler<HTMLInputElement>; // Required!
+    name: string;
+    // ...
+  };
+  ```
+
+  <Grid columns={2} gap="24" w="fit">
+    <Flex flexDirection="column" w="fit">
+      **Pros**
+
+      - Explicit contract
+      - No hidden state
+      - Forces best practices
+      - Simpler component code
+      - Clear documentation
+    </Flex>
+
+    <Flex flexDirection="column" w="fit">
+      **Cons**
+
+      - More verbose for consumers
+      - Can't use without state management
+    </Flex>
+  </Grid>
+
+  <Divider my="16"/>
+
+  ### Option B: Controlled with Smart Defaults
+
+  ```typescript
+  type CheckboxProps = {
+    checked?: boolean;
+    defaultChecked?: boolean;  // Initial uncontrolled state
+    onChange?: ChangeEventHandler<HTMLInputElement>;
+    // ...
+  };
+
+  // Component manages both modes
+  const isControlled = checked !== undefined;
+  const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
+  const actualChecked = isControlled ? checked : internalChecked;
+  ```
+
+  <Grid gridTemplateColumns="auto auto" gap="24" w="fit">
+    <Flex flexDirection="column">
+      **Pros**
+      
+      - Supports both patterns
+      - Flexible for edge cases
+      - Better DX for simple use cases
+    </Flex>
+
+    <Flex flexDirection="column">
+      **Cons**
+      
+      - More complex component code
+      - Can encourage anti-patterns
+      - Needs careful documentation about which mode you're in
+      - Dual-mode bugs harder to debug
+    </Flex>
+  </Grid>
+
+  Verdict: ❌ Too complex, enables anti-patterns
+
+  <Divider my="16"/>
+
+  ### Option C: Controlled Only + Helper Hook
+
+  ```typescript
+  // Design system exports helper
+  export function useCheckbox(defaultChecked = false) {
+    const [checked, setChecked] = useState(defaultChecked);
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+      setChecked(e.target.checked);
+    };
+    return { checked, onChange };
+  }
+
+  // Consumer usage - still controlled but less boilerplate
+  const termsCheckbox = useCheckbox();
+  <Checkbox {...termsCheckbox} name="terms" />
+  ```
+
+  <Grid columns={2} gap="24" w="fit">
+    <Flex flexDirection="column">
+      **Pros**
+      
+      - Maintains controlled pattern
+      - Reduces boilerplate
+      - Encourages best practices
+      - Easy to extend with validation
+    </Flex>
+    <Flex flexDirection="column">
+      **Cons**
+      
+      - One more concept to learn
+      - Still need the hook import
+    </Flex>
+  </Grid>
+
+  Verdict: ✅ Good future enhancement
+
+  <Divider my="16"/>
+
+  ### Why Controlled Components Are Right:
+
+
+  1. **Target audience:** Developers building complex enterprise ERP applications
+  2. **Integration needs:** Must work with forms, validation, complex state management
+  3. **Documentation:** Storybook already demonstrates controlled patterns
+  4. **Simplicity:** Simpler component internals (no dual-mode complexity)
+  5. **Standards alignment:** Follows React team recommendations
+  6. **Testing:** Easier to test and debug
+  7. **Future-proof:** Compatible with React Server Components
+
+  ### Documentation Approach
+
+  All controlled components should clearly document:
+
+  ```typescript
+  /**
+    * Checkbox is a controlled component.
+  * You must pass `checked` and `onChange` props.
+  *
+  * @example
+  * ```tsx
+  * const [checked, setChecked] = useState(false);
+  *
+  * <Checkbox
+  *   name="terms"
+  *   checked={checked}
+  *   onChange={(e) => setChecked(e.target.checked)}
+  * >
+  *   I accept the terms
+  * </Checkbox>
+  * ```
+  */
+  ```
+
+  <Divider my="16"/>
+
+  ## Real-World Examples
+
+  #### Simple Form
+
+  ```typescript
+  function NewsletterSignup() {
+    const [email, setEmail] = useState('');
+    const [consent, setConsent] = useState(false);
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      if (consent) {
+        subscribe(email);
+      }
+    };
+
+    return (
+      <form onSubmit={handleSubmit}>
+        <TextInput
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+        <Checkbox
+          checked={consent}
+          onChange={e => setConsent(e.target.checked)}
+        >
+          I consent to receive emails
+        </Checkbox>
+        <Button type="submit" disabled={!consent}>
+          Sign Up
+        </Button>
+      </form>
+    );
+  }
+  ```
+
+  #### Select All Pattern
+
+  ```typescript
+  function TaskList() {
+    const [tasks, setTasks] = useState([
+      { id: 1, name: 'Task 1', completed: false },
+      { id: 2, name: 'Task 2', completed: true },
+      { id: 3, name: 'Task 3', completed: false },
+    ]);
+
+    const allCompleted = tasks.every(t => t.completed);
+    const someCompleted = tasks.some(t => t.completed) && !allCompleted;
+
+    const handleSelectAll = (checked) => {
+      setTasks(tasks.map(t => ({ ...t, completed: checked })));
+    };
+
+    const handleToggle = (id, checked) => {
+      setTasks(tasks.map(t =>
+        t.id === id ? { ...t, completed: checked } : t
+      ));
+    };
+
+    return (
+      <>
+        <Checkbox
+          checked={allCompleted}
+          indeterminate={someCompleted}
+          onChange={e => handleSelectAll(e.target.checked)}
+        >
+          Select All
+        </Checkbox>
+
+        {tasks.map(task => (
+          <Checkbox
+            key={task.id}
+            checked={task.completed}
+            onChange={e => handleToggle(task.id, e.target.checked)}
+          >
+            {task.name}
+          </Checkbox>
+        ))}
+      </>
+    );
+  }
+  ```
+
+  #### Form Library Integration
+
+  ```typescript
+  import { useForm } from 'react-hook-form';
+
+  function RegistrationForm() {
+    const { register, watch, handleSubmit } = useForm();
+    const terms = watch('terms');
+    const privacy = watch('privacy');
+
+    const onSubmit = (data) => {
+      console.log(data);
+    };
+
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Checkbox
+          {...register('terms', { required: true })}
+          checked={terms}
+        >
+          I accept the terms
+        </Checkbox>
+
+        <Checkbox
+          {...register('privacy', { required: true })}
+          checked={privacy}
+        >
+          I accept the privacy policy
+        </Checkbox>
+
+        <Button type="submit" disabled={!terms || !privacy}>
+          Register
+        </Button>
+      </form>
+    );
+  }
+  ```
+
+  <Divider my="16"/>
+
+  ## Summary
+
+  The controlled component pattern is the right choice for this design system because:
+
+  1. **Predictable**: State is always visible and debuggable
+  2. **Composable**: Works seamlessly with forms, validation, state management
+  3. **Testable**: Easy to test all states without user simulation
+  4. **Standard**: Aligns with React best practices and future direction
+  5. **Practical**: Matches real-world enterprise application needs
+
+  While it requires slightly more boilerplate, this explicitness leads to:
+  
+  - More maintainable code
+  - Fewer bugs
+  - Better developer experience over time
+  - Future-proof architecture
+
+</Flex>
 </Unstyled>

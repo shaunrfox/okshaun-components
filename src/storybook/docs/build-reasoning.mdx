@@ -26,12 +26,12 @@ import { Text } from '../../components/Text';
 
 - Added `PANDA_STATIC` flag to control static CSS generation.
 - Updated scripts in package.json
-- Moved `cetec-preset.ts` --> `src/cetec-preset.ts` to keep the preset alongside other source exports and align Vite entry resolution.
+- Moved `preset.ts` --> `src/preset.ts` to keep the preset alongside other source exports and align Vite entry resolution.
 - `src/index.ts` updated to re-export the relocated preset and keep the public export surface stable for consumers.
 - `src/types/panda-augment.ts` added to extend Panda type generation without leaking `@pandacss/types` into consumer projects.
 - `src/types/panda-shim.ts` added as a minimal shim to stabilize type identity across build and consumer environments.
 - `src/types/index.d.ts` template file is copied to `dist/index.d.ts` to provide type declarations entry point for consumers.
-- We export `cetecPreset` as `any` to avoid Panda type identity conflicts in Astro
+- We export `okshaunPreset` as `any` to avoid Panda type identity conflicts in Astro
 
 
 ### Distribution Output
@@ -42,7 +42,7 @@ The expected `dist` shape includes the compiled bundle, generated type declarati
 dist/
 ├── index.js            // primary entry point
 ├── index.d.ts          // types entry point
-├── preset.js           // our packaged preset exported as 'cetecPreset'
+├── preset.js           // our packaged preset exported as 'okshaunPreset'
 │
 ├── styles.css          // barrel index for CSS files
 ├── styles/             // consumable CSS files for non-React environments
@@ -53,7 +53,8 @@ dist/
 │   ├── tokens.css      // CSS variables for all tokens
 │   └── utilities.css   // utility classes for common styles
 │
-├── cetec-logo.svg      // logo file
+├── okshaun-logo.svg      // logo file
+├── okshaun-logo-white.svg      // logo file
 ├── sprite.svg          // SVG sprite containing all icons
 ├── sprite.symbol.html  // HTML page to easily view available icons (consumes sprite.svg)
 ├── svgs/               // directory containing individual SVG files
@@ -72,7 +73,7 @@ dist/
 
 <Grid gridTemplateColumns="auto 1fr" gap="2" mb="32" rounded="16" overflow="hidden" className="definitions-grid">
 
-  <Text as="p" gridColumn="1 / -1" textStyle="mono.lg" color="text">npm run build</Text>
+  <Text as="p" gridColumn="1 / -1" textStyle="mono.lg" color="text" maxW="full">npm run build</Text>
 
 **`rm -rf dist`**
 
@@ -104,7 +105,7 @@ General build, now also copies the new files above into `./dist`
 
 <Divider weight="medium" color="transparent" gridColumn="1 / -1" />
 
-<Text as="p" gridColumn="1 / -1" textStyle="mono.lg" color="text">npm run panda-mcp</Text>
+<Text as="p" gridColumn="1 / -1" textStyle="mono.lg" color="text" maxW="full">npm run panda-mcp</Text>
 
 **`npx panda mcp`**
 
