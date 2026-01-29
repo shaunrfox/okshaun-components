@@ -2,12 +2,24 @@ import React from 'react';
 import { Box } from '~/components/Box';
 import { Text } from '~/components/Text';
 import { Flex } from '@styled-system/jsx';
-import { containerSizeTokens, numericSizes, sizes, utilitySizes } from '~/styles/primitives/sizes';
+import {
+  containerSizeTokens,
+  numericSizes,
+  sizes,
+  utilitySizes,
+} from '~/styles/primitives/sizes';
 import { breakpoints } from '~/styles/utilities/breakpoints';
 import { css } from '@styled-system/css';
 
 export interface SizeTokenProps {
-  tokenKey: keyof (typeof numericSizes | typeof utilitySizes | typeof containerSizeTokens | typeof breakpoints) | string;
+  tokenKey:
+    | keyof (
+        | typeof numericSizes
+        | typeof utilitySizes
+        | typeof containerSizeTokens
+        | typeof breakpoints
+      )
+    | string;
   utility?: boolean;
   breakpoint?: boolean;
 }
@@ -56,7 +68,6 @@ export const SizeToken: React.FC<SizeTokenProps> = ({
   utility = false,
   breakpoint = false,
 }) => {
-
   let tokenValue: string | undefined;
   let breakpointTokenRems: string | undefined;
 
@@ -70,14 +81,23 @@ export const SizeToken: React.FC<SizeTokenProps> = ({
   return (
     <Flex className={wrapperStyles} data-utility={utility}>
       <Flex gap="8" align="baseline">
-        <Text textStyle="mono.md" fontWeight="bold" color="text" lineHeight="none">{(breakpoint ? tokenValue : tokenKey)}</Text>
+        <Text
+          textStyle="mono.md"
+          fontWeight="bold"
+          color="text"
+          lineHeight="none"
+        >
+          {breakpoint ? tokenValue : tokenKey}
+        </Text>
         <Box
           className={sizeBarStyles}
           width={tokenKey as any}
           data-size-token-value={getSizeTokenValue(tokenKey)}
         />
       </Flex>
-      <Text textStyle="mono.xs" color="text.subtlest" lineHeight="none">{(breakpoint ? breakpointTokenRems : getSizeTokenValue(tokenKey))}</Text>
+      <Text textStyle="mono.xs" color="text.subtlest" lineHeight="none">
+        {breakpoint ? breakpointTokenRems : getSizeTokenValue(tokenKey)}
+      </Text>
     </Flex>
   );
 };

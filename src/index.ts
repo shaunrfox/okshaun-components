@@ -1,11 +1,7 @@
 export { Box, type BoxProps } from './components/Box';
 export { Text, type TextProps } from './components/Text';
 export { Button, type ButtonProps } from './components/Button';
-export {
-  Badge,
-  type BadgeProps,
-  type BadgeAppearance,
-} from './components/Badge';
+export { Badge, type BadgeProps, type BadgeVariant } from './components/Badge';
 export {
   Avatar,
   type AvatarProps,

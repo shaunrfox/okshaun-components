@@ -11,7 +11,6 @@ import { ThemeSwitcher } from '~/components/ThemeSwitcher';
 import { Heading } from '~/components/Heading';
 import { Link } from '~/components/Link';
 import { Spinner } from '~/components/Spinner';
-import { Badge } from '~/components/Badge';
 import { Breadcrumbs } from '~/components/Breadcrumbs';
 import { Card } from '~/components/Card';
 import { Divider } from '~/components/Divider';

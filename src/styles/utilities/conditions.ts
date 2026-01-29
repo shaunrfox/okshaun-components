@@ -23,6 +23,7 @@ export const conditions = {
   complete: '&[data-complete]',
   incomplete: '&[data-incomplete]',
   dragging: '&[data-dragging]',
+  utility: '&[data-utility=true]',
 
   before: '&::before',
   after: '&::after',
