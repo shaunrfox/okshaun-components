@@ -1,33 +1,158 @@
 import { Meta, Unstyled } from '@storybook/blocks';
 import { Box } from '../components/Box';
 import { Text } from '../components/Text';
-import '../styles/font-imports.css';
+import { Heading } from '../components/Heading';
+import { Flex, Grid, VStack, HStack } from '@styled-system/jsx';
+import { Link } from '../components/Link';
+import { Divider } from '../components/Divider';
+import { Icon } from '../components/Icon';
+import { Card } from '../components/Card';
+import { Button } from '../components/Button';
 
 <Meta title="Intro" />
-# Cetec-ERP Design System
 
-## General Info
-<Text>
-  - currently on 8.5.5
-  - story files live alongside components
-  - Can use React hooks as “advanced” cases, but recommend args
-  - May not be possible to have Docs in “tab” instead of side-nav since SB7
+<Unstyled>
+
+<Flex direction="column" gap="24">
+<Heading level="h1">okshaun components</Heading>
+
+<Text maxW="prose" textStyle="body.lg" display="inline-block">
+  A React component library built with TypeScript and Panda CSS. This design system provides a comprehensive set of accessible, themeable components following a tokens-first approach.
 </Text>
 
-## Using This Storybook
+<Divider weight="thick" color="border" my="32" />
 
-## Formatting Story Files
-<Text>
-  - export default
-    - Describes the Component
-    - title: the story “folder” title
-    - component: from the imported component, what will be in the story
-    - export variable NAME where NAME == story inside of folder
-    - component proptypes = docs argos
-    - agrTypes will allow SB to deal with custom event props (e.g. “handleClick” instead of “onClick”)
-    - Use “ tags: ["autodocs"],” to generate documentation
-  - Named Export
-    - Describes the individual story/ies
-    - Will show in sidebar as Function name, but could also use “name” arg to rename, useful for special chars or restricted JS words
-    - Can build stories using other stories: https://storybook.js.org/docs/writing-stories#how-to-write-stories
-</Text>
+<Heading level="h2">Key Principles</Heading>
+
+<Grid columns={{ base: 1, md: 2 }} gap="24">
+  <Card p="24" variant="flat">
+    <HStack mb="12">
+      <Icon name="color" color="icon.info" size="32" />
+      <Text textStyle="body.lg" fontWeight="bold" color="text">Tokens-First</Text>
+    </HStack>
+    <Text>No hard-coded hex colors or pixel values. All styling uses design tokens for consistency and theme support.</Text>
+  </Card>
+
+  <Card p="24" variant="flat">
+    <HStack mb="12">
+      <Icon name="widgets" color="icon.info" size="32" />
+      <Text textStyle="body.lg" fontWeight="bold" color="text">Recipe-Based</Text>
+    </HStack>
+    <Text>Components use Panda CSS recipes for style variants, ensuring consistent patterns across the system.</Text>
+  </Card>
+
+  <Card p="24" variant="flat">
+    <HStack mb="12">
+      <Icon name="devices" color="icon.info" size="32" />
+      <Text textStyle="body.lg" fontWeight="bold" color="text">Responsive by Default</Text>
+    </HStack>
+    <Text>Container queries and breakpoints built-in for responsive design out of the box.</Text>
+  </Card>
+
+  <Card p="24" variant="flat">
+    <HStack mb="12">
+      <Icon name="cursor-click" color="icon.info" size="32" />
+      <Text textStyle="body.lg" fontWeight="bold" color="text">Accessible</Text>
+    </HStack>
+    <Text>Semantic HTML, visible focus states, and keyboard navigation support throughout.</Text>
+  </Card>
+</Grid>
+
+<Divider weight="thick" color="border" my="32" />
+
+<Heading level="h2">The System</Heading>
+
+<Grid columns={{ base: 1, md: 2 }} gap="24">
+  <Flex flexDirection="column" gap="4">
+    <Text textStyle="body.lg" fontWeight="bold" color="text" mb="4">Components</Text>
+    <Text mb="16">Browse our library of React components. Each component includes interactive examples, prop documentation, and usage guidelines.</Text>
+    <Text color="text" mb="4">Available components include:</Text>
+    <VStack gap="8" alignItems="flex-start">
+      <HStack gap="8">
+        <Icon name="check" size="16" />
+        <Text textStyle="body.sm">Button, IconButton, Link</Text>
+      </HStack>
+      <HStack gap="8">
+        <Icon name="check" size="16" />
+        <Text textStyle="body.sm">Form inputs (TextInput, Textarea, Checkbox, Radio, Toggle)</Text>
+      </HStack>
+      <HStack gap="8">
+        <Icon name="check" size="16" />
+        <Text textStyle="body.sm">Layout (Box, Card, Divider, Grid, Flex)</Text>
+      </HStack>
+      <HStack gap="8">
+        <Icon name="check" size="16" />
+        <Text textStyle="body.sm">Typography (Heading, Text, Code)</Text>
+      </HStack>
+      <HStack gap="8">
+        <Icon name="check" size="16" />
+        <Text textStyle="body.sm">And more...</Text>
+      </HStack>
+    </VStack>
+  </Flex>
+
+  <Flex flexDirection="column" gap="4">
+    <Text textStyle="body.lg" fontWeight="bold" color="text" mb="4">Design Tokens</Text>
+    <Text mb="16">Explore the foundational design tokens that power the system. Tokens are organized into primitives and semantic tokens.</Text>
+    <VStack gap="12" alignItems="flex-start">
+      <Grid gridTemplateColumns="auto 1fr" gap="12">
+        <Text color="text">Primitive Tokens</Text>
+        <Text textStyle="body.sm">Raw design values (colors, spacing, typography) that form the foundation.</Text>
+        <Text color="text">Semantic Tokens</Text>
+        <Text textStyle="body.sm">Theme-aware tokens that automatically adapt for light/dark modes.</Text>
+      </Grid>
+      <Link size="sm" href="/?path=/docs/tokens-overview--documentation" mt="16">View Token Documentation</Link>
+    </VStack>
+  </Flex>
+</Grid>
+
+<Divider weight="thick" color="border" my="32" />
+
+<Heading level="h2">Quick Start</Heading>
+
+<Grid columns={{ base: 1, md: 2 }} gap="24" alignItems="flex-start">
+  <Box>
+    <Text textStyle="body.lg" fontWeight="bold" color="text" mb="12">Installation</Text>
+    <Card p="16" variant="sunken" mb="16">
+      <Text textStyle="mono.sm" fontFamily="mono">npm install cetec-design-system</Text>
+    </Card>
+    <Text textStyle="mono.sm" color="text">Install the package in your project to start using components.</Text>
+  </Box>
+
+  <Box>
+    <Text textStyle="body.lg" fontWeight="bold" color="text" mb="12">Usage</Text>
+    <Card p="16" variant="sunken" mb="16">
+      <Text textStyle="mono.sm" fontFamily="mono" whiteSpace="pre-wrap">{`import { Button, Text } from 'cetec-design-system';
+
+<Button intent="primary">
+  Click me
+</Button>`}</Text>
+    </Card>
+    <Text textStyle="body.sm" color="text">Import components and use them in your React application.</Text>
+  </Box>
+</Grid>
+
+<Divider weight="thick" color="border" my="32" />
+
+<Heading level="h2">Contributions</Heading>
+
+<Box p="24" border="default" rounded="16" bg="bg.surface.subtle">
+  <Text textStyle="body.lg" fontWeight="bold" color="text" mb="16">Storybook Guidelines</Text>
+  
+  <Grid gridTemplateColumns="auto 1fr" gap="12">
+    <Text textStyle="body.sm" fontWeight="bold" color="text" mb="4">Story Files</Text>
+    <Text textStyle="body.sm" color="text">Story files live alongside components in the component directory (e.g., `ComponentName.stories.tsx`).</Text>
+  
+    <Text textStyle="body.sm" fontWeight="bold" color="text" mb="4">Default Export</Text>
+    <Text textStyle="body.sm" color="text">Describes the component with `title`, `component`, and `tags: ["autodocs"]` for auto-generated documentation.</Text>
+  
+    <Text textStyle="body.sm" fontWeight="bold" color="text" mb="4">Named Exports</Text>
+    <Text textStyle="body.sm" color="text">Individual stories. Use function names or the `name` property for display. Prefer `args` over React hooks for story data.</Text>
+  
+    <Text textStyle="body.sm" fontWeight="bold" color="text" mb="4">Version</Text>
+    <Text textStyle="body.sm" color="text">Currently on Storybook version 8.</Text>
+  </Grid>
+</Box>
+
+</Flex>
+</Unstyled>

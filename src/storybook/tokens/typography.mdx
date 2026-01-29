@@ -11,42 +11,44 @@ import { TextStyleToken } from './components/TextStyleToken';
 <Meta title="Tokens/Typography" />
 
 <Unstyled>
+
 <Flex direction="column" gap="12">
-  <Heading level="h1">Typography Tokens</Heading>
+  
+  # Typography Tokens
 
-  <Text maxW="prose">Typography tokens define consistent text styling used throughout the design system.</Text>
+  Typography tokens define consistent text styling used throughout the design system.
 
-  <Divider weight="thick" color="border.boldest" mb="32"/>
-{/* Text Styles */}
-  <Heading level="h3" textStyle="heading.md">Text Styles</Heading>
-  <Flex direction="column">
-    <Divider weight="thick" color="border.disabled" />
+  <Divider weight="thick" color="border.disabled" mb="48"/>
+
+  ### Text Styles
+
+  <Flex direction="column" gap="24">
+    <Divider color="border.disabled" />
     <TextStyleToken tokenKey="display.lg" />
     <TextStyleToken tokenKey="display.md" />
     <TextStyleToken tokenKey="display.sm" />
     <TextStyleToken tokenKey="display.xs" />
-    <Divider weight="thick" color="border.disabled" />
+    <Divider color="border.disabled" />
     <TextStyleToken tokenKey="heading.lg" />
     <TextStyleToken tokenKey="heading.md" />
     <TextStyleToken tokenKey="heading.sm" />
     <TextStyleToken tokenKey="heading.xs" />
-    <Divider weight="thick" color="border.disabled" />
+    <Divider color="border.disabled" />
     <TextStyleToken tokenKey="body.lg" />
     <TextStyleToken tokenKey="body.md" />
     <TextStyleToken tokenKey="body.sm" />
     <TextStyleToken tokenKey="body.xs" />
-    <Divider weight="thick" color="border.disabled" />
+    <Divider color="border.disabled" />
     <TextStyleToken tokenKey="mono.lg" />
     <TextStyleToken tokenKey="mono.md" />
     <TextStyleToken tokenKey="mono.sm" />
     <TextStyleToken tokenKey="mono.xs" />
-    <Divider weight="thick" color="border.boldest" mb="32"/>
+    <Divider color="border" mb="48"/>
   </Flex>
-  {/* Fonts */}
 
-  <Heading level="h3" textStyle="heading.md">Fonts</Heading>
+  ### Fonts
 
-  <Divider color="border.disabled" my="12"/>
+  <Divider color="border.disabled" mb="12"/>
 
   <Flex direction="column" gap="12" w="fit" align="baseline">
     <Flex gap="12" align="baseline">
@@ -100,13 +102,11 @@ import { TextStyleToken } from './components/TextStyleToken';
     </Box>
   </Flex>
 
-  <Divider color="border.disabled" my="12"/>
+  <Divider color="border" mb="48"/>
 
-  <Divider weight="thick" color="border.boldest" my="32"/>
-
-  {/* fontSizes */}
-  <Heading level="h3" textStyle="heading.md">Font Sizes</Heading>
-  <Divider color="border.disabled" my="12"/>
+  ### Font Sizes
+  
+  <Divider color="border.disabled" mb="12" />
 
   <Flex direction="column" gap="12" w="fit" align="baseline">
     <Flex gap="12" align="baseline">
@@ -183,12 +183,11 @@ import { TextStyleToken } from './components/TextStyleToken';
     </Flex>
   </Flex>
 
-  <Divider weight="thick" color="border.boldest" my="32"/>
-  {/* fontWeights */}
+  <Divider color="border" mb="48"/>
 
-  <Heading level="h3" textStyle="heading.md">Font Weights</Heading>
+  ### Font Weights
 
-  <Divider color="border.disabled" my="12"/>
+  <Divider color="border.disabled" mb="12"/>
 
   <Grid gridTemplateColumns="auto 1fr" gap="12" w="fit" alignItems="baseline">
     <Text textStyle="mono.md" color="text"><b>light</b> (300)</Text>
@@ -213,11 +212,11 @@ import { TextStyleToken } from './components/TextStyleToken';
     </Box>
   </Grid>
 
-  <Divider weight="thick" color="border.boldest" my="32"/>
-  {/* lineHeights */}
-  <Heading level="h3" textStyle="heading.md">Line Heights</Heading>
+  <Divider color="border" mb="48"/>
 
-  <Divider color="border.disabled" my="12"/>
+  ### Line Heights
+
+  <Divider color="border.disabled" mb="12"/>
 
   <Grid gridTemplateColumns="auto 1fr" columnGap="12" rowGap="32" w="fit" alignItems="baseline">
     <Text textStyle="mono.md" color="text"><b>none</b> (1)</Text>
@@ -238,70 +237,40 @@ import { TextStyleToken } from './components/TextStyleToken';
     </Box>
   </Grid>
 
-  <Divider weight="thick" color="border.boldest" my="32" />
+  <Divider color="border" mb="48"/>
 
-  {/* fontVariants */ }
-  ### Font Variants
+  ### Letter Spacings
 
-  The `font-variation-settings` property in CSS allows you to fine-tune attributes like weight, width, slant, or custom features on a variable font. Our main body font ([Recursive](https://www.recursive.design/)) supports the following variations:
+  <Divider color="border.disabled" mb="12"/>
 
-  - `MONO` (monospace): 0 to 1
-  - `CASL` (casual): 0 to 1
-  - `wght` (weight): 300 to 1000 (we're using `fontWeight` to control weight instead of this)
-  - `slnt` (slant): -15 to 0
-  - `CRSV` (cursive): 0, 0.5, 1
-
-  These have been built into shorthand properties for convenience, and can be applied with the `fontVariant` prop:
-
-  ```jsx
-    <Text fontVariant="body-italic">...</Text>
-  ```
-
-  <Divider color="border.disabled" my="12"/>
-
-  <Grid gridTemplateColumns="auto 1fr" columnGap="24" rowGap="32" w="fit" alignItems="baseline">
-    <Text textStyle="mono.md" color="text" bold>body</Text>
+  <Grid gridTemplateColumns="auto 1fr" gap="12" w="fit" alignItems="baseline">
+    <Text textStyle="mono.md" color="text"><b>tighter</b> (-0.05em)</Text>
     <Box p="2" bg="bg.neutral" rounded="2" w="fit" maxW="3xl" overflow="hidden">
-      <Text fontVariant="body" fontSize="24">Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
+      <Text fontSize="24" letterSpacing="tighter">The quick brown fox jumps over the lazy dog</Text>
+    </Box>
+    <Text textStyle="mono.md" color="text"><b>tight</b> (-0.025em)</Text>
+    <Box p="2" bg="bg.neutral" rounded="2" w="fit" maxW="3xl" overflow="hidden">
+      <Text fontSize="24" letterSpacing="tight">The quick brown fox jumps over the lazy dog</Text>
+    </Box>
+    <Text textStyle="mono.md" color="text"><b>normal</b> (0em)</Text>
+    <Box p="2" bg="bg.neutral" rounded="2" w="fit" maxW="3xl" overflow="hidden">
+      <Text fontSize="24" letterSpacing="normal">The quick brown fox jumps over the lazy dog</Text>
     </Box>
 
-    <Text textStyle="mono.md" color="text" bold>body-italic</Text>
+    <Text textStyle="mono.md" color="text"><b>wide</b> (0.025em)</Text>
     <Box p="2" bg="bg.neutral" rounded="2" w="fit" maxW="3xl" overflow="hidden">
-      <Text fontVariant="body-italic" fontSize="24">Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
+      <Text fontSize="24" letterSpacing="wide">The quick brown fox jumps over the lazy dog</Text>
     </Box>
-
-    <Text textStyle="mono.md" color="text" bold>body-casual</Text>
+    <Text textStyle="mono.md" color="text"><b>wider</b> (0.05em)</Text>
     <Box p="2" bg="bg.neutral" rounded="2" w="fit" maxW="3xl" overflow="hidden">
-      <Text fontVariant="body-casual" fontSize="24">Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
+      <Text fontSize="24" letterSpacing="wider">The quick brown fox jumps over the lazy dog</Text>
     </Box>
-
-    <Text textStyle="mono.md" color="text" bold>body-casual-italic</Text>
+    <Text textStyle="mono.md" color="text"><b>widest</b> (0.1em)</Text>
     <Box p="2" bg="bg.neutral" rounded="2" w="fit" maxW="3xl" overflow="hidden">
-      <Text fontVariant="body-casual-italic" fontSize="24">Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
-    </Box>
-
-    <Text textStyle="mono.md" color="text" bold>mono</Text>
-    <Box p="2" bg="bg.neutral" rounded="2" w="fit" maxW="3xl" overflow="hidden">
-      <Text fontVariant="mono" fontSize="24">Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
-    </Box>
-
-    <Text textStyle="mono.md" color="text" bold>mono-italic</Text>
-    <Box p="2" bg="bg.neutral" rounded="2" w="fit" maxW="3xl" overflow="hidden">
-      <Text fontVariant="mono-italic" fontSize="24">Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
-    </Box>
-
-    <Text textStyle="mono.md" color="text" bold>mono-casual</Text>
-    <Box p="2" bg="bg.neutral" rounded="2" w="fit" maxW="3xl" overflow="hidden">
-      <Text fontVariant="mono-casual" fontSize="24">Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
-    </Box>
-
-    <Text textStyle="mono.md" color="text" bold>mono-casual-italic</Text>
-    <Box p="2" bg="bg.neutral" rounded="2" w="fit" maxW="3xl" overflow="hidden">
-      <Text fontVariant="mono-casual-italic" fontSize="24">Signs night have sixth hath that likeness us fill you're subdue fowl brought divide beginning multiply brought created after open given of made beginning multiply green.</Text>
+      <Text fontSize="24" letterSpacing="widest">The quick brown fox jumps over the lazy dog</Text>
     </Box>
   </Grid>
 
-  <Divider weight="thick" color="border.boldest" my="32" />
-
+  <Divider color="border" mb="48"/>
 </Flex>
 </Unstyled>

@@ -1,13 +1,37 @@
 import { defineRecipe } from '@pandacss/dev';
+import {
+  fontSizes as fontSizeTokens,
+  fontWeights as fontWeightTokens,
+} from '../styles/primitives';
 
 const textBase = {
-  display: 'inline-block',
   margin: '0',
   lineHeight: 'default',
   fontWeight: 'normal',
   fontSize: '16',
-  color: 'text',
+  color: 'text.subtlest',
+  maxWidth: 'prose',
 };
+
+type FontSizeKey = keyof typeof fontSizeTokens;
+const fontSizes = (Object.keys(fontSizeTokens) as FontSizeKey[]).reduce(
+  (accumulator, currentKey) => {
+    accumulator[currentKey] = { fontSize: fontSizeTokens[currentKey].value };
+    return accumulator;
+  },
+  {} as Record<FontSizeKey, Record<'fontSize', string>>,
+);
+
+type FontWeightKey = keyof typeof fontWeightTokens;
+const fontWeights = (Object.keys(fontWeightTokens) as FontWeightKey[]).reduce(
+  (accumulator, currentKey) => {
+    accumulator[currentKey] = {
+      fontWeight: fontWeightTokens[currentKey].value,
+    };
+    return accumulator;
+  },
+  {} as Record<FontWeightKey, Record<'fontWeight', number>>,
+);
 
 const textVariants = {
   family: {
@@ -33,6 +57,24 @@ const textVariants = {
       textDecoration: 'underline',
     },
   },
+  truncate: {
+    true: {
+      width: 'full',
+      maxWidth: 'full',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+    },
+  },
+  allcaps: {
+    true: {
+      textTransform: 'uppercase',
+      fontWeight: 'bold',
+      letterSpacing: 'widest',
+    },
+  },
+  size: fontSizes,
+  weight: fontWeights,
 };
 
 const headingBase = {
@@ -48,6 +90,12 @@ const headingVariants = {
     h2: { textStyle: 'heading.md' },
     h3: { textStyle: 'heading.sm' },
     h4: { textStyle: 'heading.xs' },
+  },
+  allcaps: {
+    true: {
+      textTransform: 'uppercase',
+      letterSpacing: 'widest',
+    },
   },
 };
 

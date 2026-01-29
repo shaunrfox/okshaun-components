@@ -10,12 +10,12 @@ export type HeadingProps = Omit<TextProps, keyof HeadingVariantProps> &
   };
 
 export const Heading = (props: HeadingProps) => {
-  const { level = 'h2', children, ...rest } = props;
+  const { level = 'h2', allcaps, children, ...rest } = props;
   const [className, otherProps] = splitProps(rest);
   return (
     <Text
       as={level}
-      className={cx(heading({ level }), className)}
+      className={cx(heading({ level, allcaps }), className)}
       {...otherProps}
     >
       {children}

@@ -2,35 +2,31 @@ import { ReactNode, ElementType } from 'react';
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '~/components/Box';
-import type {
-  FontToken,
-  FontSizeToken,
-  FontWeightToken,
-} from '@styled-system/tokens';
 import { text, type TextVariantProps } from '@styled-system/recipes';
 
 export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
   TextVariantProps & {
-    italic?: boolean;
-    family?: FontToken;
-    bold?: boolean;
-    underline?: boolean;
-    size?: FontSizeToken;
-    weight?: FontWeightToken;
-    children?: string | ReactNode;
+    children: string | ReactNode;
     as?: ElementType;
+    role?: string;
+    tabIndex?: number;
   };
 
 export const Text = (props: TextProps) => {
   const {
     as = 'span',
-    italic,
     family,
+    italic,
     bold,
     underline,
     size,
-    weight,
     children,
+    textStyle,
+    weight,
+    role, // role if use in form input text for refrence, also semantic role overrides if non-semantic tag.
+    tabIndex, // tabIndex main use for in list or loop select text using key press focus
+    truncate,
+    allcaps,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
@@ -38,12 +34,22 @@ export const Text = (props: TextProps) => {
   return (
     <Box
       as={as}
+      textStyle={textStyle}
       className={cx(
-        text({ family, bold, underline, italic }),
-        className as string,
+        text({
+          family,
+          bold,
+          underline,
+          italic,
+          size,
+          weight,
+          truncate,
+          allcaps,
+        }),
+        className,
       )}
-      fontSize={size}
-      fontWeight={weight}
+      role={role}
+      tabIndex={tabIndex}
       {...otherProps}
     >
       {children}

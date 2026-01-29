@@ -1,0 +1,109 @@
+.sbdocs-content {
+  padding-inline: var(--oks-sizes-48);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  &:not([class*='oks-']) {
+    font-family: var(--oks-fonts-heading);
+    font-weight: var(--oks-font-weights-black);
+    line-height: calc(1em + 0.5rem);
+    color: var(--oks-colors-text);
+    margin-bottom: 0.5rem;
+  }
+}
+
+p + h1,
+p + h2,
+p + h3,
+p + h4 {
+  &:not([class*='oks-']) {
+    margin-top: 1.5rem;
+  }
+}
+
+h1 {
+  font-size: var(--oks-font-sizes-40);
+}
+
+h2 {
+  font-size: var(--oks-font-sizes-32);
+}
+
+h3 {
+  font-size: var(--oks-font-sizes-24);
+}
+
+h4 {
+  font-size: var(--oks-font-sizes-20);
+}
+
+p:not([class*='oks-']) {
+  margin-bottom: 0.5rem;
+  max-width: var(--oks-sizes-prose);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--oks-fonts-mono);
+  font-variation-settings:
+    'MONO' 1,
+    'CRSV' 0,
+    'CASL' 0,
+    'slnt' 0;
+  font-size: 1em;
+}
+
+code {
+  mix-blend-mode: luminosity;
+}
+
+pre > div {
+  margin-top: 0 !important;
+}
+
+b,
+strong {
+  font-weight: bold;
+}
+
+i,
+em {
+  font-style: italic;
+  font-variation-settings:
+    'MONO' 0,
+    'CRSV' 1,
+    'CASL' 0,
+    'slnt' -15;
+}
+
+ul,
+ol {
+  &:not([class*='oks-']) {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+ul:not([class*='oks-']) {
+  list-style-type: disc;
+}
+
+ol:not([class*='oks-']) {
+  list-style-type: decimal;
+}
+
+.oks-d_grid.definitions-grid {
+  --bg-color: color-mix(in srgb, var(--oks-colors-bg-warning) 50%, transparent);
+  p {
+    background-color: var(--bg-color);
+    padding: var(--oks-sizes-12);
+    margin: 0;
+  }
+}

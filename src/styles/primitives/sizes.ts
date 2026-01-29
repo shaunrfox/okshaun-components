@@ -63,7 +63,7 @@ export const utilitySizes = {
 };
 
 // Container size tokens for the sizes scale (with value wrappers)
-const containerSizeTokens = {
+export const containerSizeTokens = {
   '2xs': { value: '16rem' }, // 256px
   xs: { value: '20rem' }, // 320px
   sm: { value: '24rem' }, // 384px

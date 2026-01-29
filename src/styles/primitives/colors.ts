@@ -64,7 +64,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#060606' },
   },
   red: {
-    DEFAULT: { value: '#e2483d' },
+    // DEFAULT: { value: '#e2483d' },
     '10': { value: '#ffeceb' },
     '20': { value: '#ffd5d2' },
     '30': { value: '#fd9891' },
@@ -77,7 +77,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#42221f' },
   },
   orange: {
-    DEFAULT: { value: '#e06c00' },
+    // DEFAULT: { value: '#e06c00' },
     '10': { value: '#fff5db' },
     '20': { value: '#fce4a6' },
     '30': { value: '#fbc828' },
@@ -90,7 +90,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#3a2c1f' },
   },
   yellow: {
-    DEFAULT: { value: '#e5b00a' },
+    // DEFAULT: { value: '#e5b00a' },
     '10': { value: '#fefbf3' },
     '20': { value: '#f9ecc4' },
     '30': { value: '#f4dd96' },
@@ -103,7 +103,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#2a271d' },
   },
   lime: {
-    DEFAULT: { value: '#6a9a23' },
+    // DEFAULT: { value: '#6a9a23' },
     '10': { value: '#efffd6' },
     '20': { value: '#d3f1a7' },
     '30': { value: '#b3df72' },
@@ -116,7 +116,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#28311b' },
   },
   green: {
-    DEFAULT: { value: '#22a06b' },
+    // DEFAULT: { value: '#22a06b' },
     '10': { value: '#dcfff1' },
     '20': { value: '#baf3db' },
     '30': { value: '#7ee2b8' },
@@ -129,7 +129,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#1c3329' },
   },
   teal: {
-    DEFAULT: { value: '#2898bd' },
+    // DEFAULT: { value: '#2898bd' },
     '10': { value: '#e7f9ff' },
     '20': { value: '#c6edfb' },
     '30': { value: '#9dd9ee' },
@@ -142,7 +142,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#1e3137' },
   },
   blue: {
-    DEFAULT: { value: '#357de8' },
+    // DEFAULT: { value: '#357de8' },
     '10': { value: '#e9f2fe' },
     '20': { value: '#cfe1fd' },
     '30': { value: '#8fb8f6' },
@@ -155,7 +155,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#1c2b42' },
   },
   indigo: {
-    DEFAULT: { value: '#7665d1' },
+    // DEFAULT: { value: '#7665d1' },
     '10': { value: '#f1eff7' },
     '20': { value: '#e7e3fa' },
     '30': { value: '#cbc4f2' },
@@ -168,7 +168,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#18161d' },
   },
   purple: {
-    DEFAULT: { value: '#af59e1' },
+    // DEFAULT: { value: '#af59e1' },
     '10': { value: '#f8eefe' },
     '20': { value: '#eed7fc' },
     '30': { value: '#d8a0f7' },
@@ -181,7 +181,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#35243f' },
   },
   magenta: {
-    DEFAULT: { value: '#cd519d' },
+    // DEFAULT: { value: '#cd519d' },
     '10': { value: '#ffecf8' },
     '20': { value: '#fdd0ec' },
     '30': { value: '#f797d2' },
@@ -194,7 +194,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#3d2232' },
   },
   tan: {
-    DEFAULT: { value: '#8e704f' },
+    // DEFAULT: { value: '#8e704f' },
     '10': { value: '#f5f0e6' },
     '20': { value: '#f1e5cd' },
     '30': { value: '#dec69a' },
@@ -207,7 +207,7 @@ export const colors = defineTokens.colors({
     '100': { value: '#191714' },
   },
   slate: {
-    DEFAULYT: { value: '#1E1E1E' },
+    // DEFAULT: { value: '#1E1E1E' },
     '0': { value: '#FFFFFF' },
     '1': { value: '#FAFAFA' },
     '2': { value: '#F9F8F6' },

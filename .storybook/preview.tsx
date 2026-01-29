@@ -1,7 +1,7 @@
 import type { Preview } from '@storybook/react';
-import React from 'react';
 import { ThemeProvider } from '../src/contexts/ThemeProvider';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
+import DocTemplate from '../src/storybook/doctemplate.mdx';
 
 // Import fonts for Storybook
 import '@fontsource/ibm-plex-sans/400.css';
@@ -16,6 +16,7 @@ import '@fontsource-variable/piazzolla/index.css';
 
 // Import Panda CSS layers
 import '../src/styles/index.css';
+import './story-docs-style.css';
 
 const preview: Preview = {
   parameters: {
@@ -26,7 +27,27 @@ const preview: Preview = {
       },
     },
     layout: 'centered',
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: [
+          'Intro',
+          'Tokens',
+          ['Overview', 'Colors', 'Typography', 'Sizes', 'Shadows', '*'],
+          'Components',
+          'Guides',
+          '*',
+        ],
+      },
+    },
+    docs: {
+      page: DocTemplate,
+      toc: {
+        headingSelector: 'h2, h3, h4',
+      },
+    },
   },
+  tags: ['autodocs'],
   decorators: [
     withThemeByDataAttribute({
       themes: {

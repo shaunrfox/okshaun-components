@@ -4,23 +4,6 @@ export const badgeRecipe = defineSlotRecipe({
   className: 'badge',
   jsx: ['Badge'],
   slots: ['root', 'indicator'],
-  staticCss: [
-    {
-      size: ['sm', 'md', 'lg'],
-      standalone: ['true', 'false'],
-      dot: ['true', 'false'],
-      variant: [
-        'neutral',
-        'inverted',
-        'subtle',
-        'subtle-inverted',
-        'success',
-        'danger',
-        'warning',
-        'info',
-      ],
-    },
-  ],
   base: {
     root: {
       display: 'inline-flex',
@@ -31,7 +14,7 @@ export const badgeRecipe = defineSlotRecipe({
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: 'full',
+      borderRadius: '999',
       fontWeight: 'medium',
       fontFamily: 'sans',
       lineHeight: '1',
@@ -200,4 +183,21 @@ export const badgeRecipe = defineSlotRecipe({
     size: 'md',
     variant: 'danger',
   },
+  // staticCss: [
+  //   {
+  //     size: ['sm', 'md', 'lg'],
+  //     standalone: ['true', 'false'],
+  //     dot: ['true', 'false'],
+  //     variant: [
+  //       'neutral',
+  //       'inverted',
+  //       'subtle',
+  //       'subtle-inverted',
+  //       'success',
+  //       'danger',
+  //       'warning',
+  //       'info',
+  //     ],
+  //   },
+  // ],
 });

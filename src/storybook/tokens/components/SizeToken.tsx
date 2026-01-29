@@ -38,7 +38,7 @@ export const wrapperStyles = css({
   flexDirection: 'column',
   bg: 'transparent',
   gap: '4',
-  rounded: '4',
+  rounded: '2',
   _utility: {
     borderColor: 'border',
     bg: 'bg.accent.neutral.subtlest',

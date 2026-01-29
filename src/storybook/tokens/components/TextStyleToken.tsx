@@ -33,7 +33,7 @@ export const TextStyleToken: React.FC<TypographyTokenProps> = ({
   const fontWeight = styleObj?.fontWeight;
 
   return (
-    <Flex gap="40" w="full" align="baseline" borderBottom="default" p="24">
+    <Flex gap="40" w="full" align="baseline" px="24">
       <Flex direction="column" gap="8">
         <Text textStyle="mono.md" fontWeight="bold" color="text" lineHeight="none">
           {tokenKey}

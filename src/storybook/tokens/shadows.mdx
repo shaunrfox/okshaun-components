@@ -5,18 +5,19 @@ import { Text } from '~/components/Text';
 import { Flex, Grid } from '@styled-system/jsx';
 import { Heading } from '~/components/Heading';
 import { Divider } from '~/components/Divider';
+import { Card } from '~/components/Card';
 
 <Meta title="Tokens/Shadows" />
 
 <Unstyled>
 <Flex direction="column" gap="12">
-  <Heading level="h1">Shadow Tokens</Heading>
+  # Shadow Tokens
 
-Shadow tokens define consistent elevation and depth effects used throughout the design system.
+  Shadow tokens define consistent elevation and depth effects used throughout the design system.
 
-  <Divider weight="thick" color="border.boldest" mb="32"/>
+  <Divider weight="thick" color="border.disabled" mb="48"/>
   
-  <Heading level="h3" textStyle="heading.sm">Shadows</Heading>
+  ### Shadows
 
   <Grid gridTemplateColumns="1fr 1fr" gridTemplateRows="repeat(5, auto)" alignItems="center" columnGap="0" rowGap="40">
     <Grid gridTemplateColumns="subgrid" gridTemplateRows="subgrid" alignItems="center" gridRow="1 / -1" bg="surface" p="80" roundedLeft="16" border="default" data-color-mode="light" gap="24">
@@ -69,39 +70,7 @@ Shadow tokens define consistent elevation and depth effects used throughout the 
     </Grid>
   </Grid>
 
-  <Divider weight="thick" color="border.boldest" my="32"/>
-  
-  <Heading level="h3" textStyle="heading.sm">Legacy</Heading>
+  <Divider weight="thick" color="border.disabled" my="48"/>
 
-  <Grid gridTemplateColumns="1fr 1fr" gridTemplateRows="repeat(4, auto)" alignItems="center" columnGap="0" rowGap="40">
-    <Grid gridTemplateColumns="subgrid" gridTemplateRows="subgrid" alignItems="center" gridRow="1 / -1" bg="surface" p="80" roundedLeft="16" border="default" data-color-mode="light" gap="24">
-      <Grid placeContent="center" bg="surface.raised" p="24" boxShadow="low" rounded="8" border="default" >
-        <Text textStyle="body.lg">shadows.low</Text>
-      </Grid>
-      <Grid placeContent="center" bg="surface.raised" p="24" boxShadow="medium" rounded="8" border="default" >
-        <Text textStyle="body.lg">shadows.medium</Text>
-      </Grid>
-      <Grid placeContent="center" bg="surface.raised" p="24" boxShadow="high" rounded="8" border="default" >
-        <Text textStyle="body.lg">shadows.high</Text>
-      </Grid>
-      <Grid placeContent="center" bg="surface.raised" p="24" boxShadow="inset" rounded="8" border="default" >
-        <Text textStyle="body.lg">shadows.inset</Text>
-      </Grid>
-    </Grid>
-    <Grid gridTemplateColumns="subgrid" gridTemplateRows="subgrid" alignItems="center" gridRow="1 / -1" bg="surface" p="80" roundedRight="16" border="default" data-color-mode="dark" gap="24">
-      <Grid placeContent="center" bg="surface.raised" p="24" boxShadow="low" rounded="8" border="default" >
-        <Text textStyle="body.lg">shadows.low</Text>
-      </Grid>
-      <Grid placeContent="center" bg="surface.raised" p="24" boxShadow="medium" rounded="8" border="default" >
-        <Text textStyle="body.lg">shadows.medium</Text>
-      </Grid>
-      <Grid placeContent="center" bg="surface.raised" p="24" boxShadow="high" rounded="8" border="default" >
-        <Text textStyle="body.lg">shadows.high</Text>
-      </Grid>
-      <Grid placeContent="center" bg="surface.raised" p="24" boxShadow="inset" rounded="8" border="default" >
-        <Text textStyle="body.lg">shadows.inset</Text>
-      </Grid>
-    </Grid>
-  </Grid>
 </Flex>
 </Unstyled>

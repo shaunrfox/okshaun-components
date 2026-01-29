@@ -1,0 +1,113 @@
+import { Meta, Title, Unstyled } from '@storybook/blocks';
+import { Flex } from '@styled-system/jsx';
+import { Divider } from '~/components/Divider';
+
+<Meta title="Guides/ Component Standards" />
+
+<Unstyled>
+
+<Flex direction="column" gap="12">
+
+# Component standards
+
+<Divider weight="thick" color="border.disabled" mb="48"/>
+
+### splitProps & className
+
+The `splitProps` function separates all style props and classNames from the rest of the props, so they can be passed to Panda. This is used in combination with Panda's `cx` function, which does a deep merge of the style props with the component's default styles. So you also don't need to include `className` in your component's props.
+
+```tsx
+// Recipe example
+
+import { Box, type BoxProps } from '~/components/Box';
+import { splitProps } from '~/utils/splitProps';
+import { tag, type TagVariantProps } from '@styled-system/recipes';
+
+export type TagProps = TagVariantProps & BoxProps;
+
+export const Tag = (props: TagProps) => {
+  const [className, otherProps] = splitProps(props);
+  return (
+    <Box
+      className={cx(tag({ any_variants }), className)}
+      {...otherProps}
+    />
+  );
+}
+```
+
+```tsx
+// SlotRecipe example
+
+import { Box, type BoxProps } from '~/components/Box';
+import { splitProps } from '~/utils/splitProps';
+import { tag, type TagVariantProps } from '@styled-system/recipes';
+
+export type TagProps = TagVariantProps & BoxProps;
+
+export const Tag = (props: TagProps) => {
+  const { wrapper, content } = tag();
+  const [className, otherProps] = splitProps(props);
+  return (
+    <Box
+      className={cx(wrapper, className)}
+      {...otherProps}
+    >
+      <Box className={content} />
+    </Box>
+  );
+}
+```
+
+<Divider weight="thick" color="border.disabled" my="48"/>
+
+### as prop
+
+Components should always extend BoxProps, which already handles the `as` prop for correct typing.
+You should only explicitly define the `as` prop when you want to restrict the allowed HTML elements for a component, and therefore should `Omit` the default `as` prop that comes with BoxProps.
+
+```tsx
+export type TagProps = TagVariantProps & Omit<BoxProps, 'as'>;
+
+export const Tag = (props: TagProps) => {
+  const { wrapper, content } = tag();
+  const [className, otherProps] = splitProps(props);
+  return (
+    <Box
+      className={cx(wrapper, className)}
+      {...otherProps}
+    >
+      <Box className={content} />
+    </Box>
+  );
+}
+```
+
+<Divider weight="thick" color="border.disabled" my="48"/>
+
+### ref
+
+As of React 19, you can access ref directly as a prop in function components - no forwardRef wrapper needed.
+
+([source](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/forward_and_create_ref/))
+
+<Divider weight="thick" color="border.disabled" my="48"/>
+
+### onClick
+
+`onClick` does not need to be explicitly defined in the component's props.
+`BoxProps` is based on `ComponentPropsWithRef`, which includes all HTML element props, so `onClick` is automatically inherited based on the element type.
+
+([source](https://react-typescript-cheatsheet.netlify.app/docs/react-types/componentprops/))
+
+```tsx
+// The inherited type would be:
+onClick?: React.MouseEventHandler<HTMLElement>
+// i.e., (event: React.MouseEvent<HTMLElement>) => void
+```
+
+<Divider weight="thick" color="border.disabled" my="48"/>
+
+</Flex>
+
+</Unstyled>

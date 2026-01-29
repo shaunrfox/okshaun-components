@@ -1,5 +1,6 @@
 import { Meta, Unstyled } from '@storybook/blocks';
 import { Box } from '../../components/Box';
+import { Card } from '../../components/Card';
 import { Heading } from '../../components/Heading';
 import { Text } from '../../components/Text';
 import { VStack, HStack, Grid, Flex } from '@styled-system/jsx';
@@ -10,65 +11,76 @@ import { Icon } from '../../components/Icon';
 <Meta title="Tokens/Overview" />
 
 <Unstyled>
-<Flex direction="column" gap="16">
-<Heading level="h1">Design Tokens Overview</Heading>
+<Flex direction="column" gap="16" containerType="inline-size">
 
-<Text maxW="prose" display="inline-block">Welcome to the Cetec Design System token library. This overview provides a high-level view of all available design tokens, organized by category.</Text>
+# Design Tokens Overview
 
-<Divider weight="thick" color="border" my="32" />
+Welcome to the okshaun token library. This overview provides a high-level view of all available design tokens, organized by category.
 
-<Heading level="h3">How Tokens Work</Heading>
+<Divider weight="thick" color="border.disabled" mb="48"/>
 
-  <Grid columns={2} gap="24" alignItems="flex-start">
-    <Box p="16" border="default" rounded="16">
-      <Heading level="h4" textStyle="body.lg" fontWeight="bold" color="text">Primitive Tokens</Heading>
-      <Text>Raw design values defined in `src/styles/primitives/`. These are the foundation and don't change based on theme.</Text>
-    </Box>
+### Token Types
 
-    <Box p="16" border="default" rounded="16">
-      <Heading level="h4" textStyle="body.lg" fontWeight="bold" color="text">Semantic Tokens</Heading>
-      <Text>Theme-aware tokens defined in `src/styles/semantics/`. These reference primitive tokens and automatically switch values for light/dark themes.</Text>
-    </Box>
+  <Grid columns={{ base: 1, '@/2xl': 2 }} gap="40" alignItems="flex-start">
+    <Flex flexDirection="column" gap="4">
+      <Text textStyle="body.lg" fontWeight="bold" color="text">Primitive Tokens</Text>
+
+      Raw design values defined in `src/styles/primitives/`. These are the foundation and don't change based on theme.
+    </Flex>
+
+    <Flex flexDirection="column" gap="4">
+      <Text textStyle="body.lg" fontWeight="bold" color="text">Semantic Tokens</Text>
+
+      Theme-aware tokens defined in `src/styles/semantics/`. These reference primitive tokens and automatically switch values for light/dark themes.
+    </Flex>
   </Grid>
 
-<Divider weight="thick" color="border" my="32" />
+<Divider weight="thick" color="border.disabled" my="48" />
 
 <Heading level="h3">Token Categories</Heading>
 
 <Grid columns={2} gap="24">
-  <Box p="16" border="default" rounded="16">
+  <Card p="24" variant="sunken" display="flex" flexDirection="column" gap="4">
     <Text textStyle="body.lg" fontWeight="bold" color="text">Colors</Text>
-    <Text>Base color palettes and semantic color tokens that adapt to light/dark themes.</Text>
+
+    Base color palettes and semantic color tokens that adapt to light/dark themes.
+    
     <Link href="/?path=/docs/tokens-colors--docs">View Colors</Link>
-  </Box>
+  </Card>
 
-  <Box p="16" border="default" rounded="16">
+  <Card p="24" variant="sunken" display="flex" flexDirection="column" gap="4">
     <Text textStyle="body.lg" fontWeight="bold" color="text">Typography</Text>
-    <Text>Font families, sizes, weights, and complete text styles for headings and body text.</Text>
+    
+    Font families, sizes, weights, and complete text styles for headings and body text.
+    
     <Link href="/?path=/docs/tokens-typography--docs">View Typography</Link>
-  </Box>
+  </Card>
 
-  <Box p="16" border="default" rounded="16">
+  <Card p="24" variant="sunken" display="flex" flexDirection="column" gap="4">
     <Text textStyle="body.lg" fontWeight="bold" color="text">Spacing & Sizing</Text>
-    <Text>Spacing scales, container sizes, and sizing tokens for consistent layouts.</Text>
+    
+    Spacing scales, container sizes, and sizing tokens for consistent layouts.
+    
     <Link href="/?path=/docs/tokens-spacing-sizing--docs">View Spacing</Link>
-  </Box>
+  </Card>
 
-  <Box p="16" border="default" rounded="16">
+  <Card p="24" variant="sunken" display="flex" flexDirection="column" gap="4">
     <Text textStyle="body.lg" fontWeight="bold" color="text">Shadows</Text>
-    <Text>Elevation shadows and semantic shadow tokens that adapt to light/dark themes.</Text>
+    
+    Elevation shadows and semantic shadow tokens that adapt to light/dark themes.
+    
     <Link href="/?path=/docs/tokens-shadows--docs">View Shadows</Link>
-  </Box>
+  </Card>
 </Grid>
 
-<Divider weight="thick" color="border" my="32" />
+<Divider weight="thick" color="border.disabled" my="48" />
 
-<Heading level="h3">Best Practices</Heading>
+### Best Practices
 
   <Grid gridTemplateColumns="auto auto 1fr" gap="12" alignItems="flex-start">
     <Icon name="check" />
     <Text fontWeight="bold" color="text">Use semantic tokens</Text>
-    <Text>Prefer `bg.surface.default` over raw color values for theme compatibility</Text>
+    <Text>Prefer `bg.surface` over raw color values for theme compatibility</Text>
     <Icon name="check" />
     <Text fontWeight="bold" color="text">Follow spacing scale</Text>
     <Text>Use predefined spacing values (4, 8, 16, 24, etc.) instead of arbitrary values</Text>
@@ -80,6 +92,6 @@ import { Icon } from '../../components/Icon';
     <Text>Semantic tokens automatically adapt, but verify the result looks good in light and dark modes</Text>
   </Grid>
 
-  <Divider weight="thick" color="border" my="32" />
+  <Divider weight="thick" color="border.disabled" my="48" />
 </Flex>
 </Unstyled>

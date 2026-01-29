@@ -119,15 +119,14 @@ export const SemanticColorToken: React.FC<SemanticColorTokenProps> = ({
   return (
     <HStack>
       <Flex borderRadius="4" w="fit" border="default">
-        <Tooltip text={resolved.lightRef}>
+        <Tooltip text={"light: " + resolved.lightRef}>
           <Box w="32" height="32" roundedLeft="3" bg={token} data-light-hex={resolved.light} data-light-reference={resolved.lightRef} />
         </Tooltip>
-        <Tooltip text={resolved.darkRef}>
+        <Tooltip text={"dark: " + resolved.darkRef}>
           <Box w="32" height="32" roundedRight="3" bg={token} data-dark-hex={resolved.dark} data-dark-reference={resolved.darkRef} data-color-mode="dark" />
         </Tooltip>
       </Flex>
-      <Text textStyle="mono.xs" color="text.subtlest">
-        {label || token}</Text>
+      <Text as="p" textStyle="mono.xs" color="text.subtlest" maxW="full" lineHeight="tight" hyphens="auto">{label || token}</Text>
     </HStack>
   );
 };
