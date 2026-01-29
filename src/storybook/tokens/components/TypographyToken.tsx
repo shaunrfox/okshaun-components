@@ -18,7 +18,13 @@ export const TypographyToken: React.FC<TypographyTokenProps> = ({
   sampleText = 'The quick brown fox jumps over the lazy dog',
 }) => {
 
-  const styleProps: any = {};
+  const styleProps: {
+    fontFamily?: string;
+    fontSize?: string;
+    fontWeight?: string;
+    lineHeight?: string;
+    letterSpacing?: string;
+  } = {};
 
   switch (type) {
     case 'font':

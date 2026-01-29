@@ -9,27 +9,36 @@ interface TypographyTokenProps {
   sampleText?: string;
 }
 
+type TextStyleValue = {
+  fontFamily?: string;
+  fontSize?: string | number;
+  fontWeight?: string;
+} | undefined;
+
+type TextStylesMap = Record<string, Record<string, { value?: TextStyleValue }>>;
+
 export const TextStyleToken: React.FC<TypographyTokenProps> = ({
   tokenKey,
   sampleText = 'The quick brown fox jumps over the lazy dog',
 }) => {
   // Handle possible variant keys (`tokenKey` may be like "body.md", "display.lg", etc.)
-  let styleObj: any = undefined;
+  let styleObj: TextStyleValue = undefined;
   if (tokenKey.includes('.')) {
     const parts = tokenKey.split('.');
     const family = parts[0];
     const variant = parts[1];
     if (family && variant) {
-      styleObj = (textStyles as any)?.[family]?.[variant]?.value;
+      styleObj = (textStyles as TextStylesMap)?.[family]?.[variant]?.value;
     }
   } else {
     // fallback, but our tokens should always be in the format family.variant
-    styleObj = (textStyles as any)?.[tokenKey]?.value;
+    styleObj = (textStyles as Record<string, { value?: TextStyleValue }>)?.[tokenKey]?.value;
   }
 
   const fontFamily = styleObj?.fontFamily;
   const fontSizePx = styleObj?.fontSize;
-  const fontSizeRem = fontSizePx / 16;
+  const fontSizeRem =
+    fontSizePx != null ? Number(fontSizePx) / 16 : 0;
   const fontWeight = styleObj?.fontWeight;
 
   return (

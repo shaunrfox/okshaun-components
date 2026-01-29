@@ -9,7 +9,7 @@ import {
   utilitySizes,
 } from '~/styles/primitives/sizes';
 import { breakpoints } from '~/styles/utilities/breakpoints';
-import { css } from '@styled-system/css';
+import { wrapperStyles, sizeBarStyles } from './sizeTokenStyles';
 
 export interface SizeTokenProps {
   tokenKey:
@@ -24,44 +24,26 @@ export interface SizeTokenProps {
   breakpoint?: boolean;
 }
 
+type SizeTokenRecord = Record<string, { value: string }>;
+
 const getSizeTokenValue = (tokenKey: string, breakpoint?: boolean) => {
   if (tokenKey in numericSizes) {
-    return (numericSizes as any)[tokenKey].value;
+    return (numericSizes as SizeTokenRecord)[tokenKey]!.value;
   }
   if (tokenKey in utilitySizes) {
-    return (utilitySizes as any)[tokenKey].value;
+    return (utilitySizes as SizeTokenRecord)[tokenKey]!.value;
   }
   if (tokenKey in containerSizeTokens) {
-    return (containerSizeTokens as any)[tokenKey].value;
+    return (containerSizeTokens as SizeTokenRecord)[tokenKey]!.value;
   }
   if (tokenKey in breakpoints && breakpoint) {
     return breakpoints[tokenKey as keyof typeof breakpoints];
   }
-  return sizes[tokenKey as keyof typeof sizes];
+  const s = sizes[tokenKey as keyof typeof sizes];
+  return typeof s === 'object' && s && 'value' in s
+    ? (s as { value: string }).value
+    : s;
 };
-
-export const wrapperStyles = css({
-  w: 'fit',
-  py: '2',
-  px: '4',
-  borderWidth: '1',
-  borderColor: 'transparent',
-  borderStyle: 'dashed',
-  flexDirection: 'column',
-  bg: 'transparent',
-  gap: '4',
-  rounded: '2',
-  _utility: {
-    borderColor: 'border',
-    bg: 'bg.accent.neutral.subtlest',
-  },
-});
-
-export const sizeBarStyles = css({
-  height: '8',
-  rounded: '2',
-  bg: 'bg.accent.blue',
-});
 
 export const SizeToken: React.FC<SizeTokenProps> = ({
   tokenKey,
@@ -91,7 +73,7 @@ export const SizeToken: React.FC<SizeTokenProps> = ({
         </Text>
         <Box
           className={sizeBarStyles}
-          width={tokenKey as any}
+          width={tokenKey as keyof typeof sizes}
           data-size-token-value={getSizeTokenValue(tokenKey)}
         />
       </Flex>
