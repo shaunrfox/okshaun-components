@@ -1,6 +1,6 @@
 {
   "name": "@okshaun/components",
-  "version": "0.5.8",
+  "version": "1.0.0",
   "description": "A comprehensive React component library with Panda CSS theming",
   "type": "module",
   "main": "./dist/index.js",
