@@ -1,4 +1,11 @@
-import { type ReactNode, useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import {
+  type ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useMemo,
+} from 'react';
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
@@ -48,31 +55,37 @@ export const Tooltip = (props: TooltipProps) => {
   const triggerRef = useRef<HTMLDivElement>(null);
   const resolvedPlacement = typeof position === 'string' ? position : 'bottom';
 
-  const clockWisePlacement = useMemo(() => [
-    'bottom',
-    'bottom-start',
-    'bottom-end',
-    'left',
-    'left-start',
-    'left-end',
-    'top',
-    'top-start',
-    'top-end',
-    'right',
-    'right-start',
-    'right-end',
-  ], []);
+  const clockWisePlacement = useMemo(
+    () => [
+      'bottom',
+      'bottom-start',
+      'bottom-end',
+      'left',
+      'left-start',
+      'left-end',
+      'top',
+      'top-start',
+      'top-end',
+      'right',
+      'right-start',
+      'right-end',
+    ],
+    [],
+  );
 
-  const getClockwise = useCallback((start: Position): Position[] => {
-    const index = clockWisePlacement.indexOf(start as string);
-    if (index === -1) return clockWisePlacement as Position[];
+  const getClockwise = useCallback(
+    (start: Position): Position[] => {
+      const index = clockWisePlacement.indexOf(start as string);
+      if (index === -1) return clockWisePlacement as Position[];
 
-    const reordered = [
-      ...clockWisePlacement.slice(index + 1) as Position[],
-      ...clockWisePlacement.slice(0, index) as Position[],
-    ];
-    return reordered;
-  }, [clockWisePlacement]);
+      const reordered = [
+        ...(clockWisePlacement.slice(index + 1) as Position[]),
+        ...(clockWisePlacement.slice(0, index) as Position[]),
+      ];
+      return reordered;
+    },
+    [clockWisePlacement],
+  );
 
   const checkPosition = useCallback(() => {
     const tooltipPositioning = tooltipRef.current;
@@ -265,7 +278,14 @@ export const Tooltip = (props: TooltipProps) => {
       {show && (
         <Box className={cx(classes.tooltipContent, className)} ref={tooltipRef}>
           {title && <Text className={classes.title}>{title}</Text>}
-          {text && <Text className={classes.text}>{text}</Text>}
+          {text && (
+            <Text
+              className={classes.text}
+              color={title ? 'text.subtlest' : 'text'}
+            >
+              {text}
+            </Text>
+          )}
         </Box>
       )}
     </Box>

@@ -39,7 +39,7 @@ export const Icon = (props: IconProps) => {
       className={cx(icon({ size: size as AllowedIconSizes, fill }), className)}
       {...otherProps}
     >
-      <use xlinkHref={`/sprite.svg#${name}`} />
+      <use xlinkHref={`#${name}`} />
     </Box>
   );
 };
