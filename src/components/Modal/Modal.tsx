@@ -15,6 +15,7 @@ import {
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
 import { ModalContext, ModalContextValue } from './ModalContext';
+import { MODAL_ANIMATION_DURATION } from '~/recipes/modal';
 
 export type ModalProps = Omit<BoxProps, keyof ModalVariantProps> &
   ModalVariantProps & {
@@ -76,7 +77,7 @@ export const Modal = (props: ModalProps) => {
       timeoutRef.current = setTimeout(() => {
         setShouldRender(false);
         setIsClosing(false);
-      }, 150);
+      }, MODAL_ANIMATION_DURATION);
     }
 
     return () => {

@@ -1,0 +1,47 @@
+# Agent OS Standards Index
+
+build:
+  consuming-app-setup:
+    description: How consuming apps integrate the library (ThemeProvider, Panda preset, CSS)
+  entry-points:
+    description: Dual ES module entry points (components + preset) and externals
+  pipeline:
+    description: Multi-step build pipeline (Panda codegen → cssgen → Vite)
+  publishing-workflow:
+    description: GitHub Actions NPM publishing with version safety checks
+
+components:
+  animation-sync:
+    description: Shared constants for JS/CSS animation duration coupling
+  controlled-state:
+    description: All interactive components are controlled-only (no internal state)
+  floating-ui-integration:
+    description: Standard Floating UI pattern for Modal, Menu, Select, Tooltip
+  multi-part-composition:
+    description: Context + cloneElement pattern for compound components
+  polymorphic-box:
+    description: Box base component with splitProps and cx class merging
+  prop-type-convention:
+    description: Omit + union type pattern for component props with recipe variants
+
+icons:
+  panda-pattern:
+    description: Icon uses Panda pattern (not recipe) for size transform and fill
+  pipeline:
+    description: SVG source → SVGO → sprite → bundled JS string → type-safe component
+  sprite-injection:
+    description: Singleton lazy DOM injection of bundled SVG sprite on first Icon render
+
+recipes:
+  dynamic-variants:
+    description: Programmatic variant generation from token objects
+  naming-registration:
+    description: Recipe naming convention and preset registration (suffix stripping)
+  shared-base-styles:
+    description: Shared base style objects between related recipes
+
+tokens:
+  semantic-theme-pattern:
+    description: Light/dark theme via base/_dark conditional values and brand palette
+  token-hierarchy:
+    description: Primitives → semantic → recipes → components chain with cascade rules

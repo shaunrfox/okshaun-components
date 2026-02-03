@@ -1,5 +1,8 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
+/** Shared animation duration (ms) — used in both CSS animations and JS unmount timeout */
+export const MODAL_ANIMATION_DURATION = 150;
+
 const modalBase = {
   overlay: {
     position: 'fixed',
@@ -9,9 +12,9 @@ const modalBase = {
     // Initial state matches animation start
     opacity: '0',
     // Animation handled via data-state
-    animation: 'modalFadeIn 150ms ease-out forwards',
+    animation: `modalFadeIn ${MODAL_ANIMATION_DURATION}ms ease-out forwards`,
     '&[data-state="closing"]': {
-      animation: 'modalFadeOut 150ms ease-out forwards',
+      animation: `modalFadeOut ${MODAL_ANIMATION_DURATION}ms ease-out forwards`,
     },
   },
   container: {
@@ -30,9 +33,9 @@ const modalBase = {
     opacity: '0',
     transform: 'translate(-50%, -50%) scale(0.95) translateY(-10px)',
     // Animation handled via data-state
-    animation: 'modalScaleIn 150ms ease-out forwards',
+    animation: `modalScaleIn ${MODAL_ANIMATION_DURATION}ms ease-out forwards`,
     '&[data-state="closing"]': {
-      animation: 'modalScaleOut 150ms ease-out forwards',
+      animation: `modalScaleOut ${MODAL_ANIMATION_DURATION}ms ease-out forwards`,
     },
   },
   header: {

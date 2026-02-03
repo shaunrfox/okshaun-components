@@ -24,5 +24,5 @@ export { selectRecipe } from './select';
 export { chipRecipe } from './chip';
 export { badgeRecipe } from './badge';
 export { avatarRecipe } from './avatar';
-export { modalRecipe } from './modal';
+export { modalRecipe, MODAL_ANIMATION_DURATION } from './modal';
 export { formFieldRecipe } from './formField';
