@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
+import { Box } from '../Box';
 import { Select } from './Select';
 import { SelectOption } from './SelectOption';
-import { Box } from '../Box';
 
 const meta: Meta<typeof Select> = {
   title: 'Components/Select',
@@ -159,7 +159,8 @@ export const Disabled: Story = {
   ),
 };
 
-export const Error: Story = {
+export const ErrorStory: Story = {
+  name: 'Error',
   args: {
     error: true,
     placeholder: 'Choose an option...',

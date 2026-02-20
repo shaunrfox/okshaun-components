@@ -86,7 +86,7 @@ const tooltipVariants = {
     right: {
       tooltipContent: {
         top: '50%',
-        left: `calc(100% - 0.75rem)`,
+        left: 'calc(100% - 0.75rem)',
         transform: 'translate(10%, -50%)',
         _after: {
           top: '50%',
@@ -137,7 +137,7 @@ const tooltipVariants = {
     'right-start': {
       tooltipContent: {
         top: '0',
-        left: `calc(100% - 0.75rem)`,
+        left: 'calc(100% - 0.75rem)',
         transform: 'translate(10%, 0%)',
         _after: {
           top: '8',
@@ -188,7 +188,7 @@ const tooltipVariants = {
     'right-end': {
       tooltipContent: {
         bottom: '0',
-        left: `calc(100% - 0.75rem)`,
+        left: 'calc(100% - 0.75rem)',
         transform: 'translate(10%, -0%)',
         _after: {
           bottom: '8',

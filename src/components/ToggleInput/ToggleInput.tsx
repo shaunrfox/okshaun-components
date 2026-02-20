@@ -1,13 +1,13 @@
-import type { ReactNode, ChangeEventHandler } from 'react';
 import { cx } from '@styled-system/css';
+import {
+  type ToggleInputVariantProps,
+  toggleInput,
+} from '@styled-system/recipes';
+import type { ChangeEventHandler, ReactNode } from 'react';
 import { splitProps } from '~/utils/splitProps';
-import { type BoxProps } from '../Box';
+import type { BoxProps } from '../Box';
 import { Label } from '../Label';
 import { Toggle } from '../Toggle';
-import {
-  toggleInput,
-  type ToggleInputVariantProps,
-} from '@styled-system/recipes';
 
 export type ToggleInputProps = Omit<BoxProps, keyof ToggleInputVariantProps> &
   ToggleInputVariantProps & {

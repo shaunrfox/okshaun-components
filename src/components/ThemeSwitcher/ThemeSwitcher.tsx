@@ -1,8 +1,8 @@
 import { cx } from '@styled-system/css';
-import { splitProps } from '~/utils/splitProps';
+import { themeSwitcher } from '@styled-system/recipes';
 import { Box, type BoxProps } from '~/components/Box';
 import { useTheme } from '~/contexts/ThemeContext';
-import { themeSwitcher } from '@styled-system/recipes';
+import { splitProps } from '~/utils/splitProps';
 
 export type ThemeSwitcherProps = BoxProps;
 

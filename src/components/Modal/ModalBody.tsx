@@ -1,7 +1,7 @@
-import { Box, type BoxProps } from '../Box';
-import { modal as modalRecipe } from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
+import { modal as modalRecipe } from '@styled-system/recipes';
 import { splitProps } from '~/utils/splitProps';
+import { Box, type BoxProps } from '../Box';
 
 export type ModalBodyProps = Omit<BoxProps, 'children'> & {
   /** Body content */

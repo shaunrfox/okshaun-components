@@ -1,9 +1,9 @@
-import React from 'react';
-import { Box, type BoxProps } from '../Box';
-//import { Text, type TextProps } from '../Text';
-import { label, type LabelVariantProps } from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
+//import { Text, type TextProps } from '../Text';
+import { type LabelVariantProps, label } from '@styled-system/recipes';
+import type React from 'react';
 import { splitProps } from '~/utils/splitProps';
+import { Box, type BoxProps } from '../Box';
 
 export type LabelProps = Omit<BoxProps, keyof LabelVariantProps> &
   LabelVariantProps & {

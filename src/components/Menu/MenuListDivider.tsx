@@ -1,7 +1,7 @@
-import { Box } from '../Box';
 import { cx } from '@styled-system/css';
 import { menu as menuRecipe } from '@styled-system/recipes';
 import { splitProps } from '~/utils/splitProps';
+import { Box } from '../Box';
 import type { MenuListDividerProps } from './MenuList';
 
 export const MenuListDivider = (props: MenuListDividerProps) => {

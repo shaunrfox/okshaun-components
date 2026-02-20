@@ -26,7 +26,7 @@ export default function useMediaQuery(
   // Memoize the query string based on breakpoint and direction
   const query = useMemo(() => {
     const breakpointValue = breakpoints[breakpoint];
-    const breakpointNum = parseInt(breakpointValue, 10);
+    const breakpointNum = Number.parseInt(breakpointValue, 10);
 
     return direction === 'min'
       ? `(min-width: ${breakpointValue})`

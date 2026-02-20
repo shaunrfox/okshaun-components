@@ -1,11 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { glob } from 'glob';
 /**
  * Post-build script to copy sprite files to dist/
  * Run this AFTER vite build since vite wipes the dist folder
  */
 import SVGSpriter from 'svg-sprite';
-import fs from 'fs';
-import { glob } from 'glob';
-import path from 'path';
 import config from './sprite-config.js';
 
 const dirs = {

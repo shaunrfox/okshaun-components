@@ -1,10 +1,10 @@
-import SVGSpriter from 'svg-sprite';
-import fs from 'fs';
+import { exec } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 import { glob } from 'glob';
-import path from 'path';
-import config from './sprite-config.js';
+import SVGSpriter from 'svg-sprite';
 import { optimize } from 'svgo';
-import { exec } from 'child_process';
+import config from './sprite-config.js';
 
 // Directory paths
 const dirs = {

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Wrap } from '@styled-system/jsx';
 import { Icon, IconNames } from '.';
 import { Box } from '../Box';
-import { Wrap } from '@styled-system/jsx';
 
 const meta = {
   title: 'Components/Icon',

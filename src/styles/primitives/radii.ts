@@ -9,6 +9,6 @@ export const radii = defineTokens.radii({
   '4': { value: '{sizes.4}' },
   '8': { value: '{sizes.8}' },
   '16': { value: '{sizes.16}' },
-  '100': { value: utilitySizes['full'].value },
+  '100': { value: utilitySizes.full.value },
   '999': { value: '999px' },
 });

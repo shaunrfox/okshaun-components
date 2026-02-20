@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
 import type { Placement } from '@floating-ui/react';
 import { cx } from '@styled-system/css';
-import { splitProps } from '~/utils/splitProps';
-import { Menu, MenuTrigger } from '../Menu';
-import { Button, type ButtonProps } from '../Button';
-import { Icon } from '../Icon';
 import { css } from '@styled-system/css';
 import {
-  menu as menuRecipe,
   type MenuVariantProps,
+  menu as menuRecipe,
 } from '@styled-system/recipes';
+import type React from 'react';
+import { useState } from 'react';
+import { splitProps } from '~/utils/splitProps';
+import { Button, type ButtonProps } from '../Button';
+import { Icon } from '../Icon';
+import { Menu, MenuTrigger } from '../Menu';
 
 export type DropdownProps = MenuVariantProps & {
   /** Trigger button label */

@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { Box, type BoxProps } from '../Box';
-import { Icon, type IconNamesList } from '../Icon';
-import { Checkbox } from '../Checkbox';
 import { cx } from '@styled-system/css';
+import type React from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { splitProps } from '~/utils/splitProps';
+import { Box, type BoxProps } from '../Box';
+import { Checkbox } from '../Checkbox';
+import { Icon, type IconNamesList } from '../Icon';
 import { useMenuContext } from './MenuContext';
 
 export type MenuItemType = 'action' | 'single-select' | 'multi-select';
@@ -46,9 +47,13 @@ const highlightText = (text: string, match?: string): React.ReactNode => {
   );
   const parts = text.split(regex);
 
-  return parts.map((part, i) =>
-    regex.test(part) ? <mark key={i}>{part}</mark> : part,
-  );
+  return parts.map((part, i) => {
+    if (regex.test(part)) {
+      // biome-ignore lint/suspicious/noArrayIndexKey: parts from stable regex text split — order never changes
+      return <mark key={i}>{part}</mark>;
+    }
+    return part;
+  });
 };
 
 export const MenuItem = (props: MenuItemProps) => {

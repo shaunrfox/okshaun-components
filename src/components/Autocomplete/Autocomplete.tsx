@@ -1,24 +1,25 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react';
 import {
-  useFloating,
+  FloatingFocusManager,
+  FloatingPortal,
+  type Placement,
+  autoUpdate,
+  flip,
+  offset as floatingOffset,
+  size as floatingSize,
+  shift,
   useClick,
   useDismiss,
-  useRole,
+  useFloating,
   useInteractions,
   useListNavigation,
-  offset as floatingOffset,
-  flip,
-  shift,
-  autoUpdate,
-  FloatingPortal,
-  FloatingFocusManager,
-  size as floatingSize,
-  Placement,
-} from '@floating-ui/react';
-import { TextInput, type TextInputProps } from '../TextInput';
-import { MenuList, MenuListItem } from '../Menu';
-import type { MenuVariantProps } from '@styled-system/recipes';
-import type { IconNamesList } from '../Icon';
+  useRole,
+} from "@floating-ui/react";
+import type { MenuVariantProps } from "@styled-system/recipes";
+import type React from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import type { IconNamesList } from "../Icon";
+import { MenuList, MenuListItem } from "../Menu";
+import { TextInput, type TextInputProps } from "../TextInput";
 
 export interface AutocompleteOption {
   /** Unique identifier for the option */
@@ -41,7 +42,7 @@ export type AutocompleteProps = MenuVariantProps & {
   /** Callback when input value changes */
   onChange: (value: string) => void;
   /** Size of the input */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   /** Available options to filter and display */
   options: AutocompleteOption[];
   /** Callback when an option is selected */
@@ -65,7 +66,7 @@ export type AutocompleteProps = MenuVariantProps & {
   /** Props to pass to the TextInput */
   inputProps?: Omit<
     TextInputProps,
-    'name' | 'value' | 'onChange' | 'disabled' | 'error' | 'id'
+    "name" | "value" | "onChange" | "disabled" | "error" | "id"
   >;
 };
 
@@ -84,7 +85,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     options,
     onSelect,
     placeholder,
-    placement = 'bottom-start',
+    placement = "bottom-start",
     offset = 4,
     id,
     disabled = false,
@@ -93,7 +94,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
     size,
     indicatorPosition,
     filterFn = defaultFilter,
-    noResultsMessage = 'No results found',
+    noResultsMessage = "No results found",
     inputProps,
   } = props;
   const [open, setOpen] = useState(false);
@@ -129,7 +130,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
   // Interaction hooks
   const click = useClick(context, { keyboardHandlers: false });
   const dismiss = useDismiss(context);
-  const role = useRole(context, { role: 'listbox' });
+  const role = useRole(context, { role: "listbox" });
   const listNavigation = useListNavigation(context, {
     listRef,
     activeIndex,
@@ -152,7 +153,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
 
   const handleInputKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter' && open && filteredOptions.length > 0) {
+      if (e.key === "Enter" && open && filteredOptions.length > 0) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -165,9 +166,9 @@ export const Autocomplete = (props: AutocompleteProps) => {
           onChange(option.label);
           setOpen(false);
         }
-      } else if (e.key === 'Escape') {
+      } else if (e.key === "Escape") {
         setOpen(false);
-      } else if (e.key === 'ArrowDown' && !open) {
+      } else if (e.key === "ArrowDown" && !open) {
         setOpen(true);
       }
     },
@@ -177,7 +178,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
   const handleMenuKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (
-        e.key === 'Enter' &&
+        e.key === "Enter" &&
         activeIndex !== null &&
         filteredOptions[activeIndex]
       ) {
@@ -206,7 +207,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
   const handleOptionKeyDown = useCallback(
     (e: React.KeyboardEvent, option: AutocompleteOption) => {
       if (option.disabled) return;
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         handleOptionClick(option);
       }
@@ -254,6 +255,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
               ref={refs.setFloating}
               style={floatingStyles}
               id={`${id ?? name}-listbox`}
+              // biome-ignore lint/a11y/useSemanticElements: custom combobox listbox must not use <select> — role="listbox" is correct ARIA for custom autocomplete
               role="listbox"
               packing={packing}
               indicatorPosition={indicatorPosition}

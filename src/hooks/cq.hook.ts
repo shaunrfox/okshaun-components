@@ -1,4 +1,4 @@
-import { useMemo, useSyncExternalStore, RefObject } from 'react';
+import { type RefObject, useMemo, useSyncExternalStore } from 'react';
 import { containerSizes } from '~/styles/utilities';
 
 type ContainerSizeKey = keyof typeof containerSizes;
@@ -34,7 +34,7 @@ export default function useContainerQuery(
   // Memoize the query string based on size and direction
   const query = useMemo(() => {
     const sizeValue = containerSizes[size];
-    const sizeNum = parseFloat(sizeValue);
+    const sizeNum = Number.parseFloat(sizeValue);
 
     return direction === 'min'
       ? `(min-width: ${sizeValue})`
@@ -51,7 +51,7 @@ export default function useContainerQuery(
 
       const element = containerRef.current;
       const sizeValue = containerSizes[size];
-      const sizeNum = parseFloat(sizeValue);
+      const sizeNum = Number.parseFloat(sizeValue);
       const threshold = direction === 'min' ? sizeNum : sizeNum - 0.0625;
 
       const checkSize = () => {
@@ -59,7 +59,9 @@ export default function useContainerQuery(
         const width = element.offsetWidth;
         const widthInRem =
           width /
-          parseFloat(getComputedStyle(document.documentElement).fontSize);
+          Number.parseFloat(
+            getComputedStyle(document.documentElement).fontSize,
+          );
         return direction === 'min'
           ? widthInRem >= threshold
           : widthInRem < threshold;
@@ -112,7 +114,7 @@ export default function useContainerQuery(
 
       const element = containerRef.current;
       const sizeValue = containerSizes[size];
-      const sizeNum = parseFloat(sizeValue);
+      const sizeNum = Number.parseFloat(sizeValue);
       const threshold = direction === 'min' ? sizeNum : sizeNum - 0.0625;
 
       // Check if Container Query API is available
@@ -129,7 +131,8 @@ export default function useContainerQuery(
       // Fallback: Calculate current size
       const width = element.offsetWidth;
       const widthInRem =
-        width / parseFloat(getComputedStyle(document.documentElement).fontSize);
+        width /
+        Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
       return direction === 'min'
         ? widthInRem >= threshold
         : widthInRem < threshold;

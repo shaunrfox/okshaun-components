@@ -1,7 +1,7 @@
-import React from 'react';
+import { Flex } from '@styled-system/jsx';
+import type React from 'react';
 import { Box } from '~/components/Box';
 import { Text } from '~/components/Text';
-import { Flex } from '@styled-system/jsx';
 import {
   containerSizeTokens,
   numericSizes,
@@ -9,7 +9,7 @@ import {
   utilitySizes,
 } from '~/styles/primitives/sizes';
 import { breakpoints } from '~/styles/utilities/breakpoints';
-import { wrapperStyles, sizeBarStyles } from './sizeTokenStyles';
+import { sizeBarStyles, wrapperStyles } from './sizeTokenStyles';
 
 export interface SizeTokenProps {
   tokenKey:
@@ -28,13 +28,13 @@ type SizeTokenRecord = Record<string, { value: string }>;
 
 const getSizeTokenValue = (tokenKey: string, breakpoint?: boolean) => {
   if (tokenKey in numericSizes) {
-    return (numericSizes as SizeTokenRecord)[tokenKey]!.value;
+    return (numericSizes as SizeTokenRecord)[tokenKey]?.value;
   }
   if (tokenKey in utilitySizes) {
-    return (utilitySizes as SizeTokenRecord)[tokenKey]!.value;
+    return (utilitySizes as SizeTokenRecord)[tokenKey]?.value;
   }
   if (tokenKey in containerSizeTokens) {
-    return (containerSizeTokens as SizeTokenRecord)[tokenKey]!.value;
+    return (containerSizeTokens as SizeTokenRecord)[tokenKey]?.value;
   }
   if (tokenKey in breakpoints && breakpoint) {
     return breakpoints[tokenKey as keyof typeof breakpoints];

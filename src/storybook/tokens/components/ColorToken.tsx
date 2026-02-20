@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import type { ColorToken as ColorTokenType } from '@styled-system/tokens';
-import { Box } from '~/components/Box';
-import { Text } from '~/components/Text';
 import { Flex, Grid } from '@styled-system/jsx';
+import type { ColorToken as ColorTokenType } from '@styled-system/tokens';
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { Box } from '~/components/Box';
 import { Spinner } from '~/components/Spinner';
+import { Text } from '~/components/Text';
 import { Tooltip } from '~/components/Tooltip';
-import { getToken, type TokenMeta } from './tokenLoader';
+import { type TokenMeta, getToken } from './tokenLoader';
 
 export interface ColorTokenProps {
   tokenKey: ColorTokenType;

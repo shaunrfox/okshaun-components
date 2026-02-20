@@ -1,9 +1,9 @@
+import { css, cx } from '@styled-system/css';
+import { type AvatarVariantProps, avatar } from '@styled-system/recipes';
 import * as React from 'react';
-import { cx, css } from '@styled-system/css';
+import type { BoxProps } from '~/components/Box';
+import { type AllowedIconSizes, Icon } from '~/components/Icon';
 import { splitProps } from '~/utils/splitProps';
-import { type BoxProps } from '~/components/Box';
-import { avatar, type AvatarVariantProps } from '@styled-system/recipes';
-import { Icon, type AllowedIconSizes } from '~/components/Icon';
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
@@ -103,6 +103,7 @@ export const Avatar = (props: AvatarProps) => {
   const [imageLoaded, setImageLoaded] = React.useState(false);
 
   // Reset error state when src changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: src in deps is intentional — effect fires to reset state when src changes
   React.useEffect(() => {
     setImageError(false);
     setImageLoaded(false);

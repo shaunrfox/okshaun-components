@@ -1,8 +1,8 @@
-import { ChangeEventHandler, ChangeEvent } from 'react';
 import { cx } from '@styled-system/css';
+import { type CheckboxVariantProps, checkbox } from '@styled-system/recipes';
+import type { ChangeEvent, ChangeEventHandler } from 'react';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
-import { checkbox, type CheckboxVariantProps } from '@styled-system/recipes';
 import { Icon } from '../Icon';
 
 export type CheckboxProps = Omit<

@@ -1,13 +1,13 @@
-import { Box, type BoxProps } from '../Box';
-import { link, type LinkVariantProps } from '@styled-system/recipes';
-import {
-  type FontSizeToken,
-  type FontToken,
-  type FontWeightToken,
-} from '@styled-system/tokens';
-import { Icon } from '../Icon/Icon';
 import { cx } from '@styled-system/css';
+import { type LinkVariantProps, link } from '@styled-system/recipes';
+import type {
+  FontSizeToken,
+  FontToken,
+  FontWeightToken,
+} from '@styled-system/tokens';
 import { splitProps } from '~/utils/splitProps';
+import { Box, type BoxProps } from '../Box';
+import { Icon } from '../Icon/Icon';
 
 export type LinkProps = Omit<BoxProps, keyof LinkVariantProps> &
   LinkVariantProps & {

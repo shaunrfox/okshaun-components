@@ -1,9 +1,9 @@
-import { type ReactNode } from 'react';
-import { splitProps } from '~/utils/splitProps';
 import { cx } from '@styled-system/css';
+import { type TagVariantProps, tag } from '@styled-system/recipes';
+import type { ReactNode } from 'react';
+import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { Icon, type IconNamesList } from '../Icon';
-import { tag, type TagVariantProps } from '@styled-system/recipes';
 
 export type TagProps = Omit<BoxProps, keyof TagVariantProps> &
   TagVariantProps & {

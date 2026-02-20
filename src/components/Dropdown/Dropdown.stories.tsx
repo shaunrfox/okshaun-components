@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Dropdown } from './Dropdown';
-import { MenuItem, MenuDivider, MenuGroup } from '../Menu';
+import { useState } from 'react';
 import { Box } from '../Box';
+import { MenuDivider, MenuGroup, MenuItem } from '../Menu';
+import { Dropdown } from './Dropdown';
 
 const meta: Meta<typeof Dropdown> = {
   title: 'Components/Dropdown',

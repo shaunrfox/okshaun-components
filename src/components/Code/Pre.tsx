@@ -1,8 +1,8 @@
-import { Box, type BoxProps } from '~/components/Box';
-import { Code } from './Code';
-import { splitProps } from '~/utils/splitProps';
 import { cx } from '@styled-system/css';
 import { pre } from '@styled-system/recipes';
+import { Box, type BoxProps } from '~/components/Box';
+import { splitProps } from '~/utils/splitProps';
+import { Code } from './Code';
 
 export type PreProps = BoxProps & {
   children: string | React.ReactNode;

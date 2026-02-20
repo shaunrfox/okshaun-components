@@ -1,11 +1,11 @@
-import React from 'react';
-import type { ColorToken } from '@styled-system/tokens';
-import { Text } from '~/components/Text';
 import { Flex, HStack } from '@styled-system/jsx';
+import type { ColorToken } from '@styled-system/tokens';
+import type React from 'react';
+import { Box } from '~/components/Box';
+import { Text } from '~/components/Text';
+import { Tooltip } from '~/components/Tooltip';
 import { colors as primitiveColors } from '~/styles/primitives/colors';
 import { colors as semanticColors } from '~/styles/semantics/colors';
-import { Box } from '~/components/Box';
-import { Tooltip } from '~/components/Tooltip';
 
 interface SemanticColorTokenProps {
   token: ColorToken;
@@ -99,7 +99,7 @@ function extractColorReference(ref: unknown): string {
   if (typeof ref === 'string') {
     // Check if it's a reference like "{colors.neutral.20}"
     const match = ref.match(/^\{colors\.(.+)\}$/);
-    if (match && match[1]) {
+    if (match?.[1]) {
       return match[1]; // Return just the color path like "neutralA.20"
     }
     // Return direct color values unchanged
@@ -113,7 +113,7 @@ function resolveColorReference(ref: unknown): string {
   if (typeof ref === 'string') {
     // Check if it's a reference like "{colors.neutral.20}"
     const match = ref.match(/^\{colors\.(.+)\}$/);
-    if (match && match[1]) {
+    if (match?.[1]) {
       const colorPath = match[1].split('.');
       let current: Record<string, unknown> | null = primitiveColors as Record<
         string,
@@ -145,7 +145,7 @@ export const SemanticColorToken: React.FC<SemanticColorTokenProps> = ({
   return (
     <HStack>
       <Flex borderRadius="4" w="fit" border="default">
-        <Tooltip text={'light: ' + resolved.lightRef}>
+        <Tooltip text={`light: ${resolved.lightRef}`}>
           <Box
             w="32"
             height="32"
@@ -155,7 +155,7 @@ export const SemanticColorToken: React.FC<SemanticColorTokenProps> = ({
             data-light-reference={resolved.lightRef}
           />
         </Tooltip>
-        <Tooltip text={'dark: ' + resolved.darkRef}>
+        <Tooltip text={`dark: ${resolved.darkRef}`}>
           <Box
             w="32"
             height="32"

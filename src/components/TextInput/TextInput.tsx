@@ -1,7 +1,7 @@
 import { cx } from '@styled-system/css';
+import { type TextinputVariantProps, textinput } from '@styled-system/recipes';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box/Box';
-import { textinput, type TextinputVariantProps } from '@styled-system/recipes';
 
 export type TextInputProps = Omit<BoxProps, keyof TextinputVariantProps> &
   TextinputVariantProps & {

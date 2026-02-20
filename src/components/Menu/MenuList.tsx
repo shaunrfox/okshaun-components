@@ -1,13 +1,13 @@
-import React from 'react';
+import { cx } from '@styled-system/css';
+import {
+  type MenuVariantProps,
+  menu as menuRecipe,
+} from '@styled-system/recipes';
+import type React from 'react';
+import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import type { IconNamesList } from '../Icon';
-import {
-  menu as menuRecipe,
-  type MenuVariantProps,
-} from '@styled-system/recipes';
-import { SelectionIndicator, type MenuItemType } from './MenuItem';
-import { cx } from '@styled-system/css';
-import { splitProps } from '~/utils/splitProps';
+import type { MenuItemType, SelectionIndicator } from './MenuItem';
 
 export type MenuListProps = Omit<BoxProps, keyof MenuVariantProps> &
   MenuVariantProps;

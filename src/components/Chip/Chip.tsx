@@ -1,13 +1,13 @@
-import { type ReactNode, useRef, useEffect, type KeyboardEvent } from 'react';
 import { cx } from '@styled-system/css';
-import { splitProps } from '~/utils/splitProps';
-import { HStack, Grid } from '@styled-system/jsx';
-import { chip, type ChipVariantProps } from '@styled-system/recipes';
+import { Grid, HStack } from '@styled-system/jsx';
+import { type ChipVariantProps, chip } from '@styled-system/recipes';
+import type { NumericSizeToken } from '@styled-system/tokens';
+import { type KeyboardEvent, type ReactNode, useEffect, useRef } from 'react';
 import { Box, type BoxProps } from '~/components/Box';
-import { Icon, type AllowedIconSizes } from '~/components/Icon';
+import { type AllowedIconSizes, Icon } from '~/components/Icon';
 import { Spinner } from '~/components/Spinner';
+import { splitProps } from '~/utils/splitProps';
 import { useChipGroup } from './ChipGroupContext';
-import { NumericSizeToken } from '@styled-system/tokens';
 
 // Map chip sizes to icon sizes (for internal icons like check/x)
 const chipSizeToIconSize: Record<string, AllowedIconSizes> = {

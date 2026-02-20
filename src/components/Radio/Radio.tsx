@@ -1,8 +1,8 @@
-import { ChangeEventHandler } from 'react';
-import { splitProps } from '~/utils/splitProps';
 import { cx } from '@styled-system/css';
+import { type RadioVariantProps, radio } from '@styled-system/recipes';
+import type { ChangeEventHandler } from 'react';
+import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
-import { radio, type RadioVariantProps } from '@styled-system/recipes';
 import { Icon } from '../Icon';
 
 export type RadioProps = Omit<BoxProps, keyof RadioVariantProps> &

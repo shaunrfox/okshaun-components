@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
-import { type BoxProps } from '../Box';
-import { IconNamesList } from '../Icon';
+import type { ReactNode } from 'react';
+import type { BoxProps } from '../Box';
+import type { IconNamesList } from '../Icon';
 
 export type SelectOptionProps = Omit<BoxProps, 'children'> & {
   /** Option value */

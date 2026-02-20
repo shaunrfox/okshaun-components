@@ -1,5 +1,5 @@
-import { type ReactNode, useRef, useCallback, type RefObject } from 'react';
 import { Wrap, type WrapProps } from '@styled-system/jsx';
+import { type ReactNode, type RefObject, useCallback, useRef } from 'react';
 import { ChipGroupContext, type ChipGroupType } from './ChipGroupContext';
 
 export type ChipGroupProps = Omit<WrapProps, 'role'> & {
@@ -26,7 +26,9 @@ export const ChipGroup: React.FC<ChipGroupProps> = ({
   const role = type === 'single' ? 'radiogroup' : 'group';
 
   // Track chip refs for keyboard navigation
-  const chipRefs = useRef<Map<string, RefObject<HTMLButtonElement | null>>>(new Map());
+  const chipRefs = useRef<Map<string, RefObject<HTMLButtonElement | null>>>(
+    new Map(),
+  );
   const chipValuesRef = useRef<string[]>([]);
 
   const registerChip = useCallback(
@@ -36,12 +38,14 @@ export const ChipGroup: React.FC<ChipGroupProps> = ({
         chipValuesRef.current.push(chipValue);
       }
     },
-    []
+    [],
   );
 
   const unregisterChip = useCallback((chipValue: string) => {
     chipRefs.current.delete(chipValue);
-    chipValuesRef.current = chipValuesRef.current.filter((v) => v !== chipValue);
+    chipValuesRef.current = chipValuesRef.current.filter(
+      (v) => v !== chipValue,
+    );
   }, []);
 
   const focusChip = useCallback(
@@ -70,7 +74,7 @@ export const ChipGroup: React.FC<ChipGroupProps> = ({
         }
       }
     },
-    [type, onChange]
+    [type, onChange],
   );
 
   return (

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Box, type BoxProps } from '../Box';
 import { cx } from '@styled-system/css';
+import type React from 'react';
 import { splitProps } from '~/utils/splitProps';
+import { Box, type BoxProps } from '../Box';
 import { useMenuContext } from './MenuContext';
 
 export type MenuGroupProps = Omit<BoxProps, 'title'> & {
@@ -18,6 +18,7 @@ export const MenuGroup = (props: MenuGroupProps) => {
 
   return (
     <Box
+      // biome-ignore lint/a11y/useSemanticElements: role="group" is correct ARIA for menu groups — <fieldset> is for form controls
       role="group"
       aria-label={label}
       className={cx(classes.menuGroup, className)}

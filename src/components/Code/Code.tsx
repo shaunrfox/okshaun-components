@@ -1,7 +1,7 @@
+import { cx } from '@styled-system/css';
+import { type CodeVariantProps, code } from '@styled-system/recipes';
 import { Box, type BoxProps } from '~/components/Box';
 import { Text } from '~/components/Text';
-import { code, type CodeVariantProps } from '@styled-system/recipes';
-import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
 
 export type CodeProps = Omit<BoxProps, keyof CodeVariantProps> &

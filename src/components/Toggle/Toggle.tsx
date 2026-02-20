@@ -1,9 +1,9 @@
 import { cx } from '@styled-system/css';
+import { type ToggleVariantProps, toggle } from '@styled-system/recipes';
+import type { ChangeEventHandler } from 'react';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
-import { toggle, type ToggleVariantProps } from '@styled-system/recipes';
 import { Icon } from '../Icon';
-import { ChangeEventHandler } from 'react';
 
 export type ToggleProps = Omit<
   BoxProps,

@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Badge } from './Badge';
+import { Flex, Grid, VStack } from '@styled-system/jsx';
+import { useState } from 'react';
 import { Box } from '../Box';
-import { Text } from '../Text';
-import { Icon } from '../Icon';
 import { Button } from '../Button';
-import { Grid, VStack, Flex } from '@styled-system/jsx';
+import { Icon } from '../Icon';
 import { IconButton } from '../IconButton';
+import { Text } from '../Text';
+import { Badge } from './Badge';
 
 const meta: Meta<typeof Badge> = {
   title: 'Components/Badge',

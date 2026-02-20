@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect } from 'react';
-import { cx, css } from '@styled-system/css';
-import { splitProps } from '~/utils/splitProps';
+import { css, cx } from '@styled-system/css';
+import { type BadgeVariantProps, badge } from '@styled-system/recipes';
+import { useEffect, useRef, useState } from 'react';
 import { Box, type BoxProps } from '~/components/Box';
-import { badge, type BadgeVariantProps } from '@styled-system/recipes';
+import { splitProps } from '~/utils/splitProps';
 
 export type BadgeVariant =
   | 'neutral'
@@ -127,7 +127,12 @@ export const Badge = (props: BadgeProps) => {
   // Standalone mode: just return the indicator
   if (isStandalone) {
     return (
-      <Box as="span" ref={ref} className={cx(classes.root, className)} {...otherProps}>
+      <Box
+        as="span"
+        ref={ref}
+        className={cx(classes.root, className)}
+        {...otherProps}
+      >
         {indicator}
       </Box>
     );
@@ -135,7 +140,12 @@ export const Badge = (props: BadgeProps) => {
 
   // Wrapper mode: wrap children with positioned indicator
   return (
-    <Box as="span" ref={ref} className={cx(classes.root, className)} {...otherProps}>
+    <Box
+      as="span"
+      ref={ref}
+      className={cx(classes.root, className)}
+      {...otherProps}
+    >
       {children}
       {indicator}
     </Box>

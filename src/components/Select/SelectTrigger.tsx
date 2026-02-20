@@ -1,5 +1,5 @@
-import { ReactElement, cloneElement } from 'react';
-import { type BoxProps } from '../Box';
+import { type ReactElement, cloneElement } from 'react';
+import type { BoxProps } from '../Box';
 import { useMenuContext } from '../Menu/MenuContext';
 
 export type SelectTriggerProps = Omit<BoxProps, 'children'> & {

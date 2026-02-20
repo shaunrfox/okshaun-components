@@ -1,5 +1,5 @@
 import React from 'react';
-import { type BoxProps } from '../Box';
+import type { BoxProps } from '../Box';
 import { useMenuContext } from './MenuContext';
 
 export type MenuTriggerProps = Omit<BoxProps, 'children'> & {

@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
 import { cx } from '@styled-system/css';
 import { Grid, HStack } from '@styled-system/jsx';
+import { type ButtonVariantProps, button } from '@styled-system/recipes';
+import type { NumericSizeToken } from '@styled-system/tokens';
+import type { ReactNode } from 'react';
 import { Box, type BoxProps } from '~/components/Box';
-import { button, type ButtonVariantProps } from '@styled-system/recipes';
-import { splitProps } from '~/utils/splitProps';
-import { Spinner } from '~/components/Spinner';
 import { Icon, type IconNamesList } from '~/components/Icon';
-import { NumericSizeToken } from '@styled-system/tokens';
+import { Spinner } from '~/components/Spinner';
+import { splitProps } from '~/utils/splitProps';
 
 export type ButtonProps = Omit<BoxProps, keyof ButtonVariantProps> &
   Omit<ButtonVariantProps, 'iconBefore' | 'iconAfter'> & {

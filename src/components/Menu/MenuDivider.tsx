@@ -1,6 +1,6 @@
-import { Box, type BoxProps } from '../Box';
 import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
+import { Box, type BoxProps } from '../Box';
 import { useMenuContext } from './MenuContext';
 
 export type MenuDividerProps = Omit<BoxProps, 'children'>;

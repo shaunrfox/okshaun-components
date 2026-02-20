@@ -1,9 +1,9 @@
-import { breadcrumbs } from '@styled-system/recipes';
-import { type BoxProps } from '../Box';
-import { splitProps } from '~/utils/splitProps';
 import { cx } from '@styled-system/css';
-import { Text } from '../Text';
+import { breadcrumbs } from '@styled-system/recipes';
+import { splitProps } from '~/utils/splitProps';
+import type { BoxProps } from '../Box';
 import { Link } from '../Link';
+import { Text } from '../Text';
 
 export type BreadcrumbsProps = BoxProps & {
   items: { id: string; label: string; href?: string }[];

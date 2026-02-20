@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
 import { cx } from '@styled-system/css';
+import { type CardVariantProps, card } from '@styled-system/recipes';
+import type { ReactNode } from 'react';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
-import { card, type CardVariantProps } from '@styled-system/recipes';
 
 export type CardProps = BoxProps &
   CardVariantProps & {

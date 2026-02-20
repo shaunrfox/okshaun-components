@@ -1,13 +1,13 @@
 import { cx } from '@styled-system/css';
 import { Grid, HStack } from '@styled-system/jsx';
-import { Box, type BoxProps } from '~/components/Box';
-import { splitProps } from '~/utils/splitProps';
-import { Spinner } from '~/components/Spinner';
 import {
-  iconButton,
   type IconButtonVariantProps,
+  iconButton,
 } from '@styled-system/recipes';
+import { Box, type BoxProps } from '~/components/Box';
 import { Icon, type IconNamesList } from '~/components/Icon';
+import { Spinner } from '~/components/Spinner';
+import { splitProps } from '~/utils/splitProps';
 
 export type IconButtonProps = Omit<BoxProps, keyof IconButtonVariantProps> &
   IconButtonVariantProps & {

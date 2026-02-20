@@ -1,5 +1,6 @@
 import { definePreset } from '@pandacss/dev';
 import pandaBasePreset from '@pandacss/preset-base';
+import * as componentRecipes from './recipes';
 import * as tokens from './styles/primitives';
 import * as semanticTokens from './styles/semantics';
 import {
@@ -13,7 +14,6 @@ import {
   textStyles,
   transitionProperty,
 } from './styles/utilities';
-import * as componentRecipes from './recipes';
 
 // Extract slot recipes separately
 const {
@@ -30,6 +30,7 @@ const {
   avatarRecipe,
   modalRecipe,
   formFieldRecipe,
+  MODAL_ANIMATION_DURATION: _MODAL_ANIMATION_DURATION,
   ...regularComponents
 } = componentRecipes;
 

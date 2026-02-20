@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState, type ChangeEvent } from 'react';
-import { userEvent, within, expect } from '@storybook/test';
-import { CheckboxInput } from './CheckboxInput';
-import { CheckboxChangeHandler } from '../Checkbox';
+import { expect, userEvent, within } from '@storybook/test';
+import { type ChangeEvent, useState } from 'react';
 import { Box } from '../Box';
-import { Text } from '../Text';
 import { Button } from '../Button';
+import type { CheckboxChangeHandler } from '../Checkbox';
+import { Text } from '../Text';
+import { CheckboxInput } from './CheckboxInput';
 
 const meta: Meta<typeof CheckboxInput> = {
   title: 'Components/CheckboxInput',
@@ -83,20 +83,20 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => {
     const Component = () => {
-    const [checked, setChecked] = useState(false);
-    const handleChange: CheckboxChangeHandler = (e) =>
-      setChecked(e.target.checked);
+      const [checked, setChecked] = useState(false);
+      const handleChange: CheckboxChangeHandler = (e) =>
+        setChecked(e.target.checked);
 
-    return (
-      <CheckboxInput
-        name="terms"
-        id="terms"
-        checked={checked}
-        onChange={handleChange}
-      >
-        I accept the terms and conditions
-      </CheckboxInput>
-    );
+      return (
+        <CheckboxInput
+          name="terms"
+          id="terms"
+          checked={checked}
+          onChange={handleChange}
+        >
+          I accept the terms and conditions
+        </CheckboxInput>
+      );
     };
     return <Component />;
   },
@@ -168,22 +168,22 @@ export const ExInteractive: Story = {
   name: 'Ex: Interactive Toggle',
   render: () => {
     const Component = () => {
-    const [checked, setChecked] = useState(false);
+      const [checked, setChecked] = useState(false);
 
-    return (
-      <Box display="flex" flexDirection="column" gap="12">
-        <CheckboxInput
-          name="interactive"
-          id="interactive"
-          checked={checked}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setChecked(e.target.checked)
-          }
-        >
-          Click to toggle (currently: {checked ? 'checked' : 'unchecked'})
-        </CheckboxInput>
-      </Box>
-    );
+      return (
+        <Box display="flex" flexDirection="column" gap="12">
+          <CheckboxInput
+            name="interactive"
+            id="interactive"
+            checked={checked}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setChecked(e.target.checked)
+            }
+          >
+            Click to toggle (currently: {checked ? 'checked' : 'unchecked'})
+          </CheckboxInput>
+        </Box>
+      );
     };
     return <Component />;
   },
@@ -193,83 +193,83 @@ export const ExCheckboxGroup: Story = {
   name: 'Ex: Checkbox Group with Select All',
   render: () => {
     const Component = () => {
-    const [selections, setSelections] = useState({
-      option1: false,
-      option2: true,
-      option3: false,
-      option4: false,
-    });
+      const [selections, setSelections] = useState({
+        option1: false,
+        option2: true,
+        option3: false,
+        option4: false,
+      });
 
-    const handleChange =
-      (key: keyof typeof selections) =>
-      (e: ChangeEvent<HTMLInputElement>) => {
-        setSelections({ ...selections, [key]: e.target.checked });
+      const handleChange =
+        (key: keyof typeof selections) =>
+        (e: ChangeEvent<HTMLInputElement>) => {
+          setSelections({ ...selections, [key]: e.target.checked });
+        };
+
+      // Calculate if parent should be indeterminate
+      const checkedCount = Object.values(selections).filter(Boolean).length;
+      const allChecked = checkedCount === Object.keys(selections).length;
+      const someChecked =
+        checkedCount > 0 && checkedCount < Object.keys(selections).length;
+
+      const handleSelectAll = (e: ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.checked;
+        setSelections({
+          option1: newValue,
+          option2: newValue,
+          option3: newValue,
+          option4: newValue,
+        });
       };
 
-    // Calculate if parent should be indeterminate
-    const checkedCount = Object.values(selections).filter(Boolean).length;
-    const allChecked = checkedCount === Object.keys(selections).length;
-    const someChecked =
-      checkedCount > 0 && checkedCount < Object.keys(selections).length;
+      return (
+        <Box display="flex" flexDirection="column" gap="12">
+          <CheckboxInput
+            name="select-all"
+            id="select-all"
+            checked={allChecked}
+            indeterminate={someChecked}
+            onChange={handleSelectAll}
+          >
+            <Box as="strong">Select All</Box>
+          </CheckboxInput>
 
-    const handleSelectAll = (e: ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.checked;
-      setSelections({
-        option1: newValue,
-        option2: newValue,
-        option3: newValue,
-        option4: newValue,
-      });
-    };
-
-    return (
-      <Box display="flex" flexDirection="column" gap="12">
-        <CheckboxInput
-          name="select-all"
-          id="select-all"
-          checked={allChecked}
-          indeterminate={someChecked}
-          onChange={handleSelectAll}
-        >
-          <Box as="strong">Select All</Box>
-        </CheckboxInput>
-
-        <Box ml="24" display="flex" flexDirection="column" gap="12">
-          <CheckboxInput
-            name="option1"
-            id="option1"
-            checked={selections.option1}
-            onChange={handleChange('option1')}
-          >
-            Option 1
-          </CheckboxInput>
-          <CheckboxInput
-            name="option2"
-            id="option2"
-            checked={selections.option2}
-            onChange={handleChange('option2')}
-          >
-            Option 2
-          </CheckboxInput>
-          <CheckboxInput
-            name="option3"
-            id="option3"
-            checked={selections.option3}
-            onChange={handleChange('option3')}
-          >
-            Option 3
-          </CheckboxInput>
-          <CheckboxInput
-            name="option4"
-            id="option4"
-            checked={selections.option4}
-            onChange={handleChange('option4')}
-          >
-            Option 4
-          </CheckboxInput>
+          <Box ml="24" display="flex" flexDirection="column" gap="12">
+            <CheckboxInput
+              name="option1"
+              id="option1"
+              checked={selections.option1}
+              onChange={handleChange('option1')}
+            >
+              Option 1
+            </CheckboxInput>
+            <CheckboxInput
+              name="option2"
+              id="option2"
+              checked={selections.option2}
+              onChange={handleChange('option2')}
+            >
+              Option 2
+            </CheckboxInput>
+            <CheckboxInput
+              name="option3"
+              id="option3"
+              checked={selections.option3}
+              onChange={handleChange('option3')}
+            >
+              Option 3
+            </CheckboxInput>
+            <CheckboxInput
+              name="option4"
+              id="option4"
+              checked={selections.option4}
+              onChange={handleChange('option4')}
+            >
+              Option 4
+            </CheckboxInput>
+          </Box>
         </Box>
-      </Box>
-    );
+      );
     };
     return <Component />;
   },
@@ -279,72 +279,72 @@ export const ExFormIntegration: Story = {
   name: 'Ex: Form Integration',
   render: () => {
     const Component = () => {
-    const [formData, setFormData] = useState({
-      newsletter: false,
-      terms: false,
-      privacy: false,
-    });
+      const [formData, setFormData] = useState({
+        newsletter: false,
+        terms: false,
+        privacy: false,
+      });
 
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      console.log('Form submitted:', formData);
-      alert(
-        `Form submitted:\nNewsletter: ${formData.newsletter}\nTerms: ${formData.terms}\nPrivacy: ${formData.privacy}`,
-      );
-    };
+      const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log('Form submitted:', formData);
+        alert(
+          `Form submitted:\nNewsletter: ${formData.newsletter}\nTerms: ${formData.terms}\nPrivacy: ${formData.privacy}`,
+        );
+      };
 
-    const allAccepted = formData.terms && formData.privacy;
+      const allAccepted = formData.terms && formData.privacy;
 
-    return (
-      <Box
-        as="form"
-        onSubmit={handleSubmit}
-        display="flex"
-        flexDirection="column"
-        gap="16"
-      >
-        <CheckboxInput
-          name="newsletter"
-          id="newsletter"
-          checked={formData.newsletter}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setFormData({ ...formData, newsletter: e.target.checked })
-          }
+      return (
+        <Box
+          as="form"
+          onSubmit={handleSubmit}
+          display="flex"
+          flexDirection="column"
+          gap="16"
         >
-          Subscribe to newsletter (optional)
-        </CheckboxInput>
+          <CheckboxInput
+            name="newsletter"
+            id="newsletter"
+            checked={formData.newsletter}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, newsletter: e.target.checked })
+            }
+          >
+            Subscribe to newsletter (optional)
+          </CheckboxInput>
 
-        <CheckboxInput
-          name="terms"
-          id="terms"
-          checked={formData.terms}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setFormData({ ...formData, terms: e.target.checked })
-          }
-          error={!formData.terms}
-        >
-          I accept the terms and conditions *
-        </CheckboxInput>
+          <CheckboxInput
+            name="terms"
+            id="terms"
+            checked={formData.terms}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, terms: e.target.checked })
+            }
+            error={!formData.terms}
+          >
+            I accept the terms and conditions *
+          </CheckboxInput>
 
-        <CheckboxInput
-          name="privacy"
-          id="privacy"
-          checked={formData.privacy}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setFormData({ ...formData, privacy: e.target.checked })
-          }
-          error={!formData.privacy}
-        >
-          I accept the privacy policy *
-        </CheckboxInput>
+          <CheckboxInput
+            name="privacy"
+            id="privacy"
+            checked={formData.privacy}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, privacy: e.target.checked })
+            }
+            error={!formData.privacy}
+          >
+            I accept the privacy policy *
+          </CheckboxInput>
 
-        <Box mt="8">
-          <Button type="submit" disabled={!allAccepted}>
-            Submit
-          </Button>
+          <Box mt="8">
+            <Button type="submit" disabled={!allAccepted}>
+              Submit
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    );
+      );
     };
     return <Component />;
   },
@@ -355,20 +355,20 @@ export const A11yAccessibilityCheck: Story = {
   name: 'A11y: Accessibility Check',
   render: () => {
     const Component = () => {
-    const [checked, setChecked] = useState(false);
-    const handleChange: CheckboxChangeHandler = (e) =>
-      setChecked(e.target.checked);
+      const [checked, setChecked] = useState(false);
+      const handleChange: CheckboxChangeHandler = (e) =>
+        setChecked(e.target.checked);
 
-    return (
-      <CheckboxInput
-        name="accessible"
-        id="accessible"
-        checked={checked}
-        onChange={handleChange}
-      >
-        Accessible checkbox
-      </CheckboxInput>
-    );
+      return (
+        <CheckboxInput
+          name="accessible"
+          id="accessible"
+          checked={checked}
+          onChange={handleChange}
+        >
+          Accessible checkbox
+        </CheckboxInput>
+      );
     };
     return <Component />;
   },

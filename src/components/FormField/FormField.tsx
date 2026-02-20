@@ -1,17 +1,17 @@
-import {
-  ReactNode,
-  Children,
-  ReactElement,
-  isValidElement,
-  cloneElement,
-} from 'react';
 import { cx } from '@styled-system/css';
+import { type FormFieldVariantProps, formField } from '@styled-system/recipes';
+import {
+  Children,
+  type ReactElement,
+  type ReactNode,
+  cloneElement,
+  isValidElement,
+} from 'react';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
+import { Icon } from '../Icon';
 import { Text } from '../Text';
 import { Tooltip } from '../Tooltip';
-import { Icon } from '../Icon';
-import { formField, type FormFieldVariantProps } from '@styled-system/recipes';
 
 export type FormFieldProps = Omit<BoxProps, keyof FormFieldVariantProps> &
   FormFieldVariantProps & {

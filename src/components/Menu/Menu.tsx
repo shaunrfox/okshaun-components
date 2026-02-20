@@ -1,30 +1,30 @@
-import React, { useRef, useState, useMemo } from 'react';
 import {
-  useFloating,
+  FloatingFocusManager,
+  FloatingPortal,
+  type Placement,
+  autoUpdate,
+  flip,
+  offset as floatingOffset,
+  shift,
   useClick,
   useDismiss,
-  useRole,
+  useFloating,
   useInteractions,
   useListNavigation,
+  useRole,
   useTypeahead,
-  offset as floatingOffset,
-  flip,
-  shift,
-  autoUpdate,
-  FloatingPortal,
-  FloatingFocusManager,
-  Placement,
 } from '@floating-ui/react';
-import { Box, type BoxProps } from '../Box';
-import {
-  menu as menuRecipe,
-  type MenuVariantProps,
-} from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
+import {
+  type MenuVariantProps,
+  menu as menuRecipe,
+} from '@styled-system/recipes';
+import React, { useRef, useState, useMemo } from 'react';
 import { splitProps } from '~/utils/splitProps';
+import { Box, type BoxProps } from '../Box';
 import { MenuContext } from './MenuContext';
+import type { MenuContextValue } from './MenuContext';
 import { MenuTrigger } from './MenuTrigger';
-import { type MenuContextValue } from './MenuContext';
 
 export type MenuProps = Omit<BoxProps, keyof MenuVariantProps> &
   MenuVariantProps & {

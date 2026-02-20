@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Autocomplete, type AutocompleteOption } from './Autocomplete';
+import { useState } from 'react';
 import { Box } from '../Box';
 import { Text } from '../Text';
+import { Autocomplete, type AutocompleteOption } from './Autocomplete';
 
 const meta: Meta<typeof Autocomplete> = {
   title: 'Components/Autocomplete',
@@ -357,7 +357,8 @@ export const Disabled: Story = {
   },
 };
 
-export const Error: Story = {
+export const ErrorStory: Story = {
+  name: 'Error',
   render: () => {
     const Component = () => {
       const [value, setValue] = useState('');
@@ -438,9 +439,8 @@ export const UserSearch: Story = {
   render: () => {
     const Component = () => {
       const [value, setValue] = useState('');
-      const [selectedUser, setSelectedUser] = useState<AutocompleteOption | null>(
-        null,
-      );
+      const [selectedUser, setSelectedUser] =
+        useState<AutocompleteOption | null>(null);
 
       const handleSelect = (option: AutocompleteOption) => {
         setValue(option.label);

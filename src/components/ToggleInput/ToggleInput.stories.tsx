@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from '@storybook/test';
 import { useState } from 'react';
-import { userEvent, within, expect } from '@storybook/test';
-import { ToggleInput } from './ToggleInput';
-import { ToggleChangeHandler } from '../Toggle';
 import { Box } from '../Box';
-import { Text } from '../Text';
 import { Button } from '../Button';
+import { Text } from '../Text';
+import type { ToggleChangeHandler } from '../Toggle';
+import { ToggleInput } from './ToggleInput';
 
 const meta: Meta<typeof ToggleInput> = {
   title: 'Components/ToggleInput',
@@ -74,20 +74,20 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => {
     const Component = () => {
-    const [checked, setChecked] = useState(false);
-    const handleChange: ToggleChangeHandler = (e) =>
-      setChecked(e.target.checked);
+      const [checked, setChecked] = useState(false);
+      const handleChange: ToggleChangeHandler = (e) =>
+        setChecked(e.target.checked);
 
-    return (
-      <ToggleInput
-        name="notifications"
-        id="notifications"
-        checked={checked}
-        onChange={handleChange}
-      >
-        Enable notifications
-      </ToggleInput>
-    );
+      return (
+        <ToggleInput
+          name="notifications"
+          id="notifications"
+          checked={checked}
+          onChange={handleChange}
+        >
+          Enable notifications
+        </ToggleInput>
+      );
     };
     return <Component />;
   },
@@ -150,20 +150,20 @@ export const ExInteractive: Story = {
   name: 'Ex: Interactive Toggle',
   render: () => {
     const Component = () => {
-    const [checked, setChecked] = useState(false);
+      const [checked, setChecked] = useState(false);
 
-    return (
-      <Box display="flex" flexDirection="column" gap="12">
-        <ToggleInput
-          name="interactive"
-          id="interactive"
-          checked={checked}
-          onChange={(e) => setChecked(e.target.checked)}
-        >
-          Click to toggle (currently: {checked ? 'on' : 'off'})
-        </ToggleInput>
-      </Box>
-    );
+      return (
+        <Box display="flex" flexDirection="column" gap="12">
+          <ToggleInput
+            name="interactive"
+            id="interactive"
+            checked={checked}
+            onChange={(e) => setChecked(e.target.checked)}
+          >
+            Click to toggle (currently: {checked ? 'on' : 'off'})
+          </ToggleInput>
+        </Box>
+      );
     };
     return <Component />;
   },
@@ -173,62 +173,62 @@ export const ExSettingsPanel: Story = {
   name: 'Ex: Settings Panel',
   render: () => {
     const Component = () => {
-    const [settings, setSettings] = useState({
-      darkMode: false,
-      notifications: true,
-      autoSave: true,
-      analytics: false,
-    });
+      const [settings, setSettings] = useState({
+        darkMode: false,
+        notifications: true,
+        autoSave: true,
+        analytics: false,
+      });
 
-    const handleChange =
-      (key: keyof typeof settings) =>
-      (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSettings({ ...settings, [key]: e.target.checked });
-      };
+      const handleChange =
+        (key: keyof typeof settings) =>
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+          setSettings({ ...settings, [key]: e.target.checked });
+        };
 
-    return (
-      <Box display="flex" flexDirection="column" gap="16" minWidth="xl">
-        <Text fontWeight="semibold" fontSize="18">
-          Settings
-        </Text>
+      return (
+        <Box display="flex" flexDirection="column" gap="16" minWidth="xl">
+          <Text fontWeight="semibold" fontSize="18">
+            Settings
+          </Text>
 
-        <ToggleInput
-          name="darkMode"
-          id="darkMode"
-          checked={settings.darkMode}
-          onChange={handleChange('darkMode')}
-        >
-          Dark mode
-        </ToggleInput>
+          <ToggleInput
+            name="darkMode"
+            id="darkMode"
+            checked={settings.darkMode}
+            onChange={handleChange('darkMode')}
+          >
+            Dark mode
+          </ToggleInput>
 
-        <ToggleInput
-          name="notifications"
-          id="notifications"
-          checked={settings.notifications}
-          onChange={handleChange('notifications')}
-        >
-          Push notifications
-        </ToggleInput>
+          <ToggleInput
+            name="notifications"
+            id="notifications"
+            checked={settings.notifications}
+            onChange={handleChange('notifications')}
+          >
+            Push notifications
+          </ToggleInput>
 
-        <ToggleInput
-          name="autoSave"
-          id="autoSave"
-          checked={settings.autoSave}
-          onChange={handleChange('autoSave')}
-        >
-          Auto-save drafts
-        </ToggleInput>
+          <ToggleInput
+            name="autoSave"
+            id="autoSave"
+            checked={settings.autoSave}
+            onChange={handleChange('autoSave')}
+          >
+            Auto-save drafts
+          </ToggleInput>
 
-        <ToggleInput
-          name="analytics"
-          id="analytics"
-          checked={settings.analytics}
-          onChange={handleChange('analytics')}
-        >
-          Share usage analytics
-        </ToggleInput>
-      </Box>
-    );
+          <ToggleInput
+            name="analytics"
+            id="analytics"
+            checked={settings.analytics}
+            onChange={handleChange('analytics')}
+          >
+            Share usage analytics
+          </ToggleInput>
+        </Box>
+      );
     };
     return <Component />;
   },
@@ -238,57 +238,57 @@ export const ExFormIntegration: Story = {
   name: 'Ex: Form Integration',
   render: () => {
     const Component = () => {
-    const [formData, setFormData] = useState({
-      marketing: false,
-      terms: false,
-    });
+      const [formData, setFormData] = useState({
+        marketing: false,
+        terms: false,
+      });
 
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      console.log('Form submitted:', formData);
-      alert(
-        `Form submitted:\nMarketing emails: ${formData.marketing}\nTerms accepted: ${formData.terms}`,
-      );
-    };
+      const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log('Form submitted:', formData);
+        alert(
+          `Form submitted:\nMarketing emails: ${formData.marketing}\nTerms accepted: ${formData.terms}`,
+        );
+      };
 
-    return (
-      <Box
-        as="form"
-        onSubmit={handleSubmit}
-        display="flex"
-        flexDirection="column"
-        gap="16"
-      >
-        <ToggleInput
-          name="marketing"
-          id="marketing"
-          checked={formData.marketing}
-          onChange={(e) =>
-            setFormData({ ...formData, marketing: e.target.checked })
-          }
+      return (
+        <Box
+          as="form"
+          onSubmit={handleSubmit}
+          display="flex"
+          flexDirection="column"
+          gap="16"
         >
-          Receive marketing emails (optional)
-        </ToggleInput>
+          <ToggleInput
+            name="marketing"
+            id="marketing"
+            checked={formData.marketing}
+            onChange={(e) =>
+              setFormData({ ...formData, marketing: e.target.checked })
+            }
+          >
+            Receive marketing emails (optional)
+          </ToggleInput>
 
-        <ToggleInput
-          name="terms"
-          id="terms"
-          checked={formData.terms}
-          onChange={(e) =>
-            setFormData({ ...formData, terms: e.target.checked })
-          }
-          error={!formData.terms}
-        >
-          I accept the terms and conditions *
-        </ToggleInput>
+          <ToggleInput
+            name="terms"
+            id="terms"
+            checked={formData.terms}
+            onChange={(e) =>
+              setFormData({ ...formData, terms: e.target.checked })
+            }
+            error={!formData.terms}
+          >
+            I accept the terms and conditions *
+          </ToggleInput>
 
-        <Box mt="8">
-          <Button type="submit" disabled={!formData.terms}>
-            Submit
-          </Button>
+          <Box mt="8">
+            <Button type="submit" disabled={!formData.terms}>
+              Submit
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    );
+      );
     };
     return <Component />;
   },
@@ -298,67 +298,67 @@ export const ExFeatureFlags: Story = {
   name: 'Ex: Feature Flags',
   render: () => {
     const Component = () => {
-    const [features, setFeatures] = useState({
-      betaFeatures: false,
-      experimentalUI: false,
-      debugMode: false,
-    });
+      const [features, setFeatures] = useState({
+        betaFeatures: false,
+        experimentalUI: false,
+        debugMode: false,
+      });
 
-    const handleChange =
-      (key: keyof typeof features) =>
-      (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFeatures({ ...features, [key]: e.target.checked });
-      };
+      const handleChange =
+        (key: keyof typeof features) =>
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+          setFeatures({ ...features, [key]: e.target.checked });
+        };
 
-    return (
-      <Box display="flex" flexDirection="column" gap="16" minWidth="xl">
-        <Text fontWeight="semibold" fontSize="18">
-          Developer Options
-        </Text>
+      return (
+        <Box display="flex" flexDirection="column" gap="16" minWidth="xl">
+          <Text fontWeight="semibold" fontSize="18">
+            Developer Options
+          </Text>
 
-        <ToggleInput
-          name="betaFeatures"
-          id="betaFeatures"
-          checked={features.betaFeatures}
-          onChange={handleChange('betaFeatures')}
-        >
-          <Box display="flex" flexDirection="column">
-            <Text>Beta features</Text>
-            <Text fontSize="14" color="text.subtlest">
-              Try new features before they're released
-            </Text>
-          </Box>
-        </ToggleInput>
+          <ToggleInput
+            name="betaFeatures"
+            id="betaFeatures"
+            checked={features.betaFeatures}
+            onChange={handleChange('betaFeatures')}
+          >
+            <Box display="flex" flexDirection="column">
+              <Text>Beta features</Text>
+              <Text fontSize="14" color="text.subtlest">
+                Try new features before they're released
+              </Text>
+            </Box>
+          </ToggleInput>
 
-        <ToggleInput
-          name="experimentalUI"
-          id="experimentalUI"
-          checked={features.experimentalUI}
-          onChange={handleChange('experimentalUI')}
-        >
-          <Box display="flex" flexDirection="column">
-            <Text>Experimental UI</Text>
-            <Text fontSize="14" color="text.subtlest">
-              Use the redesigned interface
-            </Text>
-          </Box>
-        </ToggleInput>
+          <ToggleInput
+            name="experimentalUI"
+            id="experimentalUI"
+            checked={features.experimentalUI}
+            onChange={handleChange('experimentalUI')}
+          >
+            <Box display="flex" flexDirection="column">
+              <Text>Experimental UI</Text>
+              <Text fontSize="14" color="text.subtlest">
+                Use the redesigned interface
+              </Text>
+            </Box>
+          </ToggleInput>
 
-        <ToggleInput
-          name="debugMode"
-          id="debugMode"
-          checked={features.debugMode}
-          onChange={handleChange('debugMode')}
-        >
-          <Box display="flex" flexDirection="column">
-            <Text>Debug mode</Text>
-            <Text fontSize="14" color="text.subtlest">
-              Show developer information
-            </Text>
-          </Box>
-        </ToggleInput>
-      </Box>
-    );
+          <ToggleInput
+            name="debugMode"
+            id="debugMode"
+            checked={features.debugMode}
+            onChange={handleChange('debugMode')}
+          >
+            <Box display="flex" flexDirection="column">
+              <Text>Debug mode</Text>
+              <Text fontSize="14" color="text.subtlest">
+                Show developer information
+              </Text>
+            </Box>
+          </ToggleInput>
+        </Box>
+      );
     };
     return <Component />;
   },
@@ -369,20 +369,20 @@ export const A11yAccessibilityCheck: Story = {
   name: 'A11y: Accessibility Check',
   render: () => {
     const Component = () => {
-    const [checked, setChecked] = useState(false);
-    const handleChange: ToggleChangeHandler = (e) =>
-      setChecked(e.target.checked);
+      const [checked, setChecked] = useState(false);
+      const handleChange: ToggleChangeHandler = (e) =>
+        setChecked(e.target.checked);
 
-    return (
-      <ToggleInput
-        name="accessible"
-        id="accessible"
-        checked={checked}
-        onChange={handleChange}
-      >
-        Accessible toggle
-      </ToggleInput>
-    );
+      return (
+        <ToggleInput
+          name="accessible"
+          id="accessible"
+          checked={checked}
+          onChange={handleChange}
+        >
+          Accessible toggle
+        </ToggleInput>
+      );
     };
     return <Component />;
   },

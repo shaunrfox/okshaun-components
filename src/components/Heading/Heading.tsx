@@ -1,7 +1,7 @@
 import { cx } from '@styled-system/css';
-import { splitProps } from '~/utils/splitProps';
+import { type HeadingVariantProps, heading } from '@styled-system/recipes';
 import { Text, type TextProps } from '~/components/Text';
-import { heading, type HeadingVariantProps } from '@styled-system/recipes';
+import { splitProps } from '~/utils/splitProps';
 
 export type HeadingProps = Omit<TextProps, keyof HeadingVariantProps> &
   HeadingVariantProps & {

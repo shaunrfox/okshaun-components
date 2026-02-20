@@ -1,5 +1,5 @@
-import { splitCssProps } from '@styled-system/jsx';
 import { css, cx } from '@styled-system/css';
+import { splitCssProps } from '@styled-system/jsx';
 
 export const splitProps = (
   props: Record<string, unknown>,

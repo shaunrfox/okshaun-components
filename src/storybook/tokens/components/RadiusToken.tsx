@@ -1,9 +1,9 @@
-import React from 'react';
+import { Flex } from '@styled-system/jsx';
+import type { SizeToken } from '@styled-system/tokens';
+import type React from 'react';
 import { Box } from '~/components/Box';
 import { Text } from '~/components/Text';
 import { radii } from '~/styles/primitives/radii';
-import { Flex } from '@styled-system/jsx';
-import type { SizeToken } from '@styled-system/tokens';
 
 interface RadiusTokenProps {
   tokenKey: keyof typeof radii;

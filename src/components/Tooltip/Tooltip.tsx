@@ -1,16 +1,16 @@
+import { cx } from '@styled-system/css';
+import { type TooltipVariantProps, tooltip } from '@styled-system/recipes';
 import {
   type ReactNode,
+  useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
-  useCallback,
-  useMemo,
 } from 'react';
-import { cx } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { Text } from '../Text';
-import { tooltip, type TooltipVariantProps } from '@styled-system/recipes';
 
 export type Position =
   | 'top'

@@ -1,26 +1,26 @@
-import {
-  useState,
-  useMemo,
-  useCallback,
-  Children,
-  isValidElement,
-  ReactElement,
-} from 'react';
 import type { Placement } from '@floating-ui/react';
 import { cx } from '@styled-system/css';
+import {
+  type MenuVariantProps,
+  type SelectVariantProps,
+  select,
+} from '@styled-system/recipes';
+import {
+  Children,
+  type ReactElement,
+  isValidElement,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import { splitProps } from '~/utils/splitProps';
-import { Menu } from '../Menu';
-import { MenuTrigger } from '../Menu/MenuTrigger';
-import { MenuItem } from '../Menu/MenuItem';
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
+import { Menu } from '../Menu';
+import { MenuItem } from '../Menu/MenuItem';
+import { MenuTrigger } from '../Menu/MenuTrigger';
 import { SelectContext } from './SelectContext';
 import type { SelectOptionProps } from './SelectOption';
-import {
-  select,
-  type SelectVariantProps,
-  type MenuVariantProps,
-} from '@styled-system/recipes';
 
 export type SelectProps = Omit<BoxProps, keyof SelectVariantProps> &
   Pick<MenuVariantProps, 'packing'> &
@@ -145,16 +145,15 @@ export const Select = (props: SelectProps) => {
             .map((opt) => opt.props.label || opt.props.value)
             .join(', ')
         : placeholder;
-    } else {
-      const selectedOption = options.find(
-        (option) => option.props.value === value,
-      );
-      return (
-        selectedOption?.props?.label ||
-        selectedOption?.props?.value ||
-        placeholder
-      );
     }
+    const selectedOption = options.find(
+      (option) => option.props.value === value,
+    );
+    return (
+      selectedOption?.props?.label ||
+      selectedOption?.props?.value ||
+      placeholder
+    );
   };
 
   // Get slot classes from recipe
@@ -171,6 +170,7 @@ export const Select = (props: SelectProps) => {
         id={id}
         packing={packing}
         indicatorPosition={indicatorPosition}
+        // biome-ignore lint/a11y/useSemanticElements: custom select listbox must not use <select> — role="listbox" is correct ARIA for custom select
         role="listbox"
         aria-orientation="vertical"
         {...(error && { 'data-error': true })}

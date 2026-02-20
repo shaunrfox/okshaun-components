@@ -1,4 +1,4 @@
-import { defineTextStyles, defineStyles } from '@pandacss/dev';
+import { defineStyles, defineTextStyles } from '@pandacss/dev';
 
 const baseHeadingStyles = defineStyles({
   value: {

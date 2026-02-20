@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ThemeContext, type Theme } from './ThemeContext';
+import { type Theme, ThemeContext } from './ThemeContext';
 
 const THEME_STORAGE_KEY = 'okshaun-theme-preference';
 
@@ -11,10 +11,7 @@ function getInitialTheme(): Theme {
   }
 
   // Check for system preference
-  if (
-    window.matchMedia &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-  ) {
+  if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
     return 'dark';
   }
 

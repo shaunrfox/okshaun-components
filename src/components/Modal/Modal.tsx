@@ -1,21 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
 import {
-  FloatingPortal,
   FloatingFocusManager,
+  FloatingOverlay,
+  FloatingPortal,
   useDismiss,
   useFloating,
   useInteractions,
-  FloatingOverlay,
 } from '@floating-ui/react';
-import { Box, type BoxProps } from '../Box';
-import {
-  modal as modalRecipe,
-  type ModalVariantProps,
-} from '@styled-system/recipes';
 import { cx } from '@styled-system/css';
-import { splitProps } from '~/utils/splitProps';
-import { ModalContext, ModalContextValue } from './ModalContext';
+import {
+  type ModalVariantProps,
+  modal as modalRecipe,
+} from '@styled-system/recipes';
+import { useEffect, useRef, useState } from 'react';
 import { MODAL_ANIMATION_DURATION } from '~/recipes/modal';
+import { splitProps } from '~/utils/splitProps';
+import { Box, type BoxProps } from '../Box';
+import { ModalContext, type ModalContextValue } from './ModalContext';
 
 export type ModalProps = Omit<BoxProps, keyof ModalVariantProps> &
   ModalVariantProps & {
@@ -116,6 +116,7 @@ export const Modal = (props: ModalProps) => {
             className={cx(classes.container, className)}
             data-state={dataState}
             id={id}
+            // biome-ignore lint/a11y/useSemanticElements: Floating UI integration requires a div with role="dialog" — migrating to <dialog> element is a separate refactor
             role="dialog"
             aria-modal="true"
             {...(getFloatingProps() as Record<string, unknown>)}

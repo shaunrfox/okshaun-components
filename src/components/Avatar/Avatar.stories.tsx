@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Avatar } from './Avatar';
 import { Box } from '../Box';
-import { Text } from '../Text';
 import { Icon } from '../Icon';
+import { Text } from '../Text';
+import { Avatar } from './Avatar';
 
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar',
@@ -389,7 +389,7 @@ export const AvatarStack: Story = {
           sampleImages.user4,
         ].map((src, i) => (
           <Box
-            key={i}
+            key={src}
             style={{ marginLeft: i > 0 ? '-8px' : '0' }}
             position="relative"
             zIndex={4 - i}
