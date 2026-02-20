@@ -161,7 +161,7 @@ export const Select = (props: SelectProps) => {
   const hasValue = value !== null && value !== undefined && value !== '';
 
   return (
-    <SelectContext.Provider value={contextValue}>
+    <SelectContext value={contextValue}>
       <Menu
         open={open}
         onOpenChange={handleOpenChange}
@@ -255,6 +255,6 @@ export const Select = (props: SelectProps) => {
           return child;
         })}
       </Menu>
-    </SelectContext.Provider>
+    </SelectContext>
   );
 };

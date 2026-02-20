@@ -12,6 +12,7 @@
     "build": "rm -rf dist && PANDA_STATIC=true npx panda codegen && npx panda cssgen --splitting && npx panda spec && npx panda init-mcp --client claude && vite build",
     "lint": "biome lint src/",
     "check": "biome check --write src/",
+    "doctor": "npx -y react-doctor@latest .",
     "preview": "vite preview",
     "generate-sprite": "node src/utils/generate-sprite.js",
     "storybook": "PANDA_STATIC=true storybook dev -p 6006",

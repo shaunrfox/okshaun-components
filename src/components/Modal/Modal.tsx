@@ -101,7 +101,7 @@ export const Modal = (props: ModalProps) => {
   const dataState = isClosing ? 'closing' : 'open';
 
   return (
-    <ModalContext.Provider value={contextValue}>
+    <ModalContext value={contextValue}>
       <FloatingPortal>
         <FloatingOverlay
           lockScroll
@@ -126,6 +126,6 @@ export const Modal = (props: ModalProps) => {
           </Box>
         </FloatingFocusManager>
       </FloatingPortal>
-    </ModalContext.Provider>
+    </ModalContext>
   );
 };

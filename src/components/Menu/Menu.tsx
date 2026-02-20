@@ -134,7 +134,7 @@ export const Menu = (props: MenuProps) => {
   );
 
   return (
-    <MenuContext.Provider value={contextValue}>
+    <MenuContext value={contextValue}>
       {/* Render trigger children */}
       {triggerChild}
 
@@ -157,6 +157,6 @@ export const Menu = (props: MenuProps) => {
           </FloatingFocusManager>
         </FloatingPortal>
       )}
-    </MenuContext.Provider>
+    </MenuContext>
   );
 };

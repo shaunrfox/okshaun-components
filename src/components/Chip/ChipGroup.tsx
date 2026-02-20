@@ -78,7 +78,7 @@ export const ChipGroup: React.FC<ChipGroupProps> = ({
   );
 
   return (
-    <ChipGroupContext.Provider
+    <ChipGroupContext
       value={{
         type,
         value,
@@ -100,6 +100,6 @@ export const ChipGroup: React.FC<ChipGroupProps> = ({
       >
         {children}
       </Wrap>
-    </ChipGroupContext.Provider>
+    </ChipGroupContext>
   );
 };

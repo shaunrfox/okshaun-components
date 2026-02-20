@@ -181,24 +181,27 @@ export const ErrorStory: Story = {
 
 export const Controlled: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [value, setValue] = React.useState<string | null>(null);
+    const ControlledSelect = () => {
+      const [value, setValue] = React.useState<string | null>(null);
 
-    return (
-      <Box display="flex" flexDirection="column" gap="4" width="xs">
-        <Select
-          value={value}
-          onChange={setValue}
-          placeholder="Choose an option..."
-        >
-          <SelectOption value="option1" label="Option 1" />
-          <SelectOption value="option2" label="Option 2" />
-          <SelectOption value="option3" label="Option 3" />
-        </Select>
-        <Box fontSize="14" color="text.subtlest">
-          Selected value: {value || 'None'}
+      return (
+        <Box display="flex" flexDirection="column" gap="4" width="xs">
+          <Select
+            value={value}
+            onChange={setValue}
+            placeholder="Choose an option..."
+          >
+            <SelectOption value="option1" label="Option 1" />
+            <SelectOption value="option2" label="Option 2" />
+            <SelectOption value="option3" label="Option 3" />
+          </Select>
+          <Box fontSize="14" color="text.subtlest">
+            Selected value: {value || 'None'}
+          </Box>
         </Box>
-      </Box>
-    );
+      );
+    };
+
+    return <ControlledSelect />;
   },
 };
