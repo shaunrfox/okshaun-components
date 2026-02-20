@@ -4,10 +4,7 @@ import { Box, type BoxProps } from '../Box/Box';
 import { divider, type DividerVariantProps } from '@styled-system/recipes';
 
 export type DividerProps = Omit<BoxProps, keyof DividerVariantProps> &
-  DividerVariantProps & {
-    direction?: string;
-    weight?: string;
-  };
+  DividerVariantProps;
 
 export const Divider = (props: DividerProps) => {
   const { direction, weight, ...rest } = props;
