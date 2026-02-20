@@ -1,10 +1,10 @@
-import { defineConfig } from '@pandacss/dev';
-import { okshaunPreset } from './src/preset';
+import { defineConfig } from "@pandacss/dev";
+import { okshaunPreset } from "./src/preset";
 
 // Control whether the staticCss is included or not
 // because it's not needed for production and
 // generates a ton of CSS
-const isStatic = process.env.PANDA_STATIC === 'true';
+const isStatic = process.env.PANDA_STATIC === "true";
 
 const staticCss = isStatic
   ? {
@@ -12,26 +12,26 @@ const staticCss = isStatic
         css: [
           {
             properties: {
-              background: ['*'],
-              color: ['*'],
-              border: ['*'],
-              fill: ['*'],
-              boxShadow: ['*'],
-              width: ['*'],
-              height: ['*'],
-              minWidth: ['*'],
-              minHeight: ['*'],
-              maxWidth: ['*'],
-              maxHeight: ['*'],
-              borderRadius: ['*'],
-              textStyle: ['*'],
-              fontFamily: ['*'],
-              fontSize: ['*'],
-              fontWeight: ['*'],
-              lineHeight: ['*'],
-              letterSpacing: ['*'],
+              background: ["*"],
+              color: ["*"],
+              border: ["*"],
+              fill: ["*"],
+              boxShadow: ["*"],
+              width: ["*"],
+              height: ["*"],
+              minWidth: ["*"],
+              minHeight: ["*"],
+              maxWidth: ["*"],
+              maxHeight: ["*"],
+              borderRadius: ["*"],
+              textStyle: ["*"],
+              fontFamily: ["*"],
+              fontSize: ["*"],
+              fontWeight: ["*"],
+              lineHeight: ["*"],
+              letterSpacing: ["*"],
             },
-            conditions: ['light', 'dark'],
+            conditions: ["light", "dark"],
           },
         ],
       },
@@ -41,26 +41,25 @@ const staticCss = isStatic
 export default defineConfig({
   eject: true,
   gitignore: true,
-  jsxFramework: 'react',
-  jsxStyleProps: 'all',
-  jsxFactory: 'styled',
+  jsxFramework: "react",
+  jsxStyleProps: "all",
+  jsxFactory: "styled",
   preflight: false, // do not add Panda's default reset styles
   strictTokens: true,
   watch: true,
-  clean: true, // empty /styled-system each run
 
   presets: [okshaunPreset],
 
   include: [
-    './src/**/*.{js,jsx,ts,tsx}',
-    './src/components/*/*.stories.@(js|jsx|mjs|ts|tsx)',
-    './src/storybook/**/*.{js,jsx,mjs,ts,tsx,mdx}',
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/components/*/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "./src/storybook/**/*.{js,jsx,mjs,ts,tsx,mdx}",
   ],
   exclude: [],
 
-  prefix: 'oks',
-  importMap: '@styled-system',
-  outdir: 'src/styled-system',
+  prefix: "oks",
+  importMap: "@styled-system",
+  outdir: "src/styled-system",
 
   // hooks: {
   //   'config:resolved': ({ config, utils }) => {

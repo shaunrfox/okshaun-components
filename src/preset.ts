@@ -30,6 +30,8 @@ const {
   avatarRecipe,
   modalRecipe,
   formFieldRecipe,
+  datePickerRecipe,
+  timePickerRecipe,
   MODAL_ANIMATION_DURATION: _MODAL_ANIMATION_DURATION,
   ...regularComponents
 } = componentRecipes;
@@ -105,6 +107,8 @@ export const okshaunPreset = definePreset({
         avatar: avatarRecipe,
         modal: modalRecipe,
         formField: formFieldRecipe,
+        datePicker: datePickerRecipe,
+        timePicker: timePickerRecipe,
       },
     },
   },

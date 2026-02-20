@@ -1,0 +1,229 @@
+import { cx } from '@styled-system/css';
+import type { datePicker } from '@styled-system/recipes';
+import type React from 'react';
+import { Box } from '~/components/Box';
+
+export interface DateValue {
+  year: number;
+  month: number; // 1-indexed (1 = January)
+  day: number;
+}
+
+export interface CalendarProps {
+  value: DateValue | null;
+  onSelect: (date: DateValue) => void;
+  minDate?: DateValue;
+  maxDate?: DateValue;
+  viewYear: number;
+  viewMonth: number; // 1-indexed
+  onViewChange: (year: number, month: number) => void;
+  classes: ReturnType<typeof datePicker>;
+}
+
+// ─── Date math utilities ───────────────────────────────────────────────────────
+
+function daysInMonth(year: number, month: number): number {
+  // new Date(year, month, 0) returns the last day of the prior month (month is 0-indexed)
+  return new Date(year, month, 0).getDate();
+}
+
+function firstDayOfWeek(year: number, month: number): number {
+  return new Date(year, month - 1, 1).getDay(); // 0 = Sunday
+}
+
+function prevMonth(year: number, month: number): [number, number] {
+  return month === 1 ? [year - 1, 12] : [year, month - 1];
+}
+
+function nextMonth(year: number, month: number): [number, number] {
+  return month === 12 ? [year + 1, 1] : [year, month + 1];
+}
+
+function compareDates(a: DateValue, b: DateValue): number {
+  if (a.year !== b.year) return a.year - b.year;
+  if (a.month !== b.month) return a.month - b.month;
+  return a.day - b.day;
+}
+
+function isBeforeMin(date: DateValue, min: DateValue | undefined): boolean {
+  if (!min) return false;
+  return compareDates(date, min) < 0;
+}
+
+function isAfterMax(date: DateValue, max: DateValue | undefined): boolean {
+  if (!max) return false;
+  return compareDates(date, max) > 0;
+}
+
+function isSameDate(a: DateValue, b: DateValue): boolean {
+  return a.year === b.year && a.month === b.month && a.day === b.day;
+}
+
+function getTodayValue(): DateValue {
+  const now = new Date();
+  return { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+}
+
+const MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+const WEEKDAY_LABELS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+const WEEKDAY_FULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+// ─── Calendar component ────────────────────────────────────────────────────────
+
+export const Calendar: React.FC<CalendarProps> = ({
+  value,
+  onSelect,
+  minDate,
+  maxDate,
+  viewYear,
+  viewMonth,
+  onViewChange,
+  classes,
+}) => {
+  const today = getTodayValue();
+
+  // Build 42-cell grid (6 rows × 7 cols)
+  const firstDay = firstDayOfWeek(viewYear, viewMonth);
+  const totalDays = daysInMonth(viewYear, viewMonth);
+  const gridDays: Array<number | null> = [];
+
+  for (let i = 0; i < firstDay; i++) gridDays.push(null);
+  for (let d = 1; d <= totalDays; d++) gridDays.push(d);
+  while (gridDays.length < 42) gridDays.push(null);
+
+  const [prevYear, prevMonthNum] = prevMonth(viewYear, viewMonth);
+  const [nextYear, nextMonthNum] = nextMonth(viewYear, viewMonth);
+
+  const canGoPrev = minDate
+    ? !(prevYear < minDate.year || (prevYear === minDate.year && prevMonthNum < minDate.month))
+    : true;
+  const canGoNext = maxDate
+    ? !(nextYear > maxDate.year || (nextYear === maxDate.year && nextMonthNum > maxDate.month))
+    : true;
+
+  const handleDayClick = (day: number) => {
+    const date: DateValue = { year: viewYear, month: viewMonth, day };
+    if (!isBeforeMin(date, minDate) && !isAfterMax(date, maxDate)) {
+      onSelect(date);
+    }
+  };
+
+  const handleDayKeyDown = (e: React.KeyboardEvent, day: number) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleDayClick(day);
+    }
+  };
+
+  return (
+    <>
+      {/* Calendar header: prev / Month Year / next */}
+      <Box className={classes.calendarHeader}>
+        <Box
+          as="button"
+          type="button"
+          className={classes.navButton}
+          aria-label="Previous month"
+          disabled={!canGoPrev}
+          onClick={() => onViewChange(prevYear, prevMonthNum)}
+        >
+          {/* Simple SVG chevron left */}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </Box>
+
+        <Box
+          fontSize="14"
+          fontWeight="medium"
+          color="text"
+          flex="1"
+          textAlign="center"
+          userSelect="none"
+        >
+          {MONTH_NAMES[viewMonth - 1]} {viewYear}
+        </Box>
+
+        <Box
+          as="button"
+          type="button"
+          className={classes.navButton}
+          aria-label="Next month"
+          disabled={!canGoNext}
+          onClick={() => onViewChange(nextYear, nextMonthNum)}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </Box>
+      </Box>
+
+      {/* Calendar grid */}
+      <Box
+        className={classes.calendarGrid}
+        role="grid"
+        aria-label={`${MONTH_NAMES[viewMonth - 1]} ${viewYear}`}
+      >
+        {/* Weekday headers */}
+        {WEEKDAY_LABELS.map((label, i) => (
+          <Box
+            key={label}
+            className={classes.weekdayLabel}
+            role="columnheader"
+            aria-label={WEEKDAY_FULL[i]}
+          >
+            {label}
+          </Box>
+        ))}
+
+        {/* Day cells — render in rows of 7 */}
+        {Array.from({ length: 6 }, (_, rowIdx) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: stable row indices for calendar grid
+          <Box key={rowIdx} role="row" display="contents">
+            {gridDays.slice(rowIdx * 7, rowIdx * 7 + 7).map((day, colIdx) => {
+              if (!day) {
+                return (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: empty cell
+                  <Box key={`empty-${rowIdx}-${colIdx}`} role="gridcell" aria-hidden="true" />
+                );
+              }
+
+              const dateValue: DateValue = { year: viewYear, month: viewMonth, day };
+              const isUnavailable = isBeforeMin(dateValue, minDate) || isAfterMax(dateValue, maxDate);
+              const isSelected = value ? isSameDate(value, dateValue) : false;
+              const isToday = isSameDate(today, dateValue);
+
+              return (
+                <Box
+                  key={day}
+                  role="gridcell"
+                  aria-selected={isSelected}
+                  aria-disabled={isUnavailable}
+                >
+                  <Box
+                    as="button"
+                    type="button"
+                    className={cx(classes.day)}
+                    data-today={isToday ? true : undefined}
+                    data-unavailable={isUnavailable ? true : undefined}
+                    aria-selected={isSelected}
+                    aria-label={`${MONTH_NAMES[viewMonth - 1]} ${day}, ${viewYear}${isToday ? ', today' : ''}${isSelected ? ', selected' : ''}`}
+                    tabIndex={isUnavailable ? -1 : 0}
+                    onClick={() => !isUnavailable && handleDayClick(day)}
+                    onKeyDown={(e: React.KeyboardEvent) => !isUnavailable && handleDayKeyDown(e, day)}
+                  >
+                    {day}
+                  </Box>
+                </Box>
+              );
+            })}
+          </Box>
+        ))}
+      </Box>
+    </>
+  );
+};

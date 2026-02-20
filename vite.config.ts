@@ -1,92 +1,98 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
-import dts from 'vite-plugin-dts';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { resolve } from "path";
+import dts from "vite-plugin-dts";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode: _mode }) => {
+export default defineConfig(({ mode: _mode, command }) => {
   const isGitHubPages = !!process.env.GH_REPO;
+  const isLibraryBuild = command === "build" && !isGitHubPages;
 
   if (isGitHubPages) {
-    // GitHub Pages demo build
+    // GitHub Pages build
     return {
       plugins: [react()],
       base: `/${process.env.GH_REPO}/`,
       resolve: {
         alias: {
-          '~': resolve(__dirname, './src'),
-          '@styled-system': resolve(__dirname, './src/styled-system'),
+          "~": resolve(__dirname, "./src"),
+          "@styled-system": resolve(__dirname, "./src/styled-system"),
         },
       },
       build: {
-        outDir: 'dist',
+        outDir: "dist",
       },
     };
   }
 
-  // Library build mode (default)
+  // Library build mode (default) or development
   return {
     plugins: [
       react(),
-      dts({
-        include: ['src/**/*'],
-        exclude: ['src/**/*.stories.tsx'],
-        entryRoot: 'src',
-        outDir: 'dist/types',
-        rollupTypes: true,
-        copyDtsFiles: true,
-      }),
-      viteStaticCopy({
-        targets: [
-          {
-            src: 'src/styled-system/specs',
-            dest: './',
-          },
-          {
-            src: 'src/styled-system/styles',
-            dest: './',
-          },
-          {
-            src: 'src/styled-system/styles.css',
-            dest: './',
-          },
-          {
-            src: '.mcp.json',
-            dest: './',
-          },
-          {
-            src: 'src/types/index.d.ts',
-            dest: './',
-          },
-        ],
-      }),
+      // Only include build-time plugins when actually building the library
+      ...(isLibraryBuild
+        ? [
+            dts({
+              include: ["src/**/*"],
+              exclude: ["src/**/*.stories.tsx"],
+              entryRoot: "src",
+              outDir: "dist/types",
+              rollupTypes: true,
+              copyDtsFiles: true,
+            }),
+            viteStaticCopy({
+              targets: [
+                {
+                  src: "src/styled-system/specs",
+                  dest: "./",
+                },
+                {
+                  src: "src/styled-system/styles",
+                  dest: "./",
+                },
+                {
+                  src: "src/styled-system/styles.css",
+                  dest: "./",
+                },
+                {
+                  src: ".mcp.json",
+                  dest: "./",
+                },
+                {
+                  src: "src/types/index.d.ts",
+                  dest: "./",
+                },
+              ],
+            }),
+          ]
+        : []),
     ],
     resolve: {
       alias: {
-        '~': resolve(__dirname, './src'),
-        '@styled-system': resolve(__dirname, './src/styled-system'),
+        "~": resolve(__dirname, "./src"),
+        "@styled-system": resolve(__dirname, "./src/styled-system"),
       },
     },
     build: {
       lib: {
-        name: '@okshaun/components',
+        name: "cetec-design-system",
         entry: {
-          index: resolve(__dirname, 'src/index.ts'),
-          preset: resolve(__dirname, 'src/preset.ts'),
+          index: resolve(__dirname, "src/index.ts"),
+          preset: resolve(__dirname, "src/preset.ts"),
         },
-        formats: ['es'],
+        formats: ["es"],
       },
       rollupOptions: {
-        external: ['react', 'react-dom', 'react/jsx-runtime', '@pandacss/dev'],
+        external: ["react", "react-dom", "react/jsx-runtime", "@pandacss/dev"],
         output: {
           preserveModules: false,
-          assetFileNames: 'assets/[name][extname]',
-          entryFileNames: '[name].js',
+          assetFileNames: "assets/[name][extname]",
+          entryFileNames: "[name].js",
           externalImportAttributes: false,
           globals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
+            react: "React",
+            "react-dom": "ReactDOM",
           },
         },
       },

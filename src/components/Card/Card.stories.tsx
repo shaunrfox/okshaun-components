@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
-import { css } from '@styled-system/css';
-import { Flex, Grid, HStack, VStack, Wrap } from '@styled-system/jsx';
-import { Box } from '../Box';
-import { Button } from '../Button';
-import { Heading } from '../Heading';
-import { Icon } from '../Icon';
-import { Text } from '../Text';
-import { Card } from './Card';
+import type { Meta, StoryObj } from "@storybook/react";
+import { fn } from "@storybook/test";
+import { css } from "@styled-system/css";
+import { Flex, Grid, HStack, VStack, Wrap } from "@styled-system/jsx";
+import { Box } from "../Box";
+import { Button } from "../Button";
+import { Heading } from "../Heading";
+import { Icon } from "../Icon";
+import { Text } from "../Text";
+import { Card } from "./Card";
 
 /**
  * Card component for containing content with optional interactivity.
@@ -21,49 +21,49 @@ import { Card } from './Card';
  * - Accessible focus and disabled states
  */
 const meta: Meta<typeof Card> = {
-  title: 'Components/Card',
+  title: "Components/Card",
   component: Card,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     variant: {
-      control: 'select',
-      options: ['default', 'flat', 'ghost', 'sunken', 'overlay'],
-      description: 'Visual style variant',
+      control: "select",
+      options: ["default", "flat", "ghost", "sunken", "overlay"],
+      description: "Visual style variant",
       table: {
-        defaultValue: { summary: 'default' },
+        defaultValue: { summary: "default" },
       },
     },
     interactive: {
-      control: 'boolean',
+      control: "boolean",
       description:
-        'Makes card interactive (clickable). Auto-set when href or onClick provided.',
+        "Makes card interactive (clickable). Auto-set when href or onClick provided.",
       table: {
-        defaultValue: { summary: 'false' },
+        defaultValue: { summary: "false" },
       },
     },
     disabled: {
-      control: 'boolean',
-      description: 'Disabled state for interactive cards',
+      control: "boolean",
+      description: "Disabled state for interactive cards",
     },
     href: {
-      control: 'text',
+      control: "text",
       description:
-        'When provided, card renders as anchor and becomes interactive',
+        "When provided, card renders as anchor and becomes interactive",
     },
     as: {
-      control: 'select',
-      options: ['div', 'article', 'section', 'aside', 'button', 'a'],
-      description: 'Semantic element to render as',
+      control: "select",
+      options: ["div", "article", "section", "aside", "button", "a"],
+      description: "Semantic element to render as",
       table: {
-        defaultValue: { summary: 'div' },
+        defaultValue: { summary: "div" },
       },
     },
     children: {
       control: false,
-      description: 'Card content',
+      description: "Card content",
     },
   },
   args: { onClick: fn() },
@@ -87,35 +87,35 @@ const CardContent = ({
 );
 
 export const Default: Story = {
-  name: 'Static',
+  name: "Static",
   render: () => (
     <Wrap justifyContent="center" gap="24" p="40">
       <Card>
-        <Flex flexDir="column" p={'16'}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Default Card</Heading>
           <Text>Static card with shadow</Text>
         </Flex>
       </Card>
       <Card variant="flat">
-        <Flex flexDir="column" p={'16'}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Flat Card</Heading>
           <Text>Static card with flat style</Text>
         </Flex>
       </Card>
       <Card variant="sunken">
-        <Flex flexDir="column" p={'16'}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Sunken Card</Heading>
           <Text>Static with sunken background</Text>
         </Flex>
       </Card>
       <Card variant="ghost">
-        <Flex flexDir="column" p={'16'}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Ghost Card</Heading>
           <Text>Static with transparent background</Text>
         </Flex>
       </Card>
       <Card variant="overlay">
-        <Flex flexDir="column" p={'16'}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Overlay Card</Heading>
           <Text>Static card with shadow</Text>
         </Flex>
@@ -125,29 +125,29 @@ export const Default: Story = {
 };
 
 export const Interactive: Story = {
-  name: 'Interactive',
+  name: "Interactive",
   render: () => (
     <Wrap justifyContent="center" gap="24" p="40">
-      <Card onClick={() => alert('Default clicked')}>
-        <Flex flexDir="column" p={'16'}>
+      <Card onClick={() => alert("Default clicked")}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Default Card</Heading>
           <Text>Static card with shadow</Text>
         </Flex>
       </Card>
-      <Card variant="flat" onClick={() => alert('Flat clicked')}>
-        <Flex flexDir="column" p={'16'}>
+      <Card variant="flat" onClick={() => alert("Flat clicked")}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Flat Card</Heading>
           <Text>Static card with flat style</Text>
         </Flex>
       </Card>
-      <Card variant="sunken" onClick={() => alert('Sunken clicked')}>
-        <Flex flexDir="column" p={'16'}>
+      <Card variant="sunken" onClick={() => alert("Sunken clicked")}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Sunken Card</Heading>
           <Text>Static with sunken background</Text>
         </Flex>
       </Card>
-      <Card variant="ghost" onClick={() => alert('Ghost clicked')}>
-        <Flex flexDir="column" p={'16'}>
+      <Card variant="ghost" onClick={() => alert("Ghost clicked")}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Ghost Card</Heading>
           <Text>Static with transparent background</Text>
         </Flex>
@@ -157,10 +157,10 @@ export const Interactive: Story = {
 };
 
 export const LinkCard: Story = {
-  name: 'Link Card',
+  name: "Link Card",
   render: () => (
     <Card href="#link-target">
-      <Flex flexDir="column" p={'16'}>
+      <Flex flexDir="column" p={"16"}>
         <Heading level="h3">Link Card</Heading>
         <Text>Renders as anchor element automatically.</Text>
       </Flex>
@@ -169,35 +169,35 @@ export const LinkCard: Story = {
 };
 
 export const Disabled: Story = {
-  name: 'Disabled states',
+  name: "Disabled states",
   render: () => (
     <Wrap justifyContent="center" gap="24" p="40">
       <Card disabled>
-        <Flex flexDir="column" p={'16'}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Default Card</Heading>
           <Text>Static card with shadow</Text>
         </Flex>
       </Card>
       <Card variant="flat" disabled>
-        <Flex flexDir="column" p={'16'}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Flat Card</Heading>
           <Text>Static card with flat style</Text>
         </Flex>
       </Card>
       <Card variant="sunken" disabled>
-        <Flex flexDir="column" p={'16'}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Sunken Card</Heading>
           <Text>Static with sunken background</Text>
         </Flex>
       </Card>
       <Card variant="ghost" disabled>
-        <Flex flexDir="column" p={'16'}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Ghost Card</Heading>
           <Text>Static with transparent background</Text>
         </Flex>
       </Card>
       <Card variant="overlay" disabled>
-        <Flex flexDir="column" p={'16'}>
+        <Flex flexDir="column" p={"16"}>
           <Heading level="h3">Overlay Card</Heading>
           <Text>Static card with shadow</Text>
         </Flex>
@@ -211,7 +211,7 @@ export const SemanticElements: Story = {
     <Grid gridTemplateColumns="repeat(3, 1fr)" gap="16">
       <Card as="article">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: '12', color: 'blue.50' })}>
+          <code className={css({ fontSize: "12", color: "blue.50" })}>
             article
           </code>
           <Text>For blog posts, news</Text>
@@ -219,7 +219,7 @@ export const SemanticElements: Story = {
       </Card>
       <Card as="section" variant="flat">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: '12', color: 'blue.50' })}>
+          <code className={css({ fontSize: "12", color: "blue.50" })}>
             section
           </code>
           <Text>For grouped content</Text>
@@ -227,7 +227,7 @@ export const SemanticElements: Story = {
       </Card>
       <Card as="aside" variant="ghost">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: '12', color: 'blue.50' })}>
+          <code className={css({ fontSize: "12", color: "blue.50" })}>
             aside
           </code>
           <Text>For supplementary content</Text>
@@ -239,7 +239,7 @@ export const SemanticElements: Story = {
 };
 
 export const ProductCard: Story = {
-  name: 'Product Card',
+  name: "Product Card",
   render: () => (
     <Card overflow="hidden">
       <VStack gap="0">
@@ -247,7 +247,7 @@ export const ProductCard: Story = {
         <Flex flexDir="column" p="16" gap="8" alignItems="flex-start" w="full">
           <Heading level="h4">Product Name</Heading>
           <Text>$99.99</Text>
-          <Button variant="primary" onClick={() => alert('View product')}>
+          <Button variant="primary" onClick={() => alert("View product")}>
             Add to Cart
           </Button>
         </Flex>
@@ -261,7 +261,7 @@ export const ProductCard: Story = {
  * Profile card
  */
 export const ProfileCard: Story = {
-  name: 'Profile',
+  name: "Profile",
   render: () => (
     <Card variant="flat">
       <HStack p="16" gap="16">
@@ -269,7 +269,7 @@ export const ProfileCard: Story = {
           bg="blue.60"
           w="64"
           h="64"
-          rounded="full"
+          rounded="999"
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -294,7 +294,7 @@ export const ProfileCard: Story = {
  * Stats card
  */
 export const StatsCard: Story = {
-  name: 'Stats Card',
+  name: "Stats Card",
   render: () => (
     <HStack gap="16">
       <Card variant="overlay">
@@ -347,11 +347,11 @@ export const CardGrid: Story = {
  * Interactive vs Non-interactive comparison
  */
 export const InteractiveComparison: Story = {
-  name: 'Interactive vs Non-interactive',
+  name: "Interactive vs Non-interactive",
   render: () => (
     <VStack gap="24" alignItems="flex-start">
       <div>
-        <div className={css({ mb: '8', fontSize: '14', fontWeight: 'bold' })}>
+        <div className={css({ mb: "8", fontSize: "14", fontWeight: "bold" })}>
           Non-Interactive (Content Container)
         </div>
         <Card>
@@ -361,7 +361,7 @@ export const InteractiveComparison: Story = {
             <Button
               variant="primary"
               mt="16"
-              onClick={() => alert('Button clicked!')}
+              onClick={() => alert("Button clicked!")}
             >
               Action Inside
             </Button>
@@ -369,10 +369,10 @@ export const InteractiveComparison: Story = {
         </Card>
       </div>
       <div>
-        <div className={css({ mb: '8', fontSize: '14', fontWeight: 'bold' })}>
+        <div className={css({ mb: "8", fontSize: "14", fontWeight: "bold" })}>
           Interactive (Clickable Card)
         </div>
-        <Card onClick={() => alert('Card clicked!')}>
+        <Card onClick={() => alert("Card clicked!")}>
           <VStack p="16" gap="8" alignItems="flex-start">
             <Heading level="h4">Clickable Card</Heading>
             <Text>The entire card is clickable. Hover to see effects.</Text>
