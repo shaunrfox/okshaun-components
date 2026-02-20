@@ -2,7 +2,8 @@ import { defineRecipe } from '@pandacss/dev';
 
 const dividerBase = {
   '--divider-weight': 'sizes.1',
-  color: { base: 'gray.20', _dark: 'gray.80' },
+  borderStyle: 'solid',
+  color: 'border.default',
   borderColor: 'current',
   minWidth: '1',
   minHeight: '1',

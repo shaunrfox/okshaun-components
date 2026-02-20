@@ -1,7 +1,7 @@
-import * as React from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { cx, css } from '@styled-system/css';
 import { splitProps } from '~/utils/splitProps';
-import { type BoxProps } from '~/components/Box';
+import { Box, type BoxProps } from '~/components/Box';
 import { badge, type BadgeVariantProps } from '@styled-system/recipes';
 
 export type BadgeVariant =
@@ -14,7 +14,7 @@ export type BadgeVariant =
   | 'warning'
   | 'info';
 
-export type BadgeProps = BoxProps &
+export type BadgeProps = Omit<BoxProps, keyof BadgeVariantProps> &
   Omit<BadgeVariantProps, 'standalone' | 'dot'> & {
     /** Number to show in badge. If provided, switches to count mode. */
     count?: number;
@@ -24,8 +24,6 @@ export type BadgeProps = BoxProps &
     overflowCount?: number;
     /** Color scheme of the badge. Default: 'danger' */
     variant?: BadgeVariant;
-    /** Additional class name */
-    className?: string;
     /** Content to wrap with the badge */
     children?: React.ReactNode;
   };
@@ -66,11 +64,11 @@ export const Badge = (props: BadgeProps) => {
   } = props;
   const [className, otherProps] = splitProps(rest);
   // Track count changes for animation
-  const prevCountRef = React.useRef<number | undefined>(count);
-  const [isAnimating, setIsAnimating] = React.useState(false);
+  const prevCountRef = useRef<number | undefined>(count);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Trigger animation when count changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (count !== undefined && prevCountRef.current !== count) {
       // Only animate if count actually changed (not on initial render)
       if (prevCountRef.current !== undefined) {
@@ -121,27 +119,25 @@ export const Badge = (props: BadgeProps) => {
   }
 
   const indicator = isVisible ? (
-    <span className={cx(classes.indicator, animationClass)}>
+    <Box as="span" className={cx(classes.indicator, animationClass)}>
       {displayCount}
-    </span>
+    </Box>
   ) : null;
 
   // Standalone mode: just return the indicator
   if (isStandalone) {
     return (
-      <span ref={ref} className={cx(classes.root, className)} {...otherProps}>
+      <Box as="span" ref={ref} className={cx(classes.root, className)} {...otherProps}>
         {indicator}
-      </span>
+      </Box>
     );
   }
 
   // Wrapper mode: wrap children with positioned indicator
   return (
-    <span ref={ref} className={cx(classes.root, className)} {...otherProps}>
+    <Box as="span" ref={ref} className={cx(classes.root, className)} {...otherProps}>
       {children}
       {indicator}
-    </span>
+    </Box>
   );
 };
-
-Badge.displayName = 'Badge';

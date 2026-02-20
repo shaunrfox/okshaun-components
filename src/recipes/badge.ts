@@ -146,9 +146,6 @@ export const badgeRecipe = defineSlotRecipe({
         indicator: {
           minW: '16',
           h: 'fit',
-          // w: '4',
-          // h: '4',
-          // p: '3',
         },
       },
     },
@@ -159,9 +156,6 @@ export const badgeRecipe = defineSlotRecipe({
         indicator: {
           minW: '20',
           h: 'fit',
-          // w: '6',
-          // h: '6',
-          // p: '4',
         },
       },
     },
@@ -172,9 +166,6 @@ export const badgeRecipe = defineSlotRecipe({
         indicator: {
           minW: '24',
           h: 'fit',
-          // w: '8',
-          // h: '8',
-          // p: '5',
         },
       },
     },

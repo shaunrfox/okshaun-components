@@ -1,6 +1,6 @@
-import { ChangeEventHandler } from 'react';
-import { splitProps } from '~/utils/splitProps';
+import { ChangeEventHandler, ChangeEvent } from 'react';
 import { cx } from '@styled-system/css';
+import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { checkbox, type CheckboxVariantProps } from '@styled-system/recipes';
 import { Icon } from '../Icon';
@@ -31,7 +31,7 @@ export type CheckboxProps = Omit<
  * @example
  * const handleChange: CheckboxChangeHandler = (e) => setChecked(e.target.checked);
  */
-export type CheckboxChangeEvent = React.ChangeEvent<HTMLInputElement>;
+export type CheckboxChangeEvent = ChangeEvent<HTMLInputElement>;
 
 /**
  * Helper type for checkbox change handler functions
