@@ -2,6 +2,7 @@ import type { timePicker } from '@styled-system/recipes';
 import type React from 'react';
 import { useEffect, useRef } from 'react';
 import { Box } from '~/components/Box';
+import { MenuListItem } from '~/components/Menu';
 
 export interface TimeValue {
   hour: number; // always 24h (0–23)
@@ -11,7 +12,9 @@ export interface TimeValue {
 export type HourCycle = '12' | '24';
 
 export interface TimeListProps {
-  value: TimeValue | null;
+  selectedHour: number | null;     // display hour: 1–12 for 12h, 0–23 for 24h
+  selectedMinute: number | null;
+  selectedMeridiem: 'AM' | 'PM' | null;
   onSelect: (time: TimeValue) => void;
   hourCycle: HourCycle;
   minuteStep: number;
@@ -19,13 +22,6 @@ export interface TimeListProps {
 }
 
 // ─── 12h conversion ────────────────────────────────────────────────────────────
-
-function to12h(hour: number): { displayHour: number; meridiem: 'AM' | 'PM' } {
-  if (hour === 0) return { displayHour: 12, meridiem: 'AM' };
-  if (hour < 12) return { displayHour: hour, meridiem: 'AM' };
-  if (hour === 12) return { displayHour: 12, meridiem: 'PM' };
-  return { displayHour: hour - 12, meridiem: 'PM' };
-}
 
 function from12h(displayHour: number, meridiem: 'AM' | 'PM'): number {
   if (meridiem === 'AM') return displayHour === 12 ? 0 : displayHour;
@@ -35,7 +31,9 @@ function from12h(displayHour: number, meridiem: 'AM' | 'PM'): number {
 // ─── TimeList ──────────────────────────────────────────────────────────────────
 
 export const TimeList: React.FC<TimeListProps> = ({
-  value,
+  selectedHour,
+  selectedMinute,
+  selectedMeridiem,
   onSelect,
   hourCycle,
   minuteStep,
@@ -54,15 +52,6 @@ export const TimeList: React.FC<TimeListProps> = ({
 
   const meridiems: Array<'AM' | 'PM'> = ['AM', 'PM'];
 
-  // Determine currently selected display values
-  const currentMeridiem = value ? to12h(value.hour).meridiem : null;
-  const currentDisplayHour = value
-    ? is12h
-      ? to12h(value.hour).displayHour
-      : value.hour
-    : null;
-  const currentMinute = value?.minute ?? null;
-
   // Refs for scroll-into-view
   const hourColRef = useRef<HTMLDivElement>(null);
   const minuteColRef = useRef<HTMLDivElement>(null);
@@ -72,10 +61,15 @@ export const TimeList: React.FC<TimeListProps> = ({
   // biome-ignore lint/correctness/useExhaustiveDependencies: intentional empty deps — scroll once on mount when popover opens
   useEffect(() => {
     const scrollToSelected = (colRef: React.RefObject<HTMLDivElement | null>, selector: string) => {
-      const el = colRef.current?.querySelector(selector) as HTMLElement | null;
-      if (el) {
-        el.scrollIntoView({ block: 'start', behavior: 'instant' });
-      }
+      const col = colRef.current;
+      const el = col?.querySelector(selector) as HTMLElement | null;
+      if (!col || !el) return;
+      const colRect = col.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      // el's offset from col's top in the scrollable content
+      const elRelativeTop = elRect.top - colRect.top + col.scrollTop;
+      // Center the selected item vertically in the column
+      col.scrollTop = elRelativeTop - col.clientHeight / 2 + el.clientHeight / 2;
     };
     scrollToSelected(hourColRef, '[aria-selected="true"]');
     scrollToSelected(minuteColRef, '[aria-selected="true"]');
@@ -85,22 +79,20 @@ export const TimeList: React.FC<TimeListProps> = ({
   // ── Selection handlers ────────────────────────────────────────────────────
 
   const handleHourSelect = (displayHour: number) => {
-    const hour = is12h
-      ? from12h(displayHour, currentMeridiem ?? 'AM')
-      : displayHour;
-    onSelect({ hour, minute: currentMinute ?? 0 });
+    const hour = is12h ? from12h(displayHour, selectedMeridiem ?? 'AM') : displayHour;
+    onSelect({ hour, minute: selectedMinute ?? 0 });
   };
 
   const handleMinuteSelect = (minute: number) => {
     const hour = is12h
-      ? from12h(currentDisplayHour ?? 12, currentMeridiem ?? 'AM')
-      : currentDisplayHour ?? 0;
+      ? from12h(selectedHour ?? 12, selectedMeridiem ?? 'AM')
+      : selectedHour ?? 0;
     onSelect({ hour, minute });
   };
 
   const handleMeridiemSelect = (meridiem: 'AM' | 'PM') => {
-    const hour = from12h(currentDisplayHour ?? 12, meridiem);
-    onSelect({ hour, minute: currentMinute ?? 0 });
+    const hour = from12h(selectedHour ?? 12, meridiem);
+    onSelect({ hour, minute: selectedMinute ?? 0 });
   };
 
   // ── Column renderer ────────────────────────────────────────────────────────
@@ -122,29 +114,16 @@ export const TimeList: React.FC<TimeListProps> = ({
       aria-orientation="vertical"
     >
       <Box className={classes.columnLabel}>{label}</Box>
-      {items.map(item => {
-        const isSelected = item === selectedItem;
-        return (
-          <Box
-            key={String(item)}
-            as="button"
-            type="button"
-            role="option"
-            aria-selected={isSelected}
-            tabIndex={isSelected ? 0 : -1}
-            className={classes.listItem}
-            onClick={() => onItemSelect(item)}
-            onKeyDown={(e: React.KeyboardEvent) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                onItemSelect(item);
-              }
-            }}
-          >
-            {formatItem(item)}
-          </Box>
-        );
-      })}
+      {items.map(item => (
+        <MenuListItem
+          key={String(item)}
+          label={formatItem(item)}
+          selected={item === selectedItem}
+          type="action"
+          justifyContent="center"
+          onClick={() => onItemSelect(item)}
+        />
+      ))}
     </Box>
   );
 
@@ -154,9 +133,9 @@ export const TimeList: React.FC<TimeListProps> = ({
     <>
       {renderColumn(
         hourColRef,
-        is12h ? 'Hr' : 'Hr',
+        'Hr',
         hours,
-        currentDisplayHour,
+        selectedHour,
         handleHourSelect,
         pad2,
         'Hour',
@@ -165,7 +144,7 @@ export const TimeList: React.FC<TimeListProps> = ({
         minuteColRef,
         'Min',
         minutes,
-        currentMinute,
+        selectedMinute,
         handleMinuteSelect,
         pad2,
         'Minute',
@@ -175,7 +154,7 @@ export const TimeList: React.FC<TimeListProps> = ({
           meridiemColRef,
           '',
           meridiems,
-          currentMeridiem,
+          selectedMeridiem,
           handleMeridiemSelect,
           (m: string) => m,
           'AM or PM',

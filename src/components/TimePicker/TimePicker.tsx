@@ -7,7 +7,6 @@ import {
   shift,
   useDismiss,
   useFloating,
-  useFocus,
   useInteractions,
 } from '@floating-ui/react';
 import { cx } from '@styled-system/css';
@@ -172,15 +171,32 @@ export const TimePicker = (props: TimePickerProps) => {
     whileElementsMounted: autoUpdate,
   });
 
-  const focus = useFocus(context);
   const dismiss = useDismiss(context, { bubbles: false });
-  const { getReferenceProps, getFloatingProps } = useInteractions([focus, dismiss]);
+  const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
 
   // ── Segment refs ───────────────────────────────────────────────────────────
   const segmentRefs = useRef<(HTMLElement | null)[]>([]);
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const setContainerRef = useCallback((el: HTMLDivElement | null) => {
+    containerRef.current = el;
+    refs.setReference(el);
+  }, [refs.setReference]);
+
   const focusSegment = useCallback((index: number) => {
     segmentRefs.current[index]?.focus();
   }, []);
+
+  const handleSegmentBlur = useCallback((e: React.FocusEvent) => {
+    setFocusedSegment(null);
+    const related = e.relatedTarget as Node | null;
+    if (
+      !containerRef.current?.contains(related) &&
+      !refs.floating.current?.contains(related)
+    ) {
+      handleOpenChange(false);
+    }
+  }, [refs.floating, handleOpenChange]);
 
   // ── Emit change ────────────────────────────────────────────────────────────
   const emitChange = useCallback((vals: NumericValues, meridiem: 'AM' | 'PM' | null) => {
@@ -243,8 +259,15 @@ export const TimePicker = (props: TimePickerProps) => {
 
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      const current = numericVals[type] ?? min - 1;
-      const next = current >= max ? min : current + 1;
+      const step = type === 'minute' ? minuteStep : 1;
+      const currentVal = numericVals[type];
+      let next: number;
+      if (currentVal === null) {
+        next = Math.floor(max / step) * step;
+      } else {
+        const steppedDown = Math.ceil(currentVal / step) * step - step;
+        next = steppedDown < min ? Math.floor(max / step) * step : steppedDown;
+      }
       const newVals = { ...numericVals, [type]: next };
       setNumericVals(newVals);
       setRawInput(prev => ({ ...prev, [type]: '' }));
@@ -254,8 +277,15 @@ export const TimePicker = (props: TimePickerProps) => {
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      const current = numericVals[type] ?? max + 1;
-      const next = current <= min ? max : current - 1;
+      const step = type === 'minute' ? minuteStep : 1;
+      const currentVal = numericVals[type];
+      let next: number;
+      if (currentVal === null) {
+        next = min;
+      } else {
+        const steppedUp = Math.floor(currentVal / step) * step + step;
+        next = steppedUp > max ? min : steppedUp;
+      }
       const newVals = { ...numericVals, [type]: next };
       setNumericVals(newVals);
       setRawInput(prev => ({ ...prev, [type]: '' }));
@@ -302,7 +332,7 @@ export const TimePicker = (props: TimePickerProps) => {
         });
       }
     }
-  }, [segments, numericVals, rawInput, ampm, focusSegment, emitChange, handleOpenChange]);
+  }, [segments, numericVals, rawInput, ampm, minuteStep, focusSegment, emitChange, handleOpenChange]);
 
   // ── TimeList selection ─────────────────────────────────────────────────────
   const handleTimeListSelect = useCallback((tv: TimeValue) => {
@@ -320,14 +350,10 @@ export const TimePicker = (props: TimePickerProps) => {
   // ── Recipe classes ─────────────────────────────────────────────────────────
   const classes = timePicker({ size });
 
-  // ── Build the current TimeValue (24h) for passing to TimeList ─────────────
-  const currentTimeValue: TimeValue | null = (() => {
-    if (numericVals.hour === null || numericVals.minute === null) return null;
-    const hour24 = hourCycle === '12'
-      ? from12hDisplay(numericVals.hour, ampm ?? 'AM')
-      : numericVals.hour;
-    return { hour: hour24, minute: numericVals.minute };
-  })();
+  // ── Values passed directly to TimeList (display format) ──────────────────
+  // numericVals.hour is already in display format (1–12 for 12h, 0–23 for 24h)
+  const selectedDisplayHour = numericVals.hour;
+  const selectedMinute = numericVals.minute;
 
   // ── Render segments ────────────────────────────────────────────────────────
   const renderSegments = () => {
@@ -345,12 +371,12 @@ export const TimePicker = (props: TimePickerProps) => {
             aria-label="AM or PM"
             aria-valuetext={display}
             className={classes.segment}
-            color={ampm === null ? 'text.placeholder' : undefined}
+            color={ampm === null ? (error ? 'text.danger' : 'text.placeholder') : undefined}
             ref={(el: HTMLElement | null) => {
               segmentRefs.current[idx] = el;
             }}
-            onFocus={() => setFocusedSegment('ampm')}
-            onBlur={() => setFocusedSegment(null)}
+            onFocus={() => { setFocusedSegment('ampm'); if (!disabled) handleOpenChange(true); }}
+            onBlur={handleSegmentBlur}
             onKeyDown={(e: React.KeyboardEvent) => handleSegmentKeyDown(e, idx)}
           >
             {display}
@@ -384,12 +410,12 @@ export const TimePicker = (props: TimePickerProps) => {
           aria-valuemax={seg.max}
           aria-valuetext={display}
           className={classes.segment}
-          color={isPlaceholder ? 'text.placeholder' : undefined}
+          color={isPlaceholder ? (error ? 'text.danger' : 'text.placeholder') : undefined}
           ref={(el: HTMLElement | null) => {
             segmentRefs.current[idx] = el;
           }}
-          onFocus={() => setFocusedSegment(seg.type)}
-          onBlur={() => setFocusedSegment(null)}
+          onFocus={() => { setFocusedSegment(seg.type); if (!disabled) handleOpenChange(true); }}
+          onBlur={handleSegmentBlur}
           onKeyDown={(e: React.KeyboardEvent) => handleSegmentKeyDown(e, idx)}
         >
           {display}
@@ -421,12 +447,16 @@ export const TimePicker = (props: TimePickerProps) => {
     <Box className={cx(classes.root, className)} {...rest}>
       {/* Segmented input */}
       <Box
-        ref={refs.setReference}
+        ref={setContainerRef}
         className={classes.input}
         role="group"
         aria-label={label}
         aria-disabled={disabled}
         data-error={error ? true : undefined}
+        data-open={isOpen || undefined}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          if (e.target === e.currentTarget && !disabled) segmentRefs.current[0]?.focus();
+        }}
         {...(getReferenceProps() as Record<string, unknown>)}
       >
         {renderSegments()}
@@ -446,7 +476,9 @@ export const TimePicker = (props: TimePickerProps) => {
               aria-modal={false}
             >
               <TimeList
-                value={currentTimeValue}
+                selectedHour={selectedDisplayHour}
+                selectedMinute={selectedMinute}
+                selectedMeridiem={ampm}
                 onSelect={handleTimeListSelect}
                 hourCycle={hourCycle}
                 minuteStep={minuteStep}

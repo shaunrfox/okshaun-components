@@ -35,6 +35,11 @@ const timePickerBase = {
       borderColor: 'border.focused',
       outlineColor: 'border.focused',
     },
+    _open: {
+      bg: 'bg.input.pressed',
+      borderColor: 'border.focused',
+      outlineColor: 'border.focused',
+    },
     _disabled: {
       bg: 'bg.disabled',
       borderColor: 'border.disabled',
@@ -46,7 +51,16 @@ const timePickerBase = {
       bg: 'bg.danger',
       borderColor: 'border.danger',
       color: 'text.danger',
+      _hover: {
+        bg: 'bg.danger.hovered',
+        borderColor: 'border.danger',
+      },
       _focusWithin: {
+        bg: 'bg.danger',
+        borderColor: 'border.danger',
+        outlineColor: 'border.danger',
+      },
+      _open: {
         bg: 'bg.danger',
         borderColor: 'border.danger',
         outlineColor: 'border.danger',
@@ -66,10 +80,8 @@ const timePickerBase = {
     fontVariantNumeric: 'tabular-nums',
     minWidth: '1.5em',
     textAlign: 'center',
-    color: 'text',
     _focusVisible: {
-      bg: 'bg.selected',
-      color: 'text.selected',
+      bg: 'bg.neutral.hovered',
     },
   },
 

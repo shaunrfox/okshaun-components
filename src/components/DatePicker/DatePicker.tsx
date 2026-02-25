@@ -7,7 +7,6 @@ import {
   shift,
   useDismiss,
   useFloating,
-  useFocus,
   useInteractions,
 } from '@floating-ui/react';
 import { cx } from '@styled-system/css';
@@ -152,16 +151,32 @@ export const DatePicker = (props: DatePickerProps) => {
     whileElementsMounted: autoUpdate,
   });
 
-  const focus = useFocus(context);
   const dismiss = useDismiss(context, { bubbles: false });
-  const { getReferenceProps, getFloatingProps } = useInteractions([focus, dismiss]);
+  const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
 
   // ── Segment refs for programmatic focus ───────────────────────────────────
   const segmentRefs = useRef<(HTMLElement | null)[]>([]);
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const setContainerRef = useCallback((el: HTMLDivElement | null) => {
+    containerRef.current = el;
+    refs.setReference(el);
+  }, [refs.setReference]);
+
   const focusSegment = useCallback((index: number) => {
     segmentRefs.current[index]?.focus();
   }, []);
+
+  const handleSegmentBlur = useCallback((e: React.FocusEvent) => {
+    setFocusedSegment(null);
+    const related = e.relatedTarget as Node | null;
+    if (
+      !containerRef.current?.contains(related) &&
+      !refs.floating.current?.contains(related)
+    ) {
+      handleOpenChange(false);
+    }
+  }, [refs.floating, handleOpenChange]);
 
   // ── Segment → onChange emission ───────────────────────────────────────────
   const emitChange = useCallback((next: SegmentValues) => {
@@ -206,16 +221,16 @@ export const DatePicker = (props: DatePickerProps) => {
 
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      const current = segments[type] ?? seg.min - 1;
-      const next = current >= seg.max ? seg.min : current + 1;
+      const current = segments[type] ?? seg.max + 1;
+      const next = current <= seg.min ? seg.max : current - 1;
       updateSegment(next, '');
       return;
     }
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      const current = segments[type] ?? seg.max + 1;
-      const next = current <= seg.min ? seg.max : current - 1;
+      const current = segments[type] ?? seg.min - 1;
+      const next = current >= seg.max ? seg.min : current + 1;
       updateSegment(next, '');
       return;
     }
@@ -326,13 +341,13 @@ export const DatePicker = (props: DatePickerProps) => {
           aria-valuemax={seg.max}
           aria-valuetext={display}
           className={classes.segment}
-          color={isPlaceholder ? 'text.placeholder' : undefined}
+          color={isPlaceholder ? (error ? 'text.danger' : 'text.placeholder') : undefined}
           data-focused={focusedSegment === seg.type ? true : undefined}
           ref={(el: HTMLElement | null) => {
             segmentRefs.current[idx] = el;
           }}
-          onFocus={() => setFocusedSegment(seg.type)}
-          onBlur={() => setFocusedSegment(null)}
+          onFocus={() => { setFocusedSegment(seg.type); if (!disabled) handleOpenChange(true); }}
+          onBlur={handleSegmentBlur}
           onKeyDown={(e: React.KeyboardEvent) => handleSegmentKeyDown(e, idx)}
         >
           {display}
@@ -360,12 +375,16 @@ export const DatePicker = (props: DatePickerProps) => {
     <Box className={cx(classes.root, className)} {...rest}>
       {/* Segmented input container */}
       <Box
-        ref={refs.setReference}
+        ref={setContainerRef}
         className={classes.input}
         role="group"
         aria-label={label}
         aria-disabled={disabled}
         data-error={error ? true : undefined}
+        data-open={isOpen || undefined}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          if (e.target === e.currentTarget && !disabled) segmentRefs.current[0]?.focus();
+        }}
         {...(getReferenceProps() as Record<string, unknown>)}
       >
         {renderSegments()}
