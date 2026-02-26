@@ -15,6 +15,7 @@ export * from './radii';
 export * from './shadows';
 export * from './sizes';
 export * from './spacings';
+export * from './zIndex';
 
 /*
 Officially supported token types
