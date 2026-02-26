@@ -1,293 +1,122 @@
+// src/components/Tooltip/Tooltip.tsx
+import {
+  FloatingArrow,
+  FloatingPortal,
+  type Placement,
+  arrow,
+  autoUpdate,
+  flip,
+  offset as floatingOffset,
+  shift,
+  useDismiss,
+  useFloating,
+  useFocus,
+  useHover,
+  useInteractions,
+  useRole,
+} from '@floating-ui/react';
 import { cx } from '@styled-system/css';
 import { type TooltipVariantProps, tooltip } from '@styled-system/recipes';
-import {
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { Text } from '../Text';
 
-export type Position =
-  | 'top'
-  | 'bottom'
-  | 'left'
-  | 'right'
-  | 'top-start'
-  | 'bottom-start'
-  | 'left-start'
-  | 'right-start'
-  | 'top-end'
-  | 'bottom-end'
-  | 'left-end'
-  | 'right-end';
-
-export type TooltipProps = Omit<BoxProps, keyof TooltipVariantProps> &
+export type TooltipProps = Omit<BoxProps, keyof TooltipVariantProps | 'children'> &
   TooltipVariantProps & {
+    /** Tooltip body text (required) */
     text: string;
+    /** Optional bold title rendered above the text */
     title?: string;
+    /** Show/hide the arrow caret. Default: true */
     caret?: boolean;
-    position?: Position;
+    /** Floating UI placement. Automatically flips if it doesn't fit. Default: 'bottom' */
+    placement?: Placement;
+    /** Distance in px between trigger and tooltip. Default: 8 */
+    offset?: number;
+    /** Hover open/close delay in ms, or { open, close } for separate delays */
+    delay?: number | { open: number; close: number };
+    /** Trigger element. Wrapped in a <span> to attach the floating ref. */
     children?: ReactNode;
-    trigger?: 'onHover' | 'onClick';
   };
 
 export const Tooltip = (props: TooltipProps) => {
   const {
-    trigger = 'onHover',
     caret = true,
     size = 'md',
     text,
     title,
     children,
-    position = 'bottom',
+    placement = 'bottom',
+    offset = 8,
+    delay,
     ...rest
   } = props;
+
   const [className, otherProps] = splitProps(rest);
-  const [currentPlacement, setCurrentPlacement] = useState(position);
+  const [isOpen, setIsOpen] = useState(false);
+  const arrowRef = useRef<SVGSVGElement>(null);
 
-  const [show, setShow] = useState(false);
-  const tooltipRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const resolvedPlacement = typeof position === 'string' ? position : 'bottom';
-
-  const clockWisePlacement = useMemo(
-    () => [
-      'bottom',
-      'bottom-start',
-      'bottom-end',
-      'left',
-      'left-start',
-      'left-end',
-      'top',
-      'top-start',
-      'top-end',
-      'right',
-      'right-start',
-      'right-end',
+  const { refs, floatingStyles, context } = useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
+    placement,
+    middleware: [
+      floatingOffset(offset),
+      flip(),
+      shift({ padding: 8 }),
+      arrow({ element: arrowRef }),
     ],
-    [],
-  );
-
-  const getClockwise = useCallback(
-    (start: Position): Position[] => {
-      const index = clockWisePlacement.indexOf(start as string);
-      if (index === -1) return clockWisePlacement as Position[];
-
-      const reordered = [
-        ...(clockWisePlacement.slice(index + 1) as Position[]),
-        ...(clockWisePlacement.slice(0, index) as Position[]),
-      ];
-      return reordered;
-    },
-    [clockWisePlacement],
-  );
-
-  const checkPosition = useCallback(() => {
-    const tooltipPositioning = tooltipRef.current;
-    const triggerPositioning = triggerRef.current;
-    if (!tooltipPositioning || !triggerPositioning) return;
-
-    const triggerRect = triggerPositioning.getBoundingClientRect();
-    const fallbacks = getClockwise(resolvedPlacement);
-
-    for (const positioning of [resolvedPlacement, ...fallbacks]) {
-      const tooltipRect = getSimulatedRect(
-        triggerRect,
-        tooltipPositioning.offsetWidth,
-        tooltipPositioning.offsetHeight,
-        positioning,
-      );
-
-      const fits =
-        tooltipRect.top >= 0 &&
-        tooltipRect.left >= 0 &&
-        tooltipRect.bottom <= window.innerHeight &&
-        tooltipRect.right <= window.innerWidth;
-
-      if (fits) {
-        setCurrentPlacement(positioning);
-        return;
-      }
-    }
-    setCurrentPlacement(resolvedPlacement);
-  }, [resolvedPlacement, getClockwise]);
-
-  function getSimulatedRect(
-    triggerRect: DOMRect,
-    tooltipWidth: number,
-    tooltipHeight: number,
-    place: Position,
-  ) {
-    const gap = 8;
-
-    const verticalCenter =
-      triggerRect.left + triggerRect.width / 2 - tooltipWidth / 2;
-    const horizontalCenter =
-      triggerRect.top + triggerRect.height / 2 - tooltipHeight / 2;
-
-    switch (place) {
-      case 'top':
-        return {
-          top: triggerRect.top - tooltipHeight - gap,
-          bottom: triggerRect.top - gap,
-          left: verticalCenter,
-          right: verticalCenter + tooltipWidth,
-        };
-      case 'top-start':
-        return {
-          top: triggerRect.top - tooltipHeight - gap,
-          bottom: triggerRect.top - gap,
-          left: triggerRect.left,
-          right: triggerRect.left + tooltipWidth,
-        };
-      case 'top-end':
-        return {
-          top: triggerRect.top - tooltipHeight - gap,
-          bottom: triggerRect.top - gap,
-          left: triggerRect.right - tooltipWidth,
-          right: triggerRect.right,
-        };
-      case 'bottom':
-        return {
-          top: triggerRect.bottom + gap,
-          bottom: triggerRect.bottom + tooltipHeight + gap,
-          left: verticalCenter,
-          right: verticalCenter + tooltipWidth,
-        };
-      case 'bottom-start':
-        return {
-          top: triggerRect.bottom + gap,
-          bottom: triggerRect.bottom + gap + tooltipHeight,
-          left: triggerRect.left,
-          right: triggerRect.left + tooltipWidth,
-        };
-      case 'bottom-end':
-        return {
-          top: triggerRect.bottom + gap,
-          bottom: triggerRect.bottom + gap + tooltipHeight,
-          left: triggerRect.right - tooltipWidth,
-          right: triggerRect.right,
-        };
-      case 'left':
-        return {
-          top: horizontalCenter,
-          bottom: horizontalCenter + tooltipHeight,
-          left: triggerRect.left - tooltipWidth - gap,
-          right: triggerRect.left - gap,
-        };
-      case 'left-start':
-        return {
-          top: triggerRect.top,
-          bottom: triggerRect.top + tooltipHeight,
-          left: triggerRect.left - tooltipWidth - gap,
-          right: triggerRect.left - gap,
-        };
-      case 'left-end':
-        return {
-          top: triggerRect.bottom - tooltipHeight,
-          bottom: triggerRect.bottom,
-          left: triggerRect.left - tooltipWidth - gap,
-          right: triggerRect.left - gap,
-        };
-      case 'right':
-        return {
-          top: horizontalCenter,
-          bottom: horizontalCenter + tooltipHeight,
-          left: triggerRect.right + gap,
-          right: triggerRect.right + gap + tooltipWidth,
-        };
-      case 'right-start':
-        return {
-          top: triggerRect.top,
-          bottom: triggerRect.top + tooltipHeight,
-          left: triggerRect.right + gap,
-          right: triggerRect.right + gap + tooltipWidth,
-        };
-      case 'right-end':
-        return {
-          top: triggerRect.bottom - tooltipHeight,
-          bottom: triggerRect.bottom,
-          left: triggerRect.right + gap,
-          right: triggerRect.right + gap + tooltipWidth,
-        };
-      default:
-        return { top: 0, bottom: 0, left: 0, right: 0 };
-    }
-  }
-
-  useEffect(() => {
-    if (show) {
-      checkPosition();
-      window.addEventListener('resize', checkPosition);
-      return () => window.removeEventListener('resize', checkPosition);
-    }
-  }, [show, checkPosition]);
-
-  useEffect(() => {
-    if (trigger !== 'onClick') return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        tooltipRef.current &&
-        !tooltipRef.current.contains(event.target as Node) &&
-        triggerRef.current &&
-        !triggerRef.current.contains(event.target as Node)
-      ) {
-        setShow(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [trigger]);
-
-  const handleMouseEnter = () => {
-    if (trigger === 'onHover') setShow(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (trigger === 'onHover') setShow(false);
-  };
-
-  const handleClick = () => {
-    if (trigger === 'onClick') setShow((prev) => !prev);
-  };
-
-  const classes = tooltip({
-    position: currentPlacement,
-    caret,
-    size,
+    whileElementsMounted: autoUpdate,
   });
 
-  return (
-    <Box className={classes.wrapper} {...otherProps}>
-      <Box
-        ref={triggerRef}
-        onMouseEnter={trigger === 'onHover' ? handleMouseEnter : undefined}
-        onMouseLeave={trigger === 'onHover' ? handleMouseLeave : undefined}
-        onClick={trigger === 'onClick' ? handleClick : undefined}
-      >
-        {children}
-      </Box>
+  const hover = useHover(context, { move: false, delay });
+  const focus = useFocus(context);
+  const dismiss = useDismiss(context);
+  // useRole sets role="tooltip" on the floating element and
+  // aria-describedby on the reference — no manual useId needed
+  const role = useRole(context, { role: 'tooltip' });
 
-      {show && (
-        <Box className={cx(classes.tooltipContent, className)} ref={tooltipRef}>
-          {title && <Text className={classes.title}>{title}</Text>}
-          {text && (
-            <Text
-              className={classes.text}
-              color={title ? 'text.subtlest' : 'text'}
-            >
-              {text}
-            </Text>
-          )}
-        </Box>
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    hover,
+    focus,
+    dismiss,
+    role,
+  ]);
+
+  const classes = tooltip({ size, hasTitle: !!title });
+
+  return (
+    <>
+      <span ref={refs.setReference} {...getReferenceProps()}>
+        {children}
+      </span>
+
+      {isOpen && (
+        <FloatingPortal>
+          <Box
+            ref={refs.setFloating}
+            style={floatingStyles}
+            className={cx(classes.tooltipContent, className)}
+            {...(getFloatingProps() as Record<string, unknown>)}
+            {...otherProps}
+          >
+            {title && <Text className={classes.title}>{title}</Text>}
+            {text && <Text className={classes.text}>{text}</Text>}
+            {caret && (
+              <FloatingArrow
+                ref={arrowRef}
+                context={context}
+                // Match the tooltip background color via CSS variable.
+                // Panda generates this variable from the bg token in the recipe.
+                fill="var(--colors-gray-90)"
+                style={{ filter: 'var(--dark-mode-arrow-filter, none)' }}
+              />
+            )}
+          </Box>
+        </FloatingPortal>
       )}
-    </Box>
+    </>
   );
 };
