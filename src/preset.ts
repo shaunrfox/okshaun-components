@@ -69,6 +69,7 @@ const theme = {
   semanticTokens: {
     colors: semanticTokens.colors,
     shadows: semanticTokens.shadows,
+    zIndex: semanticTokens.zIndex,
   },
 };
 
@@ -82,6 +83,7 @@ export const okshaunPreset = definePreset({
       semanticTokens: {
         colors: theme.semanticTokens.colors,
         shadows: theme.semanticTokens.shadows,
+        zIndex: theme.semanticTokens.zIndex,
       },
       breakpoints: breakpoints,
       containerSizes: containerSizes,
