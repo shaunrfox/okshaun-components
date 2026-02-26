@@ -8,7 +8,7 @@ const modalBase = {
     position: 'fixed',
     inset: '0',
     bg: 'blanket',
-    zIndex: 1100,
+    zIndex: 'overlay',
     // Initial state matches animation start
     opacity: '0',
     // Animation handled via data-state
@@ -28,7 +28,7 @@ const modalBase = {
     borderRadius: '12',
     boxShadow: 'overlay',
     outline: 'none',
-    zIndex: 1101,
+    zIndex: 'modal',
     // Initial state matches animation start
     opacity: '0',
     transform: 'translate(-50%, -50%) scale(0.95) translateY(-10px)',

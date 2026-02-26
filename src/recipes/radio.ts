@@ -21,7 +21,7 @@ export const radioRecipe = defineSlotRecipe({
       height: 'full',
       margin: '0',
       padding: '0',
-      zIndex: 1,
+      zIndex: 'raised',
       cursor: 'inherit',
       "& ~ [name='radio']": {
         display: 'inline-grid',

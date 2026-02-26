@@ -25,7 +25,7 @@ export const checkboxRecipe = defineSlotRecipe({
       height: 'full',
       margin: '0',
       padding: '0',
-      zIndex: 1,
+      zIndex: 'raised',
       cursor: 'inherit',
       "& ~ [name='checkbox']": {
         display: 'inline-grid',
