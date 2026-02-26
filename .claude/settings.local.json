@@ -2,9 +2,17 @@
   "permissions": {
     "allow": [
       "Bash(npm run panda:*)",
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "Bash(npx react-doctor@latest:*)",
+      "Bash(npx panda:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx biome:*)"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "panda"
+  ]
 }
