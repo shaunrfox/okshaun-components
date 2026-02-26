@@ -390,14 +390,13 @@ export const AvatarStack: Story = {
         ].map((src, i) => (
           <Box
             key={src}
-            style={{ marginLeft: i > 0 ? '-8px' : '0' }}
+            style={{ marginLeft: i > 0 ? '-8px' : '0', zIndex: 4 - i }}
             position="relative"
-            zIndex={4 - i}
           >
             <Avatar size="md" src={src} borderColor="var(--colors-bg)" />
           </Box>
         ))}
-        <Box style={{ marginLeft: '-8px' }} position="relative" zIndex={0}>
+        <Box style={{ marginLeft: '-8px' }} position="relative" zIndex='base'>
           <Avatar size="md" fallback="+3" />
         </Box>
       </Box>

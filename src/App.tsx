@@ -235,7 +235,7 @@ function AppContent() {
         mb={'56'}
         position={'sticky'}
         top={'0'}
-        zIndex={'100'}
+        zIndex={'[100]'}
       >
         <Container maxW={'5xl'}>
           <HStack
