@@ -14,16 +14,20 @@ import {
   useHover,
   useInteractions,
   useRole,
-} from '@floating-ui/react';
-import { cx } from '@styled-system/css';
-import { type TooltipVariantProps, tooltip } from '@styled-system/recipes';
-import { useRef, useState } from 'react';
-import type { ReactNode } from 'react';
-import { splitProps } from '~/utils/splitProps';
-import { Box, type BoxProps } from '../Box';
-import { Text } from '../Text';
+} from "@floating-ui/react";
+import { cx } from "@styled-system/css";
+import { type TooltipVariantProps, tooltip } from "@styled-system/recipes";
+import { token } from "@styled-system/tokens";
+import { useRef, useState } from "react";
+import type { ReactNode } from "react";
+import { splitProps } from "~/utils/splitProps";
+import { Box, type BoxProps } from "../Box";
+import { Text } from "../Text";
 
-export type TooltipProps = Omit<BoxProps, keyof TooltipVariantProps | 'children'> &
+export type TooltipProps = Omit<
+  BoxProps,
+  keyof TooltipVariantProps | "children"
+> &
   TooltipVariantProps & {
     /** Tooltip body text (required) */
     text: string;
@@ -44,11 +48,11 @@ export type TooltipProps = Omit<BoxProps, keyof TooltipVariantProps | 'children'
 export const Tooltip = (props: TooltipProps) => {
   const {
     caret = true,
-    size = 'md',
+    size = "md",
     text,
     title,
     children,
-    placement = 'bottom',
+    placement = "bottom",
     offset = 8,
     delay,
     ...rest
@@ -76,7 +80,7 @@ export const Tooltip = (props: TooltipProps) => {
   const dismiss = useDismiss(context);
   // useRole sets role="tooltip" on the floating element and
   // aria-describedby on the reference — no manual useId needed
-  const role = useRole(context, { role: 'tooltip' });
+  const role = useRole(context, { role: "tooltip" });
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
     hover,
@@ -108,10 +112,7 @@ export const Tooltip = (props: TooltipProps) => {
               <FloatingArrow
                 ref={arrowRef}
                 context={context}
-                // Match the tooltip background color via CSS variable.
-                // Panda generates this variable from the bg token in the recipe.
-                fill="var(--colors-gray-90)"
-                style={{ filter: 'var(--dark-mode-arrow-filter, none)' }}
+                fill={token.var("colors.bg.neutral.inverse")}
               />
             )}
           </Box>
