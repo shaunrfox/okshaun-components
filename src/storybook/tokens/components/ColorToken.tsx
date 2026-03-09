@@ -1,52 +1,30 @@
-import { Flex, Grid } from '@styled-system/jsx';
-import type { ColorToken as ColorTokenType } from '@styled-system/tokens';
-import type React from 'react';
-import { useEffect, useState } from 'react';
-import { Box } from '~/components/Box';
-import { Spinner } from '~/components/Spinner';
-import { Text } from '~/components/Text';
-import { Tooltip } from '~/components/Tooltip';
-import { type TokenMeta, getToken } from './tokenLoader';
+import { Flex } from "@styled-system/jsx";
+import {
+  token,
+  type ColorToken as ColorTokenType,
+} from "@styled-system/tokens";
 
-export interface ColorTokenProps {
+import { Box } from "~/components/Box";
+import { Text } from "~/components/Text";
+import { Tooltip } from "~/components/Tooltip";
+
+export type ColorTokenProps = {
   tokenKey: ColorTokenType;
+};
+
+export interface TokenMeta {
+  key: string;
+  value: string;
+  variable: string;
 }
 
-export const ColorToken: React.FC<ColorTokenProps> = ({ tokenKey }) => {
-  const [tokenMeta, setTokenMeta] = useState<TokenMeta | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadToken = async () => {
-      const token = await getToken(`colors.${tokenKey}`);
-      setTokenMeta(token);
-      setLoading(false);
-    };
-    loadToken();
-  }, [tokenKey]);
-
-  if (loading) {
-    return (
-      <Flex direction="column" align="center" gap="2">
-        <Grid
-          placeContent="center"
-          width="32"
-          height="32"
-          border="default"
-          borderRadius="4"
-        >
-          <Spinner size="sm" />
-        </Grid>
-        <Text textStyle="mono.xs" color="text.disabled">
-          ###
-        </Text>
-      </Flex>
-    );
-  }
-
-  if (!tokenMeta) {
-    return 'Token not found';
-  }
+export const ColorToken = ({ tokenKey }: ColorTokenProps) => {
+  const tokenPath: `colors.${ColorTokenType}` = `colors.${tokenKey}`;
+  const tokenMeta: TokenMeta = {
+    key: tokenPath,
+    value: token(tokenPath),
+    variable: token.var(tokenPath),
+  };
 
   return (
     <Flex direction="column" align="center" gap="2">
@@ -56,11 +34,11 @@ export const ColorToken: React.FC<ColorTokenProps> = ({ tokenKey }) => {
           height="32"
           border="default"
           borderRadius="4"
-          style={{ backgroundColor: tokenMeta.variable }}
+          bg={tokenKey}
         />
       </Tooltip>
 
-      <Text textStyle="mono.xs">{tokenMeta.key.replace(/^.*?\./, '')}</Text>
+      <Text textStyle="mono.xs">{tokenKey.replace(/^.*?\./, "")}</Text>
     </Flex>
   );
 };
