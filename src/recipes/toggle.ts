@@ -37,7 +37,7 @@ const toggleBase = {
     m: 0,
     p: 0,
     border: 'none',
-    zIndex: 0,
+    zIndex: 'base',
     cursor: 'inherit',
 
     "& ~ [name='circle']": {

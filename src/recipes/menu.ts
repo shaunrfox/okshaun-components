@@ -13,7 +13,7 @@ const menuBase = {
     borderRadius: '8',
     boxShadow: 'medium',
     outline: 'none',
-    zIndex: 1000,
+    zIndex: 'elevated',
   },
 
   // Individual menu item row
