@@ -6,8 +6,6 @@ const datePickerBase = {
     flexDirection: 'column',
     position: 'relative',
   },
-
-  // The segmented input container — visually identical to textinput
   input: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -48,22 +46,25 @@ const datePickerBase = {
       pointerEvents: 'none',
     },
     _error: {
+      bg: 'bg.danger',
       borderColor: 'border.danger',
+      color: 'text.danger',
       _hover: {
+        bg: 'bg.danger.hovered',
         borderColor: 'border.danger',
       },
       _focusWithin: {
+        bg: 'bg.danger',
         borderColor: 'border.danger',
         outlineColor: 'border.danger',
       },
       _open: {
+        bg: 'bg.danger',
         borderColor: 'border.danger',
         outlineColor: 'border.danger',
       },
     },
   },
-
-  // Individual focusable segment span (MM, DD, YYYY)
   segment: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -85,16 +86,12 @@ const datePickerBase = {
       color: 'text.disabled',
     },
   },
-
-  // The "/" or " " literal between date segments
   separator: {
     color: 'text.placeholder',
     userSelect: 'none',
     display: 'inline-flex',
     alignItems: 'center',
   },
-
-  // The floating calendar container
   popover: {
     display: 'flex',
     flexDirection: 'column',
@@ -109,8 +106,6 @@ const datePickerBase = {
     overflow: 'hidden',
     outline: 'none',
   },
-
-  // Month/year navigation row
   calendarHeader: {
     fontFamily: 'mono',
     display: 'flex',
@@ -121,8 +116,6 @@ const datePickerBase = {
     borderBottom: 'default',
     gap: '4',
   },
-
-  // 7-column grid for the days
   calendarGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(7, 1fr)',
@@ -131,16 +124,12 @@ const datePickerBase = {
     py: '4',
     pb: '8',
   },
-
-  // Su Mo Tu We Th Fr Sa column headers
   weekdayLabel: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     userSelect: 'none',
   },
-
-  // Individual day button in the grid
   day: {
     alignItems: 'center',
     justifyContent: 'center',

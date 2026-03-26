@@ -216,14 +216,14 @@
       "background]___[value:tan.60",
       "background]___[value:tan.40]___[cond:_dark",
       "gap]___[value:56",
-      "gridTemplateColumns]___[value:auto 1fr",
-      "columnGap]___[value:12",
-      "rowGap]___[value:32",
+      "justifyContent]___[value:flex-end",
       "textStyle]___[value:mono.md",
       "marginRight]___[value:16",
       "textStyle]___[value:heading.sm",
       "gridColumn]___[value:1 / -1",
-      "justifyContent]___[value:flex-end",
+      "gridTemplateColumns]___[value:auto 1fr",
+      "columnGap]___[value:12",
+      "rowGap]___[value:32",
       "gap]___[value:0",
       "justifyContent]___[value:center",
       "padding]___[value:40",
@@ -457,6 +457,7 @@
       "text": [
         "family]___[value:body]___[recipe:text",
         "size]___[value:16]___[recipe:text",
+        "family]___[value:inherit]___[recipe:text",
         "allCaps]___[value:true]___[recipe:text",
         "size]___[value:14]___[recipe:text",
         "size]___[value:12]___[recipe:text",
@@ -486,6 +487,8 @@
         "iconBefore]___[value:arrow-left]___[recipe:button",
         "size]___[value:sm]___[recipe:button",
         "iconAfter]___[value:arrow-right]___[recipe:button",
+        "size]___[value:xl]___[recipe:button",
+        "iconBefore]___[value:alarm]___[recipe:button",
         "iconBefore]___[value:plus]___[recipe:button",
         "iconBefore]___[value:timer]___[recipe:button",
         "variant]___[value:selectedBold]___[recipe:button",
@@ -582,6 +585,7 @@
         "variant]___[value:info]___[recipe:badge"
       ],
       "link": [
+        "family]___[value:inherit]___[recipe:link",
         "family]___[value:body]___[recipe:link",
         "size]___[value:16]___[recipe:link",
         "family]___[value:mono]___[recipe:link",
@@ -629,9 +633,7 @@
         "inverse]___[value:true]___[recipe:spinner"
       ],
       "checkboxInput": [],
-      "label": [
-        "family]___[value:sans]___[recipe:label"
-      ],
+      "label": ["family]___[value:sans]___[recipe:label"],
       "checkbox": [],
       "chip": [
         "size]___[value:md]___[recipe:chip",
@@ -657,9 +659,7 @@
         "size]___[value:sm]___[recipe:tooltip",
         "size]___[value:lg]___[recipe:tooltip"
       ],
-      "listItemGroup": [
-        "density]___[value:compact]___[recipe:listItemGroup"
-      ],
+      "listItemGroup": ["density]___[value:compact]___[recipe:listItemGroup"],
       "toggle": [],
       "highlightText": [],
       "modal": [
@@ -681,12 +681,8 @@
       ],
       "radioInput": [],
       "radio": [],
-      "select": [
-        "size]___[value:md]___[recipe:select"
-      ],
-      "timePicker": [
-        "size]___[value:md]___[recipe:timePicker"
-      ],
+      "select": ["size]___[value:md]___[recipe:select"],
+      "timePicker": ["size]___[value:md]___[recipe:timePicker"],
       "toggleInput": []
     }
   }

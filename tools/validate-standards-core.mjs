@@ -64,7 +64,8 @@ const createDiagnostic = ({
   severity,
 });
 
-const VALIDATE_IGNORE_PATTERN = /validate-ignore:\s*([a-z0-9-]+(?:\s*,\s*[a-z0-9-]+)*)/;
+const VALIDATE_IGNORE_PATTERN =
+  /validate-ignore:\s*([a-z0-9-]+(?:\s*,\s*[a-z0-9-]+)*)/;
 
 const isIgnored = (content, index, rule) => {
   const lines = content.slice(0, index).split('\n');

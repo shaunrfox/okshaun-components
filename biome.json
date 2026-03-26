@@ -7,7 +7,9 @@
       "!**/storybook-static",
       "!**/src/styled-system",
       "!**/node_modules",
-      "!**/*.d.ts"
+      "!**/*.d.ts",
+      "!.tmp/**",
+      "!public/playroom-static.css"
     ]
   },
   "formatter": {

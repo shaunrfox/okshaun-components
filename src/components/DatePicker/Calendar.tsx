@@ -9,7 +9,7 @@ import { Text } from '~/components/Text';
 
 export interface DateValue {
   year: number;
-  month: number; // 1-indexed (1 = January)
+  month: number;
   day: number;
 }
 
@@ -19,20 +19,17 @@ export interface CalendarProps {
   minDate?: DateValue;
   maxDate?: DateValue;
   viewYear: number;
-  viewMonth: number; // 1-indexed
+  viewMonth: number;
   onViewChange: (year: number, month: number) => void;
   classes: ReturnType<typeof datePicker>;
 }
 
-// ─── Date math utilities ───────────────────────────────────────────────────────
-
 function daysInMonth(year: number, month: number): number {
-  // new Date(year, month, 0) returns the last day of the prior month (month is 0-indexed)
   return new Date(year, month, 0).getDate();
 }
 
 function firstDayOfWeek(year: number, month: number): number {
-  return new Date(year, month - 1, 1).getDay(); // 0 = Sunday
+  return new Date(year, month - 1, 1).getDay();
 }
 
 function prevMonth(year: number, month: number): [number, number] {
@@ -106,8 +103,6 @@ const CALENDAR_ROW_KEYS = [
   'week-6',
 ] as const;
 
-// ─── Calendar component ────────────────────────────────────────────────────────
-
 export const Calendar = (props: CalendarProps) => {
   const {
     value,
@@ -121,13 +116,12 @@ export const Calendar = (props: CalendarProps) => {
   } = props;
   const today = getTodayValue();
 
-  // Build 42-cell grid (6 rows × 7 cols)
   const firstDay = firstDayOfWeek(viewYear, viewMonth);
   const totalDays = daysInMonth(viewYear, viewMonth);
   const gridDays: Array<number | null> = [];
 
   for (let i = 0; i < firstDay; i++) gridDays.push(null);
-  for (let d = 1; d <= totalDays; d++) gridDays.push(d);
+  for (let day = 1; day <= totalDays; day++) gridDays.push(day);
   while (gridDays.length < 42) gridDays.push(null);
 
   const [prevYear, prevMonthNum] = prevMonth(viewYear, viewMonth);
@@ -153,16 +147,15 @@ export const Calendar = (props: CalendarProps) => {
     }
   };
 
-  const handleDayKeyDown = (e: KeyboardEvent, day: number) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
+  const handleDayKeyDown = (event: KeyboardEvent, day: number) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
       handleDayClick(day);
     }
   };
 
   return (
     <>
-      {/* Calendar header: prev / Month Year / next */}
       <Box className={classes.calendarHeader}>
         <IconButton
           altText="Previous month"
@@ -194,34 +187,31 @@ export const Calendar = (props: CalendarProps) => {
         />
       </Box>
 
-      {/* Calendar grid */}
       <Box
         className={classes.calendarGrid}
         role="grid"
         aria-label={`${MONTH_NAMES[viewMonth - 1]} ${viewYear}`}
       >
-        {/* Weekday headers */}
-        {WEEKDAY_LABELS.map((label, i) => (
+        {WEEKDAY_LABELS.map((label, index) => (
           <Text
+            key={label}
             textStyle="mono.xs"
             allCaps
-            key={label}
             className={classes.weekdayLabel}
             role="columnheader"
-            aria-label={WEEKDAY_FULL[i]}
+            aria-label={WEEKDAY_FULL[index]}
           >
             {label}
           </Text>
         ))}
 
-        {/* Day cells — render in rows of 7 */}
-        {CALENDAR_ROW_KEYS.map((rowKey, rowIdx) => {
-          const rowDays = gridDays.slice(rowIdx * 7, rowIdx * 7 + 7);
+        {CALENDAR_ROW_KEYS.map((rowKey, rowIndex) => {
+          const rowDays = gridDays.slice(rowIndex * 7, rowIndex * 7 + 7);
 
           return (
             <Box key={rowKey} role="row" display="contents">
-              {rowDays.map((day, colIdx) => {
-                const weekday = WEEKDAY_FULL[colIdx];
+              {rowDays.map((day, columnIndex) => {
+                const weekday = WEEKDAY_FULL[columnIndex];
 
                 if (!day) {
                   return (
@@ -268,8 +258,8 @@ export const Calendar = (props: CalendarProps) => {
                       aria-label={`${MONTH_NAMES[viewMonth - 1]} ${day}, ${viewYear}${isToday ? ', today' : ''}${isSelected ? ', selected' : ''}`}
                       tabIndex={isUnavailable ? -1 : 0}
                       onClick={() => !isUnavailable && handleDayClick(day)}
-                      onKeyDown={(e: KeyboardEvent) =>
-                        !isUnavailable && handleDayKeyDown(e, day)
+                      onKeyDown={(event: KeyboardEvent) =>
+                        !isUnavailable && handleDayKeyDown(event, day)
                       }
                     >
                       {String(day)}

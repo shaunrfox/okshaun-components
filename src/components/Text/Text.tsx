@@ -24,8 +24,8 @@ export const Text = (props: TextProps) => {
     children,
     textStyle,
     weight,
-    role, // role if use in form input text for refrence, also semantic role overrides if non-semantic tag.
-    tabIndex, // tabIndex main use for in list or loop select text using key press focus
+    role,
+    tabIndex,
     truncate,
     allCaps,
     ...rest

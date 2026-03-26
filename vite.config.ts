@@ -1,5 +1,5 @@
+import { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
@@ -48,7 +48,7 @@ export default defineConfig(({ mode: _mode, command }) => {
                   src: 'src/styled-system/specs',
                   dest: './',
                 },
-{
+                {
                   src: 'src/styled-system/styles.css',
                   dest: './',
                 },

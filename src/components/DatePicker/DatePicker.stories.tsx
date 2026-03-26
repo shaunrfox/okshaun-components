@@ -34,10 +34,7 @@ const ControlledDatePickerExample = () => {
   );
 };
 
-// ─── Stories ──────────────────────────────────────────────────────────────────
-
 export const Default: Story = {
-  args: {},
   render: () => <DatePicker />,
 };
 
@@ -50,7 +47,7 @@ export const WithMinMax: Story = {
   name: 'With Min/Max',
   render: () => (
     <VStack>
-      <Text>Within: 2026-02-10 – 2026-03-20</Text>
+      <Text>Within: 2026-02-10 - 2026-03-20</Text>
       <DatePicker
         value={{ year: 2026, month: 2, day: 19 }}
         minDate={{ year: 2026, month: 2, day: 10 }}

@@ -1,4 +1,5 @@
 import { defineRecipe } from '@pandacss/dev';
+
 import {
   fontSizes as fontSizeTokens,
   fontWeights as fontWeightTokens,
@@ -124,6 +125,9 @@ const linkBase = {
     borderRadius: '{sizes.4}',
     outlineColor: 'border.focused',
   },
+  'p &': {
+    backgroundImage: 'linear-gradient(90deg, currentColor 0% 100%)',
+  },
 };
 
 const linkVariants = {
@@ -131,7 +135,7 @@ const linkVariants = {
   _disabled: {
     true: {
       cursor: 'not-allowed',
-      opacity: '40%',
+      color: 'text.disabled',
       pointerEvents: 'none',
     },
   },
@@ -145,13 +149,12 @@ const labelBase = {
   color: 'text',
 };
 
-//Copied linkvarients, don't have styles defined for this yet
 const labelVariants = {
   ...textVariants,
   _disabled: {
     true: {
       cursor: 'not-allowed',
-      opacity: '70%',
+      color: 'text.disabled',
       pointerEvents: 'none',
     },
   },
@@ -162,6 +165,9 @@ export const textRecipe = defineRecipe({
   jsx: ['Text'],
   base: textBase,
   variants: textVariants,
+  defaultVariants: {
+    family: 'inherit',
+  },
 });
 
 export const headingRecipe = defineRecipe({
@@ -179,6 +185,9 @@ export const linkRecipe = defineRecipe({
   jsx: ['Link'],
   base: linkBase,
   variants: linkVariants,
+  defaultVariants: {
+    family: 'inherit',
+  },
 });
 
 export const labelRecipe = defineRecipe({

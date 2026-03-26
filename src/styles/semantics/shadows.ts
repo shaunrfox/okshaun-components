@@ -5,28 +5,39 @@ export const shadows = defineSemanticTokens.shadows({
     value: { base: '{shadows.zeroShadow}', _dark: '{shadows.zeroShadow}' },
   },
   raised: {
-    value: { base: '{shadows.raisedLight}', _dark: '{shadows.raisedDark}' },
+    default: {
+      value: { base: '{shadows.raisedLight}', _dark: '{shadows.raisedDark}' },
+    },
+    up: {
+      value: {
+        base: '{shadows.raisedLightUp}',
+        _dark: '{shadows.raisedDarkUp}',
+      },
+    },
   },
   elevated: {
-    value: { base: '{shadows.elevatedLight}', _dark: '{shadows.elevatedDark}' },
+    default: {
+      value: {
+        base: '{shadows.elevatedLight}',
+        _dark: '{shadows.elevatedDark}',
+      },
+    },
+    up: {
+      value: {
+        base: '{shadows.elevatedLightUp}',
+        _dark: '{shadows.elevatedDarkUp}',
+      },
+    },
   },
   overlay: {
-    value: { base: '{shadows.overlayLight}', _dark: '{shadows.overlayDark}' },
+    default: {
+      value: { base: '{shadows.overlayLight}', _dark: '{shadows.overlayDark}' },
+    },
+    dark: {
+      value: { base: '{shadows.overlayDark}', _dark: '{shadows.overlayLight}' },
+    },
   },
   overflow: {
     value: { base: '{shadows.overflowLight}', _dark: '{shadows.overflowDark}' },
-  },
-  // TODO: delete below once migration is complete
-  low: {
-    value: { base: '{shadows.lowLight}', _dark: '{shadows.lowDark}' },
-  },
-  medium: {
-    value: { base: '{shadows.mediumLight}', _dark: '{shadows.mediumDark}' },
-  },
-  high: {
-    value: { base: '{shadows.highLight}', _dark: '{shadows.highDark}' },
-  },
-  inset: {
-    value: { base: '{shadows.insetLight}', _dark: '{shadows.insetDark}' },
   },
 });
