@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: Generate Panda CSS
-        run: npx panda codegen
+        run: npx panda
 
       - name: Generate SVG Sprite
         run: npm run generate-sprite
