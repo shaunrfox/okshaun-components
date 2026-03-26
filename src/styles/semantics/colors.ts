@@ -31,7 +31,7 @@ export const colors = defineSemanticTokens.colors({
       value: { base: '{colors.neutral.10}', _dark: '{colors.darkNeutral.10}' },
     },
     neutral: {
-      default: {
+      DEFAULT: {
         value: {
           base: '{colors.neutralA.20}',
           _dark: '{colors.darkNeutralA.20}',
@@ -50,7 +50,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       bold: {
-        default: {
+        DEFAULT: {
           value: {
             base: '{colors.neutral.80}',
             _dark: '{colors.darkNeutral.80}',
@@ -70,7 +70,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       boldest: {
-        default: {
+        DEFAULT: {
           value: {
             base: '{colors.neutral.100}',
             _dark: '{colors.darkNeutral.110}',
@@ -78,7 +78,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       subtle: {
-        default: { value: { base: '#ffffff02', _dark: '#ffffff02' } },
+        DEFAULT: { value: { base: '#ffffff02', _dark: '#ffffff02' } },
         hovered: {
           value: {
             base: '{colors.neutralA.20}',
@@ -93,14 +93,14 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       inverse: {
-        default: {
+        DEFAULT: {
           value: {
             base: '{colors.darkNeutral.0}',
             _dark: '{colors.neutral.0}',
           },
         },
         subtle: {
-          default: { value: { base: '#00000029', _dark: '#ffffff29' } },
+          DEFAULT: { value: { base: '#00000029', _dark: '#ffffff29' } },
           hovered: { value: { base: '#0000003d', _dark: '#ffffff3d' } },
         },
       },
@@ -112,7 +112,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     selected: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.blue.10}', _dark: '{colors.blue.100}' },
       },
       hovered: {
@@ -122,7 +122,7 @@ export const colors = defineSemanticTokens.colors({
         value: { base: '{colors.blue.30}', _dark: '{colors.blue.80}' },
       },
       bold: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.blue.70}', _dark: '{colors.blue.40}' },
         },
         hovered: {
@@ -135,7 +135,7 @@ export const colors = defineSemanticTokens.colors({
     },
     brand: {
       bold: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.brand.70}', _dark: '{colors.brand.40}' },
         },
         hovered: {
@@ -146,7 +146,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       boldest: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.brand.100}', _dark: '{colors.brand.20}' },
         },
         hovered: {
@@ -157,7 +157,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       subtle: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.brand.10}', _dark: '{colors.brand.100}' },
         },
         hovered: {
@@ -169,7 +169,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     success: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.lime.10}', _dark: '{colors.lime.100}' },
       },
       hovered: {
@@ -179,7 +179,7 @@ export const colors = defineSemanticTokens.colors({
         value: { base: '{colors.lime.30}', _dark: '{colors.lime.80}' },
       },
       bold: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.lime.70}', _dark: '{colors.lime.40}' },
         },
         hovered: {
@@ -191,7 +191,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     warning: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.orange.10}', _dark: '{colors.orange.100}' },
       },
       hovered: {
@@ -201,7 +201,7 @@ export const colors = defineSemanticTokens.colors({
         value: { base: '{colors.orange.30}', _dark: '{colors.orange.80}' },
       },
       bold: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.orange.30}', _dark: '{colors.orange.30}' },
         },
         hovered: {
@@ -213,13 +213,13 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     danger: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.red.10}', _dark: '{colors.red.100}' },
       },
       hovered: { value: { base: '{colors.red.20}', _dark: '{colors.red.90}' } },
       pressed: { value: { base: '{colors.red.30}', _dark: '{colors.red.80}' } },
       bold: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.red.70}', _dark: '{colors.red.40}' },
         },
         hovered: {
@@ -231,7 +231,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     info: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.blue.10}', _dark: '{colors.blue.100}' },
       },
       hovered: {
@@ -241,7 +241,7 @@ export const colors = defineSemanticTokens.colors({
         value: { base: '{colors.blue.30}', _dark: '{colors.blue.80}' },
       },
       bold: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.blue.70}', _dark: '{colors.blue.40}' },
         },
         hovered: {
@@ -253,7 +253,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     input: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.neutral.0}', _dark: '{colors.darkNeutral.20}' },
       },
       hovered: {
@@ -268,13 +268,13 @@ export const colors = defineSemanticTokens.colors({
     },
     accent: {
       // hue: {
-      // subtle: { default: {}, hovered: {}, pressed: {}, },
-      // subtler: { default: {}, hovered: {}, pressed: {}, },
-      // subtlest: { default: {}, hovered: {}, pressed: {}, },
-      // bold: { default: {}, hovered: {}, pressed: {}, }
+      // subtle: { DEFAULT: {}, hovered: {}, pressed: {}, },
+      // subtler: { DEFAULT: {}, hovered: {}, pressed: {}, },
+      // subtlest: { DEFAULT: {}, hovered: {}, pressed: {}, },
+      // bold: { DEFAULT: {}, hovered: {}, pressed: {}, }
       // },
       neutral: {
-        default: {
+        DEFAULT: {
           value: {
             base: '{colors.neutral.50}',
             _dark: '{colors.darkNeutral.50}',
@@ -300,7 +300,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       blue: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.blue.40}', _dark: '{colors.blue.70}' },
         },
         subtle: {
@@ -314,7 +314,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       green: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.green.40}', _dark: '{colors.green.70}' },
         },
         subtle: {
@@ -328,7 +328,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       indigo: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.indigo.40}', _dark: '{colors.indigo.70}' },
         },
         subtle: {
@@ -342,7 +342,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       lime: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.lime.40}', _dark: '{colors.lime.70}' },
         },
         subtle: {
@@ -356,7 +356,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       magenta: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.magenta.40}', _dark: '{colors.magenta.70}' },
         },
         subtle: {
@@ -370,7 +370,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       orange: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.orange.40}', _dark: '{colors.orange.70}' },
         },
         subtle: {
@@ -384,7 +384,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       purple: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.purple.40}', _dark: '{colors.purple.70}' },
         },
         subtle: {
@@ -398,7 +398,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       red: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.red.40}', _dark: '{colors.red.70}' },
         },
         subtle: {
@@ -412,7 +412,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       tan: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.tan.40}', _dark: '{colors.tan.70}' },
         },
         subtle: {
@@ -426,7 +426,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       teal: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.teal.40}', _dark: '{colors.teal.70}' },
         },
         subtle: {
@@ -440,7 +440,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       yellow: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.yellow.30}', _dark: '{colors.yellow.70}' },
         },
         subtle: {
@@ -456,12 +456,12 @@ export const colors = defineSemanticTokens.colors({
     },
   },
   blanket: {
-    default: { value: { base: '#17171775', _dark: '#10121499' } },
+    DEFAULT: { value: { base: '#17171775', _dark: '#10121499' } },
     danger: { value: { base: '#ef5c4814', _dark: '#e3493514' } },
     selected: { value: { base: '#388bff14', _dark: '#1d7afc14' } },
   },
   border: {
-    default: {
+    DEFAULT: {
       value: {
         base: '{colors.neutralA.30}',
         _dark: '{colors.darkNeutralA.30}',
@@ -471,7 +471,7 @@ export const colors = defineSemanticTokens.colors({
       value: { base: '{colors.neutral.90}', _dark: '{colors.darkNeutral.90}' },
     },
     inverse: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.neutral.0}', _dark: '{colors.darkNeutral.0}' },
       },
       focused: {
@@ -488,7 +488,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     focused: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.blue.50}', _dark: '{colors.blue.30}' },
       },
       inverse: {
@@ -509,7 +509,7 @@ export const colors = defineSemanticTokens.colors({
     info: { value: { base: '{colors.blue.50}', _dark: '{colors.blue.50}' } },
   },
   icon: {
-    default: {
+    DEFAULT: {
       value: {
         base: '{colors.neutral.100}',
         _dark: '{colors.darkNeutral.110}',
@@ -534,7 +534,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     decorative: {
-      default: {
+      DEFAULT: {
         value: {
           base: '{colors.neutral.50}',
           _dark: '{colors.darkNeutral.60}',
@@ -544,7 +544,7 @@ export const colors = defineSemanticTokens.colors({
         value: { base: '{colors.neutral.100}', _dark: '{colors.neutral.0}' },
       },
       inverse: {
-        default: {
+        DEFAULT: {
           value: {
             base: '{colors.neutral.30}',
             _dark: '{colors.darkNeutral.30}',
@@ -566,7 +566,7 @@ export const colors = defineSemanticTokens.colors({
     },
     success: { value: { base: '{colors.lime.60}', _dark: '{colors.lime.50}' } },
     warning: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.orange.60}', _dark: '{colors.orange.30}' },
       },
       inverse: {
@@ -577,17 +577,17 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     danger: {
-      default: { value: { base: '{colors.red.70}', _dark: '{colors.red.50}' } },
+      DEFAULT: { value: { base: '{colors.red.70}', _dark: '{colors.red.50}' } },
       inverse: { value: { base: '{colors.red.10}', _dark: '{colors.red.70}' } },
     },
     info: { value: { base: '{colors.blue.60}', _dark: '{colors.blue.50}' } },
   },
   link: {
-    default: { value: { base: '{colors.blue.50}', _dark: '{colors.blue.40}' } },
+    DEFAULT: { value: { base: '{colors.blue.50}', _dark: '{colors.blue.40}' } },
     pressed: { value: { base: '{colors.blue.60}', _dark: '{colors.blue.50}' } },
   },
   surface: {
-    default: {
+    DEFAULT: {
       value: { base: '{colors.neutral.0}', _dark: '{colors.darkNeutral.10}' },
     },
     hovered: {
@@ -600,7 +600,7 @@ export const colors = defineSemanticTokens.colors({
       value: { base: '{colors.neutral.10}', _dark: '{colors.darkNeutral.0}' },
     },
     raised: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.neutral.0}', _dark: '{colors.darkNeutral.0}' },
       },
       hovered: {
@@ -617,7 +617,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     overlay: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.neutral.0}', _dark: '{colors.darkNeutral.25}' },
       },
       hovered: {
@@ -634,7 +634,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     selected: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.blue.10}', _dark: '{colors.blue.70}' },
       },
       hovered: {
@@ -652,7 +652,7 @@ export const colors = defineSemanticTokens.colors({
     },
   },
   text: {
-    default: {
+    DEFAULT: {
       value: {
         base: '{colors.neutral.100}',
         _dark: '{colors.darkNeutral.100}',
@@ -671,7 +671,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     inverse: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.neutral.0}', _dark: '{colors.darkNeutral.10}' },
       },
       subtlest: {
@@ -694,7 +694,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     success: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.lime.50}', _dark: '{colors.lime.30}' },
       },
       inverse: {
@@ -702,7 +702,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     warning: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.orange.60}', _dark: '{colors.orange.40}' },
       },
       inverse: {
@@ -710,11 +710,11 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     danger: {
-      default: { value: { base: '{colors.red.50}', _dark: '{colors.red.30}' } },
+      DEFAULT: { value: { base: '{colors.red.50}', _dark: '{colors.red.30}' } },
       inverse: { value: { base: '{colors.red.30}', _dark: '{colors.red.50}' } },
     },
     info: {
-      default: {
+      DEFAULT: {
         value: { base: '{colors.blue.50}', _dark: '{colors.blue.40}' },
       },
       inverse: {
@@ -723,7 +723,7 @@ export const colors = defineSemanticTokens.colors({
     },
     accent: {
       neutral: {
-        default: {
+        DEFAULT: {
           value: {
             base: '{colors.neutral.80}',
             _dark: '{colors.darkNeutral.80}',
@@ -737,7 +737,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       red: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.red.50}', _dark: '{colors.red.30}' },
         },
         bold: {
@@ -745,7 +745,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       orange: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.orange.60}', _dark: '{colors.orange.50}' },
         },
         bold: {
@@ -753,7 +753,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       yellow: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.yellow.50}', _dark: '{colors.yellow.30}' },
         },
         bold: {
@@ -761,7 +761,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       lime: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.lime.50}', _dark: '{colors.lime.40}' },
         },
         bold: {
@@ -769,7 +769,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       green: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.green.50}', _dark: '{colors.green.40}' },
         },
         bold: {
@@ -777,7 +777,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       teal: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.teal.50}', _dark: '{colors.teal.40}' },
         },
         bold: {
@@ -785,7 +785,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       blue: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.blue.50}', _dark: '{colors.blue.40}' },
         },
         bold: {
@@ -793,7 +793,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       indigo: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.indigo.40}', _dark: '{colors.indigo.20}' },
         },
         bold: {
@@ -801,7 +801,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       purple: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.purple.50}', _dark: '{colors.purple.40}' },
         },
         bold: {
@@ -809,7 +809,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       magenta: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.magenta.60}', _dark: '{colors.magenta.40}' },
         },
         bold: {
@@ -817,7 +817,7 @@ export const colors = defineSemanticTokens.colors({
         },
       },
       tan: {
-        default: {
+        DEFAULT: {
           value: { base: '{colors.tan.50}', _dark: '{colors.tan.30}' },
         },
         bold: {

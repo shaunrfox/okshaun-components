@@ -5,7 +5,7 @@ export const shadows = defineSemanticTokens.shadows({
     value: { base: '{shadows.zeroShadow}', _dark: '{shadows.zeroShadow}' },
   },
   raised: {
-    default: {
+    DEFAULT: {
       value: { base: '{shadows.raisedLight}', _dark: '{shadows.raisedDark}' },
     },
     up: {
@@ -16,7 +16,7 @@ export const shadows = defineSemanticTokens.shadows({
     },
   },
   elevated: {
-    default: {
+    DEFAULT: {
       value: {
         base: '{shadows.elevatedLight}',
         _dark: '{shadows.elevatedDark}',
@@ -30,7 +30,7 @@ export const shadows = defineSemanticTokens.shadows({
     },
   },
   overlay: {
-    default: {
+    DEFAULT: {
       value: { base: '{shadows.overlayLight}', _dark: '{shadows.overlayDark}' },
     },
     dark: {
