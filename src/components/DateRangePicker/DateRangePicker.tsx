@@ -1,7 +1,11 @@
-import type React from 'react';
 import { Box } from '~/components/Box';
-import { DatePicker } from '../DatePicker/DatePicker';
-import type { DatePickerProps, DateValue } from '../DatePicker/DatePicker';
+import { Text } from '~/components/Text';
+
+import {
+  DatePicker,
+  type DatePickerProps,
+  type DateValue,
+} from '../DatePicker/DatePicker';
 
 export type DateRangePickerProps = {
   /** Start date value */
@@ -24,18 +28,19 @@ export type DateRangePickerProps = {
   label?: string;
 };
 
-export const DateRangePicker: React.FC<DateRangePickerProps> = ({
-  startValue,
-  endValue,
-  onStartChange,
-  onEndChange,
-  minDate,
-  maxDate,
-  disabled = false,
-  error = false,
-  size,
-  label = 'Date',
-}) => {
+export const DateRangePicker = (props: DateRangePickerProps) => {
+  const {
+    startValue,
+    endValue,
+    onStartChange,
+    onEndChange,
+    minDate,
+    maxDate,
+    disabled = false,
+    error = false,
+    size,
+    label = 'Date',
+  } = props;
   return (
     <Box display="flex" alignItems="center" gap="8">
       <DatePicker
@@ -49,6 +54,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
         error={error}
         size={size}
       />
+      <Text color={disabled ? 'text.disabled' : 'text.subtlest'}>&ndash;</Text>
       <DatePicker
         value={endValue}
         onChange={onEndChange}

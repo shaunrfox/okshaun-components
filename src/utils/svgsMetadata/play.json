@@ -1,0 +1,6 @@
+{
+  "aliases": ["start", "resume", "music", "audio", "stop", "play", "pause"],
+  "tags": ["media"],
+  "category": "Player",
+  "deprecated": false
+}

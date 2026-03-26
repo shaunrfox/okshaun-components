@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "show",
+    "visible",
+    "hidden",
+    "hide",
+    "visibility",
+    "view",
+    "eye",
+    "on"
+  ],
+  "tags": ["view"],
+  "category": "Toggles / Triggers",
+  "deprecated": false
+}

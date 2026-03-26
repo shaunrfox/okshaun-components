@@ -1,0 +1,20 @@
+{
+  "aliases": [
+    "information",
+    "details",
+    "help",
+    "support",
+    "info",
+    "lifebelt",
+    "lifesaver",
+    "safety",
+    "nautical",
+    "boats",
+    "ships",
+    "health & wellness",
+    "lifebuoy"
+  ],
+  "tags": ["help", "status"],
+  "category": "Status",
+  "deprecated": false
+}

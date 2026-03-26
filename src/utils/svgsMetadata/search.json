@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "find",
+    "lookup",
+    "query",
+    "search",
+    "locate",
+    "inspect",
+    "magnifying",
+    "glass"
+  ],
+  "tags": ["discovery"],
+  "category": "Actions",
+  "deprecated": false
+}

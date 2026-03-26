@@ -385,7 +385,7 @@ export const ErrorStory: Story = {
 // SIZE VARIANTS
 // ============================================================================
 
-export const PackingCompact: Story = {
+export const DensityCompact: Story = {
   render: () => {
     const Component = () => {
       const [value, setValue] = useState('');
@@ -399,7 +399,7 @@ export const PackingCompact: Story = {
             options={fruits}
             onSelect={(option) => setValue(option.label)}
             placeholder="Compact packing"
-            packing="compact"
+            density="compact"
           />
         </Box>
       );
@@ -408,7 +408,7 @@ export const PackingCompact: Story = {
   },
 };
 
-export const PackingComfortable: Story = {
+export const DensityComfortable: Story = {
   render: () => {
     const Component = () => {
       const [value, setValue] = useState('');
@@ -422,7 +422,7 @@ export const PackingComfortable: Story = {
             options={countries}
             onSelect={(option) => setValue(option.label)}
             placeholder="Comfortable packing"
-            packing="comfortable"
+            density="comfortable"
           />
         </Box>
       );

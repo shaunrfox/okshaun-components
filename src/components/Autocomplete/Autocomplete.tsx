@@ -1,25 +1,26 @@
 import {
   FloatingFocusManager,
   FloatingPortal,
-  type Placement,
-  autoUpdate,
-  flip,
-  offset as floatingOffset,
   size as floatingSize,
-  shift,
-  useClick,
+  type Placement,
   useDismiss,
-  useFloating,
   useInteractions,
   useListNavigation,
   useRole,
-} from "@floating-ui/react";
-import type { MenuVariantProps } from "@styled-system/recipes";
-import type React from "react";
-import { useCallback, useMemo, useRef, useState } from "react";
-import type { IconNamesList } from "../Icon";
-import { MenuList, MenuListItem } from "../Menu";
-import { TextInput, type TextInputProps } from "../TextInput";
+} from '@floating-ui/react';
+import { menu } from '@styled-system/recipes';
+import type { ChangeEvent, HTMLProps, KeyboardEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+import type { MenuDensity } from '~/components/Menu';
+import {
+  createOverlayMiddleware,
+  useOverlayFloating,
+} from '~/system/floating-ui/floating';
+
+import type { IconNamesList } from '../Icon';
+import { List, ListItem } from '../List';
+import { TextInput, type TextInputProps } from '../TextInput';
 
 export interface AutocompleteOption {
   /** Unique identifier for the option */
@@ -34,15 +35,19 @@ export interface AutocompleteOption {
   disabled?: boolean;
 }
 
-export type AutocompleteProps = MenuVariantProps & {
+export type AutocompleteProps = {
   /** Input name attribute */
   name: string;
   /** Current input value */
   value: string;
   /** Callback when input value changes */
   onChange: (value: string) => void;
+  /** Popup density */
+  density?: MenuDensity;
+  /** Deprecated alias for density */
+  packing?: MenuDensity;
   /** Size of the input */
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   /** Available options to filter and display */
   options: AutocompleteOption[];
   /** Callback when an option is selected */
@@ -66,7 +71,7 @@ export type AutocompleteProps = MenuVariantProps & {
   /** Props to pass to the TextInput */
   inputProps?: Omit<
     TextInputProps,
-    "name" | "value" | "onChange" | "disabled" | "error" | "id"
+    'name' | 'value' | 'onChange' | 'disabled' | 'error' | 'id'
   >;
 };
 
@@ -84,215 +89,227 @@ export const Autocomplete = (props: AutocompleteProps) => {
     onChange,
     options,
     onSelect,
+    density,
     placeholder,
-    placement = "bottom-start",
+    placement = 'bottom-start',
     offset = 4,
     id,
-    disabled = false,
-    error = false,
-    packing,
+    disabled,
+    error,
     size,
-    indicatorPosition,
     filterFn = defaultFilter,
-    noResultsMessage = "No results found",
+    noResultsMessage = 'No results found',
     inputProps,
+    packing,
   } = props;
+
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const listRef = useRef<(HTMLElement | null)[]>([]);
+  const resolvedDensity = density ?? packing ?? 'compact';
 
-  // Filter options based on input value
   const filteredOptions = useMemo(() => {
-    if (!value) return options;
-    return options.filter((option) => filterFn(option, value));
-  }, [options, value, filterFn]);
+    if (!value) {
+      return options;
+    }
 
-  // Floating UI setup
-  const { refs, floatingStyles, context } = useFloating({
+    return options.filter((option) => filterFn(option, value));
+  }, [filterFn, options, value]);
+  const disabledIndices = useMemo(() => {
+    return filteredOptions.flatMap((option, index) =>
+      option.disabled ? index : [],
+    );
+  }, [filteredOptions]);
+  const selectedOptionIndex = useMemo(() => {
+    return filteredOptions.findIndex(
+      (option) => !option.disabled && option.label === value,
+    );
+  }, [filteredOptions, value]);
+
+  const floating = useOverlayFloating({
     open,
     onOpenChange: setOpen,
     placement,
-    middleware: [
-      floatingOffset(offset),
-      flip(),
-      shift({ padding: 8 }),
-      floatingSize({
-        apply({ rects, elements }) {
-          Object.assign(elements.floating.style, {
-            minWidth: `${rects.reference.width}px`,
-          });
-        },
-      }),
-    ],
-    whileElementsMounted: autoUpdate,
+    middleware: createOverlayMiddleware({
+      offset,
+      extras: [
+        floatingSize({
+          apply({ rects, elements }) {
+            Object.assign(elements.floating.style, {
+              minWidth: `${rects.reference.width}px`,
+            });
+          },
+        }),
+      ],
+    }),
   });
-
-  // Interaction hooks
-  const click = useClick(context, { keyboardHandlers: false });
-  const dismiss = useDismiss(context);
-  const role = useRole(context, { role: "listbox" });
-  const listNavigation = useListNavigation(context, {
+  const dismiss = useDismiss(floating.context);
+  const role = useRole(floating.context, { role: 'listbox' });
+  const listNavigation = useListNavigation(floating.context, {
     listRef,
     activeIndex,
     onNavigate: setActiveIndex,
     virtual: true,
     loop: true,
+    disabledIndices,
   });
-
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
-    [click, dismiss, role, listNavigation],
+    [dismiss, role, listNavigation],
   );
+  const popupClasses = menu({ density: resolvedDensity });
 
   const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
-      if (!open) setOpen(true);
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChange(event.target.value);
+      setActiveIndex(null);
+      if (!open) {
+        setOpen(true);
+      }
     },
     [onChange, open],
   );
 
   const handleInputKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter" && open && filteredOptions.length > 0) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        // Use activeIndex if set, otherwise use first option
-        const indexToSelect = activeIndex !== null ? activeIndex : 0;
-        const option = filteredOptions[indexToSelect];
-
-        if (option && !option.disabled) {
-          onSelect(option);
-          onChange(option.label);
-          setOpen(false);
-        }
-      } else if (e.key === "Escape") {
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Escape') {
         setOpen(false);
-      } else if (e.key === "ArrowDown" && !open) {
+        return;
+      }
+
+      if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && !open) {
+        event.preventDefault();
         setOpen(true);
+        return;
       }
-    },
-    [activeIndex, filteredOptions, onSelect, onChange, open],
-  );
 
-  const handleMenuKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (
-        e.key === "Enter" &&
-        activeIndex !== null &&
-        filteredOptions[activeIndex]
-      ) {
-        e.preventDefault();
-        const option = filteredOptions[activeIndex];
-        if (!option.disabled) {
-          onSelect(option);
-          onChange(option.label);
-          setOpen(false);
-        }
+      if (event.key !== 'Enter' || !open || filteredOptions.length === 0) {
+        return;
       }
-    },
-    [activeIndex, filteredOptions, onSelect, onChange],
-  );
 
-  const handleOptionClick = useCallback(
-    (option: AutocompleteOption) => {
-      if (option.disabled) return;
+      event.preventDefault();
+      event.stopPropagation();
+
+      const indexToSelect = activeIndex !== null ? activeIndex : 0;
+      const option = filteredOptions[indexToSelect];
+
+      if (!option || option.disabled) {
+        return;
+      }
+
       onSelect(option);
       onChange(option.label);
       setOpen(false);
     },
-    [onSelect, onChange],
+    [activeIndex, filteredOptions, onChange, onSelect, open],
   );
 
-  const handleOptionKeyDown = useCallback(
-    (e: React.KeyboardEvent, option: AutocompleteOption) => {
-      if (option.disabled) return;
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        handleOptionClick(option);
+  const handleOptionClick = useCallback(
+    (option: AutocompleteOption) => {
+      if (option.disabled) {
+        return;
       }
+
+      onSelect(option);
+      onChange(option.label);
+      setOpen(false);
     },
-    [handleOptionClick],
+    [onChange, onSelect],
   );
 
-  const handleInputFocus = useCallback(() => {
-    if (filteredOptions.length > 0) {
-      setOpen(true);
+  useEffect(() => {
+    if (!open) {
+      setActiveIndex(null);
+      return;
     }
-  }, [filteredOptions.length]);
+
+    if (selectedOptionIndex >= 0) {
+      setActiveIndex(selectedOptionIndex);
+      return;
+    }
+
+    const firstEnabledIndex = filteredOptions.findIndex(
+      (option) => !option.disabled,
+    );
+    setActiveIndex(firstEnabledIndex >= 0 ? firstEnabledIndex : null);
+  }, [filteredOptions, open, selectedOptionIndex]);
+
+  const activeOption =
+    activeIndex !== null ? filteredOptions[activeIndex] : null;
+  const activeOptionId = activeOption
+    ? `${id ?? name}-option-${activeOption.id}`
+    : undefined;
+  const listboxId = `${id ?? name}-listbox`;
 
   return (
     <>
       <TextInput
-        ref={refs.setReference}
+        ref={floating.refs.setReference}
         name={name}
         id={id}
         value={value}
         size={size}
         onChange={handleInputChange}
-        onFocus={handleInputFocus}
         placeholder={placeholder}
         disabled={disabled}
         error={error}
         autoComplete="off"
         aria-autocomplete="list"
+        aria-controls={open ? listboxId : undefined}
         aria-expanded={open}
-        aria-controls={open ? `${id ?? name}-listbox` : undefined}
+        aria-haspopup="listbox"
+        aria-activedescendant={activeOptionId}
         {...(getReferenceProps({
+          ...(inputProps as Record<string, unknown>),
           onKeyDown: handleInputKeyDown,
+          onFocus: () => setOpen(true),
+          role: 'combobox',
         }) as Record<string, unknown>)}
-        {...inputProps}
       />
 
       {open && (
         <FloatingPortal>
           <FloatingFocusManager
-            context={context}
+            context={floating.context}
             modal={false}
             initialFocus={-1}
           >
-            <MenuList
-              ref={refs.setFloating}
-              style={floatingStyles}
-              id={`${id ?? name}-listbox`}
-              // biome-ignore lint/a11y/useSemanticElements: custom combobox listbox must not use <select> — role="listbox" is correct ARIA for custom autocomplete
+            {/* biome-ignore lint/a11y/useSemanticElements: custom combobox popup uses an ARIA listbox on a non-native container */}
+            <List
+              ref={floating.refs.setFloating}
+              className={popupClasses.wrapper}
+              style={floating.floatingStyles}
+              id={listboxId}
               role="listbox"
-              packing={packing}
-              indicatorPosition={indicatorPosition}
-              onKeyDown={handleMenuKeyDown}
+              density={resolvedDensity}
+              query={value}
+              highlightMatches
               {...(getFloatingProps() as Record<string, unknown>)}
             >
               {filteredOptions.length === 0 ? (
-                <MenuListItem
-                  label={noResultsMessage}
-                  disabled
-                  indicatorPosition={indicatorPosition}
-                />
+                <ListItem label={noResultsMessage} disabled />
               ) : (
                 filteredOptions.map((option, index) => {
                   const isActive = activeIndex === index;
+                  const isSelected = option.label === value;
 
                   return (
-                    <MenuListItem
+                    <ListItem
                       key={option.id}
+                      id={`${id ?? name}-option-${option.id}`}
                       ref={(node: HTMLElement | null) => {
                         listRef.current[index] = node;
                       }}
                       active={isActive}
-                      aria-selected={isActive}
+                      selected={isSelected}
                       disabled={option.disabled}
                       label={option.label}
                       description={option.description}
-                      iconLeft={option.icon as IconNamesList}
-                      highlightMatch={value || undefined}
-                      indicatorPosition={indicatorPosition}
+                      iconBefore={option.icon as IconNamesList}
                       {...(getItemProps({
                         index,
                         active: isActive,
                         onClick: () => handleOptionClick(option),
-                        onKeyDown: (e: React.KeyboardEvent) =>
-                          handleOptionKeyDown(e, option),
-                      } as React.HTMLProps<HTMLElement> & {
+                      } as HTMLProps<HTMLElement> & {
                         index?: number;
                         active?: boolean;
                       }) as Record<string, unknown>)}
@@ -300,7 +317,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
                   );
                 })
               )}
-            </MenuList>
+            </List>
           </FloatingFocusManager>
         </FloatingPortal>
       )}

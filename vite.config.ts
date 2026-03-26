@@ -1,13 +1,14 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { resolve } from "path";
-import dts from "vite-plugin-dts";
-import { viteStaticCopy } from "vite-plugin-static-copy";
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode: _mode, command }) => {
   const isGitHubPages = !!process.env.GH_REPO;
-  const isLibraryBuild = command === "build" && !isGitHubPages;
+  const isStorybook = process.env.STORYBOOK === 'true';
+  const isLibraryBuild = command === 'build' && !isGitHubPages && !isStorybook;
 
   if (isGitHubPages) {
     // GitHub Pages build
@@ -16,12 +17,12 @@ export default defineConfig(({ mode: _mode, command }) => {
       base: `/${process.env.GH_REPO}/`,
       resolve: {
         alias: {
-          "~": resolve(__dirname, "./src"),
-          "@styled-system": resolve(__dirname, "./src/styled-system"),
+          '~': resolve(__dirname, './src'),
+          '@styled-system': resolve(__dirname, './src/styled-system'),
         },
       },
       build: {
-        outDir: "dist",
+        outDir: 'dist',
       },
     };
   }
@@ -34,34 +35,34 @@ export default defineConfig(({ mode: _mode, command }) => {
       ...(isLibraryBuild
         ? [
             dts({
-              include: ["src/**/*"],
-              exclude: ["src/**/*.stories.tsx"],
-              entryRoot: "src",
-              outDir: "dist/types",
+              include: ['src/**/*'],
+              exclude: ['src/**/*.stories.tsx'],
+              entryRoot: 'src',
+              outDir: 'dist/types',
               rollupTypes: true,
               copyDtsFiles: true,
             }),
             viteStaticCopy({
               targets: [
                 {
-                  src: "src/styled-system/specs",
-                  dest: "./",
+                  src: 'src/styled-system/specs',
+                  dest: './',
+                },
+{
+                  src: 'src/styled-system/styles.css',
+                  dest: './',
                 },
                 {
-                  src: "src/styled-system/styles",
-                  dest: "./",
+                  src: '.mcp.json',
+                  dest: './',
                 },
                 {
-                  src: "src/styled-system/styles.css",
-                  dest: "./",
+                  src: 'panda.buildinfo.json',
+                  dest: './',
                 },
                 {
-                  src: ".mcp.json",
-                  dest: "./",
-                },
-                {
-                  src: "src/types/index.d.ts",
-                  dest: "./",
+                  src: 'src/types/index.d.ts',
+                  dest: './',
                 },
               ],
             }),
@@ -70,29 +71,29 @@ export default defineConfig(({ mode: _mode, command }) => {
     ],
     resolve: {
       alias: {
-        "~": resolve(__dirname, "./src"),
-        "@styled-system": resolve(__dirname, "./src/styled-system"),
+        '~': resolve(__dirname, './src'),
+        '@styled-system': resolve(__dirname, './src/styled-system'),
       },
     },
     build: {
       lib: {
-        name: "cetec-design-system",
+        name: 'cetec-design-system',
         entry: {
-          index: resolve(__dirname, "src/index.ts"),
-          preset: resolve(__dirname, "src/preset.ts"),
+          index: resolve(__dirname, 'src/index.ts'),
+          preset: resolve(__dirname, 'src/preset.ts'),
         },
-        formats: ["es"],
+        formats: ['es'],
       },
       rollupOptions: {
-        external: ["react", "react-dom", "react/jsx-runtime", "@pandacss/dev"],
+        external: ['react', 'react-dom', 'react/jsx-runtime', '@pandacss/dev'],
         output: {
           preserveModules: false,
-          assetFileNames: "assets/[name][extname]",
-          entryFileNames: "[name].js",
+          assetFileNames: 'assets/[name][extname]',
+          entryFileNames: '[name].js',
           externalImportAttributes: false,
           globals: {
-            react: "React",
-            "react-dom": "ReactDOM",
+            react: 'React',
+            'react-dom': 'ReactDOM',
           },
         },
       },

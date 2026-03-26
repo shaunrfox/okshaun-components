@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+import { HStack } from '~/styled-system/jsx';
 import { Box } from '../Box';
 import { FormField } from '../FormField';
 import { Text } from '../Text';
@@ -16,6 +17,34 @@ const meta: Meta<typeof TimePicker> = {
 
 export default meta;
 type Story = StoryObj<typeof TimePicker>;
+
+const ControlledTimePickerExample = () => {
+  const [value12, set12Value] = useState<TimeValue | null>(null);
+  const [value24, set24Value] = useState<TimeValue | null>(null);
+
+  const formatTime = (timeValue: TimeValue) => {
+    const hour = String(timeValue.hour).padStart(2, '0');
+    const minute = String(timeValue.minute).padStart(2, '0');
+    return `${hour}:${minute}`;
+  };
+
+  return (
+    <HStack gap="32">
+      <Box display="flex" flexDirection="column" gap="4" width="184">
+        <TimePicker hourCycle="12" value={value12} onChange={set12Value} />
+        <Text size="14" color="text.subtle">
+          Selected (12h): {value12 ? formatTime(value12) : 'none'}
+        </Text>
+      </Box>
+      <Box display="flex" flexDirection="column" gap="4" width="184">
+        <TimePicker hourCycle="24" value={value24} onChange={set24Value} />
+        <Text size="14" color="text.subtle">
+          Selected (24h): {value24 ? formatTime(value24) : 'none'}
+        </Text>
+      </Box>
+    </HStack>
+  );
+};
 
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
@@ -41,7 +70,9 @@ export const MinuteStep15: Story = {
   name: 'Minute Step: 15',
   render: () => (
     <Box display="flex" flexDirection="column" gap="8">
-      <Text size="14" color="text.subtle">Only 0, 15, 30, 45 available</Text>
+      <Text size="14" color="text.subtle">
+        Only 0, 15, 30, 45 available
+      </Text>
       <TimePicker hourCycle="12" minuteStep={15} />
     </Box>
   ),
@@ -59,9 +90,9 @@ export const Disabled: Story = {
 export const InFormField: Story = {
   name: 'In FormField',
   render: () => (
-    <Box style={{ width: '220px' }}>
-      <FormField label="Meeting time" required>
-        <TimePicker hourCycle="12" />
+    <Box width="224">
+      <FormField label="Meeting time" labelFor="meeting-time" required>
+        <TimePicker id="meeting-time" hourCycle="12" />
       </FormField>
     </Box>
   ),
@@ -69,20 +100,5 @@ export const InFormField: Story = {
 
 export const ExControlled: Story = {
   name: 'Ex: Controlled',
-  render: () => {
-    const [value, setValue] = useState<TimeValue | null>(null);
-    const formatTime = (v: TimeValue) => {
-      const h = String(v.hour).padStart(2, '0');
-      const m = String(v.minute).padStart(2, '0');
-      return `${h}:${m}`;
-    };
-    return (
-      <Box display="flex" flexDirection="column" gap="16" style={{ width: '220px' }}>
-        <TimePicker hourCycle="12" value={value} onChange={setValue} />
-        <Text size="14" color="text.subtle">
-          Selected (24h): {value ? formatTime(value) : 'none'}
-        </Text>
-      </Box>
-    );
-  },
+  render: () => <ControlledTimePickerExample />,
 };

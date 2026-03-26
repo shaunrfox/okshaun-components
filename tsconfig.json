@@ -19,6 +19,7 @@
 
     /* Linting */
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
@@ -29,9 +30,9 @@
     "baseUrl": "./",
     "paths": {
       "~/*": ["./src/*"],
-      "@styled-system/*": ["./src/styled-system/*"],
-    },
+      "@styled-system/*": ["./src/styled-system/*"]
+    }
   },
   "include": ["./src", "./src/styled-system"],
-  "exclude": ["src/App.tsx"],
+  "exclude": ["src/App.tsx"]
 }

@@ -1,0 +1,16 @@
+{
+  "aliases": [
+    "copy",
+    "copied",
+    "checklist",
+    "clipboard",
+    "action",
+    "operation",
+    "command",
+    "interaction",
+    "tool"
+  ],
+  "tags": [],
+  "category": "Actions",
+  "deprecated": false
+}

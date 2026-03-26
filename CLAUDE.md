@@ -27,6 +27,10 @@ This is a React component library built with **Panda CSS** for styling and **Vit
 ### Code Quality
 
 - `npm run lint` - Run ESLint
+- `npm run validate` - Run Biome + custom design-system standards validation
+  - Custom rules are defined in `tools/validate-standards-core.mjs`
+  - Rules can be suppressed inline with `// validate-ignore: rule-name — reason`
+  - See `standards/lint/design-system-custom-rules.md` for full rule list and suppression guidelines
 
 ### Icons
 

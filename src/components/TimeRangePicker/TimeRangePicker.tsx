@@ -1,7 +1,11 @@
-import type React from 'react';
 import { Box } from '~/components/Box';
-import { TimePicker } from '../TimePicker/TimePicker';
-import type { HourCycle, TimePickerProps, TimeValue } from '../TimePicker/TimePicker';
+
+import {
+  type HourCycle,
+  TimePicker,
+  type TimePickerProps,
+  type TimeValue,
+} from '../TimePicker';
 
 export type TimeRangePickerProps = {
   /** Start time value (hour in 24h format, 0–23) */
@@ -22,7 +26,7 @@ export type TimeRangePickerProps = {
   label?: string;
 };
 
-export const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
+export const TimeRangePicker = ({
   startValue,
   endValue,
   onStartChange,
@@ -33,7 +37,7 @@ export const TimeRangePicker: React.FC<TimeRangePickerProps> = ({
   error = false,
   size,
   label = 'Time',
-}) => {
+}: TimeRangePickerProps) => {
   return (
     <Box display="flex" alignItems="center" gap="8">
       <TimePicker

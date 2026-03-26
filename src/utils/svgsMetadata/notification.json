@@ -1,0 +1,16 @@
+{
+  "aliases": [
+    "announcement",
+    "notice",
+    "badge",
+    "pip",
+    "notification",
+    "alert",
+    "toast",
+    "error",
+    "status"
+  ],
+  "tags": ["status"],
+  "category": "Settings",
+  "deprecated": false
+}

@@ -1,8 +1,8 @@
 import type { timePicker } from '@styled-system/recipes';
-import type React from 'react';
-import { useEffect, useRef } from 'react';
+import { type RefObject, useEffect, useRef } from 'react';
+
 import { Box } from '~/components/Box';
-import { MenuListItem } from '~/components/Menu';
+import { List, ListItem } from '~/components/List';
 
 export interface TimeValue {
   hour: number; // always 24h (0–23)
@@ -12,7 +12,7 @@ export interface TimeValue {
 export type HourCycle = '12' | '24';
 
 export interface TimeListProps {
-  selectedHour: number | null;     // display hour: 1–12 for 12h, 0–23 for 24h
+  selectedHour: number | null; // display hour: 1–12 for 12h, 0–23 for 24h
   selectedMinute: number | null;
   selectedMeridiem: 'AM' | 'PM' | null;
   onSelect: (time: TimeValue) => void;
@@ -20,6 +20,53 @@ export interface TimeListProps {
   minuteStep: number;
   classes: ReturnType<typeof timePicker>;
 }
+
+type TimeListColumnProps<T extends string | number> = {
+  colRef: RefObject<HTMLDivElement | null>;
+  label: string;
+  items: T[];
+  selectedItem: T | null;
+  onItemSelect: (item: T) => void;
+  formatItem: (item: T) => string;
+  ariaLabel: string;
+  classes: ReturnType<typeof timePicker>;
+};
+
+const TimeListColumn = <T extends string | number>({
+  colRef,
+  label,
+  items,
+  selectedItem,
+  onItemSelect,
+  formatItem,
+  ariaLabel,
+  classes,
+}: TimeListColumnProps<T>) => {
+  return (
+    <Box
+      ref={colRef}
+      className={classes.column}
+      role="listbox"
+      aria-label={ariaLabel}
+      aria-orientation="vertical"
+    >
+      <Box className={classes.columnLabel} data-time-list-label="true">
+        {label}
+      </Box>
+      <List>
+        {items.map((item) => (
+          <ListItem
+            key={String(item)}
+            selected={item === selectedItem}
+            onClick={() => onItemSelect(item)}
+            label={formatItem(item)}
+            justifyContent="center"
+          />
+        ))}
+      </List>
+    </Box>
+  );
+};
 
 // ─── 12h conversion ────────────────────────────────────────────────────────────
 
@@ -30,15 +77,17 @@ function from12h(displayHour: number, meridiem: 'AM' | 'PM'): number {
 
 // ─── TimeList ──────────────────────────────────────────────────────────────────
 
-export const TimeList: React.FC<TimeListProps> = ({
-  selectedHour,
-  selectedMinute,
-  selectedMeridiem,
-  onSelect,
-  hourCycle,
-  minuteStep,
-  classes,
-}) => {
+export const TimeList = (props: TimeListProps) => {
+  const {
+    selectedHour,
+    selectedMinute,
+    selectedMeridiem,
+    onSelect,
+    hourCycle,
+    minuteStep,
+    classes,
+  } = props;
+
   const is12h = hourCycle === '12';
 
   // Generate hour options
@@ -58,35 +107,51 @@ export const TimeList: React.FC<TimeListProps> = ({
   const meridiemColRef = useRef<HTMLDivElement>(null);
 
   // Scroll selected items into view when popover opens
-  // biome-ignore lint/correctness/useExhaustiveDependencies: intentional empty deps — scroll once on mount when popover opens
   useEffect(() => {
-    const scrollToSelected = (colRef: React.RefObject<HTMLDivElement | null>, selector: string) => {
+    const scrollToSelected = (
+      colRef: RefObject<HTMLDivElement | null>,
+      selector: string,
+    ) => {
       const col = colRef.current;
       const el = col?.querySelector(selector) as HTMLElement | null;
       if (!col || !el) return;
+
+      const label = col.querySelector(
+        '[data-time-list-label="true"]',
+      ) as HTMLElement | null;
+      const labelHeight = label?.offsetHeight ?? 0;
+      col.style.scrollPaddingTop = `${labelHeight}px`;
+      const viewportHeight = Math.max(col.clientHeight - labelHeight, 0);
+
       const colRect = col.getBoundingClientRect();
       const elRect = el.getBoundingClientRect();
       // el's offset from col's top in the scrollable content
       const elRelativeTop = elRect.top - colRect.top + col.scrollTop;
-      // Center the selected item vertically in the column
-      col.scrollTop = elRelativeTop - col.clientHeight / 2 + el.clientHeight / 2;
+
+      // Center the selected item within the scrollable area below the sticky label
+      const targetScrollTop =
+        elRelativeTop - labelHeight - viewportHeight / 2 + el.clientHeight / 2;
+      const maxScrollTop = col.scrollHeight - col.clientHeight;
+      col.scrollTop = Math.min(Math.max(targetScrollTop, 0), maxScrollTop);
     };
     scrollToSelected(hourColRef, '[aria-selected="true"]');
     scrollToSelected(minuteColRef, '[aria-selected="true"]');
     if (is12h) scrollToSelected(meridiemColRef, '[aria-selected="true"]');
-  }, []); // run once on mount (popover just opened)
+  }, [is12h]); // run once on mount (popover just opened)
 
   // ── Selection handlers ────────────────────────────────────────────────────
 
   const handleHourSelect = (displayHour: number) => {
-    const hour = is12h ? from12h(displayHour, selectedMeridiem ?? 'AM') : displayHour;
+    const hour = is12h
+      ? from12h(displayHour, selectedMeridiem ?? 'AM')
+      : displayHour;
     onSelect({ hour, minute: selectedMinute ?? 0 });
   };
 
   const handleMinuteSelect = (minute: number) => {
     const hour = is12h
       ? from12h(selectedHour ?? 12, selectedMeridiem ?? 'AM')
-      : selectedHour ?? 0;
+      : (selectedHour ?? 0);
     onSelect({ hour, minute });
   };
 
@@ -95,70 +160,42 @@ export const TimeList: React.FC<TimeListProps> = ({
     onSelect({ hour, minute: selectedMinute ?? 0 });
   };
 
-  // ── Column renderer ────────────────────────────────────────────────────────
-
-  const renderColumn = <T extends string | number>(
-    colRef: React.RefObject<HTMLDivElement | null>,
-    label: string,
-    items: T[],
-    selectedItem: T | null,
-    onItemSelect: (item: T) => void,
-    formatItem: (item: T) => string,
-    ariaLabel: string,
-  ) => (
-    <Box
-      ref={colRef}
-      className={classes.column}
-      role="listbox"
-      aria-label={ariaLabel}
-      aria-orientation="vertical"
-    >
-      <Box className={classes.columnLabel}>{label}</Box>
-      {items.map(item => (
-        <MenuListItem
-          key={String(item)}
-          label={formatItem(item)}
-          selected={item === selectedItem}
-          type="action"
-          justifyContent="center"
-          onClick={() => onItemSelect(item)}
-        />
-      ))}
-    </Box>
-  );
-
   const pad2 = (n: number) => String(n).padStart(2, '0');
 
   return (
     <>
-      {renderColumn(
-        hourColRef,
-        'Hr',
-        hours,
-        selectedHour,
-        handleHourSelect,
-        pad2,
-        'Hour',
+      <TimeListColumn
+        colRef={hourColRef}
+        label="Hr"
+        items={hours}
+        selectedItem={selectedHour}
+        onItemSelect={handleHourSelect}
+        formatItem={pad2}
+        ariaLabel="Hour"
+        classes={classes}
+      />
+      <TimeListColumn
+        colRef={minuteColRef}
+        label="Min"
+        items={minutes}
+        selectedItem={selectedMinute}
+        onItemSelect={handleMinuteSelect}
+        formatItem={pad2}
+        ariaLabel="Minute"
+        classes={classes}
+      />
+      {is12h && (
+        <TimeListColumn
+          colRef={meridiemColRef}
+          label="AM/PM"
+          items={meridiems}
+          selectedItem={selectedMeridiem}
+          onItemSelect={handleMeridiemSelect}
+          formatItem={(meridiem) => meridiem}
+          ariaLabel="AM or PM"
+          classes={classes}
+        />
       )}
-      {renderColumn(
-        minuteColRef,
-        'Min',
-        minutes,
-        selectedMinute,
-        handleMinuteSelect,
-        pad2,
-        'Minute',
-      )}
-      {is12h &&
-        renderColumn(
-          meridiemColRef,
-          '',
-          meridiems,
-          selectedMeridiem,
-          handleMeridiemSelect,
-          (m: string) => m,
-          'AM or PM',
-        )}
     </>
   );
 };

@@ -29,6 +29,8 @@ storybook-static
 *.sln
 *.sw?
 
+## Storybook
+storybook-static
 *storybook.log
 
 ## Panda
@@ -37,3 +39,9 @@ styled-system-studio
 
 ## Auto-generated sprite
 src/utils/spriteContent.ts
+public/sprite.symbol.html
+public/sprite.svg
+public/icon-metadata.json
+public/svgs/
+
+/.tmp

@@ -1,0 +1,14 @@
+{
+  "aliases": [
+    "gauge",
+    "dashboard",
+    "meter",
+    "speed",
+    "odometer",
+    "performance",
+    "speedometer"
+  ],
+  "tags": [],
+  "category": "Other",
+  "deprecated": false
+}

@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "handle",
+    "grab",
+    "drag",
+    "action",
+    "operation",
+    "command",
+    "interaction",
+    "tool"
+  ],
+  "tags": [],
+  "category": "Actions",
+  "deprecated": false
+}

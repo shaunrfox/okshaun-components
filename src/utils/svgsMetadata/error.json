@@ -1,0 +1,17 @@
+{
+  "aliases": [
+    "issue",
+    "problem",
+    "failure",
+    "alert",
+    "danger",
+    "dangerous",
+    "caution",
+    "errors",
+    "warning",
+    "status"
+  ],
+  "tags": ["status"],
+  "category": "Status",
+  "deprecated": false
+}

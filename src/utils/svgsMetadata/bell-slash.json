@@ -1,0 +1,21 @@
+{
+  "aliases": [
+    "alarm",
+    "notifications",
+    "times",
+    "timer",
+    "clock",
+    "schedule",
+    "events",
+    "silent",
+    "silenced",
+    "ringer",
+    "calls",
+    "disabled",
+    "bell",
+    "slash"
+  ],
+  "tags": [],
+  "category": "Toggles / Triggers",
+  "deprecated": false
+}

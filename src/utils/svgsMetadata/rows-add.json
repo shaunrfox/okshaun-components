@@ -1,0 +1,19 @@
+{
+  "aliases": [
+    "shapes",
+    "polygons",
+    "box",
+    "stack",
+    "list",
+    "table",
+    "cards",
+    "prepend",
+    "insert",
+    "rows",
+    "plus",
+    "bottom"
+  ],
+  "tags": [],
+  "category": "Views",
+  "deprecated": false
+}

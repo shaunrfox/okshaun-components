@@ -1,6 +1,8 @@
 import { definePreset } from '@pandacss/dev';
 import pandaBasePreset from '@pandacss/preset-base';
-import * as componentRecipes from './recipes';
+import type { RecipeConfig, SlotRecipeConfig } from '@pandacss/types';
+import * as regularRecipes from './recipes/recipes-regular';
+import * as slotRecipes from './recipes/recipes-slot';
 import * as tokens from './styles/primitives';
 import * as semanticTokens from './styles/semantics';
 import {
@@ -15,35 +17,19 @@ import {
   transitionProperty,
 } from './styles/utilities';
 
-// Extract slot recipes separately
-const {
-  badgeRecipe,
-  buttonRecipe,
-  iconButtonRecipe,
-  checkboxRecipe,
-  radioRecipe,
-  tooltipRecipe,
-  menuRecipe,
-  selectRecipe,
-  toggleRecipe,
-  chipRecipe,
-  avatarRecipe,
-  modalRecipe,
-  formFieldRecipe,
-  datePickerRecipe,
-  timePickerRecipe,
-  MODAL_ANIMATION_DURATION: _MODAL_ANIMATION_DURATION,
-  ...regularComponents
-} = componentRecipes;
-
-// Transform recipe keys: remove 'Recipe' suffix to match component imports
-// e.g., { boxRecipe: {...} } becomes { box: {...} }
-const transformedRecipes = Object.fromEntries(
-  Object.entries(regularComponents).map(([key, value]) => [
+const presetRecipes = Object.fromEntries(
+  Object.entries(regularRecipes).map(([key, value]) => [
     key.replace(/Recipe$/, ''),
     value,
   ]),
-);
+) as unknown as Record<string, Partial<RecipeConfig>>;
+
+const presetSlotRecipes = Object.fromEntries(
+  Object.entries(slotRecipes).map(([key, value]) => [
+    key.replace(/Recipe$/, ''),
+    value,
+  ]),
+) as unknown as Record<string, Partial<SlotRecipeConfig>>;
 
 // https://panda-css.com/docs/concepts/extend#removing-something-from-the-base-presets
 // omit default patterns here
@@ -57,7 +43,7 @@ const pandaBasePresetUtilities = pandaBasePreset.utilities;
 const pandaBasePresetGlobalCss = pandaBasePreset.globalCss;
 
 // Extract size keys before processing
-const sizeKeys = Object.keys(tokens.sizes);
+// const sizeKeys = Object.keys(tokens.sizes);
 
 // Exclude textStyles, breakpoints, and keyframes from tokens
 // textStyles is already processed by defineTextStyles
@@ -92,45 +78,27 @@ export const okshaunPreset = definePreset({
       keyframes: keyframes,
       layerStyles: layerStyles,
       textStyles: textStyles,
-      recipes: {
-        ...transformedRecipes,
-      },
-      slotRecipes: {
-        badge: badgeRecipe,
-        button: buttonRecipe,
-        iconButton: iconButtonRecipe,
-        checkbox: checkboxRecipe,
-        radio: radioRecipe,
-        tooltip: tooltipRecipe,
-        menu: menuRecipe,
-        select: selectRecipe,
-        toggle: toggleRecipe,
-        chip: chipRecipe,
-        avatar: avatarRecipe,
-        modal: modalRecipe,
-        formField: formFieldRecipe,
-        datePicker: datePickerRecipe,
-        timePicker: timePickerRecipe,
-      },
+      recipes: presetRecipes,
+      slotRecipes: presetSlotRecipes,
     },
   },
   patterns: {
-    icon: {
-      properties: {
-        size: {
-          type: 'enum',
-          value: sizeKeys,
-        },
-      },
-      transform(props) {
-        const { size, ...rest } = props;
-        return {
-          width: size,
-          height: size,
-          ...rest,
-        };
-      },
-    },
+    // icon: {
+    //   properties: {
+    //     size: {
+    //       type: "enum",
+    //       value: sizeKeys,
+    //     },
+    //   },
+    //   transform(props) {
+    //     const { size, ...rest } = props;
+    //     return {
+    //       width: size,
+    //       height: size,
+    //       ...rest,
+    //     };
+    //   },
+    // },
     extend: {
       ...pandaBasePresetPatterns,
       container: {

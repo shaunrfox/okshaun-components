@@ -1,49 +1,75 @@
-import { defineRecipe } from '@pandacss/dev';
+import { defineSlotRecipe } from '@pandacss/dev';
 
 const spinnerBase = {
-  aspectRatio: 'square',
-  rounded: '100',
-  borderWidth: '3',
-  borderStyle: 'solid',
-  borderColor: 'transparent',
-  borderTopColor: 'icon',
-  borderBottomColor: 'icon',
-  animation: 'spin',
-  isolation: 'isolate',
+  spinnerDiv: {
+    aspectRatio: 'square',
+    rounded: '100',
+    borderWidth: '3',
+    borderStyle: 'solid',
+    borderColor: 'transparent',
+    borderTopColor: 'icon',
+    borderBottomColor: 'icon',
+    animation: 'spin',
+    isolation: 'isolate',
+  },
 };
 
 const spinnerVariants = {
   size: {
     xs: {
-      height: '16',
-      minHeight: '16',
-      borderWidth: '2',
+      spinnerDiv: {
+        height: '16',
+        minHeight: '16',
+        borderWidth: '2',
+      },
     },
     sm: {
-      height: '20',
-      minHeight: '20',
-      borderWidth: '2',
+      spinnerDiv: {
+        height: '20',
+        minHeight: '20',
+        borderWidth: '2',
+      },
     },
     md: {
-      height: '24',
-      minHeight: '24',
+      spinnerDiv: {
+        height: '24',
+        minHeight: '24',
+      },
     },
     lg: {
-      height: '32',
-      minHeight: '32',
+      spinnerDiv: {
+        height: '32',
+        minHeight: '32',
+      },
     },
   },
   inverse: {
     true: {
-      borderTopColor: 'icon.inverse',
-      borderBottomColor: 'icon.inverse',
+      spinnerDiv: {
+        borderTopColor: 'icon.inverse',
+        borderBottomColor: 'icon.inverse',
+      },
+    },
+  },
+  centered: {
+    true: {
+      container: {
+        position: 'absolute',
+        inset: '0',
+        display: 'grid',
+        placeContent: 'center',
+        width: 'full',
+        height: 'full',
+        zIndex: '100',
+      },
     },
   },
 };
 
-export const spinnerRecipe = defineRecipe({
+export const spinnerRecipe = defineSlotRecipe({
   className: 'spinner',
   jsx: ['Spinner'],
+  slots: ['container', 'spinnerDiv'],
   base: spinnerBase,
   variants: spinnerVariants,
   defaultVariants: {

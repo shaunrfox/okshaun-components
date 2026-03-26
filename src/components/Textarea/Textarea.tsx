@@ -1,5 +1,6 @@
 import { cx } from '@styled-system/css';
 import { type TextareaVariantProps, textarea } from '@styled-system/recipes';
+
 import { Box, type BoxProps } from '~/components/Box';
 import { splitProps } from '~/utils/splitProps';
 
@@ -21,7 +22,7 @@ export const Textarea = (props: TextareaProps) => {
       id={id}
       name={name}
       {...(error && { 'data-error': true })}
-      aria-disabled={disabled}
+      disabled={disabled}
       className={cx(textarea({ size, autoSize }), className)}
       {...otherProps}
     />

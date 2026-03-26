@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "music",
+    "audio",
+    "recycle",
+    "repeat",
+    "playback",
+    "media controls",
+    "transport",
+    "video controls"
+  ],
+  "tags": [],
+  "category": "Player",
+  "deprecated": false
+}

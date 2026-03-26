@@ -1,10 +1,11 @@
-import { cx } from "@styled-system/css";
-import type { datePicker } from "@styled-system/recipes";
-import type React from "react";
-import { Box } from "~/components/Box";
-import { Button } from "~/components/Button";
-import { IconButton } from "~/components/IconButton";
-import { Text } from "~/components/Text";
+import { cx } from '@styled-system/css';
+import type { datePicker } from '@styled-system/recipes';
+import type { KeyboardEvent } from 'react';
+
+import { Box } from '~/components/Box';
+import { Button } from '~/components/Button';
+import { IconButton } from '~/components/IconButton';
+import { Text } from '~/components/Text';
 
 export interface DateValue {
   year: number;
@@ -72,43 +73,52 @@ function getTodayValue(): DateValue {
 }
 
 const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
-const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+const WEEKDAY_LABELS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const WEEKDAY_FULL = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
 ];
+const CALENDAR_ROW_KEYS = [
+  'week-1',
+  'week-2',
+  'week-3',
+  'week-4',
+  'week-5',
+  'week-6',
+] as const;
 
 // ─── Calendar component ────────────────────────────────────────────────────────
 
-export const Calendar: React.FC<CalendarProps> = ({
-  value,
-  onSelect,
-  minDate,
-  maxDate,
-  viewYear,
-  viewMonth,
-  onViewChange,
-  classes,
-}) => {
+export const Calendar = (props: CalendarProps) => {
+  const {
+    value,
+    onSelect,
+    minDate,
+    maxDate,
+    viewYear,
+    viewMonth,
+    onViewChange,
+    classes,
+  } = props;
   const today = getTodayValue();
 
   // Build 42-cell grid (6 rows × 7 cols)
@@ -143,8 +153,8 @@ export const Calendar: React.FC<CalendarProps> = ({
     }
   };
 
-  const handleDayKeyDown = (e: React.KeyboardEvent, day: number) => {
-    if (e.key === "Enter" || e.key === " ") {
+  const handleDayKeyDown = (e: KeyboardEvent, day: number) => {
+    if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       handleDayClick(day);
     }
@@ -155,13 +165,12 @@ export const Calendar: React.FC<CalendarProps> = ({
       {/* Calendar header: prev / Month Year / next */}
       <Box className={classes.calendarHeader}>
         <IconButton
-          // className={classes.navButton}
-          aria-label="Previous month"
+          altText="Previous month"
           disabled={!canGoPrev}
           onClick={() => onViewChange(prevYear, prevMonthNum)}
-          iconName="chevron-left"
+          iconName="caret-left"
           size="sm"
-          variant="subtle"
+          variant="ghost"
         />
 
         <Box
@@ -176,12 +185,12 @@ export const Calendar: React.FC<CalendarProps> = ({
         </Box>
 
         <IconButton
-          aria-label="Next month"
+          altText="Next month"
           disabled={!canGoNext}
           onClick={() => onViewChange(nextYear, nextMonthNum)}
-          iconName="chevron-right"
+          iconName="caret-right"
           size="sm"
-          variant="subtle"
+          variant="ghost"
         />
       </Box>
 
@@ -206,67 +215,71 @@ export const Calendar: React.FC<CalendarProps> = ({
         ))}
 
         {/* Day cells — render in rows of 7 */}
-        {Array.from({ length: 6 }, (_, rowIdx) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: stable row indices for calendar grid
-          <Box key={rowIdx} role="row" display="contents">
-            {gridDays.slice(rowIdx * 7, rowIdx * 7 + 7).map((day, colIdx) => {
-              if (!day) {
+        {CALENDAR_ROW_KEYS.map((rowKey, rowIdx) => {
+          const rowDays = gridDays.slice(rowIdx * 7, rowIdx * 7 + 7);
+
+          return (
+            <Box key={rowKey} role="row" display="contents">
+              {rowDays.map((day, colIdx) => {
+                const weekday = WEEKDAY_FULL[colIdx];
+
+                if (!day) {
+                  return (
+                    <Box
+                      key={`empty-${rowKey}-${weekday}`}
+                      role="gridcell"
+                      aria-hidden="true"
+                    />
+                  );
+                }
+
+                const dateValue: DateValue = {
+                  year: viewYear,
+                  month: viewMonth,
+                  day,
+                };
+                const isUnavailable =
+                  isBeforeMin(dateValue, minDate) ||
+                  isAfterMax(dateValue, maxDate);
+                const isSelected = value ? isSameDate(value, dateValue) : false;
+                const isToday = isSameDate(today, dateValue);
+
+                const buttonVariant = isToday
+                  ? 'selected'
+                  : isSelected
+                    ? 'selectedBold'
+                    : 'ghost';
+
                 return (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: empty cell
                   <Box
-                    key={`empty-${rowIdx}-${colIdx}`}
+                    key={day}
                     role="gridcell"
-                    aria-hidden="true"
-                  />
-                );
-              }
-
-              const dateValue: DateValue = {
-                year: viewYear,
-                month: viewMonth,
-                day,
-              };
-              const isUnavailable =
-                isBeforeMin(dateValue, minDate) ||
-                isAfterMax(dateValue, maxDate);
-              const isSelected = value ? isSameDate(value, dateValue) : false;
-              const isToday = isSameDate(today, dateValue);
-
-              const buttonVariant = isToday
-                ? "selectedSubtle"
-                : isSelected
-                  ? "selected"
-                  : "ghost";
-
-              return (
-                <Box
-                  key={day}
-                  role="gridcell"
-                  aria-selected={isSelected}
-                  aria-disabled={isUnavailable}
-                >
-                  <Button
-                    variant={buttonVariant}
-                    size="sm"
-                    className={cx(classes.day)}
-                    data-today={isToday ? true : undefined}
-                    disabled={isUnavailable}
-                    data-unavailable={isUnavailable ? true : undefined}
                     aria-selected={isSelected}
-                    aria-label={`${MONTH_NAMES[viewMonth - 1]} ${day}, ${viewYear}${isToday ? ", today" : ""}${isSelected ? ", selected" : ""}`}
-                    tabIndex={isUnavailable ? -1 : 0}
-                    onClick={() => !isUnavailable && handleDayClick(day)}
-                    onKeyDown={(e: React.KeyboardEvent) =>
-                      !isUnavailable && handleDayKeyDown(e, day)
-                    }
+                    aria-disabled={isUnavailable}
                   >
-                    {day}
-                  </Button>
-                </Box>
-              );
-            })}
-          </Box>
-        ))}
+                    <Button
+                      variant={buttonVariant}
+                      size="sm"
+                      className={cx(classes.day)}
+                      data-today={isToday ? true : undefined}
+                      disabled={isUnavailable}
+                      data-unavailable={isUnavailable ? true : undefined}
+                      aria-selected={isSelected}
+                      aria-label={`${MONTH_NAMES[viewMonth - 1]} ${day}, ${viewYear}${isToday ? ', today' : ''}${isSelected ? ', selected' : ''}`}
+                      tabIndex={isUnavailable ? -1 : 0}
+                      onClick={() => !isUnavailable && handleDayClick(day)}
+                      onKeyDown={(e: KeyboardEvent) =>
+                        !isUnavailable && handleDayKeyDown(e, day)
+                      }
+                    >
+                      {String(day)}
+                    </Button>
+                  </Box>
+                );
+              })}
+            </Box>
+          );
+        })}
       </Box>
     </>
   );

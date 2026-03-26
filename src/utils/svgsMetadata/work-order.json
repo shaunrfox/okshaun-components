@@ -1,0 +1,17 @@
+{
+  "aliases": [
+    "architecture",
+    "floorplan",
+    "building",
+    "construction",
+    "blueprint",
+    "instructions",
+    "operations",
+    "part",
+    "item",
+    "quantity"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

@@ -1,0 +1,22 @@
+{
+  "aliases": [
+    "success",
+    "verified",
+    "round",
+    "shapes",
+    "polygons",
+    "circle",
+    "todo",
+    "to-do",
+    "task",
+    "list",
+    "checkbox",
+    "rectangle",
+    "ok",
+    "done",
+    "check"
+  ],
+  "tags": ["status"],
+  "category": "Shapes",
+  "deprecated": false
+}

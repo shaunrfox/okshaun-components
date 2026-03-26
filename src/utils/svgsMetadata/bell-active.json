@@ -1,0 +1,20 @@
+{
+  "aliases": [
+    "alarm",
+    "notifications",
+    "times",
+    "timer",
+    "clock",
+    "schedule",
+    "events",
+    "ringer",
+    "calls",
+    "bell",
+    "ringing",
+    "active",
+    "enabled"
+  ],
+  "tags": [],
+  "category": "Status",
+  "deprecated": false
+}

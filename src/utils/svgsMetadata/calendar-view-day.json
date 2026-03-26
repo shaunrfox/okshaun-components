@@ -1,0 +1,16 @@
+{
+  "aliases": [
+    "dates",
+    "times",
+    "events",
+    "schedule",
+    "today",
+    "calendar",
+    "dot",
+    "day",
+    "view"
+  ],
+  "tags": [],
+  "category": "Views",
+  "deprecated": false
+}

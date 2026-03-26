@@ -1,0 +1,22 @@
+{
+  "aliases": [
+    "unlock",
+    "unsecure",
+    "padlock",
+    "security",
+    "unsecured",
+    "authentication",
+    "unauthenticated",
+    "login",
+    "unlocked",
+    "unencrypted",
+    "encryption",
+    "privacy",
+    "lock",
+    "open",
+    "off"
+  ],
+  "tags": ["security"],
+  "category": "Toggles / Triggers",
+  "deprecated": false
+}

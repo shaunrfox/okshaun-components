@@ -18,6 +18,7 @@ export const numericSizes = {
   '20': { value: '1.25rem' },
   '22': { value: '1.375rem' },
   '24': { value: '1.5rem' },
+  '28': { value: '1.75rem' },
   '32': { value: '2rem' },
   '40': { value: '2.5rem' },
   '48': { value: '3rem' },

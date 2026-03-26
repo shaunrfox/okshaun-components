@@ -1,22 +1,38 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
-import { Box } from "../Box";
-import { FormField } from "../FormField";
-import { Text } from "../Text";
-import { DatePicker, type DateValue } from "./DatePicker";
-import { VStack } from "~/styled-system/jsx";
+import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
+import { VStack } from '~/styled-system/jsx';
+import { Box } from '../Box';
+import { FormField } from '../FormField';
+import { Text } from '../Text';
+import { DatePicker, type DateValue } from './DatePicker';
 
 const meta: Meta<typeof DatePicker> = {
-  title: "Components/DatePicker",
+  title: 'Components/DatePicker',
   component: DatePicker,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 };
 
 export default meta;
 type Story = StoryObj<typeof DatePicker>;
+
+const ControlledDatePickerExample = () => {
+  const [value, setValue] = useState<DateValue | null>(null);
+
+  return (
+    <Box display="flex" flexDirection="column" gap="16" w="xs">
+      <DatePicker value={value} onChange={setValue} />
+      <Text size="14" color="text.subtle">
+        Selected:{' '}
+        {value
+          ? `${value.year}-${String(value.month).padStart(2, '0')}-${String(value.day).padStart(2, '0')}`
+          : 'none'}
+      </Text>
+    </Box>
+  );
+};
 
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
@@ -26,12 +42,12 @@ export const Default: Story = {
 };
 
 export const WithValue: Story = {
-  name: "With Value",
+  name: 'With Value',
   render: () => <DatePicker value={{ year: 2026, month: 2, day: 19 }} />,
 };
 
 export const WithMinMax: Story = {
-  name: "With Min/Max",
+  name: 'With Min/Max',
   render: () => (
     <VStack>
       <Text>Within: 2026-02-10 – 2026-03-20</Text>
@@ -45,7 +61,7 @@ export const WithMinMax: Story = {
 };
 
 export const ErrorState: Story = {
-  name: "Error State",
+  name: 'Error State',
   render: () => <DatePicker error />,
 };
 
@@ -56,45 +72,27 @@ export const Disabled: Story = {
 };
 
 export const SizeSm: Story = {
-  name: "Size: sm",
+  name: 'Size: sm',
   render: () => <DatePicker size="sm" />,
 };
 
 export const SizeLg: Story = {
-  name: "Size: lg",
+  name: 'Size: lg',
   render: () => <DatePicker size="lg" />,
 };
 
 export const InFormField: Story = {
-  name: "In FormField",
+  name: 'In FormField',
   render: () => (
-    <Box style={{ width: "300px" }}>
-      <FormField label="Birth date" required>
-        <DatePicker />
+    <Box w="xs">
+      <FormField label="Birth date" labelFor="birth-date" required>
+        <DatePicker id="birth-date" />
       </FormField>
     </Box>
   ),
 };
 
 export const ExControlled: Story = {
-  name: "Ex: Controlled",
-  render: () => {
-    const [value, setValue] = useState<DateValue | null>(null);
-    return (
-      <Box
-        display="flex"
-        flexDirection="column"
-        gap="16"
-        style={{ width: "300px" }}
-      >
-        <DatePicker value={value} onChange={setValue} />
-        <Text size="14" color="text.subtle">
-          Selected:{" "}
-          {value
-            ? `${value.year}-${String(value.month).padStart(2, "0")}-${String(value.day).padStart(2, "0")}`
-            : "none"}
-        </Text>
-      </Box>
-    );
-  },
+  name: 'Ex: Controlled',
+  render: () => <ControlledDatePickerExample />,
 };

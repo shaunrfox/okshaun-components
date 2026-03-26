@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "license",
+    "credentials",
+    "nametag",
+    "user",
+    "verification",
+    "people",
+    "identification",
+    "badge"
+  ],
+  "tags": [],
+  "category": "People",
+  "deprecated": false
+}

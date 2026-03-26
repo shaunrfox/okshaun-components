@@ -1,0 +1,18 @@
+{
+  "aliases": [
+    "chat",
+    "comment",
+    "send",
+    "sent",
+    "messages",
+    "messaging",
+    "sms",
+    "texting",
+    "square",
+    "bubble",
+    "note"
+  ],
+  "tags": ["communication"],
+  "category": "System objects",
+  "deprecated": false
+}

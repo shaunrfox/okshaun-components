@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Box } from '../Box';
-import { MenuDivider, MenuGroup, MenuItem } from '../Menu';
+import { MenuGroup, MenuItem } from '../Menu';
 import { Dropdown } from './Dropdown';
 
 const meta: Meta<typeof Dropdown> = {
@@ -23,17 +23,9 @@ type Story = StoryObj<typeof Dropdown>;
 export const Default: Story = {
   render: () => (
     <Dropdown label="Options">
-      <MenuItem label="Edit" onSelect={() => console.log('Edit')} index={0} />
-      <MenuItem
-        label="Duplicate"
-        onSelect={() => console.log('Duplicate')}
-        index={1}
-      />
-      <MenuItem
-        label="Delete"
-        onSelect={() => console.log('Delete')}
-        index={2}
-      />
+      <MenuItem label="Edit" onClick={() => console.log('Edit')} />
+      <MenuItem label="Duplicate" onClick={() => console.log('Duplicate')} />
+      <MenuItem label="Delete" onClick={() => console.log('Delete')} />
     </Dropdown>
   ),
 };
@@ -41,9 +33,9 @@ export const Default: Story = {
 export const WithIcons: Story = {
   render: () => (
     <Dropdown label="Actions">
-      <MenuItem label="Edit" iconLeft="edit" onSelect={() => {}} index={0} />
-      <MenuItem label="Copy" iconLeft="copy" onSelect={() => {}} index={1} />
-      <MenuItem label="Delete" iconLeft="trash" onSelect={() => {}} index={2} />
+      <MenuItem label="Edit" iconBefore="edit" onClick={() => {}} />
+      <MenuItem label="Copy" iconBefore="copy" onClick={() => {}} />
+      <MenuItem label="Delete" iconBefore="trash" onClick={() => {}} />
     </Dropdown>
   ),
 };
@@ -54,23 +46,20 @@ export const WithDescriptions: Story = {
       <MenuItem
         label="New Document"
         description="Create a blank document"
-        iconLeft="file"
-        onSelect={() => {}}
-        index={0}
+        iconBefore="file"
+        onClick={() => {}}
       />
       <MenuItem
         label="New Spreadsheet"
         description="Create a blank spreadsheet"
-        iconLeft="view-table"
-        onSelect={() => {}}
-        index={1}
+        iconBefore="view-table"
+        onClick={() => {}}
       />
       <MenuItem
         label="New Presentation"
         description="Create a blank presentation"
-        iconLeft="monitor"
-        onSelect={() => {}}
-        index={2}
+        iconBefore="monitor"
+        onClick={() => {}}
       />
     </Dropdown>
   ),
@@ -88,25 +77,19 @@ export const SingleSelect: Story = {
       return (
         <Dropdown label={`Sort by: ${selected}`}>
           <MenuItem
-            type="single-select"
             label="Name"
             selected={selected === 'name'}
-            onSelect={() => setSelected('name')}
-            index={0}
+            onClick={() => setSelected('name')}
           />
           <MenuItem
-            type="single-select"
             label="Date"
             selected={selected === 'date'}
-            onSelect={() => setSelected('date')}
-            index={1}
+            onClick={() => setSelected('date')}
           />
           <MenuItem
-            type="single-select"
             label="Size"
             selected={selected === 'size'}
-            onSelect={() => setSelected('size')}
-            index={2}
+            onClick={() => setSelected('size')}
           />
         </Dropdown>
       );
@@ -139,36 +122,28 @@ export const MultiSelect: Story = {
       return (
         <Dropdown label={`Columns (${selected.size})`}>
           <MenuItem
-            type="multi-select"
             label="Name"
-            selectionIndicator="checkbox"
+            variant="checkbox"
             selected={selected.has('name')}
-            onSelect={() => toggle('name')}
-            index={0}
+            onClick={() => toggle('name')}
           />
           <MenuItem
-            type="multi-select"
             label="Date"
-            selectionIndicator="checkbox"
+            variant="checkbox"
             selected={selected.has('date')}
-            onSelect={() => toggle('date')}
-            index={1}
+            onClick={() => toggle('date')}
           />
           <MenuItem
-            type="multi-select"
             label="Size"
-            selectionIndicator="checkbox"
+            variant="checkbox"
             selected={selected.has('size')}
-            onSelect={() => toggle('size')}
-            index={2}
+            onClick={() => toggle('size')}
           />
           <MenuItem
-            type="multi-select"
             label="Type"
-            selectionIndicator="checkbox"
+            variant="checkbox"
             selected={selected.has('type')}
-            onSelect={() => toggle('type')}
-            index={3}
+            onClick={() => toggle('type')}
           />
         </Dropdown>
       );
@@ -184,28 +159,16 @@ export const MultiSelect: Story = {
 export const WithGroups: Story = {
   render: () => (
     <Dropdown label="User Menu">
-      <MenuGroup label="Account">
-        <MenuItem
-          label="Profile"
-          iconLeft="user"
-          onSelect={() => {}}
-          index={0}
-        />
-        <MenuItem
-          label="Settings"
-          iconLeft="settings"
-          onSelect={() => {}}
-          index={1}
-        />
+      <MenuGroup label="Account" divider>
+        <MenuItem label="Profile" iconBefore="user" onClick={() => {}} />
+        <MenuItem label="Settings" iconBefore="settings" onClick={() => {}} />
       </MenuGroup>
-      <MenuDivider />
       <MenuGroup label="Actions">
-        <MenuItem label="Help" iconLeft="help" onSelect={() => {}} index={2} />
+        <MenuItem label="Help" iconBefore="help" onClick={() => {}} />
         <MenuItem
           label="Log Out"
-          iconLeft="arrow-square-out"
-          onSelect={() => {}}
-          index={3}
+          iconBefore="arrow-square-out"
+          onClick={() => {}}
         />
       </MenuGroup>
     </Dropdown>
@@ -219,8 +182,8 @@ export const WithGroups: Story = {
 export const Disabled: Story = {
   render: () => (
     <Dropdown label="Disabled" disabled>
-      <MenuItem label="Option 1" onSelect={() => {}} index={0} />
-      <MenuItem label="Option 2" onSelect={() => {}} index={1} />
+      <MenuItem label="Option 1" onClick={() => {}} />
+      <MenuItem label="Option 2" onClick={() => {}} />
     </Dropdown>
   ),
 };
@@ -233,23 +196,23 @@ export const PlacementVariants: Story = {
   render: () => (
     <Box display="flex" gap="16" flexWrap="wrap" p="80">
       <Dropdown label="Bottom Start" placement="bottom-start">
-        <MenuItem label="Item 1" onSelect={() => {}} />
-        <MenuItem label="Item 2" onSelect={() => {}} />
+        <MenuItem label="Item 1" onClick={() => {}} />
+        <MenuItem label="Item 2" onClick={() => {}} />
       </Dropdown>
 
       <Dropdown label="Bottom End" placement="bottom-end">
-        <MenuItem label="Item 1" onSelect={() => {}} />
-        <MenuItem label="Item 2" onSelect={() => {}} />
+        <MenuItem label="Item 1" onClick={() => {}} />
+        <MenuItem label="Item 2" onClick={() => {}} />
       </Dropdown>
 
       <Dropdown label="Top Start" placement="top-start">
-        <MenuItem label="Item 1" onSelect={() => {}} />
-        <MenuItem label="Item 2" onSelect={() => {}} />
+        <MenuItem label="Item 1" onClick={() => {}} />
+        <MenuItem label="Item 2" onClick={() => {}} />
       </Dropdown>
 
       <Dropdown label="Right Start" placement="right-start">
-        <MenuItem label="Item 1" onSelect={() => {}} />
-        <MenuItem label="Item 2" onSelect={() => {}} />
+        <MenuItem label="Item 1" onClick={() => {}} />
+        <MenuItem label="Item 2" onClick={() => {}} />
       </Dropdown>
     </Box>
   ),
@@ -259,38 +222,32 @@ export const PlacementVariants: Story = {
 // SIZE VARIANTS
 // ============================================================================
 
-export const PackingCompact: Story = {
+export const DensityCompact: Story = {
   render: () => (
-    <Dropdown
-      label="Compact"
-      packing="compact"
-      triggerProps={{ size: 'small' }}
-    >
-      <MenuItem label="Option 1" onSelect={() => {}} index={0} />
-      <MenuItem label="Option 2" onSelect={() => {}} index={1} />
-      <MenuItem label="Option 3" onSelect={() => {}} index={2} />
+    <Dropdown label="Compact" density="compact" triggerProps={{ size: 'sm' }}>
+      <MenuItem label="Option 1" onClick={() => {}} />
+      <MenuItem label="Option 2" onClick={() => {}} />
+      <MenuItem label="Option 3" onClick={() => {}} />
     </Dropdown>
   ),
 };
 
-export const PackingComfortable: Story = {
+export const DensityComfortable: Story = {
   render: () => (
     <Dropdown
       label="Comfortable"
-      packing="comfortable"
+      density="comfortable"
       triggerProps={{ size: 'lg' }}
     >
       <MenuItem
         label="Option 1"
         description="First option"
-        onSelect={() => {}}
-        index={0}
+        onClick={() => {}}
       />
       <MenuItem
         label="Option 2"
         description="Second option"
-        onSelect={() => {}}
-        index={1}
+        onClick={() => {}}
       />
     </Dropdown>
   ),
@@ -308,22 +265,11 @@ export const CustomTrigger: Story = {
     >
       <MenuItem
         label="Create Project"
-        iconLeft="square-add"
-        onSelect={() => {}}
-        index={0}
+        iconBefore="square-add"
+        onClick={() => {}}
       />
-      <MenuItem
-        label="Import Data"
-        iconLeft="upload"
-        onSelect={() => {}}
-        index={1}
-      />
-      <MenuItem
-        label="Generate Report"
-        iconLeft="file"
-        onSelect={() => {}}
-        index={2}
-      />
+      <MenuItem label="Import Data" iconBefore="upload" onClick={() => {}} />
+      <MenuItem label="Generate Report" iconBefore="file" onClick={() => {}} />
     </Dropdown>
   ),
 };

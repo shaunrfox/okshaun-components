@@ -1,24 +1,32 @@
 import {
   FloatingFocusManager,
   FloatingPortal,
-  autoUpdate,
-  flip,
-  offset as floatingOffset,
-  shift,
   useDismiss,
-  useFloating,
   useInteractions,
 } from '@floating-ui/react';
 import { cx } from '@styled-system/css';
-import { timePicker, type TimePickerVariantProps } from '@styled-system/recipes';
-import type React from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Box } from '~/components/Box';
-import type { BoxProps } from '~/components/Box';
-import { TimeList } from './TimeList';
-import type { HourCycle, TimeValue } from './TimeList';
+import {
+  type TimePickerVariantProps,
+  timePicker,
+} from '@styled-system/recipes';
+import {
+  type FocusEvent,
+  type KeyboardEvent,
+  type MouseEvent,
+  type RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-export type { TimeValue, HourCycle };
+import { Box, type BoxProps } from '~/components/Box';
+import { useOverlayFloating } from '~/system/floating-ui/floating';
+import { splitProps } from '~/utils/splitProps';
+
+import { type HourCycle, TimeList, type TimeValue } from './TimeList';
+
+export type { HourCycle, TimeValue } from './TimeList';
 
 // ─── Segment definitions ───────────────────────────────────────────────────────
 
@@ -47,8 +55,22 @@ function getSegments(hourCycle: HourCycle): SegmentDef[] {
   const hourMax = hourCycle === '12' ? 12 : 23;
   const hourMin = hourCycle === '12' ? 1 : 0;
   const segs: SegmentDef[] = [
-    { kind: 'numeric', type: 'hour', placeholder: 'HH', digits: 2, min: hourMin, max: hourMax },
-    { kind: 'numeric', type: 'minute', placeholder: 'MM', digits: 2, min: 0, max: 59 },
+    {
+      kind: 'numeric',
+      type: 'hour',
+      placeholder: 'HH',
+      digits: 2,
+      min: hourMin,
+      max: hourMax,
+    },
+    {
+      kind: 'numeric',
+      type: 'minute',
+      placeholder: 'MM',
+      digits: 2,
+      min: 0,
+      max: 59,
+    },
   ];
   if (hourCycle === '12') {
     segs.push({ kind: 'ampm', type: 'ampm', placeholder: 'AM' });
@@ -58,6 +80,141 @@ function getSegments(hourCycle: HourCycle): SegmentDef[] {
 
 type NumericValues = Record<NumericSegType, number | null>;
 type NumericRaw = Record<NumericSegType, string>;
+
+type TimeSegmentsProps = {
+  segments: SegmentDef[];
+  ampm: 'AM' | 'PM' | null;
+  numericVals: NumericValues;
+  rawInput: NumericRaw;
+  disabled: boolean;
+  error: boolean;
+  hourCycle: HourCycle;
+  classes: ReturnType<typeof timePicker>;
+  segmentRefs: RefObject<(HTMLElement | null)[]>;
+  onFocusSegment: (segment: SegmentType) => void;
+  onBlurSegment: (event: FocusEvent) => void;
+  onKeyDownSegment: (event: KeyboardEvent, segmentIndex: number) => void;
+};
+
+const TimeSegments = ({
+  segments,
+  ampm,
+  numericVals,
+  rawInput,
+  disabled,
+  error,
+  hourCycle,
+  classes,
+  segmentRefs,
+  onFocusSegment,
+  onBlurSegment,
+  onKeyDownSegment,
+}: TimeSegmentsProps) => {
+  return segments.flatMap((seg, idx) => {
+    if (seg.kind === 'ampm') {
+      const display = ampm ?? seg.placeholder;
+
+      return [
+        <Box
+          key="ampm"
+          as="span"
+          role="spinbutton"
+          tabIndex={disabled ? -1 : 0}
+          aria-label="AM or PM"
+          aria-valuetext={display}
+          className={classes.segment}
+          color={
+            ampm === null
+              ? error
+                ? 'text.disabled'
+                : 'text.placeholder'
+              : undefined
+          }
+          ref={(el: HTMLElement | null) => {
+            segmentRefs.current[idx] = el;
+          }}
+          onFocus={() => {
+            onFocusSegment('ampm');
+          }}
+          onBlur={onBlurSegment}
+          onKeyDown={(event: KeyboardEvent) => onKeyDownSegment(event, idx)}
+        >
+          {display}
+        </Box>,
+      ];
+    }
+
+    const val = numericVals[seg.type];
+    const raw = rawInput[seg.type];
+    const display =
+      raw.length > 0
+        ? raw
+        : val !== null
+          ? String(val).padStart(2, '0')
+          : seg.placeholder;
+    const isPlaceholder = val === null && raw.length === 0;
+
+    const items = [
+      <Box
+        key={seg.type}
+        as="span"
+        role="spinbutton"
+        tabIndex={disabled ? -1 : 0}
+        aria-label={seg.type.charAt(0).toUpperCase() + seg.type.slice(1)}
+        aria-valuenow={val ?? undefined}
+        aria-valuemin={seg.min}
+        aria-valuemax={seg.max}
+        aria-valuetext={display}
+        className={classes.segment}
+        color={
+          isPlaceholder
+            ? error
+              ? 'text.disabled'
+              : 'text.placeholder'
+            : undefined
+        }
+        ref={(el: HTMLElement | null) => {
+          segmentRefs.current[idx] = el;
+        }}
+        onFocus={() => {
+          onFocusSegment(seg.type);
+        }}
+        onBlur={onBlurSegment}
+        onKeyDown={(event: KeyboardEvent) => onKeyDownSegment(event, idx)}
+      >
+        {display}
+      </Box>,
+    ];
+
+    if (seg.type === 'hour') {
+      items.push(
+        <Box
+          key="sep-hour-min"
+          as="span"
+          className={classes.separator}
+          aria-hidden="true"
+        >
+          :
+        </Box>,
+      );
+    }
+
+    if (seg.type === 'minute' && hourCycle === '12') {
+      items.push(
+        <Box
+          key="sep-min-ampm"
+          as="span"
+          className={classes.separator}
+          aria-hidden="true"
+        >
+          {' '}
+        </Box>,
+      );
+    }
+
+    return items;
+  });
+};
 
 // ─── 12h ↔ 24h conversion ─────────────────────────────────────────────────────
 
@@ -75,7 +232,12 @@ function from12hDisplay(hour12: number, ampm: 'AM' | 'PM'): number {
 
 // ─── Auto-advance logic ────────────────────────────────────────────────────────
 
-function shouldAutoAdvance(digit: number, raw: string, max: number, digits: number): boolean {
+function shouldAutoAdvance(
+  digit: number,
+  raw: string,
+  max: number,
+  digits: number,
+): boolean {
   const next = raw + String(digit);
   if (next.length >= digits) return true;
   if (Number(next) * 10 > max) return true;
@@ -84,7 +246,10 @@ function shouldAutoAdvance(digit: number, raw: string, max: number, digits: numb
 
 // ─── Props ─────────────────────────────────────────────────────────────────────
 
-export type TimePickerProps = Omit<BoxProps, keyof TimePickerVariantProps | 'children'> &
+export type TimePickerProps = Omit<
+  BoxProps,
+  keyof TimePickerVariantProps | 'children'
+> &
   TimePickerVariantProps & {
     /** Controlled value — hour is always 24h (0–23) internally */
     value?: TimeValue | null;
@@ -119,56 +284,70 @@ export const TimePicker = (props: TimePickerProps) => {
     size,
     open: controlledOpen,
     onOpenChange,
-    className,
     ...rest
   } = props;
+
+  const [className, otherProps] = splitProps(rest);
 
   const segments = getSegments(hourCycle);
 
   // ── Segment state ──────────────────────────────────────────────────────────
-  const initNumericValues = (v: TimeValue | null | undefined): NumericValues => {
-    if (!v) return { hour: null, minute: null };
-    if (hourCycle === '12') {
-      return { hour: to12hDisplay(v.hour).hour12, minute: v.minute };
-    }
-    return { hour: v.hour, minute: v.minute };
-  };
+  const initNumericValues = useCallback(
+    (v: TimeValue | null | undefined): NumericValues => {
+      if (!v) return { hour: null, minute: null };
+      if (hourCycle === '12') {
+        return { hour: to12hDisplay(v.hour).hour12, minute: v.minute };
+      }
+      return { hour: v.hour, minute: v.minute };
+    },
+    [hourCycle],
+  );
 
-  const initAmpm = (v: TimeValue | null | undefined): 'AM' | 'PM' | null => {
-    if (!v || hourCycle !== '12') return null;
-    return to12hDisplay(v.hour).ampm;
-  };
+  const initAmpm = useCallback(
+    (v: TimeValue | null | undefined): 'AM' | 'PM' | null => {
+      if (!v || hourCycle !== '12') return null;
+      return to12hDisplay(v.hour).ampm;
+    },
+    [hourCycle],
+  );
 
-  const [numericVals, setNumericVals] = useState<NumericValues>(() => initNumericValues(value));
-  const [rawInput, setRawInput] = useState<NumericRaw>({ hour: '', minute: '' });
+  const [numericVals, setNumericVals] = useState<NumericValues>(() =>
+    initNumericValues(value),
+  );
+  const [rawInput, setRawInput] = useState<NumericRaw>({
+    hour: '',
+    minute: '',
+  });
   const [ampm, setAmpm] = useState<'AM' | 'PM' | null>(() => initAmpm(value));
-  const [_focusedSegment, setFocusedSegment] = useState<SegmentType | null>(null);
+  const [_focusedSegment, setFocusedSegment] = useState<SegmentType | null>(
+    null,
+  );
 
   // ── Popover state ──────────────────────────────────────────────────────────
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledOpen ?? internalOpen;
 
-  const handleOpenChange = useCallback((next: boolean) => {
-    setInternalOpen(next);
-    onOpenChange?.(next);
-  }, [onOpenChange]);
+  const handleOpenChange = useCallback(
+    (next: boolean) => {
+      setInternalOpen(next);
+      onOpenChange?.(next);
+    },
+    [onOpenChange],
+  );
 
   // ── Sync external value ────────────────────────────────────────────────────
-  // biome-ignore lint/correctness/useExhaustiveDependencies: initNumericValues and initAmpm are stable helpers that only depend on hourCycle, which is already in deps
   useEffect(() => {
     if (value !== undefined) {
       setNumericVals(initNumericValues(value));
       setAmpm(initAmpm(value));
     }
-  }, [value, hourCycle]);
+  }, [value, initAmpm, initNumericValues]);
 
   // ── Floating UI ────────────────────────────────────────────────────────────
-  const { refs, floatingStyles, context } = useFloating({
+  const { refs, floatingStyles, context } = useOverlayFloating({
     open: isOpen,
     onOpenChange: handleOpenChange,
     placement: 'bottom-start',
-    middleware: [floatingOffset(4), flip(), shift({ padding: 8 })],
-    whileElementsMounted: autoUpdate,
   });
 
   const dismiss = useDismiss(context, { bubbles: false });
@@ -178,174 +357,197 @@ export const TimePicker = (props: TimePickerProps) => {
   const segmentRefs = useRef<(HTMLElement | null)[]>([]);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const setContainerRef = useCallback((el: HTMLDivElement | null) => {
-    containerRef.current = el;
-    refs.setReference(el);
-  }, [refs.setReference]);
+  const setContainerRef = useCallback(
+    (el: HTMLDivElement | null) => {
+      containerRef.current = el;
+      refs.setReference(el);
+    },
+    [refs],
+  );
 
   const focusSegment = useCallback((index: number) => {
     segmentRefs.current[index]?.focus();
   }, []);
 
-  const handleSegmentBlur = useCallback((e: React.FocusEvent) => {
-    setFocusedSegment(null);
-    const related = e.relatedTarget as Node | null;
-    if (
-      !containerRef.current?.contains(related) &&
-      !refs.floating.current?.contains(related)
-    ) {
-      handleOpenChange(false);
-    }
-  }, [refs.floating, handleOpenChange]);
+  const handleSegmentBlur = useCallback(
+    (e: FocusEvent) => {
+      setFocusedSegment(null);
+      const related = e.relatedTarget as Node | null;
+      if (
+        !containerRef.current?.contains(related) &&
+        !refs.floating.current?.contains(related)
+      ) {
+        handleOpenChange(false);
+      }
+    },
+    [refs.floating, handleOpenChange],
+  );
 
   // ── Emit change ────────────────────────────────────────────────────────────
-  const emitChange = useCallback((vals: NumericValues, meridiem: 'AM' | 'PM' | null) => {
-    if (vals.hour === null || vals.minute === null) {
-      // Don't emit null until all fields are cleared
-      return;
-    }
-    const hour24 = hourCycle === '12'
-      ? from12hDisplay(vals.hour, meridiem ?? 'AM')
-      : vals.hour;
-    onChange?.({ hour: hour24, minute: vals.minute });
-  }, [hourCycle, onChange]);
+  const emitChange = useCallback(
+    (vals: NumericValues, meridiem: 'AM' | 'PM' | null) => {
+      if (vals.hour === null || vals.minute === null) {
+        // Don't emit null until all fields are cleared
+        return;
+      }
+      const hour24 =
+        hourCycle === '12'
+          ? from12hDisplay(vals.hour, meridiem ?? 'AM')
+          : vals.hour;
+      onChange?.({ hour: hour24, minute: vals.minute });
+    },
+    [hourCycle, onChange],
+  );
 
   // ── Keyboard handler ───────────────────────────────────────────────────────
-  const handleSegmentKeyDown = useCallback((
-    e: React.KeyboardEvent,
-    segIdx: number,
-  ) => {
-    const seg = segments[segIdx];
-    if (!seg) return;
+  const handleSegmentKeyDown = useCallback(
+    (e: KeyboardEvent, segIdx: number) => {
+      const seg = segments[segIdx];
+      if (!seg) return;
 
-    if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      focusSegment(Math.max(0, segIdx - 1));
-      return;
-    }
-
-    if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      focusSegment(Math.min(segments.length - 1, segIdx + 1));
-      return;
-    }
-
-    if (e.key === 'Escape') {
-      handleOpenChange(false);
-      return;
-    }
-
-    // AM/PM segment
-    if (seg.kind === 'ampm') {
-      if (e.key === 'a' || e.key === 'A') {
+      if (e.key === 'ArrowLeft') {
         e.preventDefault();
-        setAmpm('AM');
-        emitChange(numericVals, 'AM');
-      } else if (e.key === 'p' || e.key === 'P') {
+        focusSegment(Math.max(0, segIdx - 1));
+        return;
+      }
+
+      if (e.key === 'ArrowRight') {
         e.preventDefault();
-        setAmpm('PM');
-        emitChange(numericVals, 'PM');
-      } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-        e.preventDefault();
-        const next = ampm === 'AM' ? 'PM' : 'AM';
-        setAmpm(next);
-        emitChange(numericVals, next);
+        focusSegment(Math.min(segments.length - 1, segIdx + 1));
+        return;
       }
-      return;
-    }
 
-    // Numeric segment
-    const { type, min, max, digits } = seg;
-
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      const step = type === 'minute' ? minuteStep : 1;
-      const currentVal = numericVals[type];
-      let next: number;
-      if (currentVal === null) {
-        next = Math.floor(max / step) * step;
-      } else {
-        const steppedDown = Math.ceil(currentVal / step) * step - step;
-        next = steppedDown < min ? Math.floor(max / step) * step : steppedDown;
+      if (e.key === 'Escape') {
+        handleOpenChange(false);
+        return;
       }
-      const newVals = { ...numericVals, [type]: next };
-      setNumericVals(newVals);
-      setRawInput(prev => ({ ...prev, [type]: '' }));
-      emitChange(newVals, ampm);
-      return;
-    }
 
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      const step = type === 'minute' ? minuteStep : 1;
-      const currentVal = numericVals[type];
-      let next: number;
-      if (currentVal === null) {
-        next = min;
-      } else {
-        const steppedUp = Math.floor(currentVal / step) * step + step;
-        next = steppedUp > max ? min : steppedUp;
-      }
-      const newVals = { ...numericVals, [type]: next };
-      setNumericVals(newVals);
-      setRawInput(prev => ({ ...prev, [type]: '' }));
-      emitChange(newVals, ampm);
-      return;
-    }
-
-    if (e.key === 'Backspace' || e.key === 'Delete') {
-      e.preventDefault();
-      const raw = rawInput[type];
-      if (raw.length > 0) {
-        setRawInput(prev => ({ ...prev, [type]: raw.slice(0, -1) }));
-      } else {
-        setNumericVals(prev => {
-          const next = { ...prev, [type]: null };
-          return next;
-        });
-      }
-      return;
-    }
-
-    if (/^\d$/.test(e.key)) {
-      e.preventDefault();
-      const currentRaw = rawInput[type];
-      const digit = Number(e.key);
-      const newRaw = currentRaw + e.key;
-      const newVal = Math.min(Math.max(Number(newRaw), min), max);
-
-      if (shouldAutoAdvance(digit, currentRaw, max, digits)) {
-        const newVals = { ...numericVals, [type]: newVal };
-        setNumericVals(newVals);
-        setRawInput(prev => ({ ...prev, [type]: '' }));
-        emitChange(newVals, ampm);
-
-        if (segIdx < segments.length - 1) {
-          focusSegment(segIdx + 1);
+      // AM/PM segment
+      if (seg.kind === 'ampm') {
+        if (e.key === 'a' || e.key === 'A') {
+          e.preventDefault();
+          setAmpm('AM');
+          emitChange(numericVals, 'AM');
+        } else if (e.key === 'p' || e.key === 'P') {
+          e.preventDefault();
+          setAmpm('PM');
+          emitChange(numericVals, 'PM');
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = ampm === 'AM' ? 'PM' : 'AM';
+          setAmpm(next);
+          emitChange(numericVals, next);
         }
-      } else {
-        setRawInput(prev => ({ ...prev, [type]: newRaw }));
-        setNumericVals(prev => {
-          const next = { ...prev, [type]: newVal };
-          emitChange(next, ampm);
-          return next;
-        });
+        return;
       }
-    }
-  }, [segments, numericVals, rawInput, ampm, minuteStep, focusSegment, emitChange, handleOpenChange]);
+
+      // Numeric segment
+      const { type, min, max, digits } = seg;
+
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const step = type === 'minute' ? minuteStep : 1;
+        const currentVal = numericVals[type];
+        let next: number;
+        if (currentVal === null) {
+          next = Math.floor(max / step) * step;
+        } else {
+          const steppedDown = Math.ceil(currentVal / step) * step - step;
+          next =
+            steppedDown < min ? Math.floor(max / step) * step : steppedDown;
+        }
+        const newVals = { ...numericVals, [type]: next };
+        setNumericVals(newVals);
+        setRawInput((prev) => ({ ...prev, [type]: '' }));
+        emitChange(newVals, ampm);
+        return;
+      }
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const step = type === 'minute' ? minuteStep : 1;
+        const currentVal = numericVals[type];
+        let next: number;
+        if (currentVal === null) {
+          next = min;
+        } else {
+          const steppedUp = Math.floor(currentVal / step) * step + step;
+          next = steppedUp > max ? min : steppedUp;
+        }
+        const newVals = { ...numericVals, [type]: next };
+        setNumericVals(newVals);
+        setRawInput((prev) => ({ ...prev, [type]: '' }));
+        emitChange(newVals, ampm);
+        return;
+      }
+
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        e.preventDefault();
+        const raw = rawInput[type];
+        if (raw.length > 0) {
+          setRawInput((prev) => ({ ...prev, [type]: raw.slice(0, -1) }));
+        } else {
+          setNumericVals((prev) => {
+            const next = { ...prev, [type]: null };
+            return next;
+          });
+        }
+        return;
+      }
+
+      if (/^\d$/.test(e.key)) {
+        e.preventDefault();
+        const currentRaw = rawInput[type];
+        const digit = Number(e.key);
+        const newRaw = currentRaw + e.key;
+        const newVal = Math.min(Math.max(Number(newRaw), min), max);
+
+        if (shouldAutoAdvance(digit, currentRaw, max, digits)) {
+          const newVals = { ...numericVals, [type]: newVal };
+          setNumericVals(newVals);
+          setRawInput((prev) => ({ ...prev, [type]: '' }));
+          emitChange(newVals, ampm);
+
+          if (segIdx < segments.length - 1) {
+            focusSegment(segIdx + 1);
+          }
+        } else {
+          setRawInput((prev) => ({ ...prev, [type]: newRaw }));
+          setNumericVals((prev) => {
+            const next = { ...prev, [type]: newVal };
+            emitChange(next, ampm);
+            return next;
+          });
+        }
+      }
+    },
+    [
+      segments,
+      numericVals,
+      rawInput,
+      ampm,
+      minuteStep,
+      focusSegment,
+      emitChange,
+      handleOpenChange,
+    ],
+  );
 
   // ── TimeList selection ─────────────────────────────────────────────────────
-  const handleTimeListSelect = useCallback((tv: TimeValue) => {
-    const display = hourCycle === '12' ? to12hDisplay(tv.hour) : null;
-    setNumericVals({
-      hour: display ? display.hour12 : tv.hour,
-      minute: tv.minute,
-    });
-    setRawInput({ hour: '', minute: '' });
-    if (display) setAmpm(display.ampm);
-    onChange?.(tv);
-    handleOpenChange(false);
-  }, [hourCycle, onChange, handleOpenChange]);
+  const handleTimeListSelect = useCallback(
+    (tv: TimeValue) => {
+      const display = hourCycle === '12' ? to12hDisplay(tv.hour) : null;
+      setNumericVals({
+        hour: display ? display.hour12 : tv.hour,
+        minute: tv.minute,
+      });
+      setRawInput({ hour: '', minute: '' });
+      if (display) setAmpm(display.ampm);
+      onChange?.(tv);
+      handleOpenChange(false);
+    },
+    [hourCycle, onChange, handleOpenChange],
+  );
 
   // ── Recipe classes ─────────────────────────────────────────────────────────
   const classes = timePicker({ size });
@@ -355,117 +557,52 @@ export const TimePicker = (props: TimePickerProps) => {
   const selectedDisplayHour = numericVals.hour;
   const selectedMinute = numericVals.minute;
 
-  // ── Render segments ────────────────────────────────────────────────────────
-  const renderSegments = () => {
-    const items: React.ReactNode[] = [];
-
-    segments.forEach((seg, idx) => {
-      if (seg.kind === 'ampm') {
-        const display = ampm ?? seg.placeholder;
-        items.push(
-          <Box
-            key="ampm"
-            as="span"
-            role="spinbutton"
-            tabIndex={disabled ? -1 : 0}
-            aria-label="AM or PM"
-            aria-valuetext={display}
-            className={classes.segment}
-            color={ampm === null ? (error ? 'text.danger' : 'text.placeholder') : undefined}
-            ref={(el: HTMLElement | null) => {
-              segmentRefs.current[idx] = el;
-            }}
-            onFocus={() => { setFocusedSegment('ampm'); if (!disabled) handleOpenChange(true); }}
-            onBlur={handleSegmentBlur}
-            onKeyDown={(e: React.KeyboardEvent) => handleSegmentKeyDown(e, idx)}
-          >
-            {display}
-          </Box>,
-        );
-        return;
-      }
-
-      // Numeric segment
-      const val = numericVals[seg.type];
-      const raw = rawInput[seg.type];
-      let display: string;
-      if (raw.length > 0) {
-        display = raw;
-      } else if (val !== null) {
-        display = String(val).padStart(2, '0');
-      } else {
-        display = seg.placeholder;
-      }
-      const isPlaceholder = val === null && raw.length === 0;
-
-      items.push(
-        <Box
-          key={seg.type}
-          as="span"
-          role="spinbutton"
-          tabIndex={disabled ? -1 : 0}
-          aria-label={seg.type.charAt(0).toUpperCase() + seg.type.slice(1)}
-          aria-valuenow={val ?? undefined}
-          aria-valuemin={seg.min}
-          aria-valuemax={seg.max}
-          aria-valuetext={display}
-          className={classes.segment}
-          color={isPlaceholder ? (error ? 'text.danger' : 'text.placeholder') : undefined}
-          ref={(el: HTMLElement | null) => {
-            segmentRefs.current[idx] = el;
-          }}
-          onFocus={() => { setFocusedSegment(seg.type); if (!disabled) handleOpenChange(true); }}
-          onBlur={handleSegmentBlur}
-          onKeyDown={(e: React.KeyboardEvent) => handleSegmentKeyDown(e, idx)}
-        >
-          {display}
-        </Box>,
-      );
-
-      // Add ":" separator after hour, before minute
-      if (seg.type === 'hour') {
-        items.push(
-          <Box key="sep-hour-min" as="span" className={classes.separator} aria-hidden="true">
-            :
-          </Box>,
-        );
-      }
-      // Add space separator before AM/PM
-      if (seg.type === 'minute' && hourCycle === '12') {
-        items.push(
-          <Box key="sep-min-ampm" as="span" className={classes.separator} aria-hidden="true">
-            {' '}
-          </Box>,
-        );
-      }
-    });
-
-    return items;
-  };
-
   return (
-    <Box className={cx(classes.root, className)} {...rest}>
+    <Box className={cx(classes.root, className)} {...otherProps}>
       {/* Segmented input */}
       <Box
         ref={setContainerRef}
-        className={classes.input}
+        className={`${classes.input} group`}
         role="group"
         aria-label={label}
         aria-disabled={disabled}
         data-error={error ? true : undefined}
         data-open={isOpen || undefined}
-        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-          if (e.target === e.currentTarget && !disabled) segmentRefs.current[0]?.focus();
+        onClick={(e: MouseEvent<HTMLDivElement>) => {
+          if (e.target === e.currentTarget && !disabled)
+            segmentRefs.current[0]?.focus();
         }}
         {...(getReferenceProps() as Record<string, unknown>)}
       >
-        {renderSegments()}
+        <TimeSegments
+          segments={segments}
+          ampm={ampm}
+          numericVals={numericVals}
+          rawInput={rawInput}
+          disabled={disabled}
+          error={error}
+          hourCycle={hourCycle}
+          classes={classes}
+          segmentRefs={segmentRefs}
+          onFocusSegment={(segment) => {
+            setFocusedSegment(segment);
+            if (!disabled) {
+              handleOpenChange(true);
+            }
+          }}
+          onBlurSegment={handleSegmentBlur}
+          onKeyDownSegment={handleSegmentKeyDown}
+        />
       </Box>
 
       {/* Popover time list */}
       {isOpen && !disabled && (
         <FloatingPortal>
-          <FloatingFocusManager context={context} modal={false} initialFocus={-1}>
+          <FloatingFocusManager
+            context={context}
+            modal={false}
+            initialFocus={-1}
+          >
             <Box
               ref={refs.setFloating}
               className={classes.popover}

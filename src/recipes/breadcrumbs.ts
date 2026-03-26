@@ -1,29 +1,46 @@
-import { defineRecipe } from '@pandacss/dev';
+import { defineSlotRecipe } from '@pandacss/dev';
 
-const BreadcrumbsBase = {
-  display: 'flex',
-  alignItems: 'center',
-  '& li': {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  '& a': {
-    color: { base: 'gray.60', _dark: 'gray.60' },
-    _focusVisible: {
-      color: 'blue.50',
-    },
-  },
-  '& p': {
-    color: { base: 'gray.90', _dark: 'gray.10' },
-  },
-  '& span': {
-    mx: '6',
-    color: 'gray.20',
-  },
-};
-
-export const breadcrumbsRecipe = defineRecipe({
+export const breadcrumbsRecipe = defineSlotRecipe({
   className: 'breadcrumbs',
   jsx: ['Breadcrumbs'],
-  base: BreadcrumbsBase,
+  slots: ['wrapper', 'slash', 'linkSegment', 'currentSegment'],
+  base: {
+    wrapper: {
+      display: 'flex',
+      gap: '6',
+      alignItems: 'center',
+      fontFamily: 'mono',
+      fontSize: '14',
+      '& li': {
+        display: 'flex',
+        gap: '6',
+        alignItems: 'center',
+      },
+    },
+    slash: {
+      fontFamily: 'mono',
+      fontSize: '14',
+      color: 'text.placeholder',
+    },
+    linkSegment: {
+      fontFamily: 'mono',
+      fontSize: '14',
+      color: 'text.subtlest',
+      fontWeight: 'normal',
+      whiteSpace: 'nowrap',
+      _hover: {
+        color: 'link',
+      },
+      _focusVisible: {
+        color: 'blue.50',
+      },
+    },
+    currentSegment: {
+      fontFamily: 'mono',
+      fontSize: '14',
+      color: 'text',
+      fontWeight: 'bold',
+      whiteSpace: 'nowrap',
+    },
+  },
 });

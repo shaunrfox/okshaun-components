@@ -1,11 +1,14 @@
 import { cx } from '@styled-system/css';
-import { icon } from '@styled-system/patterns';
+import { type IconVariantProps, icon } from '@styled-system/recipes';
 import type { ColorToken } from '@styled-system/tokens';
-import { type SVGAttributes, useEffect } from 'react';
+import type { SVGAttributes } from 'react';
+
 import { Box, type BoxProps } from '~/components/Box';
 import type { numericSizes } from '~/styles/primitives';
-import { injectSprite } from '~/utils/injectSprite';
 import { splitProps } from '~/utils/splitProps';
+
+import { useIconConfig } from './IconContext';
+
 import type { IconNamesList } from './icons';
 
 /*
@@ -15,31 +18,32 @@ import type { IconNamesList } from './icons';
  */
 export type AllowedIconSizes = keyof typeof numericSizes;
 
-export type IconProps = Omit<BoxProps, 'size'> &
-  SVGAttributes<SVGElement> & {
+export type IconProps = Omit<BoxProps, IconNamesList | 'size'> &
+  SVGAttributes<SVGElement> &
+  IconVariantProps & {
     name: IconNamesList;
     size?: AllowedIconSizes;
     fill?: ColorToken;
   };
-export const Icon = (props: IconProps) => {
-  const { name, size = '24', fill, ...rest } = props;
-  const [className, otherProps] = splitProps(rest);
 
-  // Inject sprite on first Icon render
-  useEffect(() => {
-    injectSprite();
-  }, []);
+export const Icon = (props: IconProps) => {
+  const { name, size, fill, ...rest } = props;
+  const [className, otherProps] = splitProps(rest);
+  const { spritePath } = useIconConfig();
+  const spriteHref = `${spritePath}#${name}`;
 
   return (
     <Box
-      as={'svg'}
+      as="svg"
+      name={name}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
-      name={name}
-      className={cx(icon({ size: size as AllowedIconSizes, fill }), className)}
+      {...(size && { width: size })}
+      fill={fill}
+      className={cx(icon(), className)}
       {...otherProps}
     >
-      <use xlinkHref={`#${name}`} />
+      <use xlinkHref={spriteHref} />
     </Box>
   );
 };

@@ -1,16 +1,14 @@
 import { cx } from '@styled-system/css';
 import { themeSwitcher } from '@styled-system/recipes';
 import { Box, type BoxProps } from '~/components/Box';
-import { useTheme } from '~/contexts/ThemeContext';
+import { useTheme } from '~/system/context';
 import { splitProps } from '~/utils/splitProps';
 
 export type ThemeSwitcherProps = BoxProps;
 
 export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
   const [className, otherProps] = splitProps(props);
-
   const { theme, setTheme } = useTheme();
-
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };

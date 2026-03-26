@@ -1,14 +1,15 @@
 import { css, cx } from '@styled-system/css';
 import { type BadgeVariantProps, badge } from '@styled-system/recipes';
-import { useEffect, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
+
 import { Box, type BoxProps } from '~/components/Box';
 import { splitProps } from '~/utils/splitProps';
 
 export type BadgeVariant =
   | 'neutral'
-  | 'inverted'
   | 'subtle'
-  | 'subtle-inverted'
+  | 'bold'
+  | 'inverse'
   | 'success'
   | 'danger'
   | 'warning'
@@ -25,10 +26,9 @@ export type BadgeProps = Omit<BoxProps, keyof BadgeVariantProps> &
     /** Color scheme of the badge. Default: 'danger' */
     variant?: BadgeVariant;
     /** Content to wrap with the badge */
-    children?: React.ReactNode;
+    children?: ReactNode;
   };
 
-// Animation styles
 // Animation styles
 const animationStyles = {
   pop: css({
@@ -63,23 +63,6 @@ export const Badge = (props: BadgeProps) => {
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
-  // Track count changes for animation
-  const prevCountRef = useRef<number | undefined>(count);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  // Trigger animation when count changes
-  useEffect(() => {
-    if (count !== undefined && prevCountRef.current !== count) {
-      // Only animate if count actually changed (not on initial render)
-      if (prevCountRef.current !== undefined) {
-        setIsAnimating(true);
-        const timer = setTimeout(() => setIsAnimating(false), 200);
-        return () => clearTimeout(timer);
-      }
-    }
-    prevCountRef.current = count;
-  }, [count]);
-
   // Determine if we're in count mode or dot mode
   const isCountMode = count !== undefined;
   const isDotMode = !isCountMode;
@@ -107,7 +90,7 @@ export const Badge = (props: BadgeProps) => {
   });
 
   // Animation class based on position mode
-  const animationClass = isAnimating
+  const animationClass = isCountMode
     ? isStandalone
       ? animationStyles.popStandalone
       : animationStyles.pop
@@ -119,7 +102,11 @@ export const Badge = (props: BadgeProps) => {
   }
 
   const indicator = isVisible ? (
-    <Box as="span" className={cx(classes.indicator, animationClass)}>
+    <Box
+      as="span"
+      key={isCountMode ? `count-${String(displayCount)}` : 'dot'}
+      className={cx(classes.indicator, animationClass)}
+    >
       {displayCount}
     </Box>
   ) : null;

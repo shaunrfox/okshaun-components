@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "alignment",
+    "tab",
+    "unindent",
+    "dedent",
+    "menu",
+    "text",
+    "outdent",
+    "close"
+  ],
+  "tags": [],
+  "category": "Navigation",
+  "deprecated": false
+}

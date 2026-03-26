@@ -1,8 +1,9 @@
-import { cx } from "@styled-system/css";
-import { type TextVariantProps, text } from "@styled-system/recipes";
-import type { ElementType, ReactNode } from "react";
-import { Box, type BoxProps } from "~/components/Box";
-import { splitProps } from "~/utils/splitProps";
+import { cx } from '@styled-system/css';
+import { type TextVariantProps, text } from '@styled-system/recipes';
+import type { ElementType, ReactNode } from 'react';
+
+import { Box, type BoxProps } from '~/components/Box';
+import { splitProps } from '~/utils/splitProps';
 
 export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
   TextVariantProps & {
@@ -14,7 +15,7 @@ export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
 
 export const Text = (props: TextProps) => {
   const {
-    as = "span",
+    as = 'span',
     family,
     italic,
     bold,
@@ -35,6 +36,8 @@ export const Text = (props: TextProps) => {
     <Box
       as={as}
       textStyle={textStyle}
+      role={role}
+      tabIndex={tabIndex}
       className={cx(
         text({
           family,
@@ -48,8 +51,6 @@ export const Text = (props: TextProps) => {
         }),
         className,
       )}
-      role={role}
-      tabIndex={tabIndex}
       {...otherProps}
     >
       {children}

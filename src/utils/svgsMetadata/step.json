@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "step",
+    "stage",
+    "phase",
+    "navigate",
+    "menu",
+    "route",
+    "wayfinding",
+    "location"
+  ],
+  "tags": [],
+  "category": "Navigation",
+  "deprecated": false
+}

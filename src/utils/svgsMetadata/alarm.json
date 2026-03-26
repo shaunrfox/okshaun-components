@@ -1,0 +1,14 @@
+{
+  "aliases": [
+    "times",
+    "alarm",
+    "timer",
+    "clock",
+    "schedule",
+    "events",
+    "watch"
+  ],
+  "tags": ["time", "status"],
+  "category": "Time",
+  "deprecated": false
+}

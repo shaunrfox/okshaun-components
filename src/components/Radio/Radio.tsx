@@ -1,18 +1,23 @@
 import { cx } from '@styled-system/css';
 import { type RadioVariantProps, radio } from '@styled-system/recipes';
-import type { ChangeEventHandler } from 'react';
+import type { ChangeEvent } from 'react';
+
 import { splitProps } from '~/utils/splitProps';
+
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
 
-export type RadioProps = Omit<BoxProps, keyof RadioVariantProps> &
+export type RadioProps = Omit<
+  BoxProps,
+  'checked' | 'onChange' | keyof RadioVariantProps
+> &
   RadioVariantProps & {
     name: string;
     checked: boolean;
-    onChange: ChangeEventHandler<HTMLInputElement>;
+    onChange: RadioChangeHandler;
     id?: string;
-    disabled?: boolean;
     error?: boolean;
+    disabled?: boolean;
   };
 
 /**
@@ -20,7 +25,7 @@ export type RadioProps = Omit<BoxProps, keyof RadioVariantProps> &
  * @example
  * const handleChange: RadioChangeHandler = (e) => setChecked(e.target.checked);
  */
-export type RadioChangeEvent = React.ChangeEvent<HTMLInputElement>;
+export type RadioChangeEvent = ChangeEvent<HTMLInputElement>;
 
 /**
  * Helper type for radio change handler functions
@@ -40,34 +45,51 @@ export type RadioChangeHandler = (e: RadioChangeEvent) => void;
  *   onChange={(e) => setChecked(e.target.checked)}
  * />
  */
-
 export const Radio = (props: RadioProps) => {
-  const { name, checked, onChange, id, disabled, error, ...rest } = props;
+  const {
+    name,
+    checked,
+    onChange,
+    id,
+    error,
+    disabled,
+    container,
+    input,
+    indicator,
+    radioBg,
+    ...rest
+  } = props;
   const [className, otherProps] = splitProps(rest);
-  const { container, input, indicator } = radio({});
+  const classes = radio({
+    container,
+    input,
+    indicator,
+    radioBg,
+  });
 
   // Determine which icon to render based on state
   const iconName = checked ? 'radio-checked' : 'radio';
 
   return (
     <Box
-      className={cx(container, className)}
+      className={cx(classes.container, className)}
       {...(error && { 'data-error': true })}
-      {...otherProps}
     >
       <Box
         as="input"
         type="radio"
-        className={input}
+        className={classes.input}
         name={name}
         id={id}
         checked={checked}
         onChange={onChange}
         disabled={disabled}
         {...(error && { 'data-error': true })}
+        {...otherProps}
       />
-      <Icon className={indicator} name={iconName} />
-      <Icon className={indicator} name={'radio-focus'} />
+      <Icon className={classes.radioBg} name="circle" />
+      <Icon className={classes.indicator} name={iconName} />
+      <Icon className={classes.indicator} name="radio-focus" />
     </Box>
   );
 };

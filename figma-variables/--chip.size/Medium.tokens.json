@@ -5,9 +5,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:54:1859",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "CORNER_RADIUS"
-      ],
+      "com.figma.scopes": ["CORNER_RADIUS"],
       "com.figma.aliasData": {
         "targetVariableId": "VariableID:c2fb88a4f31ed02ae8b6e0d2e4a84c2798deb595/-1:-1",
         "targetVariableName": "24",
@@ -23,9 +21,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:54:1858",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "GAP"
-      ],
+      "com.figma.scopes": ["GAP"],
       "com.figma.aliasData": {
         "targetVariableId": "VariableID:cbac24f3b4e9541f26c72f8fbf5d10ca1d8a06be/-1:-1",
         "targetVariableName": "4",
@@ -41,9 +37,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:54:1854",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "WIDTH_HEIGHT"
-      ],
+      "com.figma.scopes": ["WIDTH_HEIGHT"],
       "com.figma.aliasData": {
         "targetVariableId": "VariableID:c2fb88a4f31ed02ae8b6e0d2e4a84c2798deb595/-1:-1",
         "targetVariableName": "24",
@@ -59,9 +53,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:54:1857",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "GAP"
-      ],
+      "com.figma.scopes": ["GAP"],
       "com.figma.aliasData": {
         "targetVariableId": "VariableID:2a17c4605f7c03475ed1b54d515904007f088937/-1:-1",
         "targetVariableName": "8",
@@ -77,9 +69,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:54:1855",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "GAP"
-      ],
+      "com.figma.scopes": ["GAP"],
       "com.figma.aliasData": {
         "targetVariableId": "VariableID:b2fb7545e75a0fdb0e7e94615834099d0e73cc2d/-1:-1",
         "targetVariableName": "2",
@@ -95,9 +85,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:54:1853",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "GAP"
-      ],
+      "com.figma.scopes": ["GAP"],
       "com.figma.aliasData": {
         "targetVariableId": "VariableID:b2fb7545e75a0fdb0e7e94615834099d0e73cc2d/-1:-1",
         "targetVariableName": "2",
@@ -113,9 +101,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:54:1856",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "GAP"
-      ],
+      "com.figma.scopes": ["GAP"],
       "com.figma.aliasData": {
         "targetVariableId": "VariableID:aabf72ad7c4f185878816f76f548519729f914e9/-1:-1",
         "targetVariableName": "1",
@@ -131,9 +117,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:54:1852",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "WIDTH_HEIGHT"
-      ],
+      "com.figma.scopes": ["WIDTH_HEIGHT"],
       "com.figma.aliasData": {
         "targetVariableId": "VariableID:1bc033e8091cf4632f8394c307a0a465787f9d8a/-1:-1",
         "targetVariableName": "20",
@@ -149,9 +133,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:54:1851",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "FONT_SIZE"
-      ],
+      "com.figma.scopes": ["FONT_SIZE"],
       "com.figma.aliasData": {
         "targetVariableId": "VariableID:7b0730e2ffec02544dd08230dffcc52388e4ec9d/-1:-1",
         "targetVariableName": "font-size/14",

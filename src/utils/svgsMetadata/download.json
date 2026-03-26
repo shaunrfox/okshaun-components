@@ -1,0 +1,19 @@
+{
+  "aliases": [
+    "save",
+    "get-file",
+    "saved",
+    "saving",
+    "archived",
+    "archiving",
+    "archival",
+    "downloaded",
+    "downloading",
+    "hard drive",
+    "disk",
+    "download"
+  ],
+  "tags": ["files"],
+  "category": "Actions",
+  "deprecated": false
+}

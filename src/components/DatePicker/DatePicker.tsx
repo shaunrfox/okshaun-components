@@ -1,24 +1,33 @@
 import {
   FloatingFocusManager,
   FloatingPortal,
-  autoUpdate,
-  flip,
-  offset as floatingOffset,
-  shift,
   useDismiss,
-  useFloating,
   useInteractions,
 } from '@floating-ui/react';
 import { cx } from '@styled-system/css';
-import { datePicker, type DatePickerVariantProps } from '@styled-system/recipes';
-import type React from 'react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Box } from '~/components/Box';
-import type { BoxProps } from '~/components/Box';
-import { Calendar } from './Calendar';
-import type { DateValue } from './Calendar';
+import {
+  type DatePickerVariantProps,
+  datePicker,
+} from '@styled-system/recipes';
+import {
+  type FocusEvent,
+  type KeyboardEvent,
+  type MouseEvent,
+  type RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
-export type { DateValue };
+import { Box, type BoxProps } from '~/components/Box';
+import { useOverlayFloating } from '~/system/floating-ui/floating';
+import { splitProps } from '~/utils/splitProps';
+
+import { Calendar, type DateValue } from './Calendar';
+
+export type { DateValue } from './Calendar';
 
 // ─── Segment definitions ───────────────────────────────────────────────────────
 
@@ -41,9 +50,102 @@ const DATE_SEGMENTS: SegmentDef[] = [
 type SegmentValues = Record<SegmentType, number | null>;
 type SegmentRaw = Record<SegmentType, string>;
 
+type DateSegmentsProps = {
+  segments: SegmentValues;
+  rawInput: SegmentRaw;
+  disabled: boolean;
+  error: boolean;
+  focusedSegment: SegmentType | null;
+  classes: ReturnType<typeof datePicker>;
+  segmentRefs: RefObject<(HTMLElement | null)[]>;
+  onFocusSegment: (segment: SegmentType) => void;
+  onBlurSegment: (event: FocusEvent) => void;
+  onKeyDownSegment: (event: KeyboardEvent, segmentIndex: number) => void;
+};
+
+const DateSegments = ({
+  segments,
+  rawInput,
+  disabled,
+  focusedSegment,
+  classes,
+  segmentRefs,
+  onFocusSegment,
+  onBlurSegment,
+  onKeyDownSegment,
+}: DateSegmentsProps) => {
+  return DATE_SEGMENTS.flatMap((seg, idx) => {
+    const val = segments[seg.type];
+    const raw = rawInput[seg.type];
+
+    let display: string;
+    if (raw.length > 0) {
+      display = raw.padStart(seg.digits === 4 ? raw.length : 1, '');
+    } else if (val !== null) {
+      display = String(val).padStart(seg.digits === 4 ? seg.digits : 2, '0');
+    } else {
+      display = seg.placeholder;
+    }
+
+    const segmentNode = (
+      <Box
+        key={seg.type}
+        as="span"
+        role="spinbutton"
+        tabIndex={disabled ? -1 : 0}
+        aria-label={seg.type.charAt(0).toUpperCase() + seg.type.slice(1)}
+        aria-valuenow={val ?? undefined}
+        aria-valuemin={seg.min}
+        aria-valuemax={seg.max}
+        aria-valuetext={display}
+        className={classes.segment}
+        color={
+          val === null && raw.length === 0
+            ? disabled
+              ? 'text.disabled'
+              : 'text.placeholder'
+            : undefined
+        }
+        data-focused={focusedSegment === seg.type ? true : undefined}
+        ref={(el: HTMLElement | null) => {
+          segmentRefs.current[idx] = el;
+        }}
+        onFocus={() => {
+          onFocusSegment(seg.type);
+        }}
+        onBlur={onBlurSegment}
+        onKeyDown={(event: KeyboardEvent) => onKeyDownSegment(event, idx)}
+      >
+        {display}
+      </Box>
+    );
+
+    if (idx === DATE_SEGMENTS.length - 1) {
+      return [segmentNode];
+    }
+
+    return [
+      segmentNode,
+      <Box
+        key={`sep-${seg.type}`}
+        as="span"
+        className={classes.separator}
+        aria-hidden="true"
+      >
+        /
+      </Box>,
+    ];
+  });
+};
+
 // ─── Auto-advance logic ────────────────────────────────────────────────────────
 
-function shouldAutoAdvance(digit: number, raw: string, max: number, digits: number): boolean {
+function shouldAutoAdvance(
+  digit: number,
+  raw: string,
+  max: number,
+  digits: number,
+): boolean {
   const next = raw + String(digit);
   if (next.length >= digits) return true;
   if (Number(next) * 10 > max) return true;
@@ -52,7 +154,11 @@ function shouldAutoAdvance(digit: number, raw: string, max: number, digits: numb
 
 // ─── Segment → max day recalculation ──────────────────────────────────────────
 
-function clampDay(day: number, month: number | null, year: number | null): number {
+function clampDay(
+  day: number,
+  month: number | null,
+  year: number | null,
+): number {
   const y = year ?? 2000; // use leap year if year unknown
   const m = month ?? 1;
   const max = new Date(y, m, 0).getDate();
@@ -61,7 +167,10 @@ function clampDay(day: number, month: number | null, year: number | null): numbe
 
 // ─── Props ─────────────────────────────────────────────────────────────────────
 
-export type DatePickerProps = Omit<BoxProps, keyof DatePickerVariantProps | 'children'> &
+export type DatePickerProps = Omit<
+  BoxProps,
+  keyof DatePickerVariantProps | 'children'
+> &
   DatePickerVariantProps & {
     /** Controlled value */
     value?: DateValue | null;
@@ -97,9 +206,10 @@ export const DatePicker = (props: DatePickerProps) => {
     size,
     open: controlledOpen,
     onOpenChange,
-    className,
     ...rest
   } = props;
+
+  const [className, otherProps] = splitProps(rest);
 
   // ── Segment state ──────────────────────────────────────────────────────────
   const [segments, setSegments] = useState<SegmentValues>(() => ({
@@ -107,25 +217,36 @@ export const DatePicker = (props: DatePickerProps) => {
     day: value?.day ?? null,
     year: value?.year ?? null,
   }));
-  const [rawInput, setRawInput] = useState<SegmentRaw>({ month: '', day: '', year: '' });
-  const [focusedSegment, setFocusedSegment] = useState<SegmentType | null>(null);
+  const [rawInput, setRawInput] = useState<SegmentRaw>({
+    month: '',
+    day: '',
+    year: '',
+  });
+  const [focusedSegment, setFocusedSegment] = useState<SegmentType | null>(
+    null,
+  );
 
   // ── Calendar view state ────────────────────────────────────────────────────
   const today = useMemo(() => {
     const now = new Date();
     return { year: now.getFullYear(), month: now.getMonth() + 1 };
   }, []);
-  const [viewYear, setViewYear] = useState(value?.year ?? today.year);
-  const [viewMonth, setViewMonth] = useState(value?.month ?? today.month);
+  const [viewDate, setViewDate] = useState({
+    year: value?.year ?? today.year,
+    month: value?.month ?? today.month,
+  });
 
   // ── Popover state ──────────────────────────────────────────────────────────
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = controlledOpen ?? internalOpen;
 
-  const handleOpenChange = useCallback((next: boolean) => {
-    setInternalOpen(next);
-    onOpenChange?.(next);
-  }, [onOpenChange]);
+  const handleOpenChange = useCallback(
+    (next: boolean) => {
+      setInternalOpen(next);
+      onOpenChange?.(next);
+    },
+    [onOpenChange],
+  );
 
   // ── Sync external value → segment state ───────────────────────────────────
   useEffect(() => {
@@ -136,19 +257,16 @@ export const DatePicker = (props: DatePickerProps) => {
         year: value?.year ?? null,
       });
       if (value) {
-        setViewMonth(value.month);
-        setViewYear(value.year);
+        setViewDate({ year: value.year, month: value.month });
       }
     }
   }, [value]);
 
   // ── Floating UI ────────────────────────────────────────────────────────────
-  const { refs, floatingStyles, context } = useFloating({
+  const { refs, floatingStyles, context } = useOverlayFloating({
     open: isOpen,
     onOpenChange: handleOpenChange,
     placement: 'bottom-start',
-    middleware: [floatingOffset(4), flip(), shift({ padding: 8 })],
-    whileElementsMounted: autoUpdate,
   });
 
   const dismiss = useDismiss(context, { bubbles: false });
@@ -158,242 +276,223 @@ export const DatePicker = (props: DatePickerProps) => {
   const segmentRefs = useRef<(HTMLElement | null)[]>([]);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const setContainerRef = useCallback((el: HTMLDivElement | null) => {
-    containerRef.current = el;
-    refs.setReference(el);
-  }, [refs.setReference]);
+  const setContainerRef = useCallback(
+    (el: HTMLDivElement | null) => {
+      containerRef.current = el;
+      refs.setReference(el);
+    },
+    [refs],
+  );
 
   const focusSegment = useCallback((index: number) => {
     segmentRefs.current[index]?.focus();
   }, []);
 
-  const handleSegmentBlur = useCallback((e: React.FocusEvent) => {
-    setFocusedSegment(null);
-    const related = e.relatedTarget as Node | null;
-    if (
-      !containerRef.current?.contains(related) &&
-      !refs.floating.current?.contains(related)
-    ) {
-      handleOpenChange(false);
-    }
-  }, [refs.floating, handleOpenChange]);
+  const handleSegmentBlur = useCallback(
+    (e: FocusEvent) => {
+      setFocusedSegment(null);
+      const related = e.relatedTarget as Node | null;
+      if (
+        !containerRef.current?.contains(related) &&
+        !refs.floating.current?.contains(related)
+      ) {
+        handleOpenChange(false);
+      }
+    },
+    [refs.floating, handleOpenChange],
+  );
 
   // ── Segment → onChange emission ───────────────────────────────────────────
-  const emitChange = useCallback((next: SegmentValues) => {
-    if (next.month !== null && next.day !== null && next.year !== null) {
-      onChange?.({ year: next.year, month: next.month, day: next.day });
-    } else if (next.month === null && next.day === null && next.year === null) {
-      onChange?.(null);
-    }
-  }, [onChange]);
+  const emitChange = useCallback(
+    (next: SegmentValues) => {
+      if (next.month !== null && next.day !== null && next.year !== null) {
+        onChange?.({ year: next.year, month: next.month, day: next.day });
+      } else if (
+        next.month === null &&
+        next.day === null &&
+        next.year === null
+      ) {
+        onChange?.(null);
+      }
+    },
+    [onChange],
+  );
 
   // ── Keyboard handler factory ───────────────────────────────────────────────
-  const handleSegmentKeyDown = useCallback((
-    e: React.KeyboardEvent,
-    segIdx: number,
-  ) => {
-    const seg = DATE_SEGMENTS[segIdx];
-    if (!seg) return;
-    const { type } = seg;
+  const handleSegmentKeyDown = useCallback(
+    (e: KeyboardEvent, segIdx: number) => {
+      const seg = DATE_SEGMENTS[segIdx];
+      if (!seg) return;
+      const { type } = seg;
 
-    const updateSegment = (newVal: number | null, newRaw: string) => {
-      const next = { ...segments, [type]: newVal };
-      setSegments(next);
-      setRawInput(prev => ({ ...prev, [type]: newRaw }));
-      emitChange(next);
-      return next;
-    };
+      const updateSegment = (newVal: number | null, newRaw: string) => {
+        const next = { ...segments, [type]: newVal };
+        setSegments(next);
+        setRawInput((prev) => ({ ...prev, [type]: newRaw }));
+        emitChange(next);
+        return next;
+      };
 
-    if (e.key === 'ArrowLeft' || (e.key === 'Tab' && e.shiftKey)) {
-      if (e.key === 'ArrowLeft') {
+      if (e.key === 'ArrowLeft' || (e.key === 'Tab' && e.shiftKey)) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          focusSegment(Math.max(0, segIdx - 1));
+        }
+        // Tab/Shift+Tab let through normally — browser handles Tab focus
+        return;
+      }
+
+      if (e.key === 'ArrowRight') {
         e.preventDefault();
-        focusSegment(Math.max(0, segIdx - 1));
+        focusSegment(Math.min(DATE_SEGMENTS.length - 1, segIdx + 1));
+        return;
       }
-      // Tab/Shift+Tab let through normally — browser handles Tab focus
-      return;
-    }
 
-    if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      focusSegment(Math.min(DATE_SEGMENTS.length - 1, segIdx + 1));
-      return;
-    }
-
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      const current = segments[type] ?? seg.max + 1;
-      const next = current <= seg.min ? seg.max : current - 1;
-      updateSegment(next, '');
-      return;
-    }
-
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      const current = segments[type] ?? seg.min - 1;
-      const next = current >= seg.max ? seg.min : current + 1;
-      updateSegment(next, '');
-      return;
-    }
-
-    if (e.key === 'Backspace' || e.key === 'Delete') {
-      e.preventDefault();
-      const raw = rawInput[type];
-      if (raw.length > 0) {
-        setRawInput(prev => ({ ...prev, [type]: raw.slice(0, -1) }));
-      } else {
-        updateSegment(null, '');
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const current = segments[type] ?? seg.max + 1;
+        const next = current <= seg.min ? seg.max : current - 1;
+        updateSegment(next, '');
+        return;
       }
-      return;
-    }
 
-    if (e.key === 'Escape') {
-      handleOpenChange(false);
-      return;
-    }
-
-    // Digit input
-    if (/^\d$/.test(e.key)) {
-      e.preventDefault();
-      const digit = Number(e.key);
-      const currentRaw = rawInput[type];
-      const newRaw = currentRaw + e.key;
-      const newVal = Number(newRaw);
-
-      // Clamp to valid range
-      const clamped = Math.min(Math.max(newVal, seg.min), seg.max);
-
-      if (shouldAutoAdvance(digit, currentRaw, seg.max, seg.digits)) {
-        // Recalculate day max when month/year changes
-        let finalVal = clamped;
-        if (type === 'day') {
-          finalVal = clampDay(clamped, segments.month, segments.year);
-        }
-        const next = updateSegment(finalVal, '');
-
-        // Move to next segment
-        if (segIdx < DATE_SEGMENTS.length - 1) {
-          focusSegment(segIdx + 1);
-        }
-
-        // Sync calendar view to newly completed values
-        if (type === 'month' && next.year) {
-          setViewMonth(finalVal);
-        } else if (type === 'year') {
-          setViewYear(finalVal);
-        }
-      } else {
-        setRawInput(prev => ({ ...prev, [type]: newRaw }));
-        setSegments(prev => {
-          const next = { ...prev, [type]: clamped };
-          emitChange(next);
-          return next;
-        });
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const current = segments[type] ?? seg.min - 1;
+        const next = current >= seg.max ? seg.min : current + 1;
+        updateSegment(next, '');
+        return;
       }
-    }
-  }, [segments, rawInput, focusSegment, emitChange, handleOpenChange]);
+
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        e.preventDefault();
+        const raw = rawInput[type];
+        if (raw.length > 0) {
+          setRawInput((prev) => ({ ...prev, [type]: raw.slice(0, -1) }));
+        } else {
+          updateSegment(null, '');
+        }
+        return;
+      }
+
+      if (e.key === 'Escape') {
+        handleOpenChange(false);
+        return;
+      }
+
+      // Digit input
+      if (/^\d$/.test(e.key)) {
+        e.preventDefault();
+        const digit = Number(e.key);
+        const currentRaw = rawInput[type];
+        const newRaw = currentRaw + e.key;
+        const newVal = Number(newRaw);
+
+        // Clamp to valid range
+        const clamped = Math.min(Math.max(newVal, seg.min), seg.max);
+
+        if (shouldAutoAdvance(digit, currentRaw, seg.max, seg.digits)) {
+          // Recalculate day max when month/year changes
+          let finalVal = clamped;
+          if (type === 'day') {
+            finalVal = clampDay(clamped, segments.month, segments.year);
+          }
+          const next = updateSegment(finalVal, '');
+
+          // Move to next segment
+          if (segIdx < DATE_SEGMENTS.length - 1) {
+            focusSegment(segIdx + 1);
+          }
+
+          // Sync calendar view to newly completed values
+          if (type === 'month' && next.year) {
+            setViewDate((prev) => ({ ...prev, month: finalVal }));
+          } else if (type === 'year') {
+            setViewDate((prev) => ({ ...prev, year: finalVal }));
+          }
+        } else {
+          setRawInput((prev) => ({ ...prev, [type]: newRaw }));
+          setSegments((prev) => {
+            const next = { ...prev, [type]: clamped };
+            emitChange(next);
+            return next;
+          });
+        }
+      }
+    },
+    [segments, rawInput, focusSegment, emitChange, handleOpenChange],
+  );
 
   // ── Calendar date selection ────────────────────────────────────────────────
-  const handleCalendarSelect = useCallback((date: DateValue) => {
-    setSegments({ month: date.month, day: date.day, year: date.year });
-    setRawInput({ month: '', day: '', year: '' });
-    setViewMonth(date.month);
-    setViewYear(date.year);
-    onChange?.(date);
-    handleOpenChange(false);
-  }, [onChange, handleOpenChange]);
+  const handleCalendarSelect = useCallback(
+    (date: DateValue) => {
+      setSegments({ month: date.month, day: date.day, year: date.year });
+      setRawInput({ month: '', day: '', year: '' });
+      setViewDate({ year: date.year, month: date.month });
+      onChange?.(date);
+      handleOpenChange(false);
+    },
+    [onChange, handleOpenChange],
+  );
 
   const handleViewChange = useCallback((year: number, month: number) => {
-    setViewYear(year);
-    setViewMonth(month);
+    setViewDate({ year, month });
   }, []);
 
   // ── Recipe classes ─────────────────────────────────────────────────────────
   const classes = datePicker({ size });
 
-  // ── Render segments ────────────────────────────────────────────────────────
-  const renderSegments = () => {
-    const items: React.ReactNode[] = [];
-
-    DATE_SEGMENTS.forEach((seg, idx) => {
-      const val = segments[seg.type];
-      const raw = rawInput[seg.type];
-      // Display: prefer current raw input (being typed), then committed value, then placeholder
-      let display: string;
-      if (raw.length > 0) {
-        display = raw.padStart(seg.digits === 4 ? raw.length : 1, '');
-      } else if (val !== null) {
-        display = String(val).padStart(seg.digits === 4 ? seg.digits : 2, '0');
-      } else {
-        display = seg.placeholder;
-      }
-
-      const isPlaceholder = val === null && raw.length === 0;
-
-      items.push(
-        <Box
-          key={seg.type}
-          as="span"
-          role="spinbutton"
-          tabIndex={disabled ? -1 : 0}
-          aria-label={seg.type.charAt(0).toUpperCase() + seg.type.slice(1)}
-          aria-valuenow={val ?? undefined}
-          aria-valuemin={seg.min}
-          aria-valuemax={seg.max}
-          aria-valuetext={display}
-          className={classes.segment}
-          color={isPlaceholder ? (error ? 'text.danger' : 'text.placeholder') : undefined}
-          data-focused={focusedSegment === seg.type ? true : undefined}
-          ref={(el: HTMLElement | null) => {
-            segmentRefs.current[idx] = el;
-          }}
-          onFocus={() => { setFocusedSegment(seg.type); if (!disabled) handleOpenChange(true); }}
-          onBlur={handleSegmentBlur}
-          onKeyDown={(e: React.KeyboardEvent) => handleSegmentKeyDown(e, idx)}
-        >
-          {display}
-        </Box>,
-      );
-
-      if (idx < DATE_SEGMENTS.length - 1) {
-        items.push(
-          // biome-ignore lint/suspicious/noArrayIndexKey: separators are stable — fixed count, fixed positions between date segments
-          <Box key={`sep-${idx}`} as="span" className={classes.separator} aria-hidden="true">
-            /
-          </Box>,
-        );
-      }
-    });
-
-    return items;
-  };
-
-  const dateValue: DateValue | null = segments.month !== null && segments.day !== null && segments.year !== null
-    ? { month: segments.month, day: segments.day, year: segments.year }
-    : null;
+  const dateValue: DateValue | null =
+    segments.month !== null && segments.day !== null && segments.year !== null
+      ? { month: segments.month, day: segments.day, year: segments.year }
+      : null;
 
   return (
-    <Box className={cx(classes.root, className)} {...rest}>
+    <Box className={cx(classes.root, className)} {...otherProps}>
       {/* Segmented input container */}
       <Box
         ref={setContainerRef}
-        className={classes.input}
+        id={id}
+        className={`${classes.input} group`}
         role="group"
         aria-label={label}
         aria-disabled={disabled}
-        data-error={error ? true : undefined}
+        data-disabled={disabled || undefined}
+        data-error={error || undefined}
         data-open={isOpen || undefined}
-        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-          if (e.target === e.currentTarget && !disabled) segmentRefs.current[0]?.focus();
+        onClick={(e: MouseEvent<HTMLDivElement>) => {
+          if (e.target === e.currentTarget && !disabled)
+            segmentRefs.current[0]?.focus();
         }}
         {...(getReferenceProps() as Record<string, unknown>)}
       >
-        {renderSegments()}
+        <DateSegments
+          segments={segments}
+          rawInput={rawInput}
+          disabled={disabled}
+          error={error}
+          focusedSegment={focusedSegment}
+          classes={classes}
+          segmentRefs={segmentRefs}
+          onFocusSegment={(segment) => {
+            setFocusedSegment(segment);
+            if (!disabled) {
+              handleOpenChange(true);
+            }
+          }}
+          onBlurSegment={handleSegmentBlur}
+          onKeyDownSegment={handleSegmentKeyDown}
+        />
       </Box>
 
       {/* Popover calendar */}
       {isOpen && !disabled && (
         <FloatingPortal>
-          <FloatingFocusManager context={context} modal={false} initialFocus={-1}>
+          <FloatingFocusManager
+            context={context}
+            modal={false}
+            initialFocus={-1}
+          >
             <Box
               ref={refs.setFloating}
               className={classes.popover}
@@ -408,8 +507,8 @@ export const DatePicker = (props: DatePickerProps) => {
                 onSelect={handleCalendarSelect}
                 minDate={minDate}
                 maxDate={maxDate}
-                viewYear={viewYear}
-                viewMonth={viewMonth}
+                viewYear={viewDate.year}
+                viewMonth={viewDate.month}
                 onViewChange={handleViewChange}
                 classes={classes}
               />

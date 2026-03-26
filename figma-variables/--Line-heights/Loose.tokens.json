@@ -5,9 +5,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:353",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -17,9 +15,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:359",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -29,9 +25,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:358",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -41,9 +35,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:357",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -53,9 +45,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:362",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -65,9 +55,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:361",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -77,9 +65,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:350",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -89,9 +75,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:355",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -101,9 +85,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:351",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -113,9 +95,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:349",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -125,9 +105,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:356",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -137,9 +115,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:352",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -149,9 +125,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:360",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },
@@ -161,9 +135,7 @@
     "$extensions": {
       "com.figma.variableId": "VariableID:53:354",
       "com.figma.hiddenFromPublishing": true,
-      "com.figma.scopes": [
-        "LINE_HEIGHT"
-      ],
+      "com.figma.scopes": ["LINE_HEIGHT"],
       "com.figma.isOverride": true
     }
   },

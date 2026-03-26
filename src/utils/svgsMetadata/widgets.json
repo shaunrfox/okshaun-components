@@ -1,0 +1,14 @@
+{
+  "aliases": [
+    "widgets",
+    "components",
+    "modules",
+    "shape",
+    "geometry",
+    "diagram",
+    "vector"
+  ],
+  "tags": [],
+  "category": "Shapes",
+  "deprecated": false
+}

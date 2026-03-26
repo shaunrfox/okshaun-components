@@ -1,12 +1,20 @@
 import { cx } from '@styled-system/css';
-import { Grid, HStack } from '@styled-system/jsx';
+import { HStack } from '@styled-system/jsx';
 import { type ChipVariantProps, chip } from '@styled-system/recipes';
 import type { NumericSizeToken } from '@styled-system/tokens';
-import { type KeyboardEvent, type ReactNode, useEffect, useRef } from 'react';
+import {
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactNode,
+  useEffect,
+  useRef,
+} from 'react';
+
 import { Box, type BoxProps } from '~/components/Box';
 import { type AllowedIconSizes, Icon } from '~/components/Icon';
 import { Spinner } from '~/components/Spinner';
 import { splitProps } from '~/utils/splitProps';
+
 import { useChipGroup } from './ChipGroupContext';
 
 // Map chip sizes to icon sizes (for internal icons like check/x)
@@ -86,7 +94,7 @@ export const Chip = (props: ChipProps) => {
   const iconSize = chipSizeToIconSize[size];
 
   // Handle click based on chip type
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (dismissable && onDismiss) {
       onDismiss();
     } else if (isSelectable && groupContext) {
@@ -158,12 +166,11 @@ export const Chip = (props: ChipProps) => {
     <Box
       as="button"
       ref={buttonRef}
-      className={cx(classes.container, className)}
+      className={`${cx(classes.container, className)} group`}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={getTabIndex()}
-      disabled={disabled ? true : undefined}
-      aria-disabled={disabled ? true : undefined}
+      disabled={disabled}
       aria-label={ariaLabel}
       role={role}
       aria-checked={isSelectable ? isSelected : undefined}
@@ -179,30 +186,24 @@ export const Chip = (props: ChipProps) => {
           <Icon
             name="check"
             size={iconSize}
-            className={classes.icon}
+            className={classes.chipIcon}
             aria-hidden
           />
         )}
         {before}
         {children}
         {dismissable ? (
-          <Icon name="x" size={iconSize} className={classes.icon} aria-hidden />
+          <Icon
+            name="x"
+            size={iconSize}
+            className={classes.chipIcon}
+            aria-hidden
+          />
         ) : (
           after
         )}
       </HStack>
-      {loading && (
-        <Grid
-          position="absolute"
-          top="0"
-          left="0"
-          right="0"
-          bottom="0"
-          placeItems="center"
-        >
-          <Spinner />
-        </Grid>
-      )}
+      {loading && <Spinner size="xs" centered />}
     </Box>
   );
 };

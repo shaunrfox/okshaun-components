@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
-import { css } from "@styled-system/css";
-import { HStack, VStack } from "@styled-system/jsx";
-import { Icon } from "../Icon";
-import { IconButton } from "../IconButton";
-import { Button } from "./Button";
+import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
+import { Grid, HStack, Wrap } from '@styled-system/jsx';
+import { Divider } from '../Divider';
+import { IconButton } from '../IconButton';
+import { Text } from '../Text';
+import { Button } from './Button';
 
 /**
  * Button component with comprehensive variant support.
@@ -18,223 +18,101 @@ import { Button } from "./Button";
  * - Customizable gap between icon and text
  */
 const meta = {
-  title: "Components/Button",
+  title: 'Components/Button',
   component: Button,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     variant: {
-      control: "select",
+      control: 'select',
       options: [
-        "default",
-        "primary",
-        "ghost",
-        "hollow",
-        "selected",
-        "selectedSubtle",
+        'default',
+        'primary',
+        'ghost',
+        'hollow',
+        'danger',
+        'selected',
+        'selectedBold',
       ],
-      description: "Visual style variant",
+      description: 'Visual style variant',
       table: {
-        defaultValue: { summary: "default" },
+        defaultValue: { summary: 'default' },
       },
     },
     size: {
-      control: "select",
-      options: ["sm", "md", "lg", "xl"],
-      description: "Button size",
+      control: 'select',
+      options: ['sm', 'md', 'lg', 'xl'],
+      description: 'Button size',
       table: {
-        defaultValue: { summary: "default" },
+        defaultValue: { summary: 'default' },
       },
     },
     disabled: {
-      control: "boolean",
-      description: "Disabled state - non-interactive",
+      control: 'boolean',
+      description: 'Disabled state - non-interactive',
     },
     loading: {
-      control: "boolean",
-      description: "Loading state - shows spinner and disables interaction",
+      control: 'boolean',
+      description: 'Loading state - shows spinner and disables interaction',
     },
     iconBefore: {
-      control: "select",
-      options: [undefined, "plus", "check", "arrow-left", "edit", "search"],
-      description: "Icon name to display before text",
+      control: 'select',
+      options: [undefined, 'plus', 'check', 'arrow-left', 'edit', 'search'],
+      description: 'Icon name to display before text',
     },
     iconAfter: {
-      control: "select",
-      options: [undefined, "arrow-right", "chevron-down", "arrow-square-out"],
-      description: "Icon name to display after text",
+      control: 'select',
+      options: [undefined, 'arrow-right', 'chevron-down', 'arrow-square-out'],
+      description: 'Icon name to display after text',
     },
     gap: {
-      control: "select",
-      options: [undefined, "2", "4", "6", "8"],
-      description: "Gap between icon and text (NumericSizeToken)",
+      control: 'select',
+      options: [undefined, '2', '4', '6', '8'],
+      description: 'Gap between icon and text (NumericSizeToken)',
     },
     href: {
-      control: "text",
-      description: "When provided, button renders as anchor element",
+      control: 'text',
+      description: 'When provided, button renders as anchor element',
     },
     children: {
-      control: "text",
-      description: "Button content",
+      control: 'text',
+      description: 'Button content',
     },
   },
-  args: { onClick: fn() },
+  args: {
+    children: 'Button',
+    onClick: fn(),
+  },
 } satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // ============================================================================
-// Basic variants
+// Variants
 // ============================================================================
 
-/**
- * Default button variant - neutral styling
- */
-export const Default: Story = {
-  args: {
-    children: "Default Button",
-    variant: "default",
-  },
-};
-
-/**
- * Primary variant - bold brand styling for primary actions
- */
-export const Primary: Story = {
-  args: {
-    children: "Primary Button",
-    variant: "primary",
-  },
-};
-
-/**
- * Ghost variant - minimal styling for secondary actions
- */
-export const Ghost: Story = {
-  args: {
-    children: "Ghost Button",
-    variant: "ghost",
-  },
-};
-
-/**
- * Hollow variant - bordered with transparent background
- */
-export const Hollow: Story = {
-  args: {
-    children: "Hollow Button",
-    variant: "hollow",
-  },
-};
-
-// ============================================================================
-// Size Variants
-// ============================================================================
-
-/**
- * Small size button
- */
-export const Small: Story = {
-  args: {
-    children: "Small",
-    size: "sm",
-  },
-};
-
-/**
- * Default size button (medium)
- */
-export const DefaultSize: Story = {
-  args: {
-    children: "Default",
-    size: "md",
-  },
-};
-
-/**
- * Large size button
- */
-export const Large: Story = {
-  args: {
-    children: "Large",
-    size: "lg",
-  },
-};
-
-/**
- * Extra large size button
- */
-export const XLarge: Story = {
-  args: {
-    children: "Extra Large",
-    size: "xl",
-  },
-};
-
-/**
- * All sizes comparison
- */
-export const AllSizes: Story = {
+export const Variants: Story = {
   render: () => (
-    <HStack gap="4" alignItems="center" flexWrap="wrap">
-      <Button size="sm">Small</Button>
-      <Button size="md">Default</Button>
-      <Button size="lg">Large</Button>
-      <Button size="xl">Extra Large</Button>
-    </HStack>
-  ),
-  parameters: { controls: { disable: true } },
-};
-
-// ============================================================================
-// variant × Size Matrix
-// ============================================================================
-
-/**
- * Complete matrix showing all variant and size combinations
- */
-export const AllVariants: Story = {
-  render: () => (
-    <VStack gap="6" alignItems="flex-start">
+    <Wrap gap="12" alignItems="center">
       {(
         [
-          "default",
-          "primary",
-          "ghost",
-          "hollow",
-          "selected",
-          "selectedSubtle",
+          'default',
+          'primary',
+          'hollow',
+          'ghost',
+          'danger',
+          'selected',
+          'selectedBold',
         ] as const
       ).map((variant) => (
-        <div key={variant}>
-          <div
-            className={css({
-              mb: "2",
-              fontSize: "14",
-              fontWeight: "bold",
-              textTransform: "capitalize",
-            })}
-          >
-            {variant}
-          </div>
-          <HStack gap="4" flexWrap="wrap" alignItems="center">
-            {(["sm", "md", "lg", "xl"] as const).map((size) => (
-              <Button
-                key={size}
-                variant={variant}
-                size={size}
-                iconBefore="alarm"
-              >
-                {size}
-              </Button>
-            ))}
-          </HStack>
-        </div>
+        <Button key={variant} variant={variant}>
+          {variant}
+        </Button>
       ))}
-    </VStack>
+    </Wrap>
   ),
   parameters: { controls: { disable: true } },
 };
@@ -243,74 +121,55 @@ export const AllVariants: Story = {
 // States
 // ============================================================================
 
-/**
- * Disabled state - non-interactive with reduced styling
- */
-export const Disabled: Story = {
-  args: {
-    children: "Disabled Button",
-    disabled: true,
-  },
-};
-
-/**
- * Disabled state across all variants
- */
-export const DisabledVariants: Story = {
+export const InteractionStates: Story = {
   render: () => (
-    <HStack gap="4" flexWrap="wrap">
-      <Button variant="default" disabled>
-        Default Disabled
-      </Button>
-      <Button variant="primary" disabled>
-        Primary Disabled
-      </Button>
-      <Button variant="ghost" disabled>
-        Ghost Disabled
-      </Button>
-      <Button variant="hollow" disabled>
-        Hollow Disabled
-      </Button>
-      <Button variant="selected" disabled>
-        Selected Disabled
-      </Button>
-      <Button variant="selectedSubtle" disabled>
-        SelectedSubtle Disabled
-      </Button>
-    </HStack>
-  ),
-  parameters: { controls: { disable: true } },
-};
-
-/**
- * Loading state - shows spinner and disables interaction
- */
-export const Loading: Story = {
-  args: {
-    children: "Loading",
-    loading: true,
-  },
-};
-
-/**
- * Loading state across all variants
- */
-export const LoadingVariants: Story = {
-  render: () => (
-    <HStack gap="4" flexWrap="wrap">
-      <Button variant="default" loading>
-        Default
-      </Button>
-      <Button variant="primary" loading>
-        Primary
-      </Button>
-      <Button variant="ghost" loading>
-        Ghost
-      </Button>
-      <Button variant="hollow" loading>
-        Hollow
-      </Button>
-    </HStack>
+    <Grid
+      gridTemplateColumns="auto 1fr"
+      columnGap="12"
+      rowGap="32"
+      alignItems="center"
+    >
+      <Text textStyle="mono.md" mr="16">
+        Disabled
+      </Text>
+      <Wrap gap="12" alignItems="center">
+        {(
+          [
+            'default',
+            'primary',
+            'hollow',
+            'ghost',
+            'danger',
+            'selected',
+            'selectedBold',
+          ] as const
+        ).map((variant) => (
+          <Button key={variant} variant={variant} disabled>
+            {variant}
+          </Button>
+        ))}
+      </Wrap>
+      <Text textStyle="mono.md" mr="16">
+        Loading
+      </Text>
+      <Wrap gap="12" alignItems="center">
+        {(
+          [
+            'default',
+            'primary',
+            'hollow',
+            'ghost',
+            'danger',
+            'selected',
+            'selectedBold',
+          ] as const
+        ).map((variant) => (
+          <Button key={variant} variant={variant} loading>
+            {variant}
+          </Button>
+        ))}
+      </Wrap>
+    </Grid>
   ),
   parameters: { controls: { disable: true } },
 };
@@ -319,106 +178,76 @@ export const LoadingVariants: Story = {
 // Icon Support
 // ============================================================================
 
-/**
- * Button with icon before text (pass icon name as string)
- */
-export const WithIconBefore: Story = {
-  args: {
-    iconBefore: "plus",
-    children: "Add Item",
-  },
-};
-
-/**
- * Button with icon after text
- */
-export const WithIconAfter: Story = {
-  args: {
-    iconAfter: "arrow-right",
-    children: "Next",
-  },
-};
-
-/**
- * Button with icons on both sides
- */
-export const WithBothIcons: Story = {
-  args: {
-    iconBefore: "arrow-left",
-    iconAfter: "arrow-right",
-    children: "Navigate",
-  },
-};
-
-/**
- * Icon buttons across all variants
- */
-export const IconVariants: Story = {
+export const WithIcon: Story = {
   render: () => (
-    <HStack gap="4" flexWrap="wrap">
-      <Button variant="default" iconBefore="plus">
-        Add
-      </Button>
-      <Button variant="primary" iconBefore="check">
-        Confirm
-      </Button>
-      <Button variant="ghost" iconBefore="edit">
-        Edit
-      </Button>
-      <Button variant="hollow" iconAfter="arrow-square-out">
-        Open
-      </Button>
-    </HStack>
-  ),
-  parameters: { controls: { disable: true } },
-};
+    <Grid
+      gridTemplateColumns="auto 1fr"
+      columnGap="12"
+      rowGap="32"
+      alignItems="center"
+    >
+      <Text textStyle="heading.sm" gridColumn="1 / -1">
+        Button
+      </Text>
+      <Text textStyle="mono.md" mr="16">
+        iconBefore
+      </Text>
+      <Wrap gap="12">
+        <Button iconBefore="plus">Add</Button>
+        <Button iconBefore="timer" variant="primary">
+          Start Timer
+        </Button>
+        <Button iconBefore="calendar" variant="selectedBold">
+          2026-01-12
+        </Button>
+        <Button iconBefore="info" variant="ghost">
+          Learn More
+        </Button>
+        <Button iconBefore="trash" variant="danger">
+          Delete
+        </Button>
+      </Wrap>
+      <Text textStyle="mono.md" mr="16">
+        iconAfter
+      </Text>
+      <Wrap gap="12">
+        <Button iconAfter="send" variant="primary">
+          Send Invoice
+        </Button>
+        <Button iconAfter="arrow-square-out">Logout</Button>
+        <Button iconAfter="download" variant="primary">
+          Download
+        </Button>
+        <Button iconAfter="scale" variant="hollow">
+          Weigh
+        </Button>
+        <Button iconAfter="screwdriver" variant="selected">
+          Tools
+        </Button>
+      </Wrap>
 
-/**
- * Icon buttons with different sizes
- */
-export const IconSizes: Story = {
-  render: () => (
-    <HStack gap="4" alignItems="center" flexWrap="wrap">
-      <Button size="sm" iconBefore="plus">
-        Small
-      </Button>
-      <Button size="md" iconBefore="plus">
-        Default
-      </Button>
-      <Button size="lg" iconBefore="plus">
-        Large
-      </Button>
-      <Button size="xl" iconBefore="plus">
-        XLarge
-      </Button>
-    </HStack>
-  ),
-  parameters: { controls: { disable: true } },
-};
+      <Divider gridColumn="1 / -1" />
 
-// ============================================================================
-// Gap Customization
-// ============================================================================
-
-/**
- * Custom gap between icon and text
- */
-export const CustomGap: Story = {
-  render: () => (
-    <VStack gap="4" alignItems="flex-start">
-      <Button iconBefore="plus" gap="2">
-        Gap 2
-      </Button>
-      <Button iconBefore="plus" gap="4">
-        Gap 4 (default)
-      </Button>
-      <Button iconBefore="plus" gap="6">
-        Gap 6
-      </Button>
-      <Button iconBefore="plus" gap="8">
-        Gap 8
-      </Button>
-    </VStack>
+      <Text textStyle="heading.sm" mr="16">
+        IconButton
+      </Text>
+      <Wrap gap="56">
+        <IconButton iconName="download" altText="Download" />
+        <IconButton iconName="printer" variant="hollow" altText="Print" />
+        <IconButton
+          iconName="cloud-synced"
+          variant="ghost"
+          altText="Last sync: 3 hours ago"
+        />
+        <IconButton iconName="edit" variant="primary" altText="Edit" />
+        <IconButton iconName="send" variant="selected" altText="Send" />
+        <IconButton
+          iconName="trash"
+          variant="danger"
+          altText="This cannot be undone"
+        />
+      </Wrap>
+    </Grid>
   ),
   parameters: { controls: { disable: true } },
 };
@@ -432,83 +261,10 @@ export const CustomGap: Story = {
  */
 export const AsLink: Story = {
   args: {
-    href: "https://example.com",
-    children: "Visit Website",
-    iconAfter: "arrow-square-out",
+    href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    children: 'Special Link',
+    iconAfter: 'arrow-square-out',
   },
-};
-
-/**
- * Link buttons with different variants
- */
-export const LinkVariants: Story = {
-  render: () => (
-    <HStack gap="4" flexWrap="wrap">
-      <Button href="#" variant="default">
-        Default Link
-      </Button>
-      <Button href="#" variant="primary">
-        Primary Link
-      </Button>
-      <Button href="#" variant="ghost">
-        Subtle Link
-      </Button>
-      <Button href="#" variant="hollow" iconAfter="arrow-square-out">
-        External
-      </Button>
-    </HStack>
-  ),
-  parameters: { controls: { disable: true } },
-};
-
-// ============================================================================
-// IconButton Companion
-// ============================================================================
-
-/**
- * IconButton component for icon-only buttons
- */
-export const IconButtons: Story = {
-  render: () => (
-    <VStack gap="6" alignItems="flex-start">
-      <div>
-        <div className={css({ mb: "2", fontSize: "14", fontWeight: "bold" })}>
-          IconButton variants
-        </div>
-        <HStack gap="4">
-          <IconButton variant="default" aria-label="Add">
-            <Icon name="plus" />
-          </IconButton>
-          <IconButton variant="primary" aria-label="Confirm">
-            <Icon name="check" />
-          </IconButton>
-          <IconButton variant="ghost" aria-label="Settings">
-            <Icon name="settings" />
-          </IconButton>
-          <IconButton variant="hollow" aria-label="Delete">
-            <Icon name="trash" />
-          </IconButton>
-        </HStack>
-      </div>
-      <div>
-        <div className={css({ mb: "2", fontSize: "14", fontWeight: "bold" })}>
-          IconButton Sizes
-        </div>
-        <HStack gap="4" alignItems="center">
-          <IconButton size="sm" aria-label="Add">
-            <Icon name="plus" />
-          </IconButton>
-          <IconButton size="md" aria-label="Add">
-            <Icon name="plus" />
-          </IconButton>
-          <IconButton size="lg" aria-label="Add">
-            <Icon name="plus" />
-          </IconButton>
-        </HStack>
-      </div>
-    </VStack>
-  ),
-  parameters: { controls: { disable: true } },
 };
 
 // ============================================================================
@@ -516,27 +272,27 @@ export const IconButtons: Story = {
 // ============================================================================
 
 /**
- * Primary action button group (e.g., form submission)
+ * Use case: Primary action button group (e.g., form submission)
  */
 export const ActionGroup: Story = {
+  name: 'Ex: Action Group',
   render: () => (
-    <HStack gap="4">
-      <Button variant="primary" iconBefore="check">
-        Confirm
-      </Button>
+    <HStack gap="8">
       <Button variant="hollow">Cancel</Button>
+      <Button variant="primary">Confirm</Button>
     </HStack>
   ),
   parameters: { controls: { disable: true } },
 };
 
 /**
- * Form actions with multiple options
+ * Use case: Form actions with multiple options
  */
 export const FormActions: Story = {
+  name: 'Ex: Form Actions',
   render: () => (
-    <HStack gap="4" justifyContent="flex-end">
-      <Button variant="ghost">Reset</Button>
+    <HStack gap="8" justifyContent="flex-end">
+      <Button variant="hollow">Reset</Button>
       <Button variant="hollow">Save Draft</Button>
       <Button variant="primary" iconAfter="arrow-right">
         Submit
@@ -547,11 +303,12 @@ export const FormActions: Story = {
 };
 
 /**
- * Navigation buttons
+ * Use case: Pagination buttons
  */
-export const Navigation: Story = {
+export const Pagination: Story = {
+  name: 'Ex: Pagination',
   render: () => (
-    <HStack gap="4" justifyContent="space-between" width="xs">
+    <HStack gap="8" justifyContent="space-between" width="280">
       <Button variant="hollow" iconBefore="arrow-left">
         Back
       </Button>
@@ -564,11 +321,12 @@ export const Navigation: Story = {
 };
 
 /**
- * CRUD operation buttons
+ * Use case: CRUD operation buttons
  */
 export const CrudActions: Story = {
+  name: 'Ex: CRUD Actions',
   render: () => (
-    <HStack gap="3" flexWrap="wrap">
+    <HStack gap="8" flexWrap="wrap">
       <Button variant="primary" size="sm" iconBefore="plus">
         Create
       </Button>
@@ -584,11 +342,12 @@ export const CrudActions: Story = {
 };
 
 /**
- * Form submitting state
+ * Use case: Form submitting state
  */
 export const FormSubmitting: Story = {
+  name: 'Ex: Form Submitting',
   render: () => (
-    <HStack gap="4">
+    <HStack gap="8">
       <Button variant="hollow" disabled>
         Cancel
       </Button>
@@ -601,47 +360,17 @@ export const FormSubmitting: Story = {
 };
 
 // ============================================================================
-// Edge Cases
-// ============================================================================
-
-/**
- * Button with very long text
- */
-export const LongText: Story = {
-  args: {
-    children:
-      "This is a button with extremely long text content that might cause layout issues",
-  },
-};
-
-/**
- * Buttons with varying content lengths
- */
-export const VaryingContentLength: Story = {
-  render: () => (
-    <VStack gap="4" alignItems="flex-start">
-      <Button>OK</Button>
-      <Button>Save</Button>
-      <Button>Continue</Button>
-      <Button>Submit Application</Button>
-      <Button>Download Full Report (PDF)</Button>
-    </VStack>
-  ),
-  parameters: { controls: { disable: true } },
-};
-
-// ============================================================================
 // Interactive Playground
 // ============================================================================
 
 /**
  * Interactive playground to test all props
  */
-export const Playground: Story = {
+export const Interactive: Story = {
   args: {
-    variant: "default",
-    size: "md",
-    children: "Click Me",
+    variant: 'default',
+    size: 'md',
+    children: 'Click Me',
     disabled: false,
     loading: false,
   },

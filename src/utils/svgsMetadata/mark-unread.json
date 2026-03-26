@@ -1,0 +1,18 @@
+{
+  "aliases": [
+    "mail",
+    "email",
+    "send",
+    "sent",
+    "message",
+    "post",
+    "letter",
+    "envelope",
+    "notification",
+    "mark",
+    "unread"
+  ],
+  "tags": [],
+  "category": "Email",
+  "deprecated": false
+}

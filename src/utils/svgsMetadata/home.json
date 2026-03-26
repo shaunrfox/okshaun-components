@@ -1,0 +1,13 @@
+{
+  "aliases": [
+    "dashboard",
+    "house",
+    "homes",
+    "buildings",
+    "places",
+    "locations"
+  ],
+  "tags": ["navigation"],
+  "category": "Navigation",
+  "deprecated": false
+}

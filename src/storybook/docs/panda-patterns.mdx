@@ -1,0 +1,121 @@
+import { Meta, Unstyled } from '@storybook/blocks';
+import { Box } from '~/components/Box';
+import { Card } from '~/components/Card';
+import { Divider } from '~/components/Divider';
+import { Heading } from '~/components/Heading';
+import { Link } from '~/components/Link';
+import { Text } from '~/components/Text';
+import { Grid, HStack, Stack, VStack } from '@styled-system/jsx';
+
+<Meta title="Docs / Panda Patterns" />
+
+<Unstyled>
+  <VStack alignItems="stretch" gap="16">
+    # Panda Patterns
+
+    <Text maxW="prose">
+      Panda Patterns provide layout and composition shortcuts. Use them when you
+      need repeatable structure (stacking, centering, wrapping, grids) without
+      creating a custom component.
+    </Text>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">When to use what</Heading>
+    <Grid columns={{ base: 1, md: 3 }} gap="12">
+      <Card p="12" variant="sunken">
+        <Text weight="bold">Use components</Text>
+        <Text size="14">When the UI is reusable business UI (Button, FormField, Card).</Text>
+      </Card>
+      <Card p="12" variant="sunken">
+        <Text weight="bold">Use patterns</Text>
+        <Text size="14">When you need layout structure (stack, grid, center, wrap).</Text>
+      </Card>
+      <Card p="12" variant="sunken">
+        <Text weight="bold">Use recipes</Text>
+        <Text size="14">When a repeated visual style needs variants and API consistency.</Text>
+      </Card>
+    </Grid>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Most-used layout patterns</Heading>
+
+    <Text weight="bold">Stack / VStack / HStack</Text>
+    <Text maxW="prose">Use stack patterns for predictable spacing between siblings.</Text>
+    <HStack gap="8" alignItems="center" flexWrap="wrap">
+      <Card p="8">Item A</Card>
+      <Card p="8">Item B</Card>
+      <Card p="8">Item C</Card>
+    </HStack>
+
+    <Text weight="bold">Grid</Text>
+    <Text maxW="prose">Use grid for dense data and dashboard-style layouts.</Text>
+    <Grid columns={{ base: 1, md: 3 }} gap="8">
+      <Card p="12">Grid 1</Card>
+      <Card p="12">Grid 2</Card>
+      <Card p="12">Grid 3</Card>
+    </Grid>
+
+    <Text weight="bold">Center / Container</Text>
+    <Text maxW="prose">
+      Use centered wrappers for focal UI and container constraints for readable
+      page width.
+    </Text>
+    <Box maxW="prose" p="12" borderWidth="1" borderColor="border" borderRadius="8">
+      This block is constrained for readable long-form content.
+    </Box>
+
+    <Text weight="bold">Wrap / Spacer</Text>
+    <Text maxW="prose">
+      Use wrapping layouts for tags/actions that must reflow across screen sizes.
+    </Text>
+    <Stack direction="row" gap="8" flexWrap="wrap">
+      <Card p="8">Filter A</Card>
+      <Card p="8">Filter B</Card>
+      <Card p="8">Filter C</Card>
+      <Card p="8">Filter D</Card>
+    </Stack>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Advanced and utility patterns</Heading>
+    <Box as="ul" pl="24" display="grid" gap="6">
+      <Box as="li" listStyleType="disc">
+        <Text>
+          <Text as="span" weight="bold">aspectRatio:</Text> media thumbnails and embeds.
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          <Text as="span" weight="bold">linkOverlay:</Text> clickable cards with semantic links.
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          <Text as="span" weight="bold">visuallyHidden:</Text> screen-reader-only labels.
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          <Text as="span" weight="bold">cq:</Text> container-query behavior for component-level responsiveness.
+        </Text>
+      </Box>
+    </Box>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Project-specific notes</Heading>
+    <Text maxW="prose">
+      Cetec preset customizes Panda defaults. The base `box` and `divider`
+      patterns are intentionally replaced by design-system primitives and recipes.
+      Prefer `Box` and `Divider` components for consistency.
+    </Text>
+
+    <Box display="grid" gap="4">
+      <Link href="/?path=/docs/components-box--documentation">Go to Box docs</Link>
+      <Link href="/?path=/docs/components-divider--documentation">Go to Divider docs</Link>
+    </Box>
+
+  </VStack>
+</Unstyled>

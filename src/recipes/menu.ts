@@ -1,180 +1,112 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
 const menuBase = {
-  // Floating container
-  menu: {
-    display: 'flex',
-    flexDirection: 'column',
-    minWidth: '200',
-    maxWidth: '320',
-    maxHeight: '400',
-    overflowY: 'auto',
-    bg: 'surface.overlay',
-    borderRadius: '8',
-    boxShadow: 'medium',
+  wrapper: {
+    width: 'fit',
+    bg: 'surface',
+    borderRadius: '4',
+    boxShadow: 'overlay',
+    overflow: 'hidden',
+    zIndex: '100',
+    transitionProperty: 'width, height',
+    transitionDuration: 'normal',
+    transitionTimingFunction: 'default',
     outline: 'none',
-    zIndex: 'elevated',
   },
-
-  // Individual menu item row
-  menuItem: {
+  backHeader: {
     display: 'flex',
-    alignItems: 'flex-start',
-    gap: '8',
-    px: '12',
-    py: '8',
+    alignItems: 'center',
+    justifyContent: 'start',
+    gap: '0',
+    ps: '4',
+    borderWidth: '0',
+    borderBlockWidth: '3',
+    borderColor: 'transparent',
+    bg: { base: 'tan.5', _dark: 'tan.60' },
+    width: 'full',
+    textAlign: 'left',
     cursor: 'pointer',
-    outline: 'none',
-    transitionProperty: 'background-color, color',
-    transitionDuration: 'fast',
-    bg: 'surface.overlay',
-
+    color: 'text',
     _hover: {
-      bg: 'surface.overlay.hovered',
-    },
-    _focusVisible: {
-      bg: 'surface.overlay.hovered',
+      bg: { base: 'tan.10', _dark: 'tan.50' },
     },
     _active: {
-      bg: 'surface.overlay.hovered',
-    },
-    _disabled: {
-      opacity: 0.5,
-      cursor: 'not-allowed',
-      pointerEvents: 'none',
-    },
-    _selected: {
-      bg: 'bg.selected',
+      bg: { base: 'tan.20', _dark: 'tan.70' },
     },
   },
-
-  // Selection indicator area (checkmark or checkbox)
-  menuItemIndicator: {
+  levelsViewport: {
+    overflow: 'hidden',
+    width: 'full',
+    position: 'relative',
+  },
+  levelsTrack: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    w: '24',
-    h: '24',
-    color: 'icon.selected',
+    width: 'full',
+    transitionProperty: 'transform',
+    transitionDuration: 'normal',
+    transitionTimingFunction: 'default',
+    willChange: 'transform',
   },
-
-  // Left icon area
-  menuItemIconLeft: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    w: '24',
-    h: '24',
-    color: 'icon.decorative',
+  level: {
+    minWidth: '0',
+    flexShrink: '0',
   },
-
-  // Right icon area
-  menuItemIconRight: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    w: '24',
-    h: '24',
-    ml: 'auto',
-    color: 'icon.decorative',
+  sizeProbe: {
+    position: 'absolute',
+    pointerEvents: 'none',
+    visibility: 'hidden',
+    top: '0',
+    left: '0',
+    width: 'fit-content',
+    height: 'fit-content',
+    overflow: 'visible',
   },
-
-  // Content wrapper (label + description)
-  menuItemContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    flex: 1,
-    minWidth: 0, // Enable text truncation
-  },
-
-  // Primary label
-  menuItemLabel: {
-    fontSize: '16',
-    color: 'text',
-    fontFamily: 'sans',
-    fontWeight: 'normal',
-
-    // Highlight match styling for autocomplete
-    '& mark': {
-      bg: 'bg.warning.hovered',
-      color: 'text.bold',
-      borderRadius: '2',
-      // px: '2',
-    },
-  },
-
-  // Secondary description
-  menuItemDescription: {
-    fontSize: '12',
-    fontFamily: 'sans',
-    color: 'text.subtlest',
-  },
-
-  // Divider between items/groups
-  menuDivider: {
-    h: '1',
-    mx: '12',
-    my: '4',
-    bg: 'border',
-  },
-
-  // Group container
-  menuGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-
-  // Group label
-  menuGroupLabel: {
-    fontSize: '12',
-    color: 'text.subtlest',
-    fontFamily: 'sans',
-    // fontWeight: 'medium',
-    // textTransform: 'uppercase',
-    // letterSpacing: 'wide',
+  noResults: {
     px: '12',
-    pt: '16',
-    pb: '4',
+    py: '10',
+    color: 'text.subtlest',
   },
 };
 
 const menuVariants = {
-  // Size variants
-  packing: {
-    default: {
-      menu: { minWidth: '200' },
-      menuItem: { py: '8' },
-    },
+  density: {
     compact: {
-      menu: { minWidth: '160' },
-      menuItem: { py: '4', px: '8' },
-      menuItemIconLeft: { w: '20', h: '20' },
-      menuItemIconRight: { w: '20', h: '20' },
-      menuItemIndicator: { w: '20', h: '20' },
+      backHeader: {
+        py: '1',
+        pe: '18',
+        ps: '5',
+        textStyle: 'body.md',
+        color: 'text',
+      },
     },
     comfortable: {
-      menu: { minWidth: '240' },
-      menuItem: { py: '12', px: '16' },
+      backHeader: {
+        py: '5',
+        pe: '20',
+        ps: '7',
+        textStyle: 'body.md',
+        color: 'text',
+      },
+    },
+    spacious: {
+      backHeader: {
+        py: '7',
+        pe: '24',
+        ps: '9',
+        textStyle: 'body.lg',
+        color: 'text',
+      },
     },
   },
-
-  // Selection indicator position
-  indicatorPosition: {
-    left: {
-      menuItem: {
-        flexDirection: 'row',
-      },
-    },
-    right: {
-      menuItem: {
-        flexDirection: 'row',
-      },
-      menuItemIndicator: {
-        order: 999, // Move to end
-        ml: 'auto',
+  panel: {
+    true: {
+      wrapper: {
+        width: 'full',
+        height: 'full',
+        minHeight: 'full',
+        overflowY: 'auto',
+        rounded: '0',
+        boxShadow: 'none',
       },
     },
   },
@@ -182,24 +114,19 @@ const menuVariants = {
 
 export const menuRecipe = defineSlotRecipe({
   className: 'menu',
-  jsx: ['Menu', 'MenuItem', 'MenuTrigger', 'MenuDivider', 'MenuGroup'],
+  jsx: ['Menu', 'MenuItem', 'MenuGroup', 'SubMenu'],
   slots: [
-    'menu',
-    'menuItem',
-    'menuItemIndicator',
-    'menuItemIconLeft',
-    'menuItemIconRight',
-    'menuItemContent',
-    'menuItemLabel',
-    'menuItemDescription',
-    'menuDivider',
-    'menuGroup',
-    'menuGroupLabel',
+    'wrapper',
+    'backHeader',
+    'levelsViewport',
+    'levelsTrack',
+    'level',
+    'sizeProbe',
+    'noResults',
   ],
   base: menuBase,
   variants: menuVariants,
   defaultVariants: {
-    packing: 'default',
-    indicatorPosition: 'left',
+    density: 'compact',
   },
 });

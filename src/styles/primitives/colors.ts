@@ -40,6 +40,7 @@ export const colors = defineTokens.colors({
     '90': { value: '#BFC1C4' },
     '100': { value: '#CECFD2' },
     '110': { value: '#E2E3E4' },
+    '120': { value: '#F1F1F2' },
   },
   darkNeutralA: {
     '-10': { value: '#01040475' },
@@ -224,5 +225,55 @@ export const colors = defineTokens.colors({
     '80': { value: '#2E2E2E' },
     '90': { value: '#1E1E1E' },
     '100': { value: '#000000' },
+  },
+  shadow: {
+    raised: {
+      1: {
+        light: { value: 'rgba(30, 31, 33, 0.25)' },
+        dark: { value: 'rgba(1, 4, 4, 0.5)' },
+      },
+      2: {
+        light: { value: 'rgba(30, 31, 33, 0.31)' },
+        dark: { value: 'rgba(1, 4, 4, 0.5)' },
+      },
+    },
+    elevated: {
+      1: {
+        light: { value: 'rgba(0, 0, 0, 0)' },
+        dark: { value: 'rgba(95, 95, 95, 0.06)' },
+      },
+      2: {
+        light: { value: 'rgba(30, 31, 33, 0.2)' },
+        dark: { value: 'rgba(1, 4, 4, 0.43)' },
+      },
+      3: {
+        light: { value: 'rgba(30, 31, 33, 0.31)' },
+        dark: { value: 'rgba(1, 4, 4, 0.5)' },
+      },
+    },
+    overlay: {
+      1: {
+        light: { value: 'rgba(0, 0, 0, 0)' },
+        dark: { value: 'rgba(189, 189, 189, 0.12)' },
+      },
+      2: {
+        light: { value: 'rgba(30, 31, 33, 0.15)' },
+        dark: { value: 'rgba(1, 4, 4, 0.36)' },
+      },
+      3: {
+        light: { value: 'rgba(30, 31, 33, 0.31)' },
+        dark: { value: 'rgba(1, 4, 4, 0.5)' },
+      },
+    },
+    overflow: {
+      1: {
+        light: { value: 'rgba(30, 31, 33, 0.16)' },
+        dark: { value: 'rgba(1, 4, 4, 0.56)' },
+      },
+      2: {
+        light: { value: 'rgba(30, 31, 33, 0.12)' },
+        dark: { value: 'rgba(1, 4, 4, 0.5)' },
+      },
+    },
   },
 });

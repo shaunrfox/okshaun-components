@@ -1,20 +1,17 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
-/** Shared animation duration (ms) — used in both CSS animations and JS unmount timeout */
-export const MODAL_ANIMATION_DURATION = 150;
-
 const modalBase = {
   overlay: {
     position: 'fixed',
     inset: '0',
     bg: 'blanket',
-    zIndex: 'overlay',
+    zIndex: '1100',
     // Initial state matches animation start
     opacity: '0',
     // Animation handled via data-state
-    animation: `modalFadeIn ${MODAL_ANIMATION_DURATION}ms ease-out forwards`,
+    animation: 'modalFadeIn 150ms ease-out forwards',
     '&[data-state="closing"]': {
-      animation: `modalFadeOut ${MODAL_ANIMATION_DURATION}ms ease-out forwards`,
+      animation: 'modalFadeOut 150ms ease-out forwards',
     },
   },
   container: {
@@ -23,19 +20,20 @@ const modalBase = {
     left: '50%',
     display: 'flex',
     flexDirection: 'column',
-    maxHeight: '90vh',
+    width: 'full',
+    maxHeight: '[95vh]',
     bg: 'surface.overlay',
     borderRadius: '12',
     boxShadow: 'overlay',
     outline: 'none',
-    zIndex: 'modal',
+    zIndex: '1101',
     // Initial state matches animation start
     opacity: '0',
-    transform: 'translate(-50%, -50%) scale(0.95) translateY(-10px)',
+    transform: '[translate(-50%, -50%) scale(0.95) translateY(-10px)]',
     // Animation handled via data-state
-    animation: `modalScaleIn ${MODAL_ANIMATION_DURATION}ms ease-out forwards`,
+    animation: 'modalScaleIn 150ms ease-out forwards',
     '&[data-state="closing"]': {
-      animation: `modalScaleOut ${MODAL_ANIMATION_DURATION}ms ease-out forwards`,
+      animation: 'modalScaleOut 150ms ease-out forwards',
     },
   },
   header: {
@@ -57,11 +55,12 @@ const modalBase = {
   },
   body: {
     flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
     overflowY: 'auto',
-    gap: '16',
+    gap: '12',
     px: '20',
-    py: '16',
-    color: 'text',
+    py: '20',
   },
   footer: {
     display: 'flex',
@@ -78,26 +77,56 @@ const modalVariants = {
   size: {
     sm: {
       container: {
-        maxWidth: '400',
-      },
-      title: {
-        fontSize: 'md',
+        maxWidth: 'md',
       },
     },
     md: {
       container: {
-        maxWidth: '560',
-      },
-      title: {
-        fontSize: 'lg',
+        maxWidth: 'xl',
       },
     },
     lg: {
       container: {
-        maxWidth: '720',
+        maxWidth: '3xl',
       },
-      title: {
-        fontSize: 'xl',
+    },
+    xl: {
+      container: {
+        maxWidth: '5xl',
+      },
+    },
+    full: {
+      container: {
+        maxWidth: '[95vw]',
+      },
+    },
+    mobile: {
+      container: {
+        width: 'full',
+        height: 'full',
+        maxWidth: '[100vw]',
+        maxHeight: '[100vh]',
+        borderRadius: '0',
+      },
+    },
+  },
+  variant: {
+    default: {
+      container: {
+        xsDown: {
+          width: 'full',
+          height: 'full',
+          maxWidth: '[100vw]',
+          maxHeight: '[100vh]',
+          borderRadius: '0',
+        },
+      },
+    },
+    confirmation: {
+      container: {
+        height: 'fit',
+        width: 'md',
+        maxWidth: '[90vw]',
       },
     },
   },
@@ -118,6 +147,7 @@ export const modalRecipe = defineSlotRecipe({
   base: modalBase,
   variants: modalVariants,
   defaultVariants: {
+    variant: 'default',
     size: 'md',
   },
 });

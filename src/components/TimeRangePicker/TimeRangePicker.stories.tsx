@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Box } from '../Box';
 import { Text } from '../Text';
-import { TimeRangePicker } from './TimeRangePicker';
+
 import type { TimeValue } from '../TimePicker/TimePicker';
+import { TimeRangePicker } from './TimeRangePicker';
 
 const meta: Meta<typeof TimeRangePicker> = {
   title: 'Components/TimeRangePicker',
@@ -16,6 +17,30 @@ const meta: Meta<typeof TimeRangePicker> = {
 
 export default meta;
 type Story = StoryObj<typeof TimeRangePicker>;
+
+const ControlledTimeRangePickerExample = () => {
+  const [start, setStart] = useState<TimeValue | null>(null);
+  const [end, setEnd] = useState<TimeValue | null>(null);
+
+  const formatTime = (value: TimeValue | null) =>
+    value
+      ? `${String(value.hour).padStart(2, '0')}:${String(value.minute).padStart(2, '0')}`
+      : 'none';
+
+  return (
+    <Box display="flex" flexDirection="column" gap="16">
+      <TimeRangePicker
+        startValue={start}
+        endValue={end}
+        onStartChange={setStart}
+        onEndChange={setEnd}
+      />
+      <Text size="14" color="text.subtle">
+        Start: {formatTime(start)} - End: {formatTime(end)}
+      </Text>
+    </Box>
+  );
+};
 
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
@@ -45,27 +70,5 @@ export const MinuteStep30: Story = {
 
 export const ExControlled: Story = {
   name: 'Ex: Controlled',
-  render: () => {
-    const [start, setStart] = useState<TimeValue | null>(null);
-    const [end, setEnd] = useState<TimeValue | null>(null);
-
-    const fmt = (v: TimeValue | null) =>
-      v
-        ? `${String(v.hour).padStart(2, '0')}:${String(v.minute).padStart(2, '0')}`
-        : 'none';
-
-    return (
-      <Box display="flex" flexDirection="column" gap="16">
-        <TimeRangePicker
-          startValue={start}
-          endValue={end}
-          onStartChange={setStart}
-          onEndChange={setEnd}
-        />
-        <Text size="14" color="text.subtle">
-          Start: {fmt(start)} — End: {fmt(end)}
-        </Text>
-      </Box>
-    );
-  },
+  render: () => <ControlledTimeRangePickerExample />,
 };

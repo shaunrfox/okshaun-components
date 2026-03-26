@@ -1,0 +1,17 @@
+{
+  "aliases": [
+    "bolts",
+    "screws",
+    "machinery",
+    "tools",
+    "hexagon",
+    "nut",
+    "part",
+    "bom",
+    "item",
+    "line"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

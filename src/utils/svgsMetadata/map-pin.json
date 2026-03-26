@@ -1,0 +1,18 @@
+{
+  "aliases": [
+    "location",
+    "marker",
+    "maps",
+    "places",
+    "markers",
+    "pins",
+    "locations",
+    "poi",
+    "point of interest",
+    "map",
+    "pin"
+  ],
+  "tags": ["navigation"],
+  "category": "Location",
+  "deprecated": false
+}

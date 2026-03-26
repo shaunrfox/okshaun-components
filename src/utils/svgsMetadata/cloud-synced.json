@@ -1,0 +1,18 @@
+{
+  "aliases": [
+    "serverless",
+    "backup",
+    "storage",
+    "meteorology",
+    "cloudy",
+    "overcast",
+    "weather",
+    "cloud",
+    "sync",
+    "synchronized",
+    "check"
+  ],
+  "tags": [],
+  "category": "Status",
+  "deprecated": false
+}

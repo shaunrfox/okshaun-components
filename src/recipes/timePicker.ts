@@ -23,7 +23,7 @@ const timePickerBase = {
     outlineColor: 'transparent',
     bg: 'bg.input',
     color: 'text',
-    fontFamily: 'body',
+    fontFamily: 'mono',
     lineHeight: 'default',
     cursor: 'text',
     userSelect: 'none',
@@ -48,20 +48,15 @@ const timePickerBase = {
       pointerEvents: 'none',
     },
     _error: {
-      bg: 'bg.danger',
       borderColor: 'border.danger',
-      color: 'text.danger',
       _hover: {
-        bg: 'bg.danger.hovered',
         borderColor: 'border.danger',
       },
       _focusWithin: {
-        bg: 'bg.danger',
         borderColor: 'border.danger',
         outlineColor: 'border.danger',
       },
       _open: {
-        bg: 'bg.danger',
         borderColor: 'border.danger',
         outlineColor: 'border.danger',
       },
@@ -74,20 +69,26 @@ const timePickerBase = {
     alignItems: 'center',
     justifyContent: 'center',
     outline: 'none',
-    borderRadius: '2',
+    borderRadius: '{sizes.2}',
     cursor: 'default',
     userSelect: 'none',
+    fontFamily: 'mono',
+    fontVariantsProperty: 'mono',
     fontVariantNumeric: 'tabular-nums',
-    minWidth: '1.5em',
+    minWidth: '{sizes.24}',
     textAlign: 'center',
+    color: 'text',
     _focusVisible: {
       bg: 'bg.neutral.hovered',
+    },
+    _groupDisabled: {
+      color: 'text.disabled',
     },
   },
 
   // The ":" separator between time segments
   separator: {
-    color: 'text.subtlest',
+    color: 'text.placeholder',
     userSelect: 'none',
     display: 'inline-flex',
     alignItems: 'center',
@@ -103,10 +104,10 @@ const timePickerBase = {
     borderColor: 'border',
     borderRadius: '8',
     boxShadow: 'overlay',
-    zIndex: 1000,
+    zIndex: '1000',
     overflow: 'hidden',
     outline: 'none',
-    minWidth: '160',
+    w: 'fit',
   },
 
   // A single scrollable column (hours, minutes, or AM/PM)
@@ -118,6 +119,8 @@ const timePickerBase = {
     maxHeight: '200',
     scrollSnapType: 'y mandatory',
     borderRight: 'default',
+    minW: '56',
+    textAlign: 'center',
     _last: {
       borderRight: 'none',
     },
@@ -148,65 +151,28 @@ const timePickerBase = {
     zIndex: 1,
     userSelect: 'none',
   },
-
-  // Individual time option button in a column
-  listItem: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 'full',
-    py: '8',
-    px: '8',
-    fontSize: '14',
-    cursor: 'pointer',
-    outline: 'none',
-    bg: 'transparent',
-    border: 'none',
-    color: 'text',
-    scrollSnapAlign: 'start',
-    transitionDuration: 'fast',
-    transitionProperty: 'background, color',
-    transitionTimingFunction: 'default',
-    _hover: {
-      bg: 'bg.neutral',
-    },
-    _focusVisible: {
-      outlineWidth: '2',
-      outlineStyle: 'solid',
-      outlineColor: 'border.focused',
-      outlineOffset: '-2',
-    },
-    _selected: {
-      bg: 'bg.selected',
-      color: 'text.selected',
-      fontWeight: 'medium',
-      _hover: {
-        bg: 'bg.selected.hovered',
-      },
-    },
-  },
 };
 
 const timePickerVariants = {
   size: {
     sm: {
       input: {
-        py: 0,
-        px: 8,
+        py: '0',
+        px: '8',
         fontSize: '14',
       },
     },
     md: {
       input: {
-        py: 3,
-        px: 10,
+        py: '3',
+        px: '10',
         fontSize: '16',
       },
     },
     lg: {
       input: {
-        py: 7,
-        px: 12,
+        py: '7',
+        px: '12',
         fontSize: '16',
       },
     },
@@ -224,7 +190,6 @@ export const timePickerRecipe = defineSlotRecipe({
     'popover',
     'column',
     'columnLabel',
-    'listItem',
   ],
   base: timePickerBase,
   variants: timePickerVariants,

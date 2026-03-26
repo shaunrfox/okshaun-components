@@ -1,35 +1,38 @@
 import { cx } from '@styled-system/css';
-import { breadcrumbs } from '@styled-system/recipes';
+import {
+  type BreadcrumbsVariantProps,
+  breadcrumbs,
+} from '@styled-system/recipes';
+
 import { splitProps } from '~/utils/splitProps';
+
 import type { BoxProps } from '../Box';
 import { Link } from '../Link';
 import { Text } from '../Text';
 
-export type BreadcrumbsProps = BoxProps & {
-  items: { id: string; label: string; href?: string }[];
-};
+export type BreadcrumbsProps = Omit<BoxProps, keyof BreadcrumbsVariantProps> &
+  BreadcrumbsVariantProps & {
+    items: { id: string; label: string; href?: string }[];
+  };
 
 export const Breadcrumbs = (props: BreadcrumbsProps) => {
   const { items, ...rest } = props;
   const [className, otherProps] = splitProps(rest);
+  const classes = breadcrumbs();
 
   return (
-    <Text as="ul" className={cx(breadcrumbs({}), className)} {...otherProps}>
+    <Text as="ul" className={cx(classes.wrapper, className)} {...otherProps}>
       {items?.map((item, index) => (
         <Text as="li" key={item.id}>
           {item.href ? (
-            <Link family={'mono'} size={'14'} href={item.href}>
+            <Link href={item.href} className={classes.linkSegment}>
               {item.label}
             </Link>
           ) : (
-            <Text weight={'bold'} family={'mono'} size={'14'}>
-              {item.label}
-            </Text>
+            <Text className={classes.currentSegment}>{item.label}</Text>
           )}
           {index < items?.length - 1 && (
-            <Text as="span" family={'mono'} size={'14'}>
-              /
-            </Text>
+            <Text className={classes.slash}>/</Text>
           )}
         </Text>
       ))}

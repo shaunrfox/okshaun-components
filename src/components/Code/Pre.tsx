@@ -1,12 +1,16 @@
 import { cx } from '@styled-system/css';
 import { pre } from '@styled-system/recipes';
+import type { ReactNode } from 'react';
+
 import { Box, type BoxProps } from '~/components/Box';
 import { splitProps } from '~/utils/splitProps';
+
 import { Code } from './Code';
 
 export type PreProps = BoxProps & {
-  children: string | React.ReactNode;
+  children: string | ReactNode;
   lang?: string;
+  as?: string;
 };
 
 export const Pre = (props: PreProps) => {

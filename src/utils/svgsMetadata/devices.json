@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "responsive",
+    "cellphone",
+    "cellular",
+    "tablet",
+    "desktop",
+    "devices",
+    "mobile",
+    "fluid"
+  ],
+  "tags": [],
+  "category": "Devices",
+  "deprecated": false
+}

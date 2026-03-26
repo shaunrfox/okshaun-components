@@ -1,0 +1,31 @@
+# Agent OS Standards Index
+
+components:
+  prop-type-convention:
+    description: Box-first prop composition and React 19 ref typing rules
+  polymorphic-box:
+    description: Box + splitProps + cx conventions for all components
+  controlled-state:
+    description: Controlled-first state model for inputs, overlays, and pickers
+  floating-ui-integration:
+    description: Canonical Floating UI wiring and accessibility requirements
+  multi-part-composition:
+    description: Parent-owned state/context patterns for compound components
+  storybook-conventions:
+    description: Story typing, layout, and documentation standards
+
+recipes:
+  naming-registration:
+    description: Recipe naming/export/registration contract
+  token-only-styling:
+    description: Tokens-first styling and theme-aware value rules
+
+lint:
+  baseline-rules:
+    description: TypeScript + Biome baseline enforcement and filename policy
+  design-system-custom-rules:
+    description: Repo-local validator rules for design-system invariants
+  rollout-workflow:
+    description: Touched-file rollout, CI gating, and migration-safe validation flow
+  implementation-todo:
+    description: Mapping from work-repo ESLint/Prettier behavior to this repo's tooling

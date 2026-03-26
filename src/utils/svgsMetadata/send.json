@@ -1,0 +1,19 @@
+{
+  "aliases": [
+    "submit",
+    "deliver",
+    "mail",
+    "email",
+    "send",
+    "sent",
+    "messages",
+    "messaging",
+    "toys",
+    "games",
+    "paper",
+    "plane"
+  ],
+  "tags": ["communication", "actions"],
+  "category": "Email",
+  "deprecated": false
+}

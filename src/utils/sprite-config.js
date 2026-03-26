@@ -1,5 +1,5 @@
 const outputDir = 'public';
-const optimizedDir = 'dist/svgs';
+const optimizedDir = 'public/svgs';
 const previewTemplate = './src/utils/sprite-preview-template.html';
 
 const config = {

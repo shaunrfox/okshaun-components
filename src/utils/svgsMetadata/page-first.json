@@ -1,0 +1,19 @@
+{
+  "aliases": [
+    "music",
+    "audio",
+    "seek",
+    "scrub",
+    "scan",
+    "back",
+    "backwards",
+    "reverse",
+    "previous",
+    "skip",
+    "page",
+    "first"
+  ],
+  "tags": [],
+  "category": "Navigation",
+  "deprecated": false
+}

@@ -1,0 +1,18 @@
+{
+  "aliases": [
+    "debit",
+    "visa",
+    "mastercard",
+    "money",
+    "payment",
+    "paying",
+    "purchase",
+    "swipe",
+    "finances",
+    "credit",
+    "card"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

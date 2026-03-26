@@ -1,7 +1,9 @@
 import { cx } from '@styled-system/css';
 import { type ToggleVariantProps, toggle } from '@styled-system/recipes';
-import type { ChangeEventHandler } from 'react';
+import type { ChangeEvent } from 'react';
+
 import { splitProps } from '~/utils/splitProps';
+
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
 
@@ -10,18 +12,12 @@ export type ToggleProps = Omit<
   'checked' | 'onChange' | keyof ToggleVariantProps
 > &
   ToggleVariantProps & {
-    /** Form field name */
     name: string;
-    /** Controlled checked state (REQUIRED) */
     checked: boolean;
-    /** Change handler (REQUIRED) */
-    onChange: ChangeEventHandler<HTMLInputElement>;
-    /** Unique identifier for the toggle */
+    onChange: ToggleChangeHandler;
     id?: string;
-    /** Disable the toggle */
-    disabled?: boolean;
-    /** Display error state */
     error?: boolean;
+    disabled?: boolean;
   };
 
 /**
@@ -29,7 +25,7 @@ export type ToggleProps = Omit<
  * @example
  * const handleChange: ToggleChangeHandler = (e) => setChecked(e.target.checked);
  */
-export type ToggleChangeEvent = React.ChangeEvent<HTMLInputElement>;
+export type ToggleChangeEvent = ChangeEvent<HTMLInputElement>;
 
 /**
  * Helper type for toggle change handler functions
@@ -45,37 +41,52 @@ export type ToggleChangeHandler = (e: ToggleChangeEvent) => void;
  * @example
  * const [checked, setChecked] = useState(false);
  * <Toggle
- *   name="notifications"
  *   checked={checked}
  *   onChange={(e) => setChecked(e.target.checked)}
  * />
  */
+
 export const Toggle = (props: ToggleProps) => {
-  const { name, id, checked, onChange, disabled, error, ...rest } = props;
+  const {
+    name,
+    checked,
+    onChange,
+    id,
+    error,
+    disabled,
+    container,
+    input,
+    indicator,
+    ...rest
+  } = props;
   const [className, otherProps] = splitProps(rest);
-  const { container, input, indicator, background } = toggle({});
+  const classes = toggle({
+    container,
+    input,
+    indicator,
+  });
+
+  // Determine which icon to render based on state
+  const iconName = checked ? 'circle-check' : 'circle';
 
   return (
     <Box
-      className={cx(container, className)}
-      {...(disabled && { 'data-disabled': true })}
+      className={cx(classes.container, className)}
       {...(error && { 'data-error': true })}
-      {...otherProps}
     >
       <Box
         as="input"
         type="checkbox"
-        className={input}
+        className={classes.input}
         name={name}
         id={id}
         checked={checked}
         onChange={onChange}
         disabled={disabled}
         {...(error && { 'data-error': true })}
+        {...otherProps}
       />
-      <Box as="span" className={background} name={'toggle-bg'} />
-      <Icon name={'circle'} className={indicator} />
-      <Icon name={'circle-check'} className={indicator} />
+      <Icon className={classes.indicator} name={iconName} />
     </Box>
   );
 };

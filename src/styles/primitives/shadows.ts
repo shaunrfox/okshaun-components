@@ -3,39 +3,39 @@ import { defineTokens } from '@pandacss/dev';
 export const shadows = defineTokens.shadows({
   zeroShadow: {
     value:
-      '{sizes.0} {sizes.0} {sizes.0} rgba(0, 0, 0, 0), {sizes.0} {sizes.0} {sizes.0} rgba(0, 0, 0, 0)',
+      '{sizes.0} {sizes.0} {sizes.0} {colors.transparent}, {sizes.0} {sizes.0} {sizes.0} {colors.transparent}',
   },
   raisedLight: {
     value:
-      '{sizes.0} {sizes.1} {sizes.1} rgba(30, 31, 33, 0.25), {sizes.0} {sizes.0} {sizes.1} rgba(30, 31, 33, 0.31)',
+      '{sizes.0} {sizes.1} {sizes.1} {colors.shadow.raised.1.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.raised.2.light}',
   },
   raisedDark: {
     value:
-      '{sizes.0} {sizes.0} {sizes.0} rgba(0, 0, 0, 0), {sizes.0} {sizes.1} {sizes.1} rgba(1, 4, 4, 0.5), {sizes.0} {sizes.0} {sizes.1} rgba(1, 4, 4, 0.5)',
+      '{sizes.0} {sizes.1} {sizes.1} {colors.shadow.raised.1.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.raised.2.dark}',
   },
   elevatedLight: {
     value:
-      '{sizes.0} {sizes.4} {sizes.7} rgba(30, 31, 33, 0.2), {sizes.0} {sizes.0} {sizes.1} rgba(30, 31, 33, 0.31)',
+      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.elevated.1.light}, {sizes.0} {sizes.4} {sizes.7} {colors.shadow.elevated.2.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.elevated.3.light}',
   },
   elevatedDark: {
     value:
-      '{sizes.0} {sizes.0} {sizes.0} rgba(95, 95, 95, 0.06), {sizes.0} {sizes.4} {sizes.7} rgba(1, 4, 4, 0.43), {sizes.0} {sizes.0} {sizes.1} rgba(1, 4, 4, 0.5)',
+      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.elevated.1.dark}, {sizes.0} {sizes.4} {sizes.7} {colors.shadow.elevated.2.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.elevated.3.dark}',
   },
   overlayLight: {
     value:
-      '{sizes.0} {sizes.8} {sizes.12} rgba(30, 31, 33, 0.15), {sizes.0} {sizes.0} {sizes.1} rgba(30, 31, 33, 0.31)',
+      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.overlay.1.light}, {sizes.0} {sizes.8} {sizes.12} {colors.shadow.overlay.2.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.overlay.3.light}',
   },
   overlayDark: {
     value:
-      '{sizes.0} {sizes.0} {sizes.0} rgba(189, 189, 189, 0.12), {sizes.0} {sizes.8} {sizes.12} rgba(1, 4, 4, 0.36), {sizes.0} {sizes.0} {sizes.1} rgba(1, 4, 4, 0.5)',
+      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.overlay.1.dark}, {sizes.0} {sizes.8} {sizes.12} {colors.shadow.overlay.2.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.overlay.3.dark}',
   },
   overflowLight: {
     value:
-      '{sizes.0} {sizes.0} {sizes.8} rgba(30, 31, 33, 0.16), {sizes.0} {sizes.0} {sizes.1} rgba(30, 31, 33, 0.12)',
+      '{sizes.0} {sizes.0} {sizes.8} {colors.shadow.overflow.1.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.overflow.2.light}',
   },
   overflowDark: {
     value:
-      '{sizes.0} {sizes.0} {sizes.12} rgba(1, 4, 4, 0.56), {sizes.0} {sizes.0} {sizes.1} rgba(1, 4, 4, 0.5)',
+      '{sizes.0} {sizes.0} {sizes.12} {colors.shadow.overflow.1.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.overflow.2.dark}',
   },
   // TODO: delete below once migration is complete
   lowLight: {

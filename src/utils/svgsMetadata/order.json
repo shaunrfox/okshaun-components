@@ -1,0 +1,24 @@
+{
+  "aliases": [
+    "ecommerce",
+    "market",
+    "basket",
+    "buying",
+    "groceries",
+    "checkout",
+    "places",
+    "locations",
+    "shopping",
+    "cart",
+    "receipt",
+    "expense",
+    "bill",
+    "finances",
+    "invoice",
+    "order",
+    "quote"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

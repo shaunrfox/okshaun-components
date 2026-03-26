@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "shapes",
+    "polygons",
+    "box",
+    "stack",
+    "list",
+    "table",
+    "cards",
+    "rows"
+  ],
+  "tags": [],
+  "category": "Views",
+  "deprecated": false
+}

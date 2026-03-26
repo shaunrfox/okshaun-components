@@ -1,29 +1,77 @@
 import { cx } from '@styled-system/css';
-import { type TextinputVariantProps, textinput } from '@styled-system/recipes';
+import { type TextInputVariantProps, textInput } from '@styled-system/recipes';
+
+import { Icon, type IconNamesList } from '~/components/Icon';
 import { splitProps } from '~/utils/splitProps';
+
 import { Box, type BoxProps } from '../Box/Box';
 
-export type TextInputProps = Omit<BoxProps, keyof TextinputVariantProps> &
-  TextinputVariantProps & {
+export type TextInputProps = Omit<BoxProps, keyof TextInputVariantProps> &
+  Omit<TextInputVariantProps, 'iconBefore' | 'iconAfter'> & {
     name: string;
-    autoSize?: boolean;
+    id?: string;
+    iconBefore?: IconNamesList;
+    iconAfter?: IconNamesList;
     error?: boolean;
     disabled?: boolean;
-    id?: string;
+    type?:
+      | 'text'
+      | 'number'
+      | 'email'
+      | 'password'
+      | 'search'
+      | 'tel'
+      | 'url'
+      | 'date'
+      | 'time'
+      | 'datetime-local'
+      | 'month'
+      | 'week';
   };
 
 export const TextInput = (props: TextInputProps) => {
-  const { size, error, autoSize = false, id, name, disabled, ...rest } = props;
+  const {
+    name,
+    id,
+    iconBefore,
+    iconAfter,
+    error,
+    disabled,
+    type = 'text',
+    size,
+    autoSize = false,
+    autoComplete = 'off',
+    ...rest
+  } = props;
+  const classes = textInput({
+    size,
+    iconBefore: Boolean(iconBefore),
+    iconAfter: Boolean(iconAfter),
+    autoSize,
+  });
   const [className, otherProps] = splitProps(rest);
   return (
     <Box
-      as="input"
-      id={id}
-      name={name}
-      {...(error && { 'data-error': true })}
+      className={cx(classes.container, className)}
       aria-disabled={disabled}
-      className={cx(textinput({ size, autoSize }), className)}
-      {...otherProps}
-    />
+      data-disabled={disabled || undefined}
+      data-error={error}
+    >
+      {iconBefore && <Icon name={iconBefore} className={classes.icon} />}
+      <Box
+        as="input"
+        id={id}
+        name={name}
+        type={type}
+        disabled={disabled}
+        data-error={error}
+        className={cx(classes.input, className)}
+        autoComplete={autoComplete}
+        {...otherProps}
+      />
+      {iconBefore && iconAfter
+        ? ''
+        : iconAfter && <Icon name={iconAfter} className={classes.icon} />}
+    </Box>
   );
 };

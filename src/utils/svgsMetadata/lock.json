@@ -1,0 +1,22 @@
+{
+  "aliases": [
+    "secure",
+    "private",
+    "padlock",
+    "security",
+    "secured",
+    "authentication",
+    "authenticated",
+    "login",
+    "locked",
+    "encrypted",
+    "encryption",
+    "privacy",
+    "lock",
+    "on",
+    "closed"
+  ],
+  "tags": ["security"],
+  "category": "Toggles / Triggers",
+  "deprecated": false
+}

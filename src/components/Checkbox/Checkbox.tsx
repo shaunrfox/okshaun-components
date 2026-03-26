@@ -1,7 +1,9 @@
 import { cx } from '@styled-system/css';
 import { type CheckboxVariantProps, checkbox } from '@styled-system/recipes';
-import type { ChangeEvent, ChangeEventHandler } from 'react';
+import type { ChangeEvent } from 'react';
+
 import { splitProps } from '~/utils/splitProps';
+
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
 
@@ -10,20 +12,13 @@ export type CheckboxProps = Omit<
   'checked' | 'onChange' | keyof CheckboxVariantProps
 > &
   CheckboxVariantProps & {
-    /** Form field name */
     name: string;
-    /** Controlled checked state (REQUIRED) */
     checked: boolean;
-    /** Change handler (REQUIRED) */
-    onChange: ChangeEventHandler<HTMLInputElement>;
-    /** Unique identifier for the checkbox */
+    onChange: CheckboxChangeHandler;
     id?: string;
-    /** Display indeterminate state (partially checked) */
-    indeterminate?: boolean;
-    /** Disable the checkbox */
-    disabled?: boolean;
-    /** Display error state */
     error?: boolean;
+    disabled?: boolean;
+    indeterminate?: boolean;
   };
 
 /**
@@ -61,10 +56,19 @@ export const Checkbox = (props: CheckboxProps) => {
     indeterminate,
     disabled,
     error,
+    container,
+    input,
+    indicator,
+    checkBg,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
-  const { container, input, indicator } = checkbox({});
+  const classes = checkbox({
+    container,
+    input,
+    indicator,
+    checkBg,
+  });
 
   // Determine which icon to render based on state
   const iconName = indeterminate
@@ -75,14 +79,13 @@ export const Checkbox = (props: CheckboxProps) => {
 
   return (
     <Box
-      className={cx(container, className)}
+      className={cx(classes.container, className)}
       {...(error && { 'data-error': true })}
-      {...otherProps}
     >
       <Box
         as="input"
         type="checkbox"
-        className={input}
+        className={classes.input}
         name={name}
         id={id}
         checked={checked}
@@ -90,9 +93,11 @@ export const Checkbox = (props: CheckboxProps) => {
         disabled={disabled}
         {...(indeterminate && { 'data-indeterminate': true })}
         {...(error && { 'data-error': true })}
+        {...otherProps}
       />
-      <Icon className={indicator} name={iconName} />
-      <Icon className={indicator} name="checkbox-focus" />
+      <Icon className={classes.checkBg} name="square" />
+      <Icon className={classes.indicator} name={iconName} />
+      <Icon className={classes.indicator} name="checkbox-focus" />
     </Box>
   );
 };

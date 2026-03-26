@@ -12,7 +12,5 @@
     "ask": []
   },
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "panda"
-  ]
+  "enabledMcpjsonServers": ["panda"]
 }

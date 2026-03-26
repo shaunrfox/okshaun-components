@@ -1,7 +1,9 @@
 import { css, cx } from '@styled-system/css';
 import { type AvatarVariantProps, avatar } from '@styled-system/recipes';
-import * as React from 'react';
-import type { BoxProps } from '~/components/Box';
+import type { ReactNode } from 'react';
+import { useState } from 'react';
+
+import { Box, type BoxProps } from '~/components/Box';
 import { type AllowedIconSizes, Icon } from '~/components/Icon';
 import { splitProps } from '~/utils/splitProps';
 
@@ -13,7 +15,7 @@ export type AvatarPresence = 'online' | 'busy' | 'offline' | 'focus';
 
 export type AvatarStatus = 'approved' | 'declined' | 'locked';
 
-export type AvatarProps = BoxProps &
+export type AvatarProps = Omit<BoxProps, keyof AvatarVariantProps> &
   Omit<AvatarVariantProps, 'size' | 'shape'> & {
     /** Image source URL */
     src?: string;
@@ -30,11 +32,9 @@ export type AvatarProps = BoxProps &
     /** Status indicator (top-right) */
     status?: AvatarStatus;
     /** Custom fallback content (overrides initials) */
-    fallback?: React.ReactNode;
+    fallback?: ReactNode;
     /** Border color for the avatar */
-    borderColor?: string;
-    /** Additional class name */
-    className?: string;
+    borderColor?: BoxProps['borderColor'];
   };
 
 // Presence indicator colors
@@ -99,56 +99,67 @@ export const Avatar = (props: AvatarProps) => {
   } = props;
 
   const [className, otherProps] = splitProps(rest);
-  const [imageError, setImageError] = React.useState(false);
-  const [imageLoaded, setImageLoaded] = React.useState(false);
-
-  // Reset error state when src changes
-  // biome-ignore lint/correctness/useExhaustiveDependencies: src in deps is intentional — effect fires to reset state when src changes
-  React.useEffect(() => {
-    setImageError(false);
-    setImageLoaded(false);
-  }, [src]);
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
 
   // Type-safe size for indexing
   const safeSize = size as AvatarSize;
   const classes = avatar({ size: safeSize, shape });
 
   // Determine what to show: image, fallback, or initials
-  const showImage = src && !imageError;
+  const showImage = Boolean(src) && failedSrc !== src;
+  const isImageLoaded = Boolean(src) && loadedSrc === src;
   const initials = name ? getInitials(name) : null;
 
   // Get icon size based on avatar size
   const iconSize = sizeToStatusIconSize[safeSize];
 
   return (
-    <span
+    <Box
+      as="span"
       ref={ref}
       className={cx(classes.root, className)}
-      style={borderColor ? { borderColor } : undefined}
+      borderColor={borderColor}
       {...otherProps}
     >
       {/* Image */}
       {showImage && (
-        <img
+        <Box
+          as="img"
           src={src}
           alt={alt}
           className={classes.image}
-          onError={() => setImageError(true)}
-          onLoad={() => setImageLoaded(true)}
-          style={{ opacity: imageLoaded ? 1 : 0 }}
+          onError={() => {
+            if (!src) {
+              return;
+            }
+
+            setFailedSrc(src);
+            setLoadedSrc(null);
+          }}
+          onLoad={() => {
+            if (!src) {
+              return;
+            }
+
+            setLoadedSrc(src);
+            setFailedSrc(null);
+          }}
+          opacity={isImageLoaded ? 1 : 0}
         />
       )}
 
       {/* Fallback content (shown when no image or image failed) */}
-      {(!showImage || !imageLoaded) && (
-        <span className={classes.fallback}>
+      {(!showImage || !isImageLoaded) && (
+        <Box as="span" className={classes.fallback}>
           {fallback || initials || <Icon name="user" />}
-        </span>
+        </Box>
       )}
 
       {/* Presence indicator */}
       {presence && (
-        <span
+        <Box
+          as="span"
           className={cx(
             classes.presence,
             presenceStyles[presence as AvatarPresence],
@@ -158,16 +169,21 @@ export const Avatar = (props: AvatarProps) => {
 
       {/* Status indicator */}
       {status && (
-        <span
+        <Box
+          as="span"
           className={cx(classes.status, statusStyles[status as AvatarStatus])}
         >
-          {status === 'approved' && <Icon name="check" size={iconSize} />}
-          {status === 'declined' && <Icon name="x" size={iconSize} />}
-          {status === 'locked' && <Icon name="lock" size={iconSize} />}
-        </span>
+          {status === 'approved' && (
+            <Icon name="check" size={iconSize} fill="icon.inverse" />
+          )}
+          {status === 'declined' && (
+            <Icon name="x" size={iconSize} fill="icon.inverse" />
+          )}
+          {status === 'locked' && (
+            <Icon name="lock" size={iconSize} fill="icon.inverse" />
+          )}
+        </Box>
       )}
-    </span>
+    </Box>
   );
 };
-
-Avatar.displayName = 'Avatar';

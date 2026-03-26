@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "drag",
+    "handle",
+    "gripper",
+    "grip",
+    "dots",
+    "hold",
+    "drop",
+    "grab"
+  ],
+  "tags": [],
+  "category": "Actions",
+  "deprecated": false
+}

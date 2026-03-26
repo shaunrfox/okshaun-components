@@ -1,31 +1,37 @@
-import { cx } from '@styled-system/css';
-import type React from 'react';
-import { splitProps } from '~/utils/splitProps';
-import { Box, type BoxProps } from '../Box';
-import { useMenuContext } from './MenuContext';
+import { ListItemGroup } from '../List';
 
-export type MenuGroupProps = Omit<BoxProps, 'title'> & {
-  /** Group label */
-  label?: string;
-  /** Children (MenuItem components) */
-  children: React.ReactNode;
-};
+import {
+  hasMatchingItems,
+  MENU_COMPONENT_TYPES,
+  type MenuGroupProps,
+  menuComponentTypeKey,
+  useMenuFilterContext,
+  useMenuRootContext,
+} from './context/menuContext';
 
 export const MenuGroup = (props: MenuGroupProps) => {
-  const { label, children, ...rest } = props;
-  const [className, otherProps] = splitProps(rest);
-  const { classes } = useMenuContext();
+  const { label, children, divider, ...rest } = props;
+  const rootContext = useMenuRootContext();
+  const filterContext = useMenuFilterContext();
+
+  const hasMatches = hasMatchingItems(children, filterContext);
+
+  if (!hasMatches) {
+    return null;
+  }
 
   return (
-    <Box
-      // biome-ignore lint/a11y/useSemanticElements: role="group" is correct ARIA for menu groups — <fieldset> is for form controls
-      role="group"
-      aria-label={label}
-      className={cx(classes.menuGroup, className)}
-      {...otherProps}
+    <ListItemGroup
+      density={rootContext.density}
+      label={label}
+      divider={divider}
+      {...rest}
     >
-      {label && <Box className={classes.menuGroupLabel}>{label}</Box>}
       {children}
-    </Box>
+    </ListItemGroup>
   );
 };
+
+(MenuGroup as unknown as { [menuComponentTypeKey]: string })[
+  menuComponentTypeKey
+] = MENU_COMPONENT_TYPES.group;

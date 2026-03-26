@@ -5,7 +5,10 @@ import type {
   FontToken,
   FontWeightToken,
 } from '@styled-system/tokens';
+import type { MouseEvent, ReactNode } from 'react';
+
 import { splitProps } from '~/utils/splitProps';
+
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon/Icon';
 
@@ -20,7 +23,7 @@ export type LinkProps = Omit<BoxProps, keyof LinkVariantProps> &
     bold?: boolean;
     weight?: FontWeightToken;
     className?: string;
-    children?: React.ReactNode;
+    children?: ReactNode;
   };
 
 export const Link = (props: LinkProps) => {
@@ -38,7 +41,7 @@ export const Link = (props: LinkProps) => {
   } = props;
   const [className, otherProps] = splitProps(rest);
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (disabled) {
       e.preventDefault();
       e.stopPropagation();
@@ -51,15 +54,15 @@ export const Link = (props: LinkProps) => {
       href={href}
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
+      // aria-disabled and tabIndex are needed to properly disable the link for accessibility
       aria-disabled={disabled}
-      className={cx(link({ family, italic, bold }), className)}
-      fontSize={size}
-      fontWeight={weight}
+      tabIndex={disabled ? -1 : undefined}
+      className={cx(link({ family, italic, bold, size, weight }), className)}
       onClick={handleClick}
       {...otherProps}
     >
       {children}
-      {external && <Icon name="arrow-square-out" size={'20'} />}
+      {external && <Icon name="arrow-square-out" size="20" fill="link" />}
     </Box>
   );
 };

@@ -1,103 +1,131 @@
 import { cx } from '@styled-system/css';
+import { Flex } from '@styled-system/jsx';
 import { type FormFieldVariantProps, formField } from '@styled-system/recipes';
-import {
-  Children,
-  type ReactElement,
-  type ReactNode,
-  cloneElement,
-  isValidElement,
-} from 'react';
+import type { ReactElement, ReactNode } from 'react';
+import { Children, cloneElement, isValidElement } from 'react';
+
 import { splitProps } from '~/utils/splitProps';
+
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
+import { Label } from '../Label';
 import { Text } from '../Text';
 import { Tooltip } from '../Tooltip';
 
 export type FormFieldProps = Omit<BoxProps, keyof FormFieldVariantProps> &
   FormFieldVariantProps & {
-    label?: string;
+    label: string;
+    labelFor: string;
+    children: ReactNode;
     helpText?: string;
     required?: boolean;
     error?: boolean;
     errorText?: string;
     disabled?: boolean;
-    tooltip?: boolean;
-    tooltipCaret?: boolean;
     tooltipTitle?: string;
-    tooltipDescription?: string;
-    children?: ReactNode;
+    tooltipText?: string;
+    size?: 'sm' | 'md' | 'lg' | 'xl';
   };
+
+type FormFieldChildProps = {
+  error?: boolean;
+  disabled?: boolean;
+  required?: boolean;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+};
+
+export const Required = () => {
+  return <Text color="text.danger">*</Text>;
+};
 
 export const FormField = (props: FormFieldProps) => {
   const {
     layout = 'default',
     label,
+    labelFor,
+    children,
     helpText,
     required,
     error,
     errorText,
     disabled,
-    tooltip,
     tooltipTitle,
-    tooltipDescription,
-    tooltipCaret,
-    children,
+    tooltipText,
+    size,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
-  const { formFieldContainer, contentWrapper, labelWrapper, headLabel } =
-    formField({
-      layout: layout === 'inline' ? 'inline' : 'default',
-    });
+
+  // container, inputs, labelWrapper, headLabel
+  const classes = formField({
+    layout: layout === 'inline' ? 'inline' : 'default',
+    size,
+  });
+
   const enhancedChildren = Children.map(children, (child) => {
     if (isValidElement(child)) {
-      const c = child as ReactElement<{ error?: boolean }>;
+      const c = child as ReactElement<FormFieldChildProps>;
       return cloneElement(c, {
         error: error ?? c.props.error,
-        // disabled: disabled ?? c.props.disabled,
+        disabled: disabled ?? c.props.disabled,
+        required: required ?? c.props.required,
+        size: size ?? c.props.size,
       });
     }
     return child;
   });
+
   return (
     <Box
-      className={cx(formFieldContainer, className)}
+      className={`${cx(classes.container, className)} group`}
+      aria-disabled={disabled}
+      data-disabled={disabled || undefined}
+      data-error={error}
+      data-size={size}
       {...otherProps}
-      disabled={disabled}
     >
-      <Box className={labelWrapper}>
-        <Box className={headLabel}>
-          <Text textStyle="body.md">{label} </Text>
-          {required && (
-            <Text as="span" color="text.error">
-              *
-            </Text>
-          )}
-          {tooltip && (
-            <Tooltip
-              title={tooltipTitle}
-              text={`${tooltipDescription}`}
-              caret={tooltipCaret}
-            >
-              <Icon name="info" fill="icon.decorative" />
-            </Tooltip>
-          )}
-        </Box>
-        {layout === 'default' && helpText && (
-          <Text as="span" textStyle="body.sm">
-            {helpText}
-          </Text>
+      <Flex className={classes.labelWrapper}>
+        <Label htmlFor={labelFor}>
+          {label} {required && <Required />}
+        </Label>
+
+        {tooltipText && (
+          <Tooltip
+            {...(tooltipTitle && { title: tooltipTitle })}
+            text={tooltipText}
+          >
+            <Icon name="info" fill="icon.decorative.subtle" size="20" />
+          </Tooltip>
         )}
-      </Box>
-      <Box className={contentWrapper}>
-        {enhancedChildren}
-        {layout === 'inline' && <Text textStyle="body.sm">{helpText}</Text>}
-        {error && (
-          <Text as="span" textStyle={'body.xs'} color="text.error">
-            {errorText}
-          </Text>
-        )}
-      </Box>
+      </Flex>
+
+      {layout === 'default' && helpText && (
+        <Text textStyle="body.xs" lineHeight="tight" color="text.subtlest">
+          {helpText}
+        </Text>
+      )}
+
+      <Box className={classes.inputs}>{enhancedChildren}</Box>
+      {layout === 'inline' && helpText && (
+        <Text
+          textStyle="body.xs"
+          lineHeight="tight"
+          color="text.subtlest"
+          gridColumn="2 / 3"
+        >
+          {helpText}
+        </Text>
+      )}
+      {error && (
+        <Text
+          textStyle="body.xs"
+          lineHeight="tight"
+          color="text.danger"
+          gridColumn="2 / 3"
+        >
+          {errorText}
+        </Text>
+      )}
     </Box>
   );
 };

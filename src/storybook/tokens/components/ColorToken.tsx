@@ -1,12 +1,12 @@
-import { Flex } from "@styled-system/jsx";
+import { Flex } from '@styled-system/jsx';
 import {
-  token,
   type ColorToken as ColorTokenType,
-} from "@styled-system/tokens";
+  token,
+} from '@styled-system/tokens';
 
-import { Box } from "~/components/Box";
-import { Text } from "~/components/Text";
-import { Tooltip } from "~/components/Tooltip";
+import { Box } from '~/components/Box';
+import { Text } from '~/components/Text';
+import { Tooltip } from '~/components/Tooltip';
 
 export type ColorTokenProps = {
   tokenKey: ColorTokenType;
@@ -38,7 +38,7 @@ export const ColorToken = ({ tokenKey }: ColorTokenProps) => {
         />
       </Tooltip>
 
-      <Text textStyle="mono.xs">{tokenKey.replace(/^.*?\./, "")}</Text>
+      <Text textStyle="mono.xs">{tokenKey.replace(/^.*?\./, '')}</Text>
     </Flex>
   );
 };

@@ -1,0 +1,92 @@
+import { Meta, Unstyled } from '@storybook/blocks';
+import { Flex } from '@styled-system/jsx';
+import { Divider } from '~/components/Divider';
+import { Tag } from '~/components/Tag';
+
+<Meta title="Docs / Accessibility Decisions" />
+
+<Unstyled>
+<Flex direction="column" gap="16">
+
+# Accessibility Decisions
+
+This page captures explicit accessibility decisions for the design system.
+Add entries as decisions are made so behavior stays consistent across
+components.
+
+<Divider weight="thick" color="border.disabled" my="24" />
+
+<Flex direction="column" gap="0">
+## Disabled State
+
+<Tag hue="blue">2026-03-06</Tag>
+</Flex>
+
+### Decision
+
+- Use native `disabled` for native form controls (for example, `button`, `input`) so browsers provide real disabled semantics automatically.
+- For anchors rendered as button-like controls, do not use a native `disabled` attribute (invalid on anchors). Use `aria-disabled` and block activation in event handlers.
+- Do not set `tabIndex={-1}` by default on disabled anchors.
+- Reasoning: keeping them in tab order preserves discoverability for keyboard and screen-reader users, who can still learn that a control exists and is currently unavailable.
+- If a product flow needs fully inert behavior, that should be an explicit, documented exception at the component or usage level.
+
+### Implementation Guidance
+
+- Native button path: apply `disabled` (and optionally `aria-disabled` for consistent state signaling).
+- Anchor path: apply `aria-disabled` and guard against activation in click/keyboard behavior.
+- Keep rendered structure simple; branch element-specific props with typed object spreads to preserve readability and TypeScript safety.
+
+### Examples
+
+```tsx
+// 1) Native control: real disabled semantics
+<Box as="button" type="button" disabled={disabled} aria-disabled={disabled}>
+  Save
+</Box>
+```
+
+```tsx
+// 2) Anchor rendered as a button-like control
+// Keep it focusable; expose disabled state via ARIA; block activation.
+<Box
+  as="a"
+  href={href}
+  aria-disabled={disabled}
+  onClick={(event) => {
+    if (disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }}
+>
+  View details
+</Box>
+```
+
+```tsx
+// 3) One JSX structure with typed branch props
+const elementProps = href
+  ? ({
+      as: 'a',
+      href,
+      aria-disabled: disabled,
+      ...(disabled && {
+        onClick: (e: MouseEvent<HTMLAnchorElement>) => e.preventDefault(),
+      }),
+    } satisfies BoxProps<'a'>)
+  : ({
+      as: 'button',
+      type: 'button',
+      disabled,
+      aria-disabled: disabled,
+    } satisfies BoxProps<'button'>);
+
+return (
+  <Box {...elementProps} className={className}>
+    Action
+  </Box>
+);
+```
+
+</Flex>
+</Unstyled>
