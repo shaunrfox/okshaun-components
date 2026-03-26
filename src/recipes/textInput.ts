@@ -192,7 +192,7 @@ const textInputCompoundVariants: NonNullable<
   },
 ];
 
-export const textinputRecipe = defineSlotRecipe({
+export const textInputRecipe = defineSlotRecipe({
   className: 'textInput',
   jsx: ['TextInput', 'Textinput'],
   slots: ['container', 'input', 'icon'],

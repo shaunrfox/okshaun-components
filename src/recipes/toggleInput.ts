@@ -1,10 +1,11 @@
 import { defineRecipe } from '@pandacss/dev';
 
-const checkboxInputBase = {
-  display: 'flex',
-  alignItems: 'start',
-  gap: '4',
-  '&[class*="-label"]': {
+const toggleInputBase = {
+  display: 'grid',
+  gridTemplateColumns: '{sizes.32} auto',
+  gap: '6',
+  userSelect: 'none',
+  '&.cetec-label': {
     fontSize: '{sizes.16}',
     lineHeight: 'default',
   },
@@ -17,9 +18,9 @@ const checkboxInputBase = {
   },
 };
 
-export const checkboxinputRecipe = defineRecipe({
-  className: 'checkboxInput',
-  jsx: ['CheckboxInput', 'Checkboxinput'],
-  base: checkboxInputBase,
+export const toggleInputRecipe = defineRecipe({
+  className: 'toggleInput',
+  jsx: ['ToggleInput', 'Toggleinput'],
+  base: toggleInputBase,
   variants: {},
 });

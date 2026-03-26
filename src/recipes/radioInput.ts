@@ -17,7 +17,7 @@ const radioInputBase = {
   },
 };
 
-export const radioinputRecipe = defineRecipe({
+export const radioInputRecipe = defineRecipe({
   className: 'radioInput',
   jsx: ['RadioInput', 'Radioinput'],
   base: radioInputBase,

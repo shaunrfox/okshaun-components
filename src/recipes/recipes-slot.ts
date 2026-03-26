@@ -13,7 +13,7 @@ export { modalRecipe } from './modal';
 export { radioRecipe } from './radio';
 export { selectRecipe } from './select';
 export { spinnerRecipe } from './spinner';
-export { textinputRecipe as textInputRecipe } from './textInput';
+export { textInputRecipe } from './textInput';
 export { timePickerRecipe } from './timePicker';
 export { toggleRecipe } from './toggle';
 export { tooltipRecipe } from './tooltip';
