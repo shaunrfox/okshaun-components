@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
-import { css } from '@styled-system/css';
-import { HStack, VStack } from '@styled-system/jsx';
-import { Icon } from '../Icon';
-import { IconButton } from '../IconButton';
-import { Button } from './Button';
+import type { Meta, StoryObj } from "@storybook/react";
+import { fn } from "@storybook/test";
+import { css } from "@styled-system/css";
+import { HStack, VStack } from "@styled-system/jsx";
+import { Icon } from "../Icon";
+import { IconButton } from "../IconButton";
+import { Button } from "./Button";
 
 /**
  * Button component with comprehensive variant support.
@@ -18,59 +18,66 @@ import { Button } from './Button';
  * - Customizable gap between icon and text
  */
 const meta = {
-  title: 'Components/Button',
+  title: "Components/Button",
   component: Button,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     variant: {
-      control: 'select',
-      options: ['default', 'primary', 'subtle', 'hollow'],
-      description: 'Visual style variant',
+      control: "select",
+      options: [
+        "default",
+        "primary",
+        "ghost",
+        "hollow",
+        "selected",
+        "selectedSubtle",
+      ],
+      description: "Visual style variant",
       table: {
-        defaultValue: { summary: 'default' },
+        defaultValue: { summary: "default" },
       },
     },
     size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg', 'xl'],
-      description: 'Button size',
+      control: "select",
+      options: ["sm", "md", "lg", "xl"],
+      description: "Button size",
       table: {
-        defaultValue: { summary: 'default' },
+        defaultValue: { summary: "default" },
       },
     },
     disabled: {
-      control: 'boolean',
-      description: 'Disabled state - non-interactive',
+      control: "boolean",
+      description: "Disabled state - non-interactive",
     },
     loading: {
-      control: 'boolean',
-      description: 'Loading state - shows spinner and disables interaction',
+      control: "boolean",
+      description: "Loading state - shows spinner and disables interaction",
     },
     iconBefore: {
-      control: 'select',
-      options: [undefined, 'plus', 'check', 'arrow-left', 'edit', 'search'],
-      description: 'Icon name to display before text',
+      control: "select",
+      options: [undefined, "plus", "check", "arrow-left", "edit", "search"],
+      description: "Icon name to display before text",
     },
     iconAfter: {
-      control: 'select',
-      options: [undefined, 'arrow-right', 'chevron-down', 'arrow-square-out'],
-      description: 'Icon name to display after text',
+      control: "select",
+      options: [undefined, "arrow-right", "chevron-down", "arrow-square-out"],
+      description: "Icon name to display after text",
     },
     gap: {
-      control: 'select',
-      options: [undefined, '2', '4', '6', '8'],
-      description: 'Gap between icon and text (NumericSizeToken)',
+      control: "select",
+      options: [undefined, "2", "4", "6", "8"],
+      description: "Gap between icon and text (NumericSizeToken)",
     },
     href: {
-      control: 'text',
-      description: 'When provided, button renders as anchor element',
+      control: "text",
+      description: "When provided, button renders as anchor element",
     },
     children: {
-      control: 'text',
-      description: 'Button content',
+      control: "text",
+      description: "Button content",
     },
   },
   args: { onClick: fn() },
@@ -88,8 +95,8 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {
   args: {
-    children: 'Default Button',
-    variant: 'default',
+    children: "Default Button",
+    variant: "default",
   },
 };
 
@@ -98,18 +105,18 @@ export const Default: Story = {
  */
 export const Primary: Story = {
   args: {
-    children: 'Primary Button',
-    variant: 'primary',
+    children: "Primary Button",
+    variant: "primary",
   },
 };
 
 /**
- * Subtle variant - minimal styling for secondary actions
+ * Ghost variant - minimal styling for secondary actions
  */
-export const Subtle: Story = {
+export const Ghost: Story = {
   args: {
-    children: 'Subtle Button',
-    variant: 'subtle',
+    children: "Ghost Button",
+    variant: "ghost",
   },
 };
 
@@ -118,8 +125,8 @@ export const Subtle: Story = {
  */
 export const Hollow: Story = {
   args: {
-    children: 'Hollow Button',
-    variant: 'hollow',
+    children: "Hollow Button",
+    variant: "hollow",
   },
 };
 
@@ -132,8 +139,8 @@ export const Hollow: Story = {
  */
 export const Small: Story = {
   args: {
-    children: 'Small',
-    size: 'sm',
+    children: "Small",
+    size: "sm",
   },
 };
 
@@ -142,8 +149,8 @@ export const Small: Story = {
  */
 export const DefaultSize: Story = {
   args: {
-    children: 'Default',
-    size: 'md',
+    children: "Default",
+    size: "md",
   },
 };
 
@@ -152,8 +159,8 @@ export const DefaultSize: Story = {
  */
 export const Large: Story = {
   args: {
-    children: 'Large',
-    size: 'lg',
+    children: "Large",
+    size: "lg",
   },
 };
 
@@ -162,8 +169,8 @@ export const Large: Story = {
  */
 export const XLarge: Story = {
   args: {
-    children: 'Extra Large',
-    size: 'xl',
+    children: "Extra Large",
+    size: "xl",
   },
 };
 
@@ -192,21 +199,35 @@ export const AllSizes: Story = {
 export const AllVariants: Story = {
   render: () => (
     <VStack gap="6" alignItems="flex-start">
-      {(['default', 'primary', 'subtle', 'hollow'] as const).map((variant) => (
+      {(
+        [
+          "default",
+          "primary",
+          "ghost",
+          "hollow",
+          "selected",
+          "selectedSubtle",
+        ] as const
+      ).map((variant) => (
         <div key={variant}>
           <div
             className={css({
-              mb: '2',
-              fontSize: '14',
-              fontWeight: 'bold',
-              textTransform: 'capitalize',
+              mb: "2",
+              fontSize: "14",
+              fontWeight: "bold",
+              textTransform: "capitalize",
             })}
           >
             {variant}
           </div>
           <HStack gap="4" flexWrap="wrap" alignItems="center">
-            {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
-              <Button key={size} variant={variant} size={size}>
+            {(["sm", "md", "lg", "xl"] as const).map((size) => (
+              <Button
+                key={size}
+                variant={variant}
+                size={size}
+                iconBefore="alarm"
+              >
                 {size}
               </Button>
             ))}
@@ -227,7 +248,7 @@ export const AllVariants: Story = {
  */
 export const Disabled: Story = {
   args: {
-    children: 'Disabled Button',
+    children: "Disabled Button",
     disabled: true,
   },
 };
@@ -244,11 +265,17 @@ export const DisabledVariants: Story = {
       <Button variant="primary" disabled>
         Primary Disabled
       </Button>
-      <Button variant="subtle" disabled>
-        Subtle Disabled
+      <Button variant="ghost" disabled>
+        Ghost Disabled
       </Button>
       <Button variant="hollow" disabled>
         Hollow Disabled
+      </Button>
+      <Button variant="selected" disabled>
+        Selected Disabled
+      </Button>
+      <Button variant="selectedSubtle" disabled>
+        SelectedSubtle Disabled
       </Button>
     </HStack>
   ),
@@ -260,7 +287,7 @@ export const DisabledVariants: Story = {
  */
 export const Loading: Story = {
   args: {
-    children: 'Loading',
+    children: "Loading",
     loading: true,
   },
 };
@@ -277,8 +304,8 @@ export const LoadingVariants: Story = {
       <Button variant="primary" loading>
         Primary
       </Button>
-      <Button variant="subtle" loading>
-        Subtle
+      <Button variant="ghost" loading>
+        Ghost
       </Button>
       <Button variant="hollow" loading>
         Hollow
@@ -297,8 +324,8 @@ export const LoadingVariants: Story = {
  */
 export const WithIconBefore: Story = {
   args: {
-    iconBefore: 'plus',
-    children: 'Add Item',
+    iconBefore: "plus",
+    children: "Add Item",
   },
 };
 
@@ -307,8 +334,8 @@ export const WithIconBefore: Story = {
  */
 export const WithIconAfter: Story = {
   args: {
-    iconAfter: 'arrow-right',
-    children: 'Next',
+    iconAfter: "arrow-right",
+    children: "Next",
   },
 };
 
@@ -317,9 +344,9 @@ export const WithIconAfter: Story = {
  */
 export const WithBothIcons: Story = {
   args: {
-    iconBefore: 'arrow-left',
-    iconAfter: 'arrow-right',
-    children: 'Navigate',
+    iconBefore: "arrow-left",
+    iconAfter: "arrow-right",
+    children: "Navigate",
   },
 };
 
@@ -335,7 +362,7 @@ export const IconVariants: Story = {
       <Button variant="primary" iconBefore="check">
         Confirm
       </Button>
-      <Button variant="subtle" iconBefore="edit">
+      <Button variant="ghost" iconBefore="edit">
         Edit
       </Button>
       <Button variant="hollow" iconAfter="arrow-square-out">
@@ -405,9 +432,9 @@ export const CustomGap: Story = {
  */
 export const AsLink: Story = {
   args: {
-    href: 'https://example.com',
-    children: 'Visit Website',
-    iconAfter: 'arrow-square-out',
+    href: "https://example.com",
+    children: "Visit Website",
+    iconAfter: "arrow-square-out",
   },
 };
 
@@ -423,7 +450,7 @@ export const LinkVariants: Story = {
       <Button href="#" variant="primary">
         Primary Link
       </Button>
-      <Button href="#" variant="subtle">
+      <Button href="#" variant="ghost">
         Subtle Link
       </Button>
       <Button href="#" variant="hollow" iconAfter="arrow-square-out">
@@ -445,7 +472,7 @@ export const IconButtons: Story = {
   render: () => (
     <VStack gap="6" alignItems="flex-start">
       <div>
-        <div className={css({ mb: '2', fontSize: '14', fontWeight: 'bold' })}>
+        <div className={css({ mb: "2", fontSize: "14", fontWeight: "bold" })}>
           IconButton variants
         </div>
         <HStack gap="4">
@@ -455,7 +482,7 @@ export const IconButtons: Story = {
           <IconButton variant="primary" aria-label="Confirm">
             <Icon name="check" />
           </IconButton>
-          <IconButton variant="subtle" aria-label="Settings">
+          <IconButton variant="ghost" aria-label="Settings">
             <Icon name="settings" />
           </IconButton>
           <IconButton variant="hollow" aria-label="Delete">
@@ -464,7 +491,7 @@ export const IconButtons: Story = {
         </HStack>
       </div>
       <div>
-        <div className={css({ mb: '2', fontSize: '14', fontWeight: 'bold' })}>
+        <div className={css({ mb: "2", fontSize: "14", fontWeight: "bold" })}>
           IconButton Sizes
         </div>
         <HStack gap="4" alignItems="center">
@@ -509,7 +536,7 @@ export const ActionGroup: Story = {
 export const FormActions: Story = {
   render: () => (
     <HStack gap="4" justifyContent="flex-end">
-      <Button variant="subtle">Reset</Button>
+      <Button variant="ghost">Reset</Button>
       <Button variant="hollow">Save Draft</Button>
       <Button variant="primary" iconAfter="arrow-right">
         Submit
@@ -548,7 +575,7 @@ export const CrudActions: Story = {
       <Button variant="hollow" size="sm" iconBefore="edit">
         Edit
       </Button>
-      <Button variant="subtle" size="sm" iconBefore="trash">
+      <Button variant="ghost" size="sm" iconBefore="trash">
         Delete
       </Button>
     </HStack>
@@ -583,7 +610,7 @@ export const FormSubmitting: Story = {
 export const LongText: Story = {
   args: {
     children:
-      'This is a button with extremely long text content that might cause layout issues',
+      "This is a button with extremely long text content that might cause layout issues",
   },
 };
 
@@ -612,9 +639,9 @@ export const VaryingContentLength: Story = {
  */
 export const Playground: Story = {
   args: {
-    variant: 'default',
-    size: 'md',
-    children: 'Click Me',
+    variant: "default",
+    size: "md",
+    children: "Click Me",
     disabled: false,
     loading: false,
   },

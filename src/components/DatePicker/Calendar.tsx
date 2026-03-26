@@ -1,7 +1,10 @@
-import { cx } from '@styled-system/css';
-import type { datePicker } from '@styled-system/recipes';
-import type React from 'react';
-import { Box } from '~/components/Box';
+import { cx } from "@styled-system/css";
+import type { datePicker } from "@styled-system/recipes";
+import type React from "react";
+import { Box } from "~/components/Box";
+import { Button } from "~/components/Button";
+import { IconButton } from "~/components/IconButton";
+import { Text } from "~/components/Text";
 
 export interface DateValue {
   year: number;
@@ -61,16 +64,38 @@ function isSameDate(a: DateValue, b: DateValue): boolean {
 
 function getTodayValue(): DateValue {
   const now = new Date();
-  return { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+  return {
+    year: now.getFullYear(),
+    month: now.getMonth() + 1,
+    day: now.getDate(),
+  };
 }
 
 const MONTH_NAMES = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
-const WEEKDAY_LABELS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-const WEEKDAY_FULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+const WEEKDAY_FULL = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 // ─── Calendar component ────────────────────────────────────────────────────────
 
@@ -99,10 +124,16 @@ export const Calendar: React.FC<CalendarProps> = ({
   const [nextYear, nextMonthNum] = nextMonth(viewYear, viewMonth);
 
   const canGoPrev = minDate
-    ? !(prevYear < minDate.year || (prevYear === minDate.year && prevMonthNum < minDate.month))
+    ? !(
+        prevYear < minDate.year ||
+        (prevYear === minDate.year && prevMonthNum < minDate.month)
+      )
     : true;
   const canGoNext = maxDate
-    ? !(nextYear > maxDate.year || (nextYear === maxDate.year && nextMonthNum > maxDate.month))
+    ? !(
+        nextYear > maxDate.year ||
+        (nextYear === maxDate.year && nextMonthNum > maxDate.month)
+      )
     : true;
 
   const handleDayClick = (day: number) => {
@@ -113,7 +144,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   };
 
   const handleDayKeyDown = (e: React.KeyboardEvent, day: number) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       handleDayClick(day);
     }
@@ -123,19 +154,15 @@ export const Calendar: React.FC<CalendarProps> = ({
     <>
       {/* Calendar header: prev / Month Year / next */}
       <Box className={classes.calendarHeader}>
-        <Box
-          as="button"
-          type="button"
-          className={classes.navButton}
+        <IconButton
+          // className={classes.navButton}
           aria-label="Previous month"
           disabled={!canGoPrev}
           onClick={() => onViewChange(prevYear, prevMonthNum)}
-        >
-          {/* Simple SVG chevron left */}
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Box>
+          iconName="chevron-left"
+          size="sm"
+          variant="subtle"
+        />
 
         <Box
           fontSize="14"
@@ -148,18 +175,14 @@ export const Calendar: React.FC<CalendarProps> = ({
           {MONTH_NAMES[viewMonth - 1]} {viewYear}
         </Box>
 
-        <Box
-          as="button"
-          type="button"
-          className={classes.navButton}
+        <IconButton
           aria-label="Next month"
           disabled={!canGoNext}
           onClick={() => onViewChange(nextYear, nextMonthNum)}
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Box>
+          iconName="chevron-right"
+          size="sm"
+          variant="subtle"
+        />
       </Box>
 
       {/* Calendar grid */}
@@ -170,14 +193,16 @@ export const Calendar: React.FC<CalendarProps> = ({
       >
         {/* Weekday headers */}
         {WEEKDAY_LABELS.map((label, i) => (
-          <Box
+          <Text
+            textStyle="mono.xs"
+            allCaps
             key={label}
             className={classes.weekdayLabel}
             role="columnheader"
             aria-label={WEEKDAY_FULL[i]}
           >
             {label}
-          </Box>
+          </Text>
         ))}
 
         {/* Day cells — render in rows of 7 */}
@@ -188,14 +213,30 @@ export const Calendar: React.FC<CalendarProps> = ({
               if (!day) {
                 return (
                   // biome-ignore lint/suspicious/noArrayIndexKey: empty cell
-                  <Box key={`empty-${rowIdx}-${colIdx}`} role="gridcell" aria-hidden="true" />
+                  <Box
+                    key={`empty-${rowIdx}-${colIdx}`}
+                    role="gridcell"
+                    aria-hidden="true"
+                  />
                 );
               }
 
-              const dateValue: DateValue = { year: viewYear, month: viewMonth, day };
-              const isUnavailable = isBeforeMin(dateValue, minDate) || isAfterMax(dateValue, maxDate);
+              const dateValue: DateValue = {
+                year: viewYear,
+                month: viewMonth,
+                day,
+              };
+              const isUnavailable =
+                isBeforeMin(dateValue, minDate) ||
+                isAfterMax(dateValue, maxDate);
               const isSelected = value ? isSameDate(value, dateValue) : false;
               const isToday = isSameDate(today, dateValue);
+
+              const buttonVariant = isToday
+                ? "selectedSubtle"
+                : isSelected
+                  ? "selected"
+                  : "ghost";
 
               return (
                 <Box
@@ -204,20 +245,23 @@ export const Calendar: React.FC<CalendarProps> = ({
                   aria-selected={isSelected}
                   aria-disabled={isUnavailable}
                 >
-                  <Box
-                    as="button"
-                    type="button"
+                  <Button
+                    variant={buttonVariant}
+                    size="sm"
                     className={cx(classes.day)}
                     data-today={isToday ? true : undefined}
+                    disabled={isUnavailable}
                     data-unavailable={isUnavailable ? true : undefined}
                     aria-selected={isSelected}
-                    aria-label={`${MONTH_NAMES[viewMonth - 1]} ${day}, ${viewYear}${isToday ? ', today' : ''}${isSelected ? ', selected' : ''}`}
+                    aria-label={`${MONTH_NAMES[viewMonth - 1]} ${day}, ${viewYear}${isToday ? ", today" : ""}${isSelected ? ", selected" : ""}`}
                     tabIndex={isUnavailable ? -1 : 0}
                     onClick={() => !isUnavailable && handleDayClick(day)}
-                    onKeyDown={(e: React.KeyboardEvent) => !isUnavailable && handleDayKeyDown(e, day)}
+                    onKeyDown={(e: React.KeyboardEvent) =>
+                      !isUnavailable && handleDayKeyDown(e, day)
+                    }
                   >
                     {day}
-                  </Box>
+                  </Button>
                 </Box>
               );
             })}

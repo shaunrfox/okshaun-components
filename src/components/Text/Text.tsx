@@ -1,8 +1,8 @@
-import { cx } from '@styled-system/css';
-import { type TextVariantProps, text } from '@styled-system/recipes';
-import type { ElementType, ReactNode } from 'react';
-import { Box, type BoxProps } from '~/components/Box';
-import { splitProps } from '~/utils/splitProps';
+import { cx } from "@styled-system/css";
+import { type TextVariantProps, text } from "@styled-system/recipes";
+import type { ElementType, ReactNode } from "react";
+import { Box, type BoxProps } from "~/components/Box";
+import { splitProps } from "~/utils/splitProps";
 
 export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
   TextVariantProps & {
@@ -14,7 +14,7 @@ export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
 
 export const Text = (props: TextProps) => {
   const {
-    as = 'span',
+    as = "span",
     family,
     italic,
     bold,
@@ -26,7 +26,7 @@ export const Text = (props: TextProps) => {
     role, // role if use in form input text for refrence, also semantic role overrides if non-semantic tag.
     tabIndex, // tabIndex main use for in list or loop select text using key press focus
     truncate,
-    allcaps,
+    allCaps,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
@@ -44,7 +44,7 @@ export const Text = (props: TextProps) => {
           size,
           weight,
           truncate,
-          allcaps,
+          allCaps,
         }),
         className,
       )}
