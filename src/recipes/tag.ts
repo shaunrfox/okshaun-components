@@ -41,12 +41,14 @@ export const tagRecipe = defineRecipe({
         gap: '1',
         pl: '1',
       },
+      false: {},
     },
     iconAfter: {
       true: {
         gap: '1',
         pr: '1',
       },
+      false: {},
     },
     hasIcon: {
       true: {},
