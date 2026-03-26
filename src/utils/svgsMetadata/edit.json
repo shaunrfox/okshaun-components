@@ -1,0 +1,18 @@
+{
+  "aliases": [
+    "pencil",
+    "modify",
+    "update",
+    "write",
+    "writing",
+    "editing",
+    "sign",
+    "signature",
+    "undo",
+    "deleted",
+    "eraser"
+  ],
+  "tags": ["actions"],
+  "category": "Actions",
+  "deprecated": false
+}

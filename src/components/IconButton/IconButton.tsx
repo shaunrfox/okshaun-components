@@ -1,74 +1,80 @@
 import { cx } from '@styled-system/css';
-import { Grid, HStack } from '@styled-system/jsx';
 import {
   type IconButtonVariantProps,
   iconButton,
 } from '@styled-system/recipes';
+import type { MouseEvent } from 'react';
+
 import { Box, type BoxProps } from '~/components/Box';
 import { Icon, type IconNamesList } from '~/components/Icon';
 import { Spinner } from '~/components/Spinner';
+import { Tooltip } from '~/components/Tooltip';
 import { splitProps } from '~/utils/splitProps';
 
 export type IconButtonProps = Omit<BoxProps, keyof IconButtonVariantProps> &
   IconButtonVariantProps & {
+    iconName: IconNamesList;
+    altText: string;
     href?: string;
     loading?: boolean;
     disabled?: boolean;
-    iconName?: IconNamesList;
     type?: 'submit' | 'reset' | 'button';
   };
 
 export const IconButton = (props: IconButtonProps) => {
   const {
+    iconName,
+    altText,
     variant,
     size,
     href,
     loading,
     disabled,
-    iconName,
     type = 'button',
-    ref,
     ...rest
   } = props;
-  const [className, otherProps] = splitProps(rest);
-  const trulyDisabled = loading || disabled;
   const classes = iconButton({ variant, size });
+  const [className, otherProps] = splitProps(rest);
 
   return (
-    <Box
-      as={href ? 'a' : 'button'}
-      ref={ref}
-      disabled={trulyDisabled}
-      aria-disabled={trulyDisabled}
-      className={cx(classes.container, className)}
-      {...(href ? { href } : { type })}
-      {...otherProps}
-      {...(trulyDisabled &&
-        href && {
-          onClick: (e: React.MouseEvent<HTMLAnchorElement>) =>
-            e.preventDefault(),
+    <Tooltip text={altText}>
+      <Box
+        {...(href
+          ? ({
+              as: 'a',
+              href,
+              ...(disabled && {
+                onClick: (e: MouseEvent<HTMLAnchorElement>) =>
+                  e.preventDefault(),
+              }),
+            } satisfies BoxProps<'a'>)
+          : ({
+              as: 'button',
+              type,
+              disabled,
+            } satisfies BoxProps<'button'>))}
+        className={`${cx(classes.container, className)} group`}
+        {...(loading && {
+          'aria-busy': true,
+          'aria-live': 'polite',
         })}
-    >
-      <>
-        <HStack gap="2" opacity={loading ? 0 : 1}>
-          <Icon name={iconName || 'menu'} className={classes.icon} />
-        </HStack>
+        aria-disabled={disabled}
+        aria-label={altText}
+        {...otherProps}
+      >
+        <Icon
+          name={iconName}
+          className={classes.icon}
+          opacity={loading ? 0 : 1}
+        />
         {loading && (
-          <Grid
-            position="absolute"
-            top="0"
-            left="0"
-            right="0"
-            bottom="0"
-            placeItems="center"
-          >
-            <Spinner
-              size="sm"
-              {...(variant === 'primary' ? { inverse: true } : {})}
-            />
-          </Grid>
+          <Spinner
+            size="sm"
+            inverse={variant === 'primary' || variant === 'danger'}
+            centered
+          />
         )}
-      </>
-    </Box>
+      </Box>
+    </Tooltip>
   );
 };

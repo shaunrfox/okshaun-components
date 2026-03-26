@@ -18,6 +18,24 @@ const baseBodyTextStyles = defineStyles({
   },
 });
 
+const baseSansTextStyles = defineStyles({
+  value: {
+    fontFamily: 'sans',
+    fontWeight: 'normal',
+    color: 'text.subtlest',
+    lineHeight: 'default',
+  },
+});
+
+const baseSerifTextStyles = defineStyles({
+  value: {
+    fontFamily: 'serif',
+    fontWeight: 'normal',
+    color: 'text.subtlest',
+    lineHeight: 'default',
+  },
+});
+
 const baseMonoStyles = defineStyles({
   value: {
     fontFamily: 'mono',
@@ -102,6 +120,58 @@ export const textStyles = defineTextStyles({
     xs: {
       value: {
         ...baseBodyTextStyles,
+        fontSize: '12',
+      },
+    },
+  },
+  sans: {
+    lg: {
+      value: {
+        ...baseSansTextStyles,
+        fontSize: '20',
+      },
+    },
+    md: {
+      value: {
+        ...baseSansTextStyles,
+        fontSize: '16',
+      },
+    },
+    sm: {
+      value: {
+        ...baseSansTextStyles,
+        fontSize: '14',
+      },
+    },
+    xs: {
+      value: {
+        ...baseSansTextStyles,
+        fontSize: '12',
+      },
+    },
+  },
+  serif: {
+    lg: {
+      value: {
+        ...baseSerifTextStyles,
+        fontSize: '20',
+      },
+    },
+    md: {
+      value: {
+        ...baseSerifTextStyles,
+        fontSize: '16',
+      },
+    },
+    sm: {
+      value: {
+        ...baseSerifTextStyles,
+        fontSize: '14',
+      },
+    },
+    xs: {
+      value: {
+        ...baseSerifTextStyles,
         fontSize: '12',
       },
     },

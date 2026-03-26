@@ -4,8 +4,8 @@ import { Box } from '~/components/Box';
 import { Text } from '~/components/Text';
 import type {
   fontSizes,
-  fontWeights,
   fonts,
+  fontWeights,
   letterSpacings,
   lineHeights,
 } from '~/styles/primitives';

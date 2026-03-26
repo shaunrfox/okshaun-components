@@ -1,9 +1,9 @@
 import { css, cx } from '@styled-system/css';
 import { splitCssProps } from '@styled-system/jsx';
 
-export const splitProps = (
-  props: Record<string, unknown>,
-): [string, Record<string, unknown>] => {
+type PropsRecord = Record<string, unknown>;
+
+export const splitProps = (props: PropsRecord): [string, PropsRecord] => {
   const [cssProps, otherProps] = splitCssProps(props);
   const { css: cssProp, ...styleProps } = cssProps;
 

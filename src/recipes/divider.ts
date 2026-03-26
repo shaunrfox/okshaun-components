@@ -1,40 +1,46 @@
 import { defineRecipe } from '@pandacss/dev';
 
-const dividerBase = {
-  '--divider-weight': 'sizes.1',
-  borderStyle: 'solid',
-  color: 'border.default',
-  borderColor: 'current',
-  minWidth: '1',
-  minHeight: '1',
-};
-
-const dividerVariants = {
-  direction: {
-    horizontal: {
-      width: 'stretch',
-      borderTopStyle: 'solid',
-      borderTopWidth: 'var(--divider-weight)',
-    },
-    vertical: {
-      height: 'stretch',
-      borderLeftStyle: 'solid',
-      borderLeftWidth: 'var(--divider-weight)',
-    },
-  },
-  weight: {
-    thin: { '--divider-weight': 'sizes.1' },
-    medium: { '--divider-weight': 'sizes.2' },
-    thick: { '--divider-weight': 'sizes.4' },
-    thicker: { '--divider-weight': 'sizes.6' },
-  },
-};
-
 export const dividerRecipe = defineRecipe({
   className: 'divider',
   jsx: ['Divider'],
-  base: dividerBase,
-  variants: dividerVariants,
+  base: {
+    borderStyle: 'solid',
+    color: 'border',
+    borderColor: 'current',
+    borderWidth: '0',
+    minWidth: '1',
+    minHeight: '1',
+  },
+  variants: {
+    direction: {
+      horizontal: {
+        width: 'stretch',
+        borderTopWidth: '{sizes.1}',
+      },
+      vertical: {
+        height: 'stretch',
+        borderLeftWidth: '{sizes.1}',
+      },
+    },
+    weight: {
+      thin: {
+        borderTopWidth: '{sizes.1}',
+        borderLeftWidth: '{sizes.1}',
+      },
+      medium: {
+        borderTopWidth: '{sizes.2}',
+        borderLeftWidth: '{sizes.2}',
+      },
+      thick: {
+        borderTopWidth: '{sizes.4}',
+        borderLeftWidth: '{sizes.4}',
+      },
+      thicker: {
+        borderTopWidth: '{sizes.6}',
+        borderLeftWidth: '{sizes.6}',
+      },
+    },
+  },
   defaultVariants: {
     direction: 'horizontal',
     weight: 'thin',

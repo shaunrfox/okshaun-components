@@ -1,888 +1,453 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
+
+import { Flex, HStack, VStack } from '@styled-system/jsx';
+import { type ChangeEvent, useState } from 'react';
 import { Box } from '../Box';
 import { Button } from '../Button';
+import { FormField } from '../FormField';
+import { TextInput } from '../TextInput';
 import { Menu } from './Menu';
-import { MenuDivider } from './MenuDivider';
 import { MenuGroup } from './MenuGroup';
 import { MenuItem } from './MenuItem';
-import { MenuTrigger } from './MenuTrigger';
+import { SubMenu } from './SubMenu';
 
-const meta: Meta<typeof Menu> = {
+const meta = {
   title: 'Components/Menu',
   component: Menu,
+  args: {
+    children: null,
+  },
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-};
+} satisfies Meta<typeof Menu>;
 
 export default meta;
-type Story = StoryObj<typeof Menu>;
+type Story = StoryObj<typeof meta>;
 
-// ============================================================================
-// ACTION TYPE STORIES
-// ============================================================================
+const SingleSelectExample = () => {
+  const [selected, setSelected] = useState('item-2');
 
-export const ActionDefault: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Open Menu</Button>
-          </MenuTrigger>
-          <MenuItem label="Edit" onSelect={() => console.log('Edit clicked')} />
-          <MenuItem
-            label="Duplicate"
-            onSelect={() => console.log('Duplicate clicked')}
-          />
-          <MenuItem
-            label="Delete"
-            onSelect={() => console.log('Delete clicked')}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
+  return (
+    <Menu inline closeOnSelect={false}>
+      <MenuItem
+        label="Option One"
+        selected={selected === 'item-1'}
+        onClick={() => setSelected('item-1')}
+      />
+      <MenuItem
+        label="Option Two"
+        selected={selected === 'item-2'}
+        onClick={() => setSelected('item-2')}
+      />
+      <MenuItem
+        label="Option Three"
+        selected={selected === 'item-3'}
+        onClick={() => setSelected('item-3')}
+      />
+    </Menu>
+  );
 };
 
-export const ActionWithLeftIcon: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
+const MultiSelectExample = () => {
+  const [selected, setSelected] = useState<string[]>(['beta']);
+  const toggle = (value: string) => {
+    setSelected((prev) =>
+      prev.includes(value)
+        ? prev.filter((entry) => entry !== value)
+        : [...prev, value],
+    );
+  };
 
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Actions</Button>
-          </MenuTrigger>
-          <MenuItem label="Edit" iconLeft="edit" onSelect={() => {}} />
-          <MenuItem label="Copy" iconLeft="copy" onSelect={() => {}} />
-          <MenuItem label="Delete" iconLeft="trash" onSelect={() => {}} />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
+  return (
+    <Menu inline closeOnSelect={false}>
+      <MenuGroup label="Wave type">
+        <MenuItem
+          variant="checkbox"
+          label="Alpha"
+          selected={selected.includes('alpha')}
+          onClick={() => toggle('alpha')}
+        />
+        <MenuItem
+          variant="checkbox"
+          label="Beta"
+          selected={selected.includes('beta')}
+          onClick={() => toggle('beta')}
+        />
+        <MenuItem
+          variant="checkbox"
+          label="Gamma"
+          selected={selected.includes('gamma')}
+          onClick={() => toggle('gamma')}
+        />
+      </MenuGroup>
+    </Menu>
+  );
 };
 
-export const ActionWithRightIcon: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
+const ToggleOptionsExample = () => {
+  const [compact, setCompact] = useState(false);
+  const [alerts, setAlerts] = useState(true);
 
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Navigate</Button>
-          </MenuTrigger>
-          <MenuItem
-            label="Settings"
-            iconRight="chevron-right"
-            onSelect={() => {}}
-          />
-          <MenuItem
-            label="Profile"
-            iconRight="chevron-right"
-            onSelect={() => {}}
-          />
-          <MenuItem
-            label="Help"
-            iconRight="arrow-square-out"
-            onSelect={() => {}}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
+  return (
+    <Menu inline closeOnSelect={false} w="264">
+      <MenuGroup label="Options" divider>
+        <MenuItem
+          variant="toggle"
+          label="Compact mode"
+          selected={compact}
+          onClick={() => setCompact((state) => !state)}
+        />
+        <MenuItem
+          variant="toggle"
+          label="Email alerts"
+          selected={alerts}
+          onClick={() => setAlerts((state) => !state)}
+        />
+      </MenuGroup>
+      <MenuItem
+        label="Open docs"
+        href="https://cetecerp.com"
+        iconAfter="arrow-square-out"
+        target="_blank"
+        rel="noreferrer"
+      />
+    </Menu>
+  );
 };
 
-export const ActionWithDescription: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
+const SubMenuDiginFormsExample = () => {
+  const [profileName, setProfileName] = useState('');
+  const [profileOwner, setProfileOwner] = useState('');
+  const [alertTopic, setAlertTopic] = useState('');
+  const [alertChannel, setAlertChannel] = useState('');
 
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Create New</Button>
-          </MenuTrigger>
-          <MenuItem
-            label="New Document"
-            description="Create a blank document"
-            onSelect={() => {}}
-          />
-          <MenuItem
-            label="New Spreadsheet"
-            description="Create a blank spreadsheet"
-            onSelect={() => {}}
-          />
-          <MenuItem
-            label="New Presentation"
-            description="Create a blank presentation"
-            onSelect={() => {}}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
+  return (
+    <Menu
+      trigger={<Button iconAfter="caret-down">Open menu</Button>}
+      subMenuInteraction="digin"
+      closeOnSelect={false}
+    >
+      <MenuItem label="Dashboard" />
 
-export const ActionWithDescriptionAndIcons: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Create New</Button>
-          </MenuTrigger>
-          <MenuItem
-            label="New Document"
-            description="Create a blank document"
-            iconLeft="file"
-            iconRight="chevron-right"
-            onSelect={() => {}}
-          />
-          <MenuItem
-            label="Import File"
-            description="Import from your computer"
-            iconLeft="upload"
-            onSelect={() => {}}
-          />
-          <MenuItem
-            label="Templates"
-            description="Start from a template"
-            iconLeft="files"
-            iconRight="chevron-right"
-            onSelect={() => {}}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-// ============================================================================
-// SINGLE-SELECT TYPE STORIES
-// ============================================================================
-
-export const SingleSelectCheckmark: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-      const [selected, setSelected] = useState<string>('name');
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Sort by: {selected}</Button>
-          </MenuTrigger>
-          <MenuItem
-            type="single-select"
-            label="Name"
-            selected={selected === 'name'}
-            onSelect={() => setSelected('name')}
-            index={0}
-          />
-          <MenuItem
-            type="single-select"
-            label="Date Created"
-            selected={selected === 'date'}
-            onSelect={() => setSelected('date')}
-            index={1}
-          />
-          <MenuItem
-            type="single-select"
-            label="Size"
-            selected={selected === 'size'}
-            onSelect={() => setSelected('size')}
-            index={2}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-export const SingleSelectWithDescription: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-      const [selected, setSelected] = useState<string>('standard');
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Shipping Method</Button>
-          </MenuTrigger>
-          <MenuItem
-            type="single-select"
-            label="Standard Shipping"
-            description="5-7 business days"
-            selected={selected === 'standard'}
-            onSelect={() => setSelected('standard')}
-            index={0}
-          />
-          <MenuItem
-            type="single-select"
-            label="Express Shipping"
-            description="2-3 business days"
-            selected={selected === 'express'}
-            onSelect={() => setSelected('express')}
-            index={1}
-          />
-          <MenuItem
-            type="single-select"
-            label="Overnight"
-            description="Next business day"
-            selected={selected === 'overnight'}
-            onSelect={() => setSelected('overnight')}
-            index={2}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-export const SingleSelectWithIcons: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-      const [selected, setSelected] = useState<string>('grid');
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>View</Button>
-          </MenuTrigger>
-          <MenuItem
-            type="single-select"
-            label="Grid View"
-            iconLeft="view-grid"
-            selected={selected === 'grid'}
-            onSelect={() => setSelected('grid')}
-            index={0}
-          />
-          <MenuItem
-            type="single-select"
-            label="List View"
-            iconLeft="view-rows"
-            selected={selected === 'list'}
-            onSelect={() => setSelected('list')}
-            index={1}
-          />
-          <MenuItem
-            type="single-select"
-            label="Table View"
-            iconLeft="view-table"
-            selected={selected === 'table'}
-            onSelect={() => setSelected('table')}
-            index={2}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-// ============================================================================
-// MULTI-SELECT TYPE STORIES
-// ============================================================================
-
-export const MultiSelectCheckbox: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-      const [selected, setSelected] = useState<Set<string>>(
-        new Set(['name', 'date']),
-      );
-
-      const toggleSelection = (value: string) => {
-        setSelected((prev) => {
-          const next = new Set(prev);
-          if (next.has(value)) {
-            next.delete(value);
-          } else {
-            next.add(value);
-          }
-          return next;
-        });
-      };
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Show Columns ({selected.size})</Button>
-          </MenuTrigger>
-          <MenuItem
-            type="multi-select"
-            label="Name"
-            selectionIndicator="checkbox"
-            selected={selected.has('name')}
-            onSelect={() => toggleSelection('name')}
-            index={0}
-          />
-          <MenuItem
-            type="multi-select"
-            label="Date Modified"
-            selectionIndicator="checkbox"
-            selected={selected.has('date')}
-            onSelect={() => toggleSelection('date')}
-            index={1}
-          />
-          <MenuItem
-            type="multi-select"
-            label="Size"
-            selectionIndicator="checkbox"
-            selected={selected.has('size')}
-            onSelect={() => toggleSelection('size')}
-            index={2}
-          />
-          <MenuItem
-            type="multi-select"
-            label="Type"
-            selectionIndicator="checkbox"
-            selected={selected.has('type')}
-            onSelect={() => toggleSelection('type')}
-            index={3}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-export const MultiSelectWithDescriptions: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-      const [selected, setSelected] = useState<Set<string>>(new Set(['email']));
-
-      const toggleSelection = (value: string) => {
-        setSelected((prev) => {
-          const next = new Set(prev);
-          if (next.has(value)) {
-            next.delete(value);
-          } else {
-            next.add(value);
-          }
-          return next;
-        });
-      };
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Notifications</Button>
-          </MenuTrigger>
-          <MenuItem
-            type="multi-select"
-            label="Email Notifications"
-            description="Receive updates via email"
-            selectionIndicator="checkbox"
-            selected={selected.has('email')}
-            onSelect={() => toggleSelection('email')}
-            index={0}
-          />
-          <MenuItem
-            type="multi-select"
-            label="Push Notifications"
-            description="Receive mobile push alerts"
-            selectionIndicator="checkbox"
-            selected={selected.has('push')}
-            onSelect={() => toggleSelection('push')}
-            index={1}
-          />
-          <MenuItem
-            type="multi-select"
-            label="SMS Notifications"
-            description="Receive text messages"
-            selectionIndicator="checkbox"
-            selected={selected.has('sms')}
-            onSelect={() => toggleSelection('sms')}
-            index={2}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-// ============================================================================
-// GROUPS AND DIVIDERS
-// ============================================================================
-
-export const WithGroups: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>User Menu</Button>
-          </MenuTrigger>
-          <MenuGroup label="Account">
-            <MenuItem
-              label="Profile"
-              iconLeft="user"
-              onSelect={() => {}}
-              index={0}
+      <SubMenu label="Edit profile">
+        <Box p="24" display="grid" gap="8" minW="248" justifyItems="end">
+          <FormField label="Profile name" labelFor="profile-name">
+            <TextInput
+              id="profile-name"
+              name="profileName"
+              value={profileName}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setProfileName(event.target.value)
+              }
             />
-            <MenuItem
-              label="Settings"
-              iconLeft="settings"
-              onSelect={() => {}}
-              index={1}
+          </FormField>
+
+          <FormField label="Owner" labelFor="profile-owner">
+            <TextInput
+              id="profile-owner"
+              name="profileOwner"
+              value={profileOwner}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setProfileOwner(event.target.value)
+              }
             />
-          </MenuGroup>
-          <MenuDivider />
-          <MenuGroup label="Actions">
-            <MenuItem
-              label="Help"
-              iconLeft="help"
-              onSelect={() => {}}
-              index={2}
-            />
-            <MenuItem
-              label="Log Out"
-              iconLeft="arrow-square-out"
-              onSelect={() => {}}
-              index={3}
-            />
-          </MenuGroup>
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
+          </FormField>
 
-export const WithDividers: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>File</Button>
-          </MenuTrigger>
-          <MenuItem
-            label="New"
-            iconLeft="file-add"
-            onSelect={() => {}}
-            index={0}
-          />
-          <MenuItem
-            label="Open"
-            iconLeft="file"
-            onSelect={() => {}}
-            index={1}
-          />
-          <MenuItem label="Save" onSelect={() => {}} index={2} />
-          <MenuDivider />
-          <MenuItem
-            label="Export"
-            iconLeft="export"
-            onSelect={() => {}}
-            index={3}
-          />
-          <MenuItem
-            label="Print"
-            iconLeft="printer"
-            onSelect={() => {}}
-            index={4}
-          />
-          <MenuDivider />
-          <MenuItem label="Close" onSelect={() => {}} index={5} />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-// ============================================================================
-// DISABLED ITEMS
-// ============================================================================
-
-export const WithDisabledItems: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Edit</Button>
-          </MenuTrigger>
-          <MenuItem label="Cut" iconLeft="cut" onSelect={() => {}} index={0} />
-          <MenuItem
-            label="Copy"
-            iconLeft="copy"
-            onSelect={() => {}}
-            index={1}
-          />
-          <MenuItem
-            label="Paste"
-            iconLeft="clipboard"
-            disabled
-            onSelect={() => {}}
-            index={2}
-          />
-          <MenuDivider />
-          <MenuItem
-            label="Undo"
-            iconLeft="arrow-undo"
-            disabled
-            onSelect={() => {}}
-            index={3}
-          />
-          <MenuItem
-            label="Redo"
-            iconLeft="arrow-redo"
-            disabled
-            onSelect={() => {}}
-            index={4}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-// ============================================================================
-// HIGHLIGHT MATCH (AUTOCOMPLETE)
-// ============================================================================
-
-export const HighlightMatch: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-      const searchTerm = 'doc';
-
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>Search Results for "{searchTerm}"</Button>
-          </MenuTrigger>
-          <MenuItem
-            label="Document.pdf"
-            description="Modified yesterday"
-            highlightMatch={searchTerm}
-            onSelect={() => {}}
-            index={0}
-          />
-          <MenuItem
-            label="Documentation.md"
-            description="Modified 2 days ago"
-            highlightMatch={searchTerm}
-            onSelect={() => {}}
-            index={1}
-          />
-          <MenuItem
-            label="My Documents"
-            description="Folder"
-            iconLeft="file"
-            highlightMatch={searchTerm}
-            onSelect={() => {}}
-            index={2}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-// ============================================================================
-// SIZE VARIANTS
-// ============================================================================
-
-export const SizeCompact: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-
-      return (
-        <Menu open={open} onOpenChange={setOpen} size="compact">
-          <MenuTrigger>
-            <Button size="sm">Compact Menu</Button>
-          </MenuTrigger>
-          <MenuItem label="Option 1" onSelect={() => {}} index={0} />
-          <MenuItem label="Option 2" onSelect={() => {}} index={1} />
-          <MenuItem label="Option 3" onSelect={() => {}} index={2} />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-export const SizeComfortable: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-
-      return (
-        <Menu open={open} onOpenChange={setOpen} size="comfortable">
-          <MenuTrigger>
-            <Button size="lg">Comfortable Menu</Button>
-          </MenuTrigger>
-          <MenuItem
-            label="Option 1"
-            description="First option with more space"
-            onSelect={() => {}}
-            index={0}
-          />
-          <MenuItem
-            label="Option 2"
-            description="Second option with more space"
-            onSelect={() => {}}
-            index={1}
-          />
-          <MenuItem
-            label="Option 3"
-            description="Third option with more space"
-            onSelect={() => {}}
-            index={2}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-// ============================================================================
-// INDICATOR POSITION
-// ============================================================================
-
-export const IndicatorRight: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-      const [selected, setSelected] = useState<string>('option1');
-
-      return (
-        <Menu open={open} onOpenChange={setOpen} indicatorPosition="right">
-          <MenuTrigger>
-            <Button>Indicator Right</Button>
-          </MenuTrigger>
-          <MenuItem
-            type="single-select"
-            label="Option 1"
-            selected={selected === 'option1'}
-            onSelect={() => setSelected('option1')}
-            index={0}
-          />
-          <MenuItem
-            type="single-select"
-            label="Option 2"
-            selected={selected === 'option2'}
-            onSelect={() => setSelected('option2')}
-            index={1}
-          />
-          <MenuItem
-            type="single-select"
-            label="Option 3"
-            selected={selected === 'option3'}
-            onSelect={() => setSelected('option3')}
-            index={2}
-          />
-        </Menu>
-      );
-    };
-    return <Component />;
-  },
-};
-
-// ============================================================================
-// PLACEMENT OPTIONS
-// ============================================================================
-
-export const PlacementVariants: Story = {
-  render: () => {
-    const Component = () => {
-      const [openTop, setOpenTop] = useState(false);
-      const [openBottom, setOpenBottom] = useState(false);
-      const [openLeft, setOpenLeft] = useState(false);
-      const [openRight, setOpenRight] = useState(false);
-
-      return (
-        <Box display="flex" gap="16" flexWrap="wrap" p="80">
-          <Menu open={openTop} onOpenChange={setOpenTop} placement="top-start">
-            <MenuTrigger>
-              <Button>Top Start</Button>
-            </MenuTrigger>
-            <MenuItem label="Item 1" onSelect={() => {}} />
-            <MenuItem label="Item 2" onSelect={() => {}} />
-          </Menu>
-
-          <Menu
-            open={openBottom}
-            onOpenChange={setOpenBottom}
-            placement="bottom-end"
-          >
-            <MenuTrigger>
-              <Button>Bottom End</Button>
-            </MenuTrigger>
-            <MenuItem label="Item 1" onSelect={() => {}} />
-            <MenuItem label="Item 2" onSelect={() => {}} />
-          </Menu>
-
-          <Menu
-            open={openLeft}
-            onOpenChange={setOpenLeft}
-            placement="left-start"
-          >
-            <MenuTrigger>
-              <Button>Left Start</Button>
-            </MenuTrigger>
-            <MenuItem label="Item 1" onSelect={() => {}} />
-            <MenuItem label="Item 2" onSelect={() => {}} />
-          </Menu>
-
-          <Menu
-            open={openRight}
-            onOpenChange={setOpenRight}
-            placement="right-start"
-          >
-            <MenuTrigger>
-              <Button>Right Start</Button>
-            </MenuTrigger>
-            <MenuItem label="Item 1" onSelect={() => {}} />
-            <MenuItem label="Item 2" onSelect={() => {}} />
-          </Menu>
+          <Button variant="primary">Submit</Button>
         </Box>
-      );
-    };
-    return <Component />;
-  },
+      </SubMenu>
+
+      <SubMenu label="Create alert">
+        <Box p="24" display="grid" gap="8" minW="248" justifyItems="end">
+          <FormField label="Topic" labelFor="alert-topic">
+            <TextInput
+              id="alert-topic"
+              name="alertTopic"
+              value={alertTopic}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setAlertTopic(event.target.value)
+              }
+            />
+          </FormField>
+
+          <FormField label="Channel" labelFor="alert-channel">
+            <TextInput
+              id="alert-channel"
+              name="alertChannel"
+              value={alertChannel}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setAlertChannel(event.target.value)
+              }
+            />
+          </FormField>
+
+          <Button variant="primary">Submit</Button>
+        </Box>
+      </SubMenu>
+    </Menu>
+  );
 };
 
-// ============================================================================
-// COMPREHENSIVE EXAMPLE
-// ============================================================================
+const AutocompleteFilteringExample = () => {
+  const [query, setQuery] = useState('');
 
-export const KitchenSink: Story = {
-  render: () => {
-    const Component = () => {
-      const [open, setOpen] = useState(false);
-      const [view, setView] = useState<string>('grid');
-      const [columns, setColumns] = useState<Set<string>>(
-        new Set(['name', 'date']),
-      );
+  return (
+    <VStack gap="12" alignItems="stretch" width="full" maxW="sm">
+      <TextInput
+        name="menu-query"
+        iconBefore="search"
+        placeholder="Filter menu items"
+        value={query}
+        onChange={(event: ChangeEvent<HTMLInputElement>) =>
+          setQuery(event.target.value)
+        }
+      />
 
-      const toggleColumn = (col: string) => {
-        setColumns((prev) => {
-          const next = new Set(prev);
-          if (next.has(col)) {
-            next.delete(col);
-          } else {
-            next.add(col);
-          }
-          return next;
-        });
-      };
+      <Menu inline query={query} filterMode="contains" highlightMatches>
+        <MenuItem
+          label="Account settings"
+          description="Manage profile and security"
+        />
+        <MenuItem
+          label="Notifications"
+          description="Email, SMS and push alerts"
+        />
+        <MenuItem label="Integrations" description="Connect external tools" />
+        <MenuItem label="Audit history" description="Track critical events" />
+      </Menu>
+    </VStack>
+  );
+};
 
-      return (
-        <Menu open={open} onOpenChange={setOpen}>
-          <MenuTrigger>
-            <Button>View Options</Button>
-          </MenuTrigger>
+export const Actions: Story = {
+  render: () => (
+    <Menu inline>
+      <MenuItem label="Edit" iconBefore="pencil" />
+      <MenuItem label="Duplicate" iconBefore="copy" />
+      <MenuItem label="Archive" iconBefore="trash" />
+    </Menu>
+  ),
+  parameters: { controls: { disable: true } },
+};
 
-          <MenuGroup label="View Mode">
-            <MenuItem
-              type="single-select"
-              label="Grid View"
-              iconLeft="view-grid"
-              selected={view === 'grid'}
-              onSelect={() => setView('grid')}
-              index={0}
-            />
-            <MenuItem
-              type="single-select"
-              label="List View"
-              iconLeft="view-rows"
-              selected={view === 'list'}
-              onSelect={() => setView('list')}
-              index={1}
-            />
-            <MenuItem
-              type="single-select"
-              label="Table View"
-              iconLeft="view-table"
-              selected={view === 'table'}
-              onSelect={() => setView('table')}
-              index={2}
-            />
-          </MenuGroup>
+export const ActionsWithSections: Story = {
+  render: () => (
+    <Menu inline>
+      <MenuGroup label="Actions" divider>
+        <MenuItem label="Rename" />
+        <MenuItem label="Move" />
+      </MenuGroup>
+      <MenuGroup label="Danger Zone">
+        <MenuItem label="Delete" iconBefore="trash" />
+      </MenuGroup>
+    </Menu>
+  ),
+  parameters: { controls: { disable: true } },
+};
 
-          <MenuDivider />
+export const SingleSelect: Story = {
+  render: () => <SingleSelectExample />,
+  parameters: { controls: { disable: true } },
+};
 
-          <MenuGroup label="Visible Columns">
-            <MenuItem
-              type="multi-select"
-              label="Name"
-              selectionIndicator="checkbox"
-              selected={columns.has('name')}
-              onSelect={() => toggleColumn('name')}
-              index={3}
-            />
-            <MenuItem
-              type="multi-select"
-              label="Date Modified"
-              selectionIndicator="checkbox"
-              selected={columns.has('date')}
-              onSelect={() => toggleColumn('date')}
-              index={4}
-            />
-            <MenuItem
-              type="multi-select"
-              label="Size"
-              selectionIndicator="checkbox"
-              selected={columns.has('size')}
-              onSelect={() => toggleColumn('size')}
-              index={5}
-            />
-          </MenuGroup>
+export const MultiSelect: Story = {
+  render: () => <MultiSelectExample />,
+  parameters: { controls: { disable: true } },
+};
 
-          <MenuDivider />
+export const Density: Story = {
+  render: () => (
+    <HStack gap="12" alignItems="flex-start">
+      <Menu inline density="compact">
+        <MenuItem label="Compact" description="Small row spacing" />
+        <MenuItem label="Second row" iconBefore="apps" />
+        <MenuItem label="Third row" iconBefore="settings" />
+      </Menu>
+      <Menu inline density="comfortable">
+        <MenuItem label="Comfortable" description="Default row spacing" />
+        <MenuItem label="Second row" iconBefore="apps" />
+        <MenuItem label="Third row" iconBefore="settings" />
+      </Menu>
+      <Menu inline density="spacious">
+        <MenuItem label="Spacious" description="Large row spacing" />
+        <MenuItem label="Second row" iconBefore="apps" />
+        <MenuItem label="Third row" iconBefore="settings" />
+      </Menu>
+    </HStack>
+  ),
+  parameters: { controls: { disable: true } },
+};
 
-          <MenuItem
-            label="Refresh"
-            iconLeft="refresh"
-            onSelect={() => console.log('Refresh')}
-            index={6}
-          />
-          <MenuItem
-            label="Export"
-            description="Download as CSV"
-            iconLeft="download"
-            onSelect={() => console.log('Export')}
-            index={7}
-          />
+export const ToggleOptions: Story = {
+  render: () => <ToggleOptionsExample />,
+  parameters: { controls: { disable: true } },
+};
+
+export const SubMenuHover: Story = {
+  render: () => (
+    <Menu
+      trigger={<Button iconAfter="caret-down">Open menu</Button>}
+      subMenuInteraction="hover"
+    >
+      <MenuItem label="View profile" />
+      <SubMenu label="More actions">
+        <MenuItem label="Export" />
+        <MenuItem label="Share" />
+        <SubMenu label="Advanced">
+          <MenuItem label="Audit log" />
+          <MenuItem label="Settings" />
+        </SubMenu>
+      </SubMenu>
+    </Menu>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const TopNavHoverTrigger: Story = {
+  name: 'Top nav hover trigger',
+  render: () => (
+    <VStack
+      alignItems="stretch"
+      minW="3xl"
+      h="2xl"
+      bg="bg.neutral"
+      p="24"
+      gap="16"
+    >
+      <HStack
+        alignItems="center"
+        gap="12"
+        borderWidth="1"
+        borderColor="border"
+        bg="surface"
+        px="24"
+        py="16"
+      >
+        <Menu
+          triggerInteraction="hover"
+          trigger={<Button variant="selectedBold">Sales</Button>}
+          subMenuInteraction="hover"
+          closeOnSelect={false}
+        >
+          <SubMenu label="Quotes">
+            <MenuItem label="Open quotes" />
+            <MenuItem label="Draft quotes" />
+          </SubMenu>
+
+          <SubMenu label="Orders" selected>
+            <MenuItem label="Order list" />
+            <SubMenu label="Used orders" selected>
+              <MenuItem label="Order as used" selected />
+              <MenuItem label="Bookings" />
+              <MenuItem label="Order commissions" />
+            </SubMenu>
+          </SubMenu>
+
+          <SubMenu label="Invoices">
+            <MenuItem label="All invoices" />
+            <MenuItem label="Credit notes" />
+          </SubMenu>
         </Menu>
-      );
-    };
-    return <Component />;
-  },
+
+        <Button>Production</Button>
+        <Button>Admin</Button>
+      </HStack>
+    </VStack>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const SubMenuDigin: Story = {
+  render: () => (
+    <Menu
+      trigger={<Button iconAfter="caret-down">Open menu</Button>}
+      subMenuInteraction="digin"
+    >
+      <MenuItem label="Dashboard" />
+      <SubMenu label="Settings">
+        <MenuItem label="Profile" />
+        <MenuItem label="Billing" />
+        <SubMenu label="Team">
+          <MenuItem label="Members" />
+          <MenuItem label="Permissions" />
+        </SubMenu>
+      </SubMenu>
+    </Menu>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const SubMenuDiginForms: Story = {
+  render: () => <SubMenuDiginFormsExample />,
+  parameters: { controls: { disable: true } },
+};
+
+export const AutocompleteFiltering: Story = {
+  render: () => <AutocompleteFilteringExample />,
+  parameters: { controls: { disable: true } },
+};
+
+export const PanelAsSidebar: Story = {
+  name: 'Panel as sidebar',
+  render: () => (
+    <Flex
+      minW="3xl"
+      h="lg"
+      bg="bg.neutral"
+      overflow="hidden"
+      boxShadow="overlay"
+    >
+      <Menu
+        subMenuInteraction="hover"
+        panel={true}
+        maxW="264"
+        density="comfortable"
+      >
+        <MenuItem label="View profile" />
+        <SubMenu label="More actions" minW="180">
+          <MenuItem label="Export" />
+          <MenuItem label="Share" />
+          <SubMenu label="Advanced" minW="180">
+            <MenuItem label="Audit log" />
+            <MenuItem label="Settings" />
+          </SubMenu>
+        </SubMenu>
+      </Menu>
+    </Flex>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const PanelAsMobileNav: Story = {
+  name: 'Panel as mobile nav',
+  render: () => (
+    <Flex
+      minW="3xl"
+      h="lg"
+      bg="bg.neutral"
+      overflow="hidden"
+      boxShadow="overlay"
+    >
+      <Menu
+        subMenuInteraction="digin"
+        panel={true}
+        maxW="264"
+        w="full"
+        density="comfortable"
+      >
+        <MenuItem label="View profile" />
+        <SubMenu label="More actions" minW="180">
+          <MenuItem label="Export" />
+          <MenuItem label="Share" />
+          <SubMenu label="Advanced" minW="180">
+            <MenuItem label="Audit log" />
+            <MenuItem label="Settings" />
+          </SubMenu>
+        </SubMenu>
+      </Menu>
+    </Flex>
+  ),
+  parameters: { controls: { disable: true } },
 };

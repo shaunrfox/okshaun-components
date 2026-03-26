@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Flex } from '@styled-system/jsx';
+
+import { Flex, Grid } from '@styled-system/jsx';
 import { useState } from 'react';
 import { Avatar } from '../Avatar';
 import { Badge } from '../Badge';
@@ -26,7 +27,7 @@ const meta: Meta<typeof Chip> = {
     size: {
       control: 'select',
       options: ['md', 'sm', 'lg'],
-      description: 'Size variant of the chip',
+      description: 'Size variants of chip',
     },
     before: {
       control: false,
@@ -53,6 +54,9 @@ const meta: Meta<typeof Chip> = {
     children: 'Chip Label',
     size: 'md',
   },
+  parameters: {
+    layout: 'centered',
+  },
 };
 
 export default meta;
@@ -63,9 +67,7 @@ type Story = StoryObj<typeof Chip>;
 // =============================================================================
 
 export const Default: Story = {
-  args: {
-    children: 'Default Chip',
-  },
+  render: () => <Chip>Default</Chip>,
 };
 
 // =============================================================================
@@ -76,7 +78,7 @@ export const Sizes: Story = {
   render: () => (
     <Flex gap="4" alignItems="center">
       <Chip size="sm">Small</Chip>
-      <Chip size="md">Default</Chip>
+      <Chip>Medium (default)</Chip>
       <Chip size="lg">Large</Chip>
     </Flex>
   ),
@@ -96,9 +98,7 @@ export const WithBefore: Story = {
         >
           Small
         </Chip>
-        <Chip size="md" before={<Badge count={30} variant="neutral" />}>
-          Default
-        </Chip>
+        <Chip before={<Badge count={30} variant="neutral" />}>Medium</Chip>
         <Chip size="lg" before={<Badge count={100} size="lg" />}>
           Large
         </Chip>
@@ -111,10 +111,9 @@ export const WithBefore: Story = {
           Small
         </Chip>
         <Chip
-          size="md"
           before={<Avatar size="sm" src={sampleImages.user1} name="John Doe" />}
         >
-          Default
+          Medium
         </Chip>
         <Chip
           size="lg"
@@ -127,9 +126,7 @@ export const WithBefore: Story = {
         <Chip size="sm" before={<Icon name="file" size="20" />}>
           Small
         </Chip>
-        <Chip size="md" before={<Icon name="file" size="20" />}>
-          Default
-        </Chip>
+        <Chip before={<Icon name="file" size="20" />}>Medium</Chip>
         <Chip size="lg" before={<Icon name="file" size="24" />}>
           Large
         </Chip>
@@ -144,9 +141,7 @@ export const WithAfter: Story = {
       <Chip size="sm" after={<Icon name="x" size="20" />}>
         Small
       </Chip>
-      <Chip size="md" after={<Icon name="x" size="20" />}>
-        Default
-      </Chip>
+      <Chip after={<Icon name="x" size="20" />}>Medium</Chip>
       <Chip size="lg" after={<Icon name="x" size="24" />}>
         Large
       </Chip>
@@ -165,11 +160,10 @@ export const WithBeforeAndAfter: Story = {
         Small
       </Chip>
       <Chip
-        size="md"
         before={<Icon name="user" size="20" />}
         after={<Icon name="x" size="20" />}
       >
-        Default
+        Medium
       </Chip>
       <Chip
         size="lg"
@@ -188,38 +182,22 @@ export const WithBeforeAndAfter: Story = {
 
 export const States: Story = {
   render: () => (
-    <Flex flexDir="column" gap="4">
-      <Flex gap="2" alignItems="center">
-        <Text fontWeight="500" w="100">
-          Default:
-        </Text>
-        <Chip before={<Icon name="file" size="20" />}>Interactive</Chip>
-      </Flex>
-      <Flex gap="2" alignItems="center">
-        <Text fontWeight="500" w="100">
-          Disabled:
-        </Text>
-        <Chip disabled before={<Icon name="file" size="20" />}>
-          Disabled
-        </Chip>
-      </Flex>
-      <Flex gap="2" alignItems="center">
-        <Text fontWeight="500" w="100">
-          Loading:
-        </Text>
-        <Chip loading before={<Icon name="file" size="20" />}>
-          Loading...
-        </Chip>
-      </Flex>
-      <Flex gap="2" alignItems="center">
-        <Text fontWeight="500" w="100">
-          Deleted:
-        </Text>
-        <Chip deleted before={<Icon name="file" size="20" />}>
-          Deleted Item
-        </Chip>
-      </Flex>
-    </Flex>
+    <Grid gridTemplateColumns="auto auto" gap="24">
+      <Text textStyle="mono.xs">Default:</Text>
+      <Chip before={<Icon name="file" size="20" />}>Interactive</Chip>
+      <Text textStyle="mono.xs">Disabled:</Text>
+      <Chip disabled before={<Icon name="file" size="20" />}>
+        Disabled
+      </Chip>
+      <Text textStyle="mono.xs">Loading:</Text>
+      <Chip loading before={<Icon name="file" size="20" />}>
+        Loading...
+      </Chip>
+      <Text textStyle="mono.xs">Deleted:</Text>
+      <Chip deleted before={<Icon name="file" size="20" />}>
+        Deleted Item
+      </Chip>
+    </Grid>
   ),
 };
 
@@ -229,8 +207,8 @@ export const States: Story = {
 
 export const Interactive: Story = {
   render: () => (
-    <Flex flexDir="column" gap="4">
-      <Text>Chips can be interactive buttons:</Text>
+    <Flex flexDir="column" gap="12">
+      <Text textStyle="mono.xs">Chips can be interactive buttons:</Text>
       <Flex gap="2">
         <Chip onClick={() => alert('Clicked!')}>Click Me</Chip>
         <Chip
@@ -256,45 +234,41 @@ export const Interactive: Story = {
 
 export const SizesMatrix: Story = {
   render: () => (
-    <Flex flexDir="column" gap="6">
+    <Flex flexDir="column" gap="12">
       <Flex flexDir="column" gap="2">
-        <Text fontWeight="600">No Content Before/After</Text>
+        <Text textStyle="mono.xs">No Content Before/After</Text>
         <Flex gap="4" alignItems="center">
           <Chip size="sm">Small</Chip>
-          <Chip size="md">Default</Chip>
+          <Chip>Medium</Chip>
           <Chip size="lg">Large</Chip>
         </Flex>
       </Flex>
       <Flex flexDir="column" gap="2">
-        <Text fontWeight="600">With Before</Text>
+        <Text textStyle="mono.xs">With Before</Text>
         <Flex gap="4" alignItems="center">
           <Chip size="sm" before={<Icon name="file" size="20" />}>
             Small
           </Chip>
-          <Chip size="md" before={<Icon name="file" size="20" />}>
-            Default
-          </Chip>
+          <Chip before={<Icon name="file" size="20" />}>Medium</Chip>
           <Chip size="lg" before={<Icon name="file" size="24" />}>
             Large
           </Chip>
         </Flex>
       </Flex>
       <Flex flexDir="column" gap="2">
-        <Text fontWeight="600">With After</Text>
+        <Text textStyle="mono.xs">With After</Text>
         <Flex gap="4" alignItems="center">
           <Chip size="sm" after={<Icon name="x" size="20" />}>
             Small
           </Chip>
-          <Chip size="md" after={<Icon name="x" size="20" />}>
-            Default
-          </Chip>
+          <Chip after={<Icon name="x" size="20" />}>Medium</Chip>
           <Chip size="lg" after={<Icon name="x" size="24" />}>
             Large
           </Chip>
         </Flex>
       </Flex>
       <Flex flexDir="column" gap="2">
-        <Text fontWeight="600">With Before and After</Text>
+        <Text textStyle="mono.xs">With Before and After</Text>
         <Flex gap="4" alignItems="center">
           <Chip
             size="sm"
@@ -304,11 +278,10 @@ export const SizesMatrix: Story = {
             Small
           </Chip>
           <Chip
-            size="md"
             before={<Icon name="user" size="20" />}
             after={<Icon name="x" size="20" />}
           >
-            Default
+            Medium
           </Chip>
           <Chip
             size="lg"
@@ -347,10 +320,10 @@ export const InlineWithText: Story = {
 
 export const UseCases: Story = {
   render: () => (
-    <Flex flexDir="column" gap="6">
+    <Flex flexDir="column" gap="20">
       <Flex flexDir="column" gap="2">
-        <Text fontWeight="600">Filter Tags</Text>
-        <Flex gap="2" flexWrap="wrap">
+        <Text textStyle="mono.xs">Filter Tags</Text>
+        <Flex gap="4" flexWrap="wrap">
           <Chip after={<Icon name="x" size="20" />}>React</Chip>
           <Chip after={<Icon name="x" size="20" />}>TypeScript</Chip>
           <Chip after={<Icon name="x" size="20" />}>Panda CSS</Chip>
@@ -358,16 +331,16 @@ export const UseCases: Story = {
         </Flex>
       </Flex>
       <Flex flexDir="column" gap="2">
-        <Text fontWeight="600">Categories</Text>
-        <Flex gap="2" flexWrap="wrap">
+        <Text textStyle="mono.xs">Categories</Text>
+        <Flex gap="4" flexWrap="wrap">
           <Chip before={<Icon name="file" size="20" />}>Documentation</Chip>
           <Chip before={<Icon name="calendar" size="20" />}>Events</Chip>
           <Chip before={<Icon name="user" size="20" />}>People</Chip>
         </Flex>
       </Flex>
       <Flex flexDir="column" gap="2">
-        <Text fontWeight="600">Actions</Text>
-        <Flex gap="2" flexWrap="wrap">
+        <Text textStyle="mono.xs">Actions</Text>
+        <Flex gap="4" flexWrap="wrap">
           <Chip before={<Icon name="plus" size="20" />}>New Item</Chip>
           <Chip before={<Icon name="check" size="20" />}>Approve</Chip>
           <Chip deleted>Archived</Chip>
@@ -381,7 +354,7 @@ export const UseCases: Story = {
 // DISMISSABLE
 // =============================================================================
 
-const DismissableExample = () => {
+export const Dismissable = () => {
   const [tags, setTags] = useState([
     'React',
     'TypeScript',
@@ -394,9 +367,9 @@ const DismissableExample = () => {
   };
 
   return (
-    <Flex flexDir="column" gap="4">
-      <Text>Click the X to dismiss tags:</Text>
-      <Flex gap="2" flexWrap="wrap">
+    <Flex flexDir="column" gap="12">
+      <Text textStyle="mono.xs">Click the X to dismiss tags:</Text>
+      <Flex gap="4" flexWrap="wrap">
         {tags.map((tag) => (
           <Chip key={tag} dismissable onDismiss={() => handleDismiss(tag)}>
             {tag}
@@ -408,13 +381,9 @@ const DismissableExample = () => {
   );
 };
 
-export const Dismissable: Story = {
-  render: () => <DismissableExample />,
-};
-
 export const DismissableWithBefore: Story = {
   render: () => (
-    <Flex gap="2">
+    <Flex gap="4">
       <Chip
         dismissable
         before={<Icon name="file" size="20" />}
@@ -444,12 +413,12 @@ export const DismissableWithBefore: Story = {
 // SINGLE SELECT (ChipGroup)
 // =============================================================================
 
-const SingleSelectExample = () => {
-  const [selected, setSelected] = useState('medium');
+export const SingleSelect = () => {
+  const [selected, setSelected] = useState('');
 
   return (
-    <Flex flexDir="column" gap="4">
-      <Text>Select one size:</Text>
+    <Flex flexDir="column" gap="12">
+      <Text textStyle="mono.md">Select one size:</Text>
       <ChipGroup
         type="single"
         value={selected}
@@ -461,21 +430,17 @@ const SingleSelectExample = () => {
         <Chip value="lg">Large</Chip>
         <Chip value="xl">X-Large</Chip>
       </ChipGroup>
-      <Text color="text.muted">Selected: {selected}</Text>
+      <Text textStyle="mono.xs">Selected: {selected}</Text>
     </Flex>
   );
 };
 
-export const SingleSelect: Story = {
-  render: () => <SingleSelectExample />,
-};
-
-const SingleSelectWithBeforeExample = () => {
+export const SingleSelectWithBefore = () => {
   const [selected, setSelected] = useState('grid');
 
   return (
-    <Flex flexDir="column" gap="4">
-      <Text>Select a view:</Text>
+    <Flex flexDir="column" gap="12">
+      <Text textStyle="mono.md">Select a view:</Text>
       <ChipGroup
         type="single"
         value={selected}
@@ -492,25 +457,23 @@ const SingleSelectWithBeforeExample = () => {
           Calendar
         </Chip>
       </ChipGroup>
-      <Text color="text.muted">Selected: {selected}</Text>
+      <Text textStyle="mono.xs">Selected: {selected}</Text>
     </Flex>
   );
-};
-
-export const SingleSelectWithBefore: Story = {
-  render: () => <SingleSelectWithBeforeExample />,
 };
 
 // =============================================================================
 // MULTI SELECT (ChipGroup)
 // =============================================================================
 
-const MultiSelectExample = () => {
+export const MultiSelect = () => {
   const [selected, setSelected] = useState<string[]>(['react', 'typescript']);
 
   return (
-    <Flex flexDir="column" gap="4">
-      <Text>Select your skills (check icon appears when selected):</Text>
+    <Flex flexDir="column" gap="12">
+      <Text textStyle="mono.md">
+        Select your skills (check icon appears when selected):
+      </Text>
       <ChipGroup
         type="multi"
         value={selected}
@@ -523,21 +486,17 @@ const MultiSelectExample = () => {
         <Chip value="angular">Angular</Chip>
         <Chip value="svelte">Svelte</Chip>
       </ChipGroup>
-      <Text color="text.muted">Selected: {selected.join(', ') || 'None'}</Text>
+      <Text textStyle="mono.xs">Selected: {selected.join(', ') || 'None'}</Text>
     </Flex>
   );
 };
 
-export const MultiSelect: Story = {
-  render: () => <MultiSelectExample />,
-};
-
-const MultiSelectWithBeforeExample = () => {
+export const MultiSelectWithBefore = () => {
   const [selected, setSelected] = useState<string[]>(['docs']);
 
   return (
-    <Flex flexDir="column" gap="4">
-      <Text>Filter by category:</Text>
+    <Flex flexDir="column" gap="12">
+      <Text textStyle="mono.md">Filter by category:</Text>
       <ChipGroup
         type="multi"
         value={selected}
@@ -557,13 +516,43 @@ const MultiSelectWithBeforeExample = () => {
           Audio
         </Chip>
       </ChipGroup>
-      <Text color="text.muted">Selected: {selected.join(', ') || 'None'}</Text>
+      <Text textStyle="mono.xs">Selected: {selected.join(', ') || 'None'}</Text>
     </Flex>
   );
 };
 
-export const MultiSelectWithBefore: Story = {
-  render: () => <MultiSelectWithBeforeExample />,
+const SingleSelectExample = () => {
+  const [selected, setSelected] = useState('list');
+
+  return (
+    <ChipGroup
+      type="single"
+      value={selected}
+      onChange={(value) => setSelected(value as string)}
+      label="Keyboard navigation single select example"
+    >
+      <Chip value="list">List</Chip>
+      <Chip value="grid">Grid</Chip>
+      <Chip value="calendar">Calendar</Chip>
+    </ChipGroup>
+  );
+};
+
+const MultiSelectExample = () => {
+  const [selected, setSelected] = useState<string[]>(['docs']);
+
+  return (
+    <ChipGroup
+      type="multi"
+      value={selected}
+      onChange={(value) => setSelected(value as string[])}
+      label="Keyboard navigation multi select example"
+    >
+      <Chip value="docs">Docs</Chip>
+      <Chip value="images">Images</Chip>
+      <Chip value="video">Video</Chip>
+    </ChipGroup>
+  );
 };
 
 // =============================================================================
@@ -572,19 +561,163 @@ export const MultiSelectWithBefore: Story = {
 
 export const KeyboardNavigation: Story = {
   render: () => (
-    <Flex flexDir="column" gap="6">
+    <Flex flexDir="column" gap="40">
       <Flex flexDir="column" gap="2">
-        <Text fontWeight="600">
+        <Text textStyle="mono.md" color="text" fontWeight="bold">
           Single Select (arrow keys navigate & select):
         </Text>
         <SingleSelectExample />
       </Flex>
       <Flex flexDir="column" gap="2">
-        <Text fontWeight="600">
+        <Text textStyle="mono.md" color="text" fontWeight="bold">
           Multi Select (tab between, space/enter toggles):
         </Text>
         <MultiSelectExample />
       </Flex>
     </Flex>
   ),
+};
+
+// =============================================================================
+// CHIP GROUP — SIZES
+// =============================================================================
+
+export const ChipGroupSizes = () => {
+  const [smValue, setSmValue] = useState('option-a');
+  const [mdValue, setMdValue] = useState('option-a');
+  const [lgValue, setLgValue] = useState('option-a');
+
+  return (
+    <Flex flexDir="column" gap="24">
+      <Flex flexDir="column" gap="2">
+        <Text textStyle="mono.xs">Small</Text>
+        <ChipGroup
+          type="single"
+          value={smValue}
+          onChange={(v) => setSmValue(v as string)}
+          label="Small chip group"
+        >
+          <Chip value="option-a" size="sm">
+            Option A
+          </Chip>
+          <Chip value="option-b" size="sm">
+            Option B
+          </Chip>
+          <Chip value="option-c" size="sm">
+            Option C
+          </Chip>
+        </ChipGroup>
+      </Flex>
+      <Flex flexDir="column" gap="2">
+        <Text textStyle="mono.xs">Medium</Text>
+        <ChipGroup
+          type="single"
+          value={mdValue}
+          onChange={(v) => setMdValue(v as string)}
+          label="Medium chip group"
+        >
+          <Chip value="option-a">Option A</Chip>
+          <Chip value="option-b">Option B</Chip>
+          <Chip value="option-c">Option C</Chip>
+        </ChipGroup>
+      </Flex>
+      <Flex flexDir="column" gap="2">
+        <Text textStyle="mono.xs">Large</Text>
+        <ChipGroup
+          type="single"
+          value={lgValue}
+          onChange={(v) => setLgValue(v as string)}
+          label="Large chip group"
+        >
+          <Chip value="option-a" size="lg">
+            Option A
+          </Chip>
+          <Chip value="option-b" size="lg">
+            Option B
+          </Chip>
+          <Chip value="option-c" size="lg">
+            Option C
+          </Chip>
+        </ChipGroup>
+      </Flex>
+    </Flex>
+  );
+};
+
+// =============================================================================
+// CHIP GROUP — DISABLED CHIPS
+// =============================================================================
+
+export const ChipGroupWithDisabled = () => {
+  const [selected, setSelected] = useState('active');
+
+  return (
+    <Flex flexDir="column" gap="12">
+      <Text textStyle="mono.md">
+        Individual chips can be disabled within a group:
+      </Text>
+      <ChipGroup
+        type="single"
+        value={selected}
+        onChange={(v) => setSelected(v as string)}
+        label="Options with disabled"
+      >
+        <Chip value="active">Active</Chip>
+        <Chip value="pending">Pending</Chip>
+        <Chip value="unavailable" disabled>
+          Unavailable
+        </Chip>
+        <Chip value="archived">Archived</Chip>
+      </ChipGroup>
+      <Text textStyle="mono.xs">Selected: {selected}</Text>
+    </Flex>
+  );
+};
+
+// =============================================================================
+// CHIP GROUP — WRAPPING
+// =============================================================================
+
+export const ChipGroupWrapping = () => {
+  const [selected, setSelected] = useState<string[]>(['react', 'typescript']);
+
+  const skills = [
+    'React',
+    'TypeScript',
+    'JavaScript',
+    'Vue',
+    'Angular',
+    'Svelte',
+    'Next.js',
+    'Remix',
+    'Astro',
+    'Node.js',
+    'Python',
+    'Go',
+    'Rust',
+    'GraphQL',
+    'REST',
+    'Docker',
+  ];
+
+  return (
+    <Flex flexDir="column" gap="12" maxW="md">
+      <Text textStyle="mono.md">
+        ChipGroup wraps when chips exceed container width:
+      </Text>
+      <ChipGroup
+        type="multi"
+        value={selected}
+        onChange={(v) => setSelected(v as string[])}
+        label="Skills selection"
+      >
+        {skills.map((skill) => (
+          <Chip key={skill.toLowerCase()} value={skill.toLowerCase()}>
+            {skill}
+          </Chip>
+        ))}
+      </ChipGroup>
+      <Text textStyle="mono.xs">Selected: {selected.join(', ') || 'None'}</Text>
+    </Flex>
+  );
 };

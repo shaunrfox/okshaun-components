@@ -6,8 +6,8 @@ const baseButtonStyles = {
     appearance: 'none',
     display: 'flex',
     alignItems: 'center',
-    gap: 4,
-    minWidth: 0,
+    gap: '4',
+    minWidth: '0',
     width: 'fit',
     height: 'fit',
     transitionDuration: 'fast',
@@ -17,33 +17,28 @@ const baseButtonStyles = {
     verticalAlign: 'middle',
     fontFamily: 'sans',
     fontWeight: 'medium',
-    fontSize: 16,
+    fontSize: '16',
     lineHeight: 'default',
-    borderWidth: 1,
+    borderWidth: '1',
     borderStyle: 'solid',
     borderColor: 'transparent',
-    borderRadius: 4,
-    outlineWidth: 2,
+    borderRadius: '4',
+    outlineWidth: '2',
     outlineStyle: 'solid',
     outlineColor: 'transparent',
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
-    _focusVisible: {
-      outlineColor: 'border.focused',
-    },
     _disabled: {
       cursor: 'not-allowed',
-      bg: 'bg.disabled',
-      color: 'text.disabled',
-      borderColor: 'border.disabled',
-      icon: { fill: 'icon.disabled' },
-      _hover: {
-        bg: 'bg.disabled',
-        color: 'text.disabled',
-        borderColor: 'border.disabled',
-        icon: { fill: 'icon.disabled' },
-      },
+      opacity: '0.3',
+    },
+    _loading: {
+      cursor: 'not-allowed',
+      opacity: '0.3',
+    },
+    _focusVisible: {
+      outlineColor: 'border.focused',
     },
     _selected: {
       bg: 'bg.selected',
@@ -66,72 +61,143 @@ const buttonVariants = {
       container: {
         bg: 'bg.neutral',
         color: 'text',
-        icon: { fill: 'icon.decorative' },
         _hover: {
           bg: 'bg.neutral.hovered',
-          icon: { fill: 'icon.decorative.hovered' },
         },
         _active: {
           bg: 'bg.neutral.pressed',
-          icon: { fill: 'icon.decorative.hovered' },
         },
+      },
+      icon: {
+        fill: 'icon.decorative',
+        mixBlendMode: { base: 'multiply', _dark: 'screen' },
+        _groupHover: { fill: 'current' },
+        _groupActive: { fill: 'current' },
       },
     },
     primary: {
       container: {
-        bg: 'bg.brand.boldest',
+        bg: 'bg.neutral.boldest',
         color: 'text.inverse',
-        icon: { fill: 'icon.decorative.inverse' },
         _hover: {
-          bg: 'bg.brand.boldest.hovered',
-          icon: { fill: 'icon.inverse' },
+          bg: 'bg.neutral.bold.hovered',
         },
         _active: {
-          bg: 'bg.brand.boldest.pressed',
-          icon: { fill: 'icon.inverse' },
+          bg: 'bg.neutral.bold.pressed',
         },
       },
-    },
-    subtle: {
-      container: {
-        bg: 'bg.neutral.subtle',
-        color: 'text.subtle',
-        icon: { fill: 'icon.decorative' },
-        _hover: {
-          bg: 'bg.neutral.subtle.hovered',
-          color: 'text',
-          icon: { fill: 'icon.decorative.hovered' },
-        },
-        _active: {
-          bg: 'bg.neutral.subtle.pressed',
-          color: 'text',
-          icon: { fill: 'icon.decorative.hovered' },
+      icon: {
+        fill: 'icon.decorative.inverse.subtle',
+        mixBlendMode: { base: 'screen', _dark: 'multiply' },
+        _groupHover: { fill: 'icon.decorative.inverse' },
+        _groupActive: { fill: 'icon.decorative.inverse' },
+        _groupDisabled: {
+          fill: 'icon.decorative.inverse.subtle',
         },
       },
     },
     hollow: {
       container: {
         bg: 'bg.neutral.subtle',
-        color: 'text.subtle',
         borderColor: 'border',
-        icon: { fill: 'icon.decorative' },
+        color: 'text',
         _hover: {
           bg: 'bg.neutral.subtle.hovered',
-          color: 'text',
-          borderColor: 'border',
-          icon: { fill: 'icon.decorative.hovered' },
         },
         _active: {
           bg: 'bg.neutral.subtle.pressed',
-          color: 'text',
-          borderColor: 'border',
-          icon: { fill: 'icon.decorative.hovered' },
         },
-        _disabled: {
-          borderColor: 'border.disabled',
-          _hover: {
-            borderColor: 'border.disabled',
-          },
+      },
+      icon: {
+        fill: 'icon.decorative',
+        mixBlendMode: { base: 'multiply', _dark: 'screen' },
+        _groupHover: { fill: 'current' },
+        _groupActive: { fill: 'current' },
+      },
+    },
+    ghost: {
+      container: {
+        bg: 'bg.neutral.subtle',
+        color: 'text',
+        _hover: {
+          bg: 'bg.neutral.subtle.hovered',
+        },
+        _active: {
+          bg: 'bg.neutral.subtle.pressed',
+        },
+      },
+      icon: {
+        fill: 'icon.decorative',
+        mixBlendMode: { base: 'multiply', _dark: 'screen' },
+        _groupHover: { fill: 'current' },
+        _groupActive: { fill: 'current' },
+      },
+    },
+    danger: {
+      container: {
+        bg: 'red.50',
+        color: 'neutral.0',
+        _hover: {
+          bg: 'red.40',
+        },
+        _active: {
+          bg: 'red.60',
+        },
+      },
+      icon: {
+        fill: 'icon.decorative.inverse',
+        mixBlendMode: 'screen',
+        _groupHover: { fill: 'icon.decorative.inverse' },
+        _groupActive: { fill: 'icon.decorative.inverse' },
+        _groupDisabled: {
+          fill: 'icon.decorative.inverse',
+        },
+      },
+    },
+    selected: {
+      container: {
+        bg: 'bg.selected',
+        color: 'text.selected',
+        icon: { fill: 'icon.selected' },
+        _hover: {
+          bg: 'bg.selected.hovered',
+          color: 'text.selected.hovered',
+          icon: { fill: 'icon.selected' },
+        },
+        _active: {
+          bg: 'bg.selected.pressed',
+          color: 'text.selected',
+          icon: { fill: 'icon.selected' },
+        },
+      },
+      icon: {
+        fill: 'icon.selected',
+        mixBlendMode: { base: 'multiply', _dark: 'screen' },
+        _groupHover: { fill: 'icon.selected' },
+        _groupActive: { fill: 'icon.selected' },
+        _groupDisabled: {
+          fill: 'icon.selected',
+        },
+      },
+    },
+    selectedBold: {
+      container: {
+        bg: 'bg.selected.bold',
+        color: 'text.inverse',
+        _hover: {
+          bg: 'bg.selected.bold.hovered',
+        },
+        _active: {
+          bg: 'bg.selected.bold.pressed',
+        },
+      },
+      icon: {
+        fill: 'icon.inverse',
+        mixBlendMode: { base: 'screen', _dark: 'multiply' },
+        _groupHover: { fill: 'icon.inverse' },
+        _groupActive: { fill: 'icon.inverse' },
+        _groupDisabled: {
+          fill: 'icon.inverse',
         },
       },
     },
@@ -146,11 +212,33 @@ export const buttonRecipe = defineSlotRecipe({
   variants: {
     ...buttonVariants,
     size: {
+      sm: {
+        container: {
+          fontSize: '14',
+          py: '1',
+          px: '8',
+        },
+        icon: {
+          w: '22',
+          h: '22',
+        },
+      },
       md: {
         container: {
           fontSize: '16',
           py: '3',
           px: '12',
+        },
+        icon: {
+          w: '24',
+          h: '24',
+        },
+      },
+      lg: {
+        container: {
+          fontSize: '16',
+          py: '7',
+          px: '14',
         },
         icon: {
           w: '24',
@@ -168,28 +256,6 @@ export const buttonRecipe = defineSlotRecipe({
           h: '28',
         },
       },
-      lg: {
-        container: {
-          fontSize: '16',
-          py: '7',
-          px: '14',
-        },
-        icon: {
-          w: '24',
-          h: '24',
-        },
-      },
-      sm: {
-        container: {
-          fontSize: '14',
-          py: '1',
-          px: '8',
-        },
-        icon: {
-          w: '22',
-          h: '22',
-        },
-      },
     },
     iconBefore: {
       true: { container: {} },
@@ -199,20 +265,6 @@ export const buttonRecipe = defineSlotRecipe({
     },
   },
   compoundVariants: [
-    {
-      size: 'md',
-      iconBefore: true,
-      css: {
-        container: { ps: '3' },
-      },
-    },
-    {
-      size: 'md',
-      iconAfter: true,
-      css: {
-        container: { pe: '3' },
-      },
-    },
     {
       size: 'sm',
       iconBefore: true,
@@ -225,6 +277,20 @@ export const buttonRecipe = defineSlotRecipe({
       iconAfter: true,
       css: {
         container: { pe: '2' },
+      },
+    },
+    {
+      size: 'md',
+      iconBefore: true,
+      css: {
+        container: { ps: '3' },
+      },
+    },
+    {
+      size: 'md',
+      iconAfter: true,
+      css: {
+        container: { pe: '3' },
       },
     },
     {
@@ -270,16 +336,6 @@ export const iconButtonRecipe = defineSlotRecipe({
   variants: {
     ...buttonVariants,
     size: {
-      md: {
-        container: {
-          fontSize: '16',
-          p: '3',
-        },
-        icon: {
-          w: '24',
-          h: '24',
-        },
-      },
       sm: {
         container: {
           fontSize: '14',
@@ -288,6 +344,16 @@ export const iconButtonRecipe = defineSlotRecipe({
         icon: {
           w: '22',
           h: '22',
+        },
+      },
+      md: {
+        container: {
+          fontSize: '16',
+          p: '3',
+        },
+        icon: {
+          w: '24',
+          h: '24',
         },
       },
       lg: {

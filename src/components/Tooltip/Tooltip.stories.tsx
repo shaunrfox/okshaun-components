@@ -1,5 +1,7 @@
 // src/components/Tooltip/Tooltip.stories.tsx
+
 import type { Meta, StoryObj } from '@storybook/react';
+import { Box } from '../Box';
 import { Button } from '../Button';
 import { Tooltip } from './Tooltip';
 
@@ -17,10 +19,18 @@ const meta: Meta<typeof Tooltip> = {
     placement: {
       control: 'select',
       options: [
-        'top', 'top-start', 'top-end',
-        'bottom', 'bottom-start', 'bottom-end',
-        'left', 'left-start', 'left-end',
-        'right', 'right-start', 'right-end',
+        'top',
+        'top-start',
+        'top-end',
+        'bottom',
+        'bottom-start',
+        'bottom-end',
+        'left',
+        'left-start',
+        'left-end',
+        'right',
+        'right-start',
+        'right-end',
       ],
     },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
@@ -63,7 +73,7 @@ export const NoCaret: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
+    <Box display="flex" gap="32" alignItems="center">
       <Tooltip {...args} size="sm" text="Small tooltip">
         <Button size="sm">Small</Button>
       </Tooltip>
@@ -73,25 +83,35 @@ export const Sizes: Story = {
       <Tooltip {...args} size="lg" text="Large tooltip">
         <Button size="lg">Large</Button>
       </Tooltip>
-    </div>
+    </Box>
   ),
 };
 
 export const AllPlacements: Story = {
   render: (args) => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
-      {(['top-start', 'top', 'top-end',
-         'left', '', 'right',
-         'bottom-start', 'bottom', 'bottom-end'] as const).map((p) =>
+    <Box display="grid" gridTemplateColumns="repeat(3, 1fr)" gap="16">
+      {(
+        [
+          'top-start',
+          'top',
+          'top-end',
+          'left',
+          '',
+          'right',
+          'bottom-start',
+          'bottom',
+          'bottom-end',
+        ] as const
+      ).map((p) =>
         p ? (
           <Tooltip key={p} {...args} placement={p} text={p}>
-            <Button style={{ width: '100%' }}>{p}</Button>
+            <Button w="full">{p}</Button>
           </Tooltip>
         ) : (
-          <div key="empty" />
-        )
+          <Box key="empty" />
+        ),
       )}
-    </div>
+    </Box>
   ),
 };
 
@@ -107,11 +127,11 @@ export const WithDelay: Story = {
 /** Demonstrates keyboard accessibility — Tab to the button to trigger the tooltip */
 export const KeyboardFocus: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', gap: 16 }}>
+    <Box display="flex" gap="16">
       <Button>Tab past this</Button>
       <Tooltip {...args} text="Triggered by keyboard focus">
         <Button>Focus me with Tab</Button>
       </Tooltip>
-    </div>
+    </Box>
   ),
 };

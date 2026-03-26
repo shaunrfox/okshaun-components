@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { css } from '@styled-system/css';
 import { Flex, Grid, HStack, VStack, Wrap } from '@styled-system/jsx';
 import { Box } from '../Box';
 import { Button } from '../Button';
@@ -31,7 +30,7 @@ const meta: Meta<typeof Card> = {
     variant: {
       control: 'select',
       options: ['default', 'flat', 'ghost', 'sunken', 'overlay'],
-      description: 'Visual style variant',
+      description: 'Visual style variants',
       table: {
         defaultValue: { summary: 'default' },
       },
@@ -172,7 +171,7 @@ export const Disabled: Story = {
   name: 'Disabled states',
   render: () => (
     <Wrap justifyContent="center" gap="24" p="40">
-      <Card disabled>
+      <Card disabled href="#link-target">
         <Flex flexDir="column" p={'16'}>
           <Heading level="h3">Default Card</Heading>
           <Text>Static card with shadow</Text>
@@ -211,25 +210,25 @@ export const SemanticElements: Story = {
     <Grid gridTemplateColumns="repeat(3, 1fr)" gap="16">
       <Card as="article">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: '12', color: 'blue.50' })}>
+          <Box as="code" fontSize="14" color="blue.50">
             article
-          </code>
+          </Box>
           <Text>For blog posts, news</Text>
         </VStack>
       </Card>
       <Card as="section" variant="flat">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: '12', color: 'blue.50' })}>
+          <Box as="code" fontSize="14" color="blue.50">
             section
-          </code>
+          </Box>
           <Text>For grouped content</Text>
         </VStack>
       </Card>
       <Card as="aside" variant="ghost">
         <VStack p="12" gap="4" alignItems="flex-start">
-          <code className={css({ fontSize: '12', color: 'blue.50' })}>
+          <Box as="code" fontSize="14" color="blue.50">
             aside
-          </code>
+          </Box>
           <Text>For supplementary content</Text>
         </VStack>
       </Card>
@@ -269,7 +268,7 @@ export const ProfileCard: Story = {
           bg="blue.60"
           w="64"
           h="64"
-          rounded="full"
+          borderRadius="100"
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -330,10 +329,10 @@ export const StatsCard: Story = {
 export const CardGrid: Story = {
   render: () => (
     <Grid gridTemplateColumns="repeat(3, 1fr)" gap="16" w="4xl" p="40">
-      {[1, 2, 3, 4, 5, 6].map((i) => (
-        <Card key={i} variant="flat" interactive>
+      {[1, 2, 3, 4, 5, 6].map((cardNumber) => (
+        <Card key={`card-${cardNumber}`} variant="flat" interactive>
           <VStack p="16" gap="8" alignItems="flex-start">
-            <Heading level="h4">Card {i}</Heading>
+            <Heading level="h4">Card {cardNumber}</Heading>
             <Text>Card content goes here.</Text>
           </VStack>
         </Card>
@@ -351,9 +350,9 @@ export const InteractiveComparison: Story = {
   render: () => (
     <VStack gap="24" alignItems="flex-start">
       <div>
-        <div className={css({ mb: '8', fontSize: '14', fontWeight: 'bold' })}>
+        <Box mb="8" fontSize="14" fontWeight="bold">
           Non-Interactive (Content Container)
-        </div>
+        </Box>
         <Card>
           <VStack p="16" gap="0" alignItems="flex-start">
             <Heading level="h4">Static Card</Heading>
@@ -369,9 +368,9 @@ export const InteractiveComparison: Story = {
         </Card>
       </div>
       <div>
-        <div className={css({ mb: '8', fontSize: '14', fontWeight: 'bold' })}>
+        <Box mb="8" fontSize="14" fontWeight="bold">
           Interactive (Clickable Card)
-        </div>
+        </Box>
         <Card onClick={() => alert('Card clicked!')}>
           <VStack p="16" gap="8" alignItems="flex-start">
             <Heading level="h4">Clickable Card</Heading>

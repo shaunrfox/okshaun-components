@@ -1,0 +1,16 @@
+{
+  "aliases": [
+    "document",
+    "doc",
+    "documents",
+    "files",
+    "save",
+    "write",
+    "page",
+    "file",
+    "note"
+  ],
+  "tags": ["files"],
+  "category": "Doc / note",
+  "deprecated": false
+}

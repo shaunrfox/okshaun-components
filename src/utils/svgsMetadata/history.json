@@ -1,0 +1,21 @@
+{
+  "aliases": [
+    "times",
+    "timer",
+    "alarm",
+    "schedule",
+    "events",
+    "backup",
+    "rewind",
+    "history",
+    "clock",
+    "counter",
+    "clockwise",
+    "log",
+    "list",
+    "timeline"
+  ],
+  "tags": [],
+  "category": "Time",
+  "deprecated": false
+}

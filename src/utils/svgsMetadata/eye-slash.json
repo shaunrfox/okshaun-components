@@ -1,0 +1,20 @@
+{
+  "aliases": [
+    "hide",
+    "invisible",
+    "visible",
+    "hidden",
+    "show",
+    "visibility",
+    "view",
+    "eyelashes",
+    "disabled",
+    "private",
+    "eye",
+    "slash",
+    "off"
+  ],
+  "tags": ["view"],
+  "category": "Toggles / Triggers",
+  "deprecated": false
+}

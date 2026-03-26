@@ -32,6 +32,11 @@ export const cardRecipe = defineRecipe({
     outlineStyle: 'solid',
     outlineColor: 'transparent',
     outlineOffset: '0',
+    overflow: 'hidden',
+    _disabled: {
+      opacity: '0.4',
+      cursor: 'not-allowed',
+    },
   },
   variants: {
     variant: {
@@ -143,6 +148,5 @@ export const cardRecipe = defineRecipe({
   ],
   defaultVariants: {
     variant: 'default',
-    interactive: false,
   },
 });

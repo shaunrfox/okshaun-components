@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "hold",
+    "wait",
+    "music",
+    "audio",
+    "resume",
+    "start",
+    "stop",
+    "pause"
+  ],
+  "tags": ["media"],
+  "category": "Player",
+  "deprecated": false
+}

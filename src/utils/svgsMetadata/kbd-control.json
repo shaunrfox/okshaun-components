@@ -1,0 +1,17 @@
+{
+  "aliases": [
+    "kbd",
+    "hotkey",
+    "shortcut",
+    "ctrl",
+    "key",
+    "keyboard",
+    "caret",
+    "control",
+    "mod",
+    "command"
+  ],
+  "tags": [],
+  "category": "Keyboard",
+  "deprecated": false
+}

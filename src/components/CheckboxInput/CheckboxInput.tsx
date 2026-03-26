@@ -3,9 +3,12 @@ import {
   type CheckboxInputVariantProps,
   checkboxInput,
 } from '@styled-system/recipes';
-import type { ChangeEventHandler, ReactNode } from 'react';
+import { type ReactNode, useId } from 'react';
+
 import { splitProps } from '~/utils/splitProps';
+
 import type { BoxProps } from '../Box';
+import type { CheckboxChangeHandler } from '../Checkbox';
 import { Checkbox } from '../Checkbox';
 import { Label } from '../Label';
 
@@ -16,7 +19,7 @@ export type CheckboxInputProps = Omit<
   CheckboxInputVariantProps & {
     name: string;
     checked: boolean;
-    onChange: ChangeEventHandler<HTMLInputElement>;
+    onChange: CheckboxChangeHandler;
     id?: string;
     error?: boolean;
     children?: string | ReactNode;
@@ -29,28 +32,30 @@ export const CheckboxInput = (props: CheckboxInputProps) => {
     checked,
     onChange,
     id,
-    error,
     children,
+    error,
     disabled,
     indeterminate,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
+  const generatedId = useId();
+  const resolvedId = id ?? generatedId;
   return (
     <Label
       className={cx(checkboxInput(), className)}
-      {...otherProps}
-      htmlFor={id}
+      htmlFor={resolvedId}
       disabled={disabled}
+      {...otherProps}
     >
       <Checkbox
-        id={id}
         name={name}
-        error={error}
         checked={checked}
         onChange={onChange}
-        indeterminate={indeterminate}
+        id={resolvedId}
+        error={error}
         disabled={disabled}
+        indeterminate={indeterminate}
       />
       {children}
     </Label>

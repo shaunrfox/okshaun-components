@@ -2,11 +2,13 @@
  * Barrel export for token display components
  */
 
-export * from './tokenLoader';
-export * from './ColorToken';
-export * from './SemanticColorToken';
+export type { ColorTokenProps } from './ColorToken';
+export { ColorToken } from './ColorToken';
+export { RadiusToken } from './RadiusToken';
+export { SemanticColorToken } from './SemanticColorToken';
+export type { SizeTokenProps } from './SizeToken';
+export { SizeToken } from './SizeToken';
 export * from './sizeTokenStyles';
-export * from './SizeToken';
-export * from './TextStyleToken';
-export * from './TypographyToken';
-export * from './RadiusToken';
+export { TextStyleToken } from './TextStyleToken';
+export { TypographyToken } from './TypographyToken';
+export { getToken } from './tokenLoader';

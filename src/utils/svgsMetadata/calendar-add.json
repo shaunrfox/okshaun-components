@@ -1,0 +1,14 @@
+{
+  "aliases": [
+    "dates",
+    "times",
+    "events",
+    "schedule",
+    "add",
+    "calendar",
+    "plus"
+  ],
+  "tags": [],
+  "category": "Calendar",
+  "deprecated": false
+}

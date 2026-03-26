@@ -1,0 +1,16 @@
+{
+  "aliases": [
+    "tools",
+    "carpentry",
+    "construction",
+    "toolbox",
+    "resource",
+    "asset",
+    "entity",
+    "infrastructure",
+    "component"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

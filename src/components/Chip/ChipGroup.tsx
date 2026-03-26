@@ -1,28 +1,37 @@
+import { cx } from '@styled-system/css';
 import { Wrap, type WrapProps } from '@styled-system/jsx';
 import { type ReactNode, type RefObject, useCallback, useRef } from 'react';
+
+import type { BoxProps } from '~/components/Box';
+import { splitProps } from '~/utils/splitProps';
+
 import { ChipGroupContext, type ChipGroupType } from './ChipGroupContext';
 
-export type ChipGroupProps = Omit<WrapProps, 'role'> & {
-  type: ChipGroupType;
-  value: string | string[];
-  onChange: (value: string | string[]) => void;
-  children: ReactNode;
-  label?: string;
-  id?: string;
-  name?: string;
-};
+export type ChipGroupProps = Omit<WrapProps, 'role'> &
+  Omit<BoxProps, keyof WrapProps> & {
+    type: ChipGroupType;
+    value: string | string[];
+    onChange: (value: string | string[]) => void;
+    children: ReactNode;
+    label?: string;
+    id?: string;
+    name?: string;
+  };
 
-export const ChipGroup: React.FC<ChipGroupProps> = ({
-  type,
-  value,
-  onChange,
-  children,
-  label,
-  id,
-  name,
-  gap = '2',
-  ...props
-}) => {
+export const ChipGroup = (props: ChipGroupProps) => {
+  const {
+    type,
+    value,
+    onChange,
+    children,
+    label,
+    id,
+    name,
+    gap = '4',
+    className,
+    ...rest
+  } = props;
+  const [stylesClassName, otherProps] = splitProps(rest);
   const role = type === 'single' ? 'radiogroup' : 'group';
 
   // Track chip refs for keyboard navigation
@@ -78,7 +87,7 @@ export const ChipGroup: React.FC<ChipGroupProps> = ({
   );
 
   return (
-    <ChipGroupContext
+    <ChipGroupContext.Provider
       value={{
         type,
         value,
@@ -91,15 +100,16 @@ export const ChipGroup: React.FC<ChipGroupProps> = ({
       }}
     >
       <Wrap
+        className={cx(stylesClassName, className)}
         role={role}
         aria-label={label}
         aria-labelledby={id ? `${id}-label` : undefined}
         id={id}
         gap={gap}
-        {...props}
+        {...otherProps}
       >
         {children}
       </Wrap>
-    </ChipGroupContext>
+    </ChipGroupContext.Provider>
   );
 };

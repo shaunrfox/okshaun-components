@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "url",
+    "hyperlink",
+    "anchor",
+    "hypertext",
+    "chains",
+    "chained",
+    "link",
+    "href"
+  ],
+  "tags": ["content"],
+  "category": "Toggles / Triggers",
+  "deprecated": false
+}

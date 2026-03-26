@@ -1,6 +1,6 @@
 export {
   Checkbox,
-  type CheckboxProps,
   type CheckboxChangeEvent,
   type CheckboxChangeHandler,
+  type CheckboxProps,
 } from './Checkbox';

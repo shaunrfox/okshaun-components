@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "forbidden",
+    "prohibited",
+    "cancelled",
+    "prevent",
+    "stop",
+    "do not enter",
+    "prohibit",
+    "no"
+  ],
+  "tags": [],
+  "category": "Actions",
+  "deprecated": false
+}

@@ -1,0 +1,18 @@
+{
+  "aliases": [
+    "back",
+    "previous",
+    "chevron",
+    "directional",
+    "pointer",
+    "pointing",
+    "arrowhead",
+    "triangle",
+    "arrows",
+    "caret",
+    "left"
+  ],
+  "tags": ["direction"],
+  "category": "Arrows",
+  "deprecated": false
+}

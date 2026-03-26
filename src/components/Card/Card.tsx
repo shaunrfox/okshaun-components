@@ -1,10 +1,12 @@
 import { cx } from '@styled-system/css';
 import { type CardVariantProps, card } from '@styled-system/recipes';
-import type { ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
+
 import { splitProps } from '~/utils/splitProps';
+
 import { Box, type BoxProps } from '../Box';
 
-export type CardProps = BoxProps &
+export type CardProps = Omit<BoxProps, keyof CardVariantProps> &
   CardVariantProps & {
     href?: string;
     children?: string | ReactNode;
@@ -15,46 +17,42 @@ export type CardProps = BoxProps &
 
 export const Card = (props: CardProps) => {
   const {
-    as,
     variant,
     href,
+    onClick,
     children,
     disabled,
     grabbed,
     interactive,
-    onClick,
-    ref,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
 
-  // Determine if card should be interactive based on props
+  // Determine if card should be interactive based on props (used for styling)
   const isInteractive = interactive || Boolean(href) || Boolean(onClick);
-
-  // Determine the element to render
-  let asComponent: React.ElementType = as || 'div';
-  if (!as) {
-    if (href) {
-      asComponent = 'a';
-    } else if (isInteractive) {
-      asComponent = 'button';
-    }
-  }
-
-  const isLink = asComponent === 'a';
 
   return (
     <Box
-      as={asComponent}
+      {...(href
+        ? ({
+            as: 'a',
+            href,
+            ...(disabled && {
+              onClick: (e: MouseEvent<HTMLAnchorElement>) => e.preventDefault(),
+            }),
+          } satisfies BoxProps<'a'>)
+        : isInteractive
+          ? ({
+              as: 'button',
+              type: 'button',
+              disabled,
+            } satisfies BoxProps<'button'>)
+          : ({
+              as: 'div',
+            } satisfies BoxProps<'div'>))}
       data-grabbed={grabbed}
-      ref={ref}
       className={cx(card({ variant, interactive: isInteractive }), className)}
-      {...(href ? { href } : { type: 'button' })}
-      {...(disabled && {
-        disabled: true,
-        'aria-disabled': true,
-        ...(isLink && { tabIndex: -1 }),
-      })}
+      aria-disabled={disabled}
       {...otherProps}
     >
       {children}

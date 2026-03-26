@@ -24,7 +24,7 @@ export const TextStyleToken: React.FC<TypographyTokenProps> = ({
   sampleText = 'The quick brown fox jumps over the lazy dog',
 }) => {
   // Handle possible variant keys (`tokenKey` may be like "body.md", "display.lg", etc.)
-  let styleObj: TextStyleValue = undefined;
+  let styleObj: TextStyleValue;
   if (tokenKey.includes('.')) {
     const parts = tokenKey.split('.');
     const family = parts[0];

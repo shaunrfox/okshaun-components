@@ -1,0 +1,14 @@
+{
+  "aliases": [
+    "network",
+    "connection",
+    "net",
+    "shape",
+    "geometry",
+    "diagram",
+    "vector"
+  ],
+  "tags": [],
+  "category": "Shapes",
+  "deprecated": false
+}

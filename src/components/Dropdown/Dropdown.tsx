@@ -1,16 +1,12 @@
 import type { Placement } from '@floating-ui/react';
-import { cx } from '@styled-system/css';
-import { css } from '@styled-system/css';
-import {
-  type MenuVariantProps,
-  menu as menuRecipe,
-} from '@styled-system/recipes';
-import type React from 'react';
+import { css, cx } from '@styled-system/css';
+import type { MenuVariantProps } from '@styled-system/recipes';
+import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { splitProps } from '~/utils/splitProps';
 import { Button, type ButtonProps } from '../Button';
 import { Icon } from '../Icon';
-import { Menu, MenuTrigger } from '../Menu';
+import { Menu } from '../Menu';
 
 export type DropdownProps = MenuVariantProps & {
   /** Trigger button label */
@@ -20,7 +16,7 @@ export type DropdownProps = MenuVariantProps & {
   /** Offset distance from trigger (in pixels) */
   offset?: number;
   /** Children (MenuItem, MenuGroup, MenuDivider, etc.) */
-  children: React.ReactNode;
+  children: ReactNode;
   /** Optional ID for ARIA attributes */
   id?: string;
   /** Disable the dropdown */
@@ -46,13 +42,10 @@ export const Dropdown = (props: DropdownProps) => {
     children,
     id,
     disabled = false,
-    packing,
-    indicatorPosition,
     triggerProps,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
-  const classes = menuRecipe({ packing, indicatorPosition });
   const [open, setOpen] = useState(false);
 
   return (
@@ -62,12 +55,9 @@ export const Dropdown = (props: DropdownProps) => {
       placement={placement}
       offset={offset}
       id={id}
-      packing={packing}
-      indicatorPosition={indicatorPosition}
-      className={cx(classes.menu, className)}
+      className={cx(className)}
       {...otherProps}
-    >
-      <MenuTrigger disabled={disabled}>
+      trigger={
         <Button disabled={disabled} {...triggerProps}>
           {label}
           <Icon
@@ -77,7 +67,8 @@ export const Dropdown = (props: DropdownProps) => {
             data-open={open}
           />
         </Button>
-      </MenuTrigger>
+      }
+    >
       {children}
     </Menu>
   );

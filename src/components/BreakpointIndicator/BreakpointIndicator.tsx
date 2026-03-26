@@ -1,5 +1,5 @@
 import { Tag } from '~/components/Tag';
-import { useMediaQuery } from '~/hooks';
+import { useMediaQuery } from '~/system/hooks';
 
 export default function BreakpointIndicator() {
   // breakpoint labels: [base, xs, sm, md, lg, xl, 2xl]

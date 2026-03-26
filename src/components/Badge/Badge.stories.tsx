@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
 import { Flex, Grid, VStack } from '@styled-system/jsx';
 import { useState } from 'react';
 import { Box } from '../Box';
@@ -30,12 +31,12 @@ const meta: Meta<typeof Badge> = {
       control: 'select',
       options: [
         'neutral',
-        'inverted',
         'subtle',
-        'subtle-inverted',
+        'bold',
+        'inverse',
         'success',
-        'danger',
         'warning',
+        'danger',
         'info',
       ],
       description: 'Color scheme of the badge',
@@ -107,7 +108,7 @@ export const CountStandalone: Story = {
         <Button size="lg" variant="primary" gap="8">
           Button <Badge count={12} />
         </Button>
-        <Button size="sm" variant="subtle">
+        <Button size="sm" variant="ghost">
           Button <Badge count={99} size="sm" />
         </Button>
       </Flex>
@@ -140,7 +141,7 @@ export const CountWithChildren: Story = {
           </Button>
         </Badge>
         <Badge count={99} size="sm">
-          <Button size="sm" variant="subtle">
+          <Button size="sm" variant="ghost">
             Button
           </Button>
         </Badge>
@@ -157,7 +158,7 @@ export const Sizes: Story = {
   render: () => (
     <Box display="flex" flexDir="column" gap="6">
       <Box display="flex" flexDir="column" gap="2">
-        <Text fontWeight="600">Dot Mode:</Text>
+        <Text fontWeight="bold">Dot Mode:</Text>
         <Box display="flex" gap="16" alignItems="center">
           <Badge size="sm">
             <Icon name="envelope" size="20" />
@@ -171,7 +172,7 @@ export const Sizes: Story = {
         </Box>
       </Box>
       <Box display="flex" flexDir="column" gap="2">
-        <Text fontWeight="600">Count Mode:</Text>
+        <Text fontWeight="bold">Count Mode:</Text>
         <Box display="flex" gap="16" alignItems="center">
           <Badge count={5} size="sm">
             <Icon name="envelope" size="20" />
@@ -196,14 +197,38 @@ export const variants: Story = {
   render: () => (
     <Flex flexDir="column" gap="16">
       <Flex flexDir="column" gap="12">
-        <Text fontWeight="600">Dot Mode:</Text>
+        <Text fontWeight="bold">Dot Mode:</Text>
         <Flex gap="16" alignItems="center" flexWrap="wrap">
           <Flex flexDir="column" alignItems="center" gap="1">
-            <Badge variant="danger">
+            <Badge variant="neutral">
               <Icon name="envelope" size="24" />
             </Badge>
             <Text fontSize="12" color="text.muted">
-              danger
+              neutral
+            </Text>
+          </Flex>
+          <Flex flexDir="column" alignItems="center" gap="1">
+            <Badge variant="subtle">
+              <Icon name="envelope" size="24" />
+            </Badge>
+            <Text fontSize="12" color="text.muted">
+              subtle
+            </Text>
+          </Flex>
+          <Flex flexDir="column" alignItems="center" gap="1">
+            <Badge variant="inverse">
+              <Icon name="envelope" size="24" />
+            </Badge>
+            <Text fontSize="12" color="text.muted">
+              inverse
+            </Text>
+          </Flex>
+          <Flex flexDir="column" alignItems="center" gap="1">
+            <Badge variant="bold">
+              <Icon name="envelope" size="24" />
+            </Badge>
+            <Text fontSize="12" color="text.muted">
+              bold
             </Text>
           </Flex>
           <Flex flexDir="column" alignItems="center" gap="1">
@@ -223,6 +248,14 @@ export const variants: Story = {
             </Text>
           </Flex>
           <Flex flexDir="column" alignItems="center" gap="1">
+            <Badge variant="danger">
+              <Icon name="envelope" size="24" />
+            </Badge>
+            <Text fontSize="12" color="text.muted">
+              danger
+            </Text>
+          </Flex>
+          <Flex flexDir="column" alignItems="center" gap="1">
             <Badge variant="info">
               <Icon name="envelope" size="24" />
             </Badge>
@@ -230,8 +263,13 @@ export const variants: Story = {
               info
             </Text>
           </Flex>
+        </Flex>
+      </Flex>
+      <Flex flexDir="column" gap="12">
+        <Text fontWeight="bold">Count Mode:</Text>
+        <Flex gap="16" alignItems="center" flexWrap="wrap">
           <Flex flexDir="column" alignItems="center" gap="1">
-            <Badge variant="neutral">
+            <Badge count={9} variant="neutral">
               <Icon name="envelope" size="24" />
             </Badge>
             <Text fontSize="12" color="text.muted">
@@ -239,7 +277,7 @@ export const variants: Story = {
             </Text>
           </Flex>
           <Flex flexDir="column" alignItems="center" gap="1">
-            <Badge variant="subtle">
+            <Badge count={6} variant="subtle">
               <Icon name="envelope" size="24" />
             </Badge>
             <Text fontSize="12" color="text.muted">
@@ -247,32 +285,19 @@ export const variants: Story = {
             </Text>
           </Flex>
           <Flex flexDir="column" alignItems="center" gap="1">
-            <Badge variant="inverted">
+            <Badge count={8} variant="bold">
               <Icon name="envelope" size="24" />
             </Badge>
             <Text fontSize="12" color="text.muted">
-              inverted
+              bold
             </Text>
           </Flex>
           <Flex flexDir="column" alignItems="center" gap="1">
-            <Badge variant="subtle-inverted">
+            <Badge count={4} variant="inverse">
               <Icon name="envelope" size="24" />
             </Badge>
             <Text fontSize="12" color="text.muted">
-              subtle-inverted
-            </Text>
-          </Flex>
-        </Flex>
-      </Flex>
-      <Flex flexDir="column" gap="12">
-        <Text fontWeight="600">Count Mode:</Text>
-        <Flex gap="16" alignItems="center" flexWrap="wrap">
-          <Flex flexDir="column" alignItems="center" gap="1">
-            <Badge count={5} variant="danger">
-              <Icon name="envelope" size="24" />
-            </Badge>
-            <Text fontSize="12" color="text.muted">
-              danger
+              inverse
             </Text>
           </Flex>
           <Flex flexDir="column" alignItems="center" gap="1">
@@ -292,43 +317,19 @@ export const variants: Story = {
             </Text>
           </Flex>
           <Flex flexDir="column" alignItems="center" gap="1">
+            <Badge count={5} variant="danger">
+              <Icon name="envelope" size="24" />
+            </Badge>
+            <Text fontSize="12" color="text.muted">
+              danger
+            </Text>
+          </Flex>
+          <Flex flexDir="column" alignItems="center" gap="1">
             <Badge count={2} variant="info">
               <Icon name="envelope" size="24" />
             </Badge>
             <Text fontSize="12" color="text.muted">
               info
-            </Text>
-          </Flex>
-          <Flex flexDir="column" alignItems="center" gap="1">
-            <Badge count={9} variant="neutral">
-              <Icon name="envelope" size="24" />
-            </Badge>
-            <Text fontSize="12" color="text.muted">
-              neutral
-            </Text>
-          </Flex>
-          <Flex flexDir="column" alignItems="center" gap="1">
-            <Badge count={6} variant="subtle">
-              <Icon name="envelope" size="24" />
-            </Badge>
-            <Text fontSize="12" color="text.muted">
-              subtle
-            </Text>
-          </Flex>
-          <Flex flexDir="column" alignItems="center" gap="1">
-            <Badge count={4} variant="inverted">
-              <Icon name="envelope" size="24" />
-            </Badge>
-            <Text fontSize="12" color="text.muted">
-              inverted
-            </Text>
-          </Flex>
-          <Flex flexDir="column" alignItems="center" gap="1">
-            <Badge count={8} variant="subtle-inverted">
-              <Icon name="envelope" size="24" />
-            </Badge>
-            <Text fontSize="12" color="text.muted">
-              subtle-inverted
             </Text>
           </Flex>
         </Flex>
@@ -416,12 +417,14 @@ const AnimationDemo = () => {
           variant="hollow"
           size="sm"
           iconName="minus"
+          altText="Decrease count"
           onClick={() => setCount((c) => Math.max(0, c - 1))}
         />
         <IconButton
           variant="hollow"
           size="sm"
           iconName="plus"
+          altText="Increase count"
           onClick={() => setCount((c) => c + 1)}
         />
       </Box>
@@ -442,7 +445,7 @@ export const UseCases: Story = {
   render: () => (
     <Box display="flex" flexDir="column" gap="12">
       <Box display="flex" flexDir="column" gap="12">
-        <Text fontWeight="600">Notifications</Text>
+        <Text fontWeight="bold">Notifications</Text>
         <Box display="flex" gap="16" alignItems="center">
           <Badge count={3}>
             <Icon name="bell" size="24" />
@@ -456,7 +459,7 @@ export const UseCases: Story = {
         </Box>
       </Box>
       <Box display="flex" flexDir="column" gap="8">
-        <Text fontWeight="600">Status Indicators</Text>
+        <Text fontWeight="bold">Status Indicators</Text>
         <Box display="flex" gap="16" alignItems="center">
           <Badge variant="success">
             <Icon name="user" size="24" />
@@ -470,7 +473,7 @@ export const UseCases: Story = {
         </Box>
       </Box>
       <Box display="flex" flexDir="column" gap="8">
-        <Text fontWeight="600">Standalone Badges</Text>
+        <Text fontWeight="bold">Standalone Badges</Text>
         <Box display="flex" gap="8" alignItems="center">
           <Badge variant="danger" />
           <Badge variant="success" />

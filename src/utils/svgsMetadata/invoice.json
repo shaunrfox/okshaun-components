@@ -1,0 +1,13 @@
+{
+  "aliases": [
+    "receipt",
+    "expense",
+    "bill",
+    "finances",
+    "invoice",
+    "accounting"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

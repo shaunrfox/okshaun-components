@@ -1,0 +1,21 @@
+{
+  "aliases": [
+    "gear",
+    "preferences",
+    "config",
+    "settings",
+    "setup",
+    "cogs",
+    "gears",
+    "machinery",
+    "mechanical",
+    "sliders",
+    "filters",
+    "equalizer",
+    "volume",
+    "faders"
+  ],
+  "tags": ["system"],
+  "category": "Settings",
+  "deprecated": false
+}

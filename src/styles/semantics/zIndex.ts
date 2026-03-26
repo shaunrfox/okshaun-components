@@ -1,4 +1,3 @@
-// src/styles/semantics/zIndex.ts
 import { defineSemanticTokens } from '@pandacss/dev';
 
 /**
@@ -10,10 +9,10 @@ import { defineSemanticTokens } from '@pandacss/dev';
  *   tooltip   →                                      (always on top)
  */
 export const zIndex = defineSemanticTokens.zIndex({
-  base:     { value: '{zIndex.0}'    },
-  raised:   { value: '{zIndex.1}'    },
+  base: { value: '{zIndex.0}' },
+  raised: { value: '{zIndex.1}' },
   elevated: { value: '{zIndex.1000}' },
-  overlay:  { value: '{zIndex.1100}' },
-  modal:    { value: '{zIndex.1101}' },
-  tooltip:  { value: '{zIndex.1200}' },
+  overlay: { value: '{zIndex.1100}' },
+  modal: { value: '{zIndex.1101}' },
+  tooltip: { value: '{zIndex.1200}' },
 });

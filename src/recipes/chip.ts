@@ -19,24 +19,16 @@ const chipBase = {
     transitionTimingFunction: 'default',
     userSelect: 'none',
     border: 'none',
-    outlineWidth: 2,
+    outlineWidth: '2',
     outlineStyle: 'solid',
     outlineColor: 'transparent',
     bg: 'bg.neutral',
     color: 'text',
-    icon: {
-      fill: 'icon.decorative',
-      transitionDuration: 'fast',
-      transitionProperty: 'fill',
-      transitionTimingFunction: 'default',
-    },
     _hover: {
       bg: 'bg.neutral.hovered',
-      icon: { fill: 'icon.decorative.hovered' },
     },
     _active: {
       bg: 'bg.neutral.pressed',
-      icon: { fill: 'icon.decorative.hovered' },
     },
     _focusVisible: {
       outlineColor: 'border.focused',
@@ -48,63 +40,56 @@ const chipBase = {
     _deleted: {
       textDecoration: 'line-through',
       cursor: 'not-allowed',
-      opacity: 0.6,
+      opacity: '[0.6]',
     },
     _disabled: {
       cursor: 'not-allowed',
       bg: 'bg.disabled',
       color: 'text.disabled',
       borderColor: 'border.disabled',
-      icon: { fill: 'icon.disabled' },
       _hover: {
         bg: 'bg.disabled',
         color: 'text.disabled',
         borderColor: 'border.disabled',
-        icon: { fill: 'icon.disabled' },
       },
     },
     _selected: {
-      bg: 'bg.brand.boldest',
+      bg: 'bg.neutral.boldest',
       color: 'text.inverse',
-      icon: { fill: 'icon.decorative.inverse' },
       _hover: {
-        bg: 'bg.brand.boldest.hovered',
-        icon: { fill: 'icon.inverse' },
+        bg: 'bg.neutral.bold.hovered',
       },
       _active: {
-        bg: 'bg.brand.boldest.pressed',
-        icon: { fill: 'icon.inverse' },
+        bg: 'bg.neutral.bold.pressed',
       },
     },
   },
-  icon: {
+  chipIcon: {
+    fill: 'icon.decorative',
     aspectRatio: 'square',
     transitionDuration: 'fast',
     transitionProperty: 'fill',
     transitionTimingFunction: 'default',
+    _groupHover: { fill: 'icon.decorative.hovered' },
+    _groupActive: { fill: 'icon.decorative.hovered' },
+    _groupDisabled: { fill: 'icon.decorative' },
+
+    '[data-selected=true] &': {
+      fill: 'icon.decorative.inverse',
+    },
+    '.group:is(:hover, [data-hover])[data-selected=true] &': {
+      fill: 'icon.decorative.inverse.hovered',
+    },
   },
 };
 
 export const chipRecipe = defineSlotRecipe({
   className: 'chip',
   jsx: ['Chip'],
-  slots: ['container', 'icon'],
+  slots: ['container', 'chipIcon'],
   base: chipBase,
   variants: {
     size: {
-      md: {
-        container: {
-          gap: '4',
-          h: '24',
-          px: '8',
-          py: '1',
-          fontSize: '14',
-        },
-        icon: {
-          w: '20',
-          h: '20',
-        },
-      },
       sm: {
         container: {
           gap: '2',
@@ -113,7 +98,20 @@ export const chipRecipe = defineSlotRecipe({
           py: '0',
           fontSize: '14',
         },
-        icon: {
+        chipIcon: {
+          w: '20',
+          h: '20',
+        },
+      },
+      md: {
+        container: {
+          gap: '4',
+          h: '24',
+          px: '8',
+          py: '1',
+          fontSize: '14',
+        },
+        chipIcon: {
           w: '20',
           h: '20',
         },
@@ -126,7 +124,7 @@ export const chipRecipe = defineSlotRecipe({
           py: '4',
           fontSize: '16',
         },
-        icon: {
+        chipIcon: {
           w: '24',
           h: '24',
         },
@@ -141,28 +139,28 @@ export const chipRecipe = defineSlotRecipe({
   },
   compoundVariants: [
     {
-      size: 'md',
+      size: 'sm',
       before: true,
       css: {
         container: { ps: '2' },
       },
     },
     {
-      size: 'md',
+      size: 'sm',
       after: true,
       css: {
         container: { pe: '2' },
       },
     },
     {
-      size: 'sm',
+      size: 'md',
       before: true,
       css: {
         container: { ps: '2' },
       },
     },
     {
-      size: 'sm',
+      size: 'md',
       after: true,
       css: {
         container: { pe: '2' },

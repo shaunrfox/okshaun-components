@@ -1,0 +1,285 @@
+import { Meta, Unstyled } from '@storybook/blocks';
+import { Grid, VStack } from '@styled-system/jsx';
+import { Box } from '~/components/Box';
+import { Card } from '~/components/Card';
+import { Divider } from '~/components/Divider';
+import { Heading } from '~/components/Heading';
+import { Link } from '~/components/Link';
+import { Text } from '~/components/Text';
+
+<Meta title="Docs / Floating UI Architecture" />
+
+<Unstyled>
+  <VStack alignItems="stretch" gap="16">
+    # Floating UI Architecture
+
+    <Text maxW="prose">
+      This guide explains how floating behavior is shared across the design
+      system while preserving pattern-correct semantics for Menu, pickers,
+      Tooltip, and Modal.
+    </Text>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Why this exists</Heading>
+
+    <Box as="ul" pl="24" display="grid" gap="6">
+      <Box as="li" listStyleType="disc">
+        <Text>Reduce repeated floating logic across components.</Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>Keep interaction semantics accessible and pattern-correct.</Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>Provide predictable primitives for future floating components.</Text>
+      </Box>
+    </Box>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Architecture diagram</Heading>
+
+    ```text
+    +-----------------------------------------------------------+
+    | system/floating-ui                                        |
+    | useOverlayFloating + createOverlayMiddleware              |
+    +-----------------------------+-----------------------------+
+                                  |
+                    +-------------+-------------+
+                    |             |             |
+                    v             v             v
+      +-----------------+ +-----------------+ +-----------------+
+      |   Menu Engine   | |   Picker UIs    | |  Tooltip/Modal  |
+      | Menu/SubMenu    | | Date/Time       | | overlays        |
+      | MenuItem        | | pickers         | |                 |
+      +--------+--------+ +--------+--------+ +--------+--------+
+               ^                   ^
+               |                   |
+      +--------+-------------------+--------------------+
+      | List Engine                                     |
+      | List + ListItem + ListItemGroup + HighlightText |
+      +-------------------------------------------------+
+
+      +---------------------------+  +---------------------------+
+      | system/context            |  | system/hooks              |
+      | ThemeProvider + useTheme  |  | useMediaQuery +           |
+      |                           |  | useContainerQuery         |
+      +-------------+-------------+  +-------------+-------------+
+                    |                              |
+                    v                              v
+             Menu + Picker UIs              Modal responsiveness
+    ```
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Core layers and responsibilities</Heading>
+
+    <Grid columns={{ base: 1, md: 2 }} gap="12">
+      <Card variant="sunken" p="12">
+        <Text weight="bold">Floating primitives</Text>
+        <Text size="14" maxW="prose">
+          <code>src/system/floating-ui/floating.ts</code> centralizes
+          <code>useFloating</code> wiring and middleware defaults.
+        </Text>
+      </Card>
+
+      <Card variant="sunken" p="12">
+        <Text weight="bold">Global context</Text>
+        <Text size="14" maxW="prose">
+          <code>src/system/context/</code> owns theme provider state and DOM
+          sync via <code>ThemeProvider</code> and <code>useTheme</code>.
+        </Text>
+      </Card>
+
+      <Card variant="sunken" p="12">
+        <Text weight="bold">Global responsive hooks</Text>
+        <Text size="14" maxW="prose">
+          <code>src/system/hooks/</code> exposes token-aware media/container
+          query hooks.
+        </Text>
+      </Card>
+
+      <Card variant="sunken" p="12">
+        <Text weight="bold">Menu engine context</Text>
+        <Text size="14" maxW="prose">
+          <code>src/components/Menu/context/menuContext.ts</code> controls menu
+          filtering, item matching, and list interaction state.
+        </Text>
+      </Card>
+
+      <Card variant="sunken" p="12">
+        <Text weight="bold">Shared row primitives</Text>
+        <Text size="14" maxW="prose">
+          <code>src/components/List/</code> provides
+          <code>List</code>, <code>ListItem</code>,
+          <code>ListItemGroup</code>, and <code>HighlightText</code>.
+        </Text>
+      </Card>
+
+      <Card variant="sunken" p="12">
+        <Text weight="bold">Optional Menu provider</Text>
+        <Text size="14" maxW="prose">
+          <code>src/components/Menu/MenuProvider.tsx</code> supports advanced
+          composition when menu context is needed without mounting full
+          <code>{'<Menu />'}</code>.
+        </Text>
+      </Card>
+    </Grid>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Semantics boundaries</Heading>
+
+    <Text maxW="prose">Share mechanics, not semantics:</Text>
+
+    <Box as="ul" pl="24" display="grid" gap="6">
+      <Box as="li" listStyleType="disc">
+        <Text>
+          Menu semantics stay in Menu components (menu roles, close-on-select,
+          submenu behavior, tree events).
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          List semantics stay in List components (option-like rows, selected
+          visuals, grouped rows).
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          Date and time pickers preserve picker-specific interaction semantics.
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          Tooltip and Modal preserve their own focus and ARIA behavior.
+        </Text>
+      </Box>
+    </Box>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Composition mapping</Heading>
+
+    <Grid columns={{ base: 1, md: 2 }} gap="12">
+      <Card p="12" variant="sunken">
+        <Text weight="bold">Actions</Text>
+        <Text size="14">Use <code>Menu</code> + <code>MenuItem</code>.</Text>
+      </Card>
+
+      <Card p="12" variant="sunken">
+        <Text weight="bold">Single-select lists</Text>
+        <Text size="14">Use <code>List</code> + <code>ListItem</code>.</Text>
+      </Card>
+
+      <Card p="12" variant="sunken">
+        <Text weight="bold">Nested actions</Text>
+        <Text size="14">
+          Use <code>Menu</code> + <code>SubMenu</code> with hover or dig-in
+          interaction.
+        </Text>
+      </Card>
+
+      <Card p="12" variant="sunken">
+        <Text weight="bold">Autocomplete / filtering</Text>
+        <Text size="14">
+          Use query state + <code>HighlightText</code> integration in row
+          content.
+        </Text>
+      </Card>
+
+      <Card p="12" variant="sunken">
+        <Text weight="bold">Multi-select rows</Text>
+        <Text size="14">
+          Use <code>ListItem</code> variant controls
+          (<code>checkbox</code> or <code>toggle</code>).
+        </Text>
+      </Card>
+
+      <Card p="12" variant="sunken">
+        <Text weight="bold">Date and time pickers</Text>
+        <Text size="14">
+          Use picker components backed by shared floating primitives.
+        </Text>
+      </Card>
+    </Grid>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Construction examples</Heading>
+
+    <Text weight="bold">List item with description and toggle</Text>
+
+    ```tsx
+    <ListItem
+      label="Clock in/out"
+      description="Track work session"
+      variant="toggle"
+      selected={isEnabled}
+      onClick={toggleItem}
+      onControlChange={handleToggleChange}
+    />
+    ```
+
+    <Text weight="bold">Menu item with shared row styling</Text>
+
+    ```tsx
+    <MenuItem
+      label="Export"
+      description="Download as CSV"
+      iconBefore="download"
+    />
+    ```
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">File map</Heading>
+
+    <Box as="ul" pl="24" display="grid" gap="6">
+      <Box as="li" listStyleType="disc">
+        <Text>Floating UI core: <code>src/system/floating-ui/floating.ts</code></Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>Global context layer: <code>src/system/context/</code></Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>Global hook layer: <code>src/system/hooks/</code></Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>Menu context layer: <code>src/components/Menu/context/menuContext.ts</code></Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>List primitives: <code>src/components/List/</code></Text>
+      </Box>
+    </Box>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Contributor notes</Heading>
+
+    <Box as="ul" pl="24" display="grid" gap="6">
+      <Box as="li" listStyleType="disc">
+        <Text>Start new floating components from shared overlay primitives.</Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>Prefer List primitives for option-like rows and grouped item layouts.</Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>Keep semantics separate even when visuals are shared.</Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          If behavior is shared across multiple families, place it in
+          <code>src/system/</code>.
+        </Text>
+      </Box>
+    </Box>
+
+    <Box display="grid" gap="4">
+      <Link href="/?path=/docs/docs-panda-patterns--docs">Panda Patterns</Link>
+      <Link href="/?path=/docs/docs-component-standards--docs">Component Standards</Link>
+      <Link href="/?path=/docs/docs-build-reasoning--docs">Build Reasoning</Link>
+    </Box>
+
+  </VStack>
+</Unstyled>

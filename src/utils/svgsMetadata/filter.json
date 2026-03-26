@@ -1,0 +1,14 @@
+{
+  "aliases": [
+    "refine",
+    "narrow",
+    "filters",
+    "sorting",
+    "funnel",
+    "on",
+    "search"
+  ],
+  "tags": ["search"],
+  "category": "Filter / Sort / List",
+  "deprecated": false
+}

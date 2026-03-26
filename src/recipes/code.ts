@@ -1,7 +1,7 @@
 import { defineRecipe } from '@pandacss/dev';
 
 const codeBase = {
-  bg: 'gray.80',
+  bg: 'bg.neutral.inverse',
   position: 'relative',
   overflow: 'auto',
   p: '4',
@@ -13,9 +13,9 @@ const preBase = {
   borderRadius: '8',
   overflow: 'hidden',
   borderWidth: '0',
-  borderColor: 'gray.60',
-  bg: 'gray.80',
-  color: 'gray.10',
+  borderColor: 'border',
+  bg: 'bg.neutral.inverse',
+  color: 'text.inverse.subtlest',
   px: '16',
   py: '8',
   my: '8',

@@ -172,7 +172,7 @@ export const ErrorStory: Story = {
         <SelectOption value="option2" label="Option 2" />
         <SelectOption value="option3" label="Option 3" />
       </Select>
-      <Box fontSize="14" color="text.error">
+      <Box fontSize="14" color="text.danger">
         Please select an option
       </Box>
     </Box>
@@ -182,7 +182,7 @@ export const ErrorStory: Story = {
 export const Controlled: Story = {
   render: () => {
     const ControlledSelect = () => {
-      const [value, setValue] = React.useState<string | null>(null);
+      const [value, setValue] = React.useState<string | string[] | null>(null);
 
       return (
         <Box display="flex" flexDirection="column" gap="4" width="xs">

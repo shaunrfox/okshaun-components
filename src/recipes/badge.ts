@@ -17,7 +17,7 @@ export const badgeRecipe = defineSlotRecipe({
       borderRadius: '999',
       fontWeight: 'medium',
       fontFamily: 'sans',
-      lineHeight: '1',
+      lineHeight: 'none',
       whiteSpace: 'nowrap',
       userSelect: 'none',
       zIndex: 'raised',
@@ -89,50 +89,50 @@ export const badgeRecipe = defineSlotRecipe({
     variant: {
       neutral: {
         indicator: {
-          bg: { base: 'neutral.30', _dark: 'darkNeutral.40' },
-          color: 'text',
+          color: { base: 'neutral.110', _dark: 'neutral.0' },
+          bg: { base: 'neutral.40', _dark: 'neutral.70' },
         },
       },
       subtle: {
         indicator: {
-          bg: 'bg.neutral',
-          color: 'text',
+          color: { base: 'neutral.100', _dark: 'darkNeutral.120' },
+          bg: { base: 'neutralA.20', _dark: 'darkNeutralA.20' },
         },
       },
-      inverted: {
+      bold: {
         indicator: {
-          bg: 'bg.neutral.inverse.bold',
-          color: 'text.inverse',
+          color: { base: 'neutral.0', _dark: 'darkNeutral.10' },
+          bg: { base: 'darkNeutral.0', _dark: 'neutral.0' },
         },
       },
-      'subtle-inverted': {
+      inverse: {
         indicator: {
-          bg: 'bg.neutral.inverse.subtle',
-          color: 'text',
+          color: { base: 'neutral.110', _dark: 'darkNeutral.120' },
+          bg: { base: 'neutral.0', _dark: 'darkNeutral.0' },
         },
       },
       success: {
         indicator: {
-          bg: 'bg.success.bold',
-          color: 'text.inverse',
-        },
-      },
-      danger: {
-        indicator: {
-          bg: 'bg.danger.bold',
-          color: 'text.inverse',
+          color: { base: 'neutral.0', _dark: 'darkNeutral.0' },
+          bg: { base: 'green.50', _dark: 'green.40' },
         },
       },
       warning: {
         indicator: {
-          bg: 'bg.warning.bold',
-          color: 'text.warning.inverse',
+          color: { base: 'neutral.100', _dark: 'darkNeutral.10' },
+          bg: { base: 'orange.30', _dark: 'orange.30' },
+        },
+      },
+      danger: {
+        indicator: {
+          color: { base: 'neutral.0', _dark: 'neutral.0' },
+          bg: { base: 'red.50', _dark: 'red.50' },
         },
       },
       info: {
         indicator: {
-          bg: 'bg.info.bold',
-          color: 'text.inverse',
+          color: { base: 'neutral.0', _dark: 'darkNeutral.10' },
+          bg: { base: 'blue.50', _dark: 'blue.40' },
         },
       },
     },
@@ -174,21 +174,4 @@ export const badgeRecipe = defineSlotRecipe({
     size: 'md',
     variant: 'danger',
   },
-  // staticCss: [
-  //   {
-  //     size: ['sm', 'md', 'lg'],
-  //     standalone: ['true', 'false'],
-  //     dot: ['true', 'false'],
-  //     variant: [
-  //       'neutral',
-  //       'inverted',
-  //       'subtle',
-  //       'subtle-inverted',
-  //       'success',
-  //       'danger',
-  //       'warning',
-  //       'info',
-  //     ],
-  //   },
-  // ],
 });

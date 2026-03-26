@@ -1,6 +1,7 @@
 import { defineTokens } from '@pandacss/dev';
 
 export const fontSizes = defineTokens.fontSizes({
+  '10': { value: '{sizes.10}' },
   '12': { value: '{sizes.12}' },
   '14': { value: '{sizes.14}' },
   '16': { value: '{sizes.16}' },

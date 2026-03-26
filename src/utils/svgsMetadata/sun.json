@@ -1,0 +1,20 @@
+{
+  "aliases": [
+    "day",
+    "daytime",
+    "daylight",
+    "clear",
+    "sunny",
+    "sunshine",
+    "light mode",
+    "brightness",
+    "lighten",
+    "brighten",
+    "nature",
+    "weather",
+    "sun"
+  ],
+  "tags": [],
+  "category": "Toggles / Triggers",
+  "deprecated": false
+}

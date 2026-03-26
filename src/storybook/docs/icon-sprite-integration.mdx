@@ -1,0 +1,105 @@
+import { Meta, Unstyled } from '@storybook/blocks';
+import { Grid, VStack } from '@styled-system/jsx';
+import { Box } from '~/components/Box';
+import { Card } from '~/components/Card';
+import { Divider } from '~/components/Divider';
+import { Heading } from '~/components/Heading';
+import { Text } from '~/components/Text';
+
+<Meta title="Docs / Icon Sprite Integration" />
+
+<Unstyled>
+  <VStack alignItems="stretch" gap="16">
+    # Icon Sprite Integration
+
+    The design system ships a <code>sprite.svg</code> file. Consumers must
+    provide a path to that file, or inline it into the page, so
+    <code>{'<Icon />'}</code> can resolve symbol references correctly.
+
+    <mark>Note:</mark> Publishing <code>dist/sprite.svg</code> to npm makes the file available,
+    but your app still needs to expose it at a hosted browser URL.
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    ### Recommended integration patterns
+
+    <Card p="12" variant="sunken">
+      <Text weight="bold">External sprite</Text>
+      <Text size="14">
+        Expose <code>sprite.svg</code> at a stable same-origin URL and wrap
+        your app with <code>IconProvider spritePath</code>.
+      </Text>
+    </Card>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    ### Astro site
+
+    Best practice: import the sprite from the package and let Astro include it
+    with your site assets. This avoids separate CDN calls and keeps base-path
+    handling in your static build pipeline.
+
+    ```tsx
+    import { IconProvider, ThemeProvider } from 'cetec-design-system';
+    import spriteUrl from 'cetec-design-system/sprite.svg';
+
+    export function AppProviders({ children }: { children: React.ReactNode }) {
+      return (
+        <ThemeProvider>
+          <IconProvider spritePath={spriteUrl}>{children}</IconProvider>
+        </ThemeProvider>
+      );
+    }
+    ```
+
+    <mark>Note:</mark> If your Astro config requires explicit asset URL imports, use
+    <code>cetec-design-system/sprite.svg?url</code> instead.
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    ### Cetec app (Go + React + esbuild)
+
+    Best practice: copy <code>sprite.svg</code> into a known static location
+    during build/deploy and use that fixed path.
+
+    ```tsx
+    import { IconProvider, ThemeProvider } from 'cetec-design-system';
+
+    export function AppProviders({ children }: { children: React.ReactNode }) {
+      return (
+        <ThemeProvider>
+          <IconProvider spritePath="/assets/vendor/cetec/sprite.svg">
+            {children}
+          </IconProvider>
+        </ThemeProvider>
+      );
+    }
+    ```
+
+    Example <code>esbuild</code> script to copy the sprite from
+    <code>node_modules</code> into your app static assets:
+
+    ```ts
+    import { build } from 'esbuild';
+    import { cpSync, mkdirSync } from 'node:fs';
+
+    mkdirSync('public/assets/vendor/cetec', { recursive: true });
+    cpSync(
+      'node_modules/cetec-design-system/dist/sprite.svg',
+      'public/assets/vendor/cetec/sprite.svg',
+    );
+
+    await build({
+      entryPoints: ['src/main.tsx'],
+      bundle: true,
+      outdir: 'public/assets/app',
+    });
+    ```
+
+    - <code>spritePath</code> should be a URL your browser can request at runtime.
+    - Keep sprite assets same-origin when possible for simpler deployment and
+      fewer CORS surprises.
+    - For static-site pipelines, prefer bundling/copying sprite with the
+      rest of your deployed assets.
+  </VStack>
+</Unstyled>

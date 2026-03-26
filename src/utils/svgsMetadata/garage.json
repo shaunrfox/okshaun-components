@@ -1,0 +1,14 @@
+{
+  "aliases": [
+    "vehicles",
+    "automobile",
+    "buildings",
+    "transportation",
+    "garage",
+    "warehouse",
+    "building"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

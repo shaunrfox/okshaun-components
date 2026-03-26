@@ -46,9 +46,14 @@
     section li {
       position: relative;
       display: inline-flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 1em;
       cursor: default;
+    }
+
+    .icon-meta {
+      display: grid;
+      gap: 0.2rem;
     }
 
     .icon-box {
@@ -73,8 +78,17 @@
       padding: 0;
       font-size: 0.9rem;
       font-weight: 400;
-      white-space: nowrap;
       color: #9f7803;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    .aliases {
+      margin: 0;
+      font-size: 0.72rem;
+      color: #777;
+      max-width: 24ch;
+      line-height: 1.3;
     }
 
     footer {
@@ -182,8 +196,8 @@ for further details on how to create this embeddable sprite variant.
 -->
 
   <header>
-    <h1>Icon Preview <br /><code>./dist/sprite.svg <span id="iconCount"></span></code></h1>
-    <input class="search" type="text" placeholder="Type to filter icons..." autofocus />
+    <h1>Cetec Icon Preview <br /><code>./public/sprite.svg (<span id="iconCountDisplay"></span> icons)</code></h1>
+    <input class="search" type="text" placeholder="Search name, alias, or tag..." autofocus />
   </header>
   <section>
     <!--
@@ -202,7 +216,10 @@ embedded above. They may be styled via CSS.
               <use xlink:href="#{{name}}"></use>
             </svg>
           </div>
-          <h2>{{name}}</h2>
+          <div class="icon-meta">
+            <h2>{{name}}</h2>
+            <p class="aliases"></p>
+          </div>
         </li>
       {{/shapes}}
     </ul>
@@ -225,22 +242,65 @@ embedded above. They may be styled via CSS.
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      const iconMetadata = __ICON_METADATA__;
       const searchInput = document.querySelector('.search');
       const iconItems = document.querySelectorAll('.icons-container li');
-			const iconCountSpan = document.getElementById('iconCount');
+      const iconCount = iconItems.length;
+      const iconCountDisplay = document.getElementById('iconCountDisplay');
+      iconCountDisplay.textContent = iconCount;
+      const noResults = document.querySelector('.no-results');
 
-			// Display total icon count
-			iconCountSpan.textContent = `(${iconItems.length} icons)`;
+      function tokenize(value) {
+        return value
+          .toLowerCase()
+          .trim()
+          .split(/[\s\-_]+/)
+          .filter(Boolean);
+      }
 
-      // Filter function
+      function buildSearchIndex(iconName, metadata) {
+        const aliases = Array.isArray(metadata.aliases) ? metadata.aliases : [];
+        const tags = Array.isArray(metadata.tags) ? metadata.tags : [];
+        const searchable = new Set([iconName]);
+        const allValues = [iconName, ...aliases, ...tags];
+
+        allValues.forEach(function (value) {
+          searchable.add(value.toLowerCase());
+          tokenize(value).forEach(function (token) {
+            searchable.add(token);
+          });
+        });
+
+        return Array.from(searchable).join(' ');
+      }
+
+      iconItems.forEach(function (item) {
+        const iconName = item.getAttribute('title');
+        const metadata = iconMetadata[iconName] || {};
+        const searchIndex = buildSearchIndex(iconName, metadata);
+        item.dataset.searchIndex = searchIndex;
+
+        const aliases = Array.isArray(metadata.aliases) ? metadata.aliases : [];
+        const aliasesElement = item.querySelector('.aliases');
+
+        if (aliases.length > 0) {
+          aliasesElement.textContent = 'aliases: ' + aliases.join(', ');
+        } else {
+          aliasesElement.style.display = 'none';
+        }
+      });
+
       function filterIcons(searchTerm) {
-        const term = searchTerm.toLowerCase();
+        const terms = tokenize(searchTerm);
         let visibleCount = 0;
 
         iconItems.forEach(function (item) {
-          const iconName = item.getAttribute('title');
+          const searchIndex = item.dataset.searchIndex || '';
+          const isMatch = terms.every(function (term) {
+            return searchIndex.includes(term);
+          });
 
-          if (iconName.indexOf(term) !== -1) {
+          if (isMatch) {
             item.classList.remove('hidden');
             visibleCount++;
           } else {
@@ -248,16 +308,13 @@ embedded above. They may be styled via CSS.
           }
         });
 
-        // Show/hide no results message
-        const noResults = document.querySelector('.no-results');
-        if (visibleCount === 0 && searchTerm.length > 0) {
+        if (visibleCount === 0 && terms.length > 0) {
           noResults.style.display = 'block';
         } else {
           noResults.style.display = 'none';
         }
       }
 
-      // Search input event listener
       searchInput.addEventListener('keyup', function (e) {
         filterIcons(this.value);
       });

@@ -1,192 +1,232 @@
+import { useFloatingTree, useListItem } from '@floating-ui/react';
 import { cx } from '@styled-system/css';
-import type React from 'react';
-import { useCallback, useEffect, useRef } from 'react';
+import { listItem as listItemRecipe } from '@styled-system/recipes';
+import type { ChangeEventHandler, HTMLProps, MouseEvent } from 'react';
+
 import { splitProps } from '~/utils/splitProps';
+
 import { Box, type BoxProps } from '../Box';
 import { Checkbox } from '../Checkbox';
-import { Icon, type IconNamesList } from '../Icon';
-import { useMenuContext } from './MenuContext';
+import { Divider } from '../Divider';
+import { Icon } from '../Icon';
+import { HighlightText } from '../List';
+import { Text } from '../Text';
+import { Toggle } from '../Toggle';
 
-export type MenuItemType = 'action' | 'single-select' | 'multi-select';
-export type SelectionIndicator = 'checkmark' | 'checkbox';
-
-export type MenuItemProps = Omit<BoxProps, 'children'> & {
-  /** Item behavior type */
-  type?: MenuItemType;
-  /** Selected state (for single-select and multi-select) */
-  selected?: boolean;
-  /** Callback when item is selected/activated */
-  onSelect?: () => void;
-  /** Disable the item */
-  disabled?: boolean;
-  /** Primary label (required) */
-  label: string | React.ReactNode;
-  /** Secondary description text */
-  description?: string;
-  /** Icon on the left side */
-  iconLeft?: IconNamesList;
-  /** Icon on the right side */
-  iconRight?: IconNamesList;
-  /** Text to highlight (for autocomplete/search scenarios) */
-  highlightMatch?: string;
-  /** Selection indicator style (only for select types) */
-  selectionIndicator?: SelectionIndicator;
-  /** Index for keyboard navigation (managed internally via context) */
-  index?: number;
-};
-
-/**
- * Highlights matching text within a string by wrapping matches in <mark> tags
- */
-const highlightText = (text: string, match?: string): React.ReactNode => {
-  if (!match || typeof text !== 'string') return text;
-
-  const regex = new RegExp(
-    `(${match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
-    'gi',
-  );
-  const parts = text.split(regex);
-
-  return parts.map((part, i) => {
-    if (regex.test(part)) {
-      // biome-ignore lint/suspicious/noArrayIndexKey: parts from stable regex text split — order never changes
-      return <mark key={i}>{part}</mark>;
-    }
-    return part;
-  });
-};
+import {
+  deriveItemTextValue,
+  isItemMatch,
+  MENU_COMPONENT_TYPES,
+  type MenuItemProps,
+  menuComponentTypeKey,
+  useMenuFilterContext,
+  useMenuListContext,
+  useMenuRootContext,
+} from './context/menuContext';
 
 export const MenuItem = (props: MenuItemProps) => {
   const {
-    type = 'action',
-    selected = false,
-    onSelect,
-    disabled = false,
     label,
     description,
-    iconLeft,
-    iconRight,
-    highlightMatch,
-    selectionIndicator = 'checkmark',
-    index,
+    variant = 'default',
+    disabled,
+    selected,
+    iconBefore,
+    iconAfter,
+    href,
+    target,
+    rel,
+    closeOnSelect,
+    density,
+    textValue,
+    onClick,
     ...rest
   } = props;
+
   const [className, otherProps] = splitProps(rest);
-  const { getItemProps, activeIndex, listRef, classes, setOpen } =
-    useMenuContext();
-  const itemRef = useRef<HTMLDivElement>(null);
 
-  // Register this item in the list for keyboard navigation
-  useEffect(() => {
-    if (index !== undefined && itemRef.current) {
-      listRef.current[index] = itemRef.current;
-    }
-  }, [index, listRef]);
+  const rootContext = useMenuRootContext();
+  const tree = useFloatingTree();
+  const filterContext = useMenuFilterContext();
+  const listContext = useMenuListContext();
+  const visualVariant: 'default' | 'checkbox' | 'toggle' =
+    variant === 'divider' ? 'default' : variant;
 
-  const isActive = index !== undefined && activeIndex === index;
-  const isSelectable = type === 'single-select' || type === 'multi-select';
-  const showIndicator = isSelectable;
+  const resolvedDensity = density ?? rootContext.density;
+  const classes = listItemRecipe({
+    density: resolvedDensity,
+    variant: visualVariant,
+    iconBefore: Boolean(iconBefore),
+    iconAfter: Boolean(iconAfter),
+    selected: Boolean(selected),
+  });
 
-  const handleClick = useCallback(() => {
-    if (disabled) return;
+  const resolvedTextValue = deriveItemTextValue({
+    textValue,
+    label,
+    description,
+    getItemText: filterContext.getItemText,
+  });
 
-    onSelect?.();
+  const isVisible = isItemMatch({
+    textValue: resolvedTextValue,
+    query: filterContext.query,
+    filterMode: filterContext.filterMode,
+  });
 
-    // Close menu after action or single-select
-    if (type === 'action' || type === 'single-select') {
-      setOpen(false);
-    }
-  }, [disabled, onSelect, type, setOpen]);
+  const listItemData = useListItem({ label: resolvedTextValue });
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      if (disabled) return;
+  // TODO: Fix Divider collapse
+  if (variant === 'divider') {
+    return <Divider />;
+  }
 
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        handleClick();
-      }
-    },
-    [disabled, handleClick],
-  );
+  if (!isVisible) {
+    return null;
+  }
 
-  // Render selection indicator
-  const renderIndicator = () => {
-    if (!showIndicator) return null;
+  const shouldCloseOnSelect = closeOnSelect ?? rootContext.closeOnSelect;
+  const controlName = textValue ?? label ?? 'menu-item';
 
-    if (selectionIndicator === 'checkbox') {
-      return (
-        <Box className={classes.menuItemIndicator}>
-          <Checkbox
-            name={`menu-item-checkbox-${index ?? 'unknown'}`}
-            checked={selected}
-            onChange={() => {}}
-            tabIndex={-1}
-            aria-hidden
-          />
-        </Box>
-      );
+  const handleSelect = (event: MouseEvent<HTMLElement>) => {
+    onClick?.(event);
+
+    if (!event.defaultPrevented) {
+      tree?.events.emit('click');
     }
 
-    // Checkmark indicator
-    return (
-      <Box className={classes.menuItemIndicator}>
-        {selected && <Icon name="check" size="24" />}
-      </Box>
-    );
+    if (!event.defaultPrevented && shouldCloseOnSelect) {
+      rootContext.onCloseMenu();
+    }
   };
 
-  // Render label with optional highlighting
-  const renderLabel = () => {
-    const labelContent =
-      typeof label === 'string' && highlightMatch
-        ? highlightText(label, highlightMatch)
-        : label;
+  const handleControlChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
 
-    return <Box className={classes.menuItemLabel}>{labelContent}</Box>;
+  type MenuInteractionProps = Pick<
+    HTMLProps<HTMLElement>,
+    'onClick' | 'onKeyDown' | 'onPointerMove' | 'onMouseMove' | 'onFocus'
+  >;
+
+  const itemProps = (
+    listContext
+      ? listContext.getItemProps({
+          onClick: handleSelect,
+        })
+      : {
+          onClick: handleSelect,
+        }
+  ) as MenuInteractionProps;
+
+  const role =
+    variant === 'checkbox' || variant === 'toggle'
+      ? 'menuitemcheckbox'
+      : 'menuitem';
+
+  // const selectionControl =
+  //   variant === 'checkbox' || variant === 'toggle' ? variant : 'none';
+
+  const elementProps: BoxProps<'a'> | BoxProps<'button'> = href
+    ? ({
+        as: 'a',
+        href,
+        target,
+        rel,
+        ...(disabled && {
+          onClick: (event: MouseEvent<HTMLAnchorElement>) => {
+            event.preventDefault();
+          },
+        }),
+      } satisfies BoxProps<'a'>)
+    : ({
+        as: 'button',
+        type: 'button',
+        disabled,
+      } satisfies BoxProps<'button'>);
+
+  const itemRef = (node: HTMLAnchorElement | HTMLButtonElement | null) => {
+    listItemData.ref(node as HTMLElement | null);
   };
 
   return (
     <Box
+      {...elementProps}
+      className={cx(classes.wrapper, className)}
       ref={itemRef}
-      role="menuitem"
-      tabIndex={disabled ? -1 : 0}
+      role={role}
+      aria-checked={
+        variant === 'checkbox' || variant === 'toggle'
+          ? Boolean(selected)
+          : undefined
+      }
       aria-disabled={disabled}
       data-selected={selected}
-      data-active={isActive}
-      className={cx(classes.menuItem, className)}
-      {...(getItemProps({
-        index,
-        active: isActive,
-        onClick: handleClick,
-        onKeyDown: handleKeyDown,
-      }) as Record<string, unknown>)}
+      data-disabled={disabled}
+      data-active={
+        listContext ? listContext.activeIndex === listItemData.index : false
+      }
+      tabIndex={
+        listContext
+          ? listContext.activeIndex === listItemData.index
+            ? 0
+            : -1
+          : 0
+      }
+      {...itemProps}
       {...otherProps}
     >
-      {/* Selection indicator (left position by default) */}
-      {renderIndicator()}
-
-      {/* Left icon */}
-      {iconLeft && (
-        <Box className={classes.menuItemIconLeft}>
-          <Icon name={iconLeft} size="24" />
-        </Box>
+      {variant === 'checkbox' && (
+        <Checkbox
+          name={controlName}
+          checked={Boolean(selected)}
+          onChange={handleControlChange}
+          tabIndex={-1}
+        />
       )}
 
-      {/* Content (label + description) */}
-      <Box className={classes.menuItemContent}>
-        {renderLabel()}
+      {variant === 'toggle' && (
+        <Toggle
+          name={controlName}
+          checked={Boolean(selected)}
+          onChange={handleControlChange}
+          mr="4"
+          tabIndex={-1}
+        />
+      )}
+
+      {iconBefore && <Icon className={classes.icon} name={iconBefore} />}
+
+      <Box className={classes.itemMain}>
+        {label && (
+          <Text className={classes.itemLabel}>
+            <HighlightText
+              value={label}
+              query={filterContext.query}
+              enabled={filterContext.highlightMatches}
+            />
+          </Text>
+        )}
+
         {description && (
-          <Box className={classes.menuItemDescription}>{description}</Box>
+          <Text className={classes.itemDescription}>
+            <HighlightText
+              value={description}
+              query={filterContext.query}
+              enabled={filterContext.highlightMatches}
+            />
+          </Text>
         )}
       </Box>
 
-      {/* Right icon */}
-      {iconRight && (
-        <Box className={classes.menuItemIconRight}>
-          <Icon name={iconRight} size="24" />
-        </Box>
+      {iconAfter && (
+        <Icon className={classes.icon} name={iconAfter} ml="auto" />
       )}
     </Box>
   );
 };
+
+(MenuItem as unknown as { [menuComponentTypeKey]: string })[
+  menuComponentTypeKey
+] = MENU_COMPONENT_TYPES.item;

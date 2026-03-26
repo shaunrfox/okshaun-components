@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "user",
+    "group",
+    "team",
+    "people",
+    "profiles",
+    "accounts",
+    "contacts",
+    "users"
+  ],
+  "tags": [],
+  "category": "People",
+  "deprecated": false
+}

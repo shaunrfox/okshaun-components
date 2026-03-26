@@ -1,0 +1,23 @@
+{
+  "aliases": [
+    "location",
+    "directions",
+    "compass",
+    "gps",
+    "navigation",
+    "arrow",
+    "transit",
+    "travel",
+    "trail",
+    "route",
+    "destination",
+    "vector",
+    "path",
+    "guide",
+    "plan",
+    "strategy"
+  ],
+  "tags": [],
+  "category": "Location",
+  "deprecated": false
+}

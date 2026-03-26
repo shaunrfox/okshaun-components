@@ -1,0 +1,19 @@
+{
+  "aliases": [
+    "trash",
+    "delete",
+    "remove",
+    "saved",
+    "saving",
+    "archived",
+    "archiving",
+    "archival",
+    "downloaded",
+    "downloading",
+    "archive",
+    "bin"
+  ],
+  "tags": ["danger", "cleanup"],
+  "category": "System objects",
+  "deprecated": false
+}

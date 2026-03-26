@@ -46,6 +46,12 @@ export type CompositionStyles = {
   layerStyles?: Record<string, SystemStyleObject>;
 };
 
+export type TextStyles = Record<string, SystemStyleObject>;
+
+export type AnimationStyles = Record<string, SystemStyleObject>;
+
+export type LayerStyles = Record<string, SystemStyleObject>;
+
 export type PatternProperties = Record<string, unknown>;
 
 type BasePatternConfig<T extends PatternProperties = PatternProperties> = {
@@ -58,6 +64,18 @@ export type PatternConfig<T extends PatternProperties = PatternProperties> =
 
 export type Parts = Record<string, SystemStyleObject>;
 
-export type TextStyles = Record<string, SystemStyleObject>;
-export type AnimationStyles = Record<string, SystemStyleObject>;
-export type LayerStyles = Record<string, SystemStyleObject>;
+export namespace Panda {
+  export type RecipeConfig<
+    V extends RecipeVariantRecord = RecipeVariantRecord,
+  > = BaseRecipeConfig<V>;
+  export type SlotRecipeConfig<
+    S extends string = string,
+    V extends SlotRecipeVariantRecord<S> = SlotRecipeVariantRecord<S>,
+  > = BaseSlotRecipeConfig<S, V>;
+  export type GlobalStyleObject = Record<string, unknown>;
+  export type TextStyles = Record<string, SystemStyleObject>;
+  export type AnimationStyles = Record<string, SystemStyleObject>;
+  export type LayerStyles = Record<string, SystemStyleObject>;
+  export type PatternConfig<T extends PatternProperties = PatternProperties> =
+    BasePatternConfig<T>;
+}

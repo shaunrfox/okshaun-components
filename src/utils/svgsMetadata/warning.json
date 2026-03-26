@@ -1,0 +1,6 @@
+{
+  "aliases": ["caution", "alert", "danger", "dangerous", "errors", "warning"],
+  "tags": ["status"],
+  "category": "Status",
+  "deprecated": false
+}

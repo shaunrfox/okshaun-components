@@ -8,7 +8,7 @@ const textBase = {
   margin: '0',
   lineHeight: 'default',
   fontWeight: 'normal',
-  fontSize: '16',
+  fontSize: '{sizes.16}',
   color: 'text.subtlest',
   maxWidth: 'prose',
 };
@@ -66,7 +66,7 @@ const textVariants = {
       whiteSpace: 'nowrap',
     },
   },
-  allcaps: {
+  allCaps: {
     true: {
       textTransform: 'uppercase',
       fontWeight: 'bold',
@@ -91,7 +91,7 @@ const headingVariants = {
     h3: { textStyle: 'heading.sm' },
     h4: { textStyle: 'heading.xs' },
   },
-  allcaps: {
+  allCaps: {
     true: {
       textTransform: 'uppercase',
       letterSpacing: 'widest',
@@ -104,21 +104,25 @@ const linkBase = {
   alignItems: 'center',
   fontWeight: 'medium',
   gap: '1',
-  color: { base: 'blue.70', _dark: 'blue.40' },
+  color: 'link',
+  textDecoration: 'none',
   backgroundImage: 'linear-gradient(90deg, transparent 0% 100%)',
-  backgroundSize: '100% 1px',
+  backgroundSize: '100% {sizes.1}',
   backgroundRepeat: 'no-repeat',
   backgroundPositionY: '100%',
+  outlineWidth: '2',
+  outlineStyle: 'solid',
+  outlineColor: 'transparent',
+  outlineOffset: '1',
   width: 'fit-content',
   cursor: 'pointer',
-  textDecoration: 'none',
   _hover: {
-    color: { base: 'blue.60', _dark: 'blue.40' },
-    backgroundColor: { base: 'blue.10', _dark: 'blue.100' },
+    color: 'link',
     backgroundImage: 'linear-gradient(90deg, currentColor 0% 100%)',
   },
-  'p &': {
-    backgroundImage: 'linear-gradient(90deg, currentColor 0% 100%)',
+  _focusVisible: {
+    borderRadius: '{sizes.4}',
+    outlineColor: 'border.focused',
   },
 };
 
@@ -127,17 +131,18 @@ const linkVariants = {
   _disabled: {
     true: {
       cursor: 'not-allowed',
-      color: 'text.disabled',
+      opacity: '40%',
       pointerEvents: 'none',
     },
   },
 };
 
 const labelBase = {
-  fontSize: '14',
+  fontSize: '{sizes.16}',
   fontWeight: 'normal',
   lineHeight: 'tight',
   cursor: 'default',
+  color: 'text',
 };
 
 //Copied linkvarients, don't have styles defined for this yet
@@ -146,7 +151,7 @@ const labelVariants = {
   _disabled: {
     true: {
       cursor: 'not-allowed',
-      color: 'text.disabled',
+      opacity: '70%',
       pointerEvents: 'none',
     },
   },
@@ -157,9 +162,6 @@ export const textRecipe = defineRecipe({
   jsx: ['Text'],
   base: textBase,
   variants: textVariants,
-  defaultVariants: {
-    family: 'inherit',
-  },
 });
 
 export const headingRecipe = defineRecipe({
@@ -177,9 +179,6 @@ export const linkRecipe = defineRecipe({
   jsx: ['Link'],
   base: linkBase,
   variants: linkVariants,
-  defaultVariants: {
-    family: 'inherit',
-  },
 });
 
 export const labelRecipe = defineRecipe({

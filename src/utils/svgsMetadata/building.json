@@ -1,0 +1,13 @@
+{
+  "aliases": [
+    "places",
+    "locations",
+    "company",
+    "business",
+    "buildings",
+    "building"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

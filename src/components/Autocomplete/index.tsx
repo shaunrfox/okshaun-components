@@ -1,5 +1,5 @@
 export {
   Autocomplete,
-  type AutocompleteProps,
   type AutocompleteOption,
+  type AutocompleteProps,
 } from './Autocomplete';

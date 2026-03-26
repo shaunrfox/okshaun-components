@@ -1,0 +1,18 @@
+{
+  "aliases": [
+    "todo",
+    "to-do",
+    "task",
+    "list",
+    "checkbox",
+    "rectangle",
+    "ok",
+    "done",
+    "check",
+    "square",
+    "indeterminate"
+  ],
+  "tags": [],
+  "category": "Checks / Todos",
+  "deprecated": false
+}

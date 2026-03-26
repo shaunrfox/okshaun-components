@@ -1,59 +1,114 @@
-import type { Placement } from '@floating-ui/react';
-import { cx } from '@styled-system/css';
 import {
-  type MenuVariantProps,
-  type SelectVariantProps,
-  select,
-} from '@styled-system/recipes';
+  FloatingFocusManager,
+  FloatingPortal,
+  size as floatingSize,
+  type Placement,
+  useClick,
+  useDismiss,
+  useInteractions,
+  useListNavigation,
+  useRole,
+  useTypeahead,
+} from '@floating-ui/react';
+import { cx } from '@styled-system/css';
+import { menu, type SelectVariantProps, select } from '@styled-system/recipes';
 import {
   Children,
-  type ReactElement,
+  type HTMLProps,
   isValidElement,
+  type KeyboardEvent,
+  type ReactElement,
+  type ReactNode,
   useCallback,
+  useEffect,
+  useId,
   useMemo,
+  useRef,
   useState,
 } from 'react';
+
+import type { MenuDensity } from '~/components/Menu';
+import {
+  createOverlayMiddleware,
+  useOverlayFloating,
+} from '~/system/floating-ui/floating';
 import { splitProps } from '~/utils/splitProps';
+
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
-import { Menu } from '../Menu';
-import { MenuItem } from '../Menu/MenuItem';
-import { MenuTrigger } from '../Menu/MenuTrigger';
+import { List, ListItem } from '../List';
+
 import { SelectContext } from './SelectContext';
 import type { SelectOptionProps } from './SelectOption';
 
-export type SelectProps = Omit<BoxProps, keyof SelectVariantProps> &
-  Pick<MenuVariantProps, 'packing'> &
+type SelectValue = string | string[] | null;
+
+const defaultDensity: MenuDensity = 'compact';
+
+const isSelectOptionElement = (
+  child: ReactNode,
+): child is ReactElement<SelectOptionProps> => {
+  return (
+    isValidElement(child) &&
+    typeof child.props === 'object' &&
+    child.props !== null &&
+    'value' in child.props
+  );
+};
+
+const getOptionText = (option: ReactElement<SelectOptionProps>) => {
+  return typeof option.props.label === 'string'
+    ? option.props.label
+    : option.props.value;
+};
+
+const getSelectedDisplay = (
+  options: ReactElement<SelectOptionProps>[],
+  value: SelectValue,
+  multiple: boolean,
+  placeholder: string,
+) => {
+  if (value === null || value === undefined || value === '') {
+    return placeholder;
+  }
+
+  if (multiple) {
+    const selectedValues = Array.isArray(value)
+      ? value
+      : ([value].filter(Boolean) as string[]);
+    const selectedOptions = options.filter((option) =>
+      selectedValues.includes(option.props.value),
+    );
+
+    if (selectedOptions.length === 0) {
+      return placeholder;
+    }
+
+    return selectedOptions.map(getOptionText).join(', ');
+  }
+
+  const selectedOption = options.find((option) => option.props.value === value);
+  return selectedOption ? getOptionText(selectedOption) : placeholder;
+};
+
+export type SelectProps = Omit<
+  BoxProps<'button'>,
+  keyof SelectVariantProps | 'children' | 'onChange' | 'type' | 'value'
+> &
   SelectVariantProps & {
-    /** Selected value(s) */
-    value?: string | string[] | null;
-    /** Callback when value changes */
-    onChange?: (value: string | string[] | null) => void;
-    /** Allow multiple selections */
+    value?: SelectValue;
+    onChange?: (value: SelectValue) => void;
     multiple?: boolean;
-    /** Placeholder text when no selection */
     placeholder?: string;
-    /** Controlled open state */
     open?: boolean;
-    /** Callback when open state should change */
     onOpenChange?: (open: boolean) => void;
-    /** Floating UI placement */
     placement?: Placement;
-    /** Offset distance from trigger (in pixels) */
     offset?: number;
-    /** Children (SelectTrigger, SelectOption) */
-    children: React.ReactNode;
-    /** Optional ID for ARIA attributes */
+    children: ReactNode;
     id?: string;
-    /** Disabled state */
     disabled?: boolean;
-    /** Error state */
     error?: boolean;
-    /** Size variant */
-    size?: 'sm' | 'md' | 'lg' | 'xl';
-    /** Selection indicator position */
-    indicatorPosition?: 'left' | 'right';
-    packing?: 'default' | 'compact' | 'comfortable';
+    density?: MenuDensity;
   };
 
 export const Select = (props: SelectProps) => {
@@ -71,42 +126,127 @@ export const Select = (props: SelectProps) => {
     disabled = false,
     error = false,
     size = 'md',
-    indicatorPosition = 'left',
-    packing = 'default',
+    density = defaultDensity,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
 
-  // Internal state for uncontrolled component
-  const [internalOpen, setInternalOpen] = useState(false);
-  const [internalValue, setInternalValue] = useState<string | string[] | null>(
-    null,
-  );
+  const generatedId = useId();
+  const triggerId = id ?? `select-${generatedId}`;
+  const listboxId = `${triggerId}-listbox`;
 
-  // Determine if component is controlled or uncontrolled
-  const isControlled = controlledOpen !== undefined;
-  const open = isControlled ? controlledOpen : internalOpen;
+  const [internalOpen, setInternalOpen] = useState(false);
+  const [internalValue, setInternalValue] = useState<SelectValue>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const isOpenControlled = controlledOpen !== undefined;
+  const isOpen = isOpenControlled ? controlledOpen : internalOpen;
   const value = controlledValue !== undefined ? controlledValue : internalValue;
 
-  const handleOpenChange = (newOpen: boolean) => {
-    if (isControlled) {
-      onOpenChange?.(newOpen);
-    } else {
-      setInternalOpen(newOpen);
+  const options = useMemo(() => {
+    return Children.toArray(children).filter(isSelectOptionElement);
+  }, [children]);
+
+  const selectedIndex = useMemo(() => {
+    return options.findIndex((option) => {
+      if (multiple) {
+        return Array.isArray(value) && value.includes(option.props.value);
+      }
+
+      return option.props.value === value;
+    });
+  }, [multiple, options, value]);
+
+  const firstEnabledIndex = useMemo(() => {
+    return options.findIndex((option) => !option.props.disabled);
+  }, [options]);
+
+  const disabledIndices = useMemo(() => {
+    return options.flatMap((option, index) =>
+      option.props.disabled ? index : [],
+    );
+  }, [options]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setActiveIndex(null);
+      return;
     }
+
+    if (selectedIndex >= 0) {
+      setActiveIndex(selectedIndex);
+      return;
+    }
+
+    setActiveIndex(firstEnabledIndex >= 0 ? firstEnabledIndex : null);
+  }, [firstEnabledIndex, isOpen, selectedIndex]);
+
+  const setOpenState = (nextOpen: boolean) => {
+    if (!isOpenControlled) {
+      setInternalOpen(nextOpen);
+    }
+
+    onOpenChange?.(nextOpen);
   };
 
   const handleValueChange = useCallback(
-    (newValue: string | string[] | null) => {
+    (nextValue: SelectValue) => {
       if (controlledValue === undefined) {
-        setInternalValue(newValue);
+        setInternalValue(nextValue);
       }
-      onChange?.(newValue);
+
+      onChange?.(nextValue);
     },
     [controlledValue, onChange],
   );
 
-  // Context value
+  const floating = useOverlayFloating({
+    open: isOpen,
+    onOpenChange: (nextOpen) => {
+      if (!disabled) {
+        setOpenState(nextOpen);
+      }
+    },
+    placement,
+    middleware: createOverlayMiddleware({
+      offset,
+      extras: [
+        floatingSize({
+          apply({ rects, elements }) {
+            elements.floating.style.minWidth = `${rects.reference.width}px`;
+          },
+        }),
+      ],
+    }),
+  });
+
+  const itemRefs = useRef<Array<HTMLElement | null>>([]);
+  const labelsRef = useRef<Array<string | null>>([]);
+
+  const click = useClick(floating.context, {
+    enabled: !disabled,
+  });
+  const dismiss = useDismiss(floating.context, {
+    enabled: !disabled,
+  });
+  const role = useRole(floating.context, { role: 'listbox' });
+  const listNavigation = useListNavigation(floating.context, {
+    listRef: itemRefs,
+    activeIndex,
+    onNavigate: setActiveIndex,
+    loop: true,
+    disabledIndices,
+  });
+  const typeahead = useTypeahead(floating.context, {
+    listRef: labelsRef,
+    activeIndex,
+    onMatch: setActiveIndex,
+  });
+
+  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
+    [click, dismiss, role, listNavigation, typeahead],
+  );
+
   const contextValue = useMemo(
     () => ({
       value,
@@ -114,147 +254,130 @@ export const Select = (props: SelectProps) => {
       multiple,
       placeholder,
     }),
-    [value, handleValueChange, multiple, placeholder],
+    [handleValueChange, multiple, placeholder, value],
   );
 
-  // Collect all options to build display text
-  const options = Children.toArray(children).filter((child) => {
-    return (
-      isValidElement(child) &&
-      typeof child.props === 'object' &&
-      child.props !== null &&
-      'value' in child.props
-    );
-  }) as ReactElement<SelectOptionProps>[];
+  const displayValue = getSelectedDisplay(
+    options,
+    value,
+    multiple,
+    placeholder,
+  );
+  const styles = select({ size });
+  const menuStyles = menu({ density });
+  const hasValue = value !== null && value !== undefined && value !== '';
 
-  // Find selected option(s) for display
-  const getDisplayText = () => {
-    if (value === null || value === undefined || value === '') {
-      return placeholder;
+  const handleTriggerKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (disabled) {
+      return;
     }
 
-    if (multiple) {
-      const selectedValues = Array.isArray(value)
-        ? value
-        : [value].filter(Boolean);
-      const selectedOptions = options.filter((option) =>
-        selectedValues.includes(option.props.value),
-      );
-      return selectedOptions.length > 0
-        ? selectedOptions
-            .map((opt) => opt.props.label || opt.props.value)
-            .join(', ')
-        : placeholder;
+    if (!isOpen && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+      event.preventDefault();
+      setOpenState(true);
     }
-    const selectedOption = options.find(
-      (option) => option.props.value === value,
-    );
-    return (
-      selectedOption?.props?.label ||
-      selectedOption?.props?.value ||
-      placeholder
-    );
   };
 
-  // Get slot classes from recipe
-  const styles = select({ size });
-  const hasValue = value !== null && value !== undefined && value !== '';
+  const handleOptionSelect = (optionValue: string) => {
+    if (multiple) {
+      const currentValues = Array.isArray(value) ? value : value ? [value] : [];
+      const nextValues = currentValues.includes(optionValue)
+        ? currentValues.filter((currentValue) => currentValue !== optionValue)
+        : [...currentValues, optionValue];
+
+      handleValueChange(nextValues.length > 0 ? nextValues : null);
+      return;
+    }
+
+    handleValueChange(optionValue);
+    setOpenState(false);
+  };
 
   return (
     <SelectContext value={contextValue}>
-      <Menu
-        open={open}
-        onOpenChange={handleOpenChange}
-        placement={placement}
-        offset={offset}
-        id={id}
-        packing={packing}
-        indicatorPosition={indicatorPosition}
-        // biome-ignore lint/a11y/useSemanticElements: custom select listbox must not use <select> — role="listbox" is correct ARIA for custom select
-        role="listbox"
-        aria-orientation="vertical"
-        {...(error && { 'data-error': true })}
-        {...otherProps}
-      >
-        <MenuTrigger disabled={disabled}>
-          <Box
-            className={cx(styles.trigger, className)}
-            size={size}
-            {...(disabled && { 'data-disabled': true })}
-            {...(error && { 'data-error': true })}
-          >
-            <Box className={hasValue ? styles.value : styles.placeholder}>
-              {getDisplayText()}
-            </Box>
-            <Icon
-              name="caret-down"
-              size="20"
-              className={styles.icon}
-              data-open={open}
-            />
+      <Box as="span" display="inline-flex" flexDirection="column">
+        <Box
+          as="button"
+          type="button"
+          id={triggerId}
+          ref={floating.refs.setReference}
+          className={cx(styles.trigger, className)}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-controls={isOpen ? listboxId : undefined}
+          disabled={disabled}
+          data-disabled={disabled || undefined}
+          data-error={error || undefined}
+          {...(getReferenceProps({
+            onKeyDown: handleTriggerKeyDown,
+          }) as Record<string, unknown>)}
+          {...otherProps}
+        >
+          <Box className={hasValue ? styles.value : styles.placeholder}>
+            {displayValue}
           </Box>
-        </MenuTrigger>
+          <Icon
+            name="caret-down"
+            size="20"
+            className={styles.icon}
+            data-open={isOpen}
+          />
+        </Box>
 
-        {/* Convert SelectOption children to MenuItem components */}
-        {Children.map(children, (child, index) => {
-          if (!isValidElement(child)) return child;
+        {isOpen && !disabled && (
+          <FloatingPortal>
+            <FloatingFocusManager
+              context={floating.context}
+              modal={false}
+              initialFocus={-1}
+            >
+              {/* biome-ignore lint/a11y/useSemanticElements: custom select popup uses an ARIA listbox on a non-native container */}
+              <List
+                ref={floating.refs.setFloating}
+                id={listboxId}
+                role="listbox"
+                aria-labelledby={triggerId}
+                aria-multiselectable={multiple || undefined}
+                density={density}
+                className={menuStyles.wrapper}
+                style={floating.floatingStyles}
+                {...(getFloatingProps() as Record<string, unknown>)}
+              >
+                {options.map((option, index) => {
+                  const optionLabel = getOptionText(option);
+                  const isSelected = multiple
+                    ? Array.isArray(value) && value.includes(option.props.value)
+                    : value === option.props.value;
 
-          // Check if this is a SelectOption by looking for the value prop
-          if (
-            typeof child.props === 'object' &&
-            child.props !== null &&
-            'value' in child.props
-          ) {
-            const childProps = child.props as SelectOptionProps;
-            const {
-              value: optionValue,
-              label,
-              description,
-              disabled: optionDisabled,
-              iconLeft,
-              iconRight,
-              ...optionProps
-            } = childProps;
-
-            const isSelected = multiple
-              ? Array.isArray(value) && value.includes(optionValue)
-              : value === optionValue;
-
-            return (
-              <MenuItem
-                key={optionValue}
-                index={index}
-                type="single-select"
-                selected={isSelected}
-                disabled={optionDisabled}
-                label={label}
-                description={description}
-                iconLeft={iconLeft}
-                iconRight={iconRight}
-                onSelect={() => {
-                  if (multiple) {
-                    const currentArray = Array.isArray(value)
-                      ? value
-                      : value
-                        ? [value]
-                        : [];
-                    const newValue = isSelected
-                      ? currentArray.filter((v) => v !== optionValue)
-                      : [...currentArray, optionValue];
-                    handleValueChange(newValue.length > 0 ? newValue : null);
-                  } else {
-                    handleValueChange(isSelected ? null : optionValue);
-                    handleOpenChange(false);
-                  }
-                }}
-                {...optionProps}
-              />
-            );
-          }
-
-          return child;
-        })}
-      </Menu>
+                  return (
+                    <ListItem
+                      key={option.props.value}
+                      ref={(node: HTMLElement | null) => {
+                        itemRefs.current[index] = node;
+                        labelsRef.current[index] = optionLabel;
+                      }}
+                      disabled={option.props.disabled}
+                      selected={isSelected}
+                      variant={multiple ? 'checkbox' : 'default'}
+                      label={optionLabel}
+                      description={option.props.description}
+                      iconBefore={option.props.iconLeft}
+                      iconAfter={option.props.iconRight}
+                      {...(getItemProps({
+                        onClick: () => {
+                          if (!option.props.disabled) {
+                            handleOptionSelect(option.props.value);
+                          }
+                        },
+                      } as HTMLProps<HTMLElement>) as Record<string, unknown>)}
+                    />
+                  );
+                })}
+              </List>
+            </FloatingFocusManager>
+          </FloatingPortal>
+        )}
+      </Box>
     </SelectContext>
   );
 };

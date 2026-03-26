@@ -1,0 +1,19 @@
+{
+  "aliases": [
+    "send-file",
+    "put-file",
+    "saved",
+    "saving",
+    "archived",
+    "archiving",
+    "archival",
+    "uploaded",
+    "uploading",
+    "hard drive",
+    "disk",
+    "upload"
+  ],
+  "tags": ["files"],
+  "category": "Actions",
+  "deprecated": false
+}

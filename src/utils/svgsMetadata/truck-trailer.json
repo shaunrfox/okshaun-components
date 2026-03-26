@@ -1,0 +1,14 @@
+{
+  "aliases": [
+    "vehicles",
+    "automobile",
+    "shipping",
+    "tractor",
+    "semi",
+    "truck",
+    "trailer"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

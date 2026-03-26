@@ -35,7 +35,7 @@ const selectBase = {
       borderColor: 'border.disabled',
       color: 'text.disabled',
       cursor: 'not-allowed',
-      opacity: 0.5,
+      opacity: '[0.5]',
     },
     _error: {
       bg: 'bg.danger',

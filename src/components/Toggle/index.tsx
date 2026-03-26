@@ -1,6 +1,6 @@
 export {
   Toggle,
-  type ToggleProps,
   type ToggleChangeEvent,
   type ToggleChangeHandler,
+  type ToggleProps,
 } from './Toggle';

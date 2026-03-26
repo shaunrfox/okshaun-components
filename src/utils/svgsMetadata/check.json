@@ -1,0 +1,17 @@
+{
+  "aliases": [
+    "done",
+    "confirm",
+    "approve",
+    "todo",
+    "to-do",
+    "task",
+    "list",
+    "checkbox",
+    "ok",
+    "check"
+  ],
+  "tags": ["status"],
+  "category": "Checks / Todos",
+  "deprecated": false
+}

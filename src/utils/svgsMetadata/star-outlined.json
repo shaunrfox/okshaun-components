@@ -1,0 +1,14 @@
+{
+  "aliases": [
+    "rate",
+    "ratings",
+    "favorites",
+    "favorited",
+    "nature",
+    "star",
+    "off"
+  ],
+  "tags": [],
+  "category": "Toggles / Triggers",
+  "deprecated": false
+}

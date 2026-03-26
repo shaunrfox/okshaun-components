@@ -1,6 +1,6 @@
-import type { Preview } from '@storybook/react';
-import { ThemeProvider } from '../src/contexts/ThemeProvider';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
+import type { Preview, ReactRenderer } from '@storybook/react';
+import { IconProvider } from '../src/components/Icon';
 import DocTemplate from '../src/storybook/doctemplate.mdx';
 
 // Import fonts for Storybook
@@ -19,14 +19,41 @@ import '../src/styles/index.css';
 import './story-docs-style.css';
 
 const preview: Preview = {
+  decorators: [
+    (Story) => {
+      const pathname =
+        typeof window === 'undefined' ? '/' : window.location.pathname;
+      const basePath = pathname.endsWith('.html')
+        ? pathname.slice(0, pathname.lastIndexOf('/') + 1)
+        : pathname;
+      const normalizedPath = basePath.endsWith('/') ? basePath : `${basePath}/`;
+      const spritePath = `${normalizedPath}sprite.svg`;
+
+      return (
+        <IconProvider spritePath={spritePath}>
+          <Story />
+        </IconProvider>
+      );
+    },
+    withThemeByDataAttribute<ReactRenderer>({
+      themes: {
+        light: 'light',
+        dark: 'dark',
+      },
+      defaultTheme: 'light',
+      attributeName: 'data-color-mode',
+    }),
+  ],
+  initialGlobals: {},
   parameters: {
+    backgrounds: { disable: true },
     controls: {
+      disableSaveFromUI: true,
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
     },
-    layout: 'centered',
     options: {
       storySort: {
         method: 'alphabetical',
@@ -35,7 +62,7 @@ const preview: Preview = {
           'Tokens',
           ['Overview', 'Colors', 'Typography', 'Sizes', 'Shadows', '*'],
           'Components',
-          'Guides',
+          'Docs',
           '*',
         ],
       },
@@ -48,21 +75,6 @@ const preview: Preview = {
     },
   },
   tags: ['autodocs'],
-  decorators: [
-    withThemeByDataAttribute({
-      themes: {
-        light: 'light',
-        dark: 'dark',
-      },
-      defaultTheme: 'light',
-      attributeName: 'data-color-mode',
-    }),
-    (Story) => (
-      <ThemeProvider>
-        <Story />
-      </ThemeProvider>
-    ),
-  ],
 };
 
 export default preview;

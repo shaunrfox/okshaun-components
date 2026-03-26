@@ -1,0 +1,14 @@
+{
+  "aliases": [
+    "resize",
+    "scale",
+    "shrink",
+    "shape",
+    "geometry",
+    "diagram",
+    "vector"
+  ],
+  "tags": [],
+  "category": "Shapes",
+  "deprecated": false
+}

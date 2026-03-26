@@ -1,0 +1,17 @@
+{
+  "aliases": [
+    "music",
+    "audio",
+    "seek",
+    "scrub",
+    "scan",
+    "ahead",
+    "next",
+    "skip",
+    "forward",
+    "navigate"
+  ],
+  "tags": [],
+  "category": "Player",
+  "deprecated": false
+}

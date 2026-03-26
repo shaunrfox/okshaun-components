@@ -1,0 +1,26 @@
+{
+  "aliases": [
+    "banking",
+    "checking",
+    "money",
+    "savings",
+    "deposit",
+    "withdraw",
+    "places",
+    "locations",
+    "finances",
+    "bank",
+    "safe",
+    "security",
+    "secured",
+    "authentication",
+    "authenticated",
+    "locked",
+    "encrypted",
+    "encryption",
+    "vault"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "email",
+    "mail",
+    "send",
+    "sent",
+    "message",
+    "post",
+    "letter",
+    "envelope"
+  ],
+  "tags": ["communication"],
+  "category": "Email",
+  "deprecated": false
+}

@@ -1,106 +1,157 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Text, type TextProps } from './index';
+import { Box } from '../Box';
+import { Card } from '../Card';
+import { Divider } from '../Divider';
+import { Heading } from '../Heading';
+import { Link } from '../Link';
+import { Text } from './Text';
 
-const meta: Meta<typeof Text> = {
+const meta = {
   title: 'Components/Text',
   component: Text,
-  tags: ['autodocs', '!dev'],
-
+  tags: ['autodocs'],
   parameters: {
-    layout: 'padded',
-    controls: {
-      disable: true,
-      disableSaveFromUI: true,
-    },
+    layout: 'centered',
   },
   argTypes: {
-    fontSize: {
+    size: {
       control: 'select',
-      options: [
-        'body-lg',
-        'body-md',
-        'body-sm',
-        'body-xs',
-        'header-lg',
-        'header-md',
-        'header-sm',
-        'header-xs',
-        'display-lg',
-        'display-md',
-        'display-sm',
-        'display-xs',
-      ],
-      description: 'Text size',
-      table: {
-        defaultValue: { summary: 'body-md' },
-      },
+      description: 'Primitive text size token',
     },
-    fontFamily: {
+    family: {
       control: 'select',
-      options: ['heading', 'body', 'mono', 'serif', 'sans'],
+      options: ['body', 'heading', 'mono'],
       description: 'Font family',
-      table: {
-        defaultValue: { summary: 'body' },
-      },
     },
-    lineHeight: {
+    weight: {
       control: 'select',
-      options: ['lg', 'md', 'sm', 'xs'],
-      description: 'Line Height',
-      table: {
-        defaultValue: { summary: 'md' },
-      },
+      description: 'Font weight token',
     },
-    color: {
-      control: 'select',
-      options: ['gray-90', 'blue-50', 'gold-50', ''],
-      description: 'Font Color',
-      table: {
-        defaultValue: { summary: 'gray-90' },
-      },
-    },
-    as: {
-      control: 'text',
-      description: 'Render as element',
-    },
-    children: {
-      control: 'text',
-      description: 'ReactNode',
-    },
+    truncate: { control: 'boolean' },
+    allCaps: { control: 'boolean' },
+    italic: { control: 'boolean' },
+    underline: { control: 'boolean' },
+    bold: { control: 'boolean' },
+    as: { control: 'text' },
   },
-};
+  args: {
+    children: 'Text content',
+  },
+} satisfies Meta<typeof Text>;
 
 export default meta;
+type Story = StoryObj<typeof meta>;
 
-type Story = StoryObj<typeof Text>;
-export const Default: Story = { args: { children: 'Text Component' } };
-
-//export const AllSizes = {
-//  parameters: {
-//      controls:{ exclude: /.*/ },
-//  },
-//  render: (args: textProps) => (
-//    <>
-//      <Text {...args} lineHeight="body-lg" fontSize="body-lg" >Large Text</Text>
-//      <Text {...args} lineHeight="body-md" fontSize="body-md" >Medium Text</Text>
-//      <Text {...args} lineHeight="body-sm" fontSize="body-sm" >Small Text</Text>
-//      <Text {...args} lineHeight="body-xs" fontSize="body-xs" >Extra Small Text</Text>
-//    </>
-//  )
-//};
-
-export const AllColors: Story = {
-  render: (args: TextProps) => (
-    <>
-      <Text {...args} font="mono" color="gray.90">
-        gray-90
+export const Default: Story = {
+  render: (args) => (
+    <Box maxW="prose" display="grid" gap="10">
+      <Text {...args}>
+        A single text primitive for app copy, labels, and metadata.
       </Text>
-      <Text {...args} color="gold.50">
-        Gold-50
+      <Text>
+        Start with default `Text`, then adjust `size`, `weight`, or `family`
+        only when hierarchy needs it.
       </Text>
-      <Text {...args} color="blue.50">
-        Blue-50
-      </Text>
-    </>
+    </Box>
   ),
+};
+
+export const Hierarchy: Story = {
+  render: () => (
+    <Box display="grid" gap="8" maxW="prose">
+      <Text size="24" weight="bold">
+        Primary paragraph intro
+      </Text>
+      <Text size="16">
+        Body copy for the main content area. This is the most common setting.
+      </Text>
+      <Text size="14" color="text.subtle">
+        Secondary support text for caveats and implementation details.
+      </Text>
+      <Text size="12" family="mono" color="text.subtlest">
+        Metadata: Updated 2026-02-27
+      </Text>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const SemanticUsage: Story = {
+  render: () => (
+    <Card p="16" display="grid" gap="10" maxW="prose">
+      <Heading level="h3">Payment Details</Heading>
+      <Text as="p">
+        Your default card is charged on the first business day of each month.
+      </Text>
+      <Text as="small" size="12" color="text.subtlest">
+        Last verified 2 hours ago.
+      </Text>
+      <Text as="span" size="14">
+        Need help? <Link href="#">Contact billing support</Link>
+      </Text>
+    </Card>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const ExDashboardSummary: Story = {
+  name: 'Ex: Dashboard Summary',
+  render: () => (
+    <Card p="16" display="grid" gap="8" maxW="sm">
+      <Text size="14" color="text.subtle">
+        Open invoices
+      </Text>
+      <Text size="32" weight="black" color="text">
+        18
+      </Text>
+      <Text size="14" color="success.default">
+        Up 12% from last week
+      </Text>
+    </Card>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const ExDoAndDont: Story = {
+  name: 'Ex: Common Mistakes',
+  render: () => (
+    <Box display="grid" gap="12" maxW="prose">
+      <Box display="grid" gap="6">
+        <Text size="14" weight="bold" color="success.default">
+          Do
+        </Text>
+        <Text>
+          Use Text for body copy and labels with semantic color tokens.
+        </Text>
+      </Box>
+      <Divider />
+      <Box display="grid" gap="6">
+        <Text size="14" weight="bold" color="error.default">
+          Avoid
+        </Text>
+        <Text>
+          Using heading sizes for long paragraphs or low-contrast text for
+          critical information.
+        </Text>
+      </Box>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const A11yReadableParagraph: Story = {
+  name: 'A11y: Readable Paragraph',
+  render: () => (
+    <Box maxW="prose" display="grid" gap="10">
+      <Text as="p" lineHeight="default">
+        Keep long-form text in readable widths, use sufficient color contrast,
+        and choose semantic HTML tags with the `as` prop when needed.
+      </Text>
+      <Text as="p" size="14" color="text.subtle">
+        This paragraph demonstrates supporting content with a calmer visual
+        weight while staying legible.
+      </Text>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
 };

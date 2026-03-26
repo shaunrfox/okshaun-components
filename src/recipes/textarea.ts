@@ -1,153 +1,80 @@
 import { defineRecipe } from '@pandacss/dev';
 
-const textareaVariants = {
-  size: {
-    md: {
-      py: '3',
-      px: '10',
-      fontSize: '16',
-      minHeight: '64',
-    },
-    sm: {
-      py: '0',
-      px: '8',
-      minHeight: '48',
-      fontSize: '14',
-    },
-    lg: {
-      py: '7',
-      px: '12',
-      fontSize: '16',
-      minHeight: '80',
-    },
-    xl: {
-      py: '9',
-      px: '16',
-      fontSize: '20',
-      minHeight: '96',
-    },
-  },
-  autoSize: {
-    false: {
-      width: 'full',
-    },
-    true: {
-      width: 'fit-content',
-      fieldSizing: 'content',
-    },
-  },
-  // stacked: {
-  //   true: {
-  //     gridTemplateRows: 'auto 1fr',
-  //     alignItems: 'stretch',
-  //     '&::after, & textarea': {
-  //       gridArea: '2 / 1',
-  //     },
-  //     '& textarea': {
-  //       background: { base: 'gray.10', _dark: 'gray.90' },
-  //       borderColor: { base: 'gray.40', _dark: 'gray.100' },
-  //       // _hover: {
-  //       //   borderColor: { base: 'gray.20', _dark: 'gray.30' },
-  //       // },
-  //       // _focus: {
-  //       //   borderColor: { base: 'gray.90', _dark: 'gray.10' },
-  //       // },
-  //     },
-  //   },
-  //   false: {
-  //     gridTemplateColumns: 'auto 1fr',
-  //     alignItems: 'center',
-  //     '& textarea': {
-  //       background: { base: 'gray.10', _dark: 'gray.90' },
-  //       borderColor: { base: 'green.40', _dark: 'green.50' },
-  //       // _hover: {
-  //       //   borderColor: { base: 'gray.20', _dark: 'gray.30' },
-  //       // },
-  //       // _focus: {
-  //       //   borderColor: { base: 'gray.90', _dark: 'gray.10' },
-  //       // },
-  //     },
-  //   },
-  // },
-  // internalLabel: {
-  //   false: {},
-  //   true: {
-  //     // _focusWithin: {
-  //     //   outlineWidth: 1,
-  //     //   outlineStyle: 'solid',
-  //     //   outlineColor: { base: 'gray.90', _dark: 'gray.10' },
-  //     //   // outlineOffset: 2,
-  //     //   ml: '-4',
-  //     // },
-  //   },
-  // },
-};
-
-const textareaBase = {
-  display: 'inline-grid',
-  position: 'relative',
-  width: 'full',
-  verticalAlign: 'top',
-  borderWidth: '1',
-  borderStyle: 'solid',
-  borderColor: 'border.input',
-  borderRadius: '4',
-  outlineWidth: '2',
-  outlineOffset: '-1',
-  outlineStyle: 'solid',
-  outlineColor: 'transparent',
-  lineHeight: 'default',
-  fontFamily: 'body',
-  bg: 'bg.input',
-  color: 'text',
-  transitionDuration: 'fast',
-  transitionProperty: 'background, border-color, color, outline-color',
-  transitionTimingFunction: 'default',
-  _placeholder: {
-    color: 'text.placeholder',
-  },
-  // _hover: {
-  //   bg: 'bg.input.hovered',
-  // },
-  _focus: {
-    bg: 'bg.input.pressed',
-    borderColor: 'border.focused',
-    outlineColor: 'border.focused',
-  },
-  _disabled: {
-    bg: 'bg.disabled',
-    borderColor: 'border.disabled',
-    color: 'text.disabled',
-  },
-  _error: {
-    display: 'inline-grid',
-    bg: 'bg.danger',
-    borderColor: 'border.danger',
-    color: 'text.danger',
-    _placeholder: {
-      color: 'text.danger/60',
-    },
-    _hover: {
-      bg: 'bg.danger.hovered',
-      borderColor: 'border.danger',
-    },
-    _focus: {
-      bg: 'bg.danger',
-      borderColor: 'border.danger',
-      outlineColor: 'border.danger',
-    },
-  },
-};
-
 export const textareaRecipe = defineRecipe({
   className: 'textarea',
   jsx: ['Textarea'],
-  base: textareaBase,
-  variants: textareaVariants,
+  base: {
+    fontSize: '[100%]',
+    position: 'relative',
+    width: 'full',
+    bg: 'surface',
+    color: 'text',
+    borderWidth: '1',
+    borderStyle: 'solid',
+    borderColor: 'border.input',
+    borderRadius: '4',
+    lineHeight: 'tight',
+    fontFamily: 'body',
+    outlineWidth: '1',
+    outlineStyle: 'solid',
+    outlineColor: 'transparent',
+    resize: 'both',
+    _placeholder: {
+      color: 'text.placeholder',
+    },
+    _focus: {
+      outlineColor: 'border.focused',
+      borderColor: 'border.focused',
+    },
+    _error: {
+      display: 'inline-grid',
+      borderColor: 'border.danger',
+      _focus: {
+        borderColor: 'border.danger',
+        outlineColor: 'border.danger',
+      },
+    },
+    _disabled: {
+      opacity: '[0.4]',
+    },
+    _groupDisabled: {
+      opacity: '[1]', // let FormField handle disabled state opacity
+    },
+  },
+  variants: {
+    size: {
+      sm: {
+        py: '0',
+        px: '8',
+        minHeight: '48',
+        fontSize: '14',
+      },
+      md: {
+        py: '3',
+        px: '10',
+        fontSize: '16',
+        minHeight: '64',
+      },
+      lg: {
+        py: '7',
+        px: '12',
+        fontSize: '16',
+        minHeight: '80',
+      },
+      xl: {
+        py: '9',
+        px: '16',
+        fontSize: '20',
+        minHeight: '96',
+      },
+    },
+    autoSize: {
+      true: {
+        fieldSizing: 'content',
+      },
+    },
+  },
   defaultVariants: {
     size: 'md',
-    // stacked: true,
-    // internalLabel: false,
-    // autoGrow: false,
   },
 });

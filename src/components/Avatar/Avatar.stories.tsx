@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Flex } from '@styled-system/jsx';
 import { Box } from '../Box';
 import { Icon } from '../Icon';
 import { Text } from '../Text';
@@ -156,7 +157,7 @@ export const WithCustomFallback: Story = {
     <Box display="flex" gap="4" alignItems="center">
       <Avatar size="md" fallback={<Icon name="user" />} />
       <Avatar size="md" fallback={<Icon name="user-group" />} />
-      <Avatar size="md" fallback={<Icon name="Building" />} />
+      <Avatar size="md" fallback={<Icon name="building" />} />
       <Avatar size="md" fallback="?" />
     </Box>
   ),
@@ -333,8 +334,10 @@ export const UserList: Story = {
             name={user.name}
             presence={user.presence}
           />
-          <Box>
-            <Text fontWeight="500">{user.name}</Text>
+          <Flex gap="8" alignItems="baseline">
+            <Text fontWeight="medium" color="text">
+              {user.name}
+            </Text>
             <Text fontSize="12" color="text.subtle">
               {user.presence === 'online'
                 ? 'Available'
@@ -344,7 +347,7 @@ export const UserList: Story = {
                     ? 'Do not disturb'
                     : 'Away'}
             </Text>
-          </Box>
+          </Flex>
         </Box>
       ))}
     </Box>
@@ -380,7 +383,7 @@ export const ProjectAvatars: Story = {
 export const AvatarStack: Story = {
   render: () => (
     <Box display="flex" flexDir="column" gap="4">
-      <Text fontWeight="600">Stacked Avatars</Text>
+      <Text fontWeight="bold">Stacked Avatars</Text>
       <Box display="flex">
         {[
           sampleImages.user1,
@@ -388,15 +391,11 @@ export const AvatarStack: Story = {
           sampleImages.user3,
           sampleImages.user4,
         ].map((src, i) => (
-          <Box
-            key={src}
-            style={{ marginLeft: i > 0 ? '-8px' : '0', zIndex: 4 - i }}
-            position="relative"
-          >
-            <Avatar size="md" src={src} borderColor="var(--colors-bg)" />
+          <Box key={src} ml={i > 0 ? '-8' : '0'} position="relative">
+            <Avatar size="md" src={src} />
           </Box>
         ))}
-        <Box style={{ marginLeft: '-8px' }} position="relative" zIndex='base'>
+        <Box ml="-8" position="relative">
           <Avatar size="md" fallback="+3" />
         </Box>
       </Box>

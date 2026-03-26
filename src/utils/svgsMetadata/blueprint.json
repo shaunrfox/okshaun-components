@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "architecture",
+    "floorplan",
+    "building",
+    "construction",
+    "blueprint",
+    "plan",
+    "strategy",
+    "map"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}
