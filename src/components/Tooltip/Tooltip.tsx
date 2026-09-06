@@ -24,7 +24,6 @@ import {
 import { splitProps } from '~/utils/splitProps';
 
 import { Box, type BoxProps } from '../Box';
-import { Text } from '../Text';
 
 export type TooltipProps = Omit<
   BoxProps,
@@ -98,6 +97,7 @@ export const Tooltip = (props: TooltipProps) => {
         display="inline-flex"
         alignItems="center"
         lineHeight="none"
+        width="fit"
         {...getReferenceProps()}
       >
         {children}
@@ -112,8 +112,8 @@ export const Tooltip = (props: TooltipProps) => {
             {...(getFloatingProps() as Record<string, unknown>)}
             {...otherProps}
           >
-            {title && <Text className={classes.title}>{title}</Text>}
-            {text && <Text className={classes.text}>{text}</Text>}
+            {title && <Box className={classes.title}>{title}</Box>}
+            {text && <Box className={classes.text}>{text}</Box>}
             {caret && (
               <FloatingArrow
                 ref={arrowRef}

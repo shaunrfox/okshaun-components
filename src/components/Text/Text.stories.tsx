@@ -31,6 +31,12 @@ const meta = {
     allCaps: { control: 'boolean' },
     italic: { control: 'boolean' },
     underline: { control: 'boolean' },
+    dashedUnderline: { control: 'boolean' },
+    definition: {
+      control: 'text',
+      description:
+        'Short explanation shown in a tooltip on hover and keyboard focus',
+    },
     bold: { control: 'boolean' },
     as: { control: 'text' },
   },
@@ -151,6 +157,33 @@ export const A11yReadableParagraph: Story = {
         This paragraph demonstrates supporting content with a calmer visual
         weight while staying legible.
       </Text>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const Definition: Story = {
+  render: () => (
+    <Box maxW="prose" display="grid" gap="10">
+      <Text as="p">
+        The build publishes to{' '}
+        <Text definition="Content delivery network">CDN</Text> storage before
+        the release job tags the version.
+      </Text>
+      <Text as="p" size="14" color="text.subtle">
+        A `definition` applies a dashed underline and puts the text in the tab
+        order, so the explanation is reachable by keyboard as well as hover.
+      </Text>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const Underlines: Story = {
+  render: () => (
+    <Box display="grid" gap="10">
+      <Text underline>Solid underline, offset clear of the descenders</Text>
+      <Text dashedUnderline>Dashed underline without a tooltip</Text>
     </Box>
   ),
   parameters: { controls: { disable: true } },
