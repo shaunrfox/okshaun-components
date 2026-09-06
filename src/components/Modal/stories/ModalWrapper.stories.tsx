@@ -1,22 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { expect, userEvent, within } from '@storybook/test';
+
 import { Flex, Grid, VStack } from '@styled-system/jsx';
 import { useState } from 'react';
-import { Button } from '../Button';
-import { Divider } from '../Divider';
-import { FormField } from '../FormField';
-import { Icon } from '../Icon';
-import { Text } from '../Text';
-import { Textarea } from '../Textarea';
-import { TextInput } from '../TextInput';
-import { Modal } from './Modal';
-import { ModalBody } from './ModalBody';
-import { ModalFooter } from './ModalFooter';
-import { ModalHeader } from './ModalHeader';
+import { Button } from '../../Button';
+import { Divider } from '../../Divider';
+import { FormField } from '../../FormField';
+import { Icon } from '../../Icon';
+import { Select, SelectOption } from '../../Select';
+import { Text } from '../../Text';
+import { Textarea } from '../../Textarea';
+import { TextInput } from '../../TextInput';
+import { ModalBody } from '../ModalBody';
+import { ModalFooter } from '../ModalFooter';
+import { ModalHeader } from '../ModalHeader';
+import { ModalWrapper } from '../ModalWrapper';
 
-const meta: Meta<typeof Modal> = {
-  title: 'Components/Modal',
-  component: Modal,
+const meta: Meta<typeof ModalWrapper> = {
+  title: 'Components/Modals/ModalWrapper',
+  component: ModalWrapper,
   parameters: {
     layout: 'centered',
   },
@@ -24,37 +27,30 @@ const meta: Meta<typeof Modal> = {
   argTypes: {
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg', 'xl', 'full'],
+      options: ['sm', 'md', 'lg', 'xl', 'full', 'fullPage'],
       description: 'Modal size',
       table: {
         defaultValue: { summary: 'md' },
-      },
-    },
-    position: {
-      control: 'select',
-      options: ['centered', 'top', 'bottom'],
-      description: 'Modal position wrapper',
-      table: {
-        defaultValue: { summary: 'centered' },
-      },
-    },
-    variant: {
-      control: 'select',
-      options: ['default', 'confirmation'],
-      description: 'Modal type',
-      table: {
-        defaultValue: { summary: 'default' },
       },
     },
     preventOverlayClose: {
       control: 'boolean',
       description: 'Prevent closing when clicking overlay',
     },
+    position: {
+      control: 'select',
+      options: ['centered', 'top'],
+      description:
+        'Centered in the viewport, or fixed below the top edge (horizontally centered)',
+      table: {
+        defaultValue: { summary: 'centered' },
+      },
+    },
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof Modal>;
+type Story = StoryObj<typeof ModalWrapper>;
 
 // ============================================================================
 // DEFAULT STORY
@@ -68,7 +64,7 @@ export const Default: Story = {
       return (
         <>
           <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
-          <Modal open={isOpen} onOpenChange={setIsOpen} size="md">
+          <ModalWrapper open={isOpen} onOpenChange={setIsOpen} size="md">
             <ModalHeader title="Dialog Title" showCloseButton />
             <ModalBody>
               <Text>
@@ -88,77 +84,7 @@ export const Default: Story = {
                 Save
               </Button>
             </ModalFooter>
-          </Modal>
-        </>
-      );
-    };
-    return <Component />;
-  },
-};
-
-export const TopPosition: Story = {
-  name: 'Top Position',
-  render: () => {
-    const Component = () => {
-      const [isOpen, setIsOpen] = useState(false);
-
-      return (
-        <>
-          <Button onClick={() => setIsOpen(true)}>Open Top Modal</Button>
-          <Modal
-            open={isOpen}
-            onOpenChange={setIsOpen}
-            size="md"
-            position="top"
-          >
-            <ModalHeader title="Top-Aligned Dialog" showCloseButton />
-            <ModalBody>
-              <Text>
-                This modal uses the new position wrapper to anchor the dialog
-                near the top edge while keeping the overlay full-screen.
-              </Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button variant="ghost" onClick={() => setIsOpen(false)}>
-                Close
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </>
-      );
-    };
-    return <Component />;
-  },
-};
-
-export const BottomPosition: Story = {
-  name: 'Bottom Position',
-  render: () => {
-    const Component = () => {
-      const [isOpen, setIsOpen] = useState(false);
-
-      return (
-        <>
-          <Button onClick={() => setIsOpen(true)}>Open Bottom Modal</Button>
-          <Modal
-            open={isOpen}
-            onOpenChange={setIsOpen}
-            size="md"
-            position="bottom"
-          >
-            <ModalHeader title="Bottom-Aligned Dialog" showCloseButton />
-            <ModalBody>
-              <Text>
-                Bottom positioning keeps the dialog docked near the viewport
-                edge without changing the overlay behavior.
-              </Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button variant="ghost" onClick={() => setIsOpen(false)}>
-                Close
-              </Button>
-            </ModalFooter>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
@@ -178,7 +104,7 @@ export const Small: Story = {
       return (
         <>
           <Button onClick={() => setIsOpen(true)}>Open Small Modal</Button>
-          <Modal open={isOpen} onOpenChange={setIsOpen} size="sm">
+          <ModalWrapper open={isOpen} onOpenChange={setIsOpen} size="sm">
             <ModalHeader title="Small Dialog" showCloseButton />
             <ModalBody>
               <Text>This is a small modal (448px max width).</Text>
@@ -191,7 +117,7 @@ export const Small: Story = {
                 Confirm
               </Button>
             </ModalFooter>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
@@ -211,7 +137,7 @@ export const Large: Story = {
       return (
         <>
           <Button onClick={() => setIsOpen(true)}>Open Large Modal</Button>
-          <Modal open={isOpen} onOpenChange={setIsOpen} size="lg">
+          <ModalWrapper open={isOpen} onOpenChange={setIsOpen} size="lg">
             <ModalHeader title="Large Dialog" showCloseButton />
             <ModalBody>
               <Text>This is a large modal (768px max width).</Text>
@@ -228,7 +154,7 @@ export const Large: Story = {
                 Save Changes
               </Button>
             </ModalFooter>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
@@ -248,7 +174,7 @@ export const XLarge: Story = {
       return (
         <>
           <Button onClick={() => setIsOpen(true)}>Open XLarge Modal</Button>
-          <Modal open={isOpen} onOpenChange={setIsOpen} size="xl">
+          <ModalWrapper open={isOpen} onOpenChange={setIsOpen} size="xl">
             <ModalHeader title="XLarge Dialog" showCloseButton />
             <ModalBody display="flex" flexDirection="column" gap="12">
               <Text>This is a x-large modal (1024px max width).</Text>
@@ -322,7 +248,7 @@ export const XLarge: Story = {
                 Save Changes
               </Button>
             </ModalFooter>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
@@ -342,7 +268,7 @@ export const FullWidth: Story = {
       return (
         <>
           <Button onClick={() => setIsOpen(true)}>Open Full Width Modal</Button>
-          <Modal open={isOpen} onOpenChange={setIsOpen} size="full">
+          <ModalWrapper open={isOpen} onOpenChange={setIsOpen} size="full">
             <ModalHeader title="Full Width Dialog" showCloseButton />
             <ModalBody>
               <Grid gridTemplateColumns="1fr auto 1fr" alignItems="start">
@@ -371,7 +297,7 @@ export const FullWidth: Story = {
                 Close
               </Button>
             </ModalFooter>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
@@ -380,25 +306,39 @@ export const FullWidth: Story = {
 };
 
 // ============================================================================
-// Mobile
+// FULL Page
 // ============================================================================
 
-export const Mobile: Story = {
+export const FullPage: Story = {
   render: () => {
     const Component = () => {
       const [isOpen, setIsOpen] = useState(false);
 
       return (
         <>
-          <Button onClick={() => setIsOpen(true)}>Open Mobile Modal</Button>
-          <Modal open={isOpen} onOpenChange={setIsOpen} size="mobile">
-            <ModalHeader title="Mobile Dialog" showCloseButton />
+          <Button onClick={() => setIsOpen(true)}>Open Full Page Modal</Button>
+          <ModalWrapper open={isOpen} onOpenChange={setIsOpen} size="fullPage">
+            <ModalHeader title="Full Page Dialog" showCloseButton />
             <ModalBody>
-              <Grid>
+              <Grid gridTemplateColumns="1fr auto 1fr" alignItems="start">
                 <Text>
-                  This modal stretches to the full available width. Should be
-                  used for mobile use-cases.
+                  This modal stretches to the 100% of the available width and
+                  height. Useful for dashboards, data tables, or content that
+                  benefits from maximum horizontal space.
                 </Text>
+                <Divider direction="vertical" mx="8" />
+                <VStack>
+                  <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    euismod, nisl eget aliquam aliquet, nisl nisl aliquet nisl,
+                    eget aliquam nisl nisl eget nisl.
+                  </Text>
+                  <Text>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    euismod, nisl eget aliquam aliquet, nisl nisl aliquet nisl,
+                    eget aliquam nisl nisl eget nisl.
+                  </Text>
+                </VStack>
               </Grid>
             </ModalBody>
             <ModalFooter>
@@ -406,7 +346,7 @@ export const Mobile: Story = {
                 Close
               </Button>
             </ModalFooter>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
@@ -428,7 +368,7 @@ export const NoCloseButton: Story = {
           <Button onClick={() => setIsOpen(true)}>
             Open Modal (No Close Button)
           </Button>
-          <Modal open={isOpen} onOpenChange={setIsOpen} size="md">
+          <ModalWrapper open={isOpen} onOpenChange={setIsOpen} size="md">
             <ModalHeader
               title="Dialog Without Close Button"
               showCloseButton={false}
@@ -447,7 +387,7 @@ export const NoCloseButton: Story = {
                 Continue
               </Button>
             </ModalFooter>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
@@ -469,7 +409,7 @@ export const PreventOverlayClose: Story = {
           <Button onClick={() => setIsOpen(true)}>
             Open Modal (No Overlay Close)
           </Button>
-          <Modal
+          <ModalWrapper
             open={isOpen}
             onOpenChange={setIsOpen}
             size="md"
@@ -488,7 +428,7 @@ export const PreventOverlayClose: Story = {
                 I Understand
               </Button>
             </ModalFooter>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
@@ -508,7 +448,7 @@ export const FormDialog: Story = {
       return (
         <>
           <Button onClick={() => setIsOpen(true)}>Edit Profile</Button>
-          <Modal open={isOpen} onOpenChange={setIsOpen} size="sm">
+          <ModalWrapper open={isOpen} onOpenChange={setIsOpen} size="sm">
             <ModalHeader title="Edit Profile" showCloseButton />
             <ModalBody>
               <VStack gap="12" alignItems="stretch">
@@ -544,51 +484,7 @@ export const FormDialog: Story = {
                 Save
               </Button>
             </ModalFooter>
-          </Modal>
-        </>
-      );
-    };
-    return <Component />;
-  },
-};
-
-// ============================================================================
-// CONFIRMATION DIALOG
-// ============================================================================
-
-export const ConfirmationDialog: Story = {
-  name: 'Compatibility Alias',
-  render: () => {
-    const Component = () => {
-      const [isOpen, setIsOpen] = useState(false);
-
-      return (
-        <>
-          <Button onClick={() => setIsOpen(true)}>Delete Item</Button>
-          <Modal
-            open={isOpen}
-            onOpenChange={setIsOpen}
-            size="sm"
-            position="centered"
-            variant="confirmation"
-            preventOverlayClose
-          >
-            <ModalHeader title="Delete Item" showCloseButton={false} />
-            <ModalBody>
-              <Text>
-                Are you sure you want to delete this item? This action cannot be
-                undone.
-              </Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button variant="ghost" onClick={() => setIsOpen(false)}>
-                Cancel
-              </Button>
-              <Button variant="danger" onClick={() => setIsOpen(false)}>
-                Delete
-              </Button>
-            </ModalFooter>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
@@ -608,7 +504,7 @@ export const BodyOnly: Story = {
       return (
         <>
           <Button onClick={() => setIsOpen(true)}>Open Minimal Modal</Button>
-          <Modal open={isOpen} onOpenChange={setIsOpen} size="sm">
+          <ModalWrapper open={isOpen} onOpenChange={setIsOpen} size="sm">
             <ModalBody
               display="flex"
               flexDirection="column"
@@ -625,7 +521,7 @@ export const BodyOnly: Story = {
                 Dismiss
               </Button>
             </ModalBody>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
@@ -645,7 +541,7 @@ export const CustomHeader: Story = {
       return (
         <>
           <Button onClick={() => setIsOpen(true)}>Open Custom Header</Button>
-          <Modal open={isOpen} onOpenChange={setIsOpen} size="md">
+          <ModalWrapper open={isOpen} onOpenChange={setIsOpen} size="md">
             <ModalHeader>
               <Flex alignItems="start" gap="3" flex="1">
                 <Icon name="info" size="24" fill="icon.decorative" />
@@ -675,10 +571,123 @@ export const CustomHeader: Story = {
                 Close
               </Button>
             </ModalFooter>
-          </Modal>
+          </ModalWrapper>
         </>
       );
     };
     return <Component />;
+  },
+};
+
+// ============================================================================
+// TOP POSITION
+// ============================================================================
+
+export const TopPosition: Story = {
+  render: () => {
+    const Component = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      return (
+        <>
+          <Flex p="8" justify="center">
+            <Button onClick={() => setIsOpen(true)}>Open Top-Positioned</Button>
+          </Flex>
+          <ModalWrapper
+            open={isOpen}
+            onOpenChange={setIsOpen}
+            position="top"
+            size="md"
+          >
+            <ModalHeader title="Top-Positioned Modal" showCloseButton />
+            <ModalBody>
+              <Text>
+                This modal uses{' '}
+                <Text as="span" fontWeight="semibold">
+                  position=&quot;top&quot;
+                </Text>
+                . It is offset from the top of the viewport and centered on the
+                x-axis. Resize the preview or compare with the default story to
+                see the difference from centered placement.
+              </Text>
+            </ModalBody>
+            <ModalFooter>
+              <Button variant="ghost" onClick={() => setIsOpen(false)}>
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={() => setIsOpen(false)}>
+                OK
+              </Button>
+            </ModalFooter>
+          </ModalWrapper>
+        </>
+      );
+    };
+    return <Component />;
+  },
+};
+
+// ============================================================================
+// FLOATING CONTENT
+// ============================================================================
+
+export const FloatingContent: Story = {
+  render: function FloatingContentRender() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>
+          Open Floating Content Modal
+        </Button>
+        <ModalWrapper
+          open={isOpen}
+          onOpenChange={setIsOpen}
+          size="md"
+          aria-label="Floating content example"
+        >
+          <ModalHeader title="Floating content" showCloseButton />
+          <ModalBody>
+            <Text>
+              These controls render their popup content through portals. Their
+              popup layer remains above the modal panel and backdrop.
+            </Text>
+            {/* The DateTime and Autocomplete cases from Cetec's version of
+                this story return with okshaun-components-ecl.3 and ecl.5. */}
+            <Select placeholder="Choose a status">
+              <SelectOption value="draft" label="Draft" />
+              <SelectOption value="approved" label="Approved" />
+            </Select>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" onClick={() => setIsOpen(false)}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalWrapper>
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+
+    await userEvent.click(
+      canvas.getByRole('button', { name: 'Open Floating Content Modal' }),
+    );
+    await userEvent.click(
+      await body.findByRole('combobox', { name: 'Choose a status' }),
+    );
+
+    const floatingElement = await body.findByRole('listbox');
+    const dialog = body.getByRole('dialog', {
+      name: 'Floating content example',
+    });
+
+    expect(floatingElement).toBeVisible();
+    const floatingZIndex = Number(getComputedStyle(floatingElement).zIndex);
+    const dialogZIndex = Number(getComputedStyle(dialog).zIndex);
+
+    expect(floatingZIndex).toBeGreaterThan(dialogZIndex);
   },
 };

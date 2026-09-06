@@ -7,7 +7,6 @@ const menuBase = {
     borderRadius: '4',
     boxShadow: 'overlay',
     overflow: 'hidden',
-    zIndex: '100',
     transitionProperty: 'width, height',
     transitionDuration: 'normal',
     transitionTimingFunction: 'default',
@@ -69,6 +68,20 @@ const menuBase = {
 };
 
 const menuVariants = {
+  // Floating content inherits its layer from FloatingLayerContext, so a menu
+  // opened inside a modal stacks above the dialog instead of behind it.
+  layer: {
+    elevated: {
+      wrapper: {
+        zIndex: 'elevated',
+      },
+    },
+    modalFloating: {
+      wrapper: {
+        zIndex: 'modalFloating',
+      },
+    },
+  },
   density: {
     compact: {
       backHeader: {
@@ -128,5 +141,6 @@ export const menuRecipe = defineSlotRecipe({
   variants: menuVariants,
   defaultVariants: {
     density: 'compact',
+    layer: 'elevated',
   },
 });

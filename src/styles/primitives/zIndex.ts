@@ -13,5 +13,6 @@ export const zIndex = defineTokens.zIndex({
   '1000': { value: 1000 },
   '1100': { value: 1100 },
   '1101': { value: 1101 },
+  '1102': { value: 1102 },
   '1200': { value: 1200 },
 });

@@ -1,22 +1,28 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
+import { globalBaseStyles } from '~/styles/utilities';
+
 const modalBase = {
   positionWrapper: {
+    '--wrapper-p': {
+      base: 'token(sizes.0)',
+      xs: 'token(sizes.12)',
+      sm: 'token(sizes.32)',
+      md: 'token(sizes.56)',
+    },
     position: 'fixed',
     inset: '0',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflowY: 'auto',
-    pointerEvents: 'none',
-    padding: '16',
-    zIndex: '1101',
+    display: 'grid',
+    p: 'var(--wrapper-p)',
+    w: '100vw',
+    h: '100vh',
+    zIndex: 1100,
   },
   overlay: {
     position: 'fixed',
     inset: '0',
     bg: 'blanket',
-    zIndex: '1100',
+    zIndex: 1100,
     // Initial state matches animation start
     opacity: '0',
     // Animation handled via data-state
@@ -26,24 +32,16 @@ const modalBase = {
     },
   },
   container: {
-    position: 'relative',
+    ...globalBaseStyles,
     display: 'flex',
     flexDirection: 'column',
-    width: 'full',
-    maxHeight: '[95vh]',
+    maxW: 'calc(100vw - (2 * var(--wrapper-p)))',
+    maxH: 'calc(100vh - (2 * var(--wrapper-p)))',
     bg: 'surface.overlay',
     borderRadius: '12',
     boxShadow: 'overlay',
     outline: 'none',
-    pointerEvents: 'auto',
-    // Initial state matches animation start
-    opacity: '0',
-    transform: '[scale(0.95) translateY(-10px)]',
-    // Animation handled via data-state
-    animation: 'modalScaleIn 150ms ease-out forwards',
-    '&[data-state="closing"]': {
-      animation: 'modalScaleOut 150ms ease-out forwards',
-    },
+    zIndex: 1101,
   },
   header: {
     display: 'flex',
@@ -82,80 +80,83 @@ const modalBase = {
   },
 };
 
-const modalVariants = {
-  position: {
-    centered: {
-      positionWrapper: {
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-    },
-    top: {
-      positionWrapper: {
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-      },
-    },
-    bottom: {
-      positionWrapper: {
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-      },
-    },
+const mobile = {
+  xsDown: {
+    width: '100vw',
+    height: '100vh',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    borderRadius: '0',
   },
+};
+
+const modalVariants = {
   size: {
     sm: {
       container: {
-        maxWidth: 'md',
+        w: 'md',
+        ...mobile,
       },
     },
     md: {
       container: {
-        maxWidth: 'xl',
+        w: 'xl',
+        ...mobile,
       },
     },
     lg: {
       container: {
-        maxWidth: '3xl',
+        w: '3xl',
+        ...mobile,
       },
     },
     xl: {
       container: {
-        maxWidth: '5xl',
+        w: '5xl',
+        ...mobile,
       },
     },
     full: {
       container: {
-        maxWidth: '[95vw]',
+        w: '95vw',
+        ...mobile,
       },
     },
-    mobile: {
+    fullPage: {
+      positionWrapper: {
+        '--wrapper-p': 'token(sizes.0)',
+      },
       container: {
-        width: 'full',
-        height: 'full',
-        maxWidth: '[100vw]',
-        maxHeight: '[100vh]',
+        w: '100vw',
+        h: '100vh',
+        maxW: '100vw',
+        maxH: '100vh',
         borderRadius: '0',
+        ...mobile,
       },
     },
   },
-  variant: {
-    default: {
+  position: {
+    centered: {
+      positionWrapper: {
+        placeContent: 'center',
+      },
       container: {
-        xsDown: {
-          width: 'full',
-          height: 'full',
-          maxWidth: '[100vw]',
-          maxHeight: '[100vh]',
-          borderRadius: '0',
+        animation: 'modalScaleIn 150ms ease-out forwards',
+        '&[data-state="closing"]': {
+          animation: 'modalScaleOut 150ms ease-out forwards',
         },
       },
     },
-    confirmation: {
+    top: {
+      positionWrapper: {
+        placeContent: 'start center',
+      },
       container: {
-        height: 'fit',
-        width: 'md',
-        maxWidth: '[90vw]',
+        animation: 'modalScaleInTop 150ms ease-out forwards',
+        '&[data-state="closing"]': {
+          animation: 'modalScaleOutTop 150ms ease-out forwards',
+        },
       },
     },
   },
@@ -163,7 +164,7 @@ const modalVariants = {
 
 export const modalRecipe = defineSlotRecipe({
   className: 'modal',
-  jsx: ['Modal', 'ModalHeader', 'ModalBody', 'ModalFooter'],
+  jsx: ['ModalWrapper', 'ModalHeader', 'ModalBody', 'ModalFooter', 'Modal'],
   slots: [
     'positionWrapper',
     'overlay',
@@ -177,8 +178,7 @@ export const modalRecipe = defineSlotRecipe({
   base: modalBase,
   variants: modalVariants,
   defaultVariants: {
-    position: 'centered',
-    variant: 'default',
     size: 'md',
+    position: 'centered',
   },
 });

@@ -96,19 +96,23 @@ export {
   useMenuRootContext as useMenuContext,
 } from './components/Menu/context/menuContext';
 export {
+  ConfirmationModal,
+  type ConfirmationModalProps,
+  type ConfirmationModalType,
   Modal,
   ModalBody,
   type ModalBodyProps,
   ModalFooter,
   type ModalFooterProps,
+  type ModalFormApi,
   ModalHeader,
   type ModalHeaderProps,
   type ModalProps,
+  type ModalSubmitContext,
+  ModalWrapper,
+  type ModalWrapperProps,
 } from './components/Modal';
-export {
-  type ModalContext,
-  useModalContext,
-} from './components/Modal/ModalContext';
+export { useModalWrapperContext } from './components/Modal/ModalWrapperContext';
 export { Radio, type RadioProps } from './components/Radio';
 export { RadioGroup, type RadioGroupProps } from './components/RadioGroup';
 export { RadioInput, type RadioInputProps } from './components/RadioInput';

@@ -30,17 +30,15 @@ import {
   useRef,
   useState,
 } from 'react';
-
+import { useFloatingLayer } from '~/system/floating-ui/FloatingLayerContext';
 import {
   createOverlayMiddleware,
   useOverlayFloating,
 } from '~/system/floating-ui/floating';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box } from '../Box';
 import { Icon } from '../Icon';
 import { Text } from '../Text';
-
 import {
   hasMatchingItems,
   MenuFilterProvider,
@@ -108,7 +106,8 @@ export const Menu = (props: MenuProps) => {
 
   const [className, otherProps] = splitProps(rest);
   const userStyle = otherProps.style as CSSProperties | undefined;
-  const classes = menu({ density, panel });
+  const floatingLayer = useFloatingLayer();
+  const classes = menu({ density, panel, layer: floatingLayer });
   const listClassName = list({});
 
   const hasReference = Boolean(trigger) && !inline;

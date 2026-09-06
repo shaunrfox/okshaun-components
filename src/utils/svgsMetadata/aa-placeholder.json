@@ -16,9 +16,7 @@
     "scaffold",
     "dev"
   ],
-  "tags": [
-    "dev"
-  ],
+  "tags": ["dev"],
   "category": "Other",
   "deprecated": false
 }
