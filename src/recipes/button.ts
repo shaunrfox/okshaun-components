@@ -1,21 +1,21 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
-const iconDefaultStyles = {
-  fill: 'icon.decorative',
-  mixBlendMode: { base: 'multiply', _dark: 'screen' },
-  _groupHover: { fill: 'current' },
-  _groupActive: { fill: 'current' },
-};
+import { globalBaseStyles } from '~/styles/utilities';
 
-const iconInverseStyles = {
-  fill: 'icon.decorative.inverse',
-  mixBlendMode: { base: 'screen', _dark: 'multiply' },
-  _groupHover: { fill: 'icon.decorative.inverse' },
-  _groupActive: { fill: 'icon.decorative.inverse' },
-};
+// Ported from the Cetec design system: slots, the custom-property sizing
+// mechanism, the size variant and the style-variant set. The recipe's
+// before/after variants are internal, computed from Button's props, so the
+// public before, after, iconBefore and iconAfter props are unchanged.
 
-const baseButtonStyles = {
+const buttonBaseStyles = {
   container: {
+    ...globalBaseStyles,
+    '--main-py': 'token(sizes.3)',
+    '--main-px': 'token(sizes.10)',
+    '--main-slot-side-padding': 'token(sizes.0)',
+    '--main-fs': 'token(sizes.16)',
+    '--slot-size': 'token(sizes.20)',
+    '--slot-px': 'token(sizes.6)',
     position: 'relative',
     appearance: 'none',
     display: 'flex',
@@ -24,14 +24,13 @@ const baseButtonStyles = {
     minWidth: '0',
     width: 'fit',
     height: 'fit',
+    flexShrink: 0,
     transitionDuration: 'fast',
     transitionProperty: 'background, border-color, color, box-shadow',
     transitionTimingFunction: 'default',
     userSelect: 'none',
     verticalAlign: 'middle',
-    fontFamily: 'sans',
     fontWeight: 'medium',
-    fontSize: '16',
     lineHeight: 'default',
     borderWidth: '1',
     borderStyle: 'solid',
@@ -40,6 +39,7 @@ const baseButtonStyles = {
     outlineWidth: '2',
     outlineStyle: 'solid',
     outlineColor: 'transparent',
+    outlineOffset: '1',
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
@@ -60,29 +60,28 @@ const baseButtonStyles = {
     alignItems: 'center',
     width: 'fit',
     height: 'fit',
+    py: 'var(--main-py)',
+    px: 'var(--main-px)',
+    fontSize: 'var(--main-fs)',
   },
   slot: {
     display: 'inline-flex',
     alignItems: 'center',
     transitionDuration: 'fast',
-    transitionProperty: 'fill',
+    transitionProperty: 'all',
     transitionTimingFunction: 'default',
-    flex: '0 0 auto',
-  },
-  icon: {
-    aspectRatio: 'square',
-    transitionDuration: 'fast',
-    transitionProperty: 'fill',
-    transitionTimingFunction: 'default',
+    flex: '0 0 var(--slot-size)',
+    px: 'var(--slot-px)',
   },
 };
 
+// Variants only hold color-related styles
 const buttonVariants = {
   variant: {
-    default: {
+    standard: {
       container: {
         bg: 'bg.neutral',
-        color: 'text',
+        borderColor: 'transparent',
         _hover: {
           bg: 'bg.neutral.hovered',
         },
@@ -90,89 +89,86 @@ const buttonVariants = {
           bg: 'bg.neutral.pressed',
         },
       },
-      icon: iconDefaultStyles,
-      slot: iconDefaultStyles,
+      mainContent: {
+        color: 'text',
+      },
+      slot: {
+        fill: 'icon.decorative',
+        mixBlendMode: { base: 'multiply', _dark: 'screen' },
+        _groupHover: { fill: 'current' },
+        _groupActive: { fill: 'current' },
+      },
     },
     primary: {
       container: {
-        bg: 'bg.brand.boldest',
-        color: 'text.inverse',
+        bg: 'bg.neutral.boldest',
+        borderColor: 'transparent',
         _hover: {
-          bg: 'bg.brand.boldest.hovered',
+          bg: 'bg.neutral.bold.hovered',
         },
         _active: {
-          bg: 'bg.brand.boldest.pressed',
+          bg: 'bg.neutral.bold.pressed',
         },
       },
-      icon: {
-        ...iconInverseStyles,
-        fill: 'icon.decorative.inverse.subtle',
-        _groupDisabled: {
-          fill: 'icon.decorative.inverse.subtle',
-        },
+      mainContent: {
+        color: 'text.inverse',
       },
       slot: {
-        ...iconInverseStyles,
-        fill: 'icon.decorative.inverse.subtle',
+        fill: 'icon.decorative.inverse',
+        mixBlendMode: { base: 'screen', _dark: 'multiply' },
+        _groupHover: { fill: 'icon.decorative.inverse.hovered' },
+        _groupActive: { fill: 'icon.decorative.inverse.hovered' },
         _groupDisabled: {
-          fill: 'icon.decorative.inverse.subtle',
+          fill: 'icon.decorative.inverse',
         },
       },
-    },
-    ghost: {
-      container: {
-        bg: 'bg.neutral.subtle',
-        color: 'text.subtle',
-        _hover: {
-          bg: 'bg.neutral.subtle.hovered',
-          color: 'text',
-        },
-        _active: {
-          bg: 'bg.neutral.subtle.pressed',
-          color: 'text',
-        },
-      },
-      icon: iconDefaultStyles,
-      slot: iconDefaultStyles,
-    },
-    subtle: {
-      container: {
-        bg: 'bg.neutral.subtle',
-        color: 'text.subtle',
-        _hover: {
-          bg: 'bg.neutral.subtle.hovered',
-          color: 'text',
-        },
-        _active: {
-          bg: 'bg.neutral.subtle.pressed',
-          color: 'text',
-        },
-      },
-      icon: iconDefaultStyles,
-      slot: iconDefaultStyles,
     },
     hollow: {
       container: {
         bg: 'bg.neutral.subtle',
         borderColor: 'border',
-        color: 'text',
         _hover: {
           bg: 'bg.neutral.subtle.hovered',
         },
         _active: {
           bg: 'bg.neutral.subtle.pressed',
         },
-        _disabled: {
-          borderColor: 'border.disabled',
+      },
+      mainContent: {
+        color: 'text',
+      },
+      slot: {
+        fill: 'icon.decorative',
+        mixBlendMode: { base: 'multiply', _dark: 'screen' },
+        _groupHover: { fill: 'current' },
+        _groupActive: { fill: 'current' },
+      },
+    },
+    ghost: {
+      container: {
+        bg: 'bg.neutral.subtle',
+        borderColor: 'transparent',
+        _hover: {
+          bg: 'bg.neutral.subtle.hovered',
+        },
+        _active: {
+          bg: 'bg.neutral.subtle.pressed',
         },
       },
-      icon: iconDefaultStyles,
-      slot: iconDefaultStyles,
+      mainContent: {
+        color: 'text',
+      },
+      slot: {
+        fill: 'icon.decorative',
+        mixBlendMode: { base: 'multiply', _dark: 'screen' },
+        _groupHover: { fill: 'current' },
+        _groupActive: { fill: 'current' },
+      },
     },
     danger: {
       container: {
         bg: 'red.50',
-        color: 'neutral.0',
+        borderColor: 'transparent',
         _hover: {
           bg: 'red.40',
         },
@@ -180,14 +176,14 @@ const buttonVariants = {
           bg: 'red.60',
         },
       },
-      icon: {
-        ...iconInverseStyles,
-        _groupDisabled: {
-          fill: 'icon.decorative.inverse',
-        },
+      mainContent: {
+        color: 'neutral.0',
       },
       slot: {
-        ...iconInverseStyles,
+        fill: 'icon.decorative.inverse',
+        mixBlendMode: 'screen',
+        _groupHover: { fill: 'icon.decorative.inverse.hovered' },
+        _groupActive: { fill: 'icon.decorative.inverse.hovered' },
         _groupDisabled: {
           fill: 'icon.decorative.inverse',
         },
@@ -196,24 +192,18 @@ const buttonVariants = {
     selected: {
       container: {
         bg: 'bg.selected',
-        color: 'text.selected',
+        borderColor: 'transparent',
         _hover: {
           bg: 'bg.selected.hovered',
-          color: 'text.selected.hovered',
+          color: 'text.selected',
         },
         _active: {
           bg: 'bg.selected.pressed',
           color: 'text.selected',
         },
       },
-      icon: {
-        fill: 'icon.selected',
-        mixBlendMode: { base: 'multiply', _dark: 'screen' },
-        _groupHover: { fill: 'icon.selected' },
-        _groupActive: { fill: 'icon.selected' },
-        _groupDisabled: {
-          fill: 'icon.selected',
-        },
+      mainContent: {
+        color: 'text.selected',
       },
       slot: {
         fill: 'icon.selected',
@@ -228,7 +218,7 @@ const buttonVariants = {
     selectedBold: {
       container: {
         bg: 'bg.selected.bold',
-        color: 'text.inverse',
+        borderColor: 'transparent',
         _hover: {
           bg: 'bg.selected.bold.hovered',
         },
@@ -236,123 +226,18 @@ const buttonVariants = {
           bg: 'bg.selected.bold.pressed',
         },
       },
-      icon: {
-        fill: 'icon.inverse',
-        mixBlendMode: { base: 'screen', _dark: 'multiply' },
-        _groupHover: { fill: 'icon.inverse' },
-        _groupActive: { fill: 'icon.inverse' },
-        _groupDisabled: {
-          fill: 'icon.inverse',
-        },
+      mainContent: {
+        color: 'text.inverse',
       },
       slot: {
-        fill: 'icon.inverse',
+        fill: 'icon.decorative.inverse',
         mixBlendMode: { base: 'screen', _dark: 'multiply' },
-        _groupHover: { fill: 'icon.inverse' },
-        _groupActive: { fill: 'icon.inverse' },
+        _groupHover: { fill: 'icon.decorative.inverse.hovered' },
+        _groupActive: { fill: 'icon.decorative.inverse.hovered' },
         _groupDisabled: {
-          fill: 'icon.inverse',
+          fill: 'icon.decorative.inverse',
         },
       },
-    },
-    selectedSubtle: {
-      container: {
-        bg: 'bg.selected',
-        color: 'text.selected',
-        _hover: {
-          bg: 'bg.selected.hovered',
-          color: 'text.selected.hovered',
-        },
-        _active: {
-          bg: 'bg.selected.pressed',
-          color: 'text.selected',
-        },
-      },
-      icon: {
-        fill: 'icon.selected',
-        mixBlendMode: { base: 'multiply', _dark: 'screen' },
-        _groupHover: { fill: 'icon.selected' },
-        _groupActive: { fill: 'icon.selected' },
-        _groupDisabled: {
-          fill: 'icon.selected',
-        },
-      },
-      slot: {
-        fill: 'icon.selected',
-        mixBlendMode: { base: 'multiply', _dark: 'screen' },
-        _groupHover: { fill: 'icon.selected' },
-        _groupActive: { fill: 'icon.selected' },
-        _groupDisabled: {
-          fill: 'icon.selected',
-        },
-      },
-    },
-  },
-};
-
-const buttonSizes = {
-  sm: {
-    container: {
-      fontSize: '14',
-      py: '1',
-      px: '8',
-    },
-    slot: {
-      w: '16',
-      h: '16',
-      px: '4',
-    },
-    icon: {
-      w: '22',
-      h: '22',
-    },
-  },
-  md: {
-    container: {
-      fontSize: '16',
-      py: '3',
-      px: '12',
-    },
-    slot: {
-      w: '20',
-      h: '20',
-      px: '6',
-    },
-    icon: {
-      w: '24',
-      h: '24',
-    },
-  },
-  lg: {
-    container: {
-      fontSize: '16',
-      py: '7',
-      px: '14',
-    },
-    slot: {
-      w: '24',
-      h: '24',
-      px: '8',
-    },
-    icon: {
-      w: '24',
-      h: '24',
-    },
-  },
-  xl: {
-    container: {
-      fontSize: '20',
-      py: '9',
-      px: '16',
-    },
-    slot: {
-      w: '28',
-      h: '28',
-      px: '10',
-    },
-    icon: {
-      w: '28',
-      h: '28',
     },
   },
 };
@@ -360,78 +245,69 @@ const buttonSizes = {
 export const buttonRecipe = defineSlotRecipe({
   className: 'button',
   jsx: ['Button'],
-  slots: ['container', 'mainContent', 'slot', 'icon'],
-  base: baseButtonStyles,
+  slots: ['container', 'mainContent', 'slot'],
+  base: buttonBaseStyles,
   variants: {
     ...buttonVariants,
-    size: buttonSizes,
-    iconBefore: {
-      true: { container: {} },
+    size: {
+      sm: {
+        container: {
+          '--main-py': 'token(sizes.0)',
+          '--main-px': 'token(sizes.8)',
+          '--main-slot-side-padding': 'token(sizes.0)',
+          '--main-fs': 'token(sizes.14)',
+          '--slot-size': 'token(sizes.16)',
+          '--slot-px': 'token(sizes.4)',
+        },
+      },
+      md: {
+        container: {
+          '--main-py': 'token(sizes.3)',
+          '--main-px': 'token(sizes.10)',
+          '--main-slot-side-padding': 'token(sizes.0)',
+          '--main-fs': 'token(sizes.16)',
+          '--slot-size': 'token(sizes.20)',
+          '--slot-px': 'token(sizes.6)',
+        },
+      },
+      lg: {
+        container: {
+          '--main-py': 'token(sizes.7)',
+          '--main-px': 'token(sizes.12)',
+          '--main-slot-side-padding': 'token(sizes.0)',
+          '--main-fs': 'token(sizes.16)',
+          '--slot-size': 'token(sizes.24)',
+          '--slot-px': 'token(sizes.8)',
+        },
+      },
+      xl: {
+        container: {
+          '--main-py': 'token(sizes.9)',
+          '--main-px': 'token(sizes.16)',
+          '--main-slot-side-padding': 'token(sizes.0)',
+          '--main-fs': 'token(sizes.20)',
+          '--slot-size': 'token(sizes.28)',
+          '--slot-px': 'token(sizes.10)',
+        },
+      },
     },
-    iconAfter: {
-      true: { container: {} },
+    before: {
+      true: {
+        mainContent: {
+          ps: '0',
+        },
+      },
+    },
+    after: {
+      true: {
+        mainContent: {
+          pe: '0',
+        },
+      },
     },
   },
-  compoundVariants: [
-    {
-      size: 'sm',
-      iconBefore: true,
-      css: {
-        container: { ps: '2' },
-      },
-    },
-    {
-      size: 'sm',
-      iconAfter: true,
-      css: {
-        container: { pe: '2' },
-      },
-    },
-    {
-      size: 'md',
-      iconBefore: true,
-      css: {
-        container: { ps: '3' },
-      },
-    },
-    {
-      size: 'md',
-      iconAfter: true,
-      css: {
-        container: { pe: '3' },
-      },
-    },
-    {
-      size: 'lg',
-      iconBefore: true,
-      css: {
-        container: { ps: '5' },
-      },
-    },
-    {
-      size: 'lg',
-      iconAfter: true,
-      css: {
-        container: { pe: '5' },
-      },
-    },
-    {
-      size: 'xl',
-      iconBefore: true,
-      css: {
-        container: { ps: '7' },
-      },
-    },
-    {
-      size: 'xl',
-      iconAfter: true,
-      css: {
-        container: { pe: '7' },
-      },
-    },
-  ],
   defaultVariants: {
-    variant: 'default',
+    variant: 'standard',
     size: 'md',
   },
 });
@@ -439,87 +315,50 @@ export const buttonRecipe = defineSlotRecipe({
 export const iconButtonRecipe = defineSlotRecipe({
   className: 'iconButton',
   jsx: ['IconButton'],
-  slots: ['container', 'mainContent', 'slot', 'icon'],
-  base: baseButtonStyles,
+  slots: ['container', 'mainContent', 'slot'],
+  base: {
+    ...buttonBaseStyles,
+    mainContent: {
+      w: 'calc(var(--slot-size) + (var(--slot-px) * 2))',
+      h: 'calc(var(--slot-size) + (var(--slot-px) * 2))',
+      p: 'var(--slot-px)',
+    },
+    slot: {
+      w: 'var(--slot-size)',
+      h: 'var(--slot-size)',
+    },
+  },
   variants: {
     ...buttonVariants,
     size: {
       sm: {
         container: {
-          fontSize: '14',
-          p: '1',
-        },
-        slot: {
-          w: '22',
-          h: '22',
-        },
-        mainContent: {
-          width: 'fit',
-          height: 'fit',
-        },
-        icon: {
-          w: '22',
-          h: '22',
+          '--slot-size': 'token(sizes.16)',
+          '--slot-px': 'token(sizes.3)',
         },
       },
       md: {
         container: {
-          fontSize: '16',
-          p: '3',
-        },
-        slot: {
-          w: '24',
-          h: '24',
-        },
-        mainContent: {
-          width: 'fit',
-          height: 'fit',
-        },
-        icon: {
-          w: '24',
-          h: '24',
+          '--slot-size': 'token(sizes.20)',
+          '--slot-px': 'token(sizes.5)',
         },
       },
       lg: {
         container: {
-          fontSize: '16',
-          p: '7',
-        },
-        slot: {
-          w: '24',
-          h: '24',
-        },
-        mainContent: {
-          width: 'fit',
-          height: 'fit',
-        },
-        icon: {
-          w: '24',
-          h: '24',
+          '--slot-size': 'token(sizes.24)',
+          '--slot-px': 'token(sizes.7)',
         },
       },
       xl: {
         container: {
-          fontSize: '20',
-          p: '9',
-        },
-        slot: {
-          w: '28',
-          h: '28',
-        },
-        mainContent: {
-          width: 'fit',
-          height: 'fit',
-        },
-        icon: {
-          w: '28',
-          h: '28',
+          '--slot-size': 'token(sizes.28)',
+          '--slot-px': 'token(sizes.9)',
         },
       },
     },
   },
   defaultVariants: {
-    variant: 'default',
+    variant: 'standard',
     size: 'md',
   },
 });

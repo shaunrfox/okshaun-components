@@ -19,16 +19,6 @@ import { splitProps } from '~/utils/splitProps';
 
 import { useChipGroup } from './ChipGroupContext';
 
-const chipSizeToIconSize: Record<
-  NonNullable<ChipVariantProps['size']>,
-  '20' | '24'
-> = {
-  sm: '20',
-  md: '20',
-  lg: '24',
-  xl: '24',
-};
-
 const getChipLabel = (children: ReactNode) => {
   if (typeof children === 'string') {
     return children;
@@ -112,8 +102,6 @@ export const Chip = (props: ChipProps) => {
     after: hasAfter,
     dismissable,
   });
-  const iconSize =
-    chipSizeToIconSize[resolvedSize as keyof typeof chipSizeToIconSize];
   const label = getChipLabel(children);
   const dismissAriaLabel =
     dismissLabel ?? (label ? `${label}, dismiss` : undefined);
@@ -230,15 +218,7 @@ export const Chip = (props: ChipProps) => {
         opacity={loading ? 0 : 1}
         className={classes.mainContent}
       >
-        {isMultiSelected && (
-          <Icon
-            name="check"
-            size={iconSize}
-            className={classes.chipIcon}
-            data-selected={isSelected || undefined}
-            aria-hidden
-          />
-        )}
+        {isMultiSelected && <Icon name="check" aria-hidden />}
         {before && (
           <SlotContext.Provider
             value={{
@@ -303,7 +283,7 @@ export const Chip = (props: ChipProps) => {
           disabled={resolvedDisabled || loading}
           data-selected={isSelected || undefined}
         >
-          <Icon name="x" size={iconSize} aria-hidden />
+          <Icon name="x" aria-hidden />
         </Box>
       )}
     </Box>

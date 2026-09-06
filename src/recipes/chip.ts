@@ -1,175 +1,60 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
-const chipBase = {
-  // The container paints the pill. It has to, because the dismiss button is a
-  // sibling of the body rather than a child: a button cannot be nested in the
-  // body's button. Whichever element owns the base background must also own the
-  // hover and active states, since bg.neutral and its hover and pressed values
-  // are all semi-transparent and would composite if painted on top of one
-  // another.
-  container: {
-    position: 'relative',
-    display: 'inline-flex',
-    alignItems: 'center',
-    width: 'fit-content',
-    verticalAlign: 'middle',
-    borderRadius: '999',
-    whiteSpace: 'nowrap',
-    userSelect: 'none',
-    transitionDuration: 'fast',
-    transitionProperty: 'background, color, border-color, box-shadow',
-    transitionTimingFunction: 'default',
-    bg: 'bg.neutral',
-    color: 'text',
-    _hover: {
-      bg: 'bg.neutral.hovered',
-    },
-    _active: {
-      bg: 'bg.neutral.pressed',
-    },
-    _loading: {
-      cursor: 'wait',
-      animation: 'pulse',
-    },
-    _deleted: {
-      opacity: '[0.6]',
-      cursor: 'not-allowed',
-    },
-    _selected: {
-      bg: 'bg.neutral.boldest',
-      color: 'text.inverse',
-      _hover: {
-        bg: 'bg.neutral.bold.hovered',
-      },
-      _active: {
-        bg: 'bg.neutral.bold.pressed',
-      },
-    },
-    _disabled: {
-      cursor: 'not-allowed',
-      bg: 'bg.disabled',
-      color: 'text.disabled',
-      borderColor: 'border.disabled',
-      _hover: {
-        bg: 'bg.disabled',
-        color: 'text.disabled',
-      },
-    },
-  },
-  // Transparent: the container paints the chip. The body keeps the typography,
-  // the focus ring and the label padding, and stays the interactive element.
-  body: {
-    position: 'relative',
-    display: 'inline-flex',
-    alignItems: 'center',
-    appearance: 'none',
-    border: 'none',
-    borderRadius: '999',
-    fontFamily: 'sans',
-    lineHeight: 'default',
-    fontWeight: 'medium',
-    whiteSpace: 'nowrap',
-    cursor: 'pointer',
-    transitionDuration: 'fast',
-    transitionProperty: 'background, color, border-color, box-shadow',
-    transitionTimingFunction: 'default',
-    userSelect: 'none',
-    outlineWidth: '2',
-    outlineStyle: 'solid',
-    outlineColor: 'transparent',
-    bg: 'transparent',
-    color: 'text',
-    _focusVisible: {
-      outlineColor: 'border.focused',
-    },
-    _loading: {
-      cursor: 'wait',
-    },
-    _deleted: {
-      textDecoration: 'line-through',
-      cursor: 'not-allowed',
-    },
-    _disabled: {
-      cursor: 'not-allowed',
-      color: 'text.disabled',
-    },
-    _selected: {
-      color: 'text.inverse',
-    },
-  },
-  mainContent: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: 'inherit',
-    minW: 0,
-  },
-  slot: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-  },
-  dismissButton: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    border: 'none',
-    // `full` is not a radii token here — only 100 and 999 exist — so this
-    // silently resolved to 0 and squared off the focus ring.
-    borderRadius: '999',
-    bg: 'transparent',
-    color: 'inherit',
-    cursor: 'pointer',
-    transitionDuration: 'fast',
-    transitionProperty: 'background, color',
-    transitionTimingFunction: 'default',
-    outlineWidth: '2',
-    outlineStyle: 'solid',
-    outlineColor: 'transparent',
-    // No background on hover. The container already darkens the whole pill, and
-    // bg.neutral.hovered over bg.neutral would composite to roughly 26% rather
-    // than the 14% the token specifies. The icon carries the affordance instead.
-    _hover: {
-      _icon: {
-        fill: 'icon',
-      },
-    },
-    _active: {
-      _icon: {
-        fill: 'icon',
-      },
-    },
-    _focusVisible: {
-      outlineColor: 'border.focused',
-    },
-    _disabled: {
-      cursor: 'not-allowed',
-      color: 'text.disabled',
-    },
-    '&[data-selected=true]': {
-      color: 'text.inverse',
-      _icon: {
-        fill: 'icon.decorative.inverse',
-      },
-    },
-  },
-  chipIcon: {
+import { globalBaseStyles } from '~/styles/utilities';
+
+// Ported from the Cetec design system: slots, sizing scale, the
+// custom-property mechanism and interaction behaviour. okshaun's semantic
+// tokens carry the colours.
+
+const buttonStyles = {
+  appearance: 'none',
+  cursor: 'pointer',
+  transitionDuration: 'fast',
+  transitionProperty: 'background, color',
+  transitionTimingFunction: 'default',
+  _icon: {
     fill: 'icon.decorative',
-    aspectRatio: 'square',
-    transitionDuration: 'fast',
-    transitionProperty: 'fill',
-    transitionTimingFunction: 'default',
-    _groupHover: { fill: 'icon.decorative.hovered' },
-    _groupActive: { fill: 'icon.decorative.hovered' },
-    _groupDisabled: { fill: 'icon.decorative' },
-    // Selection is read from the icon's own data attribute, never from an
-    // ancestor. A descendant selector such as `[data-selected=true] &` matches
-    // at any depth, so a chip nested in another chip's slot inherited the outer
-    // chip's selected fill.
-    '&[data-selected=true]': {
+  },
+  _hover: {
+    bg: 'bg.neutral.hovered',
+    _icon: {
+      fill: 'icon',
+    },
+  },
+  _active: {
+    bg: 'bg.neutral.pressed',
+    _icon: {
+      fill: 'icon',
+    },
+  },
+  _focusVisible: {
+    outlineColor: 'border.focused',
+  },
+  _disabled: {
+    cursor: 'not-allowed',
+  },
+  '&:has([data-disabled=true])': {
+    cursor: 'not-allowed',
+  },
+  '&:has([data-deleted=true])': {
+    textDecoration: 'line-through',
+    opacity: '[0.6]',
+  },
+  '&:has([data-selected=true])': {
+    bg: 'bg.neutral.boldest',
+    _icon: {
       fill: 'icon.decorative.inverse',
     },
-    '.group:is(:hover, [data-hover]) &[data-selected=true]': {
+  },
+  '&:has([data-selected=true]):is(:hover, [data-hover])': {
+    bg: 'bg.neutral.bold.hovered',
+    _icon: {
+      fill: 'icon.decorative.inverse.hovered',
+    },
+  },
+  '&:has([data-selected=true]):is(:active, [data-active])': {
+    bg: 'bg.neutral.bold.pressed',
+    _icon: {
       fill: 'icon.decorative.inverse.hovered',
     },
   },
@@ -178,178 +63,179 @@ const chipBase = {
 export const chipRecipe = defineSlotRecipe({
   className: 'chip',
   jsx: ['Chip'],
-  slots: [
-    'container',
-    'body',
-    'mainContent',
-    'dismissButton',
-    'slot',
-    'chipIcon',
-  ],
-  base: chipBase,
+  slots: ['container', 'body', 'mainContent', 'dismissButton', 'slot'],
+  base: {
+    container: {
+      ...globalBaseStyles,
+      '--chip-h': 'token(sizes.24)',
+      '--main-px': 'token(sizes.8)',
+      '--main-fs': 'token(sizes.14)',
+      '--main-slot-side-padding': 'token(sizes.4)',
+      '--slot-size': 'token(sizes.20)',
+      '--slot-px': 'token(sizes.2)',
+      position: 'relative',
+      display: 'inline-flex',
+      alignItems: 'center',
+      width: 'fit',
+      height: 'var(--chip-h)',
+      borderRadius: '999',
+      fontFamily: 'sans',
+      lineHeight: 'default',
+      fontWeight: 'medium',
+      whiteSpace: 'nowrap',
+      verticalAlign: 'middle',
+      transitionDuration: 'fast',
+      transitionProperty: 'all',
+      transitionTimingFunction: 'default',
+      userSelect: 'none',
+      bg: 'bg.neutral',
+      _loading: {
+        animation: 'pulse',
+      },
+      '&:has([data-selected=true])': {
+        bg: 'bg.neutral.boldest',
+        color: 'text.inverse',
+      },
+      '&:has([data-disabled=true])': {
+        cursor: 'not-allowed',
+        bg: 'bg.disabled',
+        color: 'text.disabled',
+        opacity: '[0.3]',
+      },
+    },
+    body: {
+      ...globalBaseStyles,
+      position: 'relative',
+      display: 'inline-flex',
+      alignItems: 'center',
+      minW: '0',
+      height: 'var(--chip-h)',
+      flexShrink: '0',
+      bg: 'transparent',
+      border: 'none',
+      borderRadius: '999',
+      outlineWidth: '2',
+      outlineStyle: 'solid',
+      outlineColor: 'transparent',
+      outlineOffset: 'calc(token(sizes.2) * -1)',
+      'button&': {
+        ...buttonStyles,
+      },
+    },
+    mainContent: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      minW: '0',
+      px: 'var(--main-px)',
+      fontSize: 'var(--main-fs)',
+      color: 'text',
+      '[data-selected=true] > &': {
+        color: 'text.inverse',
+      },
+    },
+    dismissButton: {
+      ...globalBaseStyles,
+      position: 'relative',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minW: '0',
+      flexShrink: '0',
+      bg: 'transparent',
+      border: 'none',
+      borderRadius: '999',
+      outlineWidth: '2',
+      outlineStyle: 'solid',
+      outlineColor: 'transparent',
+      outlineOffset: 'calc(token(sizes.2) * -1)',
+      aspectRatio: 'square',
+      ...buttonStyles,
+      // Deviation from Cetec: no hover background here. okshaun's bg.neutral
+      // tokens are semi-transparent, so painting hovered over the pill
+      // composites to roughly 26% rather than the 14% the token specifies.
+      _hover: {
+        bg: 'transparent',
+        _icon: { fill: 'icon' },
+      },
+      _active: {
+        bg: 'transparent',
+        _icon: { fill: 'icon' },
+      },
+      w: 'calc(var(--slot-size) + (var(--slot-px) * 2))',
+      h: 'calc(var(--slot-size) + (var(--slot-px) * 2))',
+      _icon: {
+        fill: 'icon.decorative',
+        width: 'var(--slot-size)',
+        height: 'var(--slot-size)',
+      },
+    },
+    slot: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      px: 'var(--slot-px)',
+    },
+  },
   variants: {
     size: {
       sm: {
-        body: {
-          gap: '2',
-          h: '20',
-          px: '6',
-          py: '0',
-          fontSize: '14',
-        },
-        mainContent: {
-          gap: '2',
-        },
-        slot: {
-          gap: '2',
-        },
-        chipIcon: {
-          w: '20',
-          h: '20',
-        },
-        dismissButton: {
-          w: '20',
-          h: '20',
+        container: {
+          '--chip-h': 'token(sizes.18)',
+          '--main-px': 'token(sizes.6)',
+          '--main-fs': 'token(sizes.12)',
+          '--main-slot-side-padding': 'token(sizes.4)',
+          '--slot-size': 'token(sizes.16)',
+          '--slot-px': 'token(sizes.1)',
         },
       },
       md: {
-        body: {
-          gap: '4',
-          h: '24',
-          px: '8',
-          py: '1',
-          fontSize: '14',
-        },
-        mainContent: {
-          gap: '4',
-        },
-        slot: {
-          gap: '4',
-        },
-        chipIcon: {
-          w: '20',
-          h: '20',
-        },
-        dismissButton: {
-          w: '24',
-          h: '24',
+        container: {
+          '--chip-h': 'token(sizes.24)',
+          '--main-px': 'token(sizes.8)',
+          '--main-fs': 'token(sizes.14)',
+          '--main-slot-side-padding': 'token(sizes.4)',
+          '--slot-size': 'token(sizes.20)',
+          '--slot-px': 'token(sizes.2)',
         },
       },
       lg: {
-        body: {
-          gap: '4',
-          h: '32',
-          px: '10',
-          py: '4',
-          fontSize: '16',
-        },
-        mainContent: {
-          gap: '4',
-        },
-        slot: {
-          gap: '4',
-        },
-        chipIcon: {
-          w: '24',
-          h: '24',
-        },
-        dismissButton: {
-          w: '32',
-          h: '32',
+        container: {
+          '--chip-h': 'token(sizes.28)',
+          '--main-px': 'token(sizes.10)',
+          '--main-fs': 'token(sizes.16)',
+          '--main-slot-side-padding': 'token(sizes.4)',
+          '--slot-size': 'token(sizes.24)',
+          '--slot-px': 'token(sizes.2)',
         },
       },
       xl: {
-        body: {
-          gap: '4',
-          h: '40',
-          px: '12',
-          py: '5',
-          fontSize: '16',
-        },
-        mainContent: {
-          gap: '4',
-        },
-        slot: {
-          gap: '4',
-        },
-        chipIcon: {
-          w: '24',
-          h: '24',
-        },
-        dismissButton: {
-          w: '40',
-          h: '40',
+        container: {
+          '--chip-h': 'token(sizes.32)',
+          '--main-px': 'token(sizes.12)',
+          '--main-fs': 'token(sizes.20)',
+          '--main-slot-side-padding': 'token(sizes.4)',
+          '--slot-size': 'token(sizes.28)',
+          '--slot-px': 'token(sizes.2)',
         },
       },
     },
     before: {
-      true: { body: {} },
+      true: {
+        mainContent: {
+          ps: 'var(--main-slot-side-padding)',
+        },
+      },
     },
     after: {
-      true: { body: {} },
+      true: {
+        mainContent: {
+          pe: 'var(--main-slot-side-padding)',
+        },
+      },
     },
     dismissable: {
-      true: { body: {} },
+      true: {},
     },
   },
-  compoundVariants: [
-    {
-      size: 'sm',
-      before: true,
-      css: {
-        body: { ps: '2' },
-      },
-    },
-    {
-      size: 'sm',
-      after: true,
-      css: {
-        body: { pe: '2' },
-      },
-    },
-    {
-      size: 'md',
-      before: true,
-      css: {
-        body: { ps: '2' },
-      },
-    },
-    {
-      size: 'md',
-      after: true,
-      css: {
-        body: { pe: '2' },
-      },
-    },
-    {
-      size: 'lg',
-      before: true,
-      css: {
-        body: { ps: '4' },
-      },
-    },
-    {
-      size: 'lg',
-      after: true,
-      css: {
-        body: { pe: '4' },
-      },
-    },
-    {
-      size: 'xl',
-      before: true,
-      css: {
-        body: { ps: '4' },
-      },
-    },
-    {
-      size: 'xl',
-      after: true,
-      css: {
-        body: { pe: '4' },
-      },
-    },
-  ],
   defaultVariants: {
     size: 'md',
   },

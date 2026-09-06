@@ -1,15 +1,21 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
-import { listDensity } from './list';
+import { globalBaseStyles } from '~/styles/utilities';
+
+import { listDensityWrapperVars } from './listDensity';
+
+// Ported from the Cetec design system: structure, slot order, density
+// abstraction and interaction behaviour. okshaun's own semantic tokens carry
+// the styling, and they share these names.
 
 export const listItemRecipe = defineSlotRecipe({
   className: 'listItem',
   jsx: ['ListItem'],
   slots: [
     'wrapper',
+    'icon',
     'beforeSlot',
     'afterSlot',
-    'icon',
     'itemMain',
     'itemLabel',
     'itemDescription',
@@ -17,11 +23,14 @@ export const listItemRecipe = defineSlotRecipe({
   ],
   base: {
     wrapper: {
+      ...globalBaseStyles,
       display: 'flex',
       alignItems: 'start',
       justifyContent: 'start',
       gap: '4',
       width: 'full',
+      py: 'var(--list-item-padding-y)',
+      px: 'var(--list-item-padding-x)',
       textAlign: 'left',
       borderWidth: '1',
       borderStyle: 'solid',
@@ -44,32 +53,11 @@ export const listItemRecipe = defineSlotRecipe({
       _focus: {
         bg: 'bg.neutral.hovered',
       },
-      '&[data-active="true"]': {
-        bg: 'bg.neutral.hovered',
-      },
-      '&[data-disabled="true"]': {
-        opacity: '0.4',
-        cursor: 'not-allowed',
-        pointerEvents: 'none',
-      },
       _disabled: {
         opacity: '0.4',
         cursor: 'not-allowed',
         pointerEvents: 'none',
       },
-    },
-    beforeSlot: {
-      display: 'flex',
-      alignItems: 'center',
-      flexShrink: '0',
-    },
-    afterSlot: {
-      display: 'flex',
-      alignItems: 'center',
-      flexShrink: '0',
-    },
-    divider: {
-      width: 'full',
     },
     icon: {
       aspectRatio: 'square',
@@ -77,6 +65,8 @@ export const listItemRecipe = defineSlotRecipe({
       transitionProperty: 'fill',
       transitionTimingFunction: 'default',
       flexShrink: '0',
+      w: 'var(--list-item-icon-size)',
+      h: 'var(--list-item-icon-size)',
     },
     itemMain: {
       display: 'flex',
@@ -86,10 +76,23 @@ export const listItemRecipe = defineSlotRecipe({
     },
     itemLabel: {
       color: 'text',
+      fontSize: 'var(--list-item-label-size)',
     },
     itemDescription: {
       color: 'text.subtlest',
+      fontSize: 'var(--list-item-description-size)',
       lineHeight: 'tight',
+    },
+    beforeSlot: {
+      ms: 'calc(var(--list-item-slot-margin) * -1)',
+    },
+    afterSlot: {
+      me: 'calc(var(--list-item-slot-margin) * -1)',
+    },
+    divider: {
+      width: 'full',
+      py: 'var(--list-item-padding-y)',
+      px: 'var(--list-item-padding-x)',
     },
   },
   variants: {
@@ -141,60 +144,11 @@ export const listItemRecipe = defineSlotRecipe({
       },
       divider: {},
     },
-    density: {
-      compact: {
-        wrapper: listDensity.compact.row,
-        itemLabel: {
-          textStyle: 'sans.md',
-          color: 'text',
-        },
-        itemDescription: {
-          textStyle: 'sans.xs',
-          lineHeight: 'tight',
-        },
-        icon: listDensity.compact.icon,
-        beforeSlot: listDensity.compact.beforeSlot,
-        afterSlot: listDensity.compact.afterSlot,
-        divider: listDensity.compact.divider,
-      },
-      comfortable: {
-        wrapper: listDensity.comfortable.row,
-        itemLabel: {
-          textStyle: 'sans.md',
-          color: 'text',
-        },
-        itemDescription: {
-          textStyle: 'sans.xs',
-          lineHeight: 'tight',
-        },
-        icon: listDensity.comfortable.icon,
-        beforeSlot: listDensity.comfortable.beforeSlot,
-        afterSlot: listDensity.comfortable.afterSlot,
-        divider: listDensity.comfortable.divider,
-      },
-      spacious: {
-        wrapper: listDensity.spacious.row,
-        itemLabel: {
-          textStyle: 'sans.lg',
-          color: 'text',
-        },
-        itemDescription: {
-          textStyle: 'sans.sm',
-          lineHeight: 'tight',
-        },
-        icon: listDensity.spacious.icon,
-        beforeSlot: listDensity.spacious.beforeSlot,
-        afterSlot: listDensity.spacious.afterSlot,
-        divider: listDensity.spacious.divider,
-      },
-    },
+    density: listDensityWrapperVars,
     selected: {
       true: {
         wrapper: {
           bg: 'surface.selected',
-          '&[data-active="true"]': {
-            bg: 'surface.selected.hovered',
-          },
           _hover: {
             bg: 'surface.selected.hovered',
           },
@@ -217,101 +171,8 @@ export const listItemRecipe = defineSlotRecipe({
       false: {},
     },
   },
-  compoundVariants: [
-    {
-      density: 'compact',
-      iconBefore: true,
-      css: {
-        wrapper: {
-          ps: '5',
-        },
-        beforeSlot: listDensity.compact.beforeSlot,
-      },
-    },
-    {
-      density: 'compact',
-      iconAfter: true,
-      css: {
-        wrapper: {
-          pe: '5',
-        },
-        afterSlot: listDensity.compact.afterSlot,
-      },
-    },
-    {
-      density: 'compact',
-      variant: 'checkbox',
-      css: {
-        wrapper: {
-          ps: '5',
-        },
-        beforeSlot: listDensity.compact.beforeSlot,
-      },
-    },
-    {
-      density: 'comfortable',
-      iconBefore: true,
-      css: {
-        wrapper: {
-          ps: '7',
-        },
-        beforeSlot: listDensity.comfortable.beforeSlot,
-      },
-    },
-    {
-      density: 'comfortable',
-      iconAfter: true,
-      css: {
-        wrapper: {
-          pe: '7',
-        },
-        afterSlot: listDensity.comfortable.afterSlot,
-      },
-    },
-    {
-      density: 'comfortable',
-      variant: 'checkbox',
-      css: {
-        wrapper: {
-          ps: '7',
-        },
-        beforeSlot: listDensity.comfortable.beforeSlot,
-      },
-    },
-    {
-      density: 'spacious',
-      iconBefore: true,
-      css: {
-        wrapper: {
-          ps: '9',
-        },
-        beforeSlot: listDensity.spacious.beforeSlot,
-      },
-    },
-    {
-      density: 'spacious',
-      iconAfter: true,
-      css: {
-        wrapper: {
-          pe: '9',
-        },
-        afterSlot: listDensity.spacious.afterSlot,
-      },
-    },
-    {
-      density: 'spacious',
-      variant: 'checkbox',
-      css: {
-        wrapper: {
-          ps: '9',
-        },
-        beforeSlot: listDensity.spacious.beforeSlot,
-      },
-    },
-  ],
   defaultVariants: {
     variant: 'default',
     density: 'compact',
-    selected: false,
   },
 });
