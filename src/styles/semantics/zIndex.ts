@@ -6,6 +6,7 @@ import { defineSemanticTokens } from '@pandacss/dev';
  *   elevated  → shadows.elevated                     (menus, dropdowns)
  *   overlay   → shadows.overlay   / surface.overlay  (modal backdrop)
  *   modal     →                                      (modal container, above backdrop)
+ *   modalFloating →                                  (floating content inside a modal)
  *   tooltip   →                                      (always on top)
  */
 export const zIndex = defineSemanticTokens.zIndex({
@@ -14,5 +15,6 @@ export const zIndex = defineSemanticTokens.zIndex({
   elevated: { value: '{zIndex.1000}' },
   overlay: { value: '{zIndex.1100}' },
   modal: { value: '{zIndex.1101}' },
+  modalFloating: { value: '{zIndex.1102}' },
   tooltip: { value: '{zIndex.1200}' },
 });

@@ -43,7 +43,13 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
   list: [{ density: ['*'], responsive: true }],
   listItem: [{ density: ['*'], responsive: true }, { selected: ['*'] }],
   listItemGroup: [{ density: ['*'], responsive: true }],
-  menu: [{ density: ['*'], responsive: true }, { panel: ['*'] }],
+  menu: [
+    { density: ['*'], responsive: true },
+    { panel: ['*'] },
+    // `layer` is chosen at runtime from FloatingLayerContext, so Panda cannot
+    // see the value statically and would emit no CSS for it.
+    { layer: ['*'] },
+  ],
   select: [{ size: ['*'], responsive: true }],
   skeleton: [{ variant: ['*'], animation: ['*'] }],
   spinner: [{ size: ['*'], responsive: true }],

@@ -28,18 +28,17 @@ import {
 } from 'react';
 
 import type { MenuDensity } from '~/components/Menu';
+import { useFloatingLayer } from '~/system/floating-ui/FloatingLayerContext';
 import {
   createOverlayMiddleware,
   useOverlayFloating,
 } from '~/system/floating-ui/floating';
 import { useControllableState } from '~/system/hooks';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box, type BoxProps } from '../Box';
 import { Chip } from '../Chip';
 import { Icon } from '../Icon';
 import { List, ListItem } from '../List';
-
 import { SelectContext } from './SelectContext';
 import type { SelectOptionProps } from './SelectOption';
 
@@ -271,7 +270,8 @@ export const Select = (props: SelectProps) => {
     placeholder,
   );
   const styles = select({ size });
-  const menuStyles = menu({ density });
+  const floatingLayer = useFloatingLayer();
+  const menuStyles = menu({ density, layer: floatingLayer });
   const hasValue = value !== null && value !== undefined && value !== '';
   const selectedValues = multiple
     ? Array.isArray(value)

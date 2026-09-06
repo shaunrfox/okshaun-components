@@ -11,9 +11,7 @@
     "begin",
     "playback"
   ],
-  "tags": [
-    "media"
-  ],
+  "tags": ["media"],
   "category": "Player",
   "deprecated": false
 }

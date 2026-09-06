@@ -33,14 +33,12 @@ import {
   useRef,
   useState,
 } from 'react';
-
+import { useFloatingLayer } from '~/system/floating-ui/FloatingLayerContext';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box } from '../Box';
 import { Icon } from '../Icon';
 import { HighlightText } from '../List';
 import { Text } from '../Text';
-
 import {
   deriveItemTextValue,
   isItemMatch,
@@ -83,7 +81,11 @@ export const SubMenu = (props: SubMenuProps) => {
   const resolvedInteraction = interaction ?? rootContext.subMenuInteraction;
   const resolvedDensity =
     typeof density === 'string' ? density : rootContext.density;
-  const classes = menu({ density: resolvedDensity });
+  const floatingLayer = useFloatingLayer();
+  const classes = menu({
+    density: resolvedDensity,
+    layer: floatingLayer,
+  });
   const listClassName = list({});
   const itemClassName = listItemRecipe({
     density: resolvedDensity,

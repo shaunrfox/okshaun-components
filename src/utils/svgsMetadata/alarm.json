@@ -13,10 +13,7 @@
     "ring",
     "snooze"
   ],
-  "tags": [
-    "time",
-    "status"
-  ],
+  "tags": ["time", "status"],
   "category": "Time",
   "deprecated": false
 }
