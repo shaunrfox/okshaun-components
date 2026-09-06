@@ -359,6 +359,60 @@ export const TopNavHoverTrigger: Story = {
   parameters: { controls: { disable: true } },
 };
 
+export const TopNavClickAndHoverTrigger: Story = {
+  name: 'Top nav click and hover trigger',
+  render: () => (
+    <VStack
+      alignItems="stretch"
+      minW="3xl"
+      h="2xl"
+      bg="bg.neutral"
+      p="24"
+      gap="16"
+    >
+      <HStack
+        alignItems="center"
+        gap="12"
+        borderWidth="1"
+        borderColor="border"
+        bg="surface"
+        px="24"
+        py="16"
+      >
+        <Menu
+          triggerInteraction="click-and-hover"
+          trigger={<Button variant="selectedBold">Sales</Button>}
+          subMenuInteraction="hover"
+          closeOnSelect={false}
+        >
+          <SubMenu label="Quotes">
+            <MenuItem label="Open quotes" />
+            <MenuItem label="Draft quotes" />
+          </SubMenu>
+
+          <SubMenu label="Orders" selected>
+            <MenuItem label="Order list" />
+            <SubMenu label="Used orders" selected>
+              <MenuItem label="Order as used" selected />
+              <MenuItem label="Bookings" />
+              <MenuItem label="Order commissions" />
+            </SubMenu>
+          </SubMenu>
+
+          <SubMenu label="Invoices">
+            <MenuItem label="All invoices" />
+            <MenuItem label="Credit notes" />
+          </SubMenu>
+        </Menu>
+
+        <Button>Production</Button>
+        <Button>Admin</Button>
+      </HStack>
+    </VStack>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
 export const SubMenuDigin: Story = {
   render: () => (
     <Menu

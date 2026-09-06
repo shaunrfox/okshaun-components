@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Grid, HStack, VStack, Wrap } from '@styled-system/jsx';
+import { Avatar } from '../Avatar';
+import { Badge } from '../Badge';
+import { Button } from '../Button';
 import { FormField } from '../FormField';
+import { IconButton } from '../IconButton';
 import { Text } from '../Text';
 import { TextInput } from './TextInput';
 
@@ -206,6 +210,30 @@ export const IconSizes: Story = {
   parameters: { controls: { disable: true } },
 };
 
+export const WithSlots: Story = {
+  render: () => (
+    <VStack gap="12" alignItems="flex-start" w="xl">
+      <TextInput
+        name="slot-before"
+        before={<Avatar name="Acme Corp" size="sm" />}
+        placeholder="Before slot"
+      />
+      <TextInput
+        name="slot-after"
+        after={<Badge count={3} variant="success" />}
+        placeholder="After slot"
+      />
+      <TextInput
+        name="slot-buttons"
+        before={<Button type="button">Pick</Button>}
+        after={<IconButton iconName="search" altText="Search" />}
+        placeholder="Button slots"
+      />
+    </VStack>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
 // ============================================================================
 // Auto Size
 // ============================================================================
@@ -267,6 +295,17 @@ export const WithFormField: Story = {
           disabled
         />
       </FormField>
+    </VStack>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const WithValidationStates: Story = {
+  render: () => (
+    <VStack gap="12" alignItems="flex-start" w="sm">
+      <TextInput name="valid-state" valid placeholder="Valid state" />
+      <TextInput name="invalid-state" invalid placeholder="Invalid state" />
+      <TextInput name="error-state" error placeholder="Error state" />
     </VStack>
   ),
   parameters: { controls: { disable: true } },

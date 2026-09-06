@@ -43,7 +43,7 @@ const meta: Meta<typeof Badge> = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'],
+      options: ['sm', 'md', 'lg', 'xl'],
       description: 'Size of the badge',
     },
   },
@@ -169,6 +169,9 @@ export const Sizes: Story = {
           <Badge size="lg">
             <Icon name="envelope" size="32" />
           </Badge>
+          <Badge size="xl">
+            <Icon name="envelope" size="40" />
+          </Badge>
         </Box>
       </Box>
       <Box display="flex" flexDir="column" gap="2">
@@ -182,6 +185,9 @@ export const Sizes: Story = {
           </Badge>
           <Badge count={99} size="lg">
             <Icon name="envelope" size="32" />
+          </Badge>
+          <Badge count={101} size="xl">
+            <Icon name="envelope" size="40" />
           </Badge>
         </Box>
       </Box>

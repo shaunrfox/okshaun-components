@@ -1,4 +1,5 @@
 export { boxRecipe } from './box';
+export { breakpointIndicatorRecipe } from './breakpointIndicator';
 export { cardRecipe } from './card';
 export { checkboxInputRecipe } from './checkboxInput';
 export { codeRecipe, preRecipe } from './code';
@@ -7,6 +8,7 @@ export { highlightTextRecipe } from './highlightText';
 export { iconRecipe } from './icon';
 export { listRecipe } from './list';
 export { radioInputRecipe } from './radioInput';
+export { skeletonRecipe } from './skeleton';
 export { tagRecipe } from './tag';
 export { headingRecipe, labelRecipe, linkRecipe, textRecipe } from './text';
 export { textareaRecipe } from './textarea';

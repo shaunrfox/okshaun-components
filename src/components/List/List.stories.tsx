@@ -156,6 +156,44 @@ const FloatingSearchBarExample = () => {
   );
 };
 
+const LinkedItemsExample = () => {
+  return (
+    <Card variant="flat" minW="2xs">
+      <List aria-label="Linked resources">
+        <ListItem
+          href="https://example.com/docs"
+          target="_blank"
+          rel="noreferrer"
+          iconBefore="link"
+          iconBeforeFill="icon"
+          iconAfter="arrow-square-out"
+          iconAfterFill="icon.decorative.subtle"
+          label="Documentation"
+          description="Open the public docs"
+        />
+        <ListItem
+          href="https://example.com/status"
+          active
+          iconBefore="history"
+          iconBeforeFill="icon.decorative"
+          iconAfter="arrow-right"
+          iconAfterFill="icon"
+          label="Status page"
+          description="Check service health"
+        />
+        <ListItem
+          href="https://example.com/archive"
+          disabled
+          iconBefore="lock"
+          iconBeforeFill="icon.decorative.subtle"
+          label="Archived item"
+          description="Disabled link state"
+        />
+      </List>
+    </Card>
+  );
+};
+
 export const Default: Story = {
   args: {},
   render: () => <SingleSelectExample />,
@@ -239,9 +277,44 @@ export const Highlighting: Story = {
   parameters: { controls: { disable: true } },
 };
 
+export const LinkedItems: Story = {
+  args: {},
+  render: () => <LinkedItemsExample />,
+  parameters: { controls: { disable: true } },
+};
+
 export const ExFloatingSearchBar: Story = {
   name: 'Ex: Floating search bar',
   args: {},
   render: () => <FloatingSearchBarExample />,
   parameters: { controls: { disable: true } },
+};
+
+const RowIdExample = () => (
+  <List aria-label="Customers" width="72">
+    {[
+      ['cus_1042', 'Acme Fabrication'],
+      ['cus_1043', 'Bluebird Machining'],
+      ['cus_1044', 'Copperline Tooling'],
+    ].map(([id, name]) => (
+      <ListItem key={id} rowId={id} value={id}>
+        {name}
+      </ListItem>
+    ))}
+  </List>
+);
+
+export const RowIdentifiers: Story = {
+  name: 'Row identifiers',
+  args: {},
+  render: () => <RowIdExample />,
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Pass the internal record key as `rowId`. It renders as `data-row-id` on the item root so tests and interaction logs can name the record. Never use a row index or a customer-facing number.',
+      },
+    },
+  },
 };

@@ -1,6 +1,17 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
 const modalBase = {
+  positionWrapper: {
+    position: 'fixed',
+    inset: '0',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflowY: 'auto',
+    pointerEvents: 'none',
+    padding: '16',
+    zIndex: '1101',
+  },
   overlay: {
     position: 'fixed',
     inset: '0',
@@ -15,9 +26,7 @@ const modalBase = {
     },
   },
   container: {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     width: 'full',
@@ -26,10 +35,10 @@ const modalBase = {
     borderRadius: '12',
     boxShadow: 'overlay',
     outline: 'none',
-    zIndex: '1101',
+    pointerEvents: 'auto',
     // Initial state matches animation start
     opacity: '0',
-    transform: '[translate(-50%, -50%) scale(0.95) translateY(-10px)]',
+    transform: '[scale(0.95) translateY(-10px)]',
     // Animation handled via data-state
     animation: 'modalScaleIn 150ms ease-out forwards',
     '&[data-state="closing"]': {
@@ -74,6 +83,26 @@ const modalBase = {
 };
 
 const modalVariants = {
+  position: {
+    centered: {
+      positionWrapper: {
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+    },
+    top: {
+      positionWrapper: {
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+      },
+    },
+    bottom: {
+      positionWrapper: {
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+      },
+    },
+  },
   size: {
     sm: {
       container: {
@@ -136,6 +165,7 @@ export const modalRecipe = defineSlotRecipe({
   className: 'modal',
   jsx: ['Modal', 'ModalHeader', 'ModalBody', 'ModalFooter'],
   slots: [
+    'positionWrapper',
     'overlay',
     'container',
     'header',
@@ -147,6 +177,7 @@ export const modalRecipe = defineSlotRecipe({
   base: modalBase,
   variants: modalVariants,
   defaultVariants: {
+    position: 'centered',
     variant: 'default',
     size: 'md',
   },

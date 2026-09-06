@@ -22,7 +22,10 @@ import {
 } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
+import { useFieldContext } from '~/system/context';
 import { useOverlayFloating } from '~/system/floating-ui/floating';
+import { useControllableState } from '~/system/hooks';
+import { mergeAriaDescribedBy } from '~/utils/mergeAriaDescribedBy';
 import { splitProps } from '~/utils/splitProps';
 
 import { Calendar, type DateValue } from './Calendar';
@@ -165,6 +168,28 @@ function clampDay(
   return Math.min(day, max);
 }
 
+function formatDateValue(value: DateValue | null): string {
+  if (!value) {
+    return '';
+  }
+
+  const month = String(value.month).padStart(2, '0');
+  const day = String(value.day).padStart(2, '0');
+  return `${value.year}-${month}-${day}`;
+}
+
+function isSameDateValue(a: DateValue | null, b: DateValue | null): boolean {
+  if (a === b) {
+    return true;
+  }
+
+  if (!a || !b) {
+    return false;
+  }
+
+  return a.year === b.year && a.month === b.month && a.day === b.day;
+}
+
 // ─── Props ─────────────────────────────────────────────────────────────────────
 
 export type DatePickerProps = Omit<
@@ -174,6 +199,8 @@ export type DatePickerProps = Omit<
   DatePickerVariantProps & {
     /** Controlled value */
     value?: DateValue | null;
+    /** Uncontrolled initial value */
+    defaultValue?: DateValue | null;
     /** Called when the date changes */
     onChange?: (value: DateValue | null) => void;
     /** Earliest selectable date */
@@ -184,10 +211,13 @@ export type DatePickerProps = Omit<
     label?: string;
     disabled?: boolean;
     error?: boolean;
+    invalid?: boolean;
     id?: string;
     name?: string;
     /** Controlled popover open state */
     open?: boolean;
+    /** Uncontrolled initial popover state */
+    defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
   };
 
@@ -196,26 +226,45 @@ export type DatePickerProps = Omit<
 export const DatePicker = (props: DatePickerProps) => {
   const {
     value,
+    defaultValue = null,
     onChange,
     minDate,
     maxDate,
     label = 'Date',
-    disabled = false,
-    error = false,
+    disabled: disabledProp = false,
+    error: errorProp = false,
+    invalid: invalidProp = false,
     id,
+    name,
     size,
     open: controlledOpen,
+    defaultOpen = false,
     onOpenChange,
     ...rest
   } = props;
 
   const [className, otherProps] = splitProps(rest);
+  const fieldContext = useFieldContext();
+  const disabled = disabledProp || fieldContext?.disabled || false;
+  const error = errorProp || fieldContext?.error || false;
+  const invalid = invalidProp || fieldContext?.invalid || false;
+  const sizeOverride = size ?? fieldContext?.size;
+  const visualError = error || invalid;
+  const initialValue = value !== undefined ? value : defaultValue;
+  const describedBy = mergeAriaDescribedBy(
+    fieldContext?.describedBy,
+    (otherProps as typeof otherProps & { 'aria-describedby'?: string })[
+      'aria-describedby'
+    ],
+  );
+  const { 'aria-describedby': _ariaDescribedBy, ...containerProps } =
+    otherProps as typeof otherProps & { 'aria-describedby'?: string };
 
   // ── Segment state ──────────────────────────────────────────────────────────
   const [segments, setSegments] = useState<SegmentValues>(() => ({
-    month: value?.month ?? null,
-    day: value?.day ?? null,
-    year: value?.year ?? null,
+    month: initialValue?.month ?? null,
+    day: initialValue?.day ?? null,
+    year: initialValue?.year ?? null,
   }));
   const [rawInput, setRawInput] = useState<SegmentRaw>({
     month: '',
@@ -232,33 +281,44 @@ export const DatePicker = (props: DatePickerProps) => {
     return { year: now.getFullYear(), month: now.getMonth() + 1 };
   }, []);
   const [viewDate, setViewDate] = useState({
-    year: value?.year ?? today.year,
-    month: value?.month ?? today.month,
+    year: initialValue?.year ?? today.year,
+    month: initialValue?.month ?? today.month,
   });
+  const syncedValueRef = useRef<DateValue | null | undefined>(value);
 
   // ── Popover state ──────────────────────────────────────────────────────────
-  const [internalOpen, setInternalOpen] = useState(false);
-  const isOpen = controlledOpen ?? internalOpen;
+  const [isOpen, setIsOpen] = useControllableState<boolean>({
+    value: controlledOpen,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
 
   const handleOpenChange = useCallback(
     (next: boolean) => {
-      setInternalOpen(next);
-      onOpenChange?.(next);
+      setIsOpen(next);
     },
-    [onOpenChange],
+    [setIsOpen],
   );
 
   // ── Sync external value → segment state ───────────────────────────────────
   useEffect(() => {
-    if (value !== undefined) {
-      setSegments({
-        month: value?.month ?? null,
-        day: value?.day ?? null,
-        year: value?.year ?? null,
-      });
-      if (value) {
-        setViewDate({ year: value.year, month: value.month });
-      }
+    if (
+      value === undefined ||
+      isSameDateValue(value, syncedValueRef.current ?? null)
+    ) {
+      return;
+    }
+
+    syncedValueRef.current = value;
+    setSegments({
+      month: value?.month ?? null,
+      day: value?.day ?? null,
+      year: value?.year ?? null,
+    });
+    setRawInput({ month: '', day: '', year: '' });
+
+    if (value) {
+      setViewDate({ year: value.year, month: value.month });
     }
   }, [value]);
 
@@ -440,7 +500,11 @@ export const DatePicker = (props: DatePickerProps) => {
   }, []);
 
   // ── Recipe classes ─────────────────────────────────────────────────────────
-  const classes = datePicker({ size });
+  // FieldContext size is wider than this recipe's variants; the picker is
+  // being rebuilt (beads okshaun-components-ecl.3), so cast rather than remap.
+  const classes = datePicker({
+    size: sizeOverride as DatePickerVariantProps['size'] | undefined,
+  });
 
   const dateValue: DateValue | null =
     segments.month !== null && segments.day !== null && segments.year !== null
@@ -457,20 +521,24 @@ export const DatePicker = (props: DatePickerProps) => {
         role="group"
         aria-label={label}
         aria-disabled={disabled}
+        aria-describedby={describedBy}
+        aria-invalid={visualError || undefined}
         data-disabled={disabled || undefined}
-        data-error={error || undefined}
+        data-error={visualError || undefined}
+        data-invalid={invalid || undefined}
         data-open={isOpen || undefined}
         onClick={(e: MouseEvent<HTMLDivElement>) => {
           if (e.target === e.currentTarget && !disabled)
             segmentRefs.current[0]?.focus();
         }}
         {...(getReferenceProps() as Record<string, unknown>)}
+        {...containerProps}
       >
         <DateSegments
           segments={segments}
           rawInput={rawInput}
           disabled={disabled}
-          error={error}
+          error={visualError}
           focusedSegment={focusedSegment}
           classes={classes}
           segmentRefs={segmentRefs}
@@ -484,6 +552,15 @@ export const DatePicker = (props: DatePickerProps) => {
           onKeyDownSegment={handleSegmentKeyDown}
         />
       </Box>
+
+      {name && (
+        <Box
+          as="input"
+          type="hidden"
+          name={name}
+          value={formatDateValue(dateValue)}
+        />
+      )}
 
       {/* Popover calendar */}
       {isOpen && !disabled && (

@@ -6,6 +6,7 @@ export { checkboxRecipe } from './checkbox';
 export { chipRecipe } from './chip';
 export { datePickerRecipe } from './datePicker';
 export { formFieldRecipe } from './formField';
+export { kbdRecipe } from './kbd';
 export { listItemRecipe } from './listItem';
 export { listItemGroupRecipe } from './listItemGroup';
 export { menuRecipe } from './menu';

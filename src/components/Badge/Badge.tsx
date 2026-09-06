@@ -3,6 +3,7 @@ import { type BadgeVariantProps, badge } from '@styled-system/recipes';
 import type { ReactNode } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
+import { useSlotContext } from '~/system/context/SlotContext';
 import { splitProps } from '~/utils/splitProps';
 
 export type BadgeVariant =
@@ -52,16 +53,19 @@ const animationStyles = {
  * - With count prop: shows the number (or "99+" if exceeds overflowCount)
  */
 export const Badge = (props: BadgeProps) => {
+  const slotContext = useSlotContext();
   const {
     count,
     showZero = false,
     overflowCount = 99,
     variant = 'danger',
-    size = 'md',
+    size: sizeProp,
     children,
     ref,
     ...rest
   } = props;
+  const size =
+    sizeProp ?? (slotContext?.size as BadgeProps['size'] | undefined);
   const [className, otherProps] = splitProps(rest);
   // Determine if we're in count mode or dot mode
   const isCountMode = count !== undefined;

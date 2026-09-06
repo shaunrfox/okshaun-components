@@ -1,10 +1,14 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
+import { listDensity } from './list';
+
 export const listItemRecipe = defineSlotRecipe({
   className: 'listItem',
   jsx: ['ListItem'],
   slots: [
     'wrapper',
+    'beforeSlot',
+    'afterSlot',
     'icon',
     'itemMain',
     'itemLabel',
@@ -43,11 +47,26 @@ export const listItemRecipe = defineSlotRecipe({
       '&[data-active="true"]': {
         bg: 'bg.neutral.hovered',
       },
+      '&[data-disabled="true"]': {
+        opacity: '0.4',
+        cursor: 'not-allowed',
+        pointerEvents: 'none',
+      },
       _disabled: {
         opacity: '0.4',
         cursor: 'not-allowed',
         pointerEvents: 'none',
       },
+    },
+    beforeSlot: {
+      display: 'flex',
+      alignItems: 'center',
+      flexShrink: '0',
+    },
+    afterSlot: {
+      display: 'flex',
+      alignItems: 'center',
+      flexShrink: '0',
     },
     divider: {
       width: 'full',
@@ -124,10 +143,7 @@ export const listItemRecipe = defineSlotRecipe({
     },
     density: {
       compact: {
-        wrapper: {
-          py: '3',
-          px: '10',
-        },
+        wrapper: listDensity.compact.row,
         itemLabel: {
           textStyle: 'sans.md',
           color: 'text',
@@ -136,20 +152,13 @@ export const listItemRecipe = defineSlotRecipe({
           textStyle: 'sans.xs',
           lineHeight: 'tight',
         },
-        icon: {
-          w: '24',
-          h: '24',
-        },
-        divider: {
-          py: '3',
-          px: '10',
-        },
+        icon: listDensity.compact.icon,
+        beforeSlot: listDensity.compact.beforeSlot,
+        afterSlot: listDensity.compact.afterSlot,
+        divider: listDensity.compact.divider,
       },
       comfortable: {
-        wrapper: {
-          py: '7',
-          px: '12',
-        },
+        wrapper: listDensity.comfortable.row,
         itemLabel: {
           textStyle: 'sans.md',
           color: 'text',
@@ -158,20 +167,13 @@ export const listItemRecipe = defineSlotRecipe({
           textStyle: 'sans.xs',
           lineHeight: 'tight',
         },
-        icon: {
-          w: '24',
-          h: '24',
-        },
-        divider: {
-          py: '7',
-          px: '12',
-        },
+        icon: listDensity.comfortable.icon,
+        beforeSlot: listDensity.comfortable.beforeSlot,
+        afterSlot: listDensity.comfortable.afterSlot,
+        divider: listDensity.comfortable.divider,
       },
       spacious: {
-        wrapper: {
-          py: '9',
-          px: '16',
-        },
+        wrapper: listDensity.spacious.row,
         itemLabel: {
           textStyle: 'sans.lg',
           color: 'text',
@@ -180,14 +182,10 @@ export const listItemRecipe = defineSlotRecipe({
           textStyle: 'sans.sm',
           lineHeight: 'tight',
         },
-        icon: {
-          w: '28',
-          h: '28',
-        },
-        divider: {
-          py: '9',
-          px: '16',
-        },
+        icon: listDensity.spacious.icon,
+        beforeSlot: listDensity.spacious.beforeSlot,
+        afterSlot: listDensity.spacious.afterSlot,
+        divider: listDensity.spacious.divider,
       },
     },
     selected: {
@@ -227,6 +225,7 @@ export const listItemRecipe = defineSlotRecipe({
         wrapper: {
           ps: '5',
         },
+        beforeSlot: listDensity.compact.beforeSlot,
       },
     },
     {
@@ -236,6 +235,7 @@ export const listItemRecipe = defineSlotRecipe({
         wrapper: {
           pe: '5',
         },
+        afterSlot: listDensity.compact.afterSlot,
       },
     },
     {
@@ -245,6 +245,7 @@ export const listItemRecipe = defineSlotRecipe({
         wrapper: {
           ps: '5',
         },
+        beforeSlot: listDensity.compact.beforeSlot,
       },
     },
     {
@@ -254,6 +255,7 @@ export const listItemRecipe = defineSlotRecipe({
         wrapper: {
           ps: '7',
         },
+        beforeSlot: listDensity.comfortable.beforeSlot,
       },
     },
     {
@@ -263,6 +265,7 @@ export const listItemRecipe = defineSlotRecipe({
         wrapper: {
           pe: '7',
         },
+        afterSlot: listDensity.comfortable.afterSlot,
       },
     },
     {
@@ -272,6 +275,7 @@ export const listItemRecipe = defineSlotRecipe({
         wrapper: {
           ps: '7',
         },
+        beforeSlot: listDensity.comfortable.beforeSlot,
       },
     },
     {
@@ -281,6 +285,7 @@ export const listItemRecipe = defineSlotRecipe({
         wrapper: {
           ps: '9',
         },
+        beforeSlot: listDensity.spacious.beforeSlot,
       },
     },
     {
@@ -290,6 +295,7 @@ export const listItemRecipe = defineSlotRecipe({
         wrapper: {
           pe: '9',
         },
+        afterSlot: listDensity.spacious.afterSlot,
       },
     },
     {
@@ -299,6 +305,7 @@ export const listItemRecipe = defineSlotRecipe({
         wrapper: {
           ps: '9',
         },
+        beforeSlot: listDensity.spacious.beforeSlot,
       },
     },
   ],

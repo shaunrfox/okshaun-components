@@ -30,9 +30,17 @@ const meta: Meta<typeof Modal> = {
         defaultValue: { summary: 'md' },
       },
     },
+    position: {
+      control: 'select',
+      options: ['centered', 'top', 'bottom'],
+      description: 'Modal position wrapper',
+      table: {
+        defaultValue: { summary: 'centered' },
+      },
+    },
     variant: {
       control: 'select',
-      options: ['defauilt', 'confirmation'],
+      options: ['default', 'confirmation'],
       description: 'Modal type',
       table: {
         defaultValue: { summary: 'default' },
@@ -78,6 +86,76 @@ export const Default: Story = {
               </Button>
               <Button variant="primary" onClick={() => setIsOpen(false)}>
                 Save
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </>
+      );
+    };
+    return <Component />;
+  },
+};
+
+export const TopPosition: Story = {
+  name: 'Top Position',
+  render: () => {
+    const Component = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      return (
+        <>
+          <Button onClick={() => setIsOpen(true)}>Open Top Modal</Button>
+          <Modal
+            open={isOpen}
+            onOpenChange={setIsOpen}
+            size="md"
+            position="top"
+          >
+            <ModalHeader title="Top-Aligned Dialog" showCloseButton />
+            <ModalBody>
+              <Text>
+                This modal uses the new position wrapper to anchor the dialog
+                near the top edge while keeping the overlay full-screen.
+              </Text>
+            </ModalBody>
+            <ModalFooter>
+              <Button variant="ghost" onClick={() => setIsOpen(false)}>
+                Close
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </>
+      );
+    };
+    return <Component />;
+  },
+};
+
+export const BottomPosition: Story = {
+  name: 'Bottom Position',
+  render: () => {
+    const Component = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      return (
+        <>
+          <Button onClick={() => setIsOpen(true)}>Open Bottom Modal</Button>
+          <Modal
+            open={isOpen}
+            onOpenChange={setIsOpen}
+            size="md"
+            position="bottom"
+          >
+            <ModalHeader title="Bottom-Aligned Dialog" showCloseButton />
+            <ModalBody>
+              <Text>
+                Bottom positioning keeps the dialog docked near the viewport
+                edge without changing the overlay behavior.
+              </Text>
+            </ModalBody>
+            <ModalFooter>
+              <Button variant="ghost" onClick={() => setIsOpen(false)}>
+                Close
               </Button>
             </ModalFooter>
           </Modal>
@@ -479,6 +557,7 @@ export const FormDialog: Story = {
 // ============================================================================
 
 export const ConfirmationDialog: Story = {
+  name: 'Compatibility Alias',
   render: () => {
     const Component = () => {
       const [isOpen, setIsOpen] = useState(false);
@@ -490,6 +569,7 @@ export const ConfirmationDialog: Story = {
             open={isOpen}
             onOpenChange={setIsOpen}
             size="sm"
+            position="centered"
             variant="confirmation"
             preventOverlayClose
           >

@@ -64,6 +64,22 @@ export const Default: Story = {
   },
 };
 
+export const Uncontrolled: Story = {
+  name: 'Uncontrolled',
+  render: () => (
+    <CheckboxInput
+      name="updates-uncontrolled"
+      id="updates-uncontrolled"
+      defaultChecked
+    >
+      Receive updates
+    </CheckboxInput>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
 export const AllStates: Story = {
   name: 'All States',
   render: () => (
@@ -101,6 +117,15 @@ export const AllStates: Story = {
         onChange={() => {}}
       >
         Error
+      </CheckboxInput>
+      <CheckboxInput
+        name="invalid"
+        id="invalid"
+        checked={false}
+        invalid
+        onChange={() => {}}
+      >
+        Invalid
       </CheckboxInput>
       <CheckboxInput
         name="disabled"

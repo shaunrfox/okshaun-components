@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { Wrap } from '@styled-system/jsx';
+import { FormField } from '../FormField';
 import { IconButton } from './IconButton';
 
 const meta = {
@@ -56,6 +57,20 @@ export const ExLoadingAndDisabled: Story = {
       <IconButton iconName="cloud-synced" altText="Syncing" loading />
       <IconButton iconName="trash" altText="Delete" variant="danger" disabled />
     </Wrap>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const WithFormFieldInheritance: Story = {
+  name: 'With FormField Inheritance',
+  render: () => (
+    <FormField label="Refresh" labelFor="refresh-action" error>
+      <IconButton
+        id="refresh-action"
+        iconName="refresh"
+        altText="Refresh data"
+      />
+    </FormField>
   ),
   parameters: { controls: { disable: true } },
 };

@@ -15,17 +15,29 @@ import { Toggle } from '../Toggle';
 export type ToggleInputProps = Omit<BoxProps, keyof ToggleInputVariantProps> &
   ToggleInputVariantProps & {
     name: string;
-    checked: boolean;
-    onChange: ToggleChangeHandler;
+    checked?: boolean;
+    defaultChecked?: boolean;
+    onChange?: ToggleChangeHandler;
     id?: string;
     error?: boolean;
+    invalid?: boolean;
     disabled?: boolean;
     children?: string | ReactNode;
   };
 
 export const ToggleInput = (props: ToggleInputProps) => {
-  const { name, checked, onChange, id, children, error, disabled, ...rest } =
-    props;
+  const {
+    name,
+    checked,
+    defaultChecked,
+    onChange,
+    id,
+    children,
+    error,
+    invalid,
+    disabled,
+    ...rest
+  } = props;
   const [className, otherProps] = splitProps(rest);
   const generatedId = useId();
   const resolvedId = id ?? generatedId;
@@ -40,9 +52,11 @@ export const ToggleInput = (props: ToggleInputProps) => {
       <Toggle
         name={name}
         checked={checked}
+        defaultChecked={defaultChecked}
         onChange={onChange}
         id={resolvedId}
         error={error}
+        invalid={invalid}
         disabled={disabled}
       />
       {children}

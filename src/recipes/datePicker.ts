@@ -64,6 +64,25 @@ const datePickerBase = {
         outlineColor: 'border.danger',
       },
     },
+    _invalid: {
+      bg: 'bg.danger',
+      borderColor: 'border.danger',
+      color: 'text.danger',
+      _hover: {
+        bg: 'bg.danger.hovered',
+        borderColor: 'border.danger',
+      },
+      _focusWithin: {
+        bg: 'bg.danger',
+        borderColor: 'border.danger',
+        outlineColor: 'border.danger',
+      },
+      _open: {
+        bg: 'bg.danger',
+        borderColor: 'border.danger',
+        outlineColor: 'border.danger',
+      },
+    },
   },
   segment: {
     display: 'inline-flex',
@@ -84,6 +103,9 @@ const datePickerBase = {
     },
     _groupDisabled: {
       color: 'text.disabled',
+    },
+    _invalid: {
+      color: 'text.danger',
     },
   },
   separator: {

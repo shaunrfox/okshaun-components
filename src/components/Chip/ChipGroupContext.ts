@@ -1,3 +1,4 @@
+import type { ChipVariantProps } from '@styled-system/recipes';
 import { createContext, type RefObject, useContext } from 'react';
 
 export type ChipGroupType = 'single' | 'multi';
@@ -7,6 +8,7 @@ export type ChipGroupContextValue = {
   value: string | string[];
   onChange: (value: string | string[]) => void;
   name?: string;
+  size?: ChipVariantProps['size'];
   // Keyboard navigation
   registerChip: (
     value: string,

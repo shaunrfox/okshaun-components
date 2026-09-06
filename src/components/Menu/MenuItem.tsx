@@ -1,7 +1,7 @@
 import { useFloatingTree, useListItem } from '@floating-ui/react';
 import { cx } from '@styled-system/css';
 import { listItem as listItemRecipe } from '@styled-system/recipes';
-import type { ChangeEventHandler, HTMLProps, MouseEvent } from 'react';
+import type { HTMLProps, MouseEvent } from 'react';
 
 import { splitProps } from '~/utils/splitProps';
 
@@ -100,11 +100,6 @@ export const MenuItem = (props: MenuItemProps) => {
     }
   };
 
-  const handleControlChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-
   type MenuInteractionProps = Pick<
     HTMLProps<HTMLElement>,
     'onClick' | 'onKeyDown' | 'onPointerMove' | 'onMouseMove' | 'onFocus'
@@ -180,19 +175,23 @@ export const MenuItem = (props: MenuItemProps) => {
       {variant === 'checkbox' && (
         <Checkbox
           name={controlName}
+          pointerEvents="none"
           checked={Boolean(selected)}
-          onChange={handleControlChange}
+          readOnly
           tabIndex={-1}
+          aria-hidden
         />
       )}
 
       {variant === 'toggle' && (
         <Toggle
           name={controlName}
+          pointerEvents="none"
           checked={Boolean(selected)}
-          onChange={handleControlChange}
+          readOnly
           mr="4"
           tabIndex={-1}
+          aria-hidden
         />
       )}
 

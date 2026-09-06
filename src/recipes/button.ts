@@ -55,6 +55,20 @@ const baseButtonStyles = {
       outlineColor: 'border.focused',
     },
   },
+  mainContent: {
+    display: 'flex',
+    alignItems: 'center',
+    width: 'fit',
+    height: 'fit',
+  },
+  slot: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    transitionDuration: 'fast',
+    transitionProperty: 'fill',
+    transitionTimingFunction: 'default',
+    flex: '0 0 auto',
+  },
   icon: {
     aspectRatio: 'square',
     transitionDuration: 'fast',
@@ -77,6 +91,7 @@ const buttonVariants = {
         },
       },
       icon: iconDefaultStyles,
+      slot: iconDefaultStyles,
     },
     primary: {
       container: {
@@ -90,6 +105,13 @@ const buttonVariants = {
         },
       },
       icon: {
+        ...iconInverseStyles,
+        fill: 'icon.decorative.inverse.subtle',
+        _groupDisabled: {
+          fill: 'icon.decorative.inverse.subtle',
+        },
+      },
+      slot: {
         ...iconInverseStyles,
         fill: 'icon.decorative.inverse.subtle',
         _groupDisabled: {
@@ -111,6 +133,7 @@ const buttonVariants = {
         },
       },
       icon: iconDefaultStyles,
+      slot: iconDefaultStyles,
     },
     subtle: {
       container: {
@@ -126,6 +149,7 @@ const buttonVariants = {
         },
       },
       icon: iconDefaultStyles,
+      slot: iconDefaultStyles,
     },
     hollow: {
       container: {
@@ -143,6 +167,7 @@ const buttonVariants = {
         },
       },
       icon: iconDefaultStyles,
+      slot: iconDefaultStyles,
     },
     danger: {
       container: {
@@ -156,6 +181,12 @@ const buttonVariants = {
         },
       },
       icon: {
+        ...iconInverseStyles,
+        _groupDisabled: {
+          fill: 'icon.decorative.inverse',
+        },
+      },
+      slot: {
         ...iconInverseStyles,
         _groupDisabled: {
           fill: 'icon.decorative.inverse',
@@ -184,6 +215,15 @@ const buttonVariants = {
           fill: 'icon.selected',
         },
       },
+      slot: {
+        fill: 'icon.selected',
+        mixBlendMode: { base: 'multiply', _dark: 'screen' },
+        _groupHover: { fill: 'icon.selected' },
+        _groupActive: { fill: 'icon.selected' },
+        _groupDisabled: {
+          fill: 'icon.selected',
+        },
+      },
     },
     selectedBold: {
       container: {
@@ -197,6 +237,15 @@ const buttonVariants = {
         },
       },
       icon: {
+        fill: 'icon.inverse',
+        mixBlendMode: { base: 'screen', _dark: 'multiply' },
+        _groupHover: { fill: 'icon.inverse' },
+        _groupActive: { fill: 'icon.inverse' },
+        _groupDisabled: {
+          fill: 'icon.inverse',
+        },
+      },
+      slot: {
         fill: 'icon.inverse',
         mixBlendMode: { base: 'screen', _dark: 'multiply' },
         _groupHover: { fill: 'icon.inverse' },
@@ -228,6 +277,15 @@ const buttonVariants = {
           fill: 'icon.selected',
         },
       },
+      slot: {
+        fill: 'icon.selected',
+        mixBlendMode: { base: 'multiply', _dark: 'screen' },
+        _groupHover: { fill: 'icon.selected' },
+        _groupActive: { fill: 'icon.selected' },
+        _groupDisabled: {
+          fill: 'icon.selected',
+        },
+      },
     },
   },
 };
@@ -238,6 +296,11 @@ const buttonSizes = {
       fontSize: '14',
       py: '1',
       px: '8',
+    },
+    slot: {
+      w: '16',
+      h: '16',
+      px: '4',
     },
     icon: {
       w: '22',
@@ -250,6 +313,11 @@ const buttonSizes = {
       py: '3',
       px: '12',
     },
+    slot: {
+      w: '20',
+      h: '20',
+      px: '6',
+    },
     icon: {
       w: '24',
       h: '24',
@@ -260,6 +328,11 @@ const buttonSizes = {
       fontSize: '16',
       py: '7',
       px: '14',
+    },
+    slot: {
+      w: '24',
+      h: '24',
+      px: '8',
     },
     icon: {
       w: '24',
@@ -272,6 +345,11 @@ const buttonSizes = {
       py: '9',
       px: '16',
     },
+    slot: {
+      w: '28',
+      h: '28',
+      px: '10',
+    },
     icon: {
       w: '28',
       h: '28',
@@ -282,7 +360,7 @@ const buttonSizes = {
 export const buttonRecipe = defineSlotRecipe({
   className: 'button',
   jsx: ['Button'],
-  slots: ['container', 'icon'],
+  slots: ['container', 'mainContent', 'slot', 'icon'],
   base: baseButtonStyles,
   variants: {
     ...buttonVariants,
@@ -361,7 +439,7 @@ export const buttonRecipe = defineSlotRecipe({
 export const iconButtonRecipe = defineSlotRecipe({
   className: 'iconButton',
   jsx: ['IconButton'],
-  slots: ['container', 'icon'],
+  slots: ['container', 'mainContent', 'slot', 'icon'],
   base: baseButtonStyles,
   variants: {
     ...buttonVariants,
@@ -370,6 +448,14 @@ export const iconButtonRecipe = defineSlotRecipe({
         container: {
           fontSize: '14',
           p: '1',
+        },
+        slot: {
+          w: '22',
+          h: '22',
+        },
+        mainContent: {
+          width: 'fit',
+          height: 'fit',
         },
         icon: {
           w: '22',
@@ -381,6 +467,14 @@ export const iconButtonRecipe = defineSlotRecipe({
           fontSize: '16',
           p: '3',
         },
+        slot: {
+          w: '24',
+          h: '24',
+        },
+        mainContent: {
+          width: 'fit',
+          height: 'fit',
+        },
         icon: {
           w: '24',
           h: '24',
@@ -391,6 +485,14 @@ export const iconButtonRecipe = defineSlotRecipe({
           fontSize: '16',
           p: '7',
         },
+        slot: {
+          w: '24',
+          h: '24',
+        },
+        mainContent: {
+          width: 'fit',
+          height: 'fit',
+        },
         icon: {
           w: '24',
           h: '24',
@@ -400,6 +502,14 @@ export const iconButtonRecipe = defineSlotRecipe({
         container: {
           fontSize: '20',
           p: '9',
+        },
+        slot: {
+          w: '28',
+          h: '28',
+        },
+        mainContent: {
+          width: 'fit',
+          height: 'fit',
         },
         icon: {
           w: '28',

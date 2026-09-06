@@ -1,10 +1,10 @@
 import { cx } from '@styled-system/css';
 import { type IconVariantProps, icon } from '@styled-system/recipes';
 import type { ColorToken } from '@styled-system/tokens';
-import type { SVGAttributes } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
 import type { numericSizes } from '~/styles/primitives';
+import { useSlotContext } from '~/system/context/SlotContext';
 import { splitProps } from '~/utils/splitProps';
 
 import { useIconConfig } from './IconContext';
@@ -18,19 +18,40 @@ import type { IconNamesList } from './icons';
  */
 export type AllowedIconSizes = keyof typeof numericSizes;
 
-export type IconProps = Omit<BoxProps, IconNamesList | 'size'> &
-  SVGAttributes<SVGElement> &
-  IconVariantProps & {
-    name: IconNamesList;
-    size?: AllowedIconSizes;
-    fill?: ColorToken;
-  };
+type IconOwnProps = {
+  name: IconNamesList;
+  /**
+   * Icon size recipe variant. Responsive/conditional values are supported.
+   * An explicit value takes precedence over slot context.
+   */
+  size?: IconVariantProps['size'];
+  /**
+   * Design-token fill color. An explicit value takes precedence over slot
+   * context; otherwise the recipe uses the decorative icon color.
+   */
+  fill?: ColorToken;
+};
+
+// Size is applied through the recipe variant, never through Box `width`.
+// Assigning a conditional size value to Box's `width` prop made tsc run for
+// over 30 minutes; the recipe variant compiles to static classes instead.
+export type IconProps = Omit<
+  BoxProps,
+  IconNamesList | keyof IconVariantProps | keyof IconOwnProps
+> &
+  Omit<IconVariantProps, keyof IconOwnProps> &
+  IconOwnProps;
 
 export const Icon = (props: IconProps) => {
-  const { name, size, fill, ...rest } = props;
+  const slotContext = useSlotContext();
+  const { name, size: sizeProp, fill: fillProp, ...rest } = props;
   const [className, otherProps] = splitProps(rest);
   const { spritePath } = useIconConfig();
   const spriteHref = `${spritePath}#${name}`;
+  const slotSize = slotContext?.size as IconProps['size'] | undefined;
+  const slotFill = slotContext?.fill as IconProps['fill'] | undefined;
+  const size = sizeProp ?? slotSize;
+  const fill = fillProp ?? slotFill;
 
   return (
     <Box
@@ -38,9 +59,8 @@ export const Icon = (props: IconProps) => {
       name={name}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
-      {...(size && { width: size })}
       fill={fill}
-      className={cx(icon(), className)}
+      className={cx(icon({ size }), className)}
       {...otherProps}
     >
       <use xlinkHref={spriteHref} />
