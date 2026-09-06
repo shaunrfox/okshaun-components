@@ -39,6 +39,15 @@ export type ListItemProps = Omit<
     iconAfter?: IconNamesList;
     iconBeforeFill?: IconProps['fill'];
     iconAfterFill?: IconProps['fill'];
+    /**
+     * Internal record primary key rendered as `data-row-id` on the item root.
+     * It targets one row in a test and identifies which record an interaction
+     * applied to.
+     *
+     * It must never be a row index, a composite value, or a customer-facing
+     * identifier such as an order number. It is unrelated to React's `key`.
+     */
+    rowId?: string;
     href?: string;
     disabled?: boolean;
   };
@@ -61,6 +70,7 @@ export const ListItem = (props: ListItemProps) => {
     iconBeforeFill,
     iconAfterFill,
     href,
+    rowId,
     disabled = false,
     ...rest
   } = props;
@@ -123,6 +133,7 @@ export const ListItem = (props: ListItemProps) => {
       aria-selected={isSelected}
       data-active={isActive || undefined}
       data-selected={isSelected || undefined}
+      data-row-id={rowId}
       data-disabled={isDisabled || undefined}
       aria-disabled={isLink && isDisabled ? true : undefined}
       tabIndex={isLink && isDisabled ? -1 : userTabIndex}

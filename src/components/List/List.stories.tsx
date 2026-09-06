@@ -289,3 +289,32 @@ export const ExFloatingSearchBar: Story = {
   render: () => <FloatingSearchBarExample />,
   parameters: { controls: { disable: true } },
 };
+
+const RowIdExample = () => (
+  <List aria-label="Customers" width="72">
+    {[
+      ['cus_1042', 'Acme Fabrication'],
+      ['cus_1043', 'Bluebird Machining'],
+      ['cus_1044', 'Copperline Tooling'],
+    ].map(([id, name]) => (
+      <ListItem key={id} rowId={id} value={id}>
+        {name}
+      </ListItem>
+    ))}
+  </List>
+);
+
+export const RowIdentifiers: Story = {
+  name: 'Row identifiers',
+  args: {},
+  render: () => <RowIdExample />,
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Pass the internal record key as `rowId`. It renders as `data-row-id` on the item root so tests and interaction logs can name the record. Never use a row index or a customer-facing number.',
+      },
+    },
+  },
+};
