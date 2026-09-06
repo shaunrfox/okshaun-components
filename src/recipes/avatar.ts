@@ -6,7 +6,7 @@ export const avatarRecipe = defineSlotRecipe({
   slots: ['root', 'image', 'fallback', 'presence', 'status'],
   staticCss: [
     {
-      size: ['xs', 'sm', 'md', 'lx', 'xl', '2xl'],
+      size: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
       shape: ['circle', 'square', 'hexagon'],
     },
   ],

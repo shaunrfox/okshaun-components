@@ -81,26 +81,33 @@ export const Chip = (props: ChipProps) => {
   } = props;
   const [className, otherProps] = splitProps(rest);
   const resolvedSize =
-    sizeProp ?? groupContext?.size ?? fieldContext?.size ?? 'md';
+    sizeProp ??
+    (groupContext?.size as ChipVariantProps['size'] | undefined) ??
+    fieldContext?.size ??
+    'md';
   const resolvedError = errorProp ?? fieldContext?.error;
   const resolvedInvalid = invalidProp ?? fieldContext?.invalid;
   const visualError = Boolean(resolvedError || resolvedInvalid);
   const resolvedDisabled = disabled ?? fieldContext?.disabled;
   const hasGroupValue = value !== undefined;
-  const isInGroup = Boolean(groupContext && hasGroupValue);
+  const isInGroup = groupContext !== null && hasGroupValue;
   const canRegister = Boolean(isInGroup && !resolvedDisabled && !loading);
-  const isSelectable = Boolean(isInGroup && groupContext);
-  const isSelected = isSelectable
-    ? groupContext.type === 'single'
-      ? groupContext.value === value
-      : Array.isArray(groupContext.value) && groupContext.value.includes(value)
-    : false;
+  const isSelectable = isInGroup;
+  const isSelected =
+    groupContext !== null && value !== undefined
+      ? groupContext.type === 'single'
+        ? groupContext.value === value
+        : Array.isArray(groupContext.value) &&
+          groupContext.value.includes(value)
+      : false;
   const isMultiSelected =
     isSelectable && groupContext?.type === 'multi' && isSelected;
   const hasBefore = Boolean(before) || isMultiSelected;
   const hasAfter = Boolean(after);
+  // The chip recipe still has compoundVariants, so Panda types its variants as
+  // non-responsive. Cast until okshaun-components-ecl.11 removes them.
   const classes = chip({
-    size: resolvedSize,
+    size: resolvedSize as ChipVariantProps['size'],
     before: hasBefore,
     after: hasAfter,
     dismissable,
@@ -204,8 +211,9 @@ export const Chip = (props: ChipProps) => {
       onClick={renderButtonBody ? handleBodyClick : undefined}
       onKeyDown={renderButtonBody ? handleKeyDown : undefined}
       tabIndex={renderButtonBody ? getTabIndex() : undefined}
-      type={renderButtonBody ? type : undefined}
-      disabled={renderButtonBody ? resolvedDisabled || loading : undefined}
+      {...(renderButtonBody
+        ? { type, disabled: resolvedDisabled || loading }
+        : {})}
       aria-busy={loading || undefined}
       aria-checked={isSelectable ? isSelected : undefined}
       aria-invalid={visualError || undefined}

@@ -16,6 +16,8 @@ const meta = {
   args: {
     name: 'radio-group-story',
     onChange: fn(),
+    // Every story supplies children through `render`.
+    children: null,
   },
   parameters: {
     layout: 'centered',

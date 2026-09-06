@@ -39,7 +39,10 @@ export const IconButton = (props: IconButtonProps) => {
     type = 'button',
     ...rest
   } = props;
-  const size = sizeProp ?? slotContext?.size ?? fieldContext?.size;
+  const size =
+    sizeProp ??
+    (slotContext?.size as IconButtonVariantProps['size'] | undefined) ??
+    fieldContext?.size;
   const error = errorProp ?? slotContext?.error ?? fieldContext?.error;
   const invalid = invalidProp ?? slotContext?.invalid ?? fieldContext?.invalid;
   const disabled =

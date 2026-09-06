@@ -272,7 +272,7 @@ export const SubMenu = (props: SubMenuProps) => {
             event.preventDefault();
             event.stopPropagation();
             setOpen(false);
-            rootContext.onMenubarEdgeNavigate(
+            rootContext.onMenubarEdgeNavigate?.(
               event.key === 'ArrowRight' ? 1 : -1,
             );
             referenceRef.current?.focus();

@@ -280,7 +280,7 @@ export const Menu = (props: MenuProps) => {
 
   const menuListContextValue = {
     activeIndex,
-    itemCount: listRef.filter(Boolean).length,
+    itemCount: listRef.current.filter(Boolean).length,
     getItemProps: (userProps?: HTMLProps<HTMLElement>) =>
       getItemProps(userProps) as HTMLProps<HTMLElement>,
   };

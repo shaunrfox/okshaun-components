@@ -54,14 +54,19 @@ export const Button = (props: ButtonProps) => {
     gap,
     ...rest
   } = props;
-  const size = sizeProp ?? slotContext?.size ?? fieldContext?.size;
+  const size =
+    sizeProp ??
+    (slotContext?.size as ButtonVariantProps['size'] | undefined) ??
+    fieldContext?.size;
   const error = errorProp ?? slotContext?.error ?? fieldContext?.error;
   const invalid = invalidProp ?? slotContext?.invalid ?? fieldContext?.invalid;
   const resolvedDisabled =
     disabled ?? slotContext?.disabled ?? fieldContext?.disabled;
+  // The button recipe still has compoundVariants, so Panda types its variants as
+  // non-responsive. Cast until okshaun-components-ecl.11 removes them.
   const classes = button({
     variant,
-    size,
+    size: size as ButtonVariantProps['size'],
     iconBefore: Boolean(before || iconBefore),
     iconAfter: Boolean(after || iconAfter),
   });

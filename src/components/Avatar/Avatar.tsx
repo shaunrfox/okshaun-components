@@ -25,7 +25,7 @@ export type AvatarProps = Omit<BoxProps, keyof AvatarVariantProps> &
     /** Name for generating initials fallback */
     name?: string;
     /** Size of the avatar */
-    size?: AvatarSize;
+    size?: AvatarVariantProps['size'];
     /** Shape of the avatar */
     shape?: AvatarShape;
     /** Presence indicator (bottom-right) */

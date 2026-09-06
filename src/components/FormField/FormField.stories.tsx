@@ -188,7 +188,9 @@ export const NestedControls: Story = {
           id="profile-details"
           name="profile-details"
           value={bio}
-          onChange={(e) => setBio(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+            setBio(e.target.value)
+          }
           rows={4}
         />
         <Box display="grid" gap="2">

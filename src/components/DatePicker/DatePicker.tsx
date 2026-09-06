@@ -302,7 +302,10 @@ export const DatePicker = (props: DatePickerProps) => {
 
   // ── Sync external value → segment state ───────────────────────────────────
   useEffect(() => {
-    if (value === undefined || isSameDateValue(value, syncedValueRef.current)) {
+    if (
+      value === undefined ||
+      isSameDateValue(value, syncedValueRef.current ?? null)
+    ) {
       return;
     }
 
@@ -497,7 +500,11 @@ export const DatePicker = (props: DatePickerProps) => {
   }, []);
 
   // ── Recipe classes ─────────────────────────────────────────────────────────
-  const classes = datePicker({ size: sizeOverride });
+  // FieldContext size is wider than this recipe's variants; the picker is
+  // being rebuilt (beads okshaun-components-ecl.3), so cast rather than remap.
+  const classes = datePicker({
+    size: sizeOverride as DatePickerVariantProps['size'] | undefined,
+  });
 
   const dateValue: DateValue | null =
     segments.month !== null && segments.day !== null && segments.year !== null

@@ -59,7 +59,9 @@ export const TextInput = (props: TextInputProps) => {
     autoComplete = 'off',
     ...rest
   } = props;
-  const resolvedSize = sizeProp ?? fieldContext?.size;
+  const resolvedSize =
+    sizeProp ??
+    (fieldContext?.size as TextInputVariantProps['size'] | undefined);
   const resolvedError = error ?? fieldContext?.error;
   const resolvedInvalid = invalidProp ?? fieldContext?.invalid;
   const resolvedDisabled = disabled ?? fieldContext?.disabled;

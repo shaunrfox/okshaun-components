@@ -45,7 +45,7 @@ export const RadioInput = (props: RadioInputProps) => {
   const [className, otherProps] = splitProps(rest);
   const generatedId = useId();
   const resolvedId = id ?? generatedId;
-  const isGrouped = Boolean(groupContext && value !== undefined);
+  const isGrouped = groupContext !== null && value !== undefined;
   const resolvedName = isGrouped ? groupContext.name : name;
   const resolvedChecked = isGrouped ? groupContext.value === value : checked;
   const resolvedDisabled = disabled ?? groupContext?.disabled;

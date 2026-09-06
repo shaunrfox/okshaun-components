@@ -571,7 +571,11 @@ export const TimePicker = (props: TimePickerProps) => {
   );
 
   // ── Recipe classes ─────────────────────────────────────────────────────────
-  const classes = timePicker({ size: size ?? 'md' });
+  // FieldContext size is wider than this recipe's variants; the picker is
+  // being rebuilt (beads okshaun-components-ecl.3), so cast rather than remap.
+  const classes = timePicker({
+    size: (size ?? 'md') as TimePickerVariantProps['size'],
+  });
 
   // ── Values passed directly to TimeList (display format) ──────────────────
   // numericVals.hour is already in display format (1–12 for 12h, 0–23 for 24h)

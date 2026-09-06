@@ -23,7 +23,7 @@ export const Skeleton = (props: SkeletonProps) => {
   const [className, otherProps] = splitProps(rest);
   const classes = skeleton({
     variant,
-    animation,
+    animation: animation === false ? 'false' : animation,
   });
 
   return (

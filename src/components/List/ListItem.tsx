@@ -1,8 +1,11 @@
 import { cx } from '@styled-system/css';
 import { type ListItemVariantProps, listItem } from '@styled-system/recipes';
-import type { ColorToken } from '@styled-system/tokens';
-import type { ConditionalValue } from '@styled-system/types';
-import type { ChangeEventHandler, MouseEvent } from 'react';
+import type {
+  AriaRole,
+  ChangeEventHandler,
+  MouseEvent,
+  MouseEventHandler,
+} from 'react';
 
 import type { IconNamesList } from '~/components/Icon';
 import { splitProps } from '~/utils/splitProps';
@@ -10,7 +13,7 @@ import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { Checkbox } from '../Checkbox';
 import { Divider } from '../Divider';
-import { Icon } from '../Icon';
+import { Icon, type IconProps } from '../Icon';
 import { Text } from '../Text';
 import { Toggle } from '../Toggle';
 
@@ -34,8 +37,8 @@ export type ListItemProps = Omit<
     density?: ListItemVariantProps['density'];
     iconBefore?: IconNamesList;
     iconAfter?: IconNamesList;
-    iconBeforeFill?: ConditionalValue<ColorToken>;
-    iconAfterFill?: ConditionalValue<ColorToken>;
+    iconBeforeFill?: IconProps['fill'];
+    iconAfterFill?: IconProps['fill'];
     href?: string;
     disabled?: boolean;
   };
@@ -81,7 +84,11 @@ export const ListItem = (props: ListItemProps) => {
     role: userRole,
     tabIndex: userTabIndex,
     ...elementProps
-  } = otherProps;
+  } = otherProps as typeof otherProps & {
+    onClick?: MouseEventHandler<HTMLElement>;
+    role?: AriaRole;
+    tabIndex?: number;
+  };
   const resolvedRole = isLink ? userRole : (userRole ?? 'option');
   const handleDisabledLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -108,15 +115,15 @@ export const ListItem = (props: ListItemProps) => {
     <Box
       {...elementProps}
       as={isLink ? 'a' : 'button'}
-      href={href}
-      type={isLink ? undefined : 'button'}
+      {...(isLink
+        ? { href }
+        : { type: 'button' as const, disabled: isDisabled })}
       className={cx(classes.wrapper, className)}
       role={resolvedRole}
       aria-selected={isSelected}
       data-active={isActive || undefined}
       data-selected={isSelected || undefined}
       data-disabled={isDisabled || undefined}
-      disabled={!isLink ? isDisabled : undefined}
       aria-disabled={isLink && isDisabled ? true : undefined}
       tabIndex={isLink && isDisabled ? -1 : userTabIndex}
       onClick={isLink && isDisabled ? handleDisabledLinkClick : userOnClick}

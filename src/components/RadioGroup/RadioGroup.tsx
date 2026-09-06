@@ -73,7 +73,7 @@ export const RadioGroup = (props: RadioGroupProps) => {
             overflow="hidden"
             clipPath="inset(50%)"
             whiteSpace="nowrap"
-            border="0"
+            border="[0]"
           >
             {label}
           </Box>
