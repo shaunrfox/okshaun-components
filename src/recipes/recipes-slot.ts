@@ -1,3 +1,4 @@
+export { autocompleteRecipe } from './autocomplete';
 export { avatarRecipe } from './avatar';
 export { badgeRecipe } from './badge';
 export { breadcrumbsRecipe } from './breadcrumbs';

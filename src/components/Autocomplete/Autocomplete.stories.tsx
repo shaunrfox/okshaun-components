@@ -1,490 +1,698 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
+import { expect, userEvent, within } from '@storybook/test';
 import { useState } from 'react';
 import { Box } from '../Box';
-import { Text } from '../Text';
-import { Autocomplete, type AutocompleteOption } from './Autocomplete';
+import { Button } from '../Button';
+import { FormField } from '../FormField';
+import { Autocomplete } from './Autocomplete';
+import { Option } from './Option';
 
-const meta: Meta<typeof Autocomplete> = {
+const baseOptions = [
+  { value: 'react', label: 'React', description: 'UI library' },
+  { value: 'typescript', label: 'TypeScript', description: 'Type safety' },
+  { value: 'storybook', label: 'Storybook', description: 'Component workshop' },
+  { value: 'panda', label: 'Panda CSS', description: 'Design system styles' },
+  { value: 'floating-ui', label: 'Floating UI', description: 'Popup engine' },
+  { value: 'vite', label: 'Vite', description: 'Build tooling' },
+];
+
+const extendedOptions = [
+  ...baseOptions,
+  { value: 'vitest', label: 'Vitest', description: 'Unit testing' },
+  { value: 'playwright', label: 'Playwright', description: 'Browser testing' },
+  { value: 'eslint', label: 'ESLint', description: 'Code analysis' },
+  { value: 'prettier', label: 'Prettier', description: 'Code formatting' },
+  { value: 'react-router', label: 'React Router', description: 'Routing' },
+  { value: 'tanstack-query', label: 'TanStack Query', description: 'Data' },
+];
+
+const renderOptions = (options = baseOptions) =>
+  options.map((option) => (
+    <Option
+      key={option.value}
+      value={option.value}
+      label={option.label}
+      description={option.description}
+    />
+  ));
+
+const meta = {
   title: 'Components/Autocomplete',
   component: Autocomplete,
+  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'Use Autocomplete when people benefit from filtering a set of options as they type. Matching uses case-insensitive substrings within each option label or description. Focusing the field opens its suggestions and activates the first available option. Use Select for a short fixed list and TextInput for unrestricted text.',
+      },
+    },
   },
-  tags: ['autodocs'],
-};
+  args: {
+    'aria-label': 'Technology',
+    placeholder: 'Choose a technology…',
+  },
+  argTypes: {
+    multiple: { control: 'boolean' },
+    limitTags: { control: 'number' },
+    allowCustomValue: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    error: { control: 'boolean' },
+    invalid: { control: 'boolean' },
+    valid: { control: 'boolean' },
+  },
+} satisfies Meta<typeof Autocomplete>;
 
 export default meta;
-type Story = StoryObj<typeof Autocomplete>;
-
-// Sample data
-const fruits: AutocompleteOption[] = [
-  { id: '1', label: 'Apple' },
-  { id: '2', label: 'Banana' },
-  { id: '3', label: 'Cherry' },
-  { id: '4', label: 'Date' },
-  { id: '5', label: 'Elderberry' },
-  { id: '6', label: 'Fig' },
-  { id: '7', label: 'Grape' },
-  { id: '8', label: 'Honeydew' },
-];
-
-const countries: AutocompleteOption[] = [
-  {
-    id: 'us',
-    label: 'United States',
-    description: 'North America',
-    icon: 'globe',
-  },
-  { id: 'uk', label: 'United Kingdom', description: 'Europe', icon: 'globe' },
-  { id: 'ca', label: 'Canada', description: 'North America', icon: 'globe' },
-  { id: 'au', label: 'Australia', description: 'Oceania', icon: 'globe' },
-  { id: 'de', label: 'Germany', description: 'Europe', icon: 'globe' },
-  { id: 'fr', label: 'France', description: 'Europe', icon: 'globe' },
-  { id: 'jp', label: 'Japan', description: 'Asia', icon: 'globe' },
-  { id: 'br', label: 'Brazil', description: 'South America', icon: 'globe' },
-];
-
-const users: AutocompleteOption[] = [
-  {
-    id: '1',
-    label: 'Alice Johnson',
-    description: 'alice@example.com',
-    icon: 'user',
-  },
-  { id: '2', label: 'Bob Smith', description: 'bob@example.com', icon: 'user' },
-  {
-    id: '3',
-    label: 'Charlie Brown',
-    description: 'charlie@example.com',
-    icon: 'user',
-  },
-  {
-    id: '4',
-    label: 'Diana Prince',
-    description: 'diana@example.com',
-    icon: 'user',
-  },
-  {
-    id: '5',
-    label: 'Edward Norton',
-    description: 'edward@example.com',
-    icon: 'user',
-  },
-];
-
-// ============================================================================
-// BASIC EXAMPLES
-// ============================================================================
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
-      const [selected, setSelected] = useState<AutocompleteOption | null>(null);
+  render: function DefaultRender(args) {
+    const [value, setValue] = useState<string | null>(null);
 
-      return (
-        <Box w="280">
-          <Autocomplete
-            name="fruit"
-            value={value}
-            onChange={setValue}
-            options={fruits}
-            onSelect={setSelected}
-            placeholder="Search fruits..."
-          />
-          {selected && (
-            <Text mt="8" fontSize="14" color="text.subtlest">
-              Selected: {selected.label}
-            </Text>
-          )}
-        </Box>
-      );
-    };
-    return <Component />;
+    return (
+      <Box w="xs">
+        <Autocomplete
+          {...args}
+          multiple={false}
+          value={value}
+          defaultValue={undefined}
+          onValueChange={setValue}
+          onChange={undefined}
+          name="technology"
+        >
+          {renderOptions()}
+        </Autocomplete>
+      </Box>
+    );
   },
 };
 
-export const WithDescriptions: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
-      const [selected, setSelected] = useState<AutocompleteOption | null>(null);
+export const Filtering: Story = {
+  render: () => (
+    <Box w="xs">
+      <Autocomplete name="technology-filter" aria-label="Filter technologies">
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+    const input = canvas.getByRole('combobox');
 
-      return (
-        <Box w="xs">
-          <Autocomplete
-            name="country"
-            value={value}
-            onChange={setValue}
-            options={countries}
-            onSelect={setSelected}
-            placeholder="Search countries..."
-          />
-          {selected && (
-            <Text mt="8" fontSize="14" color="text.subtlest">
-              Selected: {selected.label} ({selected.description})
-            </Text>
-          )}
-        </Box>
-      );
-    };
-    return <Component />;
+    await userEvent.type(input, 'typ');
+    await expect(
+      body.getByRole('option', { name: /typescript type safety/i }),
+    ).toBeInTheDocument();
+    await expect(
+      body.queryByRole('option', { name: /storybook/i }),
+    ).not.toBeInTheDocument();
+
+    await userEvent.clear(input);
+    await userEvent.type(input, 'workshop');
+    const descriptionMatch = body.getByRole('option', {
+      name: /storybook component workshop/i,
+    });
+    await expect(
+      within(descriptionMatch).getByText('workshop', { selector: 'mark' }),
+    ).toBeInTheDocument();
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const Selected: Story = {
+  render: (args) => (
+    <Box w="xs">
+      <Autocomplete
+        {...args}
+        multiple={false}
+        value={undefined}
+        defaultValue="react"
+        onValueChange={undefined}
+        onChange={undefined}
+        name="technology"
+      >
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('combobox', {
+      name: 'Technology',
+    });
+    await expect(input).toHaveValue('');
+    await expect(
+      canvas.getByRole('button', { name: 'Remove React' }),
+    ).toBeInTheDocument();
+    await userEvent.click(input);
+    await userEvent.keyboard('P');
+    await expect(input).toHaveValue('P');
+    await expect(
+      canvas.queryByRole('button', { name: 'Remove React' }),
+    ).not.toBeInTheDocument();
   },
 };
 
-export const WithIcons: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
+export const Multiple: Story = {
+  render: function MultipleRender() {
+    const [value, setValue] = useState<string[]>([
+      'react',
+      'typescript',
+      'storybook',
+    ]);
 
-      return (
-        <Box w="xs">
-          <Autocomplete
-            name="user"
-            value={value}
-            onChange={setValue}
-            options={users}
-            onSelect={(option) => setValue(option.label)}
-            placeholder="Search users..."
-          />
-        </Box>
-      );
-    };
-    return <Component />;
+    return (
+      <Box w="sm">
+        <Autocomplete
+          multiple
+          value={value}
+          onValueChange={setValue}
+          name="stack"
+          aria-label="Project stack"
+          placeholder="Add technology…"
+        >
+          {renderOptions()}
+        </Autocomplete>
+      </Box>
+    );
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+    const input = canvas.getByRole('combobox');
+    const removeReact = canvas.getByRole('button', {
+      name: 'Remove React',
+    });
+
+    await userEvent.click(input);
+    await expect(body.queryByRole('checkbox')).not.toBeInTheDocument();
+    await userEvent.click(removeReact);
+    await expect(
+      canvas.queryByRole('button', { name: 'Remove React' }),
+    ).not.toBeInTheDocument();
+    await expect(input).toHaveFocus();
+  },
+  parameters: { controls: { disable: true } },
 };
 
-// ============================================================================
-// CONTROLLED STATE
-// ============================================================================
-
-export const Controlled: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
-      const [selectedId, setSelectedId] = useState<string | null>(null);
-
-      const handleSelect = (option: AutocompleteOption) => {
-        setValue(option.label);
-        setSelectedId(option.id);
-      };
-
-      const handleClear = () => {
-        setValue('');
-        setSelectedId(null);
-      };
-
-      return (
-        <Box w="280">
-          <Autocomplete
-            name="controlled"
-            value={value}
-            onChange={setValue}
-            options={fruits}
-            onSelect={handleSelect}
-            placeholder="Type to search..."
-          />
-          <Box mt="12" display="flex" gap="8" alignItems="center">
-            <Text fontSize="14" color="text.subtlest">
-              Value: "{value}" | ID: {selectedId ?? 'none'}
-            </Text>
-            {value && (
-              <Text
-                as="button"
-                fontSize="14"
-                color="text.brand"
-                cursor="pointer"
-                onClick={handleClear}
-              >
-                Clear
-              </Text>
-            )}
-          </Box>
-        </Box>
-      );
-    };
-    return <Component />;
-  },
+export const MultipleLongValues: Story = {
+  render: () => (
+    <Box w="224">
+      <Autocomplete
+        multiple
+        defaultValue={['storybook', 'floating-ui', 'typescript']}
+        name="narrow-stack"
+        aria-label="Narrow project stack"
+        placeholder="Add…"
+      >
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
 };
 
-// ============================================================================
-// CUSTOM FILTER
-// ============================================================================
-
-export const CustomFilter: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
-
-      // Filter by label OR description
-      const customFilter = (option: AutocompleteOption, inputValue: string) => {
-        const search = inputValue.toLowerCase();
-        return (
-          option.label.toLowerCase().includes(search) ||
-          (option.description?.toLowerCase().includes(search) ?? false)
-        );
-      };
-
-      return (
-        <Box w="xs">
-          <Text mb="8" fontSize="14" color="text.subtlest">
-            Try searching by region (e.g., "Europe", "Asia")
-          </Text>
-          <Autocomplete
-            name="custom-filter"
-            value={value}
-            onChange={setValue}
-            options={countries}
-            onSelect={(option) => setValue(option.label)}
-            placeholder="Search by country or region..."
-            filterFn={customFilter}
-          />
-        </Box>
-      );
-    };
-    return <Component />;
+export const LimitTags: Story = {
+  render: () => (
+    <Box w="sm">
+      <Autocomplete
+        multiple
+        limitTags={2}
+        defaultValue={[
+          'react',
+          'typescript',
+          'storybook',
+          'panda',
+          'floating-ui',
+        ]}
+        name="limited-stack"
+        aria-label="Limited project stack"
+      >
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText('+3')).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole('combobox'));
+    await expect(canvas.queryByText('+3')).not.toBeInTheDocument();
+    await expect(
+      canvas.getByRole('button', { name: 'Remove Floating UI' }),
+    ).toBeInTheDocument();
   },
+  parameters: { controls: { disable: true } },
 };
 
-// ============================================================================
-// NO RESULTS
-// ============================================================================
-
-export const NoResults: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('xyz');
-
-      return (
-        <Box w="280">
-          <Autocomplete
-            name="no-results"
-            value={value}
-            onChange={setValue}
-            options={fruits}
-            onSelect={(option) => setValue(option.label)}
-            placeholder="Search fruits..."
-            noResultsMessage="No matching fruits found"
-          />
-        </Box>
-      );
-    };
-    return <Component />;
-  },
+export const Sizes: Story = {
+  render: () => (
+    <Box display="grid" gap="12" w="sm">
+      {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+        <Autocomplete
+          key={size}
+          size={size}
+          defaultValue="react"
+          name={`technology-${size}`}
+          aria-label={`${size} autocomplete`}
+        >
+          {renderOptions()}
+        </Autocomplete>
+      ))}
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
 };
 
-export const CustomNoResults: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('xyz');
-
-      return (
-        <Box w="280">
-          <Autocomplete
-            name="custom-no-results"
-            value={value}
-            onChange={setValue}
-            options={fruits}
-            onSelect={(option) => setValue(option.label)}
-            placeholder="Search fruits..."
-            noResultsMessage={`No results for "${value}". Try a different search.`}
-          />
-        </Box>
-      );
-    };
-    return <Component />;
-  },
+export const ValidationStates: Story = {
+  render: () => (
+    <Box display="grid" gap="12" w="sm">
+      <Autocomplete name="default" aria-label="Default">
+        {renderOptions()}
+      </Autocomplete>
+      <Autocomplete name="valid" aria-label="Valid" valid>
+        {renderOptions()}
+      </Autocomplete>
+      <Autocomplete name="invalid" aria-label="Invalid" invalid>
+        {renderOptions()}
+      </Autocomplete>
+      <Autocomplete name="error" aria-label="Error" error>
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
 };
-
-// ============================================================================
-// DISABLED OPTIONS
-// ============================================================================
-
-export const DisabledOptions: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
-
-      const optionsWithDisabled: AutocompleteOption[] = [
-        { id: '1', label: 'Available Option 1' },
-        { id: '2', label: 'Disabled Option', disabled: true },
-        { id: '3', label: 'Available Option 2' },
-        { id: '4', label: 'Another Disabled', disabled: true },
-        { id: '5', label: 'Available Option 3' },
-      ];
-
-      return (
-        <Box w="280">
-          <Autocomplete
-            name="disabled-options"
-            value={value}
-            onChange={setValue}
-            options={optionsWithDisabled}
-            onSelect={(option) => setValue(option.label)}
-            placeholder="Some options are disabled..."
-          />
-        </Box>
-      );
-    };
-    return <Component />;
-  },
-};
-
-// ============================================================================
-// STATES
-// ============================================================================
 
 export const Disabled: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
-
-      return (
-        <Box w="280">
-          <Autocomplete
-            name="disabled"
-            value={value}
-            onChange={setValue}
-            options={fruits}
-            onSelect={(option) => setValue(option.label)}
-            placeholder="Disabled autocomplete"
-            disabled
-          />
-        </Box>
-      );
-    };
-    return <Component />;
+  render: () => (
+    <Box w="sm">
+      <Autocomplete
+        multiple
+        disabled
+        defaultValue={['react', 'typescript']}
+        name="disabled-stack"
+        aria-label="Disabled technologies"
+      >
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('combobox')).toBeDisabled();
+    await expect(
+      canvas.getByRole('button', { name: 'Remove React' }),
+    ).toBeDisabled();
   },
+  parameters: { controls: { disable: true } },
 };
 
-export const ErrorStory: Story = {
-  name: 'Error',
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
-
-      return (
-        <Box w="280">
-          <Autocomplete
-            name="error"
-            value={value}
-            onChange={setValue}
-            options={fruits}
-            onSelect={(option) => setValue(option.label)}
-            placeholder="Error state"
-            error
-          />
-        </Box>
-      );
-    };
-    return <Component />;
-  },
+export const DisabledOptions: Story = {
+  render: () => (
+    <Box w="sm">
+      <Autocomplete name="framework" aria-label="Framework">
+        <Option value="react" label="React" />
+        <Option value="legacy" label="Legacy framework" disabled />
+        <Option value="storybook" label="Storybook" />
+      </Autocomplete>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
 };
 
-// ============================================================================
-// SIZE VARIANTS
-// ============================================================================
-
-export const DensityCompact: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
-
-      return (
-        <Box w="280">
-          <Autocomplete
-            name="compact-packing"
-            value={value}
-            onChange={setValue}
-            options={fruits}
-            onSelect={(option) => setValue(option.label)}
-            placeholder="Compact packing"
-            density="compact"
-          />
-        </Box>
-      );
-    };
-    return <Component />;
+export const AllowCustomValue: Story = {
+  render: () => (
+    <Box w="sm">
+      <Autocomplete
+        multiple
+        allowCustomValue
+        defaultValue={['react']}
+        name="custom-stack"
+        aria-label="Technologies"
+        placeholder="Add a technology…"
+      >
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('combobox');
+    await userEvent.type(input, 'Script');
+    const body = within(document.body);
+    const options = body.getAllByRole('option');
+    await expect(options[0]).toHaveAccessibleName(/add “script”/i);
+    await expect(options[1]).toHaveAccessibleName(/typescript type safety/i);
+    await userEvent.keyboard('{Enter}');
+    const removeScript = canvas.getByRole('button', {
+      name: 'Remove Script',
+    });
+    await expect(removeScript).toBeInTheDocument();
+    await expect(removeScript.parentElement).toHaveAttribute(
+      'data-new',
+      'true',
+    );
+    await userEvent.type(input, 'React');
+    await expect(
+      body.queryByRole('option', { name: /add “react”/i }),
+    ).not.toBeInTheDocument();
   },
+  parameters: { controls: { disable: true } },
 };
 
-export const DensityComfortable: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
-
-      return (
-        <Box w="xs">
-          <Autocomplete
-            name="comfortable-packing"
-            value={value}
-            onChange={setValue}
-            options={countries}
-            onSelect={(option) => setValue(option.label)}
-            placeholder="Comfortable packing"
-            density="comfortable"
-          />
-        </Box>
-      );
-    };
-    return <Component />;
-  },
+export const Loading: Story = {
+  render: () => (
+    <Box w="sm">
+      <Autocomplete
+        loading
+        defaultOpen
+        name="loading"
+        aria-label="Loading technologies"
+      />
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
 };
 
-// ============================================================================
-// REAL-WORLD EXAMPLE
-// ============================================================================
+export const InfiniteLoading: Story = {
+  render: function InfiniteLoadingRender() {
+    const [options, setOptions] = useState(() => extendedOptions.slice(0, 8));
+    const [loadingMore, setLoadingMore] = useState(false);
+    const hasMore = options.length < extendedOptions.length;
 
-export const UserSearch: Story = {
-  render: () => {
-    const Component = () => {
-      const [value, setValue] = useState('');
-      const [selectedUser, setSelectedUser] =
-        useState<AutocompleteOption | null>(null);
+    const loadMore = () => {
+      if (loadingMore || !hasMore) {
+        return;
+      }
 
-      const handleSelect = (option: AutocompleteOption) => {
-        setValue(option.label);
-        setSelectedUser(option);
-      };
-
-      return (
-        <Box w="xs">
-          <Text mb="8" fontWeight="medium">
-            Assign to user
-          </Text>
-          <Autocomplete
-            name="user-search"
-            value={value}
-            onChange={setValue}
-            options={users}
-            onSelect={handleSelect}
-            placeholder="Search by name or email..."
-            filterFn={(option, input) => {
-              const search = input.toLowerCase();
-              return (
-                option.label.toLowerCase().includes(search) ||
-                (option.description?.toLowerCase().includes(search) ?? false)
-              );
-            }}
-          />
-          {selectedUser && (
-            <Box
-              mt="12"
-              p="12"
-              bg="surface.sunken"
-              borderRadius="8"
-              display="flex"
-              gap="8"
-              alignItems="center"
-            >
-              <Text fontSize="14">
-                Assigned to: <strong>{selectedUser.label}</strong>
-              </Text>
-            </Box>
-          )}
-        </Box>
-      );
+      setLoadingMore(true);
+      window.setTimeout(() => {
+        setOptions((currentOptions) =>
+          extendedOptions.slice(0, currentOptions.length + 4),
+        );
+        setLoadingMore(false);
+      }, 200);
     };
-    return <Component />;
+
+    return (
+      <Box w="sm">
+        <Autocomplete
+          defaultOpen
+          name="infinite"
+          aria-label="Technology with more results"
+          hasMore={hasMore}
+          loadingMore={loadingMore}
+          onLoadMore={loadMore}
+        >
+          {renderOptions(options)}
+        </Autocomplete>
+      </Box>
+    );
   },
+  parameters: { controls: { disable: true } },
+};
+
+export const EmptyResults: Story = {
+  render: () => (
+    <Box w="sm">
+      <Autocomplete
+        defaultInputValue="angular"
+        defaultOpen
+        name="empty"
+        aria-label="Technology with no matches"
+      >
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const ControlledInput: Story = {
+  render: function ControlledInputRender() {
+    const [inputValue, setInputValue] = useState('');
+
+    return (
+      <Box display="grid" gap="8" w="sm">
+        <Autocomplete
+          inputValue={inputValue}
+          onInputValueChange={setInputValue}
+          name="controlled-input"
+          aria-label="Controlled query"
+        >
+          {renderOptions()}
+        </Autocomplete>
+        <Box color="text.subtle">{`Query: ${inputValue || 'empty'}`}</Box>
+      </Box>
+    );
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const ControlledOpen: Story = {
+  render: function ControlledOpenRender() {
+    const [open, setOpen] = useState(false);
+    const [openChangeCount, setOpenChangeCount] = useState(0);
+
+    const handleOpenChange = (nextOpen: boolean) => {
+      setOpen(nextOpen);
+      setOpenChangeCount((currentCount) => currentCount + 1);
+    };
+
+    return (
+      <Box display="grid" gap="8" w="sm">
+        <Button onClick={() => setOpen((currentOpen) => !currentOpen)}>
+          Toggle suggestions
+        </Button>
+        <Autocomplete
+          open={open}
+          onOpenChange={handleOpenChange}
+          name="controlled-open"
+          aria-label="Controlled suggestions"
+        >
+          {renderOptions()}
+        </Autocomplete>
+        <Box color="text.subtle">{`Open changes: ${openChangeCount}`}</Box>
+      </Box>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('combobox');
+
+    await userEvent.click(input);
+    await expect(canvas.getByText('Open changes: 1')).toBeInTheDocument();
+    await userEvent.keyboard('{Escape}');
+    await expect(canvas.getByText('Open changes: 2')).toBeInTheDocument();
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const WithFormField: Story = {
+  name: 'Ex: With FormField',
+  render: () => (
+    <Box w="sm">
+      <FormField
+        label="Primary technology"
+        labelFor="primary-technology"
+        helpText="Choose the technology this project depends on most."
+      >
+        <Autocomplete id="primary-technology" name="primaryTechnology">
+          {renderOptions()}
+        </Autocomplete>
+      </FormField>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const TechnologyAssignmentExample: Story = {
+  name: 'Ex: Technology Assignment',
+  render: () => (
+    <Box w="md">
+      <FormField
+        label="Project stack"
+        labelFor="project-stack"
+        helpText="Search the supported catalog or create a project-specific value."
+      >
+        <Autocomplete
+          id="project-stack"
+          name="projectStack"
+          multiple
+          allowCustomValue
+          defaultValue={['react', 'typescript']}
+          placeholder="Add technology…"
+        >
+          {renderOptions(extendedOptions)}
+        </Autocomplete>
+      </FormField>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const KeyboardSelection: Story = {
+  name: 'Ex: Keyboard Selection',
+  render: () => (
+    <Box w="sm">
+      <Autocomplete name="keyboard" aria-label="Keyboard selection">
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('combobox');
+    await userEvent.click(input);
+    await expect(input).toHaveAttribute('aria-expanded', 'true');
+    await expect(input).toHaveAttribute('aria-activedescendant');
+    await userEvent.keyboard('{Enter}');
+    await expect(input).toHaveValue('');
+    await expect(
+      canvas.getByRole('button', { name: 'Remove React' }),
+    ).toBeInTheDocument();
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const KeyboardTokenEditing: Story = {
+  name: 'Ex: Keyboard Token Editing',
+  render: () => (
+    <Box w="sm">
+      <Autocomplete
+        multiple
+        defaultValue={['react', 'typescript']}
+        name="token-editing"
+        aria-label="Token editing"
+      >
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('combobox');
+    const removeTypeScript = canvas.getByRole('button', {
+      name: 'Remove TypeScript',
+    });
+    await userEvent.click(input);
+    await userEvent.keyboard('{Backspace}');
+    await expect(removeTypeScript).toHaveFocus();
+    await expect(removeTypeScript).toBeInTheDocument();
+    await userEvent.keyboard('{Backspace}');
+    await expect(
+      canvas.queryByRole('button', { name: 'Remove TypeScript' }),
+    ).not.toBeInTheDocument();
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const TestIdReachesPortaledListbox: Story = {
+  name: 'Ex: Test Id Reaches The Listbox',
+  render: () => (
+    <Box w="sm" data-testid="filters">
+      <Autocomplete data-testid="technology" aria-label="Technology">
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const screen = within(canvasElement.ownerDocument.body);
+
+    // The test id is written on the root, not on the combobox input, so the
+    // chain scope it opens encloses the portal the input only sits beside.
+    const root = canvas.getByTestId('technology');
+    const input = canvas.getByRole('combobox');
+
+    await expect(root).not.toBe(input);
+    await expect(root).toContainElement(input);
+    await expect(input).not.toHaveAttribute('data-testid');
+
+    // The input keeps a stable query handle through `data-ds-part`, which the
+    // component emits on its own. It marks the trigger only, never the root.
+    await expect(input).toHaveAttribute('data-ds-part', 'trigger');
+    await expect(root).not.toHaveAttribute('data-ds-part');
+
+    await userEvent.click(input);
+
+    const listbox = await screen.findByRole('listbox');
+
+    // The listbox is portaled out of the root, so only the chain connects them.
+    await expect(root.contains(listbox)).toBe(false);
+
+    const chainRoot = listbox.closest('[data-ds-chain]');
+
+    // The chain is built from `data-testid` alone, so the trigger's
+    // `data-ds-part` contributes no node to it.
+    await expect(chainRoot).toHaveAttribute(
+      'data-ds-chain',
+      'filters>technology',
+    );
+    await expect(chainRoot?.getAttribute('data-ds-chain')).not.toContain(
+      'trigger',
+    );
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const DsComponentAttribute: Story = {
+  name: 'Test: data-ds-component',
+  render: () => (
+    <Box display="flex" flexDirection="column" gap="8" w="sm">
+      <Autocomplete data-testid="ds-default" aria-label="Default technology">
+        {renderOptions()}
+      </Autocomplete>
+      <Autocomplete
+        data-testid="ds-override"
+        data-ds-component="TechnologyPicker"
+        aria-label="Overridden technology"
+      >
+        {renderOptions()}
+      </Autocomplete>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const screen = within(canvasElement.ownerDocument.body);
+
+    // Emitted automatically on the root, without an author opting in.
+    const root = canvas.getByTestId('ds-default');
+    await expect(root).toHaveAttribute('data-ds-component', 'Autocomplete');
+
+    // The combobox input is an inner part of the root, so it stays unmarked.
+    const input = canvas.getByRole('combobox', { name: 'Default technology' });
+    await expect(input).toHaveAttribute('data-ds-part', 'trigger');
+    await expect(input).not.toHaveAttribute('data-ds-component');
+
+    // An explicitly passed value wins, still on the root and not the input.
+    const overriddenRoot = canvas.getByTestId('ds-override');
+    await expect(overriddenRoot).toHaveAttribute(
+      'data-ds-component',
+      'TechnologyPicker',
+    );
+    await expect(
+      canvas.getByRole('combobox', { name: 'Overridden technology' }),
+    ).not.toHaveAttribute('data-ds-component');
+
+    // The portaled listbox is not the Autocomplete root either.
+    await userEvent.click(input);
+
+    const listbox = await screen.findByRole('listbox');
+
+    await expect(listbox).not.toHaveAttribute(
+      'data-ds-component',
+      'Autocomplete',
+    );
+    await expect(listbox).not.toHaveAttribute(
+      'data-ds-component',
+      'TechnologyPicker',
+    );
+  },
+  parameters: { controls: { disable: true } },
 };

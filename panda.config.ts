@@ -35,6 +35,9 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
   ],
   card: [{ variant: ['*'], interactive: ['*'] }],
   chip: [{ size: ['*'], before: ['*'], after: ['*'], responsive: true }],
+  // `layer` comes from FloatingLayerContext at runtime, so Panda cannot see the
+  // value statically and would emit the class with no rule behind it.
+  autocomplete: [{ size: ['*'], responsive: true }, { layer: ['*'] }],
   calendar: [{ type: ['*'] }],
   segmentedFields: [
     {
