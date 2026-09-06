@@ -1,10 +1,12 @@
 import { cx } from '@styled-system/css';
-import { type IconVariantProps, icon } from '@styled-system/recipes';
+import { icon } from '@styled-system/recipes';
 import type { ColorToken } from '@styled-system/tokens';
+import type { ConditionalValue } from '@styled-system/types';
 import type { SVGAttributes } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
 import type { numericSizes } from '~/styles/primitives';
+import { useSlotContext } from '~/system/context/SlotContext';
 import { splitProps } from '~/utils/splitProps';
 
 import { useIconConfig } from './IconContext';
@@ -19,18 +21,20 @@ import type { IconNamesList } from './icons';
 export type AllowedIconSizes = keyof typeof numericSizes;
 
 export type IconProps = Omit<BoxProps, IconNamesList | 'size'> &
-  SVGAttributes<SVGElement> &
-  IconVariantProps & {
+  SVGAttributes<SVGElement> & {
     name: IconNamesList;
-    size?: AllowedIconSizes;
-    fill?: ColorToken;
+    size?: ConditionalValue<AllowedIconSizes>;
+    fill?: ConditionalValue<ColorToken>;
   };
 
 export const Icon = (props: IconProps) => {
-  const { name, size, fill, ...rest } = props;
+  const slotContext = useSlotContext();
+  const { name, size: sizeProp, fill: fillProp, ...rest } = props;
   const [className, otherProps] = splitProps(rest);
   const { spritePath } = useIconConfig();
   const spriteHref = `${spritePath}#${name}`;
+  const size = sizeProp ?? slotContext?.size;
+  const fill = fillProp ?? slotContext?.fill;
 
   return (
     <Box
@@ -38,7 +42,7 @@ export const Icon = (props: IconProps) => {
       name={name}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
-      {...(size && { width: size })}
+      {...(size && { width: size, height: size })}
       fill={fill}
       className={cx(icon(), className)}
       {...otherProps}

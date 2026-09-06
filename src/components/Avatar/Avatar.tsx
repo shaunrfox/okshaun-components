@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
 import { type AllowedIconSizes, Icon } from '~/components/Icon';
+import { useSlotContext } from '~/system/context/SlotContext';
 import { splitProps } from '~/utils/splitProps';
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -84,11 +85,12 @@ function getInitials(name: string): string {
  * presence and status indicators.
  */
 export const Avatar = (props: AvatarProps) => {
+  const slotContext = useSlotContext();
   const {
     src,
     alt = '',
     name,
-    size = 'md' as AvatarSize,
+    size: sizeProp,
     shape = 'circle' as AvatarShape,
     presence,
     status,
@@ -97,14 +99,14 @@ export const Avatar = (props: AvatarProps) => {
     ref,
     ...rest
   } = props;
+  const size =
+    sizeProp ?? (slotContext?.size as AvatarProps['size'] | undefined);
 
   const [className, otherProps] = splitProps(rest);
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
 
-  // Type-safe size for indexing
-  const safeSize = size as AvatarSize;
-  const classes = avatar({ size: safeSize, shape });
+  const classes = avatar({ size, shape });
 
   // Determine what to show: image, fallback, or initials
   const showImage = Boolean(src) && failedSrc !== src;
@@ -112,7 +114,10 @@ export const Avatar = (props: AvatarProps) => {
   const initials = name ? getInitials(name) : null;
 
   // Get icon size based on avatar size
-  const iconSize = sizeToStatusIconSize[safeSize];
+  const iconSize =
+    typeof size === 'string' && size in sizeToStatusIconSize
+      ? sizeToStatusIconSize[size as AvatarSize]
+      : sizeToStatusIconSize.md;
 
   return (
     <Box

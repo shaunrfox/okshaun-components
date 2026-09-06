@@ -66,6 +66,13 @@ const selectBase = {
     color: 'text.subtlest',
   },
 
+  chips: {
+    flex: 1,
+    minWidth: '0',
+    alignItems: 'center',
+    color: 'text',
+  },
+
   // The chevron/arrow icon
   icon: {
     display: 'flex',
@@ -133,7 +140,7 @@ const selectVariants = {
 export const selectRecipe = defineSlotRecipe({
   className: 'select',
   jsx: ['Select', 'SelectTrigger'],
-  slots: ['trigger', 'value', 'placeholder', 'icon'],
+  slots: ['trigger', 'value', 'placeholder', 'chips', 'icon'],
   base: selectBase,
   variants: selectVariants,
   defaultVariants: {

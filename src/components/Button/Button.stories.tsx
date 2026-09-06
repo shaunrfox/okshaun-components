@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { Grid, HStack, VStack, Wrap } from '@styled-system/jsx';
-
+import { Avatar } from '../Avatar';
+import { Badge } from '../Badge';
 import { Divider } from '../Divider';
 import { IconButton } from '../IconButton';
+import { Spinner } from '../Spinner';
 import { Text } from '../Text';
 import { Button } from './Button';
 
@@ -258,6 +260,21 @@ export const WithIconAfter: Story = {
     iconAfter: 'arrow-right',
     children: 'Next',
   },
+};
+
+export const WithSlots: Story = {
+  name: 'With Slots',
+  render: () => (
+    <Wrap gap="12" alignItems="center">
+      <Button before={<Avatar name="Ava" />} after={<Badge count={3} />}>
+        Team
+      </Button>
+      <Button before={<Spinner />} after={<Badge variant="info" />}>
+        Syncing
+      </Button>
+    </Wrap>
+  ),
+  parameters: { controls: { disable: true } },
 };
 
 export const WithBothIcons: Story = {

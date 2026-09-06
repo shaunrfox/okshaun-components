@@ -10,6 +10,9 @@ export const animations = defineTokens.animations({
   pulse: {
     value: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
   },
+  skeletonWave: {
+    value: 'skeletonWave 1.6s linear infinite',
+  },
   bounce: {
     value: 'bounce 1s infinite',
   },

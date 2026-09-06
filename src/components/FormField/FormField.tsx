@@ -1,9 +1,9 @@
 import { cx } from '@styled-system/css';
 import { Flex } from '@styled-system/jsx';
 import { type FormFieldVariantProps, formField } from '@styled-system/recipes';
-import type { ReactElement, ReactNode } from 'react';
-import { Children, cloneElement, isValidElement } from 'react';
-
+import type { NumericSizeToken } from '@styled-system/tokens';
+import type { ReactNode } from 'react';
+import { FieldContext } from '~/system/context/FieldContext';
 import { splitProps } from '~/utils/splitProps';
 
 import { Box, type BoxProps } from '../Box';
@@ -20,19 +20,17 @@ export type FormFieldProps = Omit<BoxProps, keyof FormFieldVariantProps> &
     helpText?: string;
     required?: boolean;
     error?: boolean;
+    invalid?: boolean;
     errorText?: string;
+    success?: boolean;
+    successText?: string;
     disabled?: boolean;
     tooltipTitle?: string;
     tooltipText?: string;
-    size?: 'sm' | 'md' | 'lg' | 'xl';
+    size?: FormFieldVariantProps['size'];
+    layout?: 'default' | 'inline';
+    gap?: NumericSizeToken;
   };
-
-type FormFieldChildProps = {
-  error?: boolean;
-  disabled?: boolean;
-  required?: boolean;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-};
 
 export const Required = () => {
   return <Text color="text.danger">*</Text>;
@@ -47,11 +45,15 @@ export const FormField = (props: FormFieldProps) => {
     helpText,
     required,
     error,
+    invalid,
     errorText,
+    success,
+    successText,
     disabled,
     tooltipTitle,
     tooltipText,
     size,
+    gap = '2',
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
@@ -61,71 +63,103 @@ export const FormField = (props: FormFieldProps) => {
     layout: layout === 'inline' ? 'inline' : 'default',
     size,
   });
-
-  const enhancedChildren = Children.map(children, (child) => {
-    if (isValidElement(child)) {
-      const c = child as ReactElement<FormFieldChildProps>;
-      return cloneElement(c, {
-        error: error ?? c.props.error,
-        disabled: disabled ?? c.props.disabled,
-        required: required ?? c.props.required,
-        size: size ?? c.props.size,
-      });
-    }
-    return child;
-  });
+  const labelId = `${labelFor}-label`;
+  const helpTextId = helpText ? `${labelFor}-help` : undefined;
+  const errorTextId =
+    (error || invalid) && errorText ? `${labelFor}-error` : undefined;
+  const successTextId =
+    success && !(error || invalid) && successText
+      ? `${labelFor}-success`
+      : undefined;
+  const describedBy = [helpTextId, errorTextId, successTextId]
+    .filter(Boolean)
+    .join(' ');
+  const showError = error || invalid;
+  const showSuccess = success && !showError;
 
   return (
-    <Box
-      className={`${cx(classes.container, className)} group`}
-      aria-disabled={disabled}
-      data-disabled={disabled || undefined}
-      data-error={error}
-      data-size={size}
-      {...otherProps}
+    <FieldContext.Provider
+      value={{
+        size,
+        disabled,
+        error: error ?? invalid,
+        invalid: invalid ?? error,
+        describedBy,
+      }}
     >
-      <Flex className={classes.labelWrapper}>
-        <Label htmlFor={labelFor}>
-          {label} {required && <Required />}
-        </Label>
+      <Box
+        className={`${cx(classes.container, className)} group`}
+        aria-disabled={disabled}
+        data-disabled={disabled || undefined}
+        data-error={showError || undefined}
+        data-invalid={showError || undefined}
+        data-success={showSuccess || undefined}
+        data-size={typeof size === 'string' ? size : undefined}
+        {...otherProps}
+      >
+        <Flex className={classes.labelWrapper}>
+          <Label id={labelId} htmlFor={labelFor}>
+            {label} {required && <Required />}
+          </Label>
 
-        {tooltipText && (
-          <Tooltip
-            {...(tooltipTitle && { title: tooltipTitle })}
-            text={tooltipText}
+          {tooltipText && (
+            <Tooltip
+              {...(tooltipTitle && { title: tooltipTitle })}
+              text={tooltipText}
+            >
+              <Icon name="info" fill="icon.decorative.subtle" size="20" />
+            </Tooltip>
+          )}
+        </Flex>
+
+        {layout === 'default' && helpText && (
+          <Text
+            id={helpTextId}
+            textStyle="body.xs"
+            lineHeight="tight"
+            color="text.subtlest"
           >
-            <Icon name="info" fill="icon.decorative.subtle" size="20" />
-          </Tooltip>
+            {helpText}
+          </Text>
         )}
-      </Flex>
 
-      {layout === 'default' && helpText && (
-        <Text textStyle="body.xs" lineHeight="tight" color="text.subtlest">
-          {helpText}
-        </Text>
-      )}
-
-      <Box className={classes.inputs}>{enhancedChildren}</Box>
-      {layout === 'inline' && helpText && (
-        <Text
-          textStyle="body.xs"
-          lineHeight="tight"
-          color="text.subtlest"
-          gridColumn="2 / 3"
-        >
-          {helpText}
-        </Text>
-      )}
-      {error && (
-        <Text
-          textStyle="body.xs"
-          lineHeight="tight"
-          color="text.danger"
-          gridColumn="2 / 3"
-        >
-          {errorText}
-        </Text>
-      )}
-    </Box>
+        <Box className={classes.inputs} gap={gap}>
+          {children}
+        </Box>
+        {layout === 'inline' && helpText && (
+          <Text
+            id={helpTextId}
+            textStyle="body.xs"
+            lineHeight="tight"
+            color="text.subtlest"
+            gridColumn="2 / 3"
+          >
+            {helpText}
+          </Text>
+        )}
+        {showError && errorText && (
+          <Text
+            id={errorTextId}
+            textStyle="body.xs"
+            lineHeight="tight"
+            color="text.danger"
+            gridColumn="2 / 3"
+          >
+            {errorText}
+          </Text>
+        )}
+        {showSuccess && successText && (
+          <Text
+            id={successTextId}
+            textStyle="body.xs"
+            lineHeight="tight"
+            color="text.success"
+            gridColumn="2 / 3"
+          >
+            {successText}
+          </Text>
+        )}
+      </Box>
+    </FieldContext.Provider>
   );
 };

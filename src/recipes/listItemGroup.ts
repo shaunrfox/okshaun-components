@@ -1,5 +1,7 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
+import { listDensity } from './list';
+
 export const listItemGroupRecipe = defineSlotRecipe({
   className: 'listItemGroup',
   jsx: ['ListItemGroup'],
@@ -19,40 +21,16 @@ export const listItemGroupRecipe = defineSlotRecipe({
   variants: {
     density: {
       compact: {
-        groupLabel: {
-          px: '10',
-          pt: '8',
-          pb: '2',
-          fontSize: '12',
-        },
-        divider: {
-          my: '4',
-          mx: '10',
-        },
+        groupLabel: listDensity.compact.groupLabel,
+        divider: listDensity.compact.divider,
       },
       comfortable: {
-        groupLabel: {
-          px: '12',
-          pt: '12',
-          pb: '4',
-          fontSize: '14',
-        },
-        divider: {
-          my: '6',
-          mx: '12',
-        },
+        groupLabel: listDensity.comfortable.groupLabel,
+        divider: listDensity.comfortable.divider,
       },
       spacious: {
-        groupLabel: {
-          px: '16',
-          pt: '16',
-          pb: '6',
-          fontSize: '16',
-        },
-        divider: {
-          my: '8',
-          mx: '16',
-        },
+        groupLabel: listDensity.spacious.groupLabel,
+        divider: listDensity.spacious.divider,
       },
     },
   },

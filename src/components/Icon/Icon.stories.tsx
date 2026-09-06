@@ -3,6 +3,7 @@ import { Flex } from '@styled-system/jsx';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { Box } from '../Box';
+import { Button } from '../Button';
 import { IconButton } from '../IconButton';
 import { Text } from '../Text';
 import { TextInput } from '../TextInput';
@@ -89,6 +90,37 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const ResponsiveSize: Story = {
+  name: 'Responsive Size',
+  render: () => (
+    <Flex gap="16" alignItems="center">
+      <Icon name="search" size={{ base: '16', md: '24', lg: '32' }} />
+      <Icon name="barcode-off" size={{ base: '20', md: '28', lg: '40' }} />
+      <Icon name="spinner" size={{ base: '20', md: '24', lg: '32' }} />
+    </Flex>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
+export const InheritedSlot: Story = {
+  name: 'Inherited Slot',
+  render: () => (
+    <Flex gap="16" alignItems="center">
+      <Button before={<Icon name="search" />}>Search</Button>
+      <TextInput
+        name="icon-slot-demo"
+        before={<Icon name="barcode-off" />}
+        placeholder="Slot size and fill"
+      />
+    </Flex>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
 
 type CopyState =
   | { status: 'idle' }

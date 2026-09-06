@@ -57,6 +57,10 @@ export const keyframes = defineKeyframes({
     '0%': { transform: 'translateX(-100%)', opacity: '0' },
     '100%': { transform: 'translateX(0)', opacity: '1' },
   },
+  skeletonWave: {
+    '0%': { transform: 'translateX(-100%)' },
+    '100%': { transform: 'translateX(100%)' },
+  },
   // Modal animations
   modalFadeIn: {
     '0%': { opacity: '0' },

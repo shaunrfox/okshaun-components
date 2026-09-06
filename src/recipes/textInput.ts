@@ -3,6 +3,8 @@ import { defineSlotRecipe } from '@pandacss/dev';
 const textInputBase = {
   container: {
     position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
     width: 'full',
     bg: 'surface',
     borderWidth: '{sizes.1}',
@@ -37,6 +39,25 @@ const textInputBase = {
       opacity: 1, // let FormField handle disabled state opacity
     },
   },
+  slot: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    transitionDuration: 'fast',
+    transitionProperty: 'all',
+    transitionTimingFunction: 'default',
+    flex: '0 0 auto',
+    fill: 'icon.decorative.subtle',
+    pointerEvents: 'none',
+    zIndex: 1,
+  },
+  buttonSlot: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flex: '0 0 auto',
+    px: '0',
+    zIndex: 1,
+    m: '-1',
+  },
   input: {
     width: 'full',
     bg: 'surface',
@@ -68,6 +89,11 @@ const textInputVariants = {
         px: '{sizes.8}',
         fontSize: '{sizes.14}',
       },
+      slot: {
+        w: '16',
+        h: '16',
+        px: '4',
+      },
       icon: {
         mx: '2',
         w: '{sizes.22}',
@@ -78,6 +104,11 @@ const textInputVariants = {
         py: '3',
         px: '{sizes.10}',
         fontSize: '{sizes.16}',
+      },
+      slot: {
+        w: '20',
+        h: '20',
+        px: '6',
       },
       icon: {
         mx: '3',
@@ -90,6 +121,11 @@ const textInputVariants = {
         px: '{sizes.12}',
         fontSize: '{sizes.16}',
       },
+      slot: {
+        w: '24',
+        h: '24',
+        px: '8',
+      },
       icon: {
         mx: '5',
         w: '{sizes.24}',
@@ -100,6 +136,11 @@ const textInputVariants = {
         py: '9',
         px: '{sizes.16}',
         fontSize: '{sizes.20}',
+      },
+      slot: {
+        w: '28',
+        h: '28',
+        px: '10',
       },
       icon: {
         mx: '7',
@@ -195,7 +236,7 @@ const textInputCompoundVariants: NonNullable<
 export const textInputRecipe = defineSlotRecipe({
   className: 'textInput',
   jsx: ['TextInput', 'Textinput'],
-  slots: ['container', 'input', 'icon'],
+  slots: ['container', 'input', 'slot', 'buttonSlot', 'icon'],
   base: textInputBase,
   variants: textInputVariants,
   compoundVariants: textInputCompoundVariants,

@@ -1,6 +1,8 @@
 import { cx } from '@styled-system/css';
 import { type SpinnerVariantProps, spinner } from '@styled-system/recipes';
 
+import { Icon } from '~/components/Icon';
+import { useSlotContext } from '~/system/context/SlotContext';
 import { splitProps } from '~/utils/splitProps';
 
 import { Box, type BoxProps } from '../Box/Box';
@@ -12,7 +14,10 @@ export type SpinnerProps = Omit<BoxProps, keyof SpinnerVariantProps> &
   };
 
 export const Spinner = (props: SpinnerProps) => {
-  const { size, inverse, centered, ...rest } = props;
+  const slotContext = useSlotContext();
+  const { size: sizeProp, inverse, centered, ...rest } = props;
+  const size =
+    sizeProp ?? (slotContext?.size as SpinnerProps['size'] | undefined);
   const [className, otherProps] = splitProps(rest);
   const classes = spinner({
     size,
@@ -22,9 +27,9 @@ export const Spinner = (props: SpinnerProps) => {
 
   return (
     <Box className={cx(classes.container, className)} {...otherProps}>
-      <Box
-        as="div"
-        className={classes.spinnerDiv}
+      <Icon
+        name="spinner"
+        className={classes.spinnerSvg}
         data-inverse={inverse ? 'true' : undefined}
       />
     </Box>

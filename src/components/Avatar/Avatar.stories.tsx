@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Flex } from '@styled-system/jsx';
 import { Box } from '../Box';
+import { Button } from '../Button';
 import { Icon } from '../Icon';
 import { Text } from '../Text';
 import { Avatar } from './Avatar';
@@ -98,6 +99,38 @@ export const SizesWithLabels: Story = {
           <Avatar size={size} src={sampleImages.user1} name="John Doe" />
         </Box>
       ))}
+    </Box>
+  ),
+};
+
+export const ResponsiveSizes: Story = {
+  name: 'Responsive Sizes',
+  render: () => (
+    <Box display="flex" gap="4" alignItems="center">
+      <Avatar
+        size={{ base: 'sm', md: 'lg', xl: '2xl' }}
+        src={sampleImages.user1}
+        name="John Doe"
+      />
+      <Avatar
+        size={{ base: 'md', md: 'xl', xl: '2xl' }}
+        src={sampleImages.user2}
+        name="Jane Doe"
+      />
+    </Box>
+  ),
+};
+
+export const InButtonSlot: Story = {
+  name: 'In Button Slot',
+  render: () => (
+    <Box display="flex" gap="4" alignItems="center">
+      <Button before={<Avatar name="Ava" src={sampleImages.user1} />}>
+        Profile
+      </Button>
+      <Button before={<Avatar name="Bo" src={sampleImages.user2} />}>
+        Settings
+      </Button>
     </Box>
   ),
 };

@@ -156,6 +156,44 @@ const FloatingSearchBarExample = () => {
   );
 };
 
+const LinkedItemsExample = () => {
+  return (
+    <Card variant="flat" minW="2xs">
+      <List aria-label="Linked resources">
+        <ListItem
+          href="https://example.com/docs"
+          target="_blank"
+          rel="noreferrer"
+          iconBefore="link"
+          iconBeforeFill="icon"
+          iconAfter="arrow-square-out"
+          iconAfterFill="icon.decorative.subtle"
+          label="Documentation"
+          description="Open the public docs"
+        />
+        <ListItem
+          href="https://example.com/status"
+          active
+          iconBefore="history"
+          iconBeforeFill="icon.decorative"
+          iconAfter="arrow-right"
+          iconAfterFill="icon"
+          label="Status page"
+          description="Check service health"
+        />
+        <ListItem
+          href="https://example.com/archive"
+          disabled
+          iconBefore="lock"
+          iconBeforeFill="icon.decorative.subtle"
+          label="Archived item"
+          description="Disabled link state"
+        />
+      </List>
+    </Card>
+  );
+};
+
 export const Default: Story = {
   args: {},
   render: () => <SingleSelectExample />,
@@ -236,6 +274,12 @@ export const SelectionControls: Story = {
 export const Highlighting: Story = {
   args: {},
   render: () => <HighlightingExample />,
+  parameters: { controls: { disable: true } },
+};
+
+export const LinkedItems: Story = {
+  args: {},
+  render: () => <LinkedItemsExample />,
   parameters: { controls: { disable: true } },
 };
 

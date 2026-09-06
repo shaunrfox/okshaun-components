@@ -35,6 +35,22 @@ const meta: Meta<typeof Select> = {
       control: 'boolean',
       defaultValue: false,
     },
+    defaultValue: {
+      control: 'text',
+      description: 'Uncontrolled initial value',
+    },
+    defaultOpen: {
+      control: 'boolean',
+      description: 'Uncontrolled initial open state',
+    },
+    name: {
+      control: 'text',
+      description: 'Hidden input name for form submission',
+    },
+    autoSize: {
+      control: 'boolean',
+      description: 'Allow the trigger to wrap multi-select chips',
+    },
   },
 };
 
@@ -204,4 +220,45 @@ export const Controlled: Story = {
 
     return <ControlledSelect />;
   },
+};
+
+export const UncontrolledDefaults: Story = {
+  name: 'Uncontrolled defaults',
+  args: {
+    defaultValue: 'option2',
+    defaultOpen: false,
+    name: 'select-defaults',
+    placeholder: 'Choose an option...',
+  },
+  render: (args) => (
+    <Select {...args}>
+      <SelectOption value="option1" label="Option 1" />
+      <SelectOption value="option2" label="Option 2" />
+      <SelectOption value="option3" label="Option 3" />
+    </Select>
+  ),
+};
+
+export const MultiChipForm: Story = {
+  name: 'Multi chip form',
+  args: {
+    multiple: true,
+    defaultValue: ['option1', 'option3'],
+    name: 'select-values',
+    autoSize: true,
+    placeholder: 'Choose options...',
+  },
+  render: (args) => (
+    <Box display="flex" flexDirection="column" gap="4" maxW="sm">
+      <Select {...args}>
+        <SelectOption value="option1" label="Option 1" />
+        <SelectOption value="option2" label="Option 2" />
+        <SelectOption value="option3" label="Option 3" />
+      </Select>
+      <Box fontSize="12" color="text.subtlest">
+        Chips render in the trigger and hidden inputs mirror the selected
+        values.
+      </Box>
+    </Box>
+  ),
 };

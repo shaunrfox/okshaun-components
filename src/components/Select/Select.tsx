@@ -32,9 +32,11 @@ import {
   createOverlayMiddleware,
   useOverlayFloating,
 } from '~/system/floating-ui/floating';
+import { useControllableState } from '~/system/hooks';
 import { splitProps } from '~/utils/splitProps';
 
 import { Box, type BoxProps } from '../Box';
+import { Chip } from '../Chip';
 import { Icon } from '../Icon';
 import { List, ListItem } from '../List';
 
@@ -97,36 +99,44 @@ export type SelectProps = Omit<
 > &
   SelectVariantProps & {
     value?: SelectValue;
+    defaultValue?: SelectValue;
     onChange?: (value: SelectValue) => void;
     multiple?: boolean;
     placeholder?: string;
     open?: boolean;
+    defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
     placement?: Placement;
     offset?: number;
     children: ReactNode;
     id?: string;
+    name?: string;
     disabled?: boolean;
     error?: boolean;
     density?: MenuDensity;
+    autoSize?: boolean;
   };
 
 export const Select = (props: SelectProps) => {
   const {
     value: controlledValue,
+    defaultValue = null,
     onChange,
     multiple = false,
     placeholder = 'Select...',
     open: controlledOpen,
+    defaultOpen = false,
     onOpenChange,
     placement = 'bottom-start',
     offset = 4,
     children,
     id,
+    name,
     disabled = false,
     error = false,
     size = 'md',
     density = defaultDensity,
+    autoSize = false,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
@@ -135,13 +145,18 @@ export const Select = (props: SelectProps) => {
   const triggerId = id ?? `select-${generatedId}`;
   const listboxId = `${triggerId}-listbox`;
 
-  const [internalOpen, setInternalOpen] = useState(false);
-  const [internalValue, setInternalValue] = useState<SelectValue>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const isOpenControlled = controlledOpen !== undefined;
-  const isOpen = isOpenControlled ? controlledOpen : internalOpen;
-  const value = controlledValue !== undefined ? controlledValue : internalValue;
+  const [value, setValue] = useControllableState<SelectValue>({
+    value: controlledValue,
+    defaultValue: defaultValue ?? (multiple ? ([] as string[]) : null),
+    onChange,
+  });
+  const [isOpen, setIsOpen] = useControllableState<boolean>({
+    value: controlledOpen,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
 
   const options = useMemo(() => {
     return Children.toArray(children).filter(isSelectOptionElement);
@@ -182,22 +197,14 @@ export const Select = (props: SelectProps) => {
   }, [firstEnabledIndex, isOpen, selectedIndex]);
 
   const setOpenState = (nextOpen: boolean) => {
-    if (!isOpenControlled) {
-      setInternalOpen(nextOpen);
-    }
-
-    onOpenChange?.(nextOpen);
+    setIsOpen(nextOpen);
   };
 
   const handleValueChange = useCallback(
     (nextValue: SelectValue) => {
-      if (controlledValue === undefined) {
-        setInternalValue(nextValue);
-      }
-
-      onChange?.(nextValue);
+      setValue(nextValue);
     },
-    [controlledValue, onChange],
+    [setValue],
   );
 
   const floating = useOverlayFloating({
@@ -266,15 +273,40 @@ export const Select = (props: SelectProps) => {
   const styles = select({ size });
   const menuStyles = menu({ density });
   const hasValue = value !== null && value !== undefined && value !== '';
+  const selectedValues = multiple
+    ? Array.isArray(value)
+      ? value
+      : value
+        ? [value]
+        : []
+    : hasValue
+      ? [String(value)]
+      : [];
+  const activeOption =
+    isOpen && activeIndex !== null ? options[activeIndex] : undefined;
+  const activeOptionId = activeOption
+    ? `${triggerId}-option-${activeOption.props.value}`
+    : undefined;
 
   const handleTriggerKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     if (disabled) {
       return;
     }
 
-    if (!isOpen && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+    if (!isOpen && ['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(event.key)) {
       event.preventDefault();
       setOpenState(true);
+      return;
+    }
+
+    if (
+      !isOpen &&
+      !multiple &&
+      hasValue &&
+      (event.key === 'Backspace' || event.key === 'Delete')
+    ) {
+      event.preventDefault();
+      handleValueChange(null);
     }
   };
 
@@ -289,7 +321,7 @@ export const Select = (props: SelectProps) => {
       return;
     }
 
-    handleValueChange(optionValue);
+    handleValueChange(optionValue === value ? null : optionValue);
     setOpenState(false);
   };
 
@@ -305,17 +337,56 @@ export const Select = (props: SelectProps) => {
           aria-haspopup="listbox"
           aria-expanded={isOpen}
           aria-controls={isOpen ? listboxId : undefined}
+          aria-activedescendant={activeOptionId}
           disabled={disabled}
           data-disabled={disabled || undefined}
           data-error={error || undefined}
+          data-auto-size={autoSize || undefined}
           {...(getReferenceProps({
             onKeyDown: handleTriggerKeyDown,
           }) as Record<string, unknown>)}
           {...otherProps}
         >
-          <Box className={hasValue ? styles.value : styles.placeholder}>
-            {displayValue}
-          </Box>
+          {multiple && selectedValues.length > 0 ? (
+            <Box
+              display="flex"
+              flexWrap={autoSize ? 'wrap' : 'nowrap'}
+              gap="2"
+              overflowX={autoSize ? 'visible' : 'auto'}
+              className={styles.chips}
+            >
+              {selectedValues.map((selectedValue) => {
+                const option = options.find(
+                  (entry) => entry.props.value === selectedValue,
+                );
+                const chipLabel = option
+                  ? getOptionText(option)
+                  : selectedValue;
+
+                return (
+                  <Chip
+                    key={selectedValue}
+                    size="sm"
+                    dismissable
+                    dismissLabel={`${chipLabel}, remove`}
+                    onDismiss={() => {
+                      handleValueChange(
+                        selectedValues.filter(
+                          (entry) => entry !== selectedValue,
+                        ),
+                      );
+                    }}
+                  >
+                    {chipLabel}
+                  </Chip>
+                );
+              })}
+            </Box>
+          ) : (
+            <Box className={hasValue ? styles.value : styles.placeholder}>
+              {displayValue}
+            </Box>
+          )}
           <Icon
             name="caret-down"
             size="20"
@@ -323,6 +394,16 @@ export const Select = (props: SelectProps) => {
             data-open={isOpen}
           />
         </Box>
+
+        {name &&
+          selectedValues.map((hiddenValue, index) => (
+            <input
+              key={`${name}-${index}-${hiddenValue}`}
+              type="hidden"
+              name={name}
+              value={hiddenValue}
+            />
+          ))}
 
         {isOpen && !disabled && (
           <FloatingPortal>
@@ -348,10 +429,12 @@ export const Select = (props: SelectProps) => {
                   const isSelected = multiple
                     ? Array.isArray(value) && value.includes(option.props.value)
                     : value === option.props.value;
+                  const optionId = `${triggerId}-option-${option.props.value}`;
 
                   return (
                     <ListItem
                       key={option.props.value}
+                      id={optionId}
                       ref={(node: HTMLElement | null) => {
                         itemRefs.current[index] = node;
                         labelsRef.current[index] = optionLabel;
@@ -363,6 +446,7 @@ export const Select = (props: SelectProps) => {
                       description={option.props.description}
                       iconBefore={option.props.iconLeft}
                       iconAfter={option.props.iconRight}
+                      aria-selected={isSelected}
                       {...(getItemProps({
                         onClick: () => {
                           if (!option.props.disabled) {

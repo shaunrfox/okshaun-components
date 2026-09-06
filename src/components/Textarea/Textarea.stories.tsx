@@ -37,6 +37,10 @@ const meta = {
       control: 'boolean',
       description: 'Error state — sets data-error and error styling',
     },
+    invalid: {
+      control: 'boolean',
+      description: 'Invalid state — sets aria-invalid and validation styling',
+    },
     disabled: {
       control: 'boolean',
       description: 'Disabled state',
@@ -106,6 +110,10 @@ export const States: Story = {
         error
       </Text>
       <Textarea name="error" placeholder="Error" error />
+      <Text textStyle="mono.md" mr="16">
+        invalid
+      </Text>
+      <Textarea name="invalid" placeholder="Invalid" invalid />
     </Grid>
   ),
   parameters: { controls: { disable: true } },
@@ -141,6 +149,24 @@ export const AutoSize: Story = {
   parameters: { controls: { disable: true } },
 };
 
+export const Uncontrolled: Story = {
+  name: 'Uncontrolled',
+  render: () => (
+    <FormField
+      label="Notes"
+      labelFor="notes-uncontrolled"
+      helpText="Try typing"
+    >
+      <Textarea
+        name="notes-uncontrolled"
+        id="notes-uncontrolled"
+        defaultValue="Pre-filled content"
+      />
+    </FormField>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
 // ============================================================================
 // Common Use Cases
 // ============================================================================
@@ -171,6 +197,14 @@ export const WithFormField: Story = {
         errorText="Comments are required."
       >
         <Textarea name="comments" id="comments" error />
+      </FormField>
+      <FormField
+        label="Remarks"
+        labelFor="remarks-invalid"
+        invalid
+        errorText="Remarks are invalid."
+      >
+        <Textarea name="remarks-invalid" id="remarks-invalid" invalid />
       </FormField>
       <FormField label="Remarks" labelFor="remarks" disabled>
         <Textarea
@@ -218,6 +252,15 @@ export const InlineFormField: Story = {
         errorText="Comments are required."
       >
         <Textarea name="comments2" id="comments2" error />
+      </FormField>
+      <FormField
+        layout="inline"
+        label="Remarks"
+        labelFor="remarks2-invalid"
+        invalid
+        errorText="Remarks are invalid."
+      >
+        <Textarea name="remarks2-invalid" id="remarks2-invalid" invalid />
       </FormField>
       <FormField layout="inline" label="Remarks" labelFor="remarks2" disabled>
         <Textarea

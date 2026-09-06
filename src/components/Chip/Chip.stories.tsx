@@ -26,7 +26,7 @@ const meta: Meta<typeof Chip> = {
   argTypes: {
     size: {
       control: 'select',
-      options: ['md', 'sm', 'lg'],
+      options: ['sm', 'md', 'lg', 'xl'],
       description: 'Size variants of chip',
     },
     before: {
@@ -80,6 +80,7 @@ export const Sizes: Story = {
       <Chip size="sm">Small</Chip>
       <Chip>Medium (default)</Chip>
       <Chip size="lg">Large</Chip>
+      <Chip size="xl">X-Large</Chip>
     </Flex>
   ),
 };
@@ -241,6 +242,7 @@ export const SizesMatrix: Story = {
           <Chip size="sm">Small</Chip>
           <Chip>Medium</Chip>
           <Chip size="lg">Large</Chip>
+          <Chip size="xl">X-Large</Chip>
         </Flex>
       </Flex>
       <Flex flexDir="column" gap="2">
@@ -253,6 +255,9 @@ export const SizesMatrix: Story = {
           <Chip size="lg" before={<Icon name="file" size="24" />}>
             Large
           </Chip>
+          <Chip size="xl" before={<Icon name="file" size="24" />}>
+            X-Large
+          </Chip>
         </Flex>
       </Flex>
       <Flex flexDir="column" gap="2">
@@ -264,6 +269,9 @@ export const SizesMatrix: Story = {
           <Chip after={<Icon name="x" size="20" />}>Medium</Chip>
           <Chip size="lg" after={<Icon name="x" size="24" />}>
             Large
+          </Chip>
+          <Chip size="xl" after={<Icon name="x" size="24" />}>
+            X-Large
           </Chip>
         </Flex>
       </Flex>
@@ -289,6 +297,13 @@ export const SizesMatrix: Story = {
             after={<Icon name="x" size="24" />}
           >
             Large
+          </Chip>
+          <Chip
+            size="xl"
+            before={<Icon name="user" size="24" />}
+            after={<Icon name="x" size="24" />}
+          >
+            X-Large
           </Chip>
         </Flex>
       </Flex>
@@ -409,6 +424,29 @@ export const DismissableWithBefore: Story = {
   ),
 };
 
+export const DismissableWithLabel: Story = {
+  render: () => (
+    <Flex gap="4">
+      <Chip
+        dismissable
+        dismissLabel="Remove technology filter"
+        before={<Icon name="broadcast" size="20" />}
+        onDismiss={() => {}}
+      >
+        Technology
+      </Chip>
+      <Chip
+        dismissable
+        dismissLabel="Remove document filter"
+        before={<Icon name="file" size="20" />}
+        onDismiss={() => {}}
+      >
+        Documents
+      </Chip>
+    </Flex>
+  ),
+};
+
 // =============================================================================
 // SINGLE SELECT (ChipGroup)
 // =============================================================================
@@ -433,6 +471,24 @@ export const SingleSelect = () => {
       <Text textStyle="mono.xs">Selected: {selected}</Text>
     </Flex>
   );
+};
+
+export const SingleSelectUncontrolled: Story = {
+  render: () => (
+    <Flex flexDir="column" gap="12">
+      <Text textStyle="mono.md">Uncontrolled single-select group:</Text>
+      <ChipGroup
+        type="single"
+        defaultValue="md"
+        label="Uncontrolled size selection"
+      >
+        <Chip value="sm">Small</Chip>
+        <Chip value="md">Medium</Chip>
+        <Chip value="lg">Large</Chip>
+        <Chip value="xl">X-Large</Chip>
+      </ChipGroup>
+    </Flex>
+  ),
 };
 
 export const SingleSelectWithBefore = () => {
@@ -489,6 +545,24 @@ export const MultiSelect = () => {
       <Text textStyle="mono.xs">Selected: {selected.join(', ') || 'None'}</Text>
     </Flex>
   );
+};
+
+export const MultiSelectUncontrolled: Story = {
+  render: () => (
+    <Flex flexDir="column" gap="12">
+      <Text textStyle="mono.md">Uncontrolled multi-select group:</Text>
+      <ChipGroup
+        type="multi"
+        defaultValue={['react', 'typescript']}
+        label="Uncontrolled skill selection"
+      >
+        <Chip value="react">React</Chip>
+        <Chip value="typescript">TypeScript</Chip>
+        <Chip value="vue">Vue</Chip>
+        <Chip value="svelte">Svelte</Chip>
+      </ChipGroup>
+    </Flex>
+  ),
 };
 
 export const MultiSelectWithBefore = () => {

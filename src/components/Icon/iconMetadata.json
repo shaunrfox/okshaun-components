@@ -404,6 +404,22 @@
     "category": "System objects",
     "deprecated": false
   },
+  "barcode-off": {
+    "aliases": [
+      "upc",
+      "qr",
+      "products",
+      "shopping",
+      "scanner",
+      "barcode",
+      "offline",
+      "off",
+      "unavailable"
+    ],
+    "tags": [],
+    "category": "System objects",
+    "deprecated": false
+  },
   "barcode-reader": {
     "aliases": ["upc", "qr", "products", "shopping", "scanner", "barcode"],
     "tags": [],
@@ -3922,6 +3938,12 @@
     "aliases": ["sparkle", "shine", "glint", "tool", "symbol", "helper"],
     "tags": [],
     "category": "Other",
+    "deprecated": false
+  },
+  "spinner": {
+    "aliases": ["spinner", "loading", "progress", "circle"],
+    "tags": [],
+    "category": "Status",
     "deprecated": false
   },
   "square": {

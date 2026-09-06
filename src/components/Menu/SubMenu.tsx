@@ -110,6 +110,32 @@ export const SubMenu = (props: SubMenuProps) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const floatingListRef = useRef<Array<HTMLElement | null>>([]);
   const labelsRef = useRef<Array<string | null>>([]);
+  const referenceRef = useRef<HTMLButtonElement | null>(null);
+  const focusFirstItemOnOpenRef = useRef(false);
+
+  useEffect(() => {
+    if (!open) {
+      focusFirstItemOnOpenRef.current = false;
+      setActiveIndex(null);
+      return;
+    }
+
+    if (!focusFirstItemOnOpenRef.current) {
+      return;
+    }
+
+    focusFirstItemOnOpenRef.current = false;
+
+    const firstEnabledIndex = floatingListRef.current.findIndex(
+      (node) => node && !node.hasAttribute('aria-disabled'),
+    );
+    if (firstEnabledIndex >= 0) {
+      setActiveIndex(firstEnabledIndex);
+      queueMicrotask(() => {
+        floatingListRef.current[firstEnabledIndex]?.focus();
+      });
+    }
+  }, [open]);
 
   const handleOpenChange = (
     nextOpen: boolean,
@@ -228,9 +254,42 @@ export const SubMenu = (props: SubMenuProps) => {
   const parentItemProps = parentListContext
     ? parentListContext.getItemProps({
         onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
+          const activeIndex = parentListContext.activeIndex;
+          const itemCount = parentListContext.itemCount ?? 0;
+          const isAtStart = activeIndex === 0;
+          const isAtEnd =
+            itemCount > 0 && activeIndex === Math.max(0, itemCount - 1);
+          const canDelegate =
+            rootContext.inline &&
+            parentId == null &&
+            typeof rootContext.onMenubarEdgeNavigate === 'function';
+
+          if (
+            canDelegate &&
+            ((event.key === 'ArrowLeft' && isAtStart) ||
+              (event.key === 'ArrowRight' && isAtEnd))
+          ) {
+            event.preventDefault();
+            event.stopPropagation();
+            setOpen(false);
+            rootContext.onMenubarEdgeNavigate(
+              event.key === 'ArrowRight' ? 1 : -1,
+            );
+            referenceRef.current?.focus();
+            return;
+          }
+
           if (event.key === 'ArrowRight' && !disabled) {
             event.preventDefault();
+            focusFirstItemOnOpenRef.current = true;
             setOpen(true);
+          }
+
+          if (event.key === 'ArrowLeft' && open) {
+            event.preventDefault();
+            event.stopPropagation();
+            setOpen(false);
+            referenceRef.current?.focus();
           }
         },
       })
@@ -238,7 +297,15 @@ export const SubMenu = (props: SubMenuProps) => {
         onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
           if (event.key === 'ArrowRight' && !disabled) {
             event.preventDefault();
+            focusFirstItemOnOpenRef.current = true;
             setOpen(true);
+          }
+
+          if (event.key === 'ArrowLeft' && open) {
+            event.preventDefault();
+            event.stopPropagation();
+            setOpen(false);
+            referenceRef.current?.focus();
           }
         },
       };
@@ -371,6 +438,7 @@ export const SubMenu = (props: SubMenuProps) => {
         disabled={disabled}
         className={itemClassName.wrapper}
         ref={(node: HTMLButtonElement | null) => {
+          referenceRef.current = node;
           listItemData.ref(node as HTMLElement | null);
           floating.refs.setReference(node);
         }}
@@ -436,6 +504,7 @@ export const SubMenu = (props: SubMenuProps) => {
                       if (event.key === 'ArrowLeft') {
                         event.preventDefault();
                         setOpen(false);
+                        referenceRef.current?.focus();
                       }
                     },
                   })}

@@ -61,6 +61,20 @@ const timePickerBase = {
         outlineColor: 'border.danger',
       },
     },
+    _invalid: {
+      borderColor: 'border.danger',
+      _hover: {
+        borderColor: 'border.danger',
+      },
+      _focusWithin: {
+        borderColor: 'border.danger',
+        outlineColor: 'border.danger',
+      },
+      _open: {
+        borderColor: 'border.danger',
+        outlineColor: 'border.danger',
+      },
+    },
   },
 
   // Individual focusable segment span (HH, MM, AM/PM)
@@ -83,6 +97,9 @@ const timePickerBase = {
     },
     _groupDisabled: {
       color: 'text.disabled',
+    },
+    _invalid: {
+      color: 'text.danger',
     },
   },
 

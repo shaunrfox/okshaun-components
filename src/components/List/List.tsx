@@ -102,7 +102,7 @@ export const List = (props: ListProps) => {
         ref={listRef}
         {...otherProps}
         onKeyDown={handleKeyDown}
-        className={cx(list({}), className)}
+        className={cx(list({ density }), className)}
       >
         {children}
       </Box>

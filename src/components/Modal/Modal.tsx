@@ -68,6 +68,7 @@ export const Modal = (props: ModalProps) => {
     open,
     onOpenChange,
     size = 'md',
+    position = 'centered',
     preventOverlayClose = false,
     children,
     id,
@@ -75,7 +76,7 @@ export const Modal = (props: ModalProps) => {
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
-  const classes = modalRecipe({ size, variant });
+  const classes = modalRecipe({ size, position, variant });
   const [{ phase }, dispatch] = useReducer(modalStateReducer, {
     phase: open ? 'open' : 'closed',
   });
@@ -143,20 +144,22 @@ export const Modal = (props: ModalProps) => {
           onClick={preventOverlayClose ? undefined : () => onOpenChange(false)}
           aria-hidden="true"
         />
-        <FloatingFocusManager context={context} modal={true}>
-          <Box
-            ref={refs.setFloating}
-            className={cx(classes.container, className)}
-            data-state={dataState}
-            id={id}
-            role="dialog"
-            aria-modal="true"
-            {...(getFloatingProps() as Record<string, unknown>)}
-            {...otherProps}
-          >
-            {children}
-          </Box>
-        </FloatingFocusManager>
+        <Box className={cx(classes.positionWrapper)}>
+          <FloatingFocusManager context={context} modal={true}>
+            <Box
+              ref={refs.setFloating}
+              className={cx(classes.container, className)}
+              data-state={dataState}
+              id={id}
+              role="dialog"
+              aria-modal="true"
+              {...(getFloatingProps() as Record<string, unknown>)}
+              {...otherProps}
+            >
+              {children}
+            </Box>
+          </FloatingFocusManager>
+        </Box>
       </FloatingPortal>
     </ModalContext.Provider>
   );

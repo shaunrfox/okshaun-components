@@ -21,7 +21,9 @@ import {
 } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
+import { useFieldContext } from '~/system/context';
 import { useOverlayFloating } from '~/system/floating-ui/floating';
+import { useControllableState } from '~/system/hooks';
 import { splitProps } from '~/utils/splitProps';
 
 import { type HourCycle, TimeList, type TimeValue } from './TimeList';
@@ -88,6 +90,7 @@ type TimeSegmentsProps = {
   rawInput: NumericRaw;
   disabled: boolean;
   error: boolean;
+  invalid: boolean;
   hourCycle: HourCycle;
   classes: ReturnType<typeof timePicker>;
   segmentRefs: RefObject<(HTMLElement | null)[]>;
@@ -103,6 +106,7 @@ const TimeSegments = ({
   rawInput,
   disabled,
   error,
+  invalid,
   hourCycle,
   classes,
   segmentRefs,
@@ -125,8 +129,8 @@ const TimeSegments = ({
           className={classes.segment}
           color={
             ampm === null
-              ? error
-                ? 'text.disabled'
+              ? error || invalid
+                ? 'text.danger'
                 : 'text.placeholder'
               : undefined
           }
@@ -168,8 +172,8 @@ const TimeSegments = ({
         className={classes.segment}
         color={
           isPlaceholder
-            ? error
-              ? 'text.disabled'
+            ? error || invalid
+              ? 'text.danger'
               : 'text.placeholder'
             : undefined
         }
@@ -253,6 +257,8 @@ export type TimePickerProps = Omit<
   TimePickerVariantProps & {
     /** Controlled value — hour is always 24h (0–23) internally */
     value?: TimeValue | null;
+    /** Uncontrolled initial value */
+    defaultValue?: TimeValue | null;
     /** Called when the time changes */
     onChange?: (value: TimeValue | null) => void;
     /** 12-hour or 24-hour display */
@@ -263,10 +269,13 @@ export type TimePickerProps = Omit<
     label?: string;
     disabled?: boolean;
     error?: boolean;
+    invalid?: boolean;
     id?: string;
     name?: string;
     /** Controlled popover open state */
     open?: boolean;
+    /** Uncontrolled initial popover state */
+    defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
   };
 
@@ -275,14 +284,17 @@ export type TimePickerProps = Omit<
 export const TimePicker = (props: TimePickerProps) => {
   const {
     value,
+    defaultValue = null,
     onChange,
     hourCycle = '12',
     minuteStep = 1,
     label = 'Time',
-    disabled = false,
-    error = false,
-    size,
+    disabled: disabledProp = false,
+    error: errorProp = false,
+    invalid: invalidProp = false,
+    size: sizeProp,
     open: controlledOpen,
+    defaultOpen = false,
     onOpenChange,
     ...rest
   } = props;
@@ -290,6 +302,11 @@ export const TimePicker = (props: TimePickerProps) => {
   const [className, otherProps] = splitProps(rest);
 
   const segments = getSegments(hourCycle);
+  const fieldContext = useFieldContext();
+  const disabled = disabledProp || fieldContext?.disabled || false;
+  const error = errorProp || fieldContext?.error || false;
+  const invalid = invalidProp || fieldContext?.invalid || false;
+  const size = sizeProp ?? fieldContext?.size;
 
   // ── Segment state ──────────────────────────────────────────────────────────
   const initNumericValues = useCallback(
@@ -312,27 +329,31 @@ export const TimePicker = (props: TimePickerProps) => {
   );
 
   const [numericVals, setNumericVals] = useState<NumericValues>(() =>
-    initNumericValues(value),
+    initNumericValues(value ?? defaultValue),
   );
   const [rawInput, setRawInput] = useState<NumericRaw>({
     hour: '',
     minute: '',
   });
-  const [ampm, setAmpm] = useState<'AM' | 'PM' | null>(() => initAmpm(value));
+  const [ampm, setAmpm] = useState<'AM' | 'PM' | null>(() =>
+    initAmpm(value ?? defaultValue),
+  );
   const [_focusedSegment, setFocusedSegment] = useState<SegmentType | null>(
     null,
   );
 
   // ── Popover state ──────────────────────────────────────────────────────────
-  const [internalOpen, setInternalOpen] = useState(false);
-  const isOpen = controlledOpen ?? internalOpen;
+  const [isOpen, setIsOpen] = useControllableState<boolean>({
+    value: controlledOpen,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
 
   const handleOpenChange = useCallback(
     (next: boolean) => {
-      setInternalOpen(next);
-      onOpenChange?.(next);
+      setIsOpen(next);
     },
-    [onOpenChange],
+    [setIsOpen],
   );
 
   // ── Sync external value ────────────────────────────────────────────────────
@@ -550,7 +571,7 @@ export const TimePicker = (props: TimePickerProps) => {
   );
 
   // ── Recipe classes ─────────────────────────────────────────────────────────
-  const classes = timePicker({ size });
+  const classes = timePicker({ size: size ?? 'md' });
 
   // ── Values passed directly to TimeList (display format) ──────────────────
   // numericVals.hour is already in display format (1–12 for 12h, 0–23 for 24h)
@@ -566,7 +587,9 @@ export const TimePicker = (props: TimePickerProps) => {
         role="group"
         aria-label={label}
         aria-disabled={disabled}
+        aria-invalid={invalid || error || undefined}
         data-error={error ? true : undefined}
+        data-invalid={invalid ? true : undefined}
         data-open={isOpen || undefined}
         onClick={(e: MouseEvent<HTMLDivElement>) => {
           if (e.target === e.currentTarget && !disabled)
@@ -581,6 +604,7 @@ export const TimePicker = (props: TimePickerProps) => {
           rawInput={rawInput}
           disabled={disabled}
           error={error}
+          invalid={invalid}
           hourCycle={hourCycle}
           classes={classes}
           segmentRefs={segmentRefs}

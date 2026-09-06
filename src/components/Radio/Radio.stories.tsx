@@ -73,6 +73,29 @@ export const Default: Story = {
   },
 };
 
+export const Uncontrolled: Story = {
+  name: 'Uncontrolled',
+  render: function UncontrolledRender() {
+    const groupId = useId();
+
+    return (
+      <Box display="grid" gap="10">
+        <RadioInput
+          name={`${groupId}-shipping`}
+          id={`${groupId}-standard`}
+          defaultChecked
+        >
+          Standard shipping
+        </RadioInput>
+        <RadioInput name={`${groupId}-shipping`} id={`${groupId}-express`}>
+          Express shipping
+        </RadioInput>
+      </Box>
+    );
+  },
+  parameters: { controls: { disable: true } },
+};
+
 export const AllStates: Story = {
   name: 'All States',
   render: () => (
@@ -101,6 +124,15 @@ export const AllStates: Story = {
         onChange={() => {}}
       >
         Error
+      </RadioInput>
+      <RadioInput
+        name="invalid"
+        id="invalid"
+        checked={false}
+        invalid
+        onChange={() => {}}
+      >
+        Invalid
       </RadioInput>
       <RadioInput
         name="disabled"

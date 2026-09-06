@@ -1,8 +1,10 @@
 import { cx } from '@styled-system/css';
 import { Wrap, type WrapProps } from '@styled-system/jsx';
+import type { ChipVariantProps } from '@styled-system/recipes';
 import { type ReactNode, type RefObject, useCallback, useRef } from 'react';
 
 import type { BoxProps } from '~/components/Box';
+import { useControllableState } from '~/system/hooks';
 import { splitProps } from '~/utils/splitProps';
 
 import { ChipGroupContext, type ChipGroupType } from './ChipGroupContext';
@@ -10,8 +12,10 @@ import { ChipGroupContext, type ChipGroupType } from './ChipGroupContext';
 export type ChipGroupProps = Omit<WrapProps, 'role'> &
   Omit<BoxProps, keyof WrapProps> & {
     type: ChipGroupType;
-    value: string | string[];
-    onChange: (value: string | string[]) => void;
+    value?: string | string[];
+    defaultValue?: string | string[];
+    onChange?: (value: string | string[]) => void;
+    size?: ChipVariantProps['size'];
     children: ReactNode;
     label?: string;
     id?: string;
@@ -22,7 +26,9 @@ export const ChipGroup = (props: ChipGroupProps) => {
   const {
     type,
     value,
+    defaultValue,
     onChange,
+    size,
     children,
     label,
     id,
@@ -33,6 +39,11 @@ export const ChipGroup = (props: ChipGroupProps) => {
   } = props;
   const [stylesClassName, otherProps] = splitProps(rest);
   const role = type === 'single' ? 'radiogroup' : 'group';
+  const [resolvedValue, setResolvedValue] = useControllableState({
+    value,
+    defaultValue: defaultValue ?? (type === 'single' ? '' : ([] as string[])),
+    onChange,
+  });
 
   // Track chip refs for keyboard navigation
   const chipRefs = useRef<Map<string, RefObject<HTMLButtonElement | null>>>(
@@ -79,20 +90,21 @@ export const ChipGroup = (props: ChipGroupProps) => {
 
         // For single select, also change selection (selection follows focus)
         if (type === 'single') {
-          onChange(nextValue);
+          setResolvedValue(nextValue);
         }
       }
     },
-    [type, onChange],
+    [setResolvedValue, type],
   );
 
   return (
     <ChipGroupContext.Provider
       value={{
         type,
-        value,
-        onChange,
+        value: resolvedValue,
+        onChange: setResolvedValue,
         name,
+        size,
         registerChip,
         unregisterChip,
         focusChip,
@@ -103,7 +115,6 @@ export const ChipGroup = (props: ChipGroupProps) => {
         className={cx(stylesClassName, className)}
         role={role}
         aria-label={label}
-        aria-labelledby={id ? `${id}-label` : undefined}
         id={id}
         gap={gap}
         {...otherProps}

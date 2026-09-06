@@ -9,6 +9,8 @@ import { Box, type BoxProps } from '~/components/Box';
 import { Icon, type IconNamesList } from '~/components/Icon';
 import { Spinner } from '~/components/Spinner';
 import { Tooltip } from '~/components/Tooltip';
+import { useFieldContext } from '~/system/context/FieldContext';
+import { useSlotContext } from '~/system/context/SlotContext';
 import { splitProps } from '~/utils/splitProps';
 
 export type IconButtonProps = Omit<BoxProps, keyof IconButtonVariantProps> &
@@ -22,17 +24,26 @@ export type IconButtonProps = Omit<BoxProps, keyof IconButtonVariantProps> &
   };
 
 export const IconButton = (props: IconButtonProps) => {
+  const fieldContext = useFieldContext();
+  const slotContext = useSlotContext();
   const {
     iconName,
     altText,
     variant,
-    size,
+    size: sizeProp,
     href,
     loading,
-    disabled,
+    error: errorProp,
+    invalid: invalidProp,
+    disabled: disabledProp,
     type = 'button',
     ...rest
   } = props;
+  const size = sizeProp ?? slotContext?.size ?? fieldContext?.size;
+  const error = errorProp ?? slotContext?.error ?? fieldContext?.error;
+  const invalid = invalidProp ?? slotContext?.invalid ?? fieldContext?.invalid;
+  const disabled =
+    disabledProp ?? slotContext?.disabled ?? fieldContext?.disabled;
   const classes = iconButton({ variant, size });
   const [className, otherProps] = splitProps(rest);
 
@@ -59,14 +70,20 @@ export const IconButton = (props: IconButtonProps) => {
           'aria-live': 'polite',
         })}
         aria-disabled={disabled}
+        data-disabled={disabled || undefined}
         aria-label={altText}
+        aria-invalid={invalid || undefined}
+        data-error={error || undefined}
+        data-invalid={invalid || undefined}
         {...otherProps}
       >
-        <Icon
-          name={iconName}
-          className={classes.icon}
-          opacity={loading ? 0 : 1}
-        />
+        <Box className={classes.mainContent}>
+          <Icon
+            name={iconName}
+            className={classes.slot}
+            opacity={loading ? 0 : 1}
+          />
+        </Box>
         {loading && (
           <Spinner
             size="sm"

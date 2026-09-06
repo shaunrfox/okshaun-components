@@ -46,6 +46,13 @@ export const badgeRecipe = defineSlotRecipe({
           p: '5',
         },
       },
+      xl: {
+        indicator: {
+          h: '12',
+          fontSize: '16',
+          p: '6',
+        },
+      },
     },
     // When standalone (no children), don't use absolute positioning
     standalone: {
@@ -165,6 +172,16 @@ export const badgeRecipe = defineSlotRecipe({
       css: {
         indicator: {
           minW: '24',
+          h: 'fit',
+        },
+      },
+    },
+    {
+      dot: false,
+      size: 'xl',
+      css: {
+        indicator: {
+          minW: '28',
           h: 'fit',
         },
       },

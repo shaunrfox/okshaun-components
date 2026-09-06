@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { VStack } from '~/styled-system/jsx';
 import { Box } from '../Box';
+import { DateRangePicker } from '../DateRangePicker/DateRangePicker';
 import { FormField } from '../FormField';
 import { Text } from '../Text';
 import { DatePicker, type DateValue } from './DatePicker';
@@ -43,6 +44,17 @@ export const WithValue: Story = {
   render: () => <DatePicker value={{ year: 2026, month: 2, day: 19 }} />,
 };
 
+export const UncontrolledDefaults: Story = {
+  name: 'Uncontrolled Defaults',
+  render: () => (
+    <DatePicker
+      defaultValue={{ year: 2026, month: 2, day: 19 }}
+      defaultOpen
+      name="date-picker-defaults"
+    />
+  ),
+};
+
 export const WithMinMax: Story = {
   name: 'With Min/Max',
   render: () => (
@@ -60,6 +72,22 @@ export const WithMinMax: Story = {
 export const ErrorState: Story = {
   name: 'Error State',
   render: () => <DatePicker error />,
+};
+
+export const InvalidFormField: Story = {
+  name: 'Invalid FormField',
+  render: () => (
+    <Box w="xs">
+      <FormField
+        label="Start Date"
+        labelFor="start-date"
+        invalid
+        errorText="Choose a valid start date."
+      >
+        <DatePicker id="start-date" name="start-date" />
+      </FormField>
+    </Box>
+  ),
 };
 
 export const Disabled: Story = {
@@ -85,6 +113,20 @@ export const InFormField: Story = {
       <FormField label="Birth date" labelFor="birth-date" required>
         <DatePicker id="birth-date" />
       </FormField>
+    </Box>
+  ),
+};
+
+export const RangeWrapperCompatibility: Story = {
+  name: 'Range Wrapper Compatibility',
+  render: () => (
+    <Box w="fit">
+      <DateRangePicker
+        startValue={{ year: 2026, month: 2, day: 10 }}
+        endValue={{ year: 2026, month: 2, day: 19 }}
+        minDate={{ year: 2026, month: 2, day: 1 }}
+        maxDate={{ year: 2026, month: 3, day: 20 }}
+      />
     </Box>
   ),
 };

@@ -102,6 +102,7 @@ export const Menu = (props: MenuProps) => {
     renderNoResults,
     highlightMatches = Boolean(query),
     getItemText = defaultGetItemText,
+    onMenubarEdgeNavigate,
     ...rest
   } = props;
 
@@ -111,6 +112,11 @@ export const Menu = (props: MenuProps) => {
   const listClassName = list({});
 
   const hasReference = Boolean(trigger) && !inline;
+  const usesHoverTrigger =
+    triggerInteraction === 'hover' || triggerInteraction === 'click-and-hover';
+  const usesClickTrigger =
+    triggerInteraction === 'click' || triggerInteraction === 'click-and-hover';
+  const [hasCoarsePointer, setHasCoarsePointer] = useState(false);
 
   const [uncontrolledOpen, setUncontrolledOpen] = useState(
     defaultOpen ?? false,
@@ -121,7 +127,7 @@ export const Menu = (props: MenuProps) => {
 
   const setOpenState = (nextOpen: boolean, _event?: Event, reason?: string) => {
     if (
-      triggerInteraction === 'hover' &&
+      usesHoverTrigger &&
       !nextOpen &&
       (reason === 'hover' || reason === 'safe-polygon')
     ) {
@@ -150,6 +156,24 @@ export const Menu = (props: MenuProps) => {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) {
+      return undefined;
+    }
+
+    const mediaQuery = window.matchMedia('(any-pointer: coarse)');
+    const updatePointerType = () => {
+      setHasCoarsePointer(mediaQuery.matches);
+    };
+
+    updatePointerType();
+    mediaQuery.addEventListener('change', updatePointerType);
+
+    return () => {
+      mediaQuery.removeEventListener('change', updatePointerType);
+    };
+  }, []);
+
   const floating = useOverlayFloating({
     nodeId,
     open: hasReference ? isOpen : true,
@@ -166,17 +190,17 @@ export const Menu = (props: MenuProps) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const hover = useHover(floating.context, {
-    enabled: hasReference && triggerInteraction === 'hover',
+    enabled: hasReference && usesHoverTrigger,
     delay: {
       open: triggerOpenDelay,
       close: triggerCloseDelay,
     },
     handleClose: safePolygon({
-      blockPointerEvents: true,
+      blockPointerEvents: !hasCoarsePointer,
     }),
   });
   const click = useClick(floating.context, {
-    enabled: hasReference && triggerInteraction === 'click',
+    enabled: hasReference && usesClickTrigger,
   });
   const dismiss = useDismiss(floating.context, { enabled: hasReference });
   const role = useRole(floating.context, { role: 'menu' });
@@ -250,11 +274,13 @@ export const Menu = (props: MenuProps) => {
     onPopDiginLevel: () => {
       setDiginLevels((prev) => prev.slice(0, -1));
     },
+    onMenubarEdgeNavigate,
     diginDepth,
   };
 
   const menuListContextValue = {
     activeIndex,
+    itemCount: listRef.filter(Boolean).length,
     getItemProps: (userProps?: HTMLProps<HTMLElement>) =>
       getItemProps(userProps) as HTMLProps<HTMLElement>,
   };

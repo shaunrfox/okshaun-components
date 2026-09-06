@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { type ChangeEvent, useState } from 'react';
 import { Box } from '../Box';
 import { CheckboxInput } from '../CheckboxInput';
+import { Textarea } from '../Textarea';
 import { TextInput } from '../TextInput';
 import { FormField } from './FormField';
 
@@ -137,6 +138,110 @@ export const ExWithInputWrappers: Story = {
           </CheckboxInput>
         </FormField>
       </Box>
+    );
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const SuccessState: Story = {
+  render: function SuccessStateRender() {
+    const [value, setValue] = useState('shaun@example.com');
+
+    return (
+      <FormField
+        label="Recovery Email"
+        labelFor="recovery-email"
+        success
+        successText="Looks good."
+      >
+        <TextInput
+          id="recovery-email"
+          name="recovery-email"
+          value={value}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setValue(e.target.value)
+          }
+          type="email"
+        />
+      </FormField>
+    );
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const NestedControls: Story = {
+  render: function NestedControlsRender() {
+    const [bio, setBio] = useState('');
+    const [options, setOptions] = useState({
+      marketing: true,
+      product: false,
+    });
+
+    return (
+      <FormField
+        label="Profile Details"
+        labelFor="profile-details"
+        helpText="Nested controls should inherit the surrounding field state."
+        gap="4"
+      >
+        <Textarea
+          id="profile-details"
+          name="profile-details"
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          rows={4}
+        />
+        <Box display="grid" gap="2">
+          <CheckboxInput
+            id="marketing"
+            name="marketing"
+            checked={options.marketing}
+            onChange={(e) =>
+              setOptions({ ...options, marketing: e.target.checked })
+            }
+          >
+            Marketing updates
+          </CheckboxInput>
+          <CheckboxInput
+            id="product"
+            name="product"
+            checked={options.product}
+            onChange={(e) =>
+              setOptions({ ...options, product: e.target.checked })
+            }
+          >
+            Product announcements
+          </CheckboxInput>
+        </Box>
+      </FormField>
+    );
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const InlineGapOverride: Story = {
+  render: function InlineGapOverrideRender() {
+    const [value, setValue] = useState('');
+
+    return (
+      <FormField
+        layout="inline"
+        label="Reference"
+        labelFor="reference"
+        helpText="Custom gap keeps the input stack breathable."
+        gap="4"
+        maxW="xl"
+      >
+        <TextInput
+          id="reference"
+          name="reference"
+          value={value}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setValue(e.target.value)
+          }
+          placeholder="INV-2048"
+        />
+      </FormField>
     );
   },
   parameters: { controls: { disable: true } },

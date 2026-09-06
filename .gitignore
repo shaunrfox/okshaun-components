@@ -45,3 +45,4 @@ public/icon-metadata.json
 public/svgs/
 
 /.tmp
+*.tsbuildinfo

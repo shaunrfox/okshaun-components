@@ -1,0 +1,16 @@
+{
+  "aliases": [
+    "upc",
+    "qr",
+    "products",
+    "shopping",
+    "scanner",
+    "barcode",
+    "offline",
+    "off",
+    "unavailable"
+  ],
+  "tags": [],
+  "category": "System objects",
+  "deprecated": false
+}

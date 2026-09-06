@@ -17,7 +17,7 @@ import type { IconNamesList } from '~/components/Icon';
 export type MenuDensity = 'compact' | 'comfortable' | 'spacious';
 export type MenuFilterMode = 'none' | 'contains';
 export type SubMenuInteraction = 'hover' | 'digin';
-export type MenuTriggerInteraction = 'click' | 'hover';
+export type MenuTriggerInteraction = 'click' | 'hover' | 'click-and-hover';
 
 export type MenuProps = {
   trigger?: ReactElement;
@@ -41,6 +41,7 @@ export type MenuProps = {
   highlightMatches?: boolean;
   getItemText?: (item: { label?: string; description?: string }) => string;
   panel?: MenuVariantProps['panel'];
+  onMenubarEdgeNavigate?: (direction: 1 | -1) => void;
 } & BoxProps;
 
 export type MenuItemVariant = 'default' | 'checkbox' | 'toggle' | 'divider';
@@ -101,11 +102,13 @@ export type MenuRootContextValue = {
   onCloseMenu: () => void;
   onPushDiginLevel: (title: string, levelChildren: ReactNode) => void;
   onPopDiginLevel: () => void;
+  onMenubarEdgeNavigate?: (direction: 1 | -1) => void;
   diginDepth: number;
 };
 
 export type MenuListContextValue = {
   activeIndex: number | null;
+  itemCount?: number;
   getItemProps: (userProps?: HTMLProps<HTMLElement>) => HTMLProps<HTMLElement>;
 };
 
@@ -151,6 +154,7 @@ export const defaultMenuRootContextValue: MenuRootContextValue = {
   onCloseMenu: noop,
   onPushDiginLevel: noop,
   onPopDiginLevel: noop,
+  onMenubarEdgeNavigate: undefined,
   diginDepth: 0,
 };
 

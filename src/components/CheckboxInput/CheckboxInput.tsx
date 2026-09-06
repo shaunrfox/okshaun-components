@@ -18,10 +18,12 @@ export type CheckboxInputProps = Omit<
 > &
   CheckboxInputVariantProps & {
     name: string;
-    checked: boolean;
-    onChange: CheckboxChangeHandler;
+    checked?: boolean;
+    defaultChecked?: boolean;
+    onChange?: CheckboxChangeHandler;
     id?: string;
     error?: boolean;
+    invalid?: boolean;
     children?: string | ReactNode;
     disabled?: boolean;
   };
@@ -30,10 +32,12 @@ export const CheckboxInput = (props: CheckboxInputProps) => {
   const {
     name,
     checked,
+    defaultChecked,
     onChange,
     id,
     children,
     error,
+    invalid,
     disabled,
     indeterminate,
     ...rest
@@ -51,9 +55,11 @@ export const CheckboxInput = (props: CheckboxInputProps) => {
       <Checkbox
         name={name}
         checked={checked}
+        defaultChecked={defaultChecked}
         onChange={onChange}
         id={resolvedId}
         error={error}
+        invalid={invalid}
         disabled={disabled}
         indeterminate={indeterminate}
       />

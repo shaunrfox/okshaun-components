@@ -63,6 +63,22 @@ export const Default: Story = {
   },
 };
 
+export const Uncontrolled: Story = {
+  name: 'Uncontrolled',
+  render: () => (
+    <ToggleInput
+      name="email-alerts-uncontrolled"
+      id="email-alerts-uncontrolled"
+      defaultChecked
+    >
+      Enable email alerts
+    </ToggleInput>
+  ),
+  parameters: {
+    controls: { disable: true },
+  },
+};
+
 export const AllStates: Story = {
   name: 'All States',
   render: () => (
@@ -91,6 +107,15 @@ export const AllStates: Story = {
         onChange={() => {}}
       >
         Error
+      </ToggleInput>
+      <ToggleInput
+        name="invalid"
+        id="invalid"
+        checked={false}
+        invalid
+        onChange={() => {}}
+      >
+        Invalid
       </ToggleInput>
       <ToggleInput
         name="disabled"

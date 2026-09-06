@@ -1,7 +1,9 @@
 import { cx } from '@styled-system/css';
 import { type RadioVariantProps, radio } from '@styled-system/recipes';
 import type { ChangeEvent } from 'react';
+import { useFieldContext } from '~/system/context/FieldContext';
 
+import { mergeAriaDescribedBy } from '~/utils/mergeAriaDescribedBy';
 import { splitProps } from '~/utils/splitProps';
 
 import { Box, type BoxProps } from '../Box';
@@ -12,11 +14,13 @@ export type RadioProps = Omit<
   'checked' | 'onChange' | keyof RadioVariantProps
 > &
   RadioVariantProps & {
-    name: string;
-    checked: boolean;
-    onChange: RadioChangeHandler;
+    name?: string;
+    checked?: boolean;
+    defaultChecked?: boolean;
+    onChange?: RadioChangeHandler;
     id?: string;
     error?: boolean;
+    invalid?: boolean;
     disabled?: boolean;
   };
 
@@ -46,12 +50,15 @@ export type RadioChangeHandler = (e: RadioChangeEvent) => void;
  * />
  */
 export const Radio = (props: RadioProps) => {
+  const fieldContext = useFieldContext();
   const {
     name,
     checked,
+    defaultChecked,
     onChange,
     id,
     error,
+    invalid,
     disabled,
     container,
     input,
@@ -60,20 +67,31 @@ export const Radio = (props: RadioProps) => {
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
+  const resolvedDisabled = disabled ?? fieldContext?.disabled;
+  const resolvedError = error ?? fieldContext?.error;
+  const resolvedInvalid = invalid ?? fieldContext?.invalid;
+  const visualError = resolvedError || resolvedInvalid;
   const classes = radio({
     container,
     input,
     indicator,
     radioBg,
   });
-
-  // Determine which icon to render based on state
-  const iconName = checked ? 'radio-checked' : 'radio';
+  const { 'aria-describedby': ariaDescribedBy, ...inputProps } =
+    otherProps as typeof otherProps & { 'aria-describedby'?: string };
+  const describedBy = mergeAriaDescribedBy(
+    fieldContext?.describedBy,
+    ariaDescribedBy,
+  );
+  const radioStateProps =
+    checked !== undefined ? { checked } : { defaultChecked };
 
   return (
     <Box
       className={cx(classes.container, className)}
-      {...(error && { 'data-error': true })}
+      aria-invalid={visualError || undefined}
+      data-error={visualError || undefined}
+      data-invalid={resolvedInvalid || undefined}
     >
       <Box
         as="input"
@@ -81,14 +99,18 @@ export const Radio = (props: RadioProps) => {
         className={classes.input}
         name={name}
         id={id}
-        checked={checked}
         onChange={onChange}
-        disabled={disabled}
-        {...(error && { 'data-error': true })}
-        {...otherProps}
+        disabled={resolvedDisabled}
+        aria-invalid={visualError || undefined}
+        data-error={visualError || undefined}
+        data-invalid={resolvedInvalid || undefined}
+        aria-describedby={describedBy}
+        {...radioStateProps}
+        {...inputProps}
       />
       <Icon className={classes.radioBg} name="circle" />
-      <Icon className={classes.indicator} name={iconName} />
+      <Icon className={classes.indicator} name="radio" aria-hidden />
+      <Icon className={classes.indicator} name="radio-checked" aria-hidden />
       <Icon className={classes.indicator} name="radio-focus" />
     </Box>
   );

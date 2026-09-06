@@ -66,6 +66,17 @@ export const WithValue: Story = {
   ),
 };
 
+export const UncontrolledDefaults: Story = {
+  name: 'Uncontrolled Defaults',
+  render: () => (
+    <TimePicker
+      hourCycle="12"
+      defaultValue={{ hour: 9, minute: 30 }}
+      defaultOpen={false}
+    />
+  ),
+};
+
 export const MinuteStep15: Story = {
   name: 'Minute Step: 15',
   render: () => (
@@ -81,6 +92,15 @@ export const MinuteStep15: Story = {
 export const ErrorState: Story = {
   name: 'Error State',
   render: () => <TimePicker error />,
+};
+
+export const InvalidState: Story = {
+  name: 'Invalid State',
+  render: () => (
+    <FormField label="Arrival time" labelFor="arrival-time" invalid>
+      <TimePicker id="arrival-time" invalid />
+    </FormField>
+  ),
 };
 
 export const Disabled: Story = {

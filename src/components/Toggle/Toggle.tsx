@@ -1,7 +1,9 @@
 import { cx } from '@styled-system/css';
 import { type ToggleVariantProps, toggle } from '@styled-system/recipes';
 import type { ChangeEvent } from 'react';
+import { useFieldContext } from '~/system/context/FieldContext';
 
+import { mergeAriaDescribedBy } from '~/utils/mergeAriaDescribedBy';
 import { splitProps } from '~/utils/splitProps';
 
 import { Box, type BoxProps } from '../Box';
@@ -13,10 +15,12 @@ export type ToggleProps = Omit<
 > &
   ToggleVariantProps & {
     name: string;
-    checked: boolean;
-    onChange: ToggleChangeHandler;
+    checked?: boolean;
+    defaultChecked?: boolean;
+    onChange?: ToggleChangeHandler;
     id?: string;
     error?: boolean;
+    invalid?: boolean;
     disabled?: boolean;
   };
 
@@ -47,12 +51,15 @@ export type ToggleChangeHandler = (e: ToggleChangeEvent) => void;
  */
 
 export const Toggle = (props: ToggleProps) => {
+  const fieldContext = useFieldContext();
   const {
     name,
     checked,
+    defaultChecked,
     onChange,
     id,
     error,
+    invalid,
     disabled,
     container,
     input,
@@ -60,19 +67,30 @@ export const Toggle = (props: ToggleProps) => {
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
+  const resolvedDisabled = disabled ?? fieldContext?.disabled;
+  const resolvedError = error ?? fieldContext?.error;
+  const resolvedInvalid = invalid ?? fieldContext?.invalid;
+  const visualError = resolvedError || resolvedInvalid;
   const classes = toggle({
     container,
     input,
     indicator,
   });
-
-  // Determine which icon to render based on state
-  const iconName = checked ? 'circle-check' : 'circle';
+  const { 'aria-describedby': ariaDescribedBy, ...inputProps } =
+    otherProps as typeof otherProps & { 'aria-describedby'?: string };
+  const describedBy = mergeAriaDescribedBy(
+    fieldContext?.describedBy,
+    ariaDescribedBy,
+  );
+  const toggleStateProps =
+    checked !== undefined ? { checked } : { defaultChecked };
 
   return (
     <Box
       className={cx(classes.container, className)}
-      {...(error && { 'data-error': true })}
+      aria-invalid={visualError || undefined}
+      data-error={visualError || undefined}
+      data-invalid={resolvedInvalid || undefined}
     >
       <Box
         as="input"
@@ -80,13 +98,17 @@ export const Toggle = (props: ToggleProps) => {
         className={classes.input}
         name={name}
         id={id}
-        checked={checked}
         onChange={onChange}
-        disabled={disabled}
-        {...(error && { 'data-error': true })}
-        {...otherProps}
+        disabled={resolvedDisabled}
+        aria-invalid={visualError || undefined}
+        data-error={visualError || undefined}
+        data-invalid={resolvedInvalid || undefined}
+        aria-describedby={describedBy}
+        {...toggleStateProps}
+        {...inputProps}
       />
-      <Icon className={classes.indicator} name={iconName} />
+      <Icon className={classes.indicator} name="circle" aria-hidden />
+      <Icon className={classes.indicator} name="circle-check" aria-hidden />
     </Box>
   );
 };

@@ -5,6 +5,10 @@ import { type Theme, ThemeContext } from './theme-context';
 const THEME_STORAGE_KEY = 'cetec-theme-preference';
 
 function getInitialTheme(): Theme {
+  if (typeof window === 'undefined') {
+    return 'light';
+  }
+
   const storedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
   if (storedTheme) {
     return storedTheme;

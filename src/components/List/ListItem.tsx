@@ -1,6 +1,8 @@
 import { cx } from '@styled-system/css';
 import { type ListItemVariantProps, listItem } from '@styled-system/recipes';
-import type { ChangeEventHandler } from 'react';
+import type { ColorToken } from '@styled-system/tokens';
+import type { ConditionalValue } from '@styled-system/types';
+import type { ChangeEventHandler, MouseEvent } from 'react';
 
 import type { IconNamesList } from '~/components/Icon';
 import { splitProps } from '~/utils/splitProps';
@@ -16,7 +18,7 @@ import { HighlightText } from './HighlightText';
 import { useListContext } from './listContext';
 
 export type ListItemProps = Omit<
-  BoxProps<'button'>,
+  BoxProps,
   keyof ListItemVariantProps | 'as' | 'type'
 > &
   Omit<ListItemVariantProps, 'selected' | 'iconBefore' | 'iconAfter'> & {
@@ -32,6 +34,10 @@ export type ListItemProps = Omit<
     density?: ListItemVariantProps['density'];
     iconBefore?: IconNamesList;
     iconAfter?: IconNamesList;
+    iconBeforeFill?: ConditionalValue<ColorToken>;
+    iconAfterFill?: ConditionalValue<ColorToken>;
+    href?: string;
+    disabled?: boolean;
   };
 
 export const ListItem = (props: ListItemProps) => {
@@ -49,6 +55,10 @@ export const ListItem = (props: ListItemProps) => {
     children,
     iconBefore,
     iconAfter,
+    iconBeforeFill,
+    iconAfterFill,
+    href,
+    disabled = false,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
@@ -63,6 +73,19 @@ export const ListItem = (props: ListItemProps) => {
   const hasCustomChildren = children !== undefined && children !== null;
   const handleControlChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     onControlChange?.(event);
+  };
+  const isLink = Boolean(href);
+  const isDisabled = Boolean(disabled);
+  const {
+    onClick: userOnClick,
+    role: userRole,
+    tabIndex: userTabIndex,
+    ...elementProps
+  } = otherProps;
+  const resolvedRole = isLink ? userRole : (userRole ?? 'option');
+  const handleDisabledLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
   };
 
   const classes = listItem({
@@ -82,41 +105,57 @@ export const ListItem = (props: ListItemProps) => {
   }
 
   return (
-    // biome-ignore lint/a11y/useSemanticElements: custom listbox options are interactive buttons with role="option", not native <option> elements
     <Box
-      as="button"
-      type="button"
+      {...elementProps}
+      as={isLink ? 'a' : 'button'}
+      href={href}
+      type={isLink ? undefined : 'button'}
       className={cx(classes.wrapper, className)}
-      role="option"
+      role={resolvedRole}
       aria-selected={isSelected}
       data-active={isActive || undefined}
       data-selected={isSelected || undefined}
-      {...otherProps}
+      data-disabled={isDisabled || undefined}
+      disabled={!isLink ? isDisabled : undefined}
+      aria-disabled={isLink && isDisabled ? true : undefined}
+      tabIndex={isLink && isDisabled ? -1 : userTabIndex}
+      onClick={isLink && isDisabled ? handleDisabledLinkClick : userOnClick}
     >
       {hasCustomChildren ? (
         children
       ) : (
         <>
           {variant === 'checkbox' && (
-            <Checkbox
-              name={controlName}
-              checked={isSelected}
-              onChange={handleControlChange}
-              tabIndex={-1}
-            />
+            <Box className={classes.beforeSlot}>
+              <Checkbox
+                name={controlName}
+                checked={isSelected}
+                onChange={handleControlChange}
+                tabIndex={-1}
+              />
+            </Box>
           )}
 
           {variant === 'toggle' && (
-            <Toggle
-              name={controlName}
-              checked={isSelected}
-              onChange={handleControlChange}
-              mr="4"
-              tabIndex={-1}
-            />
+            <Box className={classes.beforeSlot}>
+              <Toggle
+                name={controlName}
+                checked={isSelected}
+                onChange={handleControlChange}
+                tabIndex={-1}
+              />
+            </Box>
           )}
 
-          {iconBefore && <Icon className={classes.icon} name={iconBefore} />}
+          {iconBefore && (
+            <Box className={classes.beforeSlot}>
+              <Icon
+                className={classes.icon}
+                name={iconBefore}
+                fill={iconBeforeFill}
+              />
+            </Box>
+          )}
 
           <Box className={classes.itemMain}>
             {label && (
@@ -141,7 +180,13 @@ export const ListItem = (props: ListItemProps) => {
           </Box>
 
           {iconAfter && (
-            <Icon className={classes.icon} name={iconAfter} ml="auto" />
+            <Box className={classes.afterSlot} ml="auto">
+              <Icon
+                className={classes.icon}
+                name={iconAfter}
+                fill={iconAfterFill}
+              />
+            </Box>
           )}
         </>
       )}
