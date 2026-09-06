@@ -35,7 +35,18 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
   ],
   card: [{ variant: ['*'], interactive: ['*'] }],
   chip: [{ size: ['*'], before: ['*'], after: ['*'], responsive: true }],
-  datePicker: [{ size: ['*'], responsive: true }],
+  calendar: [{ type: ['*'] }],
+  segmentedFields: [
+    {
+      size: ['*'],
+      field: ['*'],
+      range: ['*'],
+      before: ['*'],
+      after: ['*'],
+      responsive: true,
+    },
+  ],
+  segmentedInputs: [{ size: ['*'], bare: ['*'], responsive: true }],
   divider: [{ direction: ['*'], weight: ['*'] }],
   formField: [{ size: ['*'], layout: ['*'], responsive: true }],
   icon: [{ size: ['*'], responsive: true }],
@@ -57,7 +68,6 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
   textInput: [
     { size: ['*'], iconBefore: ['*'], iconAfter: ['*'], responsive: true },
   ],
-  timePicker: [{ size: ['*'], responsive: true }],
   tooltip: [{ size: ['*'], responsive: true }],
 };
 
