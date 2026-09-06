@@ -9,6 +9,7 @@ import {
   breakpoints,
   conditions,
   containerSizes,
+  dropShadowProperty,
   filtersProperty,
   globalCss,
   keyframes,
@@ -119,6 +120,9 @@ export const okshaunPreset = definePreset({
   },
   utilities: {
     ...pandaBasePresetUtilities,
+    // Replaces (not extends) Panda's built-in dropShadow so drop shadows and
+    // box shadows are generated from the same layer definitions.
+    dropShadow: dropShadowProperty,
     // Custom utility for transitionProperty that uses our transition tokens
     filtersProperty,
     transitionProperty,

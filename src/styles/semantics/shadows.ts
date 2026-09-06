@@ -1,43 +1,14 @@
 import { defineSemanticTokens } from '@pandacss/dev';
 
 export const shadows = defineSemanticTokens.shadows({
-  zero: {
-    value: { base: '{shadows.zeroShadow}', _dark: '{shadows.zeroShadow}' },
-  },
-  raised: {
-    DEFAULT: {
-      value: { base: '{shadows.raisedLight}', _dark: '{shadows.raisedDark}' },
-    },
-    up: {
-      value: {
-        base: '{shadows.raisedLightUp}',
-        _dark: '{shadows.raisedDarkUp}',
-      },
-    },
-  },
-  elevated: {
-    DEFAULT: {
-      value: {
-        base: '{shadows.elevatedLight}',
-        _dark: '{shadows.elevatedDark}',
-      },
-    },
-    up: {
-      value: {
-        base: '{shadows.elevatedLightUp}',
-        _dark: '{shadows.elevatedDarkUp}',
-      },
-    },
-  },
-  overlay: {
-    DEFAULT: {
-      value: { base: '{shadows.overlayLight}', _dark: '{shadows.overlayDark}' },
-    },
-    dark: {
-      value: { base: '{shadows.overlayDark}', _dark: '{shadows.overlayLight}' },
-    },
-  },
+  zero: { value: '{shadows.zeroBase}' },
+  raised: { value: '{shadows.raisedBase}' },
+  elevated: { value: '{shadows.elevatedBase}' },
+  overlay: { value: '{shadows.overlayBase}' },
   overflow: {
-    value: { base: '{shadows.overflowLight}', _dark: '{shadows.overflowDark}' },
+    value: {
+      base: '{shadows.overflowBase}',
+      _dark: '{shadows.overflowDarkBase}',
+    },
   },
 });

@@ -586,6 +586,49 @@ export const colors = defineSemanticTokens.colors({
     DEFAULT: { value: { base: '{colors.blue.50}', _dark: '{colors.blue.40}' } },
     pressed: { value: { base: '{colors.blue.60}', _dark: '{colors.blue.50}' } },
   },
+  // Shadow layer colors. These were primitives holding explicit `.light` and
+  // `.dark` leaves, which forced every shadow to exist twice. As semantic
+  // tokens they resolve per mode on their own, so one geometry serves both.
+  shadow: {
+    raised: {
+      1: {
+        value: { base: 'rgba(30, 31, 33, 0.25)', _dark: 'rgba(1, 4, 4, 0.5)' },
+      },
+      2: {
+        value: { base: 'rgba(30, 31, 33, 0.31)', _dark: 'rgba(1, 4, 4, 0.5)' },
+      },
+    },
+    elevated: {
+      1: {
+        value: { base: 'rgba(0, 0, 0, 0)', _dark: 'rgba(95, 95, 95, 0.06)' },
+      },
+      2: {
+        value: { base: 'rgba(30, 31, 33, 0.2)', _dark: 'rgba(1, 4, 4, 0.43)' },
+      },
+      3: {
+        value: { base: 'rgba(30, 31, 33, 0.31)', _dark: 'rgba(1, 4, 4, 0.5)' },
+      },
+    },
+    overlay: {
+      1: {
+        value: { base: 'rgba(0, 0, 0, 0)', _dark: 'rgba(189, 189, 189, 0.12)' },
+      },
+      2: {
+        value: { base: 'rgba(30, 31, 33, 0.15)', _dark: 'rgba(1, 4, 4, 0.36)' },
+      },
+      3: {
+        value: { base: 'rgba(30, 31, 33, 0.31)', _dark: 'rgba(1, 4, 4, 0.5)' },
+      },
+    },
+    overflow: {
+      1: {
+        value: { base: 'rgba(30, 31, 33, 0.16)', _dark: 'rgba(1, 4, 4, 0.56)' },
+      },
+      2: {
+        value: { base: 'rgba(30, 31, 33, 0.12)', _dark: 'rgba(1, 4, 4, 0.5)' },
+      },
+    },
+  },
   surface: {
     DEFAULT: {
       value: { base: '{colors.neutral.0}', _dark: '{colors.darkNeutral.10}' },

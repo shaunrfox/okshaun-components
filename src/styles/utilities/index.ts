@@ -4,9 +4,11 @@ export * from './breakpoints';
 export * from './conditions';
 export * from './containerSizes';
 // Custom utilities we've added that are not part of Panda's core properties
+export * from './dropShadows';
 export * from './filters';
 export * from './globalStyle';
 export * from './keyframes';
 export * from './layerStyles';
+export * from './shadowDefinitions';
 export * from './textStyles';
 export * from './transitions';
