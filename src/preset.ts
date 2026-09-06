@@ -10,7 +10,7 @@ import {
   conditions,
   containerSizes,
   dropShadowProperty,
-  filtersProperty,
+  filterProperty,
   globalCss,
   keyframes,
   layerStyles,
@@ -123,8 +123,11 @@ export const okshaunPreset = definePreset({
     // Replaces (not extends) Panda's built-in dropShadow so drop shadows and
     // box shadows are generated from the same layer definitions.
     dropShadow: dropShadowProperty,
+    // Extends Panda's base `filter`, which ships `auto` alone. This was
+    // registered as `filtersProperty`, which is not a CSS property, so it
+    // generated an inert style prop and emitted nothing.
+    filter: filterProperty,
     // Custom utility for transitionProperty that uses our transition tokens
-    filtersProperty,
     transitionProperty,
   },
 

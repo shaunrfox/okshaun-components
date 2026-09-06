@@ -207,7 +207,9 @@ export const Chip = (props: ChipProps) => {
     <Box
       ref={renderButtonBody ? buttonRef : undefined}
       as={renderButtonBody ? 'button' : 'span'}
-      className={cx(classes.body, className)}
+      // `group` lets the chipIcon slot react to the body's hover, active and
+      // disabled states. The recipe's _group* rules had no group to read.
+      className={`${cx(classes.body, className)} group`}
       onClick={renderButtonBody ? handleBodyClick : undefined}
       onKeyDown={renderButtonBody ? handleKeyDown : undefined}
       tabIndex={renderButtonBody ? getTabIndex() : undefined}
