@@ -236,6 +236,7 @@ export const Chip = (props: ChipProps) => {
             name="check"
             size={iconSize}
             className={classes.chipIcon}
+            data-selected={isSelected || undefined}
             aria-hidden
           />
         )}

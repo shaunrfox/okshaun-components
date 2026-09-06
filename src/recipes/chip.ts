@@ -109,7 +109,7 @@ const chipBase = {
       cursor: 'not-allowed',
       color: 'text.disabled',
     },
-    '[data-selected=true] &': {
+    '&[data-selected=true]': {
       color: 'text.inverse',
     },
   },
@@ -122,10 +122,14 @@ const chipBase = {
     _groupHover: { fill: 'icon.decorative.hovered' },
     _groupActive: { fill: 'icon.decorative.hovered' },
     _groupDisabled: { fill: 'icon.decorative' },
-    '[data-selected=true] &': {
+    // Selection is read from the icon's own data attribute, never from an
+    // ancestor. A descendant selector such as `[data-selected=true] &` matches
+    // at any depth, so a chip nested in another chip's slot inherited the outer
+    // chip's selected fill.
+    '&[data-selected=true]': {
       fill: 'icon.decorative.inverse',
     },
-    '.group:is(:hover, [data-hover])[data-selected=true] &': {
+    '.group:is(:hover, [data-hover]) &[data-selected=true]': {
       fill: 'icon.decorative.inverse.hovered',
     },
   },
