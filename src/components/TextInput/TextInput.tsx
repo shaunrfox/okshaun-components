@@ -14,7 +14,7 @@ import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box/Box';
 
 export type TextInputProps = Omit<BoxProps, keyof TextInputVariantProps> &
-  Omit<TextInputVariantProps, 'iconBefore' | 'iconAfter'> & {
+  Omit<TextInputVariantProps, 'before' | 'after'> & {
     name: string;
     id?: string;
     before?: ReactNode;
@@ -67,8 +67,8 @@ export const TextInput = (props: TextInputProps) => {
   const resolvedDisabled = disabled ?? fieldContext?.disabled;
   const classes = textInput({
     size: resolvedSize,
-    iconBefore: Boolean(before || iconBefore),
-    iconAfter: Boolean(after || iconAfter),
+    before: Boolean(before || iconBefore),
+    after: Boolean(after || iconAfter),
     autoSize,
   });
   const [className, otherProps] = splitProps(rest);
@@ -133,7 +133,9 @@ export const TextInput = (props: TextInputProps) => {
           invalid: resolvedInvalid,
         }}
       >
-        <Icon name={name} className={classes.icon} aria-hidden />
+        <Box className={classes.slot}>
+          <Icon name={name} aria-hidden />
+        </Box>
       </SlotContext.Provider>
     );
   };
