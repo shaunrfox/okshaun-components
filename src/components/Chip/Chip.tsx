@@ -207,9 +207,7 @@ export const Chip = (props: ChipProps) => {
     <Box
       ref={renderButtonBody ? buttonRef : undefined}
       as={renderButtonBody ? 'button' : 'span'}
-      // `group` lets the chipIcon slot react to the body's hover, active and
-      // disabled states. The recipe's _group* rules had no group to read.
-      className={`${cx(classes.body, className)} group`}
+      className={classes.body}
       onClick={renderButtonBody ? handleBodyClick : undefined}
       onKeyDown={renderButtonBody ? handleKeyDown : undefined}
       tabIndex={renderButtonBody ? getTabIndex() : undefined}
@@ -226,7 +224,6 @@ export const Chip = (props: ChipProps) => {
       data-error={visualError || undefined}
       data-invalid={resolvedInvalid || undefined}
       role={bodyRole}
-      {...otherProps}
     >
       <HStack
         gap={gap ?? '4'}
@@ -276,30 +273,39 @@ export const Chip = (props: ChipProps) => {
     </Box>
   );
 
-  if (!dismissable) {
-    return body;
-  }
-
-  if (import.meta.env.DEV && !dismissAriaLabel) {
+  if (import.meta.env.DEV && dismissable && !dismissAriaLabel) {
     console.warn(
       'Dismissable Chip requires dismissLabel or string children for an accessible dismiss action.',
     );
   }
 
+  // The container is always rendered and is the root. It paints the pill, so
+  // the dismiss button sits inside it rather than alongside it, and it carries
+  // the state attributes the recipe reads.
   return (
-    <Box className={classes.container} data-selected={isSelected || undefined}>
+    <Box
+      className={`${cx(classes.container, className)} group`}
+      data-selected={isSelected || undefined}
+      data-loading={loading || undefined}
+      data-deleted={deleted || undefined}
+      data-disabled={resolvedDisabled || undefined}
+      aria-busy={loading || undefined}
+      {...otherProps}
+    >
       {body}
-      <Box
-        as="button"
-        type="button"
-        className={classes.dismissButton}
-        aria-label={dismissAriaLabel}
-        onClick={handleDismiss}
-        disabled={resolvedDisabled || loading}
-        data-selected={isSelected || undefined}
-      >
-        <Icon name="x" size={iconSize} aria-hidden />
-      </Box>
+      {dismissable && (
+        <Box
+          as="button"
+          type="button"
+          className={classes.dismissButton}
+          aria-label={dismissAriaLabel}
+          onClick={handleDismiss}
+          disabled={resolvedDisabled || loading}
+          data-selected={isSelected || undefined}
+        >
+          <Icon name="x" size={iconSize} aria-hidden />
+        </Box>
+      )}
     </Box>
   );
 };

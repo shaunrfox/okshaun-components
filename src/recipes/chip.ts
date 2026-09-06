@@ -1,15 +1,65 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
 const chipBase = {
+  // The container paints the pill. It has to, because the dismiss button is a
+  // sibling of the body rather than a child: a button cannot be nested in the
+  // body's button. Whichever element owns the base background must also own the
+  // hover and active states, since bg.neutral and its hover and pressed values
+  // are all semi-transparent and would composite if painted on top of one
+  // another.
   container: {
     position: 'relative',
     display: 'inline-flex',
     alignItems: 'center',
-    gap: '1',
     width: 'fit-content',
     verticalAlign: 'middle',
+    borderRadius: '999',
+    whiteSpace: 'nowrap',
+    userSelect: 'none',
+    transitionDuration: 'fast',
+    transitionProperty: 'background, color, border-color, box-shadow',
+    transitionTimingFunction: 'default',
+    bg: 'bg.neutral',
+    color: 'text',
+    _hover: {
+      bg: 'bg.neutral.hovered',
+    },
+    _active: {
+      bg: 'bg.neutral.pressed',
+    },
+    _loading: {
+      cursor: 'wait',
+      animation: 'pulse',
+    },
+    _deleted: {
+      opacity: '[0.6]',
+      cursor: 'not-allowed',
+    },
+    _selected: {
+      bg: 'bg.neutral.boldest',
+      color: 'text.inverse',
+      _hover: {
+        bg: 'bg.neutral.bold.hovered',
+      },
+      _active: {
+        bg: 'bg.neutral.bold.pressed',
+      },
+    },
+    _disabled: {
+      cursor: 'not-allowed',
+      bg: 'bg.disabled',
+      color: 'text.disabled',
+      borderColor: 'border.disabled',
+      _hover: {
+        bg: 'bg.disabled',
+        color: 'text.disabled',
+      },
+    },
   },
+  // Transparent: the container paints the chip. The body keeps the typography,
+  // the focus ring and the label padding, and stays the interactive element.
   body: {
+    position: 'relative',
     display: 'inline-flex',
     alignItems: 'center',
     appearance: 'none',
@@ -27,46 +77,24 @@ const chipBase = {
     outlineWidth: '2',
     outlineStyle: 'solid',
     outlineColor: 'transparent',
-    bg: 'bg.neutral',
+    bg: 'transparent',
     color: 'text',
-    _hover: {
-      bg: 'bg.neutral.hovered',
-    },
-    _active: {
-      bg: 'bg.neutral.pressed',
-    },
     _focusVisible: {
       outlineColor: 'border.focused',
     },
     _loading: {
       cursor: 'wait',
-      animation: 'pulse',
     },
     _deleted: {
       textDecoration: 'line-through',
       cursor: 'not-allowed',
-      opacity: '[0.6]',
     },
     _disabled: {
       cursor: 'not-allowed',
-      bg: 'bg.disabled',
       color: 'text.disabled',
-      borderColor: 'border.disabled',
-      _hover: {
-        bg: 'bg.disabled',
-        color: 'text.disabled',
-        borderColor: 'border.disabled',
-      },
     },
     _selected: {
-      bg: 'bg.neutral.boldest',
       color: 'text.inverse',
-      _hover: {
-        bg: 'bg.neutral.bold.hovered',
-      },
-      _active: {
-        bg: 'bg.neutral.bold.pressed',
-      },
     },
   },
   mainContent: {
@@ -86,7 +114,9 @@ const chipBase = {
     alignItems: 'center',
     justifyContent: 'center',
     border: 'none',
-    borderRadius: 'full',
+    // `full` is not a radii token here — only 100 and 999 exist — so this
+    // silently resolved to 0 and squared off the focus ring.
+    borderRadius: '999',
     bg: 'transparent',
     color: 'inherit',
     cursor: 'pointer',
@@ -96,11 +126,18 @@ const chipBase = {
     outlineWidth: '2',
     outlineStyle: 'solid',
     outlineColor: 'transparent',
+    // No background on hover. The container already darkens the whole pill, and
+    // bg.neutral.hovered over bg.neutral would composite to roughly 26% rather
+    // than the 14% the token specifies. The icon carries the affordance instead.
     _hover: {
-      bg: 'bg.neutral.hovered',
+      _icon: {
+        fill: 'icon',
+      },
     },
     _active: {
-      bg: 'bg.neutral.pressed',
+      _icon: {
+        fill: 'icon',
+      },
     },
     _focusVisible: {
       outlineColor: 'border.focused',
@@ -111,6 +148,9 @@ const chipBase = {
     },
     '&[data-selected=true]': {
       color: 'text.inverse',
+      _icon: {
+        fill: 'icon.decorative.inverse',
+      },
     },
   },
   chipIcon: {
