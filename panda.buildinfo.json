@@ -298,6 +298,7 @@
       "fill]___[value:link",
       "minWidth]___[value:2xs",
       "minWidth]___[value:lg",
+      "width]___[value:72",
       "marginLeft]___[value:auto",
       "width]___[value:264",
       "maxWidth]___[value:264",
@@ -444,6 +445,11 @@
       "background]___[value:surface.raised",
       "boxShadow]___[value:zero",
       "borderRightRadius]___[value:16",
+      "gridTemplateRows]___[value:repeat(4, auto)",
+      "dropShadow]___[value:zero",
+      "dropShadow]___[value:raised",
+      "dropShadow]___[value:elevated",
+      "dropShadow]___[value:overlay",
       "boxShadow]___[value:overflow",
       "width]___[value:auto",
       "maxWidth]___[value:4xl",
@@ -489,7 +495,9 @@
         "weight]___[value:bold]___[recipe:text",
         "family]___[value:mono]___[recipe:text",
         "size]___[value:32]___[recipe:text",
-        "weight]___[value:black]___[recipe:text"
+        "weight]___[value:black]___[recipe:text",
+        "underline]___[value:true]___[recipe:text",
+        "dashedUnderline]___[value:true]___[recipe:text"
       ],
       "themeSwitcher": [],
       "heading": [

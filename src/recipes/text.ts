@@ -56,6 +56,18 @@ const textVariants = {
   underline: {
     true: {
       textDecoration: 'underline',
+      textDecorationThickness: '[0.0625em]',
+      textUnderlineOffset: '[0.15625em]',
+      textDecorationSkipInk: 'all',
+    },
+  },
+  dashedUnderline: {
+    true: {
+      textDecoration: 'underline',
+      textDecorationStyle: 'dashed',
+      textDecorationThickness: '[0.0625em]',
+      textUnderlineOffset: '[0.15625em]',
+      textDecorationSkipInk: 'all',
     },
   },
   truncate: {
@@ -106,40 +118,46 @@ const linkBase = {
   fontWeight: 'medium',
   gap: '1',
   color: 'link',
-  textDecoration: 'none',
-  backgroundImage: 'linear-gradient(90deg, transparent 0% 100%)',
-  backgroundSize: '100% {sizes.1}',
-  backgroundRepeat: 'no-repeat',
-  backgroundPositionY: '100%',
+  // A real text-decoration replaces the former linear-gradient background,
+  // so the underline follows descenders and respects skip-ink.
+  textDecoration: 'underline',
+  textDecorationThickness: '[0.0625em]',
+  textUnderlineOffset: '[0.15625em]',
+  textDecorationSkipInk: 'all',
+  textDecorationColor: '[color-mix(in srgb, currentColor 30%, transparent)]',
   outlineWidth: '2',
   outlineStyle: 'solid',
   outlineColor: 'transparent',
   outlineOffset: '1',
   width: 'fit-content',
   cursor: 'pointer',
+  transitionProperty: 'all',
+  transitionDuration: 'fast',
+  transitionTimingFunction: 'default',
   _hover: {
-    color: 'link',
-    backgroundImage: 'linear-gradient(90deg, currentColor 0% 100%)',
+    color: 'link.pressed',
+    textDecorationColor: 'current',
+    textDecorationThickness: '[0.125em]',
   },
   _focusVisible: {
     borderRadius: '{sizes.4}',
     outlineColor: 'border.focused',
   },
-  'p &': {
-    backgroundImage: 'linear-gradient(90deg, currentColor 0% 100%)',
+  // Link never passed a `_disabled` variant to the recipe, so the disabled
+  // styles below never rendered. As a base condition they match the real
+  // disabled state, including the aria-disabled Link already sets.
+  //
+  // Deliberately no colour change. globalStyle already fades anything disabled
+  // to 0.4 opacity, and text.disabled is itself a 29% alpha: together they
+  // render the label at roughly 1.2:1 against the page, which is invisible.
+  // The opacity alone carries the state, as it does in the Cetec DS.
+  _disabled: {
+    cursor: 'not-allowed',
+    pointerEvents: 'none',
   },
 };
 
-const linkVariants = {
-  ...textVariants,
-  _disabled: {
-    true: {
-      cursor: 'not-allowed',
-      color: 'text.disabled',
-      pointerEvents: 'none',
-    },
-  },
-};
+const linkVariants = { ...textVariants };
 
 const labelBase = {
   fontSize: '{sizes.16}',

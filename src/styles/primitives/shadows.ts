@@ -1,64 +1,30 @@
 import { defineTokens } from '@pandacss/dev';
 
+import {
+  getBoxShadowPrimitive,
+  getDarkBoxShadowPrimitive,
+} from '../utilities/shadowDefinitions';
+
+/**
+ * Generated from the shared layer definitions in `utilities/shadowDefinitions`,
+ * so boxShadow and dropShadow cannot drift apart.
+ *
+ * Each elevation still needs a light and a dark primitive. These are declared on
+ * `:root`, and a custom property that references another resolves in the scope
+ * where it is defined, so a single primitive pointing at a mode-aware colour
+ * would stay light inside a locally dark subtree. The switch happens on the
+ * semantic token in `styles/semantics/shadows.ts` instead.
+ */
 export const shadows = defineTokens.shadows({
-  zeroShadow: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.0} {colors.transparent}, {sizes.0} {sizes.0} {sizes.0} {colors.transparent}',
-  },
-  raisedLight: {
-    value:
-      '{sizes.0} {sizes.1} {sizes.1} {colors.shadow.raised.1.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.raised.2.light}',
-  },
-  raisedLightUp: {
-    value:
-      '{sizes.0} [-1] {sizes.1} {colors.shadow.raised.1.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.raised.2.light}',
-  },
-  raisedDark: {
-    value:
-      '{sizes.0} {sizes.1} {sizes.1} {colors.shadow.raised.1.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.raised.2.dark}',
-  },
-  raisedDarkUp: {
-    value:
-      '{sizes.0} [-1] {sizes.1} {colors.shadow.raised.1.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.raised.2.dark}',
-  },
-  elevatedLight: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.elevated.1.light}, {sizes.0} {sizes.4} {sizes.7} {colors.shadow.elevated.2.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.elevated.3.light}',
-  },
-  elevatedLightUp: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.elevated.1.light}, {sizes.0} [-4] {sizes.7} {colors.shadow.elevated.2.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.elevated.3.light}',
-  },
-  elevatedDark: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.elevated.1.dark}, {sizes.0} {sizes.4} {sizes.7} {colors.shadow.elevated.2.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.elevated.3.dark}',
-  },
-  elevatedDarkUp: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.elevated.1.dark}, {sizes.0} [-4] {sizes.7} {colors.shadow.elevated.2.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.elevated.3.dark}',
-  },
-  overlayLight: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.overlay.1.light}, {sizes.0} {sizes.8} {sizes.12} {colors.shadow.overlay.2.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.overlay.3.light}',
-  },
-  overlayLightUp: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.overlay.1.light}, {sizes.0} [-8] {sizes.12} {colors.shadow.overlay.2.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.overlay.3.light}',
-  },
-  overlayDark: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.overlay.1.dark}, {sizes.0} {sizes.8} {sizes.12} {colors.shadow.overlay.2.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.overlay.3.dark}',
-  },
-  overlayDarkUp: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.0} {colors.shadow.overlay.1.dark}, {sizes.0} [-8] {sizes.12} {colors.shadow.overlay.2.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.overlay.3.dark}',
-  },
-  overflowLight: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.8} {colors.shadow.overflow.1.light}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.overflow.2.light}',
-  },
-  overflowDark: {
-    value:
-      '{sizes.0} {sizes.0} {sizes.12} {colors.shadow.overflow.1.dark}, {sizes.0} {sizes.0} {sizes.1} {colors.shadow.overflow.2.dark}',
-  },
+  zeroLight: { value: getBoxShadowPrimitive('zero', 'light') },
+  zeroDark: { value: getBoxShadowPrimitive('zero', 'dark') },
+  raisedLight: { value: getBoxShadowPrimitive('raised', 'light') },
+  raisedDark: { value: getBoxShadowPrimitive('raised', 'dark') },
+  elevatedLight: { value: getBoxShadowPrimitive('elevated', 'light') },
+  elevatedDark: { value: getBoxShadowPrimitive('elevated', 'dark') },
+  overlayLight: { value: getBoxShadowPrimitive('overlay', 'light') },
+  overlayDark: { value: getBoxShadowPrimitive('overlay', 'dark') },
+  overflowLight: { value: getBoxShadowPrimitive('overflow', 'light') },
+  // Dark mode is the one place where the geometry differs, not just the colour.
+  overflowDark: { value: getDarkBoxShadowPrimitive('overflow') },
 });

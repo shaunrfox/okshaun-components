@@ -72,5 +72,44 @@ import { Card } from '~/components/Card';
 
   <Divider weight="thick" color="border.disabled" my="48"/>
 
+  ### Drop shadows
+
+  `dropShadow` renders the same layers as `boxShadow` through a CSS filter, so it
+  follows the shape of the element rather than its box. Use it on icons, images
+  with transparency, and other non-rectangular content.
+
+  <Grid gridTemplateColumns="1fr 1fr" gridTemplateRows="repeat(4, auto)" alignItems="center" columnGap="0" rowGap="40">
+    <Grid gridTemplateColumns="subgrid" gridTemplateRows="subgrid" alignItems="center" gridRow="1 / -1" bg="surface" p="80" roundedLeft="16" border="default" data-color-mode="light" gap="24">
+      <Grid placeContent="center" p="24" dropShadow="zero">
+        <Text textStyle="body.lg">dropShadow.zero</Text>
+      </Grid>
+      <Grid placeContent="center" p="24" dropShadow="raised">
+        <Text textStyle="body.lg">dropShadow.raised</Text>
+      </Grid>
+      <Grid placeContent="center" p="24" dropShadow="elevated">
+        <Text textStyle="body.lg">dropShadow.elevated</Text>
+      </Grid>
+      <Grid placeContent="center" p="24" dropShadow="overlay">
+        <Text textStyle="body.lg">dropShadow.overlay</Text>
+      </Grid>
+    </Grid>
+    <Grid gridTemplateColumns="subgrid" gridTemplateRows="subgrid" alignItems="center" gridRow="1 / -1" bg="surface" p="80" roundedRight="16" border="default" data-color-mode="dark" gap="24">
+      <Grid placeContent="center" p="24" dropShadow="zero">
+        <Text textStyle="body.lg">dropShadow.zero</Text>
+      </Grid>
+      <Grid placeContent="center" p="24" dropShadow="raised">
+        <Text textStyle="body.lg">dropShadow.raised</Text>
+      </Grid>
+      <Grid placeContent="center" p="24" dropShadow="elevated">
+        <Text textStyle="body.lg">dropShadow.elevated</Text>
+      </Grid>
+      <Grid placeContent="center" p="24" dropShadow="overlay">
+        <Text textStyle="body.lg">dropShadow.overlay</Text>
+      </Grid>
+    </Grid>
+  </Grid>
+
+  <Divider weight="thick" color="border.disabled" my="48"/>
+
 </Flex>
 </Unstyled>

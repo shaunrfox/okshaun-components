@@ -3,12 +3,18 @@ import { type TextVariantProps, text } from '@styled-system/recipes';
 import type { ElementType, ReactNode } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
+import { Tooltip } from '~/components/Tooltip';
 import { splitProps } from '~/utils/splitProps';
 
 export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
   TextVariantProps & {
     children: string | ReactNode;
     as?: ElementType;
+    /**
+     * Short, nonessential explanation shown in a tooltip. Applies a dashed
+     * underline and adds the text to sequential keyboard focus.
+     */
+    definition?: string;
     role?: string;
     tabIndex?: number;
   };
@@ -20,6 +26,8 @@ export const Text = (props: TextProps) => {
     italic,
     bold,
     underline,
+    dashedUnderline,
+    definition,
     size,
     children,
     textStyle,
@@ -32,17 +40,18 @@ export const Text = (props: TextProps) => {
   } = props;
   const [className, otherProps] = splitProps(rest);
 
-  return (
+  const content = (
     <Box
       as={as}
       textStyle={textStyle}
       role={role}
-      tabIndex={tabIndex}
+      tabIndex={tabIndex ?? (definition ? 0 : undefined)}
       className={cx(
         text({
           family,
           bold,
           underline,
+          dashedUnderline: definition ? true : dashedUnderline,
           italic,
           size,
           weight,
@@ -56,4 +65,6 @@ export const Text = (props: TextProps) => {
       {children}
     </Box>
   );
+
+  return definition ? <Tooltip text={definition}>{content}</Tooltip> : content;
 };
