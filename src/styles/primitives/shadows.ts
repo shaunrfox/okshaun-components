@@ -6,18 +6,25 @@ import {
 } from '../utilities/shadowDefinitions';
 
 /**
- * Generated from the shared layer definitions, so boxShadow and dropShadow
- * cannot drift apart. The layer colors resolve per mode on their own, which is
- * why each elevation needs one primitive rather than a light and dark pair.
- * The `Base` suffix keeps these distinct from the semantic names in
- * `styles/semantics/shadows.ts`, which share the shadows namespace.
+ * Generated from the shared layer definitions in `utilities/shadowDefinitions`,
+ * so boxShadow and dropShadow cannot drift apart.
+ *
+ * Each elevation still needs a light and a dark primitive. These are declared on
+ * `:root`, and a custom property that references another resolves in the scope
+ * where it is defined, so a single primitive pointing at a mode-aware colour
+ * would stay light inside a locally dark subtree. The switch happens on the
+ * semantic token in `styles/semantics/shadows.ts` instead.
  */
 export const shadows = defineTokens.shadows({
-  zeroBase: { value: getBoxShadowPrimitive('zero') },
-  raisedBase: { value: getBoxShadowPrimitive('raised') },
-  elevatedBase: { value: getBoxShadowPrimitive('elevated') },
-  overlayBase: { value: getBoxShadowPrimitive('overlay') },
-  overflowBase: { value: getBoxShadowPrimitive('overflow') },
-  // Dark mode is the one place where the geometry differs, not just the color.
-  overflowDarkBase: { value: getDarkBoxShadowPrimitive('overflow') },
+  zeroLight: { value: getBoxShadowPrimitive('zero', 'light') },
+  zeroDark: { value: getBoxShadowPrimitive('zero', 'dark') },
+  raisedLight: { value: getBoxShadowPrimitive('raised', 'light') },
+  raisedDark: { value: getBoxShadowPrimitive('raised', 'dark') },
+  elevatedLight: { value: getBoxShadowPrimitive('elevated', 'light') },
+  elevatedDark: { value: getBoxShadowPrimitive('elevated', 'dark') },
+  overlayLight: { value: getBoxShadowPrimitive('overlay', 'light') },
+  overlayDark: { value: getBoxShadowPrimitive('overlay', 'dark') },
+  overflowLight: { value: getBoxShadowPrimitive('overflow', 'light') },
+  // Dark mode is the one place where the geometry differs, not just the colour.
+  overflowDark: { value: getDarkBoxShadowPrimitive('overflow') },
 });

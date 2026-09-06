@@ -3,6 +3,7 @@ import { defineUtility } from '@pandacss/dev';
 import { filterAutoValue } from './filters';
 import {
   type DropShadowName,
+  dropShadowColorToken,
   elevationShadowDefinitions,
 } from './shadowDefinitions';
 
@@ -22,7 +23,7 @@ const resolveDropShadowValue = (
       const x = token(`sizes.${layer.x}`);
       const y = token(`sizes.${layer.y}`);
       const blur = token(`sizes.${layer.blur}`);
-      const color = token(layer.color);
+      const color = token(dropShadowColorToken(layer.color));
 
       if (!x || !y || !blur || !color) {
         throw new Error(`Unable to resolve dropShadow token for ${value}`);

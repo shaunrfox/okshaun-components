@@ -146,9 +146,13 @@ const linkBase = {
   // Link never passed a `_disabled` variant to the recipe, so the disabled
   // styles below never rendered. As a base condition they match the real
   // disabled state, including the aria-disabled Link already sets.
+  //
+  // Deliberately no colour change. globalStyle already fades anything disabled
+  // to 0.4 opacity, and text.disabled is itself a 29% alpha: together they
+  // render the label at roughly 1.2:1 against the page, which is invisible.
+  // The opacity alone carries the state, as it does in the Cetec DS.
   _disabled: {
     cursor: 'not-allowed',
-    color: 'text.disabled',
     pointerEvents: 'none',
   },
 };
