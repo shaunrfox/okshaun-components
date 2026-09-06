@@ -26,7 +26,7 @@ export const Default: Story = {};
 export const Variants: Story = {
   render: () => (
     <Wrap gap="14">
-      <IconButton iconName="edit" altText="Edit" variant="default" />
+      <IconButton iconName="edit" altText="Edit" variant="standard" />
       <IconButton iconName="download" altText="Download" variant="primary" />
       <IconButton iconName="printer" altText="Print" variant="hollow" />
       <IconButton iconName="info" altText="Info" variant="ghost" />

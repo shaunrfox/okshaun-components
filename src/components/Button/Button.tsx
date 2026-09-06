@@ -19,7 +19,7 @@ export type ButtonProps = Omit<
   BoxProps,
   keyof ButtonVariantProps | 'children'
 > &
-  Omit<ButtonVariantProps, 'iconBefore' | 'iconAfter'> & {
+  Omit<ButtonVariantProps, 'before' | 'after'> & {
     before?: ReactNode;
     after?: ReactNode;
     iconBefore?: IconNamesList;
@@ -62,13 +62,11 @@ export const Button = (props: ButtonProps) => {
   const invalid = invalidProp ?? slotContext?.invalid ?? fieldContext?.invalid;
   const resolvedDisabled =
     disabled ?? slotContext?.disabled ?? fieldContext?.disabled;
-  // The button recipe still has compoundVariants, so Panda types its variants as
-  // non-responsive. Cast until okshaun-components-ecl.11 removes them.
   const classes = button({
     variant,
-    size: size as ButtonVariantProps['size'],
-    iconBefore: Boolean(before || iconBefore),
-    iconAfter: Boolean(after || iconAfter),
+    size,
+    before: Boolean(before || iconBefore),
+    after: Boolean(after || iconAfter),
   });
   const [className, otherProps] = splitProps(rest);
 
@@ -108,7 +106,11 @@ export const Button = (props: ButtonProps) => {
   };
 
   const renderIcon = (name: IconNamesList) => {
-    return <Icon name={name} className={classes.icon} aria-hidden />;
+    return (
+      <Box className={classes.slot}>
+        <Icon name={name} aria-hidden />
+      </Box>
+    );
   };
 
   return (

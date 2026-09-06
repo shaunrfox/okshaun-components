@@ -10,15 +10,13 @@ import { Text } from '../Text';
 import { Button } from './Button';
 
 const buttonVariants = [
-  'default',
+  'standard',
   'primary',
   'ghost',
-  'subtle',
   'hollow',
   'danger',
   'selected',
   'selectedBold',
-  'selectedSubtle',
 ] as const;
 
 const meta = {
@@ -34,7 +32,7 @@ const meta = {
       options: buttonVariants,
       description: 'Visual style variant',
       table: {
-        defaultValue: { summary: 'default' },
+        defaultValue: { summary: 'standard' },
       },
     },
     size: {
@@ -296,7 +294,7 @@ export const AsLink: Story = {
 export const LinkVariants: Story = {
   render: () => (
     <HStack gap="4" flexWrap="wrap">
-      <Button href="#" variant="default">
+      <Button href="#" variant="standard">
         Default Link
       </Button>
       <Button href="#" variant="primary">
@@ -408,7 +406,7 @@ export const VaryingContentLength: Story = {
 
 export const Interactive: Story = {
   args: {
-    variant: 'default',
+    variant: 'standard',
     size: 'md',
     children: 'Click Me',
     disabled: false,
