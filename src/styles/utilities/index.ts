@@ -9,6 +9,7 @@ export * from './filters';
 export * from './globalStyle';
 export * from './keyframes';
 export * from './layerStyles';
+export * from './recipeGlobalStyles';
 export * from './shadowDefinitions';
 export * from './textStyles';
 export * from './transitions';
