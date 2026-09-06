@@ -401,17 +401,24 @@ export const validateSource = ({ content, filePath }) => {
       severity: 'warn',
     }),
   );
-  diagnostics.push(
-    ...collectMatches({
-      content,
-      filePath: normalizedPath,
-      pattern: CSS_VARIABLE_PATTERN,
-      message:
-        'Prefer design tokens or semantic tokens over raw CSS variable references.',
-      rule: 'discourage-css-variable-styling',
-      severity: 'warn',
-    }),
-  );
+  // Recipes are exempt. Custom properties are the sizing mechanism the Cetec
+  // design system uses inside recipes - a size variant publishes --slot-size
+  // and the other slots read it - and that is what keeps variant props
+  // responsive. Cetec's own version of this rule only inspects JSX styling
+  // attributes for the same reason. Component code is still checked.
+  if (!isRecipeFile(normalizedPath)) {
+    diagnostics.push(
+      ...collectMatches({
+        content,
+        filePath: normalizedPath,
+        pattern: CSS_VARIABLE_PATTERN,
+        message:
+          'Prefer design tokens or semantic tokens over raw CSS variable references.',
+        rule: 'discourage-css-variable-styling',
+        severity: 'warn',
+      }),
+    );
+  }
 
   if (isRecipeFile(normalizedPath)) {
     diagnostics.push(

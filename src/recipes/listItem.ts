@@ -37,7 +37,7 @@ export const listItemRecipe = defineSlotRecipe({
       borderColor: 'transparent',
       color: 'text',
       cursor: 'pointer',
-      outline: '2px solid transparent',
+      outline: '[2px solid transparent]',
       outlineOffset: '-2',
       bg: 'transparent',
       scrollSnapAlign: 'start',
