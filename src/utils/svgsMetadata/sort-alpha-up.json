@@ -7,7 +7,11 @@
     "arrows",
     "list",
     "sort",
-    "descending"
+    "descending",
+    "alphabetical",
+    "letters",
+    "name",
+    "alpha"
   ],
   "tags": [],
   "category": "Filter / Sort / List",

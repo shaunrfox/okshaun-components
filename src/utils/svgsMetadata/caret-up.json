@@ -8,7 +8,10 @@
     "triangle",
     "arrows",
     "caret",
-    "up"
+    "up",
+    "collapse",
+    "close",
+    "stroke"
   ],
   "tags": [],
   "category": "Arrows",

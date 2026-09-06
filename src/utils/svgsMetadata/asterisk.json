@@ -1,5 +1,17 @@
 {
-  "aliases": ["asterisk", "wildcard", "star", "tool", "symbol", "helper"],
+  "aliases": [
+    "asterisk",
+    "wildcard",
+    "star",
+    "tool",
+    "symbol",
+    "helper",
+    "footnote",
+    "required",
+    "splat",
+    "glob",
+    "note"
+  ],
   "tags": [],
   "category": "Other",
   "deprecated": false

@@ -1,5 +1,18 @@
 {
-  "aliases": ["lightning", "bolt", "flash", "tool", "symbol", "helper"],
+  "aliases": [
+    "lightning",
+    "bolt",
+    "flash",
+    "tool",
+    "symbol",
+    "helper",
+    "electricity",
+    "power",
+    "energy",
+    "fast",
+    "zap",
+    "instant"
+  ],
   "tags": [],
   "category": "Other",
   "deprecated": false

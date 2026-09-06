@@ -6,7 +6,12 @@
     "schedule",
     "events",
     "watch",
-    "clock"
+    "clock",
+    "time",
+    "hour",
+    "minute",
+    "oclock",
+    "wall clock"
   ],
   "tags": [],
   "category": "Time",

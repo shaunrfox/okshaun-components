@@ -7,7 +7,15 @@
     "arrows",
     "arrow",
     "line",
-    "right"
+    "right",
+    "stop",
+    "square",
+    "halt",
+    "end",
+    "filled",
+    "block",
+    "player",
+    "cease"
   ],
   "tags": [],
   "category": "Player",

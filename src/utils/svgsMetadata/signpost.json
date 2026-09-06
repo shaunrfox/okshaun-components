@@ -8,7 +8,11 @@
     "signpost",
     "guide",
     "path",
-    "strategy"
+    "strategy",
+    "sign",
+    "post",
+    "wayfinding",
+    "directions"
   ],
   "tags": [],
   "category": "Location",

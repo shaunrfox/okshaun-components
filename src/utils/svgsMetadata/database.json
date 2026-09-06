@@ -14,7 +14,13 @@
     "taxonomy",
     "data",
     "db",
-    "database"
+    "database",
+    "storage",
+    "records",
+    "disks",
+    "stack",
+    "server",
+    "table"
   ],
   "tags": [],
   "category": "Other",

@@ -7,7 +7,12 @@
     "arrows",
     "list",
     "sort",
-    "descending"
+    "descending",
+    "size",
+    "amount",
+    "magnitude",
+    "largest first",
+    "high to low"
   ],
   "tags": [],
   "category": "Filter / Sort / List",

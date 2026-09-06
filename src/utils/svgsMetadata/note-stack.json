@@ -7,7 +7,12 @@
     "reminders",
     "note",
     "document",
-    "message"
+    "message",
+    "stack",
+    "stacked",
+    "multiple",
+    "layers",
+    "collection"
   ],
   "tags": [],
   "category": "Doc / note",

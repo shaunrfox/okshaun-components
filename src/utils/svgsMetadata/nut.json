@@ -9,7 +9,11 @@
     "part",
     "bom",
     "item",
-    "line"
+    "line",
+    "hex nut",
+    "fastener",
+    "hardware",
+    "thread"
   ],
   "tags": [],
   "category": "System objects",

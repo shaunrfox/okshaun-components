@@ -7,7 +7,12 @@
     "arrows",
     "arrow",
     "line",
-    "right"
+    "right",
+    "start",
+    "begin",
+    "enter",
+    "launch",
+    "first"
   ],
   "tags": [],
   "category": "Navigation",

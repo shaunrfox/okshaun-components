@@ -1,5 +1,18 @@
 {
-  "aliases": ["circuit", "electrical", "schematic", "tool", "symbol", "helper"],
+  "aliases": [
+    "circuit",
+    "electrical",
+    "schematic",
+    "tool",
+    "symbol",
+    "helper",
+    "board",
+    "pcb",
+    "electronics",
+    "wiring",
+    "node",
+    "trace"
+  ],
   "tags": [],
   "category": "Other",
   "deprecated": false
