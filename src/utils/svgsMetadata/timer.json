@@ -6,7 +6,12 @@
     "schedule",
     "events",
     "watch",
-    "clock"
+    "clock",
+    "stopwatch",
+    "countdown",
+    "elapsed",
+    "lap",
+    "duration"
   ],
   "tags": [],
   "category": "Time",

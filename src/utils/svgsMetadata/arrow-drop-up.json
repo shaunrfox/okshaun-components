@@ -8,7 +8,11 @@
     "triangle",
     "arrows",
     "caret",
-    "up"
+    "up",
+    "dropdown",
+    "select",
+    "filled",
+    "solid"
   ],
   "tags": [],
   "category": "Arrows",

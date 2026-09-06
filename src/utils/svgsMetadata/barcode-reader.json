@@ -1,5 +1,17 @@
 {
-  "aliases": ["upc", "qr", "products", "shopping", "scanner", "barcode"],
+  "aliases": [
+    "upc",
+    "qr",
+    "products",
+    "shopping",
+    "scanner",
+    "barcode",
+    "gun",
+    "handheld",
+    "device",
+    "scanning",
+    "point of sale"
+  ],
   "tags": [],
   "category": "System objects",
   "deprecated": false

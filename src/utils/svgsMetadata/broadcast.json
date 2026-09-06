@@ -1,5 +1,18 @@
 {
-  "aliases": ["broadcast", "announce", "stream", "tool", "symbol", "helper"],
+  "aliases": [
+    "broadcast",
+    "announce",
+    "stream",
+    "tool",
+    "symbol",
+    "helper",
+    "signal",
+    "transmit",
+    "live",
+    "antenna",
+    "publish",
+    "waves"
+  ],
   "tags": [],
   "category": "Other",
   "deprecated": false

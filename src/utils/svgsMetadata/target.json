@@ -5,7 +5,11 @@
     "archery",
     "accuracy",
     "precision",
-    "target"
+    "target",
+    "rings",
+    "concentric",
+    "aim",
+    "goal"
   ],
   "tags": [],
   "category": "System objects",

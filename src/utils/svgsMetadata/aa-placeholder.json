@@ -8,9 +8,17 @@
     "symbol",
     "helper",
     "aa icon",
-    "placeholder icon"
+    "placeholder icon",
+    "template",
+    "stand in",
+    "example",
+    "default",
+    "scaffold",
+    "dev"
   ],
-  "tags": ["dev"],
+  "tags": [
+    "dev"
+  ],
   "category": "Other",
   "deprecated": false
 }

@@ -5,7 +5,13 @@
     "archery",
     "accuracy",
     "precision",
-    "target"
+    "target",
+    "dart",
+    "arrow",
+    "hit",
+    "goal",
+    "achieved",
+    "on target"
   ],
   "tags": [],
   "category": "System objects",

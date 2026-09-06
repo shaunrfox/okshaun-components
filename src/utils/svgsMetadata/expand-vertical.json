@@ -1,17 +1,17 @@
 {
   "aliases": [
-    "chevron",
     "directional",
     "pointer",
     "pointing",
     "arrowhead",
-    "triangle",
     "arrows",
-    "caret",
-    "down",
     "expand",
+    "expand vertical",
+    "unfold",
     "open",
-    "stroke"
+    "grow",
+    "up",
+    "down"
   ],
   "tags": [],
   "category": "Arrows",

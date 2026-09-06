@@ -1,5 +1,16 @@
 {
-  "aliases": ["input", "checkbox", "checked", "radio", "button"],
+  "aliases": [
+    "input",
+    "checkbox",
+    "checked",
+    "radio",
+    "button",
+    "selected",
+    "on",
+    "filled",
+    "active",
+    "chosen"
+  ],
   "tags": [],
   "category": "Checks / Todos",
   "deprecated": false

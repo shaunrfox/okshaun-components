@@ -9,7 +9,12 @@
     "part",
     "bom",
     "item",
-    "line"
+    "line",
+    "components",
+    "assembly",
+    "inventory",
+    "spare parts",
+    "materials"
   ],
   "tags": [],
   "category": "System objects",

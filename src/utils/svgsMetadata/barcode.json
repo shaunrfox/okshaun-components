@@ -1,5 +1,16 @@
 {
-  "aliases": ["upc", "qr", "products", "shopping", "scanner", "barcode"],
+  "aliases": [
+    "upc",
+    "qr",
+    "products",
+    "shopping",
+    "scanner",
+    "barcode",
+    "label",
+    "sku",
+    "stripes",
+    "lines"
+  ],
   "tags": [],
   "category": "System objects",
   "deprecated": false

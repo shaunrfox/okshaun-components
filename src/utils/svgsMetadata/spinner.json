@@ -1,5 +1,18 @@
 {
-  "aliases": ["spinner", "loading", "progress", "circle"],
+  "aliases": [
+    "spinner",
+    "loading",
+    "progress",
+    "circle",
+    "loader",
+    "busy",
+    "wait",
+    "pending",
+    "activity",
+    "arc",
+    "throbber",
+    "processing"
+  ],
   "tags": [],
   "category": "Status",
   "deprecated": false

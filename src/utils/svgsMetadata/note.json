@@ -7,7 +7,10 @@
     "reminders",
     "note",
     "document",
-    "message"
+    "message",
+    "single",
+    "memo",
+    "sticky"
   ],
   "tags": [],
   "category": "Doc / note",

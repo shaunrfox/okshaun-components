@@ -8,7 +8,14 @@
     "signpost",
     "guide",
     "path",
-    "strategy"
+    "strategy",
+    "tactics",
+    "plan",
+    "planning",
+    "playbook",
+    "play",
+    "approach",
+    "diagram"
   ],
   "tags": [],
   "category": "System objects",
