@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { BoxProps } from '../Box';
 import type { IconNamesList } from '../Icon';
 
+/** Metadata consumed by {@link Select}; `SelectOption` does not render an element itself. */
 export type SelectOptionProps = Omit<BoxProps, 'children'> & {
   /** Option value */
   value: string;

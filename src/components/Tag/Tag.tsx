@@ -5,13 +5,28 @@ import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { Icon, type IconNamesList } from '../Icon';
 
+/** Props accepted by {@link Tag}. */
 export type TagProps = Omit<BoxProps, keyof TagVariantProps> &
   Omit<TagVariantProps, 'iconBefore' | 'iconAfter'> & {
+    /** Visible tag label. */
     children: string;
+    /** Decorative icon shown before the label. */
     iconBefore?: IconNamesList;
+    /** Decorative icon shown after the label. */
     iconAfter?: IconNamesList;
   };
 
+/**
+ * Displays a compact, non-interactive category or status label.
+ *
+ * Use `Chip` when the item can be selected or dismissed. Icons are decorative,
+ * so the text must communicate the tag's meaning.
+ *
+ * @example
+ * ```tsx
+ * <Tag hue="green">Approved</Tag>
+ * ```
+ */
 export const Tag = (props: TagProps) => {
   const { variant, hue, iconBefore, iconAfter, children, ...rest } = props;
   const [className, otherProps] = splitProps(rest);

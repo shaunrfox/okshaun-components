@@ -16,25 +16,79 @@ import {
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
+/**
+ * Props for {@link Button}. Extends {@link BoxProps} for layout and native
+ * element attributes while reserving the button recipe's visual variants.
+ */
 export type ButtonProps = Omit<
   BoxProps,
   keyof ButtonVariantProps | 'children'
 > &
   Omit<ButtonVariantProps, 'before' | 'after'> & {
+    /** Content rendered before the button label. Takes precedence over `iconBefore`. */
     before?: ReactNode;
+    /** Content rendered after the button label. Takes precedence over `iconAfter`. */
     after?: ReactNode;
+    /**
+     * Legacy icon name rendered before the label when `before` is not provided.
+     *
+     * @deprecated Use `before={<Icon name="..." aria-hidden />}`. This alias
+     * will be removed in a future major release.
+     */
     iconBefore?: IconNamesList;
+    /**
+     * Legacy icon name rendered after the label when `after` is not provided.
+     *
+     * @deprecated Use `after={<Icon name="..." aria-hidden />}`. This alias
+     * will be removed in a future major release.
+     */
     iconAfter?: IconNamesList;
+    /** When provided, renders an anchor instead of a native button. */
     href?: string;
+    /**
+     * Shows a centered spinner, hides the visible content, and sets
+     * `aria-busy`. Loading does not disable the control; set `disabled` when
+     * the action must not be available.
+     *
+     * @default false
+     */
     loading?: boolean;
+    /** Visible label and optional inline content for the action. */
     children: string | ReactNode;
+    /** Marks the control as having an error for styling and descendant slots. */
     error?: boolean;
+    /** Sets `aria-invalid` and marks the control invalid for styling and slots. */
     invalid?: boolean;
+    /**
+     * Disables a native button. For links, marks the anchor `aria-disabled` and
+     * prevents its default click navigation.
+     */
     disabled?: boolean;
+    /**
+     * Native button type; ignored when `href` causes the component to render an
+     * anchor.
+     *
+     * @default 'button'
+     */
     type?: 'submit' | 'reset' | 'button';
     gap?: NumericSizeToken;
   };
 
+/**
+ * Performs an action or navigates to a location.
+ *
+ * Renders a native `button` by default, or an anchor when `href` is supplied.
+ * Use {@link IconButton} for actions represented only by an icon. In a
+ * `FormField` or slot context, explicitly supplied `size`, `error`, `invalid`,
+ * and `disabled` values take precedence over slot context, which takes
+ * precedence over field context. Its recipe defaults to the `standard` variant
+ * and `md` size.
+ *
+ * @example
+ * ```tsx
+ * <Button onClick={saveInvoice}>Save invoice</Button>
+ * ```
+ */
 export const Button = (props: ButtonProps) => {
   const fieldContext = useFieldContext();
   const slotContext = useSlotContext();

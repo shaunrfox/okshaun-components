@@ -4,8 +4,21 @@ import type { BoxProps } from '~/components/Box';
 import { Tag } from '~/components/Tag';
 import { useMediaQuery } from '~/system/hooks';
 
+/** Props for {@link BreakpointIndicator}, a development breakpoint readout. */
 export type BreakpointIndicatorProps = BoxProps;
 
+/**
+ * Displays the largest currently matching design-system breakpoint.
+ *
+ * This is a development aid, not user-facing application content. It renders a
+ * colored `Tag` from `@media/base` through `@media/2xl` based on media-query
+ * hooks.
+ *
+ * @example
+ * ```tsx
+ * <BreakpointIndicator />
+ * ```
+ */
 export const BreakpointIndicator = (props: BreakpointIndicatorProps) => {
   const { className, ...rest } = props;
   // breakpoint labels: [base, xs, sm, md, lg, xl, 2xl]

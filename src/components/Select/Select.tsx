@@ -93,30 +93,92 @@ const getSelectedDisplay = (
   return selectedOption ? getOptionText(selectedOption) : placeholder;
 };
 
+/** Props for {@link Select}, an ARIA listbox-based single or multiple select. */
 export type SelectProps = Omit<
   BoxProps<'button'>,
   keyof SelectVariantProps | 'children' | 'onChange' | 'type' | 'value'
 > &
   SelectVariantProps & {
+    /** Controlled selected value. Use a string for single selection or a string array for multiple selection, with `onChange` to accept changes. */
     value?: SelectValue;
+    /**
+     * Initial selected value for an uncontrolled select. It is used only on first render.
+     * @default null
+     */
     defaultValue?: SelectValue;
+    /** Called when the user selects, deselects, or clears an option. In controlled mode, update `value` with the supplied value. */
     onChange?: (value: SelectValue) => void;
+    /**
+     * Allows several options to be selected and renders selected options as removable chips.
+     * @default false
+     */
     multiple?: boolean;
+    /**
+     * Text shown while no option is selected.
+     * @default 'Select...'
+     */
     placeholder?: string;
+    /** Controlled popup state. Pair with `onOpenChange`; omit it to use `defaultOpen`. */
     open?: boolean;
+    /**
+     * Initial popup state for an uncontrolled select. It is used only on first render.
+     * @default false
+     */
     defaultOpen?: boolean;
+    /** Called when user interaction requests that the popup open or close. */
     onOpenChange?: (open: boolean) => void;
+    /**
+     * Floating UI placement for the listbox relative to the trigger.
+     * @default 'bottom-start'
+     */
     placement?: Placement;
+    /**
+     * Gap between the trigger and listbox, in pixels.
+     * @default 4
+     */
     offset?: number;
     children: ReactNode;
+    /** Identifier for the combobox trigger. A generated identifier is used when omitted. */
     id?: string;
+    /** Form field name. Each selected value is submitted through a hidden input. */
     name?: string;
+    /**
+     * Prevents opening, selection, and hidden-input submission.
+     * @default false
+     */
     disabled?: boolean;
+    /**
+     * Marks the combobox as invalid with `aria-invalid` and error styling.
+     * @default false
+     */
     error?: boolean;
+    /**
+     * Density applied to the popup options.
+     * @default 'compact'
+     */
     density?: MenuDensity;
+    /**
+     * Shrinks the trigger to its content instead of using the standard select width.
+     * @default false
+     */
     autoSize?: boolean;
   };
 
+/**
+ * Chooses one or more values from metadata-only {@link SelectOption} children.
+ *
+ * The trigger uses combobox/listbox semantics. Arrow keys, Enter, and Space open
+ * it; typeahead and arrow keys navigate options; Escape or outside press closes
+ * it. Focus stays on the trigger when the non-modal popup opens.
+ *
+ * @example
+ * ```tsx
+ * <Select defaultValue="draft" name="status">
+ *   <SelectOption value="draft" label="Draft" />
+ *   <SelectOption value="published" label="Published" />
+ * </Select>
+ * ```
+ */
 export const Select = (props: SelectProps) => {
   const {
     value: controlledValue,

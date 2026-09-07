@@ -53,6 +53,20 @@ import {
   useMenuRootContext,
 } from './context/menuContext';
 
+/**
+ * Opens nested menu content from a row in a parent {@link Menu}.
+ *
+ * Hover submenus open as positioned flyouts; `interaction="digin"` replaces
+ * the parent level in the same panel. Arrow Right opens a flyout and Arrow Left
+ * returns focus to its trigger. Filtering also searches nested children.
+ *
+ * @example
+ * ```tsx
+ * <SubMenu label="More actions">
+ *   <MenuItem label="Duplicate" />
+ * </SubMenu>
+ * ```
+ */
 export const SubMenu = (props: SubMenuProps) => {
   const nodeId = useFloatingNodeId();
   const parentId = useFloatingParentNodeId();

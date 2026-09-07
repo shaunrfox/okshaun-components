@@ -27,25 +27,57 @@ const getChipLabel = (children: ReactNode) => {
   return undefined;
 };
 
+/** Props for {@link Chip}, a compact label that can be static, actionable, selectable, or dismissible. */
 export type ChipProps = Omit<BoxProps, keyof ChipVariantProps | 'children'> &
   Omit<ChipVariantProps, 'before' | 'after'> & {
     children: ReactNode;
+    /** Content displayed before the chip label. */
     before?: ReactNode;
+    /** Content displayed after the chip label and before the dismiss control. */
     after?: ReactNode;
+    /** Disables the primary action and dismiss button. The local value takes precedence over slot and field context. */
     disabled?: boolean;
+    /** Shows a spinner and disables chip interaction. */
     loading?: boolean;
+    /** Applies deleted styling without removing the chip from the DOM. */
     deleted?: boolean;
+    /** Adds a dismiss button after the chip content. */
     dismissable?: boolean;
+    /**
+     * Accessible name for the dismiss button.
+     * @default `Remove ${children}`
+     */
     dismissLabel?: string;
+    /** Called when the dismiss button is activated. The button is disabled when this callback is absent. */
     onDismiss?: () => void;
     onClick?: (event: MouseEvent<HTMLElement>) => void;
+    /** Value used by a parent `ChipGroup` to identify and select this chip. */
     value?: string;
+    /**
+     * Native type for the chip's primary button when it is selectable or has `onClick`.
+     * @default 'button'
+     */
     type?: 'button' | 'submit' | 'reset';
+    /** Applies error styling. The local value takes precedence over slot and field context. */
     error?: boolean;
+    /** Marks the chip invalid with `aria-invalid`. The local value takes precedence over slot and field context. */
     invalid?: boolean;
     gap?: NumericSizeToken;
   };
 
+/**
+ * Renders a compact label, optionally with an action or dismissal control.
+ *
+ * A chip is static unless it has `onClick` or both a `value` and a parent
+ * `ChipGroup`. Grouped single-select chips use radio behavior and arrow-key
+ * roving focus; grouped multi-select chips use checkbox behavior. `before` and
+ * `after` slots inherit state through slot context.
+ *
+ * @example
+ * ```tsx
+ * <Chip dismissable onDismiss={() => remove('design')}>Design</Chip>
+ * ```
+ */
 export const Chip = (props: ChipProps) => {
   const fieldContext = useFieldContext();
   const groupContext = useChipGroup();

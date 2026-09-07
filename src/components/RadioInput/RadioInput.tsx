@@ -13,11 +13,13 @@ import { Label } from '../Label';
 import type { RadioChangeHandler } from '../Radio';
 import { Radio } from '../Radio';
 
+/** Props for {@link RadioInput}, a labelled radio that can join a {@link RadioGroup}. */
 export type RadioInputProps = Omit<BoxProps, keyof RadioInputVariantProps> &
   RadioInputVariantProps & {
     name?: string;
     value?: string;
     checked?: boolean;
+    /** @default false */
     defaultChecked?: boolean;
     onChange?: RadioChangeHandler;
     id?: string;
@@ -27,6 +29,21 @@ export type RadioInputProps = Omit<BoxProps, keyof RadioInputVariantProps> &
     disabled?: boolean;
   };
 
+/**
+ * A labelled radio option.
+ *
+ * Place it in {@link RadioGroup} with a unique `value` to receive shared
+ * selection state, its name, and group-disabled state. Outside a group it acts
+ * like a labelled {@link Radio}; supply `name` to form a native radio group.
+ * Explicit `disabled` wins over group and field context.
+ *
+ * @example
+ * ```tsx
+ * <RadioGroup name="plan" defaultValue="standard" label="Plan">
+ *   <RadioInput value="standard">Standard</RadioInput>
+ * </RadioGroup>
+ * ```
+ */
 export const RadioInput = (props: RadioInputProps) => {
   const groupContext = useRadioGroup();
   const {

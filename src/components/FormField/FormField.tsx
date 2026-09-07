@@ -12,21 +12,56 @@ import { Label } from '../Label';
 import { Text } from '../Text';
 import { Tooltip } from '../Tooltip';
 
+/**
+ * Props for {@link FormField}. It supplies field state to compatible
+ * descendants through `FieldContext`.
+ */
 export type FormFieldProps = Omit<BoxProps, keyof FormFieldVariantProps> &
   FormFieldVariantProps & {
+    /** Visible label text for the field. */
     label: string;
+    /**
+     * The `id` of the labeled input. The child input must use this exact `id`
+     * for the rendered label's `htmlFor` relationship to work.
+     */
     labelFor: string;
+    /** Input or control content associated with this field. */
     children: ReactNode;
+    /** Supporting guidance displayed near the input. */
     helpText?: string;
+    /**
+     * Displays a visual required indicator. Also set `required` on the native
+     * input when browser validation or required semantics are needed.
+     */
     required?: boolean;
+    /** Marks the field and compatible descendants as having an error. */
     error?: boolean;
+    /** Marks the field invalid and supplies invalid state to compatible descendants. */
     invalid?: boolean;
+    /** Message displayed when `error` or `invalid` is true and `success` is false. */
     errorText?: string;
+    /** Marks the field successful. Success text takes precedence over error text. */
     success?: boolean;
+    /** Message displayed when `success` is true, including when error state is also set. */
     successText?: string;
+    /**
+     * Marks the field `aria-disabled`, applies disabled styling, and supplies
+     * disabled state to compatible descendants. Native child controls must
+     * still receive `disabled` themselves.
+     */
     disabled?: boolean;
+    /** Optional title shown by the label-help tooltip when `tooltipText` is provided. */
     tooltipTitle?: string;
+    /**
+     * Help text that enables the informational tooltip beside the label. The
+     * tooltip is not rendered without this value.
+     */
     tooltipText?: string;
+    /**
+     * Field size passed to compatible descendants and used by the field recipe.
+     *
+     * @default 'md'
+     */
     size?: FormFieldVariantProps['size'];
     layout?: 'default' | 'inline';
     gap?: NumericSizeToken;
@@ -36,6 +71,21 @@ export const Required = () => {
   return <Text color="text.danger">*</Text>;
 };
 
+/**
+ * Groups a label, control, help text, and validation message into one field.
+ *
+ * `labelFor` must match the `id` of the nested input. The component provides
+ * `size`, `error`, `invalid`, and `disabled` through field context to
+ * compatible descendants, but it does not add native input attributes for
+ * them. If `success` and an error state are both true, success messaging wins.
+ *
+ * @example
+ * ```tsx
+ * <FormField label="Email" labelFor="email" required>
+ *   <TextInput id="email" type="email" required />
+ * </FormField>
+ * ```
+ */
 export const FormField = (props: FormFieldProps) => {
   const {
     layout = 'default',
