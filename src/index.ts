@@ -42,14 +42,17 @@ export {
   type ChipGroupProps,
   type ChipGroupType,
   type ChipProps,
+  useChipGroup,
 } from './components/Chip';
 export { Code, type CodeProps, Pre, type PreProps } from './components/Code';
 export { Divider, type DividerProps } from './components/Divider';
 export { FormField, type FormFieldProps } from './components/FormField';
 export { Heading, type HeadingProps } from './components/Heading';
 export {
+  type AllowedIconSizes,
   Icon,
   IconNames,
+  type IconProps,
   IconProvider,
   type IconProviderProps,
 } from './components/Icon';
@@ -109,7 +112,11 @@ export {
   type ModalWrapperProps,
 } from './components/Modal';
 export { useModalWrapperContext } from './components/Modal/ModalWrapperContext';
-export { Radio, type RadioProps } from './components/Radio';
+export {
+  Radio,
+  type RadioChangeEvent,
+  type RadioProps,
+} from './components/Radio';
 export { RadioGroup, type RadioGroupProps } from './components/RadioGroup';
 export { RadioInput, type RadioInputProps } from './components/RadioInput';
 export {
@@ -162,6 +169,10 @@ export { splitProps } from './utils/splitProps';
 // Load minimal Panda helper type shims for declaration output (used during build)
 import './types/panda-augment';
 
+export type { FormApi } from '@tanstack/react-form';
+// TanStack Form — peer dependency re-exported so a consumer of the form Modal
+// uses this library's instance rather than resolving a second one.
+export { useForm } from '@tanstack/react-form';
 export {
   type DateFormat,
   DateInput,
@@ -214,6 +225,21 @@ export {
   type TimeRangeValue,
   type TimeValue,
 } from './components/DateTime';
+export {
+  DsChainScope,
+  type DsChainScopeProps,
+} from './components/DsChainScope';
+export { useIconConfig } from './components/Icon/IconContext';
+export { useListContext } from './components/List/listContext';
+export {
+  deriveItemTextValue,
+  getComponentType,
+  getHighlightedTextParts,
+  hasMatchingItems,
+  isItemMatch,
+  useMenuFilterContext,
+  useMenuListContext,
+} from './components/Menu/context/menuContext';
 export type {
   AnimationStyles,
   CompositionStyles,

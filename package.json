@@ -72,9 +72,6 @@
     },
     "@fontsource/ibm-plex-sans": {
       "optional": true
-    },
-    "@tanstack/react-form": {
-      "optional": true
     }
   },
   "dependencies": {
