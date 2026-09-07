@@ -4,7 +4,9 @@ import { expect, userEvent, within } from '@storybook/test';
 
 import { Flex, Grid, VStack } from '@styled-system/jsx';
 import { useState } from 'react';
+import { Autocomplete, Option } from '../../Autocomplete';
 import { Button } from '../../Button';
+import { DatePicker } from '../../DateTime';
 import { Divider } from '../../Divider';
 import { FormField } from '../../FormField';
 import { Icon } from '../../Icon';
@@ -652,12 +654,19 @@ export const FloatingContent: Story = {
               These controls render their popup content through portals. Their
               popup layer remains above the modal panel and backdrop.
             </Text>
-            {/* The DateTime and Autocomplete cases from Cetec's version of
-                this story return with okshaun-components-ecl.3 and ecl.5. */}
+            <DatePicker label="Due date" />
             <Select placeholder="Choose a status">
               <SelectOption value="draft" label="Draft" />
               <SelectOption value="approved" label="Approved" />
             </Select>
+            <Autocomplete
+              name="modal-assignee"
+              aria-label="Assignee"
+              placeholder="Choose an assignee"
+            >
+              <Option value="alex" label="Alex" />
+              <Option value="sam" label="Sam" />
+            </Autocomplete>
           </ModalBody>
           <ModalFooter>
             <Button variant="ghost" onClick={() => setIsOpen(false)}>

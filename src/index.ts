@@ -1,7 +1,12 @@
 export {
   Autocomplete,
-  type AutocompleteOption,
+  type AutocompleteChangeReason,
+  type AutocompleteInputChangeReason,
+  type AutocompleteOpenChangeReason,
   type AutocompleteProps,
+  type AutocompleteValue,
+  Option,
+  type OptionProps,
 } from './components/Autocomplete';
 export {
   Avatar,
@@ -40,7 +45,6 @@ export {
 } from './components/Chip';
 export { Code, type CodeProps, Pre, type PreProps } from './components/Code';
 export { Divider, type DividerProps } from './components/Divider';
-export { Dropdown, type DropdownProps } from './components/Dropdown';
 export { FormField, type FormFieldProps } from './components/FormField';
 export { Heading, type HeadingProps } from './components/Heading';
 export {
