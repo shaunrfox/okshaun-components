@@ -28,13 +28,21 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
     {
       size: ['*'],
       variant: ['*'],
-      iconBefore: ['*'],
-      iconAfter: ['*'],
+      before: ['*'],
+      after: ['*'],
       responsive: true,
     },
   ],
   card: [{ variant: ['*'], interactive: ['*'] }],
-  chip: [{ size: ['*'], before: ['*'], after: ['*'], responsive: true }],
+  chip: [
+    {
+      size: ['*'],
+      before: ['*'],
+      after: ['*'],
+      dismissable: ['*'],
+      responsive: true,
+    },
+  ],
   // `layer` comes from FloatingLayerContext at runtime, so Panda cannot see the
   // value statically and would emit the class with no rule behind it.
   autocomplete: [{ size: ['*'], responsive: true }, { layer: ['*'] }],
@@ -49,13 +57,22 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
       responsive: true,
     },
   ],
-  segmentedInputs: [{ size: ['*'], bare: ['*'], responsive: true }],
+  segmentedInputs: [{ size: ['*'], responsive: true }],
   divider: [{ direction: ['*'], weight: ['*'] }],
   formField: [{ size: ['*'], layout: ['*'], responsive: true }],
   icon: [{ size: ['*'], responsive: true }],
   iconButton: [{ size: ['*'], variant: ['*'], responsive: true }],
   list: [{ density: ['*'], responsive: true }],
-  listItem: [{ density: ['*'], responsive: true }, { selected: ['*'] }],
+  listItem: [
+    {
+      density: ['*'],
+      variant: ['*'],
+      iconBefore: ['*'],
+      iconAfter: ['*'],
+      responsive: true,
+    },
+    { selected: ['*'] },
+  ],
   listItemGroup: [{ density: ['*'], responsive: true }],
   menu: [
     { density: ['*'], responsive: true },
@@ -66,12 +83,24 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
   ],
   select: [{ size: ['*'], responsive: true }],
   skeleton: [{ variant: ['*'], animation: ['*'] }],
-  spinner: [{ size: ['*'], responsive: true }],
-  textarea: [{ size: ['*'], responsive: true }],
+  spinner: [{ size: ['*'], centered: ['*'], inverse: ['*'], responsive: true }],
+  textarea: [{ size: ['*'], responsive: true }, { autoSize: ['*'] }],
   textInput: [
-    { size: ['*'], iconBefore: ['*'], iconAfter: ['*'], responsive: true },
+    {
+      size: ['*'],
+      before: ['*'],
+      after: ['*'],
+      autoSize: ['*'],
+      responsive: true,
+    },
   ],
-  tooltip: [{ size: ['*'], responsive: true }],
+  tooltip: [{ size: ['*'], responsive: true }, { hasTitle: ['*'] }],
+  // Matches Cetec's entry. ⚠️ It does not actually work here: tag holds all of
+  // its colour in compoundVariants over empty variant bodies, and Panda emits
+  // nothing for either, with '*' or with explicit values. Tag renders
+  // uncoloured until the recipe is restructured the way ecl.11 restructured the
+  // other six recipes.
+  tag: [{ variant: ['*'], hue: ['*'] }],
 };
 
 const staticCssRecipes: Record<string, RecipeRule[]> = Object.fromEntries(

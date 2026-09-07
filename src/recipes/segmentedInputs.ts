@@ -38,12 +38,15 @@ const segmentedInputsBase = {
     cursor: 'default',
     userSelect: 'none',
     fontFamily: 'mono',
-    fontVariantsProperty: 'mono',
     fontVariantNumeric: 'tabular-nums',
     textAlign: 'center',
     color: 'text',
     _focus: {
-      bg: 'bg.accent.gold.subtlest/75',
+      // Cetec highlights a focused segment with bg.accent.gold.subtlest.
+      // okshaun has no gold palette, so that emitted as literal text, the
+      // color-mix was invalid and the segment had no focus highlight at all.
+      // bg.selected is okshaun's equivalent subtle selection background.
+      bg: 'bg.selected',
     },
     _groupDisabled: {
       color: 'text.disabled',

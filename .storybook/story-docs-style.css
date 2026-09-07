@@ -74,16 +74,13 @@
   }
 }
 
+/* `kbd` excluded: the Kbd recipe owns its own type scale, and this unlayered
+   docs rule was overriding it. The font-variation-settings below are Recursive's
+   axes, inherited from Cetec; IBM Plex Mono does not expose them. */
 code,
-kbd,
 samp,
 pre {
   font-family: var(--oks-fonts-mono);
-  font-variation-settings:
-    "MONO" 1,
-    "CRSV" 0,
-    "CASL" 0,
-    "slnt" 0;
   font-size: 1em;
   margin: 0;
 

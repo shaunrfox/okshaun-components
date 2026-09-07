@@ -75,7 +75,9 @@ export const toggleRecipe = defineSlotRecipe({
       "&:is([name='circle-check'])": {
         display: 'inline-grid',
         position: 'absolute',
-        opacity: 'inherit',
+        // Hidden until checked. This read `inherit`, which took the parent's
+        // opacity of 1 and left the check mark visible on an off toggle.
+        opacity: '[0]',
         transform: '[translateX(0)]',
         fill: 'icon.inverse',
         'input:checked ~ &': {
