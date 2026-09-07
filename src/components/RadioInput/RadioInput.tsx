@@ -6,8 +6,8 @@ import {
 import { type ReactNode, useId } from 'react';
 
 import { useRadioGroup } from '~/components/RadioGroup';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import type { BoxProps } from '../Box';
 import { Label } from '../Label';
 import type { RadioChangeHandler } from '../Radio';
@@ -59,6 +59,7 @@ export const RadioInput = (props: RadioInputProps) => {
     : onChange;
   return (
     <Label
+      {...dsComponent('RadioInput')}
       className={cx(radioInput(), className)}
       htmlFor={resolvedId}
       disabled={resolvedDisabled}

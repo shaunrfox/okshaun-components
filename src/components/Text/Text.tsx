@@ -4,6 +4,7 @@ import type { ElementType, ReactNode } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
 import { Tooltip } from '~/components/Tooltip';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
 export type TextProps = Omit<BoxProps, keyof TextVariantProps> &
@@ -42,6 +43,7 @@ export const Text = (props: TextProps) => {
 
   const content = (
     <Box
+      {...dsComponent('Text')}
       as={as}
       textStyle={textStyle}
       role={role}

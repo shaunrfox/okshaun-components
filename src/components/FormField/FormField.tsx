@@ -4,8 +4,8 @@ import { type FormFieldVariantProps, formField } from '@styled-system/recipes';
 import type { NumericSizeToken } from '@styled-system/tokens';
 import type { ReactNode } from 'react';
 import { FieldContext } from '~/system/context/FieldContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
 import { Label } from '../Label';
@@ -88,6 +88,7 @@ export const FormField = (props: FormFieldProps) => {
       }}
     >
       <Box
+        {...dsComponent('FormField')}
         className={`${cx(classes.container, className)} group`}
         aria-disabled={disabled}
         data-disabled={disabled || undefined}

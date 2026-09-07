@@ -11,6 +11,7 @@ import { Spinner } from '~/components/Spinner';
 import { Tooltip } from '~/components/Tooltip';
 import { useFieldContext } from '~/system/context/FieldContext';
 import { useSlotContext } from '~/system/context/SlotContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
 export type IconButtonProps = Omit<BoxProps, keyof IconButtonVariantProps> &
@@ -51,7 +52,7 @@ export const IconButton = (props: IconButtonProps) => {
   const [className, otherProps] = splitProps(rest);
 
   return (
-    <Tooltip text={altText}>
+    <Tooltip {...dsComponent('IconButton')} text={altText}>
       <Box
         {...(href
           ? ({

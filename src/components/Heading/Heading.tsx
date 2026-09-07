@@ -3,6 +3,7 @@ import { type HeadingVariantProps, heading } from '@styled-system/recipes';
 import type { ReactNode } from 'react';
 
 import { Text, type TextProps } from '~/components/Text';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
 export type HeadingProps = Omit<TextProps, keyof HeadingVariantProps> &
@@ -16,6 +17,7 @@ export const Heading = (props: HeadingProps) => {
   const [className, otherProps] = splitProps(rest);
   return (
     <Text
+      {...dsComponent('Heading')}
       as={level}
       className={cx(heading({ level, allCaps }), className)}
       {...otherProps}

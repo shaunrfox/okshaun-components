@@ -3,6 +3,7 @@ import { kbd } from '@styled-system/recipes';
 
 import { Box, type BoxProps } from '~/components/Box';
 import { Tooltip } from '~/components/Tooltip';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
 export type KbdSpecialSymbol =
@@ -55,7 +56,7 @@ export const Kbd = (props: KbdProps) => {
   const symbolKeyClasses = kbd({ symbol: true }).key;
 
   return (
-    <Tooltip text={tooltipLabel}>
+    <Tooltip {...dsComponent('Kbd')} text={tooltipLabel}>
       <Box
         as="span"
         className={cx(containerClasses, className)}

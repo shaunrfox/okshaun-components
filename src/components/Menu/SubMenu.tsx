@@ -34,6 +34,7 @@ import {
   useState,
 } from 'react';
 import { useFloatingLayer } from '~/system/floating-ui/FloatingLayerContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 import { Box } from '../Box';
 import { Icon } from '../Icon';
@@ -430,7 +431,7 @@ export const SubMenu = (props: SubMenuProps) => {
   }
 
   return (
-    <FloatingNode id={nodeId}>
+    <FloatingNode {...dsComponent('SubMenu')} id={nodeId}>
       <button
         {...menuItemHtmlProps}
         role="menuitem"

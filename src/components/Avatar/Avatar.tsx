@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Box, type BoxProps } from '~/components/Box';
 import { type AllowedIconSizes, Icon } from '~/components/Icon';
 import { useSlotContext } from '~/system/context/SlotContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -121,6 +122,7 @@ export const Avatar = (props: AvatarProps) => {
 
   return (
     <Box
+      {...dsComponent('Avatar')}
       as="span"
       ref={ref}
       className={cx(classes.root, className)}

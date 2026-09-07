@@ -4,9 +4,8 @@ import {
   toggleInput,
 } from '@styled-system/recipes';
 import { type ReactNode, useId } from 'react';
-
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import type { BoxProps } from '../Box';
 import { Label } from '../Label';
 import type { ToggleChangeHandler } from '../Toggle';
@@ -43,6 +42,7 @@ export const ToggleInput = (props: ToggleInputProps) => {
   const resolvedId = id ?? generatedId;
   return (
     <Label
+      {...dsComponent('ToggleInput')}
       className={cx(toggleInput({}), className)}
       htmlFor={resolvedId}
       error={error}

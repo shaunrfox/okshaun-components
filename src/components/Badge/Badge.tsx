@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
 import { useSlotContext } from '~/system/context/SlotContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
 export type BadgeVariant =
@@ -119,6 +120,7 @@ export const Badge = (props: BadgeProps) => {
   if (isStandalone) {
     return (
       <Box
+        {...dsComponent('Badge')}
         as="span"
         ref={ref}
         className={cx(classes.root, className)}

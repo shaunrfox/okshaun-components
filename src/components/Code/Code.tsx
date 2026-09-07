@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
 import { Text, type TextProps } from '~/components/Text';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
 export type CodeProps = Omit<
@@ -21,6 +22,7 @@ export const Code = (props: CodeProps) => {
   const [className, otherProps] = splitProps(rest);
   return (
     <Box
+      {...dsComponent('Code')}
       as="code"
       className={cx(code({}), className)}
       lang={lang}

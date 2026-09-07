@@ -2,10 +2,9 @@ import { cx } from '@styled-system/css';
 import { type RadioVariantProps, radio } from '@styled-system/recipes';
 import type { ChangeEvent } from 'react';
 import { useFieldContext } from '~/system/context/FieldContext';
-
+import { dsComponent } from '~/utils/dsComponent';
 import { mergeAriaDescribedBy } from '~/utils/mergeAriaDescribedBy';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
 
@@ -88,6 +87,7 @@ export const Radio = (props: RadioProps) => {
 
   return (
     <Box
+      {...dsComponent('Radio')}
       className={cx(classes.container, className)}
       aria-invalid={visualError || undefined}
       data-error={visualError || undefined}

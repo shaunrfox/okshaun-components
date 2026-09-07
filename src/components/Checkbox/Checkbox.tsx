@@ -4,9 +4,9 @@ import type { ChangeEvent } from 'react';
 import { useEffect, useRef } from 'react';
 
 import { useFieldContext } from '~/system/context/FieldContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { mergeAriaDescribedBy } from '~/utils/mergeAriaDescribedBy';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
 
@@ -100,6 +100,7 @@ export const Checkbox = (props: CheckboxProps) => {
 
   return (
     <Box
+      {...dsComponent('Checkbox')}
       className={cx(classes.container, className)}
       aria-invalid={visualError || undefined}
       data-error={visualError || undefined}

@@ -17,9 +17,7 @@
       "scaffold",
       "dev"
     ],
-    "tags": [
-      "dev"
-    ],
+    "tags": ["dev"],
     "category": "Other",
     "deprecated": false
   },
@@ -38,10 +36,7 @@
       "ring",
       "snooze"
     ],
-    "tags": [
-      "time",
-      "status"
-    ],
+    "tags": ["time", "status"],
     "category": "Time",
     "deprecated": false
   },
@@ -66,16 +61,8 @@
     "deprecated": false
   },
   "apps": {
-    "aliases": [
-      "grid",
-      "modules",
-      "dots",
-      "nine",
-      "menu"
-    ],
-    "tags": [
-      "navigation"
-    ],
+    "aliases": ["grid", "modules", "dots", "nine", "menu"],
+    "tags": ["navigation"],
     "category": "Navigation",
     "deprecated": false
   },
@@ -166,9 +153,7 @@
       "caret",
       "left"
     ],
-    "tags": [
-      "direction"
-    ],
+    "tags": ["direction"],
     "category": "Arrows",
     "deprecated": false
   },
@@ -237,13 +222,7 @@
     "deprecated": false
   },
   "arrow-prompt": {
-    "aliases": [
-      "ai",
-      "llm",
-      "prompt",
-      "response",
-      "artificial intelligence"
-    ],
+    "aliases": ["ai", "llm", "prompt", "response", "artificial intelligence"],
     "tags": [],
     "category": "Arrows",
     "deprecated": false
@@ -280,9 +259,7 @@
       "caret",
       "right"
     ],
-    "tags": [
-      "direction"
-    ],
+    "tags": ["direction"],
     "category": "Arrows",
     "deprecated": false
   },
@@ -609,10 +586,7 @@
       "archive",
       "bin"
     ],
-    "tags": [
-      "danger",
-      "cleanup"
-    ],
+    "tags": ["danger", "cleanup"],
     "category": "System objects",
     "deprecated": false
   },
@@ -646,28 +620,13 @@
     "deprecated": false
   },
   "book": {
-    "aliases": [
-      "reading",
-      "reader",
-      "novel",
-      "story",
-      "library",
-      "book"
-    ],
+    "aliases": ["reading", "reader", "novel", "story", "library", "book"],
     "tags": [],
     "category": "Doc / note",
     "deprecated": false
   },
   "book-a": {
-    "aliases": [
-      "reading",
-      "reader",
-      "novel",
-      "story",
-      "library",
-      "book",
-      "a"
-    ],
+    "aliases": ["reading", "reader", "novel", "story", "library", "book", "a"],
     "tags": [],
     "category": "Doc / note",
     "deprecated": false
@@ -764,9 +723,7 @@
       "12",
       "calendar"
     ],
-    "tags": [
-      "planner"
-    ],
+    "tags": ["planner"],
     "category": "Calendar",
     "deprecated": false
   },
@@ -963,9 +920,7 @@
       "ok",
       "check"
     ],
-    "tags": [
-      "status"
-    ],
+    "tags": ["status"],
     "category": "Checks / Todos",
     "deprecated": false
   },
@@ -1152,14 +1107,7 @@
     "deprecated": false
   },
   "circle-change": {
-    "aliases": [
-      "round",
-      "shapes",
-      "polygons",
-      "circle",
-      "change",
-      "different"
-    ],
+    "aliases": ["round", "shapes", "polygons", "circle", "change", "different"],
     "tags": [],
     "category": "Shapes",
     "deprecated": false
@@ -1182,9 +1130,7 @@
       "done",
       "check"
     ],
-    "tags": [
-      "status"
-    ],
+    "tags": ["status"],
     "category": "Shapes",
     "deprecated": false
   },
@@ -1394,14 +1340,7 @@
     "deprecated": false
   },
   "confetti": {
-    "aliases": [
-      "tada",
-      "party",
-      "emoji",
-      "confetti",
-      "happy",
-      "celebrate"
-    ],
+    "aliases": ["tada", "party", "emoji", "confetti", "happy", "celebrate"],
     "tags": [],
     "category": "Other",
     "deprecated": false
@@ -1421,17 +1360,8 @@
     "deprecated": false
   },
   "copy": {
-    "aliases": [
-      "duplicate",
-      "duplicated",
-      "copied",
-      "clipboard",
-      "copy"
-    ],
-    "tags": [
-      "actions",
-      "clipboard"
-    ],
+    "aliases": ["duplicate", "duplicated", "copied", "clipboard", "copy"],
+    "tags": ["actions", "clipboard"],
     "category": "Actions",
     "deprecated": false
   },
@@ -1595,13 +1525,7 @@
     "deprecated": false
   },
   "dictionary": {
-    "aliases": [
-      "dictionary",
-      "glossary",
-      "thesaurus",
-      "words",
-      "definitions"
-    ],
+    "aliases": ["dictionary", "glossary", "thesaurus", "words", "definitions"],
     "tags": [],
     "category": "Other",
     "deprecated": false
@@ -1686,9 +1610,7 @@
       "disk",
       "download"
     ],
-    "tags": [
-      "files"
-    ],
+    "tags": ["files"],
     "category": "Actions",
     "deprecated": false
   },
@@ -1729,9 +1651,7 @@
       "deleted",
       "eraser"
     ],
-    "tags": [
-      "actions"
-    ],
+    "tags": ["actions"],
     "category": "Actions",
     "deprecated": false
   },
@@ -1764,9 +1684,7 @@
       "letter",
       "envelope"
     ],
-    "tags": [
-      "communication"
-    ],
+    "tags": ["communication"],
     "category": "Email",
     "deprecated": false
   },
@@ -1786,14 +1704,7 @@
     "deprecated": false
   },
   "eraser": {
-    "aliases": [
-      "write",
-      "writing",
-      "editing",
-      "undo",
-      "deleted",
-      "eraser"
-    ],
+    "aliases": ["write", "writing", "editing", "undo", "deleted", "eraser"],
     "tags": [],
     "category": "Actions",
     "deprecated": false
@@ -1811,9 +1722,7 @@
       "warning",
       "status"
     ],
-    "tags": [
-      "status"
-    ],
+    "tags": ["status"],
     "category": "Status",
     "deprecated": false
   },
@@ -1860,10 +1769,7 @@
       "arrows",
       "export"
     ],
-    "tags": [
-      "files",
-      "actions"
-    ],
+    "tags": ["files", "actions"],
     "category": "Actions",
     "deprecated": false
   },
@@ -1895,9 +1801,7 @@
       "eye",
       "on"
     ],
-    "tags": [
-      "view"
-    ],
+    "tags": ["view"],
     "category": "Toggles / Triggers",
     "deprecated": false
   },
@@ -1917,9 +1821,7 @@
       "slash",
       "off"
     ],
-    "tags": [
-      "view"
-    ],
+    "tags": ["view"],
     "category": "Toggles / Triggers",
     "deprecated": false
   },
@@ -1953,9 +1855,7 @@
       "file",
       "note"
     ],
-    "tags": [
-      "files"
-    ],
+    "tags": ["files"],
     "category": "Doc / note",
     "deprecated": false
   },
@@ -2001,22 +1901,12 @@
       "on",
       "search"
     ],
-    "tags": [
-      "search"
-    ],
+    "tags": ["search"],
     "category": "Filter / Sort / List",
     "deprecated": false
   },
   "filter-remove": {
-    "aliases": [
-      "filters",
-      "refine",
-      "sorting",
-      "funnel",
-      "x",
-      "off",
-      "search"
-    ],
+    "aliases": ["filters", "refine", "sorting", "funnel", "x", "off", "search"],
     "tags": [],
     "category": "Filter / Sort / List",
     "deprecated": false
@@ -2488,9 +2378,7 @@
       "places",
       "locations"
     ],
-    "tags": [
-      "navigation"
-    ],
+    "tags": ["navigation"],
     "category": "Navigation",
     "deprecated": false
   },
@@ -2570,10 +2458,7 @@
       "health & wellness",
       "lifebuoy"
     ],
-    "tags": [
-      "help",
-      "status"
-    ],
+    "tags": ["help", "status"],
     "category": "Status",
     "deprecated": false
   },
@@ -2762,14 +2647,7 @@
     "deprecated": false
   },
   "kbd-option": {
-    "aliases": [
-      "kbd",
-      "hotkey",
-      "shortcut",
-      "keyboard",
-      "modifier",
-      "option"
-    ],
+    "aliases": ["kbd", "hotkey", "shortcut", "keyboard", "modifier", "option"],
     "tags": [],
     "category": "Keyboard",
     "deprecated": false
@@ -2892,9 +2770,7 @@
       "link",
       "href"
     ],
-    "tags": [
-      "content"
-    ],
+    "tags": ["content"],
     "category": "Toggles / Triggers",
     "deprecated": false
   },
@@ -2997,9 +2873,7 @@
       "on",
       "closed"
     ],
-    "tags": [
-      "security"
-    ],
+    "tags": ["security"],
     "category": "Toggles / Triggers",
     "deprecated": false
   },
@@ -3021,9 +2895,7 @@
       "open",
       "off"
     ],
-    "tags": [
-      "security"
-    ],
+    "tags": ["security"],
     "category": "Toggles / Triggers",
     "deprecated": false
   },
@@ -3069,9 +2941,7 @@
       "map",
       "pin"
     ],
-    "tags": [
-      "navigation"
-    ],
+    "tags": ["navigation"],
     "category": "Location",
     "deprecated": false
   },
@@ -3109,9 +2979,7 @@
       "lines",
       "list"
     ],
-    "tags": [
-      "navigation"
-    ],
+    "tags": ["navigation"],
     "category": "Navigation",
     "deprecated": false
   },
@@ -3144,9 +3012,7 @@
       "bubble",
       "note"
     ],
-    "tags": [
-      "communication"
-    ],
+    "tags": ["communication"],
     "category": "System objects",
     "deprecated": false
   },
@@ -3182,10 +3048,7 @@
       "finances",
       "minus"
     ],
-    "tags": [
-      "math",
-      "actions"
-    ],
+    "tags": ["math", "actions"],
     "category": "Math",
     "deprecated": false
   },
@@ -3334,14 +3197,7 @@
     "deprecated": false
   },
   "newspaper": {
-    "aliases": [
-      "newspaper",
-      "news",
-      "press",
-      "document",
-      "notes",
-      "file"
-    ],
+    "aliases": ["newspaper", "news", "press", "document", "notes", "file"],
     "tags": [],
     "category": "Doc / note",
     "deprecated": false
@@ -3404,13 +3260,7 @@
     "deprecated": false
   },
   "notepad": {
-    "aliases": [
-      "notepad",
-      "notes",
-      "memo pad",
-      "document",
-      "file"
-    ],
+    "aliases": ["notepad", "notes", "memo pad", "document", "file"],
     "tags": [],
     "category": "Doc / note",
     "deprecated": false
@@ -3427,9 +3277,7 @@
       "error",
       "status"
     ],
-    "tags": [
-      "status"
-    ],
+    "tags": ["status"],
     "category": "Settings",
     "deprecated": false
   },
@@ -3616,21 +3464,12 @@
       "stop",
       "pause"
     ],
-    "tags": [
-      "media"
-    ],
+    "tags": ["media"],
     "category": "Player",
     "deprecated": false
   },
   "pencil": {
-    "aliases": [
-      "write",
-      "writing",
-      "editing",
-      "sign",
-      "signature",
-      "pencil"
-    ],
+    "aliases": ["write", "writing", "editing", "sign", "signature", "pencil"],
     "tags": [],
     "category": "Actions",
     "deprecated": false
@@ -3680,9 +3519,7 @@
       "begin",
       "playback"
     ],
-    "tags": [
-      "media"
-    ],
+    "tags": ["media"],
     "category": "Player",
     "deprecated": false
   },
@@ -3717,21 +3554,12 @@
       "finances",
       "plus"
     ],
-    "tags": [
-      "actions",
-      "math"
-    ],
+    "tags": ["actions", "math"],
     "category": "Math",
     "deprecated": false
   },
   "printer": {
-    "aliases": [
-      "printing",
-      "printer",
-      "paper",
-      "ink",
-      "toner"
-    ],
+    "aliases": ["printing", "printer", "paper", "ink", "toner"],
     "tags": [],
     "category": "Actions",
     "deprecated": false
@@ -3837,14 +3665,7 @@
     "deprecated": false
   },
   "radio-focus": {
-    "aliases": [
-      "input",
-      "checkbox",
-      "checked",
-      "radio",
-      "button",
-      "focus"
-    ],
+    "aliases": ["input", "checkbox", "checked", "radio", "button", "focus"],
     "tags": [],
     "category": "Checks / Todos",
     "deprecated": false
@@ -4018,39 +3839,19 @@
     "deprecated": false
   },
   "ruler": {
-    "aliases": [
-      "measure",
-      "scale",
-      "distance",
-      "ruler",
-      "tool"
-    ],
+    "aliases": ["measure", "scale", "distance", "ruler", "tool"],
     "tags": [],
     "category": "System objects",
     "deprecated": false
   },
   "rules": {
-    "aliases": [
-      "checklist",
-      "todo",
-      "list",
-      "checks",
-      "rules",
-      "criteria"
-    ],
+    "aliases": ["checklist", "todo", "list", "checks", "rules", "criteria"],
     "tags": [],
     "category": "Other",
     "deprecated": false
   },
   "scale": {
-    "aliases": [
-      "measure",
-      "balance",
-      "law",
-      "justice",
-      "government",
-      "scales"
-    ],
+    "aliases": ["measure", "balance", "law", "justice", "government", "scales"],
     "tags": [],
     "category": "System objects",
     "deprecated": false
@@ -4094,25 +3895,13 @@
     "deprecated": false
   },
   "screwdriver": {
-    "aliases": [
-      "tools",
-      "construction",
-      "flathead",
-      "drill",
-      "screwdriver"
-    ],
+    "aliases": ["tools", "construction", "flathead", "drill", "screwdriver"],
     "tags": [],
     "category": "System objects",
     "deprecated": false
   },
   "scroll": {
-    "aliases": [
-      "clicks",
-      "input",
-      "mouse",
-      "scroll",
-      "swipe"
-    ],
+    "aliases": ["clicks", "input", "mouse", "scroll", "swipe"],
     "tags": [],
     "category": "Filter / Sort / List",
     "deprecated": false
@@ -4128,9 +3917,7 @@
       "magnifying",
       "glass"
     ],
-    "tags": [
-      "discovery"
-    ],
+    "tags": ["discovery"],
     "category": "Actions",
     "deprecated": false
   },
@@ -4200,10 +3987,7 @@
       "paper",
       "plane"
     ],
-    "tags": [
-      "communication",
-      "actions"
-    ],
+    "tags": ["communication", "actions"],
     "category": "Email",
     "deprecated": false
   },
@@ -4224,21 +4008,12 @@
       "volume",
       "faders"
     ],
-    "tags": [
-      "system"
-    ],
+    "tags": ["system"],
     "category": "Settings",
     "deprecated": false
   },
   "shapes": {
-    "aliases": [
-      "shapes",
-      "geometry",
-      "forms",
-      "shape",
-      "diagram",
-      "vector"
-    ],
+    "aliases": ["shapes", "geometry", "forms", "shape", "diagram", "vector"],
     "tags": [],
     "category": "Shapes",
     "deprecated": false
@@ -4252,21 +4027,12 @@
       "arrows",
       "share"
     ],
-    "tags": [
-      "actions"
-    ],
+    "tags": ["actions"],
     "category": "Actions",
     "deprecated": false
   },
   "shuffle": {
-    "aliases": [
-      "music",
-      "audio",
-      "randomize",
-      "crossed",
-      "arrows",
-      "shuffle"
-    ],
+    "aliases": ["music", "audio", "randomize", "crossed", "arrows", "shuffle"],
     "tags": [],
     "category": "Player",
     "deprecated": false
@@ -4327,13 +4093,7 @@
     "deprecated": false
   },
   "skull": {
-    "aliases": [
-      "death",
-      "dead",
-      "kill",
-      "games",
-      "skull"
-    ],
+    "aliases": ["death", "dead", "kill", "games", "skull"],
     "tags": [],
     "category": "Other",
     "deprecated": false
@@ -4510,13 +4270,7 @@
     "deprecated": false
   },
   "square": {
-    "aliases": [
-      "4",
-      "shapes",
-      "polygons",
-      "box",
-      "square"
-    ],
+    "aliases": ["4", "shapes", "polygons", "box", "square"],
     "tags": [],
     "category": "Shapes",
     "deprecated": false
@@ -4557,26 +4311,13 @@
     "deprecated": false
   },
   "square-select": {
-    "aliases": [
-      "square",
-      "select",
-      "options",
-      "caret",
-      "dropdown"
-    ],
+    "aliases": ["square", "select", "options", "caret", "dropdown"],
     "tags": [],
     "category": "Shapes",
     "deprecated": false
   },
   "stamp": {
-    "aliases": [
-      "clone",
-      "seal",
-      "official",
-      "stamp",
-      "approve",
-      "success"
-    ],
+    "aliases": ["clone", "seal", "official", "stamp", "approve", "success"],
     "tags": [],
     "category": "System objects",
     "deprecated": false
@@ -4593,9 +4334,7 @@
       "star",
       "on"
     ],
-    "tags": [
-      "status"
-    ],
+    "tags": ["status"],
     "category": "Toggles / Triggers",
     "deprecated": false
   },
@@ -4791,9 +4530,7 @@
       "arrows",
       "clockwise"
     ],
-    "tags": [
-      "system"
-    ],
+    "tags": ["system"],
     "category": "Actions",
     "deprecated": false
   },
@@ -4886,13 +4623,7 @@
     "deprecated": false
   },
   "textbox": {
-    "aliases": [
-      "input",
-      "cursor",
-      "field",
-      "textbox",
-      "textarea"
-    ],
+    "aliases": ["input", "cursor", "field", "textbox", "textarea"],
     "tags": [],
     "category": "Actions",
     "deprecated": false
@@ -5100,9 +4831,7 @@
       "disk",
       "upload"
     ],
-    "tags": [
-      "files"
-    ],
+    "tags": ["files"],
     "category": "Actions",
     "deprecated": false
   },
@@ -5289,14 +5018,7 @@
     "deprecated": false
   },
   "view-doc": {
-    "aliases": [
-      "documents",
-      "files",
-      "save",
-      "write",
-      "page",
-      "file"
-    ],
+    "aliases": ["documents", "files", "save", "write", "page", "file"],
     "tags": [],
     "category": "Views",
     "deprecated": false
@@ -5347,30 +5069,14 @@
     "deprecated": false
   },
   "wand": {
-    "aliases": [
-      "selection",
-      "wizard",
-      "games",
-      "magic",
-      "wand",
-      "ai"
-    ],
+    "aliases": ["selection", "wizard", "games", "magic", "wand", "ai"],
     "tags": [],
     "category": "Other",
     "deprecated": false
   },
   "warning": {
-    "aliases": [
-      "caution",
-      "alert",
-      "danger",
-      "dangerous",
-      "errors",
-      "warning"
-    ],
-    "tags": [
-      "status"
-    ],
+    "aliases": ["caution", "alert", "danger", "dangerous", "errors", "warning"],
+    "tags": ["status"],
     "category": "Status",
     "deprecated": false
   },

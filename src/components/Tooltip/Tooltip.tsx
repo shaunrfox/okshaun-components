@@ -21,8 +21,8 @@ import {
   createOverlayMiddleware,
   useOverlayFloating,
 } from '~/system/floating-ui/floating';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box, type BoxProps } from '../Box';
 
 export type TooltipProps = Omit<
@@ -92,6 +92,7 @@ export const Tooltip = (props: TooltipProps) => {
   return (
     <>
       <Box
+        {...dsComponent('Tooltip')}
         as="span"
         ref={refs.setReference}
         display="inline-flex"
