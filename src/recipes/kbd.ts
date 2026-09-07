@@ -1,53 +1,56 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
-const kbdBase = {
-  container: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '1',
-    verticalAlign: 'middle',
-  },
-  key: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minH: '6',
-    minW: '6',
-    px: '2',
-    borderWidth: '1',
-    borderStyle: 'solid',
-    borderColor: 'border.subtle',
-    borderRadius: '6',
-    bg: 'bg.neutral',
-    color: 'text',
-    fontFamily: 'mono',
-    fontSize: '12',
-    lineHeight: 'none',
-    fontWeight: 'medium',
-    letterSpacing: 'wide',
-    whiteSpace: 'nowrap',
-    boxShadow: 'sm',
-  },
-};
-
+// Ported from the Cetec design system: slot names, sizing and type treatment.
+// Two Cetec properties are dropped rather than faked: `cornerShape` is a Cetec
+// utility okshaun does not register, and `fontVariant` drives Recursive's
+// variable-font axes, which IBM Plex Mono does not expose.
 export const kbdRecipe = defineSlotRecipe({
   className: 'kbd',
   jsx: ['Kbd'],
-  slots: ['container', 'key'],
-  base: kbdBase,
+  slots: ['kbdGroup', 'key'],
+  base: {
+    kbdGroup: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '2',
+      verticalAlign: 'middle',
+    },
+    key: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '1',
+      h: '16',
+      w: 'fit',
+      minW: '16',
+      rounded: '6',
+      bg: 'bg.neutral',
+      px: '4',
+      fontFamily: 'mono',
+      lineHeight: 'tight',
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
+      color: 'text.subtle',
+      userSelect: 'none',
+      pointerEvents: 'none',
+      fontSize: '10',
+    },
+  },
   variants: {
-    symbol: {
-      true: {
+    variant: {
+      default: {
         key: {
-          minW: '7',
-          px: '2.5',
-          fontSize: '14',
-          letterSpacing: 'normal',
+          fontSize: '10',
+        },
+      },
+      symbol: {
+        key: {
+          fontSize: '12',
         },
       },
     },
   },
   defaultVariants: {
-    symbol: false,
+    variant: 'default',
   },
 });

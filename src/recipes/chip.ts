@@ -16,13 +16,11 @@ const buttonStyles = {
     fill: 'icon.decorative',
   },
   _hover: {
-    bg: 'bg.neutral.hovered',
     _icon: {
       fill: 'icon',
     },
   },
   _active: {
-    bg: 'bg.neutral.pressed',
     _icon: {
       fill: 'icon',
     },
@@ -47,13 +45,11 @@ const buttonStyles = {
     },
   },
   '&:has([data-selected=true]):is(:hover, [data-hover])': {
-    bg: 'bg.neutral.bold.hovered',
     _icon: {
       fill: 'icon.decorative.inverse.hovered',
     },
   },
   '&:has([data-selected=true]):is(:active, [data-active])': {
-    bg: 'bg.neutral.bold.pressed',
     _icon: {
       fill: 'icon.decorative.inverse.hovered',
     },
@@ -89,18 +85,38 @@ export const chipRecipe = defineSlotRecipe({
       transitionTimingFunction: 'default',
       userSelect: 'none',
       bg: 'bg.neutral',
+      // Deviation from Cetec: hover and active live here, not on the body.
+      // okshaun's bg.neutral tokens are semi-transparent, so a body-painted
+      // hover would composite over this base rather than replace it, and it
+      // would leave the dismiss area of a dismissable chip unhighlighted.
+      // Cetec's opaque equivalents do not have this problem.
+      _hover: {
+        bg: 'bg.neutral.hovered',
+      },
+      _active: {
+        bg: 'bg.neutral.pressed',
+      },
       _loading: {
         animation: 'pulse',
       },
       '&:has([data-selected=true])': {
         bg: 'bg.neutral.boldest',
         color: 'text.inverse',
+        _hover: {
+          bg: 'bg.neutral.bold.hovered',
+        },
+        _active: {
+          bg: 'bg.neutral.bold.pressed',
+        },
       },
       '&:has([data-disabled=true])': {
         cursor: 'not-allowed',
         bg: 'bg.disabled',
         color: 'text.disabled',
         opacity: '[0.3]',
+        _hover: {
+          bg: 'bg.disabled',
+        },
       },
     },
     body: {

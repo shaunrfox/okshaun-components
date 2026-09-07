@@ -24,7 +24,6 @@ export const calendarRecipe = defineSlotRecipe({
       p: '8',
       borderBottom: 'default',
       fontFamily: 'mono',
-      fontVariantsProperty: 'mono',
     },
     grid: {
       display: 'grid',

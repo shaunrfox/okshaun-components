@@ -51,12 +51,15 @@ export const globalCss = defineGlobalStyles({
   u: {
     textDecoration: 'underline',
   },
-  'code, kbd, samp, pre': {
+  // `kbd` is deliberately excluded: the Kbd recipe owns its own type scale, and
+  // this element-selector rule sits in the `base` layer where it was beating
+  // the recipe's font-size. Cetec has no equivalent global rule.
+  'code, samp, pre': {
     fontFamily: 'mono',
     fontSize: '1em',
   },
   table: {
-    borderColor: 'border.subtle',
+    borderColor: 'token(colors.border.subtle)',
   },
   'button, input, optgroup, select, textarea': {
     fontFamily: 'body',

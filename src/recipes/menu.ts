@@ -21,13 +21,13 @@ const menuBase = {
     borderWidth: '0',
     borderBlockWidth: '3',
     borderColor: 'transparent',
-    bg: { base: 'tan.5', _dark: 'tan.60' },
+    bg: { base: 'tan.10', _dark: 'tan.60' },
     width: 'full',
     textAlign: 'left',
     cursor: 'pointer',
     color: 'text',
     _hover: {
-      bg: { base: 'tan.10', _dark: 'tan.50' },
+      bg: { base: 'tan.20', _dark: 'tan.50' },
     },
     _active: {
       bg: { base: 'tan.20', _dark: 'tan.70' },

@@ -88,10 +88,14 @@ export const TextInput = (props: TextInputProps) => {
   const resolvedError = error ?? fieldContext?.error;
   const resolvedInvalid = invalidProp ?? fieldContext?.invalid;
   const resolvedDisabled = disabled ?? fieldContext?.disabled;
+  const resolvedBefore =
+    before ?? (iconBefore ? <Icon name={iconBefore} aria-hidden /> : undefined);
+  const resolvedAfter =
+    after ?? (iconAfter ? <Icon name={iconAfter} aria-hidden /> : undefined);
   const classes = textInput({
     size: resolvedSize,
-    before: Boolean(before || iconBefore),
-    after: Boolean(after || iconAfter),
+    before: Boolean(resolvedBefore),
+    after: Boolean(resolvedAfter),
     autoSize,
   });
   const [className, otherProps] = splitProps(rest);
@@ -144,25 +148,6 @@ export const TextInput = (props: TextInputProps) => {
     );
   };
 
-  const renderIconSlot = (name: IconNamesList, placement: SlotPlacement) => {
-    return (
-      <SlotContext.Provider
-        value={{
-          owner: 'TextInput',
-          placement,
-          size: resolvedSize,
-          disabled: resolvedDisabled,
-          error: resolvedError,
-          invalid: resolvedInvalid,
-        }}
-      >
-        <Box className={classes.slot}>
-          <Icon name={name} aria-hidden />
-        </Box>
-      </SlotContext.Provider>
-    );
-  };
-
   return (
     <Box
       {...dsComponent('TextInput')}
@@ -174,11 +159,7 @@ export const TextInput = (props: TextInputProps) => {
       data-valid={valid || undefined}
       aria-invalid={resolvedInvalid || undefined}
     >
-      {before
-        ? renderSlot(before, 'before')
-        : iconBefore
-          ? renderIconSlot(iconBefore, 'before')
-          : null}
+      {renderSlot(resolvedBefore, 'before')}
       <Box
         as="input"
         id={id}
@@ -194,11 +175,7 @@ export const TextInput = (props: TextInputProps) => {
         autoComplete={autoComplete}
         {...inputProps}
       />
-      {after
-        ? renderSlot(after, 'after')
-        : iconAfter
-          ? renderIconSlot(iconAfter, 'after')
-          : null}
+      {renderSlot(resolvedAfter, 'after')}
     </Box>
   );
 };

@@ -65,15 +65,14 @@ export const Kbd = (props: KbdProps) => {
   const tooltipLabel = keys
     .map((key) => (isSpecialSymbol(key) ? symbolMap[key].label : key))
     .join(' + ');
-  const containerClasses = kbd().container;
-  const regularKeyClasses = kbd().key;
-  const symbolKeyClasses = kbd({ symbol: true }).key;
+  const defaultClasses = kbd({});
+  const symbolClasses = kbd({ variant: 'symbol' });
 
   return (
     <Tooltip {...dsComponent('Kbd')} text={tooltipLabel}>
       <Box
         as="span"
-        className={cx(containerClasses, className)}
+        className={cx(defaultClasses.kbdGroup, className)}
         {...otherProps}
       >
         {keys.map((key, index) => (
@@ -82,7 +81,7 @@ export const Kbd = (props: KbdProps) => {
             key={`${key}-${index}`}
             as="kbd"
             className={
-              isSpecialSymbol(key) ? symbolKeyClasses : regularKeyClasses
+              isSpecialSymbol(key) ? symbolClasses.key : defaultClasses.key
             }
             aria-label={isSpecialSymbol(key) ? symbolMap[key].label : key}
           >
