@@ -1,11 +1,9 @@
 import { cx } from '@styled-system/css';
 import { type ListVariantProps, list } from '@styled-system/recipes';
 import { type KeyboardEvent, type ReactNode, useMemo, useRef } from 'react';
-
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box, type BoxProps } from '../Box';
-
 import { type ListDensity, ListProvider } from './listContext';
 
 /**
@@ -137,6 +135,7 @@ export const List = (props: ListProps) => {
   return (
     <ListProvider value={value}>
       <Box
+        {...dsComponent('List')}
         ref={listRef}
         {...otherProps}
         onKeyDown={handleKeyDown}

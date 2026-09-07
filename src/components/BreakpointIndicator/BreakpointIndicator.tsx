@@ -3,6 +3,7 @@ import { breakpointIndicator } from '@styled-system/recipes';
 import type { BoxProps } from '~/components/Box';
 import { Tag } from '~/components/Tag';
 import { useMediaQuery } from '~/system/hooks';
+import { dsComponent } from '~/utils/dsComponent';
 
 /** Props for {@link BreakpointIndicator}, a development breakpoint readout. */
 export type BreakpointIndicatorProps = BoxProps;
@@ -55,6 +56,7 @@ export const BreakpointIndicator = (props: BreakpointIndicatorProps) => {
 
   return (
     <Tag
+      {...dsComponent('BreakpointIndicator')}
       className={cx(breakpointIndicator(), className)}
       hue={
         hue as 'red' | 'orange' | 'yellow' | 'lime' | 'green' | 'teal' | 'blue'

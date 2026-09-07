@@ -399,7 +399,7 @@ export const SubMenu = (props: SubMenuProps) => {
         }}
         style={contentStyle}
         data-selected={selected}
-        data-disabled={disabled}
+        data-disabled={disabled || undefined}
         data-active={
           parentListContext
             ? parentListContext.activeIndex === listItemData.index
@@ -445,8 +445,9 @@ export const SubMenu = (props: SubMenuProps) => {
   }
 
   return (
-    <FloatingNode {...dsComponent('SubMenu')} id={nodeId}>
+    <FloatingNode id={nodeId}>
       <button
+        {...dsComponent('SubMenu')}
         {...menuItemHtmlProps}
         role="menuitem"
         aria-haspopup="menu"
@@ -460,7 +461,7 @@ export const SubMenu = (props: SubMenuProps) => {
           floating.refs.setReference(node);
         }}
         data-selected={selected}
-        data-disabled={disabled}
+        data-disabled={disabled || undefined}
         data-active={
           parentListContext
             ? parentListContext.activeIndex === listItemData.index
