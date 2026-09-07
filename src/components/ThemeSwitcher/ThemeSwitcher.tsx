@@ -7,6 +7,19 @@ import { splitProps } from '~/utils/splitProps';
 
 export type ThemeSwitcherProps = BoxProps;
 
+/**
+ * Renders an icon-only control that toggles the nearest theme provider between
+ * light and dark themes.
+ *
+ * It obtains state from `useTheme`, so it must be rendered below the design
+ * system's theme provider. The accessible label always describes the theme that
+ * will be selected next.
+ *
+ * @example
+ * ```tsx
+ * <ThemeSwitcher />
+ * ```
+ */
 export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
   const [className, otherProps] = splitProps(props);
   const { theme, setTheme } = useTheme();

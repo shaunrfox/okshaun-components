@@ -8,6 +8,7 @@ import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
 
+/** Props for {@link Toggle}, the unlabelled native checkbox styled as a switch. */
 export type ToggleProps = Omit<
   BoxProps,
   'checked' | 'onChange' | keyof ToggleVariantProps
@@ -15,6 +16,7 @@ export type ToggleProps = Omit<
   ToggleVariantProps & {
     name: string;
     checked?: boolean;
+    /** @default false */
     defaultChecked?: boolean;
     onChange?: ToggleChangeHandler;
     id?: string;

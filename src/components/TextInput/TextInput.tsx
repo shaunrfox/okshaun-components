@@ -13,17 +13,28 @@ import { mergeAriaDescribedBy } from '~/utils/mergeAriaDescribedBy';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box/Box';
 
+/** Props for {@link TextInput}, a single-line native input with optional slots. */
 export type TextInputProps = Omit<BoxProps, keyof TextInputVariantProps> &
   Omit<TextInputVariantProps, 'before' | 'after'> & {
+    /** Form field name submitted with the input value. */
     name: string;
+    /** Identifier used to associate a visible `Label` with this input. */
     id?: string;
+    /** Content rendered before the native input. Takes precedence over `iconBefore`. */
     before?: ReactNode;
+    /** Content rendered after the native input. Takes precedence over `iconAfter`. */
     after?: ReactNode;
+    /** Decorative icon rendered before the input when `before` is omitted. */
     iconBefore?: IconNamesList;
+    /** Decorative icon rendered after the input when `after` is omitted. */
     iconAfter?: IconNamesList;
+    /** Applies error styling. The local value takes precedence over field context. */
     error?: boolean;
+    /** Disables the native input. The local value takes precedence over slot and field context. */
     disabled?: boolean;
+    /** Applies valid styling without changing native constraint validation. */
     valid?: boolean;
+    /** Marks the native input invalid with `aria-invalid` and applies invalid styling. */
     invalid?: boolean;
     type?:
       | 'text'
@@ -40,6 +51,18 @@ export type TextInputProps = Omit<BoxProps, keyof TextInputVariantProps> &
       | 'week';
   };
 
+/**
+ * Renders a single-line native input with optional leading and trailing slots.
+ *
+ * Use a `Label` or `FormField` to provide an accessible name. `before` and
+ * `after` can contain controls; they inherit size and state through slot
+ * context. Explicit slots take precedence over `iconBefore` and `iconAfter`.
+ *
+ * @example
+ * ```tsx
+ * <TextInput id="email" name="email" type="email" iconBefore="mail" />
+ * ```
+ */
 export const TextInput = (props: TextInputProps) => {
   const fieldContext = useFieldContext();
   const {

@@ -22,7 +22,9 @@ export type KbdSpecialSymbol =
 
 export type KbdValue = string | KbdSpecialSymbol;
 
+/** Props accepted by {@link Kbd}. */
 export type KbdProps = Omit<BoxProps, 'children'> & {
+  /** Ordered key labels that make up the shortcut. */
   keys: KbdValue[];
 };
 
@@ -45,6 +47,18 @@ const symbolMap: Record<KbdSpecialSymbol, { label: string; visible: string }> =
 const isSpecialSymbol = (value: KbdValue): value is KbdSpecialSymbol =>
   value in symbolMap;
 
+/**
+ * Displays a keyboard shortcut as a group of native `kbd` elements.
+ *
+ * Known symbols receive readable tooltip labels: ⌘ command, ⌥ option,
+ * ⌃ control, ⇪ shift, ⎋ escape, ⌫ delete, ↩ return, ⇥ tab, and the four arrow
+ * symbols. `Kbd` describes a shortcut; it is not an interactive control.
+ *
+ * @example
+ * ```tsx
+ * <Kbd keys={['⌘', 'K']} />
+ * ```
+ */
 export const Kbd = (props: KbdProps) => {
   const { keys, ...rest } = props;
   const [className, otherProps] = splitProps(rest);

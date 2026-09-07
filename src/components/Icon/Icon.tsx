@@ -15,9 +15,14 @@ import type { IconNamesList } from './icons';
  * so importing this list of keys directly from the tokens to ensure
  * that only valid sizes are allowed.
  */
+/**
+ * Numeric design-token sizes supported by the icon recipe. Non-numeric sizes
+ * do not have corresponding recipe variants.
+ */
 export type AllowedIconSizes = keyof typeof numericSizes;
 
 type IconOwnProps = {
+  /** Symbol identifier from the configured SVG sprite. */
   name: IconNamesList;
   /**
    * Icon size recipe variant. Responsive/conditional values are supported.
@@ -34,6 +39,10 @@ type IconOwnProps = {
 // Size is applied through the recipe variant, never through Box `width`.
 // Assigning a conditional size value to Box's `width` prop made tsc run for
 // over 30 minutes; the recipe variant compiles to static classes instead.
+/**
+ * Props for {@link Icon}. Extends SVG and Box props for presentation and
+ * accessibility attributes.
+ */
 export type IconProps = Omit<
   BoxProps,
   IconNamesList | keyof IconVariantProps | keyof IconOwnProps
@@ -41,6 +50,19 @@ export type IconProps = Omit<
   Omit<IconVariantProps, keyof IconOwnProps> &
   IconOwnProps;
 
+/**
+ * Renders an SVG symbol from the configured icon sprite.
+ *
+ * Icons are visual content, not automatically hidden or named. Pass
+ * `aria-hidden` for decorative icons; give meaningful standalone icons an
+ * accessible name such as `aria-label`. Wrap meaningful actions in
+ * {@link IconButton} rather than using a bare clickable SVG.
+ *
+ * @example
+ * ```tsx
+ * <Icon name="info" aria-label="More information" />
+ * ```
+ */
 export const Icon = (props: IconProps) => {
   const slotContext = useSlotContext();
   const { name, size: sizeProp, fill: fillProp, ...rest } = props;

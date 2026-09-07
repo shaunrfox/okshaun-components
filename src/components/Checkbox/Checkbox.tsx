@@ -10,6 +10,7 @@ import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
 
+/** Props for {@link Checkbox}, the unlabelled native checkbox primitive. */
 export type CheckboxProps = Omit<
   BoxProps,
   'checked' | 'onChange' | keyof CheckboxVariantProps
@@ -17,6 +18,7 @@ export type CheckboxProps = Omit<
   CheckboxVariantProps & {
     name: string;
     checked?: boolean;
+    /** @default false */
     defaultChecked?: boolean;
     onChange?: CheckboxChangeHandler;
     id?: string;

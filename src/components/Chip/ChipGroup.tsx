@@ -9,19 +9,47 @@ import { splitProps } from '~/utils/splitProps';
 
 import { ChipGroupContext, type ChipGroupType } from './ChipGroupContext';
 
+/** Props for {@link ChipGroup}, which coordinates selectable child chips. */
 export type ChipGroupProps = Omit<WrapProps, 'role'> &
   Omit<BoxProps, keyof WrapProps> & {
+    /** Required selection model. `'single'` uses radio semantics; `'multi'` uses checkbox semantics. */
     type: ChipGroupType;
+    /** Controlled selected value. Use a string for `'single'` or a string array for `'multi'`, with `onChange` to accept updates. */
     value?: string | string[];
+    /**
+     * Initial selected value for an uncontrolled group. It is used only on first render.
+     * @default '' for `'single'`; [] for `'multi'`
+     */
     defaultValue?: string | string[];
+    /** Called with the next selection when a child chip is activated. */
     onChange?: (value: string | string[]) => void;
     size?: ChipVariantProps['size'];
+    /** `Chip` children. Chips require a unique `value` to participate in selection. */
     children: ReactNode;
+    /** Accessible name applied to the group container. */
     label?: string;
+    /** Container identifier. When supplied, the container references `${id}-label`, which consumers must render themselves. */
     id?: string;
+    /** Shared form metadata exposed to child-chip context; it does not create native form inputs. */
     name?: string;
   };
 
+/**
+ * Coordinates the selection and keyboard behavior of child {@link Chip} values.
+ *
+ * Use `value` with `onChange` for controlled selection, or `defaultValue` for
+ * initialization only. In a single-select group, arrow keys move focus and
+ * select the newly focused chip. Label the group with `label` when it needs an
+ * accessible name.
+ *
+ * @example
+ * ```tsx
+ * <ChipGroup type="single" defaultValue="all" label="Status">
+ *   <Chip value="all">All</Chip>
+ *   <Chip value="open">Open</Chip>
+ * </ChipGroup>
+ * ```
+ */
 export const ChipGroup = (props: ChipGroupProps) => {
   const {
     type,

@@ -9,11 +9,34 @@ import type { BoxProps } from '../Box';
 import { Link } from '../Link';
 import { Text } from '../Text';
 
+/** Props for {@link Breadcrumbs}. */
 export type BreadcrumbsProps = Omit<BoxProps, keyof BreadcrumbsVariantProps> &
   BreadcrumbsVariantProps & {
+    /**
+     * Ordered path segments. A segment with `href` renders as a link; a segment
+     * without it renders as plain text, which is normally the current page.
+     * Keep the final segment non-linked when it represents the current page.
+     */
     items: { id: string; label: string; href?: string }[];
   };
 
+/**
+ * Displays the current navigation path as a semantic unordered list.
+ *
+ * Linked segments use {@link Link}; segments without `href` are rendered as
+ * plain text. Use page navigation instead when the hierarchy is not a path to
+ * the current location.
+ *
+ * @example
+ * ```tsx
+ * <Breadcrumbs
+ *   items={[
+ *     { id: 'home', label: 'Home', href: '/' },
+ *     { id: 'invoices', label: 'Invoices' },
+ *   ]}
+ * />
+ * ```
+ */
 export const Breadcrumbs = (props: BreadcrumbsProps) => {
   const { items, ...rest } = props;
   const [className, otherProps] = splitProps(rest);

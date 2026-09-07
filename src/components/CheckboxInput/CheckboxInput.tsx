@@ -11,6 +11,7 @@ import type { CheckboxChangeHandler } from '../Checkbox';
 import { Checkbox } from '../Checkbox';
 import { Label } from '../Label';
 
+/** Props for {@link CheckboxInput}, a labelled {@link Checkbox}. */
 export type CheckboxInputProps = Omit<
   BoxProps,
   keyof CheckboxInputVariantProps
@@ -18,6 +19,7 @@ export type CheckboxInputProps = Omit<
   CheckboxInputVariantProps & {
     name: string;
     checked?: boolean;
+    /** @default false */
     defaultChecked?: boolean;
     onChange?: CheckboxChangeHandler;
     id?: string;
@@ -27,6 +29,21 @@ export type CheckboxInputProps = Omit<
     disabled?: boolean;
   };
 
+/**
+ * A checkbox paired with a clickable label.
+ *
+ * Use this instead of {@link Checkbox} for ordinary labelled form controls.
+ * It generates an input ID when needed and connects it to the rendered label.
+ * Its checked-state and field-context behavior match `Checkbox`; explicit
+ * `disabled`, `error`, and `invalid` props override field context.
+ *
+ * @example
+ * ```tsx
+ * <CheckboxInput name="terms" defaultChecked>
+ *   I agree to the terms
+ * </CheckboxInput>
+ * ```
+ */
 export const CheckboxInput = (props: CheckboxInputProps) => {
   const {
     name,

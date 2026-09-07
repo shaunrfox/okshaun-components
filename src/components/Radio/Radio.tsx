@@ -8,6 +8,7 @@ import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon';
 
+/** Props for {@link Radio}, the unlabelled native radio primitive. */
 export type RadioProps = Omit<
   BoxProps,
   'checked' | 'onChange' | keyof RadioVariantProps
@@ -15,6 +16,7 @@ export type RadioProps = Omit<
   RadioVariantProps & {
     name?: string;
     checked?: boolean;
+    /** @default false */
     defaultChecked?: boolean;
     onChange?: RadioChangeHandler;
     id?: string;

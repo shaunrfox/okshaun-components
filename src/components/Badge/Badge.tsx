@@ -7,6 +7,7 @@ import { useSlotContext } from '~/system/context/SlotContext';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
+/** Supported visual color treatments for {@link Badge}. */
 export type BadgeVariant =
   | 'neutral'
   | 'subtle'
@@ -17,6 +18,7 @@ export type BadgeVariant =
   | 'warning'
   | 'info';
 
+/** Props accepted by {@link Badge}. */
 export type BadgeProps = Omit<BoxProps, keyof BadgeVariantProps> &
   Omit<BadgeVariantProps, 'standalone' | 'dot'> & {
     /** Number to show in badge. If provided, switches to count mode. */

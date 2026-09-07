@@ -9,14 +9,19 @@ import { useSlotContext } from '~/system/context/SlotContext';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
+/** Supported visual sizes for {@link Avatar}. */
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
+/** Supported outline shapes for {@link Avatar}. */
 export type AvatarShape = 'circle' | 'square' | 'hexagon';
 
+/** Presence states displayed at the bottom-right of an avatar. */
 export type AvatarPresence = 'online' | 'busy' | 'offline' | 'focus';
 
+/** Status states displayed at the top-right of an avatar. */
 export type AvatarStatus = 'approved' | 'declined' | 'locked';
 
+/** Props accepted by {@link Avatar}. */
 export type AvatarProps = Omit<BoxProps, keyof AvatarVariantProps> &
   Omit<AvatarVariantProps, 'size' | 'shape'> & {
     /** Image source URL */

@@ -25,6 +25,7 @@ import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 
+/** Props for {@link Tooltip}, nonessential contextual text shown on hover or focus. */
 export type TooltipProps = Omit<
   BoxProps,
   keyof TooltipVariantProps | 'children'
@@ -46,6 +47,18 @@ export type TooltipProps = Omit<
     children?: ReactNode;
   };
 
+/**
+ * Shows nonessential contextual text for a trigger on hover and keyboard focus.
+ *
+ * The trigger is wrapped in a span and linked with `aria-describedby`; Escape
+ * dismisses the portalled tooltip. Do not use a tooltip as the only accessible
+ * name or instruction for an interactive control.
+ *
+ * @example
+ * ```tsx
+ * <Tooltip text="Copies the link"><IconButton iconName="copy" altText="Copy link" /></Tooltip>
+ * ```
+ */
 export const Tooltip = (props: TooltipProps) => {
   const {
     caret = true,

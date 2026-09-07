@@ -11,6 +11,7 @@ import { splitProps } from '~/utils/splitProps';
 
 type AsProp<T extends ElementType> = {
   // Chooses which element/component Box renders as.
+  /** @default "div" */
   as?: T;
 };
 
@@ -18,6 +19,10 @@ type AsProp<T extends ElementType> = {
 type PropsToOmit<T extends ElementType, P extends object> = keyof (AsProp<T> &
   P);
 
+/**
+ * Combines custom props with the compatible native props and ref for the
+ * element selected by `as`.
+ */
 export type PolymorphicComponentProps<
   T extends ElementType,
   Props extends object = object,
@@ -29,6 +34,7 @@ type BoxOwnProps = SystemStyleObject & BoxVariantProps;
 // Final polymorphic Box props:
 // - `as` decides which element props are legal
 // - BoxOwnProps adds Panda system props on top
+/** Props accepted by {@link Box}, including Panda style and native element props. */
 export type BoxProps<T extends ElementType = ElementType> =
   PolymorphicComponentProps<T, BoxOwnProps>;
 

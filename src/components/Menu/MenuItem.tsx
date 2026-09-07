@@ -24,6 +24,18 @@ import {
   useMenuRootContext,
 } from './context/menuContext';
 
+/**
+ * Renders an actionable row within a {@link Menu}.
+ *
+ * It renders a button by default, or an anchor when `href` is supplied. Arrow
+ * keys and typeahead participate in the parent menu's roving focus behavior.
+ * Use `variant="checkbox"` or `"toggle"` when `selected` is meaningful.
+ *
+ * @example
+ * ```tsx
+ * <MenuItem label="Duplicate" iconBefore="copy" onClick={duplicate} />
+ * ```
+ */
 export const MenuItem = (props: MenuItemProps) => {
   const {
     label,

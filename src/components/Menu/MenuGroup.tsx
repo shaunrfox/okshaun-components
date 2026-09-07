@@ -9,6 +9,19 @@ import {
   useMenuRootContext,
 } from './context/menuContext';
 
+/**
+ * Groups related menu rows under an optional label.
+ *
+ * A group is hidden when none of its supported menu children match the parent
+ * menu's active filter.
+ *
+ * @example
+ * ```tsx
+ * <MenuGroup label="File">
+ *   <MenuItem label="Download" />
+ * </MenuGroup>
+ * ```
+ */
 export const MenuGroup = (props: MenuGroupProps) => {
   const { label, children, divider, ...rest } = props;
   const rootContext = useMenuRootContext();
