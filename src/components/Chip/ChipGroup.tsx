@@ -5,8 +5,8 @@ import { type ReactNode, type RefObject, useCallback, useRef } from 'react';
 
 import type { BoxProps } from '~/components/Box';
 import { useControllableState } from '~/system/hooks';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import { ChipGroupContext, type ChipGroupType } from './ChipGroupContext';
 
 /** Props for {@link ChipGroup}, which coordinates selectable child chips. */
@@ -140,6 +140,7 @@ export const ChipGroup = (props: ChipGroupProps) => {
       }}
     >
       <Wrap
+        {...dsComponent('ChipGroup')}
         className={cx(stylesClassName, className)}
         role={role}
         aria-label={label}

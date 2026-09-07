@@ -69,8 +69,9 @@ export const Kbd = (props: KbdProps) => {
   const symbolClasses = kbd({ variant: 'symbol' });
 
   return (
-    <Tooltip {...dsComponent('Kbd')} text={tooltipLabel}>
+    <Tooltip text={tooltipLabel}>
       <Box
+        {...dsComponent('Kbd')}
         as="span"
         className={cx(defaultClasses.kbdGroup, className)}
         {...otherProps}

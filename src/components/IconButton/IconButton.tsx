@@ -91,8 +91,9 @@ export const IconButton = (props: IconButtonProps) => {
   const [className, otherProps] = splitProps(rest);
 
   return (
-    <Tooltip {...dsComponent('IconButton')} text={altText}>
+    <Tooltip text={altText}>
       <Box
+        {...dsComponent('IconButton')}
         {...(href
           ? ({
               as: 'a',

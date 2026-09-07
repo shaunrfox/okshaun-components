@@ -3,13 +3,11 @@ import {
   type ListItemGroupVariantProps,
   listItemGroup,
 } from '@styled-system/recipes';
-
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box, type BoxProps } from '../Box';
 import { Divider } from '../Divider';
 import { Text } from '../Text';
-
 import { useListContext } from './listContext';
 
 /** Props for {@link ListItemGroup}. */
@@ -51,7 +49,11 @@ export const ListItemGroup = (props: ListItemGroupProps) => {
   });
 
   return (
-    <Box className={cx(classes.wrapper, className)} {...otherProps}>
+    <Box
+      {...dsComponent('ListItemGroup')}
+      className={cx(classes.wrapper, className)}
+      {...otherProps}
+    >
       {label && (
         <Text as="div" className={classes.groupLabel}>
           {label}

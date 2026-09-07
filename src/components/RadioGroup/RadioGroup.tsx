@@ -3,8 +3,8 @@ import type { ReactNode } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
 import { useControllableState } from '~/system/hooks';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import { RadioGroupContext } from './RadioGroupContext';
 
 /** Props accepted by {@link RadioGroup}. */
@@ -76,6 +76,7 @@ export const RadioGroup = (props: RadioGroupProps) => {
       }}
     >
       <Box
+        {...dsComponent('RadioGroup')}
         className={cx(stylesClassName, className)}
         role="radiogroup"
         aria-label={label && !id ? label : undefined}

@@ -170,7 +170,7 @@ export const MenuItem = (props: MenuItemProps) => {
       }
       aria-disabled={disabled}
       data-selected={selected}
-      data-disabled={disabled}
+      data-disabled={disabled || undefined}
       data-active={
         listContext ? listContext.activeIndex === listItemData.index : false
       }
