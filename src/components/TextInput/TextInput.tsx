@@ -8,9 +8,9 @@ import { Icon, type IconNamesList } from '~/components/Icon';
 import { IconButton } from '~/components/IconButton';
 import { useFieldContext } from '~/system/context/FieldContext';
 import { SlotContext, type SlotPlacement } from '~/system/context/SlotContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { mergeAriaDescribedBy } from '~/utils/mergeAriaDescribedBy';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box, type BoxProps } from '../Box/Box';
 
 export type TextInputProps = Omit<BoxProps, keyof TextInputVariantProps> &
@@ -142,6 +142,7 @@ export const TextInput = (props: TextInputProps) => {
 
   return (
     <Box
+      {...dsComponent('TextInput')}
       className={cx(classes.container, className)}
       aria-disabled={resolvedDisabled}
       data-disabled={resolvedDisabled || undefined}

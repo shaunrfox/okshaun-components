@@ -5,10 +5,9 @@ import type { ColorToken } from '@styled-system/tokens';
 import { Box, type BoxProps } from '~/components/Box';
 import type { numericSizes } from '~/styles/primitives';
 import { useSlotContext } from '~/system/context/SlotContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import { useIconConfig } from './IconContext';
-
 import type { IconNamesList } from './icons';
 
 /*
@@ -55,6 +54,7 @@ export const Icon = (props: IconProps) => {
 
   return (
     <Box
+      {...dsComponent('Icon')}
       as="svg"
       name={name}
       viewBox="0 0 24 24"

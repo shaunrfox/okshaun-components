@@ -2,6 +2,7 @@ import { cx } from '@styled-system/css';
 import { type TextareaVariantProps, textarea } from '@styled-system/recipes';
 import { Box, type BoxProps } from '~/components/Box';
 import { useFieldContext } from '~/system/context/FieldContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { mergeAriaDescribedBy } from '~/utils/mergeAriaDescribedBy';
 import { splitProps } from '~/utils/splitProps';
 
@@ -40,6 +41,7 @@ export const Textarea = (props: TextareaProps) => {
   );
   return (
     <Box
+      {...dsComponent('Textarea')}
       as="textarea"
       id={id}
       name={name}

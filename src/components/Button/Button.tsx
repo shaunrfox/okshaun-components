@@ -13,6 +13,7 @@ import {
   type SlotPlacement,
   useSlotContext,
 } from '~/system/context/SlotContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
 export type ButtonProps = Omit<
@@ -115,6 +116,7 @@ export const Button = (props: ButtonProps) => {
 
   return (
     <Box
+      {...dsComponent('Button')}
       {...(href
         ? ({
             as: 'a',

@@ -1,9 +1,8 @@
 import { cx } from '@styled-system/css';
 import { type CardVariantProps, card } from '@styled-system/recipes';
 import type { MouseEvent, ReactNode } from 'react';
-
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box, type BoxProps } from '../Box';
 
 export type CardProps = Omit<BoxProps, keyof CardVariantProps> &
@@ -33,6 +32,7 @@ export const Card = (props: CardProps) => {
 
   return (
     <Box
+      {...dsComponent('Card')}
       {...(href
         ? ({
             as: 'a',

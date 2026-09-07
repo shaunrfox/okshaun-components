@@ -15,8 +15,8 @@ import { Icon } from '~/components/Icon';
 import { Spinner } from '~/components/Spinner';
 import { useFieldContext } from '~/system/context/FieldContext';
 import { SlotContext } from '~/system/context/SlotContext';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import { useChipGroup } from './ChipGroupContext';
 
 const getChipLabel = (children: ReactNode) => {
@@ -193,6 +193,7 @@ export const Chip = (props: ChipProps) => {
   const renderButtonBody = Boolean(onClick || isSelectable);
   const body = (
     <Box
+      {...dsComponent('Chip')}
       ref={renderButtonBody ? buttonRef : undefined}
       as={renderButtonBody ? 'button' : 'span'}
       className={classes.body}

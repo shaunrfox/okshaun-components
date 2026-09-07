@@ -34,6 +34,7 @@ import {
   useOverlayFloating,
 } from '~/system/floating-ui/floating';
 import { useControllableState } from '~/system/hooks';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../Box';
 import { Chip } from '../Chip';
@@ -329,6 +330,7 @@ export const Select = (props: SelectProps) => {
     <SelectContext value={contextValue}>
       <Box as="span" display="inline-flex" flexDirection="column">
         <Box
+          {...dsComponent('Select')}
           as="button"
           type="button"
           id={triggerId}

@@ -35,6 +35,7 @@ import {
   createOverlayMiddleware,
   useOverlayFloating,
 } from '~/system/floating-ui/floating';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 import { Box } from '../Box';
 import { Icon } from '../Icon';
@@ -357,6 +358,7 @@ export const Menu = (props: MenuProps) => {
     <MenuRootProvider value={rootContextValue}>
       <MenuFilterProvider value={filterContextValue}>
         <Box
+          {...dsComponent('Menu')}
           ref={floating.refs.setFloating}
           className={cx(classes.wrapper, className)}
           {...getFloatingProps()}

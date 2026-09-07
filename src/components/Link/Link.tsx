@@ -6,9 +6,8 @@ import type {
   FontWeightToken,
 } from '@styled-system/tokens';
 import type { MouseEvent, ReactNode } from 'react';
-
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
-
 import { Box, type BoxProps } from '../Box';
 import { Icon } from '../Icon/Icon';
 
@@ -50,6 +49,7 @@ export const Link = (props: LinkProps) => {
 
   return (
     <Box
+      {...dsComponent('Link')}
       as="a"
       href={href}
       target={external ? '_blank' : undefined}

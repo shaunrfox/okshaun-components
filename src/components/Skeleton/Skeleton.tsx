@@ -3,6 +3,7 @@ import { skeleton } from '@styled-system/recipes';
 import type { ElementType, ReactNode } from 'react';
 
 import { Box, type BoxProps } from '~/components/Box';
+import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
 export type SkeletonProps = Omit<BoxProps, 'as'> & {
@@ -28,6 +29,7 @@ export const Skeleton = (props: SkeletonProps) => {
 
   return (
     <Box
+      {...dsComponent('Skeleton')}
       as={component}
       className={cx(classes, className)}
       aria-hidden="true"
