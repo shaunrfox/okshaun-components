@@ -1428,7 +1428,13 @@
         "hue]___[value:teal]___[recipe:tag",
         "hue]___[value:orange]___[recipe:tag",
         "hue]___[value:lime]___[recipe:tag",
-        "hue]___[value:tan]___[recipe:tag"
+        "hue]___[value:tan]___[recipe:tag",
+        "iconBefore]___[value:true]___[recipe:tag",
+        "iconBefore]___[value:false]___[recipe:tag",
+        "iconAfter]___[value:true]___[recipe:tag",
+        "iconAfter]___[value:false]___[recipe:tag",
+        "hasIcon]___[value:true]___[recipe:tag",
+        "hasIcon]___[value:false]___[recipe:tag"
       ],
       "divider": [
         "direction]___[value:horizontal]___[recipe:divider",

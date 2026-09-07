@@ -100,8 +100,101 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
   // nothing for either, with '*' or with explicit values. Tag renders
   // uncoloured until the recipe is restructured the way ecl.11 restructured the
   // other six recipes.
-  tag: [{ variant: ['*'], hue: ['*'] }],
+  tag: [
+    { variant: ['*'], hue: ['*'] },
+    // Boolean(iconBefore) etc. are computed in Tag.tsx, so Panda cannot see
+    // them statically. Naming `tag` above replaces the default coverage, so
+    // these have to be listed or their padding rules disappear.
+    { iconBefore: ['*'], iconAfter: ['*'], hasIcon: ['*'] },
+  ],
 };
+
+/**
+ * Guard: every key in `recipeOverrides` must name a real variant on that recipe.
+ *
+ * `recipeOverrides` REPLACES the default `['*']` coverage for a recipe, so a key
+ * that no longer exists does not fall back - it silently removes the real
+ * variant's CSS. Panda emits the variant class onto the element and no rule
+ * behind it, which typechecks, builds, and renders wrong.
+ *
+ * This has happened twice: ecl.11 renamed button's and textInput's
+ * `iconBefore`/`iconAfter` variants to `before`/`after` and left this config
+ * naming the old ones, so icon padding silently stopped applying in both.
+ * Both values are computed at runtime, so Panda could never see them
+ * statically either.
+ */
+const recipeVariantKeys = new Map<string, Set<string>>(
+  [...Object.entries(regularRecipes), ...Object.entries(slotRecipes)].map(
+    ([exportName, recipe]) => [
+      exportName.replace(/Recipe$/, ''),
+      new Set(
+        Object.keys(
+          (recipe as { variants?: Record<string, unknown> }).variants ?? {},
+        ),
+      ),
+    ],
+  ),
+);
+
+const NON_VARIANT_RULE_KEYS = new Set(['responsive', 'conditions']);
+const staticCssErrors: string[] = [];
+const staticCssWarnings: string[] = [];
+
+for (const [recipe, rules] of Object.entries(recipeOverrides)) {
+  const known = recipeVariantKeys.get(recipe);
+
+  if (!known) {
+    staticCssErrors.push(
+      `  ${recipe}: not a recipe. Known recipes: ${[...recipeVariantKeys.keys()].join(', ')}`,
+    );
+    continue;
+  }
+
+  const covered = new Set<string>();
+  for (const rule of rules) {
+    if (typeof rule === 'string') continue;
+    for (const key of Object.keys(rule as Record<string, unknown>)) {
+      if (NON_VARIANT_RULE_KEYS.has(key)) continue;
+      covered.add(key);
+      if (!known.has(key)) {
+        staticCssErrors.push(
+          `  ${recipe}.${key}: not a variant. Real variants: ${[...known].join(', ') || '(none)'}`,
+        );
+      }
+    }
+  }
+
+  const uncovered = [...known].filter((key) => !covered.has(key));
+  if (uncovered.length > 0) {
+    staticCssWarnings.push(`  ${recipe}: ${uncovered.join(', ')}`);
+  }
+}
+
+if (staticCssWarnings.length > 0) {
+  console.warn(
+    [
+      'staticCss: variants with no recipeOverrides coverage.',
+      'Safe when every value is written literally in the source; a variant whose',
+      'value is computed at runtime needs an entry here or it emits no CSS.',
+      ...staticCssWarnings,
+      '',
+    ].join('\n'),
+  );
+}
+
+if (staticCssErrors.length > 0) {
+  throw new Error(
+    [
+      '',
+      'staticCss: recipeOverrides names variants that do not exist.',
+      'These silently remove CSS rather than failing, because recipeOverrides',
+      'replaces the default coverage for the recipe it names.',
+      '',
+      ...staticCssErrors,
+      '',
+    ].join('\n'),
+  );
+}
 
 const staticCssRecipes: Record<string, RecipeRule[]> = Object.fromEntries(
   recipeNames.map((name) => [name, ['*'] as unknown as RecipeRule[]]),
