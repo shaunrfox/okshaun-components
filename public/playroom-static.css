@@ -4640,7 +4640,7 @@
     align-items: start;
 }
 
-  .cetec-formField__labelWrapper--size_sm [class=*-label] {
+  .cetec-formField__labelWrapper--size_sm [class*=-label] {
     font-size: var(--cetec-font-sizes-14);
     line-height: var(--cetec-line-heights-tight);
 }

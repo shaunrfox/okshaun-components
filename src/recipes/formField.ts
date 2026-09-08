@@ -41,7 +41,7 @@ const formFieldVariants = {
   size: {
     sm: {
       labelWrapper: {
-        '& [class=*-label]': {
+        '& [class*=-label]': {
           fontSize: '14',
           lineHeight: 'tight',
         },
