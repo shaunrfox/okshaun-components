@@ -579,7 +579,7 @@ export const colors = defineSemanticTokens.colors({
     danger: {
       DEFAULT: { value: { base: '{colors.red.70}', _dark: '{colors.red.50}' } },
       inverse: {
-        value: { base: '{colors.red.10}', _dark: '{colors.neutral.110}' },
+        value: { base: '{colors.red.10}', _dark: '{colors.red.70}' },
       },
     },
     info: { value: { base: '{colors.blue.60}', _dark: '{colors.blue.50}' } },
@@ -743,7 +743,7 @@ export const colors = defineSemanticTokens.colors({
         value: { base: '{colors.lime.80}', _dark: '{colors.lime.30}' },
       },
       inverse: {
-        value: { base: '{colors.neutral.0}', _dark: '{colors.neutral.110}' },
+        value: { base: '{colors.lime.30}', _dark: '{colors.lime.50}' },
       },
     },
     warning: {
@@ -751,13 +751,13 @@ export const colors = defineSemanticTokens.colors({
         value: { base: '{colors.orange.80}', _dark: '{colors.orange.40}' },
       },
       inverse: {
-        value: { base: '{colors.neutral.110}', _dark: '{colors.neutral.110}' },
+        value: { base: '{colors.orange.40}', _dark: '{colors.orange.60}' },
       },
     },
     danger: {
       DEFAULT: { value: { base: '{colors.red.80}', _dark: '{colors.red.30}' } },
       inverse: {
-        value: { base: '{colors.neutral.0}', _dark: '{colors.neutral.110}' },
+        value: { base: '{colors.red.30}', _dark: '{colors.red.50}' },
       },
     },
     info: {
@@ -765,7 +765,7 @@ export const colors = defineSemanticTokens.colors({
         value: { base: '{colors.blue.80}', _dark: '{colors.blue.40}' },
       },
       inverse: {
-        value: { base: '{colors.neutral.0}', _dark: '{colors.neutral.110}' },
+        value: { base: '{colors.blue.40}', _dark: '{colors.blue.50}' },
       },
     },
     accent: {
