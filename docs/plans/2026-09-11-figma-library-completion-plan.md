@@ -56,11 +56,18 @@ These block Phase 2. None should be decided silently.
    library's own Figma values.
 
    **The rule this establishes:** light-mode foregrounds take the `/70` or `/80`
-   step, dark-mode takes `/30` or `/40`, and an `*.inverse` token is ink
-   (`neutral.0` or `neutral.110`), never a tint of its own hue. Phase 2 now
-   syncs code into Figma for this family, since they agree.
+   step and dark-mode takes `/30` or `/40`. Figma and the code now agree here.
+
+   ⚠️ **Corrected 2026-09-11, after shipping.** An earlier version of this rule
+   said an `*.inverse` token is ink, never a tint of its own hue. **That was
+   wrong and shipped in v4.1.0.** Those tokens sit on a dark inverse surface,
+   not on `bg.*.bold`, so the 1.19:1 measured against the bold background never
+   described real usage. The Cetec DS keeps them as a tint of their own hue
+   (`text.danger.inverse` `#FF4D5B / #E50513`), which is also what okshaun had
+   before. Five tokens were reverted and shipped as 4.1.1.
 2. **The `Disabled` mode in `--btn.state`.** The policy says remove it and let
    the global 0.4 fade carry disabled. That is a visual change to the library.
+   Still open — deferred to the collection rename step.
 3. **`IconButton` folding into `Button`.** Inherited from Cetec; unverified
    against this repo's separate `IconButton` API.
 4. **`RadioGroup`.** It exists here and not in Cetec. Decide whether it is a
@@ -72,7 +79,7 @@ These block Phase 2. None should be decided silently.
 
 Done: this plan plus the two standards docs.
 
-### Phase 2 — tokens
+### Phase 2 — tokens ✅ DONE 2026-09-11
 
 1. Resolve the 22 differences above, then sync values.
 2. Add the code-only groups: accents, the brand scale, shadow layer colors,
@@ -82,7 +89,7 @@ Done: this plan plus the two standards docs.
    names.
 4. Add the 5 shadows as effect styles and confirm they resolve in both themes.
 
-### Phase 3 — icons
+### Phase 3 — icons (next)
 
 5. Add the 15 missing icons. Decide whether `contract` and `expand` are
    renames of code icons or Figma-only leftovers.
