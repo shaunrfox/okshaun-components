@@ -496,7 +496,7 @@ export const colors = defineSemanticTokens.colors({
       },
     },
     selected: {
-      value: { base: '{colors.blue.60}', _dark: '{colors.blue.40}' },
+      value: { base: '{colors.blue.70}', _dark: '{colors.blue.40}' },
     },
     input: {
       value: { base: '{colors.neutral.50}', _dark: '{colors.darkNeutral.60}' },
@@ -505,8 +505,8 @@ export const colors = defineSemanticTokens.colors({
     warning: {
       value: { base: '{colors.orange.60}', _dark: '{colors.orange.50}' },
     },
-    danger: { value: { base: '{colors.red.50}', _dark: '{colors.red.50}' } },
-    info: { value: { base: '{colors.blue.50}', _dark: '{colors.blue.50}' } },
+    danger: { value: { base: '{colors.red.60}', _dark: '{colors.red.50}' } },
+    info: { value: { base: '{colors.blue.60}', _dark: '{colors.blue.50}' } },
   },
   icon: {
     DEFAULT: {
@@ -525,7 +525,7 @@ export const colors = defineSemanticTokens.colors({
       value: { base: '{colors.neutral.0}', _dark: '{colors.darkNeutral.10}' },
     },
     selected: {
-      value: { base: '{colors.blue.60}', _dark: '{colors.blue.40}' },
+      value: { base: '{colors.blue.70}', _dark: '{colors.blue.40}' },
     },
     disabled: {
       value: {
