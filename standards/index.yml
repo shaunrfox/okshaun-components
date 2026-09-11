@@ -20,6 +20,12 @@ recipes:
   token-only-styling:
     description: Tokens-first styling and theme-aware value rules
 
+figma:
+  component-token-policy:
+    description: Figma library architecture, the mode-not-variant rule, collections, and component decisions
+  layout-standards:
+    description: Auto-layout patterns and sizing order for Figma documentation pages and component frames
+
 lint:
   baseline-rules:
     description: TypeScript + Biome baseline enforcement and filename policy
