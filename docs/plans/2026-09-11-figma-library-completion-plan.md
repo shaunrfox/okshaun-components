@@ -14,9 +14,9 @@ and `standards/figma/figma-layout-standards.md`.
 the icons are done and verified. Icons are 325 in Figma and 325 in code, with
 identical names. Nothing is half-finished.
 
-**The next action is step 5, components**, starting with the `Button` set's
-variant values (`Button / Variant` still carries a `subtle` mode that the code
-no longer has, and lacks `ghost` and `danger`).
+**The next action is step 5.1b, the Button padding model**, then `Chip`. The
+Button set's variables match the v4 API since 2026-09-13; its geometry does
+not yet match the code at the four sizes.
 
 | Thing | Where |
 | --- | --- |
@@ -144,10 +144,18 @@ with one `Vector` child whose fill is bound to `icon/decorative`.
 
 Only 5 of the code's 44 components exist in Figma today.
 
-1. Update `Button` and `Chip` to the v4 API: variant values `standard`,
-   `primary`, `hollow`, `ghost`, `danger`, `selected`. The Figma library still
-   says `Default`, `Primary`, `Hollow`, `Subtle`, `Selected` — `Default` is now
-   `standard` and `Subtle` is gone.
+1. ✅ **Button variables — 2026-09-13.** `Button / Variant` has the code's
+   seven modes (`selectedBold` included; the policy had listed six). 28 state
+   rows. `subtle` deleted. `primary` re-pointed to `bg/neutral-boldest` and
+   `bg/neutral-bold/*` (it had aliased `bg/brand-bold/*`, and its icon a
+   soft-deleted `icon/inverse-decorative`). `hollow` color → `text/default`.
+   Icon hover → `icon/default`. `Button/Slot size` → 16/20/24/28.
+   **1b. Button padding model — NEXT.** Code: `[slot px | icon | slot px]
+   gap 4 [main px | text | main px]` with slot px 4/6/8/10 and main px
+   8/10/12/16. Figma flattens this into container padding and does not match
+   (`Main PS (before)` is 3 at md; the code implies 6). Needs Storybook
+   screenshots at all four sizes next to the Figma set before changing.
+   **1c. `Chip` set** does not exist yet; its layout variables do.
 2. Build what `mockingbird-site` consumes: `Text` and `Heading` as **text
    styles**, then `Divider`, `Label`, `TextInput`, `Textarea`, `Link`.
 3. Then `Avatar`, `Kbd`, `Skeleton`, `Badge`, `Tag`, `Spinner`.

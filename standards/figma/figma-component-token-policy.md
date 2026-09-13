@@ -66,7 +66,7 @@ Figma's default casing.**
 | --- | --- | --- |
 | `Component / Layout` | `sm`, `md`, `lg`, `xl` | padding, gap, font size, slot size, height, radius. Holds `Button/*` and `Chip/*`. |
 | `Component / State` | `Default`, `Hovered`, `Pressed` | per-component interaction color, `Button/<variant>/<slot>` |
-| `Button / Variant` | `standard`, `primary`, `hollow`, `subtle`, `selected` | routes each public variant to its `Component / State` row. Its modes are the code's `variant` values; a mode here is the one place variant-as-mode is allowed, because the four `Button/<slot>` variables are what the component binds to. |
+| `Button / Variant` | `standard`, `primary`, `hollow`, `ghost`, `danger`, `selected`, `selectedBold` | routes each public variant to its `Component / State` row. Its modes are the code's `variant` values; a mode here is the one place variant-as-mode is allowed, because the four `Button/<slot>` variables are what the component binds to. |
 | `Component / Colors` | `Light`, `Dark` | **does not exist yet.** Add it only when a component needs a per-component color that differs by theme beyond a semantic token. |
 | `List / Density` | `Compact`, `Comfortable`, `Spacious` | list spacing, once `List` is built |
 
@@ -86,7 +86,8 @@ primitive exists, and then the variable's description must say so.
 
 - No raw hex. No detached shadow recipes.
 - Component contract tokens alias **semantic** tokens, never primitives
-  directly, for anything color-bearing.
+  directly, for anything color-bearing. One recorded exception:
+  `Button/danger/*`, see Decisions.
 - Alias depth: primitive → semantic → component contract → component binding.
   Do not add a fifth level without a reason.
 
@@ -126,12 +127,18 @@ repo. Do not re-litigate either group without a note here.
 - **`IconButton` is part of `Button`.** The `WithIcon=Only` variant covers it.
   ⚠️ Inherited from Cetec and not yet checked against this repo's separate
   `IconButton` API. Confirm before building.
-- **Button variant values follow the code, not the old Figma names.** v4.0.0
-  ships `standard`, `primary`, `hollow`, `ghost`, `danger` and `selected`.
-  `Button / Variant` and `Component / State` use those names since
-  2026-09-13, but still carry `subtle` (the `Button` set's variants reference
-  it) and lack `ghost` and `danger`. Fixing that is part of updating the
-  `Button` set, not a variable-only change.
+- **Button variant values follow the code, not the old Figma names.** The code
+  ships seven: `standard`, `primary`, `hollow`, `ghost`, `danger`, `selected`
+  and `selectedBold`. `Button / Variant` and `Component / State` carry exactly
+  those since 2026-09-13; `subtle` is gone.
+- **`danger` aliases primitives, not semantic tokens** — `Red/50`, `Red/40`,
+  `Red/60` for bg and `Neutral/0` for text — because `button.ts` does. This is
+  the one recorded exception to the alias rule below. If the code moves to
+  `bg.danger.bold.*`, re-point the four `Button/danger/*` rows and delete this
+  bullet.
+- **Icon hover in `standard`, `hollow` and `ghost` is `icon/default`.** The
+  code says `fill: current` on hover, which is the text color; `icon/default`
+  is the semantic token for that.
 - **Chip sizes follow the code's four-step scale:** `sm` 18, `md` 24, `lg` 28,
   `xl` 32. `Chip/*` in `Component / Layout` holds them since 2026-09-13.
   ⚠️ The code's scale had no `18` step until PR #23; `chip.ts` referenced it
