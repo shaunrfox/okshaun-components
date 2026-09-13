@@ -1043,51 +1043,147 @@
     "deprecated": false
   },
   "chevron-down": {
-    "aliases": [],
+    "aliases": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "arrows",
+      "stroke",
+      "down",
+      "expand",
+      "open"
+    ],
     "tags": [],
-    "category": null,
+    "category": "Arrows",
     "deprecated": false
   },
   "chevron-filled-down": {
-    "aliases": [],
+    "aliases": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "arrows",
+      "filled",
+      "solid",
+      "triangle",
+      "down",
+      "expand",
+      "open"
+    ],
     "tags": [],
-    "category": null,
+    "category": "Arrows",
     "deprecated": false
   },
   "chevron-filled-left": {
-    "aliases": [],
+    "aliases": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "arrows",
+      "filled",
+      "solid",
+      "triangle",
+      "left",
+      "back",
+      "previous"
+    ],
     "tags": [],
-    "category": null,
+    "category": "Arrows",
     "deprecated": false
   },
   "chevron-filled-right": {
-    "aliases": [],
+    "aliases": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "arrows",
+      "filled",
+      "solid",
+      "triangle",
+      "right",
+      "forward",
+      "next"
+    ],
     "tags": [],
-    "category": null,
+    "category": "Arrows",
     "deprecated": false
   },
   "chevron-filled-up": {
-    "aliases": [],
+    "aliases": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "arrows",
+      "filled",
+      "solid",
+      "triangle",
+      "up",
+      "collapse",
+      "close"
+    ],
     "tags": [],
-    "category": null,
+    "category": "Arrows",
     "deprecated": false
   },
   "chevron-left": {
-    "aliases": [],
+    "aliases": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "arrows",
+      "stroke",
+      "left",
+      "back",
+      "previous"
+    ],
     "tags": [],
-    "category": null,
+    "category": "Arrows",
     "deprecated": false
   },
   "chevron-right": {
-    "aliases": [],
+    "aliases": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "arrows",
+      "stroke",
+      "right",
+      "forward",
+      "next"
+    ],
     "tags": [],
-    "category": null,
+    "category": "Arrows",
     "deprecated": false
   },
   "chevron-up": {
-    "aliases": [],
+    "aliases": [
+      "chevron",
+      "directional",
+      "pointer",
+      "pointing",
+      "arrowhead",
+      "arrows",
+      "stroke",
+      "up",
+      "collapse",
+      "close"
+    ],
     "tags": [],
-    "category": null,
+    "category": "Arrows",
     "deprecated": false
   },
   "circle": {
