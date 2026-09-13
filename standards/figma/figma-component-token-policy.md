@@ -54,20 +54,21 @@ maintained objects. Sizes became 4 modes, hover and pressed became 3 modes,
 light and dark became 2 modes.
 
 This library already works this way. The `Button` set has one variant axis,
-`WithIcon`, and each variant carries explicit modes for `--btn_inp.size` and
-`--btn.variant`. That is the pattern. It is now the required pattern.
+`WithIcon`, and each variant carries explicit modes for `Component / Layout`
+and `Button / Variant`. That is the pattern. It is now the required pattern.
 
 ## Collections
 
-Current collections and their target shape. **The rename is intentional: the
-modes must match the code's own scale names, not Figma's default casing.**
+Renamed 2026-09-13. **The mode names match the code's own scale names, not
+Figma's default casing.**
 
-| Today | Target | Modes (target) | Covers |
-| --- | --- | --- | --- |
-| `--btn.variant` | `Component / Colors` | `Light`, `Dark` | per-component color that must differ by theme beyond a semantic token |
-| `--btn_inp.size`, `--chip.size` | `Component / Layout` | `sm`, `md`, `lg`, `xl` | padding, gap, font size, icon size, min height, radius |
-| `--btn.state` | `Component / State` | `Default`, `Hovered`, `Pressed` | per-component interaction color |
-| — | `List / Density` | `Compact`, `Comfortable`, `Spacious` | list spacing, once `List` is built |
+| Collection | Modes | Covers |
+| --- | --- | --- |
+| `Component / Layout` | `sm`, `md`, `lg`, `xl` | padding, gap, font size, slot size, height, radius. Holds `Button/*` and `Chip/*`. |
+| `Component / State` | `Default`, `Hovered`, `Pressed` | per-component interaction color, `Button/<variant>/<slot>` |
+| `Button / Variant` | `standard`, `primary`, `hollow`, `subtle`, `selected` | routes each public variant to its `Component / State` row. Its modes are the code's `variant` values; a mode here is the one place variant-as-mode is allowed, because the four `Button/<slot>` variables are what the component binds to. |
+| `Component / Colors` | `Light`, `Dark` | **does not exist yet.** Add it only when a component needs a per-component color that differs by theme beyond a semantic token. |
+| `List / Density` | `Compact`, `Comfortable`, `Spacious` | list spacing, once `List` is built |
 
 Naming:
 
@@ -126,11 +127,15 @@ repo. Do not re-litigate either group without a note here.
   ⚠️ Inherited from Cetec and not yet checked against this repo's separate
   `IconButton` API. Confirm before building.
 - **Button variant values follow the code, not the old Figma names.** v4.0.0
-  ships `standard`, `primary`, `hollow`, `ghost`, `danger` and `selected`. The
-  Figma library still says `Default`, `Primary`, `Hollow`, `Subtle` and
-  `Selected`. `Default` is now `standard`; `Subtle` is gone.
+  ships `standard`, `primary`, `hollow`, `ghost`, `danger` and `selected`.
+  `Button / Variant` and `Component / State` use those names since
+  2026-09-13, but still carry `subtle` (the `Button` set's variants reference
+  it) and lack `ghost` and `danger`. Fixing that is part of updating the
+  `Button` set, not a variable-only change.
 - **Chip sizes follow the code's four-step scale:** `sm` 18, `md` 24, `lg` 28,
-  `xl` 32. Figma currently has three sizes at 20, 24 and 32.
+  `xl` 32. `Chip/*` in `Component / Layout` holds them since 2026-09-13.
+  ⚠️ The code's scale had no `18` step until PR #23; `chip.ts` referenced it
+  anyway, so a small chip shipped with no height in 4.0.0 through 4.1.1.
 - **Do not add a `Disabled` mode to `Component / State`.** `globalStyle` already
   fades anything disabled to 0.4 opacity, and stacking a disabled color on top
   of that is how a link ended up at 1.2:1 contrast. Cetec's collection has three
