@@ -1,6 +1,6 @@
 # Figma Library — Completion Plan
 
-Written 2026-09-11. **Updated 2026-09-11 evening, after the token sync shipped.**
+Written 2026-09-11. **Updated 2026-09-13, after the collection renames landed.**
 
 Scope: the `okshaun` Figma library. Consumer files are out of scope except the
 `mockingbird-site` note in Phase 5.
@@ -10,14 +10,13 @@ and `standards/figma/figma-layout-standards.md`.
 
 ## Pick up here
 
-**State as of 2026-09-11 evening:** `main` at `9e7b0f5`, npm `latest` **4.1.1**,
-working tree clean. Tokens and effect styles are synced and verified. Nothing
-is half-finished.
+**State as of 2026-09-13:** tokens, effect styles and the collection renames
+are done and verified. `--chip.size` is gone; its seven `Chip/*` variables live
+in `Component / Layout` on the code's four-step scale. Nothing is half-finished.
 
-**The next action is the collection renames — step 3 below.** It was deferred
-on purpose, not forgotten. It is the step that changes what every existing
-component binding displays, so do it deliberately and check the five existing
-component sets afterwards.
+**The next action is step 4, icons.** Then step 5, starting with the `Button`
+set's variant values (`--btn.variant` still carries a `subtle` mode that the
+code no longer has, and lacks `ghost` and `danger`).
 
 | Thing | Where |
 | --- | --- |
@@ -76,32 +75,47 @@ described real usage. Cetec keeps them as a tint
 (`text.danger.inverse` `#FF4D5B / #E50513`), and so did okshaun before.
 **A contrast number is only as good as the background you assumed.**
 
+### Collection renames — ✅ 2026-09-13
+
+| Was | Now | Modes | Variables |
+| --- | --- | --- | --- |
+| `--btn_inp.size` | `Component / Layout` | `sm`, `md`, `lg`, `xl` | 10 `Button/*` + 7 new `Chip/*` = 17 |
+| `--btn.state` | `Component / State` | `Default`, `Hovered`, `Pressed` | 20, `Button/<variant>/<slot>` |
+| `--btn.variant` | `Button / Variant` | `standard`, `primary`, `hollow`, `subtle`, `selected` | 4, `Button/<slot>` |
+| `--chip.size` | deleted | — | had 0 bindings |
+
+Values did not change. Renames keep variable IDs, so the `Button` set's 60
+bindings resolved afterwards with none unresolved. The other four sets bind
+straight to `--Theme` and were never affected.
+
+Both decisions were taken as the policy recommends: the `Disabled` mode is
+gone (no node had it set explicitly), and `Chip/*` sits on the code's
+18/24/28/32 scale.
+
+⚠️ **The original target for `--btn.variant` was wrong and was not applied.**
+This plan said `Component / Colors` with `Light` / `Dark` modes. That
+collection's modes are the button *variants*, and its four variables route
+each variant into `Component / State`. It is a variant selector, not a theme
+collection; a Light/Dark rename would have destroyed it. It is now
+`Button / Variant` with modes named after the code's values. Cetec's
+`Component / Colors` has no counterpart here yet.
+
+Names inside `Component / Layout` follow the policy's `<Component>/<Property>`
+form: `Button/Main PX`, `Button/Slot size`, `Chip/Height`, `Chip/Main FS`.
+`Chip/Radius` aliases `24` with a description saying why (the code's pill
+radius is `999`, which has no primitive; 24 exceeds half of every height).
+
+⚠️ **The chip merge found a code defect.** `chip.ts` set `--chip-h` to
+`token(sizes.18)` for `sm`, but the scale had no 18 step, so Panda emitted the
+literal `sizes\.18` and a small chip had no height. Fixed in PR #23 by adding
+`18` to `sizes.ts`; `--Sizes` in Figma gained the same step. The Cetec port
+brought Cetec's scale references without Cetec's scale.
+
+Two things this step deliberately left for step 5: `Button/subtle/*` still
+exists in State and `subtle` in Variant, because the `Button` set's variants
+still reference them; `ghost` and `danger` do not exist yet.
+
 ## Remaining
-
-### 3. Collection renames — NEXT, and the risky one
-
-| Today | Target | Modes |
-| --- | --- | --- |
-| `--btn.variant` | `Component / Colors` | `Light`, `Dark` |
-| `--btn_inp.size`, `--chip.size` | `Component / Layout` | `sm`, `md`, `lg`, `xl` |
-| `--btn.state` | `Component / State` | `Default`, `Hovered`, `Pressed` |
-
-Mode names must become the code's `sm`–`xl`, not Figma's
-`Small`/`Medium`/`Large`/`XLarge`.
-
-Two decisions to settle first:
-
-- **Drop the `Disabled` mode from `--btn.state`?** The policy says yes — the
-  global 0.4 fade already carries disabled, and stacking a disabled colour on
-  top of it is what put a link at 1.2:1. Cetec's collection has three states
-  for that reason. This is a visible change to the library.
-- **`--btn_inp.size` and `--chip.size` merge into one `Component / Layout`
-  collection.** Confirm the chip sizes land on the code's four-step scale
-  (18/24/28/32), not Figma's current three (20/24/32).
-
-After renaming, re-check the five existing component sets — `Button`,
-`Checkbox`, `CheckboxInput`, `Radio`, `RadioInput` — since their bindings
-display the collection and mode names.
 
 ### 4. Icons
 
