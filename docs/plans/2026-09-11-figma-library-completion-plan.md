@@ -1,6 +1,6 @@
 # Figma Library — Completion Plan
 
-Written 2026-09-11. **Updated 2026-09-13, after the collection renames landed.**
+Written 2026-09-11. **Updated 2026-09-13, after the collection renames and the icons landed.**
 
 Scope: the `okshaun` Figma library. Consumer files are out of scope except the
 `mockingbird-site` note in Phase 5.
@@ -10,13 +10,13 @@ and `standards/figma/figma-layout-standards.md`.
 
 ## Pick up here
 
-**State as of 2026-09-13:** tokens, effect styles and the collection renames
-are done and verified. `--chip.size` is gone; its seven `Chip/*` variables live
-in `Component / Layout` on the code's four-step scale. Nothing is half-finished.
+**State as of 2026-09-13:** tokens, effect styles, the collection renames and
+the icons are done and verified. Icons are 325 in Figma and 325 in code, with
+identical names. Nothing is half-finished.
 
-**The next action is step 4, icons.** Then step 5, starting with the `Button`
-set's variant values (`--btn.variant` still carries a `subtle` mode that the
-code no longer has, and lacks `ghost` and `danger`).
+**The next action is step 5, components**, starting with the `Button` set's
+variant values (`Button / Variant` still carries a `subtle` mode that the code
+no longer has, and lacks `ghost` and `danger`).
 
 | Thing | Where |
 | --- | --- |
@@ -115,16 +115,30 @@ Two things this step deliberately left for step 5: `Button/subtle/*` still
 exists in State and `subtle` in Variant, because the `Button` set's variants
 still reference them; `ghost` and `danger` do not exist yet.
 
+### Icons — ✅ 2026-09-13
+
+325 in Figma, 325 in code, names identical. Every icon is a 24×24 component
+with one `Vector` child whose fill is bound to `icon/decorative`.
+
+- **`expand` and `contract` were old versions of `expand-vertical` and
+  `collapse-vertical`.** Renamed in place (component IDs and keys kept) and
+  their geometry replaced with the code SVGs. Neither had instances.
+- 13 created from `src/utils/svgsSource/*.svg` with `createNodeFromSvg`, then
+  flattened to one vector. Placed in the category grids the code's
+  `svgsMetadata/*.json` names: 8 chevrons → `Arrows`, `spinner` → `Status`,
+  `to-date-*` → `Calendar`, `cheese` and `magnet` → `Other`. Descriptions
+  carry `aliases: …` from the same metadata.
+- ⚠️ **The 8 chevron SVGs have no `svgsMetadata/*.json` in the code.** Their
+  Figma descriptions use derived aliases. Adding the eight files is a code
+  task, not a Figma one.
+- Plugin API: a grid frame auto-places an appended child in the next free
+  cell and grows its row count. Calling `setGridChildPosition` afterwards on
+  a cell you computed before the append throws "occupied" — let the grid
+  place it.
+- Pre-existing, untouched: `Icon/minus-thick` is a `RECTANGLE`, not a
+  `VECTOR`.
+
 ## Remaining
-
-### 4. Icons
-
-Add the 15 the library lacks: four chevrons, four filled chevrons, `spinner`,
-`magnet`, `cheese`, `collapse-vertical`, `expand-vertical`,
-`to-date-backward`, `to-date-forward`.
-
-Decide whether Figma's `contract` and `expand` are renames of code icons or
-leftovers to delete. 310 of 312 already match.
 
 ### 5. Components — simple leaves first
 
