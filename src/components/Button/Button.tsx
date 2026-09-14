@@ -160,14 +160,6 @@ export const Button = (props: ButtonProps) => {
     );
   };
 
-  const renderIcon = (name: IconNamesList) => {
-    return (
-      <Box className={classes.slot}>
-        <Icon name={name} aria-hidden />
-      </Box>
-    );
-  };
-
   return (
     <Box
       {...dsComponent('Button')}
@@ -200,13 +192,13 @@ export const Button = (props: ButtonProps) => {
         {before
           ? renderSlot(before, 'before')
           : iconBefore
-            ? renderIcon(iconBefore)
+            ? renderSlot(<Icon name={iconBefore} aria-hidden />, 'before')
             : null}
         <Box className={classes.mainContent}>{children}</Box>
         {after
           ? renderSlot(after, 'after')
           : iconAfter
-            ? renderIcon(iconAfter)
+            ? renderSlot(<Icon name={iconAfter} aria-hidden />, 'after')
             : null}
       </HStack>
       {loading && (

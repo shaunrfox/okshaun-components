@@ -31,7 +31,6 @@ const buttonBaseStyles = {
     userSelect: 'none',
     verticalAlign: 'middle',
     fontWeight: 'medium',
-    lineHeight: 'default',
     borderWidth: '1',
     borderStyle: 'solid',
     borderColor: 'transparent',
@@ -63,6 +62,9 @@ const buttonBaseStyles = {
     py: 'var(--main-py)',
     px: 'var(--main-px)',
     fontSize: 'var(--main-fs)',
+    // On the label, not the container, so `default` resolves against the
+    // label's own font size instead of the container's.
+    lineHeight: 'default',
   },
   slot: {
     display: 'inline-flex',
