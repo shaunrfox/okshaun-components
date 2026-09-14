@@ -14,9 +14,9 @@ and `standards/figma/figma-layout-standards.md`.
 the icons are done and verified. Icons are 325 in Figma and 325 in code, with
 identical names. Nothing is half-finished.
 
-**The next action is step 5.1b, the Button padding model**, then `Chip`. The
-Button set's variables match the v4 API since 2026-09-13; its geometry does
-not yet match the code at the four sizes.
+**The next action is step 5.1c, the `Chip` set.** The Button set matches the
+code on variables and geometry at all four sizes since 2026-09-13 (after two
+code fixes shipped in 4.1.3).
 
 | Thing | Where |
 | --- | --- |
@@ -150,12 +150,23 @@ Only 5 of the code's 44 components exist in Figma today.
    `bg/neutral-bold/*` (it had aliased `bg/brand-bold/*`, and its icon a
    soft-deleted `icon/inverse-decorative`). `hollow` color → `text/default`.
    Icon hover → `icon/default`. `Button/Slot size` → 16/20/24/28.
-   **1b. Button padding model — NEXT.** Code: `[slot px | icon | slot px]
-   gap 4 [main px | text | main px]` with slot px 4/6/8/10 and main px
-   8/10/12/16. Figma flattens this into container padding and does not match
-   (`Main PS (before)` is 3 at md; the code implies 6). Needs Storybook
-   screenshots at all four sizes next to the Figma set before changing.
-   **1c. `Chip` set** does not exist yet; its layout variables do.
+   **1b. ✅ Button geometry — 2026-09-13.** Measured in Storybook first, which
+   found two code defects (PR #28, 4.1.3): the legacy `iconBefore`/`iconAfter`
+   icon rendered 24px at every size because `renderIcon` skipped the
+   `SlotContext.Provider`, and `lineHeight: default` sat on the container so
+   every size got a 24px line box. Fixed, then Figma mirrored the fixed
+   render: `Button/Line height` 22/24/24/28, `Slot PX (before|after)` and
+   `Icon-only P` 4/6/8/10, `Gap` 8/10/12/14 (= slot px + 4, because the icon
+   sits directly in the container rather than in a padded slot frame), icon
+   `Vector` fill bound to `Button/icon`. Verified at all four sizes: heights
+   24/32/40/48, `Only` 24/34/40/48, matching the browser.
+   ⚠️ **Trap found here:** resolving primitives by *name* across all
+   collections picked `--Line-heights/16` instead of `--Sizes/16`, and the set
+   silently rendered 28px icons. Alias primitives by ID, and audit every
+   alias's target collection after a write.
+   **1c. `Chip` set — NEXT.** Does not exist yet; its seven layout variables
+   do. Build from `chip.ts`: container pill, `body`, `mainContent`,
+   `dismissButton`, `slot`; sizes as `Component / Layout` modes.
 2. Build what `mockingbird-site` consumes: `Text` and `Heading` as **text
    styles**, then `Divider`, `Label`, `TextInput`, `Textarea`, `Link`.
 3. Then `Avatar`, `Kbd`, `Skeleton`, `Badge`, `Tag`, `Spinner`.
