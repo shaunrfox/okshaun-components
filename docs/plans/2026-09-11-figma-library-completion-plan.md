@@ -14,9 +14,10 @@ and `standards/figma/figma-layout-standards.md`.
 the icons are done and verified. Icons are 325 in Figma and 325 in code, with
 identical names. Nothing is half-finished.
 
-**The next action is step 5.1c, the `Chip` set.** The Button set matches the
-code on variables and geometry at all four sizes since 2026-09-13 (after two
-code fixes shipped in 4.1.3).
+**The next action is step 5.2: `Text` and `Heading` as text styles, then
+`Divider`, `Label`, `TextInput`, `Textarea`, `Link`** — what `mockingbird-site`
+consumes. `Button` and `Chip` match the code on variables and geometry at all
+four sizes since 2026-09-13.
 
 | Thing | Where |
 | --- | --- |
@@ -165,9 +166,25 @@ Only 5 of the code's 44 components exist in Figma today.
    collections picked `--Line-heights/16` instead of `--Sizes/16`, and the set
    silently rendered 28px icons. Alias primitives by ID, and audit every
    alias's target collection after a write.
-   **1c. `Chip` set — NEXT.** Does not exist yet; its seven layout variables
-   do. Build from `chip.ts`: container pill, `body`, `mainContent`,
-   `dismissButton`, `slot`; sizes as `Component / Layout` modes.
+   **1c. ✅ `Chip` set — 2026-09-13.** Measured in Storybook first (heights
+   18/24/28/32, slot px 1/2/2/2, icons 16/20/24/28, label 12/14/16/20, main px
+   6/8/10/12, gap 4, 4px on the slot side of the label, dismiss = a square of
+   the pill height). The seven `Chip/*` layout variables already held those
+   values; `Chip/Gap` (4) added. Six `Chip/<default|selected>/<bg|color|icon>`
+   state rows and a `Chip / Variant` collection (`default`, `selected`) route
+   `Chip/bg|color|icon`, the same shape as Button. The set has one variant
+   axis, `Slots` = None / Before / After / Both (the label-side padding
+   changes next to a slot), plus `Label`, `Icon before`, `Icon after` and
+   `Dismissable` properties. Every dimension is bound to a `Chip/*` variable
+   and every colour to `Chip/bg|color|icon`. Verified with instances at all
+   four sizes, both variants, Light and Dark.
+   **Deliberate deviation:** the label's line-height is bound to
+   `Chip/Height`. The browser renders a 24px line box at every size (the
+   container-level `lineHeight` pattern, same as Button before 4.1.3); the
+   pill is a fixed height so it centres and looks identical. Not fixed in
+   code because it changes nothing visible.
+   **Not modelled:** `deleted`, `loading`, `disabled` (states, not designer
+   choices; the global fade covers disabled).
 2. Build what `mockingbird-site` consumes: `Text` and `Heading` as **text
    styles**, then `Divider`, `Label`, `TextInput`, `Textarea`, `Link`.
 3. Then `Avatar`, `Kbd`, `Skeleton`, `Badge`, `Tag`, `Spinner`.
