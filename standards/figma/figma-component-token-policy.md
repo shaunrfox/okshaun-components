@@ -67,6 +67,7 @@ Figma's default casing.**
 | `Component / Layout` | `sm`, `md`, `lg`, `xl` | padding, gap, font size, slot size, height, radius. Holds `Button/*` and `Chip/*`. |
 | `Component / State` | `Default`, `Hovered`, `Pressed` | per-component interaction color, `Button/<variant>/<slot>` |
 | `Button / Variant` | `standard`, `primary`, `hollow`, `ghost`, `danger`, `selected`, `selectedBold` | routes each public variant to its `Component / State` row. Its modes are the code's `variant` values; a mode here is the one place variant-as-mode is allowed, because the four `Button/<slot>` variables are what the component binds to. |
+| `Chip / Variant` | `default`, `selected` | routes `Chip/bg|color|icon` to its `Component / State` row, as `Button / Variant` does. |
 | `Component / Colors` | `Light`, `Dark` | **does not exist yet.** Add it only when a component needs a per-component color that differs by theme beyond a semantic token. |
 | `List / Density` | `Compact`, `Comfortable`, `Spacious` | list spacing, once `List` is built |
 
@@ -139,6 +140,12 @@ repo. Do not re-litigate either group without a note here.
 - **Icon hover in `standard`, `hollow` and `ghost` is `icon/default`.** The
   code says `fill: current` on hover, which is the text color; `icon/default`
   is the semantic token for that.
+- **`Chip` has one variant axis, `Slots` (None / Before / After / Both),**
+  because the label-side padding is 4 next to a slot and `Chip/Main PX`
+  otherwise, and padding cannot follow a boolean. `Dismissable` is a boolean.
+  Its label line-height is bound to `Chip/Height`, a recorded deviation from
+  the browser's 24px line box, which overflows the fixed-height pill and
+  centres to the same result.
 - **Chip sizes follow the code's four-step scale:** `sm` 18, `md` 24, `lg` 28,
   `xl` 32. `Chip/*` in `Component / Layout` holds them since 2026-09-13.
   ⚠️ The code's scale had no `18` step until PR #23; `chip.ts` referenced it
