@@ -14,10 +14,10 @@ and `standards/figma/figma-layout-standards.md`.
 the icons are done and verified. Icons are 325 in Figma and 325 in code, with
 identical names. Nothing is half-finished.
 
-**The next action is step 5.2: `Text` and `Heading` as text styles, then
-`Divider`, `Label`, `TextInput`, `Textarea`, `Link`** — what `mockingbird-site`
-consumes. `Button` and `Chip` match the code on variables and geometry at all
-four sizes since 2026-09-13.
+**The next action is step 5.3: `Avatar`, `Kbd`, `Skeleton`, `Badge`, `Tag`,
+`Spinner`.** Everything `mockingbird-site` consumes now exists in the library
+(step 5.2, 2026-09-13), and `Button`, `Chip`, `TextInput` and `Textarea` match
+the code on variables and geometry at all four sizes.
 
 | Thing | Where |
 | --- | --- |
@@ -185,8 +185,35 @@ Only 5 of the code's 44 components exist in Figma today.
    code because it changes nothing visible.
    **Not modelled:** `deleted`, `loading`, `disabled` (states, not designer
    choices; the global fade covers disabled).
-2. Build what `mockingbird-site` consumes: `Text` and `Heading` as **text
-   styles**, then `Divider`, `Label`, `TextInput`, `Textarea`, `Link`.
+2. ✅ **What `mockingbird-site` consumes — 2026-09-13.**
+   - Text styles already matched `textStyles.ts` (five Figma styles cover the
+     six code families; `body` and `serif` are identical). One binding fixed
+     (`Body-Mono` line-height pointed at `Body-Sans/Line height`);
+     descriptions added.
+   - **Shared size contract:** the ten `Button/*` layout variables that
+     TextInput also needs were renamed **`Field/*`** (`Radius`, `Main PX`,
+     `Main PY`, `Main FS`, `Slot size`, `Slot PX`, `Line height`), on Shaun's
+     yes. `Button/Gap` and `Button/Icon-only P` stay Button-only. The
+     duplicate `Slot PX (after)` was rebound and deleted.
+   - `Divider`: `Direction` × `Weight` set (8), thickness 1/2/4/6 from
+     `--Sizes`, fill `border/default`.
+   - `Label`: Body-Sans 16, `--Line-heights/16` pinned to Tight (20),
+     `text/default`. The required asterisk belongs to FormField.
+   - `Link`: `Link/color` state row (`link/default` → `link/pressed`),
+     underline, `External` boolean showing `arrow-square-out` at 20. Family is
+     inherited in code; Figma uses Body-Sans.
+   - `TextInput`: `Slots` (None/Before/After/Both) × `State`
+     (Default/Focused/Error/Valid) = 16 variants, all bound to `Field/*`;
+     Focused = `border/focused` stroke plus a 1px ring effect. Measured in
+     Storybook: 24/32/40/48 tall, icons 16/20/24/28.
+   - `Textarea`: `State` (Default/Focused/Error); `Textarea/Line height`
+     (tight, 18/20/20/24 via `--Line-heights` pinned to Tight) and
+     `Textarea/Min height` (48/64/80/96); padding and font size from
+     `Field/*`; Piazzolla.
+   - **Code defect found on the way (4.1.4, PR #31):** `Button` and
+     `TextInput` passed an undefined `size` into slot context, so slot icons
+     stayed 24px at the default size — the 4.1.3 fix only worked with an
+     explicit size. `Chip` already defaulted to `md`.
 3. Then `Avatar`, `Kbd`, `Skeleton`, `Badge`, `Tag`, `Spinner`.
 4. Then `Tooltip`, `Breadcrumbs`, `FormField`, `Select`, `Autocomplete`,
    `SegmentedInputs`, `Menu`, `List`, `Card`, `Modal`, `Calendar`, `DateTime`.
