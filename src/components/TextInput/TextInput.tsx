@@ -84,7 +84,8 @@ export const TextInput = (props: TextInputProps) => {
   } = props;
   const resolvedSize =
     sizeProp ??
-    (fieldContext?.size as TextInputVariantProps['size'] | undefined);
+    (fieldContext?.size as TextInputVariantProps['size'] | undefined) ??
+    'md';
   const resolvedError = error ?? fieldContext?.error;
   const resolvedInvalid = invalidProp ?? fieldContext?.invalid;
   const resolvedDisabled = disabled ?? fieldContext?.disabled;

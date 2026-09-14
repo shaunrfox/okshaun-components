@@ -109,10 +109,13 @@ export const Button = (props: ButtonProps) => {
     gap,
     ...rest
   } = props;
+  // Resolve the default here, not in the recipe, so slots receive 'md' through
+  // context instead of undefined (which left slot icons at their 24px default).
   const size =
     sizeProp ??
     (slotContext?.size as ButtonVariantProps['size'] | undefined) ??
-    fieldContext?.size;
+    fieldContext?.size ??
+    'md';
   const error = errorProp ?? slotContext?.error ?? fieldContext?.error;
   const invalid = invalidProp ?? slotContext?.invalid ?? fieldContext?.invalid;
   const resolvedDisabled =
