@@ -159,7 +159,8 @@ Only 5 of the code's 44 components exist in Figma today.
    `Icon-only P` 4/6/8/10, `Gap` 8/10/12/14 (= slot px + 4, because the icon
    sits directly in the container rather than in a padded slot frame), icon
    `Vector` fill bound to `Button/icon`. Verified at all four sizes: heights
-   24/32/40/48, `Only` 24/34/40/48, matching the browser.
+   24/32/40/48, and `Only` 26/34/42/50 (slot size + 2 × slot px + 2 border,
+   which is what `IconButton` renders), matching the browser.
    ⚠️ **Trap found here:** resolving primitives by *name* across all
    collections picked `--Line-heights/16` instead of `--Sizes/16`, and the set
    silently rendered 28px icons. Alias primitives by ID, and audit every
