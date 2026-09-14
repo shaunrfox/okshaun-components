@@ -76,9 +76,12 @@ Naming:
 - **State** — `<Component>/<variant>/<bg|border|color|icon>`, such as
   `Button/primary/bg` or `Chip/default/icon`.
 - **Layout** — `<Component>/<Property>` in sentence case, such as
-  `Button/Main PX` or `Chip/Icon size`.
-- **Shared** — cross-component values get their own key, such as
-  `Slots/Slot size`. Never duplicate a shared value per component.
+  `Chip/Main PX` or `Textarea/Min height`.
+- **Shared** — cross-component values get their own key. Never duplicate a
+  shared value per component. **`Field/*`** (`Radius`, `Main PX`, `Main PY`,
+  `Main FS`, `Slot size`, `Slot PX`, `Line height`) is the shared size
+  contract that `Button`, `TextInput` and `Textarea` bind to (2026-09-13).
+  `Button/Gap` and `Button/Icon-only P` are Button-only.
 
 Layout variables alias primitives per mode. They hold a raw number only when no
 primitive exists, and then the variable's description must say so.
@@ -140,6 +143,12 @@ repo. Do not re-litigate either group without a note here.
 - **Icon hover in `standard`, `hollow` and `ghost` is `icon/default`.** The
   code says `fill: current` on hover, which is the text color; `icon/default`
   is the semantic token for that.
+- **Input validation state is a variant, not a mode:** `TextInput` and
+  `Textarea` carry `State` = Default / Focused / Error (/ Valid), following
+  the file's Checkbox set. A designer picks these deliberately; hover and
+  pressed stay `Component / State` modes. Focused is the `border/focused`
+  stroke plus a 1px ring drawn as a drop-shadow effect, because the code's
+  outline has no Figma equivalent.
 - **`Chip` has one variant axis, `Slots` (None / Before / After / Both),**
   because the label-side padding is 4 next to a slot and `Chip/Main PX`
   otherwise, and padding cannot follow a boolean. `Dismissable` is a boolean.
