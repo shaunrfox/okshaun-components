@@ -35,10 +35,10 @@ export const skeletonRecipe = defineRecipe({
       text: {
         h: '4',
         w: 'full',
-        borderRadius: 'full',
+        borderRadius: '999',
       },
       circular: {
-        borderRadius: 'full',
+        borderRadius: '999',
         aspectRatio: 'square',
       },
       rounded: {
