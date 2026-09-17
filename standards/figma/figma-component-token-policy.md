@@ -68,7 +68,11 @@ Figma's default casing.**
 | `Component / State` | `Default`, `Hovered`, `Pressed` | per-component interaction color, `Button/<variant>/<slot>` |
 | `Button / Variant` | `standard`, `primary`, `hollow`, `ghost`, `danger`, `selected`, `selectedBold` | routes each public variant to its `Component / State` row. Its modes are the code's `variant` values; a mode here is the one place variant-as-mode is allowed, because the four `Button/<slot>` variables are what the component binds to. |
 | `Chip / Variant` | `default`, `selected` | routes `Chip/bg|color|icon` to its `Component / State` row, as `Button / Variant` does. |
-| `Component / Colors` | `Light`, `Dark` | **does not exist yet.** Add it only when a component needs a per-component color that differs by theme beyond a semantic token. |
+| `Badge / Variant` | `neutral`, `subtle`, `bold`, `inverse`, `success`, `warning`, `danger`, `info` | routes `Badge/bg|color` to its `Component / Colors` row. |
+| `Tag / Variant` | `default`, `bold` | routes `Tag/<hue>/color|background` to its `Component / Colors` row. One pair per hue, because hue is a Figma variant (see Decisions). |
+| `Avatar / Size` | `xs`, `sm`, `md`, `lg`, `xl`, `2xl` | `Avatar/Size`, `Initials FS`, `Presence size`, `Status size`, `Status icon`. A component whose size scale is not the four-step Field scale gets its own size collection. |
+| `Spinner / Size` | `xs`, `sm`, `md`, `lg` | `Spinner/Size`. |
+| `Component / Colors` | `Light`, `Dark` | per-component colors that differ by theme beyond a semantic token: `Badge/<variant>/<bg|color>` (16) and `Tag/<hue>/<fg|bg|fg-bold|bg-bold>` (48), aliasing primitives because the recipes do. Created 2026-09-17. ⚠️ **Dark mode means switching this collection AND `--Theme`.** |
 | `List / Density` | `Compact`, `Comfortable`, `Spacious` | list spacing, once `List` is built |
 
 Naming:
@@ -159,6 +163,25 @@ repo. Do not re-litigate either group without a note here.
   `xl` 32. `Chip/*` in `Component / Layout` holds them since 2026-09-13.
   ⚠️ The code's scale had no `18` step until PR #23; `chip.ts` referenced it
   anyway, so a small chip shipped with no height in 4.0.0 through 4.1.1.
+- **A collection holds at most 10 modes on this plan.** `addMode` throws
+  past ten, and the whole script rolls back. So `Tag` hue (12 values) is a
+  Figma variant, not a mode, even though it is a color choice like
+  `Button / Variant`; `Tag / Variant` (default/bold) stays a mode with one
+  routing pair per hue. Any future axis with more than ten values follows Tag.
+- **A component whose size scale is not the Field scale gets its own size
+  collection** (`Avatar / Size` xs–2xl, `Spinner / Size` xs–lg) rather than
+  extra modes on `Component / Layout`, which would force values onto every
+  `Field/*` and `Chip/*` variable.
+- **`Badge` is standalone only.** The wrapped placement (top-right of a child,
+  translated 50%) is layout in the consumer's frame, not a variant.
+- **`Avatar` presence and status are nested sets** (`Avatar/Presence` 4 types,
+  `Avatar/Status` 3 types) behind two booleans; the type is picked on the
+  nested instance. Their variants carry no explicit size mode, so they inherit
+  the avatar's — an explicit mode on a nested main component would win over
+  the outer instance's mode.
+- **`Kbd/Key` shares one `Label` text property across Default and Symbol**, so
+  both variants show the same default; `Kbd` overrides each key on the
+  instance (⌘ ⇧ K).
 - **Do not add a `Disabled` mode to `Component / State`.** `globalStyle` already
   fades anything disabled to 0.4 opacity, and stacking a disabled color on top
   of that is how a link ended up at 1.2:1 contrast. Cetec's collection has three
@@ -216,6 +239,23 @@ From the Mockingbird build in the same API (2026-09-11):
   already-styled text node still works, and the clone keeps its layout.
   ⚠️ Unverified here: this library uses IBM Plex Sans, IBM Plex Mono and
   Piazzolla, which should load. Check before planning around it.
+
+From the step 5.3 build (2026-09-17), on this library:
+
+- **`addMode` throws past 10 modes on this plan** and rolls the script back.
+  Design any axis with more than ten values as a variant.
+- **`isExposedInstance = true` throws on an instance with no properties**
+  (a plain icon). Use an `INSTANCE_SWAP` property for swappable icons.
+- **A mask's fill alpha scales the masked content.** A polygon mask filled
+  with a 6% token dimmed the avatar to 6%. Fill masks with opaque black and
+  set `maskType = 'VECTOR'`.
+- **The anchor-frame trap above was hit again.** A MAX-constrained absolute
+  child moved with the parent but its own variable-bound width grew from the
+  left, so the dot drifted 2–6px off the edge at every size but `md`. The
+  full-bleed auto-layout anchor with STRETCH constraints fixed it.
+- **A set-level TEXT property forcing one default was hit again** (`Kbd/Key`).
+- **`combineAsVariants` stacks every variant at 0,0.** Lay the grid out and
+  `resizeWithoutConstraints` the set, or the thumbnail is one variant.
 
 ## Governance
 
