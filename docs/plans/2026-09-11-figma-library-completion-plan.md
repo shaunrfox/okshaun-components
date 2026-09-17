@@ -10,19 +10,23 @@ and `standards/figma/figma-layout-standards.md`.
 
 ## Pick up here
 
-**State as of 2026-09-13:** tokens, effect styles, the collection renames and
-the icons are done and verified. Icons are 325 in Figma and 325 in code, with
-identical names. Nothing is half-finished.
+**State as of 2026-09-17:** tokens, effect styles, the collection renames, the
+icons, Button, Chip, everything `mockingbird-site` consumes, and the six simple
+leaves (step 5.3) are done and verified. Nothing is half-finished.
 
-**The next action is step 5.3: `Avatar`, `Kbd`, `Skeleton`, `Badge`, `Tag`,
-`Spinner`.** Everything `mockingbird-site` consumes now exists in the library
-(step 5.2, 2026-09-13), and `Button`, `Chip`, `TextInput` and `Textarea` match
-the code on variables and geometry at all four sizes.
+**The next action is step 5.4: `Tooltip`, `Breadcrumbs`, `FormField`, `Select`,
+`Autocomplete`, `SegmentedInputs`, `Menu`, `List`, `Card`, `Modal`, `Calendar`,
+`DateTime`.** 20 of the code's 44 components exist in Figma (step 5.3,
+2026-09-17). Code is at 4.1.5.
+
+⚠️ **Dark mode now needs two modes switched: `--Theme` and `Component / Colors`.**
+Badge and Tag colors live in the second because the recipes use primitives with
+a dark override that no semantic token expresses.
 
 | Thing | Where |
 | --- | --- |
 | Figma library | `cKo796vIgXLI8ugYLsLyZ5` — pages `_Thumb`, `Tokens`, `Components`, `Scratch` |
-| Components page | `1:533` (18 top-level children, ~896 nodes) |
+| Components page | `1:533` (27 top-level children) |
 | Mockingbird file | `AGgKzFwhz2w2XQ66aoA5D7` — Phase 5 only |
 
 ⚠️ **The Figma MCP authenticates as one account per session.** The account that
@@ -214,7 +218,46 @@ Only 5 of the code's 44 components exist in Figma today.
      `TextInput` passed an undefined `size` into slot context, so slot icons
      stayed 24px at the default size — the 4.1.3 fix only worked with an
      explicit size. `Chip` already defaulted to `md`.
-3. Then `Avatar`, `Kbd`, `Skeleton`, `Badge`, `Tag`, `Spinner`.
+3. ✅ **`Avatar`, `Kbd`, `Skeleton`, `Badge`, `Tag`, `Spinner` — 2026-09-17.**
+   Measured in Storybook first, which found four code defects (PR #33,
+   4.1.5): the Avatar presence/status ring used `borderColor: 'bg'`, a token
+   that does not exist, so it rendered in `currentColor`; the Avatar status
+   icon was never smaller than its ring (now ring − 4); Skeleton `text` and
+   `circular` used `borderRadius: 'full'`, not on the scale, so both rendered
+   square; and Button and Tag had inherited the page serif since the Cetec
+   recipes were adopted (now `sans`, like Badge, Chip, Kbd and TextInput).
+   - `Avatar`: `Shape` (Circle/Square/Hexagon) × `Content`
+     (Image/Initials/Icon) = 9, plus `Presence` and `Status` booleans showing
+     nested `Avatar/Presence` (4 types) and `Avatar/Status` (3 types) sets.
+     Size is a mode of the new **`Avatar / Size`** collection (xs–2xl:
+     16/20/24/32/48/64; initials 8/10/12/14/20/24; presence 6/8/8/10/12/14;
+     status 8/10/10/12/16/20; status icon 4/6/6/8/12/16). Hexagon is a
+     vector mask. Presence and status sit in full-bleed anchor frames aligned
+     to the corner, because a MAX-constrained child does not track its own
+     variable-bound width. Open: the fallback icon renders at the 24 Icon
+     default at every size in code (beads `fun`); Figma sizes it to the avatar.
+   - `Badge`: `Mode` (Dot/Count), standalone only. Size via `Badge/FS|P|Min
+     width|Dot size` in `Component / Layout` (16/20/24/28 tall, dot
+     6/8/10/12). Color variant is a **`Badge / Variant`** mode (8) routing
+     `Badge/bg|color` to **`Component / Colors`** rows.
+   - `Tag`: `Hue` (12) × `Icon` (None/Before/After/Both) = 48. default/bold is
+     a **`Tag / Variant`** mode with 24 per-hue routing rows. ⚠️ Hue was
+     planned as a 12-mode collection; **this plan caps a collection at 10
+     modes** (`addMode` throws), so hue is a variant. 20 tall, 14/18 Plex
+     Sans Medium, padding 0 4 (1 on an icon side), gap 1, radius 2, icons 20
+     as instance-swap properties.
+   - `Component / Colors` (Light/Dark) created: 16 Badge rows and 48 Tag rows
+     aliasing primitives by ID (gray hue aliases `--Theme`). `DarkNeutral/120`
+     added to `--Colors` (161); the code had it and the audit missed it.
+   - `Kbd/Key` (`Variant` Default/Symbol, `Label` text) and `Kbd` (`Keys`
+     1/2/3 of nested keys, gap 2). Bound straight to `--Theme`.
+   - `Skeleton`: `Variant` Text/Circular/Rounded/Rectangular. Animation not
+     representable.
+   - `Spinner`: `Inverse` False/True; size is a mode of the one-variable
+     **`Spinner / Size`** collection (16/20/24/32).
+   Verified with temporary instances at every mode, Light and Dark, alias
+   audit 242 values / 0 problems, temp frames deleted. Light colors match
+   Storybook exactly (Tag red `#FFD5D2`/`#C9372C`, badge danger `#F15B50`).
 4. Then `Tooltip`, `Breadcrumbs`, `FormField`, `Select`, `Autocomplete`,
    `SegmentedInputs`, `Menu`, `List`, `Card`, `Modal`, `Calendar`, `DateTime`.
 
