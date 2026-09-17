@@ -5,6 +5,7 @@ export const tagRecipe = defineRecipe({
   jsx: ['Tag'],
   base: {
     display: 'flex',
+    fontFamily: 'sans',
     alignItems: 'center',
     py: '0',
     borderRadius: '2',

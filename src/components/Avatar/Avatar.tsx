@@ -61,12 +61,12 @@ const statusStyles: Record<AvatarStatus, string> = {
 
 // Map size to status icon size
 const sizeToStatusIconSize: Record<AvatarSize, AllowedIconSizes> = {
-  xs: '8',
-  sm: '10',
-  md: '12',
-  lg: '14',
-  xl: '16',
-  '2xl': '20',
+  xs: '4',
+  sm: '6',
+  md: '6',
+  lg: '8',
+  xl: '12',
+  '2xl': '16',
 };
 
 /**

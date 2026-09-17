@@ -31,6 +31,7 @@ const buttonBaseStyles = {
     userSelect: 'none',
     verticalAlign: 'middle',
     fontWeight: 'medium',
+    fontFamily: 'sans',
     borderWidth: '1',
     borderStyle: 'solid',
     borderColor: 'transparent',
