@@ -113,6 +113,19 @@ export {
 } from './components/Modal';
 export { useModalWrapperContext } from './components/Modal/ModalWrapperContext';
 export {
+  type PageMargins,
+  type PageOrientation,
+  type PageSize,
+  type PageUnit,
+  PrintPage,
+  type PrintPageProps,
+  PrintPreview,
+  type PrintPreviewFit,
+  type PrintPreviewProps,
+} from './components/PrintPreview';
+export { pageSizes } from './components/PrintPreview/pageSizes';
+export { usePrintPage } from './components/PrintPreview/usePrintPage';
+export {
   Radio,
   type RadioChangeEvent,
   type RadioProps,
