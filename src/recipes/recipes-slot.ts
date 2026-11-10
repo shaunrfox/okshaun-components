@@ -14,6 +14,7 @@ export { listItemRecipe } from './listItem';
 export { listItemGroupRecipe } from './listItemGroup';
 export { menuRecipe } from './menu';
 export { modalRecipe } from './modal';
+export { printPreviewRecipe } from './printPreview';
 export { radioRecipe } from './radio';
 export { segmentedFieldsRecipe } from './segmentedFields';
 export { segmentedInputsRecipe } from './segmentedInputs';
