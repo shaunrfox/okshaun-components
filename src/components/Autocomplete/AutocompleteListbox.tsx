@@ -8,8 +8,8 @@ import type {
   RefCallback,
   UIEventHandler,
 } from 'react';
-
 import type { MenuDensity } from '~/components/Menu/context/menuContext';
+import { useLocale } from '~/system/context/useLocale';
 import { useFloatingLayer } from '~/system/floating-ui/FloatingLayerContext';
 
 import { Box } from '../Box/Box';
@@ -45,6 +45,7 @@ type AutocompleteListboxProps = {
 };
 
 export const AutocompleteListbox = (props: AutocompleteListboxProps) => {
+  const { labels } = useLocale();
   const floatingLayer = useFloatingLayer();
   const {
     activeIndex,
@@ -80,7 +81,7 @@ export const AutocompleteListbox = (props: AutocompleteListboxProps) => {
       ref={floatingRef}
       id={listboxId}
       role="listbox"
-      aria-label="Suggestions"
+      aria-label={labels.suggestions}
       aria-multiselectable={multiple || undefined}
       aria-busy={loading || loadingMore || undefined}
       density={density}

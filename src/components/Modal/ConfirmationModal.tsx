@@ -1,6 +1,7 @@
 import type { ModalVariantProps } from '@styled-system/recipes';
 import { useCallback, useId, useRef } from 'react';
 
+import { useLocale } from '~/system/context/useLocale';
 import { dsComponent } from '~/utils/dsComponent';
 
 import { Button } from '../Button';
@@ -108,13 +109,14 @@ const typeDefaults: Record<
  * ```
  */
 export const ConfirmationModal = (props: ConfirmationModalProps) => {
+  const { labels } = useLocale();
   const {
     open,
     onOpenChange,
     title,
     description,
     confirmLabel,
-    cancelLabel = 'Cancel',
+    cancelLabel = labels.cancel,
     type = 'default',
     onConfirm,
     confirmLoading = false,

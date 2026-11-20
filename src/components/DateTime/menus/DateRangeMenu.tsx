@@ -6,6 +6,7 @@ import { Button } from '~/components/Button';
 import { Calendar } from '~/components/Calendar';
 import { Divider } from '~/components/Divider';
 import { Menu, type MenuProps } from '~/components/Menu';
+import { useLocale } from '~/system/context/useLocale';
 import { useControllableState } from '~/system/hooks/useControllableState';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
@@ -62,6 +63,7 @@ const sameMonth = (a: ViewDate, b: ViewDate) =>
  * ```
  */
 export const DateRangeMenu = (props: DateRangeMenuProps) => {
+  const { labels } = useLocale();
   const {
     trigger,
     open: controlledOpen,
@@ -73,8 +75,8 @@ export const DateRangeMenu = (props: DateRangeMenuProps) => {
     minDate,
     maxDate,
     disabled = false,
-    startLabel = 'Start date',
-    endLabel = 'End date',
+    startLabel = labels.startDate,
+    endLabel = labels.endDate,
     ...rest
   } = props;
   const isInline = rest.inline === true;
@@ -193,14 +195,14 @@ export const DateRangeMenu = (props: DateRangeMenuProps) => {
         </Box>
         <Box className={classes.footer}>
           <Button variant="standard" onClick={handleCancel}>
-            Cancel
+            {labels.cancel}
           </Button>
           <Button
             variant="primary"
             disabled={!draft.start || !draft.end}
             onClick={handleApply}
           >
-            Apply
+            {labels.apply}
           </Button>
         </Box>
       </Box>

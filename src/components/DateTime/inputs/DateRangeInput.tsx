@@ -8,6 +8,7 @@ import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import { Icon, type IconNamesList } from '~/components/Icon';
 import { useFieldContext } from '~/system/context/FieldContext';
+import { useLocale } from '~/system/context/useLocale';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
@@ -74,14 +75,15 @@ const EMPTY_RANGE: DateRangeValue = { start: null, end: null };
  */
 export const DateRangeInput = (props: DateRangeInputProps) => {
   const fieldContext = useFieldContext();
+  const { labels } = useLocale();
   const {
     id,
     value,
     defaultValue,
     onChange,
     dateFormat,
-    startLabel = 'Start date',
-    endLabel = 'End date',
+    startLabel = labels.startDate,
+    endLabel = labels.endDate,
     before,
     after,
     iconBefore,

@@ -1,0 +1,299 @@
+import { Meta, Unstyled } from '@storybook/addon-docs/blocks';
+import { Grid, HStack, VStack } from '@styled-system/jsx';
+import { Box } from '~/components/Box';
+import { Calendar } from '~/components/Calendar';
+import { Card } from '~/components/Card';
+import { Divider } from '~/components/Divider';
+import { Heading } from '~/components/Heading';
+import { Link } from '~/components/Link';
+import { Text } from '~/components/Text';
+import { LocaleProvider, defaultLocaleLabels } from '~/system/context';
+
+<Meta title="Docs / Localization" />
+
+export const functionLabels = {
+  removeItem: ['item', 'Widget'],
+  switchToTheme: ['nextTheme', 'dark'],
+  addOption: ['value', 'Widget'],
+  optionSelected: ['label', 'Widget'],
+  optionCreated: ['value', 'Widget'],
+  optionRemoved: ['label', 'Widget'],
+  moreSelected: ['count', 3],
+  chooseMonthIn: ['year', 2026],
+  fieldHour: ['field', 'Start time'],
+  fieldMinute: ['field', 'Start time'],
+  fieldMeridiem: ['field', 'Start time'],
+};
+
+export const LabelTable = () => (
+  <Box as="table" w="full" borderCollapse="collapse">
+    <Box as="thead">
+      <Box as="tr" borderBottomWidth="1" borderColor="border">
+        <Box as="th" textAlign="start" py="6" pe="16">
+          <Text weight="bold">Key</Text>
+        </Box>
+        <Box as="th" textAlign="start" py="6" pe="16">
+          <Text weight="bold">English default</Text>
+        </Box>
+        <Box as="th" textAlign="start" py="6">
+          <Text weight="bold">Type</Text>
+        </Box>
+      </Box>
+    </Box>
+    <Box as="tbody">
+      {Object.entries(defaultLocaleLabels).map(([key, value]) => {
+        const isFunction = typeof value === 'function';
+        const [param, sample] = functionLabels[key] ?? [];
+        const example = isFunction ? value(sample) : value;
+        return (
+          <Box as="tr" key={key} borderBottomWidth="1" borderColor="border">
+            <Box as="td" py="6" pe="16">
+              <code>{key}</code>
+            </Box>
+            <Box as="td" py="6" pe="16">
+              <Text size="14">{example}</Text>
+            </Box>
+            <Box as="td" py="6">
+              <Text size="14">
+                {isFunction ? `(${param}) => string` : 'string'}
+              </Text>
+            </Box>
+          </Box>
+        );
+      })}
+    </Box>
+  </Box>
+);
+
+<Unstyled>
+  <VStack alignItems="stretch" gap="16">
+    # Localization
+
+    <Text maxW="prose">
+      This guide explains how an app translates the design system's built-in
+      text and gives its date components a locale. The design system does not
+      translate anything itself and does not depend on a translation library.
+    </Text>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Who owns what</Heading>
+
+    <Grid columns={{ base: 1, md: 2 }} gap="12">
+      <Card variant="sunken" p="12">
+        <Text weight="bold">The design system owns</Text>
+        <Box as="ul" pl="24" display="grid" gap="6">
+          <Box as="li" listStyleType="disc">
+            <Text size="14">Its built-in text, with English defaults.</Text>
+          </Box>
+          <Box as="li" listStyleType="disc">
+            <Text size="14">
+              One provider, <code>LocaleProvider</code>, that takes a locale and
+              translated labels.
+            </Text>
+          </Box>
+          <Box as="li" listStyleType="disc">
+            <Text size="14">Styling that uses logical properties.</Text>
+          </Box>
+        </Box>
+      </Card>
+
+      <Card variant="sunken" p="12">
+        <Text weight="bold">The app owns</Text>
+        <Box as="ul" pl="24" display="grid" gap="6">
+          <Box as="li" listStyleType="disc">
+            <Text size="14">All product text and the translation files.</Text>
+          </Box>
+          <Box as="li" listStyleType="disc">
+            <Text size="14">Choosing and saving each user's language.</Text>
+          </Box>
+          <Box as="li" listStyleType="disc">
+            <Text size="14">
+              Setting <code>lang</code> and <code>dir</code> on the
+              <code>{'<html>'}</code> element.
+            </Text>
+          </Box>
+        </Box>
+      </Card>
+    </Grid>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Set up the provider</Heading>
+
+    <Text maxW="prose">
+      Add one <code>LocaleProvider</code> near the app root. Pass the user's
+      locale and the translations you have. A label you leave out keeps its
+      English default, so you can translate in steps.
+    </Text>
+
+    ```tsx
+    import { LocaleProvider } from '@okshaun/components';
+    import { useTranslation } from 'react-i18next';
+
+    export function AppShell({ children }) {
+      const { t, i18n } = useTranslation();
+
+      return (
+        <LocaleProvider
+          locale={i18n.language} // for example "fr-FR"
+          labels={{
+            closeDialog: t('ds.closeDialog'),
+            noResults: t('ds.noResults'),
+            moreSelected: (count) => t('ds.moreSelected', { count }),
+          }}
+        >
+          {children}
+        </LocaleProvider>
+      );
+    }
+    ```
+
+    <Text maxW="prose">
+      Without a provider, every component uses <code>en-US</code> and the
+      English defaults. Nothing breaks.
+    </Text>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">How a label is chosen</Heading>
+
+    <Text maxW="prose">Each component uses the first value it finds:</Text>
+
+    <Box as="ol" pl="24" display="grid" gap="6">
+      <Box as="li" listStyleType="decimal">
+        <Text>
+          A label prop on the component, such as
+          <code>{'<Calendar label="Invoice date" />'}</code>.
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="decimal">
+        <Text>The nearest <code>LocaleProvider</code> that sets the label.</Text>
+      </Box>
+      <Box as="li" listStyleType="decimal">
+        <Text>The English default.</Text>
+      </Box>
+    </Box>
+
+    <Text maxW="prose">
+      Providers can nest. An inner provider changes only what it sets and keeps
+      everything else from the outer one.
+    </Text>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Labels that hold a value</Heading>
+
+    <Text maxW="prose">
+      Some labels include a number or a name, such as "3 more selected". These
+      labels are functions. Pass a function that calls your translation tool,
+      so it can apply its own plural and word-order rules.
+    </Text>
+
+    ```tsx
+    labels={{
+      moreSelected: (count) => t('ds.moreSelected', { count }),
+      removeItem: (item) => t('ds.removeItem', { item }),
+    }}
+    ```
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Example</Heading>
+
+    <Text maxW="prose">
+      The same calendar with no provider, and inside a provider with Spanish
+      labels. Use a screen reader or inspect the buttons to see the translated
+      accessible names, such as "Mes anterior".
+    </Text>
+
+    <HStack gap="24" alignItems="start" flexWrap="wrap">
+      <VStack alignItems="start" gap="8">
+        <Text weight="bold">No provider</Text>
+        <Calendar />
+      </VStack>
+      <VStack alignItems="start" gap="8">
+        <Text weight="bold">Spanish labels</Text>
+        <LocaleProvider
+          locale="es-ES"
+          labels={{
+            chooseDate: 'Elegir fecha',
+            previousMonth: 'Mes anterior',
+            nextMonth: 'Mes siguiente',
+            today: 'hoy',
+          }}
+        >
+          <Calendar />
+        </LocaleProvider>
+      </VStack>
+    </HStack>
+
+    <Text maxW="prose">More examples: <Link href="/?path=/docs/components-localeprovider--documentation">LocaleProvider stories</Link>.</Text>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">What the locale does not change yet</Heading>
+
+    <Box as="ul" pl="24" display="grid" gap="6">
+      <Box as="li" listStyleType="disc">
+        <Text>
+          <strong>Month and weekday names in <code>Calendar</code></strong> are
+          still English. They will come from the browser's <code>Intl</code>
+          formatters in a later release.
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          <strong>Date order and 12- or 24-hour time</strong> are props:
+          <code>format</code> and <code>timeFormat</code>. They do not follow the
+          locale.
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          <strong>The calendar week starts on Sunday</strong> in every locale.
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          <strong>AM and PM</strong> in 12-hour time controls stay as they are.
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          <strong>Text direction</strong> comes from <code>{'<html dir>'}</code>,
+          not from the provider.
+        </Text>
+      </Box>
+    </Box>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">Adding built-in text to a component</Heading>
+
+    <Text maxW="prose">
+      Never write a user-facing string, including an <code>aria-label</code>,
+      directly in a component. Add a key to <code>LocaleLabels</code> in
+      <code>src/system/context/locale-labels.ts</code> with an English default,
+      then read it with <code>useLocale()</code>. If the component already has a
+      label prop, use the label as that prop's default.
+    </Text>
+
+    ```tsx
+    const { labels } = useLocale();
+    const { clearLabel = labels.clearDate, ...rest } = props;
+    ```
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    <Heading level="h3">All labels</Heading>
+
+    <Text maxW="prose">
+      This table is built from <code>defaultLocaleLabels</code>, so it always
+      matches the code. Function labels show their output for a sample value, such as 3 for
+      <code>count</code>.
+    </Text>
+
+    <LabelTable />
+  </VStack>
+</Unstyled>

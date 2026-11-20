@@ -6,6 +6,7 @@ import type {
   DateFormat,
   DateValue,
 } from '~/components/DateTime/helpers/types';
+import { useLocale } from '~/system/context/useLocale';
 import { dsComponent } from '~/utils/dsComponent';
 
 import { SegmentedInput } from './SegmentedInput';
@@ -88,13 +89,14 @@ const getSeparatorContent = (
  * ```
  */
 export const SegmentedDate = (props: SegmentedDateProps) => {
+  const { labels } = useLocale();
   const {
     value,
     defaultValue = null,
     onChange,
     format = 'YYYY-MM-DD',
     separators,
-    label = 'Date',
+    label = labels.date,
     disabled,
     onFocusWithin,
     onBlurWithin,
@@ -123,8 +125,8 @@ export const SegmentedDate = (props: SegmentedDateProps) => {
       type: 'segment',
       kind: 'numeric',
       id: 'month',
-      label: 'Month',
-      placeholder: 'MM',
+      label: labels.month,
+      placeholder: labels.monthPlaceholder,
       value: values.month,
       digits: 2,
       min: 1,
@@ -134,8 +136,8 @@ export const SegmentedDate = (props: SegmentedDateProps) => {
       type: 'segment',
       kind: 'numeric',
       id: 'day',
-      label: 'Day',
-      placeholder: 'DD',
+      label: labels.day,
+      placeholder: labels.dayPlaceholder,
       value: values.day,
       digits: 2,
       min: 1,
@@ -152,8 +154,8 @@ export const SegmentedDate = (props: SegmentedDateProps) => {
       type: 'segment',
       kind: 'numeric',
       id: 'year',
-      label: 'Year',
-      placeholder: 'YYYY',
+      label: labels.year,
+      placeholder: labels.yearPlaceholder,
       value: values.year,
       digits: 4,
       min: 1900,
@@ -183,7 +185,7 @@ export const SegmentedDate = (props: SegmentedDateProps) => {
       separator('day-year'),
       yearSegment,
     ];
-  }, [format, resolvedValue, separatorGap, separators]);
+  }, [format, labels, resolvedValue, separatorGap, separators]);
 
   return (
     <SegmentedInput

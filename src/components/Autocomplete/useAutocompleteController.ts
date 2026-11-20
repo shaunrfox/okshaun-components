@@ -18,8 +18,8 @@ import {
   useRef,
   useState,
 } from 'react';
-
 import { useFieldContext } from '~/system/context/FieldContext';
+import { useLocale } from '~/system/context/useLocale';
 import { useFloatingLayer } from '~/system/floating-ui/FloatingLayerContext';
 import {
   createOverlayMiddleware,
@@ -50,9 +50,6 @@ import {
 } from './utils';
 
 const LOAD_MORE_THRESHOLD_PX = 32;
-
-const defaultGetCreateOptionLabel = (inputValue: string) =>
-  `Add “${inputValue}”`;
 
 const chipSizeByAutocompleteSize = {
   sm: 'sm',
@@ -86,6 +83,7 @@ const getDismissReason = (
 export const useAutocompleteController = (props: AutocompleteProps) => {
   const floatingLayer = useFloatingLayer();
   const fieldContext = useFieldContext();
+  const { labels } = useLocale();
   const {
     value: controlledValue,
     defaultValue,
@@ -100,9 +98,9 @@ export const useAutocompleteController = (props: AutocompleteProps) => {
     onOpenChange,
     multiple = false,
     allowCustomValue = false,
-    getCreateOptionLabel = defaultGetCreateOptionLabel,
+    getCreateOptionLabel = labels.addOption,
     limitTags,
-    placeholder = 'Select...',
+    placeholder = labels.selectPlaceholder,
     placement = 'bottom-start',
     offset = 4,
     children,
@@ -119,8 +117,8 @@ export const useAutocompleteController = (props: AutocompleteProps) => {
     loadingMore = false,
     hasMore = false,
     onLoadMore,
-    loadingText = 'Loading options…',
-    noOptionsText = 'No options',
+    loadingText = labels.loadingOptions,
+    noOptionsText = labels.noOptions,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     'aria-describedby': ariaDescribedBy,
@@ -345,24 +343,24 @@ export const useAutocompleteController = (props: AutocompleteProps) => {
           mergeAutocompleteOptions(currentOptions, [createdOption]),
         );
         state.selectOption(createdOption, 'create-option');
-        setAnnouncement(`${option.value} created and selected.`);
+        setAnnouncement(labels.optionCreated(option.value));
       } else {
         state.selectOption(option);
-        setAnnouncement(`${option.label} selected.`);
+        setAnnouncement(labels.optionSelected(option.label));
       }
 
       setActiveIndex(null);
       requestAnimationFrame(focusInput);
     },
-    [focusInput, state],
+    [focusInput, labels, state],
   );
 
   const removeSelectedValue = useCallback(
     (selectedValue: string, label: string) => {
       state.removeOption(selectedValue);
-      setAnnouncement(`${label} removed.`);
+      setAnnouncement(labels.optionRemoved(label));
     },
-    [state],
+    [labels, state],
   );
   const handleTokenDismiss = useCallback(
     (selectedValue: string, label: string) => {
