@@ -1,0 +1,13 @@
+{
+  "aliases": [
+    "drawer right show",
+    "show right drawer",
+    "open right panel",
+    "right drawer",
+    "reveal right sidebar",
+    "inspector"
+  ],
+  "tags": ["view", "navigation"],
+  "category": "Views",
+  "deprecated": false
+}

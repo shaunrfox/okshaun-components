@@ -1,0 +1,13 @@
+{
+  "aliases": [
+    "drawer left show",
+    "show left drawer",
+    "open left panel",
+    "left drawer",
+    "reveal left sidebar",
+    "panel"
+  ],
+  "tags": ["view", "navigation"],
+  "category": "Views",
+  "deprecated": false
+}

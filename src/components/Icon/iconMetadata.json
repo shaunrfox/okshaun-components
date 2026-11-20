@@ -480,6 +480,28 @@
     "category": "System objects",
     "deprecated": false
   },
+  "barcode-reader-off": {
+    "aliases": [
+      "upc",
+      "qr",
+      "products",
+      "shopping",
+      "scanner",
+      "barcode",
+      "gun",
+      "handheld",
+      "device",
+      "scanning",
+      "point of sale",
+      "offline",
+      "off",
+      "unavailable",
+      "disabled"
+    ],
+    "tags": [],
+    "category": "System objects",
+    "deprecated": false
+  },
   "barricade": {
     "aliases": [
       "construction",
@@ -1230,6 +1252,22 @@
     "category": "Shapes",
     "deprecated": false
   },
+  "circle-dashed": {
+    "aliases": [
+      "circle dashed",
+      "dashed circle",
+      "dotted circle",
+      "empty",
+      "placeholder",
+      "draft",
+      "pending",
+      "not started",
+      "backlog"
+    ],
+    "tags": [],
+    "category": "Shapes",
+    "deprecated": false
+  },
   "circles-add": {
     "aliases": [
       "round",
@@ -1731,6 +1769,58 @@
     ],
     "tags": [],
     "category": "Actions",
+    "deprecated": false
+  },
+  "drawer-left-hide": {
+    "aliases": [
+      "drawer left hide",
+      "hide left drawer",
+      "collapse left panel",
+      "close left drawer",
+      "conceal left sidebar",
+      "collapse"
+    ],
+    "tags": ["view", "navigation"],
+    "category": "Views",
+    "deprecated": false
+  },
+  "drawer-left-show": {
+    "aliases": [
+      "drawer left show",
+      "show left drawer",
+      "open left panel",
+      "left drawer",
+      "reveal left sidebar",
+      "panel"
+    ],
+    "tags": ["view", "navigation"],
+    "category": "Views",
+    "deprecated": false
+  },
+  "drawer-right-hide": {
+    "aliases": [
+      "drawer right hide",
+      "hide right drawer",
+      "collapse right panel",
+      "close right drawer",
+      "conceal right sidebar",
+      "split"
+    ],
+    "tags": ["view", "navigation"],
+    "category": "Views",
+    "deprecated": false
+  },
+  "drawer-right-show": {
+    "aliases": [
+      "drawer right show",
+      "show right drawer",
+      "open right panel",
+      "right drawer",
+      "reveal right sidebar",
+      "inspector"
+    ],
+    "tags": ["view", "navigation"],
+    "category": "Views",
     "deprecated": false
   },
   "edit": {
@@ -3317,6 +3407,21 @@
     "category": "Doc / note",
     "deprecated": false
   },
+  "not-equal": {
+    "aliases": [
+      "not equal",
+      "not equals",
+      "inequality",
+      "unequal",
+      "different",
+      "mismatch",
+      "≠",
+      "!="
+    ],
+    "tags": ["math"],
+    "category": "Math",
+    "deprecated": false
+  },
   "note": {
     "aliases": [
       "notes",
@@ -4381,6 +4486,21 @@
       "finances",
       "plus",
       "square"
+    ],
+    "tags": [],
+    "category": "Shapes",
+    "deprecated": false
+  },
+  "square-dashed": {
+    "aliases": [
+      "square dashed",
+      "dashed square",
+      "dotted square",
+      "marquee",
+      "selection area",
+      "bounding box",
+      "drop zone",
+      "empty slot"
     ],
     "tags": [],
     "category": "Shapes",
