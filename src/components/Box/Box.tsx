@@ -85,8 +85,8 @@ export const Box = <T extends ElementType = 'div'>(props: BoxProps<T>) => {
 // ---------------
 // ComponentPropsWithRef<ElementType> includes all HTML element props, so onClick is inherited.
 // The inherited type would be:
-// onClick?: React.MouseEventHandler<HTMLElement>
-// i.e., (event: React.MouseEvent<HTMLElement>) => void
+// onClick?: MouseEventHandler<HTMLElement>
+// i.e., (event: MouseEvent<HTMLElement>) => void
 // ---------------
 //
 // In React 19+, you can access ref directly as a prop in function components - no forwardRef wrapper needed.
