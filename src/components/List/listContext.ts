@@ -1,8 +1,9 @@
+import type { ListItemVariantProps } from '@styled-system/recipes';
 import { createContext, useContext } from 'react';
-
 import type { IconNamesList } from '../Icon';
 
-export type ListDensity = 'compact' | 'comfortable' | 'spacious';
+/** Responsive density value shared by List primitives. */
+export type ListDensity = ListItemVariantProps['density'];
 export type ListVariant = 'default' | 'checkbox' | 'toggle';
 
 export type ListContextValue = {

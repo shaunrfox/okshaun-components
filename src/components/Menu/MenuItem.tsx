@@ -1,17 +1,18 @@
 import { useFloatingTree, useListItem } from '@floating-ui/react';
-import { cx } from '@styled-system/css';
+import { css, cx } from '@styled-system/css';
 import { listItem as listItemRecipe } from '@styled-system/recipes';
-import type { HTMLProps, MouseEvent } from 'react';
+import type { HTMLProps, KeyboardEvent, MouseEvent } from 'react';
 
+import { setCompoundComponentType } from '~/utils/compoundComponent';
 import { splitProps } from '~/utils/splitProps';
 
-import { Box, type BoxProps } from '../Box';
-import { Checkbox } from '../Checkbox';
-import { Divider } from '../Divider';
-import { Icon } from '../Icon';
-import { HighlightText } from '../List';
-import { Text } from '../Text';
-import { Toggle } from '../Toggle';
+import { Box, type BoxProps } from '../Box/Box';
+import { Checkbox } from '../Checkbox/Checkbox';
+import { Divider } from '../Divider/Divider';
+import { Icon } from '../Icon/Icon';
+import { HighlightText } from '../List/HighlightText';
+import { Text } from '../Text/Text';
+import { Toggle } from '../Toggle/Toggle';
 
 import {
   deriveItemTextValue,
@@ -56,6 +57,12 @@ export const MenuItem = (props: MenuItemProps) => {
   } = props;
 
   const [className, otherProps] = splitProps(rest);
+  const restProps = { ...otherProps };
+  const userOnKeyDown =
+    'onKeyDown' in restProps && typeof restProps.onKeyDown === 'function'
+      ? restProps.onKeyDown
+      : undefined;
+  delete (restProps as { onKeyDown?: unknown }).onKeyDown;
 
   const rootContext = useMenuRootContext();
   const tree = useFloatingTree();
@@ -127,13 +134,64 @@ export const MenuItem = (props: MenuItemProps) => {
         }
   ) as MenuInteractionProps;
 
+  const { onKeyDown: itemOnKeyDown, ...itemPropsRest } = itemProps;
+
+  const handleItemKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (
+      event.key === 'ArrowLeft' &&
+      rootContext.diginDepth > 0 &&
+      (listContext?.nestedMenuDepth ?? 0) === 0
+    ) {
+      // Drilled in: Left goes back a level (before menubar handling). Rows in
+      // a nested flyout fall through so Left closes the flyout first.
+      event.preventDefault();
+      event.stopPropagation();
+      rootContext.onPopDiginLevel();
+      return;
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      if (href) {
+        itemOnKeyDown?.(event);
+        return;
+      }
+      const depth = listContext?.nestedMenuDepth ?? 0;
+      if (
+        event.key === 'ArrowLeft' &&
+        depth > 0 &&
+        listContext?.closeParentSubMenuFlyout
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        listContext.closeParentSubMenuFlyout();
+        return;
+      }
+      if (
+        event.key === 'ArrowLeft' &&
+        depth === 0 &&
+        rootContext.onMenubarEdgeNavigate
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        rootContext.onCloseMenu();
+        rootContext.onMenubarEdgeNavigate(-1);
+        return;
+      }
+      if (event.key === 'ArrowRight' && rootContext.onMenubarEdgeNavigate) {
+        event.preventDefault();
+        event.stopPropagation();
+        rootContext.onCloseMenu();
+        rootContext.onMenubarEdgeNavigate(1);
+        return;
+      }
+    }
+    itemOnKeyDown?.(event);
+    userOnKeyDown?.(event);
+  };
+
   const role =
     variant === 'checkbox' || variant === 'toggle'
       ? 'menuitemcheckbox'
       : 'menuitem';
-
-  // const selectionControl =
-  //   variant === 'checkbox' || variant === 'toggle' ? variant : 'none';
 
   const elementProps: BoxProps<'a'> | BoxProps<'button'> = href
     ? ({
@@ -170,24 +228,26 @@ export const MenuItem = (props: MenuItemProps) => {
       }
       aria-disabled={disabled}
       data-selected={selected}
-      data-disabled={disabled || undefined}
+      data-disabled={disabled}
       data-active={
         listContext ? listContext.activeIndex === listItemData.index : false
       }
       tabIndex={
         listContext
-          ? listContext.activeIndex === listItemData.index
+          ? (listContext.tabbableIndex ?? listContext.activeIndex) ===
+            listItemData.index
             ? 0
             : -1
           : 0
       }
-      {...itemProps}
-      {...otherProps}
+      {...itemPropsRest}
+      onKeyDown={handleItemKeyDown}
+      {...restProps}
     >
       {variant === 'checkbox' && (
         <Checkbox
           name={controlName}
-          pointerEvents="none"
+          className={cx(classes.beforeSlot, css({ pointerEvents: 'none' }))}
           checked={Boolean(selected)}
           readOnly
           tabIndex={-1}
@@ -198,7 +258,7 @@ export const MenuItem = (props: MenuItemProps) => {
       {variant === 'toggle' && (
         <Toggle
           name={controlName}
-          pointerEvents="none"
+          className={cx(classes.beforeSlot, css({ pointerEvents: 'none' }))}
           checked={Boolean(selected)}
           readOnly
           mr="4"
@@ -207,7 +267,12 @@ export const MenuItem = (props: MenuItemProps) => {
         />
       )}
 
-      {iconBefore && <Icon className={classes.icon} name={iconBefore} />}
+      {iconBefore && (
+        <Icon
+          className={cx(classes.icon, classes.beforeSlot)}
+          name={iconBefore}
+        />
+      )}
 
       <Box className={classes.itemMain}>
         {label && (
@@ -232,12 +297,18 @@ export const MenuItem = (props: MenuItemProps) => {
       </Box>
 
       {iconAfter && (
-        <Icon className={classes.icon} name={iconAfter} ml="auto" />
+        <Icon
+          className={cx(classes.icon, classes.afterSlot)}
+          name={iconAfter}
+          ml="auto"
+        />
       )}
     </Box>
   );
 };
 
-(MenuItem as unknown as { [menuComponentTypeKey]: string })[
-  menuComponentTypeKey
-] = MENU_COMPONENT_TYPES.item;
+setCompoundComponentType(
+  MenuItem,
+  menuComponentTypeKey,
+  MENU_COMPONENT_TYPES.item,
+);

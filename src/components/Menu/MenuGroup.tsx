@@ -1,4 +1,6 @@
-import { ListItemGroup } from '../List';
+import { setCompoundComponentType } from '~/utils/compoundComponent';
+
+import { ListItemGroup } from '../List/ListItemGroup';
 
 import {
   hasMatchingItems,
@@ -45,6 +47,8 @@ export const MenuGroup = (props: MenuGroupProps) => {
   );
 };
 
-(MenuGroup as unknown as { [menuComponentTypeKey]: string })[
-  menuComponentTypeKey
-] = MENU_COMPONENT_TYPES.group;
+setCompoundComponentType(
+  MenuGroup,
+  menuComponentTypeKey,
+  MENU_COMPONENT_TYPES.group,
+);

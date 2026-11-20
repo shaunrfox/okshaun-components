@@ -80,6 +80,8 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
     // `layer` is chosen at runtime from FloatingLayerContext, so Panda cannot
     // see the value statically and would emit no CSS for it.
     { layer: ['*'] },
+    // `scrollable` is computed in Menu.tsx (a triggered, non-panel menu).
+    { scrollable: ['*'] },
   ],
   select: [{ size: ['*'], responsive: true }],
   skeleton: [{ variant: ['*'], animation: ['*'] }],
