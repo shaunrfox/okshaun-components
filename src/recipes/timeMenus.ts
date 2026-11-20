@@ -60,7 +60,7 @@ const timeMenusBase = {
     top: '0',
     textAlign: 'center',
     fontSize: '12',
-    fontWeight: 'semibold',
+    fontWeight: 'medium',
     color: 'text.subtlest',
     bg: 'surface',
     py: '4',

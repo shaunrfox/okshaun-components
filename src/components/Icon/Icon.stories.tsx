@@ -280,7 +280,7 @@ function IconCatalogStory() {
                 iconName={name}
                 altText={`Copy ${name} icon`}
               />
-              <Text textStyle="mono.xs" color="text.accent.gold">
+              <Text textStyle="mono.xs" color="text.accent.yellow">
                 {name}
               </Text>
             </Flex>

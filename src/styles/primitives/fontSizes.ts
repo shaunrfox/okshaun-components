@@ -10,6 +10,7 @@ export const fontSizes = defineTokens.fontSizes({
   '32': { value: '{sizes.32}' },
   '40': { value: '{sizes.40}' },
   '48': { value: '{sizes.48}' },
+  '56': { value: '{sizes.56}' },
   '64': { value: '{sizes.64}' },
   '72': { value: '{sizes.72}' },
   '80': { value: '{sizes.80}' },

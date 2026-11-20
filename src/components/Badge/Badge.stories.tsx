@@ -209,7 +209,7 @@ export const variants: Story = {
             <Badge variant="neutral">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               neutral
             </Text>
           </Flex>
@@ -217,7 +217,7 @@ export const variants: Story = {
             <Badge variant="subtle">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               subtle
             </Text>
           </Flex>
@@ -225,7 +225,7 @@ export const variants: Story = {
             <Badge variant="inverse">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               inverse
             </Text>
           </Flex>
@@ -233,7 +233,7 @@ export const variants: Story = {
             <Badge variant="bold">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               bold
             </Text>
           </Flex>
@@ -241,7 +241,7 @@ export const variants: Story = {
             <Badge variant="success">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               success
             </Text>
           </Flex>
@@ -249,7 +249,7 @@ export const variants: Story = {
             <Badge variant="warning">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               warning
             </Text>
           </Flex>
@@ -257,7 +257,7 @@ export const variants: Story = {
             <Badge variant="danger">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               danger
             </Text>
           </Flex>
@@ -265,7 +265,7 @@ export const variants: Story = {
             <Badge variant="info">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               info
             </Text>
           </Flex>
@@ -278,7 +278,7 @@ export const variants: Story = {
             <Badge count={9} variant="neutral">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               neutral
             </Text>
           </Flex>
@@ -286,7 +286,7 @@ export const variants: Story = {
             <Badge count={6} variant="subtle">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               subtle
             </Text>
           </Flex>
@@ -294,7 +294,7 @@ export const variants: Story = {
             <Badge count={8} variant="bold">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               bold
             </Text>
           </Flex>
@@ -302,7 +302,7 @@ export const variants: Story = {
             <Badge count={4} variant="inverse">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               inverse
             </Text>
           </Flex>
@@ -310,7 +310,7 @@ export const variants: Story = {
             <Badge count={3} variant="success">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               success
             </Text>
           </Flex>
@@ -318,7 +318,7 @@ export const variants: Story = {
             <Badge count={7} variant="warning">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               warning
             </Text>
           </Flex>
@@ -326,7 +326,7 @@ export const variants: Story = {
             <Badge count={5} variant="danger">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               danger
             </Text>
           </Flex>
@@ -334,7 +334,7 @@ export const variants: Story = {
             <Badge count={2} variant="info">
               <Icon name="envelope" size="24" />
             </Badge>
-            <Text fontSize="12" color="text.muted">
+            <Text fontSize="12" color="text.subtle">
               info
             </Text>
           </Flex>
@@ -390,7 +390,7 @@ export const ShowZero: Story = {
       <Badge count={0}>
         <Icon name="envelope" size="24" />
       </Badge>
-      <Text textStyle="mono.xs" color="text.muted">
+      <Text textStyle="mono.xs" color="text.subtle">
         (badge hidden)
       </Text>
 
@@ -398,7 +398,7 @@ export const ShowZero: Story = {
       <Badge count={0} showZero>
         <Icon name="envelope" size="24" />
       </Badge>
-      <Text textStyle="mono.xs" color="text.muted">
+      <Text textStyle="mono.xs" color="text.subtle">
         (badge visible)
       </Text>
     </Grid>
@@ -434,7 +434,7 @@ const AnimationDemo = () => {
           onClick={() => setCount((c) => c + 1)}
         />
       </Box>
-      <Text color="text.muted">Current count: {count}</Text>
+      <Text color="text.subtle">Current count: {count}</Text>
     </Box>
   );
 };

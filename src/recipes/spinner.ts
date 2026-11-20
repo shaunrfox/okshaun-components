@@ -5,7 +5,7 @@ const spinnerBase = {
     position: 'relative',
     display: 'grid',
     placeContent: 'center',
-    zIndex: '100',
+    zIndex: 'raised',
     w: 'fit',
     h: 'fit',
     flex: '0',
