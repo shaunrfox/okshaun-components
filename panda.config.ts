@@ -83,7 +83,13 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
     // `scrollable` is computed in Menu.tsx (a triggered, non-panel menu).
     { scrollable: ['*'] },
   ],
-  select: [{ size: ['*'], responsive: true }],
+  select: [
+    { size: ['*'], responsive: true },
+    // Computed in Select.tsx from props and options, so Panda cannot see them.
+    { multiple: ['*'] },
+    { autoSize: ['*'] },
+    { before: ['*'] },
+  ],
   skeleton: [{ variant: ['*'], animation: ['*'] }],
   spinner: [{ size: ['*'], centered: ['*'], inverse: ['*'], responsive: true }],
   textarea: [{ size: ['*'], responsive: true }, { autoSize: ['*'] }],

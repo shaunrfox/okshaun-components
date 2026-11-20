@@ -1,7 +1,7 @@
+// biome-ignore-all lint/a11y/useSemanticElements: the combobox and listbox are composed from Box and List rather than native select markup, so the roles are applied explicitly
 import {
   FloatingFocusManager,
   FloatingPortal,
-  size as floatingSize,
   type Placement,
   useClick,
   useDismiss,
@@ -17,52 +17,85 @@ import {
   type HTMLProps,
   isValidElement,
   type KeyboardEvent,
+  type MouseEvent,
+  type PointerEvent,
   type ReactElement,
   type ReactNode,
   useCallback,
-  useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
-import type { MenuDensity } from '~/components/Menu';
+
+import type { MenuDensity } from '~/components/Menu/context/menuContext';
 import { useLocale } from '~/system/context/useLocale';
 import { useFloatingLayer } from '~/system/floating-ui/FloatingLayerContext';
 import {
+  availableHeightMiddleware,
   createOverlayMiddleware,
   useOverlayFloating,
 } from '~/system/floating-ui/floating';
-import { useControllableState } from '~/system/hooks';
 import { dsComponent } from '~/utils/dsComponent';
+import { dsPart } from '~/utils/dsPart';
 import { splitProps } from '~/utils/splitProps';
-import { Box, type BoxProps } from '../Box';
-import { Chip } from '../Chip';
-import { Icon } from '../Icon';
-import { List, ListItem } from '../List';
+
+import { Box, type BoxProps } from '../Box/Box';
+import { Chip } from '../Chip/Chip';
+import { DsChainPortalRoot } from '../DsChainScope/DsChainPortalRoot';
+import { DsChainScope } from '../DsChainScope/DsChainScope';
+import { Icon } from '../Icon/Icon';
+import { List } from '../List/List';
+import { ListItem } from '../List/ListItem';
+
 import { SelectContext } from './SelectContext';
-import type { SelectOptionProps } from './SelectOption';
+import { SelectOption, type SelectOptionProps } from './SelectOption';
 
 type SelectValue = string | string[] | null;
 
 const defaultDensity: MenuDensity = 'compact';
+const chipSizeBySelectSize = {
+  sm: 'sm',
+  md: 'sm',
+  lg: 'md',
+  xl: 'md',
+} as const;
+
+const resolveChipSize = (size: SelectProps['size']): 'sm' | 'md' => {
+  if (!size || typeof size === 'string') {
+    return chipSizeBySelectSize[size ?? 'md'];
+  }
+
+  const values = Array.isArray(size)
+    ? (size as Array<string | null>)
+    : Object.values(size as Record<string, unknown>);
+
+  const firstSize = values.find(
+    (value): value is keyof typeof chipSizeBySelectSize =>
+      typeof value === 'string' && value in chipSizeBySelectSize,
+  );
+
+  return firstSize ? chipSizeBySelectSize[firstSize] : 'sm';
+};
 
 const isSelectOptionElement = (
   child: ReactNode,
 ): child is ReactElement<SelectOptionProps> => {
-  return (
-    isValidElement(child) &&
-    typeof child.props === 'object' &&
-    child.props !== null &&
-    'value' in child.props
-  );
+  return isValidElement(child) && child.type === SelectOption;
 };
 
 const getOptionText = (option: ReactElement<SelectOptionProps>) => {
-  return typeof option.props.label === 'string'
-    ? option.props.label
-    : option.props.value;
+  return option.props.label;
 };
+
+const NAVIGATION_KEYS = new Set(['ArrowUp', 'ArrowDown', 'Home', 'End']);
+
+// Keys floating-ui treats as moving through the list: arrows, Home/End, and
+// printable characters (typeahead). Modifiers, Tab and the like don't count.
+const isNavigationKey = (event: KeyboardEvent<HTMLElement>) =>
+  NAVIGATION_KEYS.has(event.key) ||
+  (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey);
 
 const getSelectedDisplay = (
   options: ReactElement<SelectOptionProps>[],
@@ -78,8 +111,9 @@ const getSelectedDisplay = (
     const selectedValues = Array.isArray(value)
       ? value
       : ([value].filter(Boolean) as string[]);
+    const selectedValueSet = new Set(selectedValues);
     const selectedOptions = options.filter((option) =>
-      selectedValues.includes(option.props.value),
+      selectedValueSet.has(option.props.value),
     );
 
     if (selectedOptions.length === 0) {
@@ -93,9 +127,23 @@ const getSelectedDisplay = (
   return selectedOption ? getOptionText(selectedOption) : placeholder;
 };
 
+const getSelectedOptions = (
+  options: ReactElement<SelectOptionProps>[],
+  value: SelectValue,
+  multiple: boolean,
+) => {
+  if (!multiple) {
+    return [];
+  }
+
+  const selectedValues = Array.isArray(value) ? value : value ? [value] : [];
+  const selectedValueSet = new Set(selectedValues);
+  return options.filter((option) => selectedValueSet.has(option.props.value));
+};
+
 /** Props for {@link Select}, an ARIA listbox-based single or multiple select. */
 export type SelectProps = Omit<
-  BoxProps<'button'>,
+  BoxProps,
   keyof SelectVariantProps | 'children' | 'onChange' | 'type' | 'value'
 > &
   SelectVariantProps & {
@@ -137,7 +185,8 @@ export type SelectProps = Omit<
      * @default 4
      */
     offset?: number;
-    children: ReactNode;
+    /** Metadata-only `SelectOption` children used to build the listbox. Other children are ignored. */
+    children?: ReactNode;
     /** Identifier for the combobox trigger. A generated identifier is used when omitted. */
     id?: string;
     /** Form field name. Each selected value is submitted through a hidden input. */
@@ -162,6 +211,20 @@ export type SelectProps = Omit<
      * @default false
      */
     autoSize?: boolean;
+    /**
+     * Decorative content, such as an `Avatar` or a colored `Icon`, shown in
+     * the trigger before the selected value. When omitted, a single select
+     * shows the selected option's `before` instead.
+     */
+    before?: ReactNode;
+    /**
+     * Lets the user clear a single selection by choosing the selected option
+     * again or by pressing Backspace or Delete. Set it to `false` for a field
+     * that must always hold a value, such as a status. It has no effect when
+     * `multiple` is set.
+     * @default true
+     */
+    clearable?: boolean;
   };
 
 /**
@@ -170,6 +233,10 @@ export type SelectProps = Omit<
  * The trigger uses combobox/listbox semantics. Arrow keys, Enter, and Space open
  * it; typeahead and arrow keys navigate options; Escape or outside press closes
  * it. Focus stays on the trigger when the non-modal popup opens.
+ *
+ * Use `before` on the `Select` or on each `SelectOption` to show an avatar or
+ * a status icon beside the value. Set `clearable={false}` when the field must
+ * always hold a value.
  *
  * @example
  * ```tsx
@@ -181,6 +248,7 @@ export type SelectProps = Omit<
  */
 export const Select = (props: SelectProps) => {
   const { labels } = useLocale();
+  const floatingLayer = useFloatingLayer();
   const {
     value: controlledValue,
     defaultValue = null,
@@ -200,40 +268,61 @@ export const Select = (props: SelectProps) => {
     size = 'md',
     density = defaultDensity,
     autoSize = false,
+    before,
+    clearable = true,
+    'data-ds-component': dsComponentName,
     ...rest
   } = props;
   const [className, otherProps] = splitProps(rest);
+  // Read, do not remove. `data-testid` stays on the combobox trigger, which is
+  // the element a test drives and the element existing selectors already
+  // target. The chain scope it needs to open is a separate concern, handled
+  // below the return: the trigger is a sibling of the portal that renders the
+  // listbox, so a scope opened by the trigger's own `Box` could never enclose
+  // it, but a scope opened above the root does.
+  const testId = otherProps['data-testid'];
 
   const generatedId = useId();
   const triggerId = id ?? `select-${generatedId}`;
+  const labelId = `${triggerId}-label`;
   const listboxId = `${triggerId}-listbox`;
 
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const [internalValue, setInternalValue] = useState<SelectValue>(defaultValue);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [hasNavigated, setHasNavigated] = useState(false);
+  const [openedByKeyboard, setOpenedByKeyboard] = useState(false);
 
-  const [value, setValue] = useControllableState<SelectValue>({
-    value: controlledValue,
-    defaultValue: defaultValue ?? (multiple ? ([] as string[]) : null),
-    onChange,
-  });
-  const [isOpen, setIsOpen] = useControllableState<boolean>({
-    value: controlledOpen,
-    defaultValue: defaultOpen,
-    onChange: onOpenChange,
-  });
+  const isOpenControlled = controlledOpen !== undefined;
+  const isOpen = isOpenControlled ? controlledOpen : internalOpen;
+  const value = controlledValue !== undefined ? controlledValue : internalValue;
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
 
   const options = useMemo(() => {
     return Children.toArray(children).filter(isSelectOptionElement);
   }, [children]);
 
+  const selectedValues = useMemo(() => {
+    if (multiple) {
+      return Array.isArray(value) ? value : value ? [value] : [];
+    }
+
+    return typeof value === 'string' ? [value] : [];
+  }, [multiple, value]);
+  const selectedValueSet = useMemo(
+    () => new Set(selectedValues),
+    [selectedValues],
+  );
+
   const selectedIndex = useMemo(() => {
     return options.findIndex((option) => {
       if (multiple) {
-        return Array.isArray(value) && value.includes(option.props.value);
+        return selectedValueSet.has(option.props.value);
       }
 
       return option.props.value === value;
     });
-  }, [multiple, options, value]);
+  }, [multiple, options, selectedValueSet, value]);
 
   const firstEnabledIndex = useMemo(() => {
     return options.findIndex((option) => !option.props.disabled);
@@ -245,29 +334,54 @@ export const Select = (props: SelectProps) => {
     );
   }, [options]);
 
-  useEffect(() => {
-    if (!isOpen) {
-      setActiveIndex(null);
-      return;
-    }
+  const initialActiveIndex =
+    selectedIndex >= 0
+      ? selectedIndex
+      : firstEnabledIndex >= 0
+        ? firstEnabledIndex
+        : null;
+  // Each open or close starts a fresh interaction, whether the user caused it
+  // or a controlling parent changed `open` directly. Reset during render
+  // rather than in `setOpenState`, which that second path never reaches. Only
+  // opening from the keyboard starts out as navigated, so its selected row
+  // shows the clear icon right away.
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
+    setActiveIndex(isOpen ? initialActiveIndex : null);
+    setHasNavigated(isOpen && openedByKeyboard);
+    setOpenedByKeyboard(false);
+  }
 
-    if (selectedIndex >= 0) {
-      setActiveIndex(selectedIndex);
-      return;
-    }
+  // Until the user has navigated, the selected row stands in as the active
+  // one. After that, a null `activeIndex` is real (the pointer left the
+  // options), and must reach floating-ui as null so the next arrow key moves
+  // focus to a row instead of re-activating the one it already thinks is active.
+  const resolvedActiveIndex = isOpen
+    ? (activeIndex ?? (hasNavigated ? null : initialActiveIndex))
+    : null;
 
-    setActiveIndex(firstEnabledIndex >= 0 ? firstEnabledIndex : null);
-  }, [firstEnabledIndex, isOpen, selectedIndex]);
+  const activeOptionId =
+    resolvedActiveIndex !== null
+      ? `${triggerId}-option-${resolvedActiveIndex}`
+      : undefined;
 
   const setOpenState = (nextOpen: boolean) => {
-    setIsOpen(nextOpen);
+    if (!isOpenControlled) {
+      setInternalOpen(nextOpen);
+    }
+
+    onOpenChange?.(nextOpen);
   };
 
   const handleValueChange = useCallback(
     (nextValue: SelectValue) => {
-      setValue(nextValue);
+      if (controlledValue === undefined) {
+        setInternalValue(nextValue);
+      }
+
+      onChange?.(nextValue);
     },
-    [setValue],
+    [controlledValue, onChange],
   );
 
   const floating = useOverlayFloating({
@@ -281,17 +395,30 @@ export const Select = (props: SelectProps) => {
     middleware: createOverlayMiddleware({
       offset,
       extras: [
-        floatingSize({
-          apply({ rects, elements }) {
-            elements.floating.style.minWidth = `${rects.reference.width}px`;
-          },
-        }),
+        // Floating UI only positions the listbox; without a height cap a long
+        // option list overflows the viewport on whichever side flip() picks.
+        // The `menu` recipe's `scrollable` variant applies the cap.
+        availableHeightMiddleware({ matchReferenceWidth: true }),
       ],
     }),
   });
 
   const itemRefs = useRef<Array<HTMLElement | null>>([]);
   const labelsRef = useRef<Array<string | null>>([]);
+
+  // Focus stays on the trigger when the listbox opens, so nothing scrolls the
+  // initially active option into view. Wait for positioning so the height cap
+  // is in place before scrolling within the capped listbox.
+  const { isPositioned } = floating;
+  // biome-ignore lint/correctness/useExhaustiveDependencies: runs only on open; later navigation scrolls via useListNavigation
+  useLayoutEffect(() => {
+    if (!isOpen || !isPositioned || initialActiveIndex === null) {
+      return;
+    }
+
+    itemRefs.current[initialActiveIndex]?.scrollIntoView({ block: 'nearest' });
+    // Only on open; later navigation scrolls via useListNavigation.
+  }, [isOpen, isPositioned]);
 
   const click = useClick(floating.context, {
     enabled: !disabled,
@@ -302,29 +429,20 @@ export const Select = (props: SelectProps) => {
   const role = useRole(floating.context, { role: 'listbox' });
   const listNavigation = useListNavigation(floating.context, {
     listRef: itemRefs,
-    activeIndex,
+    activeIndex: resolvedActiveIndex,
+    selectedIndex,
     onNavigate: setActiveIndex,
     loop: true,
     disabledIndices,
   });
   const typeahead = useTypeahead(floating.context, {
     listRef: labelsRef,
-    activeIndex,
+    activeIndex: resolvedActiveIndex,
     onMatch: setActiveIndex,
   });
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
     [click, dismiss, role, listNavigation, typeahead],
-  );
-
-  const contextValue = useMemo(
-    () => ({
-      value,
-      onChange: handleValueChange,
-      multiple,
-      placeholder,
-    }),
-    [handleValueChange, multiple, placeholder, value],
   );
 
   const displayValue = getSelectedDisplay(
@@ -333,39 +451,49 @@ export const Select = (props: SelectProps) => {
     multiple,
     placeholder,
   );
-  const styles = select({ size });
-  const floatingLayer = useFloatingLayer();
-  const menuStyles = menu({ density, layer: floatingLayer });
+  const selectedOptions = getSelectedOptions(options, value, multiple);
+  const resolvedBefore =
+    before ??
+    (multiple
+      ? undefined
+      : options.find((option) => option.props.value === value)?.props.before);
+  const hasBefore =
+    resolvedBefore !== undefined &&
+    resolvedBefore !== null &&
+    resolvedBefore !== false;
+  const classes = select({ size, multiple, autoSize, before: hasBefore });
+  const menuClasses = menu({
+    density,
+    layer: floatingLayer,
+    scrollable: true,
+  });
   const hasValue = value !== null && value !== undefined && value !== '';
-  const selectedValues = multiple
-    ? Array.isArray(value)
-      ? value
-      : value
-        ? [value]
-        : []
-    : hasValue
-      ? [String(value)]
-      : [];
-  const activeOption =
-    isOpen && activeIndex !== null ? options[activeIndex] : undefined;
-  const activeOptionId = activeOption
-    ? `${triggerId}-option-${activeOption.props.value}`
-    : undefined;
+  const chipSize = resolveChipSize(size);
+  const accessibleName =
+    typeof displayValue === 'string' && displayValue.length > 0
+      ? displayValue
+      : placeholder;
 
-  const handleTriggerKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+  const handleTriggerKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (disabled) {
-      return;
-    }
-
-    if (!isOpen && ['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(event.key)) {
-      event.preventDefault();
-      setOpenState(true);
       return;
     }
 
     if (
       !isOpen &&
+      (event.key === 'ArrowDown' ||
+        event.key === 'ArrowUp' ||
+        event.key === 'Enter' ||
+        event.key === ' ')
+    ) {
+      event.preventDefault();
+      setOpenedByKeyboard(true);
+      setOpenState(true);
+    }
+
+    if (
       !multiple &&
+      clearable &&
       hasValue &&
       (event.key === 'Backspace' || event.key === 'Delete')
     ) {
@@ -385,148 +513,270 @@ export const Select = (props: SelectProps) => {
       return;
     }
 
-    handleValueChange(optionValue === value ? null : optionValue);
+    if (value === optionValue) {
+      if (clearable) {
+        handleValueChange(null);
+      }
+      setOpenState(false);
+      return;
+    }
+
+    handleValueChange(optionValue);
     setOpenState(false);
   };
 
-  return (
+  const handleChipDismiss = (optionValue: string) => {
+    if (!multiple) {
+      return;
+    }
+
+    const currentValues = Array.isArray(value) ? value : value ? [value] : [];
+    const nextValues = currentValues.filter(
+      (currentValue) => currentValue !== optionValue,
+    );
+
+    handleValueChange(nextValues.length > 0 ? nextValues : null);
+  };
+
+  // okshaun keeps SelectContext public (useSelectContext), so the provider
+  // wraps the DS structure.
+  const contextValue = useMemo(
+    () => ({
+      value,
+      onChange: handleValueChange,
+      multiple,
+      placeholder,
+    }),
+    [handleValueChange, multiple, placeholder, value],
+  );
+
+  const root = (
     <SelectContext value={contextValue}>
-      <Box as="span" display="inline-flex" flexDirection="column">
+      <Box {...dsComponent('Select', dsComponentName)} className={classes.root}>
+        {name &&
+          selectedValues.map((selectedValue) => (
+            <Box
+              key={selectedValue}
+              as="input"
+              type="hidden"
+              name={name}
+              value={selectedValue}
+              disabled={disabled}
+            />
+          ))}
+
+        {/*
+        `data-ds-part` gives the trigger a stable query handle now that
+        `data-testid` is written on the root. It is internal instrumentation,
+        not a supported prop, and the chain reads `data-testid` only, so it adds
+        no chain node.
+      */}
         <Box
-          {...dsComponent('Select')}
-          as="button"
-          type="button"
+          as="div"
+          {...dsPart('trigger')}
           id={triggerId}
           ref={floating.refs.setReference}
-          className={cx(styles.trigger, className)}
+          className={`${cx(classes.trigger, className)} peer`}
+          role="combobox"
+          tabIndex={disabled ? -1 : 0}
+          aria-labelledby={labelId}
+          aria-label={accessibleName}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
           aria-controls={isOpen ? listboxId : undefined}
-          aria-activedescendant={activeOptionId}
-          disabled={disabled}
+          aria-activedescendant={isOpen ? activeOptionId : undefined}
+          aria-disabled={disabled}
+          aria-invalid={error || undefined}
           data-disabled={disabled || undefined}
           data-error={error || undefined}
-          data-auto-size={autoSize || undefined}
+          data-open={isOpen || undefined}
           {...(getReferenceProps({
             onKeyDown: handleTriggerKeyDown,
           }) as Record<string, unknown>)}
           {...otherProps}
         >
-          {multiple && selectedValues.length > 0 ? (
-            <Box
-              display="flex"
-              flexWrap={autoSize ? 'wrap' : 'nowrap'}
-              gap="2"
-              overflowX={autoSize ? 'visible' : 'auto'}
-              className={styles.chips}
-            >
-              {selectedValues.map((selectedValue) => {
-                const option = options.find(
-                  (entry) => entry.props.value === selectedValue,
-                );
-                const chipLabel = option
-                  ? getOptionText(option)
-                  : selectedValue;
-
-                return (
+          {hasBefore && (
+            <Box className={classes.before} aria-hidden>
+              {resolvedBefore}
+            </Box>
+          )}
+          {multiple && selectedOptions.length > 0 ? (
+            <Box className={cx(classes.content, classes.chips)}>
+              {selectedOptions.map((option) => (
+                <Box
+                  key={option.props.value}
+                  onMouseDown={(event: MouseEvent<HTMLElement>) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }}
+                  onClick={(event: MouseEvent<HTMLElement>) => {
+                    event.stopPropagation();
+                  }}
+                >
                   <Chip
-                    key={selectedValue}
-                    size="sm"
+                    size={chipSize}
                     dismissable
-                    dismissLabel={`${chipLabel}, remove`}
-                    onDismiss={() => {
-                      handleValueChange(
-                        selectedValues.filter(
-                          (entry) => entry !== selectedValue,
-                        ),
-                      );
-                    }}
+                    onDismiss={() => handleChipDismiss(option.props.value)}
                   >
-                    {chipLabel}
+                    {option.props.label}
                   </Chip>
-                );
-              })}
+                </Box>
+              ))}
             </Box>
           ) : (
-            <Box className={hasValue ? styles.value : styles.placeholder}>
+            <Box
+              className={cx(
+                classes.content,
+                hasValue ? classes.value : classes.placeholder,
+              )}
+            >
               {displayValue}
             </Box>
           )}
-          <Icon
-            name="caret-down"
-            size="20"
-            className={styles.icon}
-            data-open={isOpen}
-          />
         </Box>
-
-        {name &&
-          selectedValues.map((hiddenValue, index) => (
-            <input
-              key={`${name}-${index}-${hiddenValue}`}
-              type="hidden"
-              name={name}
-              value={hiddenValue}
-            />
-          ))}
+        <Box
+          as="span"
+          className={classes.icon}
+          data-open={isOpen || undefined}
+          aria-hidden
+        >
+          <Icon name="caret-down" />
+        </Box>
 
         {isOpen && !disabled && (
           <FloatingPortal>
-            <FloatingFocusManager
-              context={floating.context}
-              modal={false}
-              initialFocus={-1}
-            >
-              {/* biome-ignore lint/a11y/useSemanticElements: custom select popup uses an ARIA listbox on a non-native container */}
-              <List
-                ref={floating.refs.setFloating}
-                id={listboxId}
-                role="listbox"
-                aria-labelledby={triggerId}
-                aria-multiselectable={multiple || undefined}
-                density={density}
-                className={menuStyles.wrapper}
-                style={floating.floatingStyles}
-                {...(getFloatingProps() as Record<string, unknown>)}
+            <DsChainPortalRoot reference={floating.elements.domReference}>
+              <FloatingFocusManager
+                context={floating.context}
+                modal={false}
+                initialFocus={-1}
               >
-                {options.map((option, index) => {
-                  const optionLabel = getOptionText(option);
-                  const isSelected = multiple
-                    ? Array.isArray(value) && value.includes(option.props.value)
-                    : value === option.props.value;
-                  const optionId = `${triggerId}-option-${option.props.value}`;
+                {/* validate-ignore: useSemanticElements — custom select popup uses ARIA listbox semantics on a non-native container */}
+                <List
+                  ref={floating.refs.setFloating}
+                  id={listboxId}
+                  role="listbox"
+                  aria-labelledby={triggerId}
+                  aria-multiselectable={multiple || undefined}
+                  density={density}
+                  className={menuClasses.wrapper}
+                  style={floating.floatingStyles}
+                  {...(getFloatingProps({
+                    // floating-ui also reports `onNavigate` while opening, so
+                    // only real input on the list counts as the user pointing
+                    // at a row. Option events bubble here, and the listbox
+                    // itself holds focus after the pointer leaves the options.
+                    onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
+                      if (isNavigationKey(event)) {
+                        setHasNavigated(true);
+                      }
+                    },
+                    onPointerMove: (event: PointerEvent<HTMLElement>) => {
+                      if (event.pointerType !== 'touch') {
+                        setHasNavigated(true);
+                      }
+                    },
+                  }) as Record<string, unknown>)}
+                >
+                  {options.map((option, index) => {
+                    const optionLabel = getOptionText(option);
+                    const isSelected = multiple
+                      ? selectedValueSet.has(option.props.value)
+                      : value === option.props.value;
+                    // The selected row is made active as soon as the list opens,
+                    // so `activeIndex` alone can't tell whether the user is
+                    // pointing at it. Once the list has seen pointer or key
+                    // input, the active row is the one being pointed at.
+                    const isPointed =
+                      !option.props.disabled &&
+                      hasNavigated &&
+                      activeIndex === index;
+                    const showClearIcon = clearable && isSelected && isPointed;
+                    const optionBefore = option.props.before;
+                    // A `before` slot takes the leading position, so the
+                    // selection check moves to the end of the row.
+                    const hasOptionBefore =
+                      optionBefore !== undefined &&
+                      optionBefore !== null &&
+                      optionBefore !== false;
+                    const selectionIcon = showClearIcon ? 'x' : 'check';
 
-                  return (
-                    <ListItem
-                      key={option.props.value}
-                      id={optionId}
-                      ref={(node: HTMLElement | null) => {
-                        itemRefs.current[index] = node;
-                        labelsRef.current[index] = optionLabel;
-                      }}
-                      disabled={option.props.disabled}
-                      selected={isSelected}
-                      variant={multiple ? 'checkbox' : 'default'}
-                      label={optionLabel}
-                      description={option.props.description}
-                      iconBefore={option.props.iconLeft}
-                      iconAfter={option.props.iconRight}
-                      aria-selected={isSelected}
-                      {...(getItemProps({
-                        onClick: () => {
-                          if (!option.props.disabled) {
-                            handleOptionSelect(option.props.value);
-                          }
-                        },
-                      } as HTMLProps<HTMLElement>) as Record<string, unknown>)}
-                    />
-                  );
-                })}
-              </List>
-            </FloatingFocusManager>
+                    return (
+                      <ListItem
+                        key={option.props.value}
+                        id={`${triggerId}-option-${index}`}
+                        ref={(node: HTMLElement | null) => {
+                          itemRefs.current[index] = node;
+                          labelsRef.current[index] = optionLabel;
+                        }}
+                        disabled={option.props.disabled}
+                        selected={isSelected}
+                        variant={multiple ? 'checkbox' : 'default'}
+                        label={optionLabel}
+                        description={option.props.description}
+                        before={hasOptionBefore ? optionBefore : undefined}
+                        iconBefore={
+                          hasOptionBefore
+                            ? undefined
+                            : !multiple
+                              ? showClearIcon
+                                ? 'x'
+                                : (option.props.iconLeft ?? 'check')
+                              : option.props.iconLeft
+                        }
+                        iconBeforeFill={
+                          hasOptionBefore
+                            ? undefined
+                            : !multiple
+                              ? isSelected
+                                ? 'icon'
+                                : option.props.iconLeft
+                                  ? undefined
+                                  : 'transparent'
+                              : undefined
+                        }
+                        iconAfter={
+                          hasOptionBefore && !multiple
+                            ? selectionIcon
+                            : option.props.iconRight
+                        }
+                        iconAfterFill={
+                          hasOptionBefore && !multiple
+                            ? isSelected
+                              ? 'icon'
+                              : 'transparent'
+                            : undefined
+                        }
+                        {...(getItemProps({
+                          onClick: () => {
+                            if (!option.props.disabled) {
+                              handleOptionSelect(option.props.value);
+                            }
+                          },
+                        } as HTMLProps<HTMLElement>) as Record<
+                          string,
+                          unknown
+                        >)}
+                      />
+                    );
+                  })}
+                </List>
+              </FloatingFocusManager>
+            </DsChainPortalRoot>
           </FloatingPortal>
         )}
       </Box>
     </SelectContext>
+  );
+
+  // The scope is opened above the root rather than by the element carrying the
+  // id, because only the root encloses the portal's position in the React tree.
+  // The trigger's own `Box` opens a second scope with the same id; the repeat
+  // is collapsed in `extendDsChain`, so content inside the trigger resolves the
+  // same chain as content outside it.
+  return typeof testId === 'string' && testId.length > 0 ? (
+    <DsChainScope testId={testId}>{root}</DsChainScope>
+  ) : (
+    root
   );
 };
