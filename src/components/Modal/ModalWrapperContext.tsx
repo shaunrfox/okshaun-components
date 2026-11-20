@@ -8,6 +8,12 @@ export interface ModalWrapperContextValue {
   onClose: () => void;
   /** Whether the parent modal blocks overlay-triggered closing. */
   preventOverlayClose?: boolean;
+  /**
+   * Tells the modal that a header close button is rendered. The modal then
+   * focuses the dialog itself on open, so the close button's tooltip does not
+   * open and take the first Escape. Returns the cleanup that unregisters it.
+   */
+  registerHeaderCloseButton: () => () => void;
 }
 
 export const ModalWrapperContext =
