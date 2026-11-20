@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
 import { Grid, HStack, VStack, Wrap } from '@styled-system/jsx';
+import { useState } from 'react';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 import { Avatar } from '../Avatar';
 import { Badge } from '../Badge';
 import { Divider } from '../Divider';
@@ -411,5 +412,157 @@ export const Interactive: Story = {
     children: 'Click Me',
     disabled: false,
     loading: false,
+  },
+};
+
+/**
+ * Use case: an action the user can't take right now, with the reason. The
+ * button stays focusable, so keyboard and screen-reader users get the reason.
+ */
+export const DisabledWithReason: Story = {
+  name: 'Ex: Disabled With Reason',
+  render: () => (
+    <HStack gap="8">
+      <Button
+        variant="primary"
+        disabledReason="Closed orders can't be edited. Reopen the order first."
+      >
+        Edit order
+      </Button>
+      <Button disabledReason="You need the Purchasing role to approve.">
+        Approve
+      </Button>
+      <IconButton
+        iconName="trash"
+        altText="Delete order"
+        variant="danger"
+        disabledReason="Orders with shipments can't be deleted."
+      />
+    </HStack>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const DisabledReasonBehavior: Story = {
+  name: 'Test: disabledReason',
+  args: {
+    children: 'Edit order',
+    disabledReason: "Closed orders can't be edited.",
+    onClick: fn(),
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: 'Edit order' });
+
+    // Disabled for assistive tech and styling, but still in the tab order.
+    await expect(button).toHaveAttribute('aria-disabled', 'true');
+    await expect(button).not.toHaveAttribute('disabled');
+    await expect(button).toHaveAccessibleDescription(
+      "Closed orders can't be edited.",
+    );
+
+    // Clicks and keyboard activation do nothing.
+    button.focus();
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    await expect(args.onClick).not.toHaveBeenCalled();
+
+    // Keyboard focus shows the reason.
+    button.blur();
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    const tooltip = await within(document.body).findByRole('tooltip');
+    await expect(tooltip).toHaveTextContent("Closed orders can't be edited.");
+    // The open tooltip does not add the reason a second time.
+    await expect(button).toHaveAccessibleDescription(
+      "Closed orders can't be edited.",
+    );
+
+    button.blur();
+    await waitFor(() =>
+      expect(within(document.body).queryByRole('tooltip')).toBeNull(),
+    );
+
+    // Hover shows the reason without a hover style, and a click does nothing.
+    const restingBg = getComputedStyle(button).backgroundColor;
+    await userEvent.hover(button);
+    await expect(
+      await within(document.body).findByRole('tooltip'),
+    ).toHaveTextContent("Closed orders can't be edited.");
+    // Simulated hover does not set :hover, so use the hover data attribute.
+    button.setAttribute('data-hover', 'true');
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    await expect(getComputedStyle(button).backgroundColor).toBe(restingBg);
+    button.removeAttribute('data-hover');
+    await userEvent.click(button);
+    await expect(args.onClick).not.toHaveBeenCalled();
+    await userEvent.unhover(button);
+    button.blur();
+    await waitFor(() =>
+      expect(within(document.body).queryByRole('tooltip')).toBeNull(),
+    );
+  },
+};
+
+export const DisabledReasonLink: Story = {
+  name: 'Test: disabled link has no href',
+  // Behavior test only. It looks the same as "Test: disabledReason".
+  tags: ['!snapshot'],
+  args: {
+    href: 'https://example.com/orders/1042',
+    children: 'View order',
+    disabledReason: 'You need the Sales role to view orders.',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // No live href, so middle-click and "Open in new tab" can't navigate.
+    const link = canvas.getByRole('link', { name: 'View order' });
+
+    await expect(link).not.toHaveAttribute('href');
+    await expect(link).toHaveAttribute('aria-disabled', 'true');
+    await expect(link).toHaveAccessibleDescription(
+      'You need the Sales role to view orders.',
+    );
+
+    await userEvent.tab();
+    await expect(link).toHaveFocus();
+    await expect(
+      await within(document.body).findByRole('tooltip'),
+    ).toHaveTextContent('You need the Sales role to view orders.');
+    link.blur();
+    await waitFor(() =>
+      expect(within(document.body).queryByRole('tooltip')).toBeNull(),
+    );
+  },
+};
+
+export const DisabledReasonKeepsFocus: Story = {
+  name: 'Test: focus stays when a reason appears',
+  // Behavior test only. It ends in the same state as "Test: disabledReason".
+  tags: ['!snapshot'],
+  render: function Render() {
+    const [reason, setReason] = useState<string>();
+    return (
+      <Button
+        disabledReason={reason}
+        onClick={() => setReason('This case is already closed.')}
+      >
+        Close case
+      </Button>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: 'Close case' });
+
+    await userEvent.click(button);
+
+    await waitFor(() =>
+      expect(button).toHaveAttribute('aria-disabled', 'true'),
+    );
+    await expect(canvas.getByRole('button', { name: 'Close case' })).toBe(
+      button,
+    );
+    await expect(button).toHaveFocus();
   },
 };

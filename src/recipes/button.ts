@@ -2,6 +2,14 @@ import { defineSlotRecipe } from '@pandacss/dev';
 
 import { globalBaseStyles } from '~/styles/utilities';
 
+// A button with a `disabledReason` takes pointer events so its tooltip can
+// open on hover. These selectors keep hover and press styles off it.
+const enabled = ":not([aria-disabled='true'])";
+const hoverEnabled = `&:is(:hover, [data-hover=true])${enabled}`;
+const activeEnabled = `&:is(:active, [data-active=true])${enabled}`;
+const groupHoverEnabled = `.group:is(:hover, [data-hover=true])${enabled} &`;
+const groupActiveEnabled = `.group:is(:active, [data-active=true])${enabled} &`;
+
 // Ported from the Cetec design system: slots, the custom-property sizing
 // mechanism, the size variant and the style-variant set. The recipe's
 // before/after variants are internal, computed from Button's props, so the
@@ -85,10 +93,10 @@ const buttonVariants = {
       container: {
         bg: 'bg.neutral',
         borderColor: 'transparent',
-        _hover: {
+        [hoverEnabled]: {
           bg: 'bg.neutral.hovered',
         },
-        _active: {
+        [activeEnabled]: {
           bg: 'bg.neutral.pressed',
         },
       },
@@ -98,18 +106,18 @@ const buttonVariants = {
       slot: {
         fill: 'icon.decorative',
         mixBlendMode: { base: 'multiply', _dark: 'screen' },
-        _groupHover: { fill: 'current' },
-        _groupActive: { fill: 'current' },
+        [groupHoverEnabled]: { fill: 'current' },
+        [groupActiveEnabled]: { fill: 'current' },
       },
     },
     primary: {
       container: {
         bg: 'bg.neutral.boldest',
         borderColor: 'transparent',
-        _hover: {
+        [hoverEnabled]: {
           bg: 'bg.neutral.bold.hovered',
         },
-        _active: {
+        [activeEnabled]: {
           bg: 'bg.neutral.bold.pressed',
         },
       },
@@ -119,8 +127,8 @@ const buttonVariants = {
       slot: {
         fill: 'icon.decorative.inverse',
         mixBlendMode: { base: 'screen', _dark: 'multiply' },
-        _groupHover: { fill: 'icon.decorative.inverse.hovered' },
-        _groupActive: { fill: 'icon.decorative.inverse.hovered' },
+        [groupHoverEnabled]: { fill: 'icon.decorative.inverse.hovered' },
+        [groupActiveEnabled]: { fill: 'icon.decorative.inverse.hovered' },
         _groupDisabled: {
           fill: 'icon.decorative.inverse',
         },
@@ -130,10 +138,10 @@ const buttonVariants = {
       container: {
         bg: 'bg.neutral.subtle',
         borderColor: 'border',
-        _hover: {
+        [hoverEnabled]: {
           bg: 'bg.neutral.subtle.hovered',
         },
-        _active: {
+        [activeEnabled]: {
           bg: 'bg.neutral.subtle.pressed',
         },
       },
@@ -143,18 +151,18 @@ const buttonVariants = {
       slot: {
         fill: 'icon.decorative',
         mixBlendMode: { base: 'multiply', _dark: 'screen' },
-        _groupHover: { fill: 'current' },
-        _groupActive: { fill: 'current' },
+        [groupHoverEnabled]: { fill: 'current' },
+        [groupActiveEnabled]: { fill: 'current' },
       },
     },
     ghost: {
       container: {
         bg: 'bg.neutral.subtle',
         borderColor: 'transparent',
-        _hover: {
+        [hoverEnabled]: {
           bg: 'bg.neutral.subtle.hovered',
         },
-        _active: {
+        [activeEnabled]: {
           bg: 'bg.neutral.subtle.pressed',
         },
       },
@@ -164,31 +172,34 @@ const buttonVariants = {
       slot: {
         fill: 'icon.decorative',
         mixBlendMode: { base: 'multiply', _dark: 'screen' },
-        _groupHover: { fill: 'current' },
-        _groupActive: { fill: 'current' },
+        [groupHoverEnabled]: { fill: 'current' },
+        [groupActiveEnabled]: { fill: 'current' },
       },
     },
     danger: {
       container: {
         bg: 'red.50',
         borderColor: 'transparent',
-        _hover: {
+        [hoverEnabled]: {
           bg: 'red.40',
         },
-        _active: {
+        [activeEnabled]: {
           bg: 'red.60',
         },
       },
       mainContent: {
         color: 'neutral.0',
       },
+      // The red background and white label are the same in both themes, so
+      // the icon is too. The inverse icon tokens turn dark in dark mode, and
+      // a dark icon screened on red does not show.
       slot: {
-        fill: 'icon.decorative.inverse',
+        fill: 'neutral.30',
         mixBlendMode: 'screen',
-        _groupHover: { fill: 'icon.decorative.inverse.hovered' },
-        _groupActive: { fill: 'icon.decorative.inverse.hovered' },
+        [groupHoverEnabled]: { fill: 'neutral.0' },
+        [groupActiveEnabled]: { fill: 'neutral.0' },
         _groupDisabled: {
-          fill: 'icon.decorative.inverse',
+          fill: 'neutral.30',
         },
       },
     },
@@ -196,11 +207,11 @@ const buttonVariants = {
       container: {
         bg: 'bg.selected',
         borderColor: 'transparent',
-        _hover: {
+        [hoverEnabled]: {
           bg: 'bg.selected.hovered',
           color: 'text.selected',
         },
-        _active: {
+        [activeEnabled]: {
           bg: 'bg.selected.pressed',
           color: 'text.selected',
         },
@@ -211,8 +222,8 @@ const buttonVariants = {
       slot: {
         fill: 'icon.selected',
         mixBlendMode: { base: 'multiply', _dark: 'screen' },
-        _groupHover: { fill: 'icon.selected' },
-        _groupActive: { fill: 'icon.selected' },
+        [groupHoverEnabled]: { fill: 'icon.selected' },
+        [groupActiveEnabled]: { fill: 'icon.selected' },
         _groupDisabled: {
           fill: 'icon.selected',
         },
@@ -222,10 +233,10 @@ const buttonVariants = {
       container: {
         bg: 'bg.selected.bold',
         borderColor: 'transparent',
-        _hover: {
+        [hoverEnabled]: {
           bg: 'bg.selected.bold.hovered',
         },
-        _active: {
+        [activeEnabled]: {
           bg: 'bg.selected.bold.pressed',
         },
       },
@@ -235,8 +246,8 @@ const buttonVariants = {
       slot: {
         fill: 'icon.decorative.inverse',
         mixBlendMode: { base: 'screen', _dark: 'multiply' },
-        _groupHover: { fill: 'icon.decorative.inverse.hovered' },
-        _groupActive: { fill: 'icon.decorative.inverse.hovered' },
+        [groupHoverEnabled]: { fill: 'icon.decorative.inverse.hovered' },
+        [groupActiveEnabled]: { fill: 'icon.decorative.inverse.hovered' },
         _groupDisabled: {
           fill: 'icon.decorative.inverse',
         },

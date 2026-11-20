@@ -1,6 +1,7 @@
 // src/components/Tooltip/Tooltip.stories.tsx
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { Box } from '../Box';
 import { Button } from '../Button';
 import { Tooltip } from './Tooltip';
@@ -134,4 +135,62 @@ export const KeyboardFocus: Story = {
       </Tooltip>
     </Box>
   ),
+};
+
+export const AsChild: Story = {
+  name: 'Test: asChild adds no wrapper',
+  // Behavior test only. It looks the same as "Keyboard Focus".
+  tags: ['!snapshot'],
+  args: { asChild: true, text: 'Copies the link' },
+  render: (args) => (
+    <Box display="flex" gap="16" data-testid="row">
+      <Tooltip {...args}>
+        <Button>Copy link</Button>
+      </Tooltip>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: 'Copy link' });
+
+    await expect(button.parentElement).toBe(canvas.getByTestId('row'));
+
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    const tooltip = await within(document.body).findByRole('tooltip');
+    await expect(tooltip).toHaveTextContent('Copies the link');
+    await expect(button).toHaveAccessibleDescription('Copies the link');
+  },
+};
+
+export const AsChildJoinsDescriptions: Story = {
+  name: 'Test: asChild joins descriptions',
+  // Behavior test only. It looks the same as "Keyboard Focus".
+  tags: ['!snapshot'],
+  args: { asChild: true, text: 'Copies the link' },
+  render: (args) => (
+    <Box display="flex" gap="16" alignItems="center">
+      <Tooltip {...args}>
+        <Button aria-describedby="copy-link-hint">Copy link</Button>
+      </Tooltip>
+      <Box as="span" id="copy-link-hint">
+        Anyone with the link can view.
+      </Box>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: 'Copy link' });
+
+    await expect(button).toHaveAccessibleDescription(
+      'Anyone with the link can view.',
+    );
+
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await within(document.body).findByRole('tooltip');
+    await expect(button).toHaveAccessibleDescription(
+      'Anyone with the link can view. Copies the link',
+    );
+  },
 };
