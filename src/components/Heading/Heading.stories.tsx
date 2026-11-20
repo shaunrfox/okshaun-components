@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Flex, VStack } from '@styled-system/jsx';
 import { Text } from '../Text';
 import { Heading } from './Heading';

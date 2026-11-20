@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 import { Grid, HStack, VStack, Wrap } from '@styled-system/jsx';
 import { Avatar } from '../Avatar';
 import { Badge } from '../Badge';
