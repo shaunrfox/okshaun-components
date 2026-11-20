@@ -490,10 +490,15 @@ export const DisabledReasonBehavior: Story = {
       await within(document.body).findByRole('tooltip'),
     ).toHaveTextContent("Closed orders can't be edited.");
     // Simulated hover does not set :hover, so use the hover data attribute.
+    // With no transition, the computed color is final right away.
+    button.style.transition = 'none';
     button.setAttribute('data-hover', 'true');
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    await expect(getComputedStyle(button).backgroundColor).toBe(restingBg);
-    button.removeAttribute('data-hover');
+    try {
+      await expect(getComputedStyle(button).backgroundColor).toBe(restingBg);
+    } finally {
+      button.removeAttribute('data-hover');
+      button.style.transition = '';
+    }
     await userEvent.click(button);
     await expect(args.onClick).not.toHaveBeenCalled();
     await userEvent.unhover(button);
@@ -564,5 +569,10 @@ export const DisabledReasonKeepsFocus: Story = {
       button,
     );
     await expect(button).toHaveFocus();
+
+    // The button kept focus, so the reason shows without leaving and returning.
+    await expect(
+      await within(document.body).findByRole('tooltip'),
+    ).toHaveTextContent('This case is already closed.');
   },
 };
