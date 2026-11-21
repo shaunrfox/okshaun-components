@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Flex, Grid } from '@styled-system/jsx';
-import { useState } from 'react';
+import { Flex, Grid, VStack } from '@styled-system/jsx';
+import { type ReactNode, useState } from 'react';
 import { Avatar } from '../Avatar';
 import { Badge } from '../Badge';
-import { Box } from '../Box';
+import { Button } from '../Button';
 import { Icon } from '../Icon';
 import { Text } from '../Text';
 import { Chip } from './Chip';
@@ -48,6 +48,11 @@ const meta: Meta<typeof Chip> = {
     deleted: {
       control: 'boolean',
       description: 'Shows deleted state with strikethrough',
+    },
+    items: {
+      control: 'object',
+      description:
+        'List label used instead of children. More than two items show the first two plus +N and a tooltip with every item',
     },
   },
   args: {
@@ -317,7 +322,7 @@ export const SizesMatrix: Story = {
 
 export const InlineWithText: Story = {
   render: () => (
-    <Box maxW="lg">
+    <VStack maxW="lg" alignItems="stretch" gap="8">
       <Text>
         Chips can appear inline within text, like tagging{' '}
         <Chip before={<Icon name="user" size="20" />}>John Doe</Chip> in a
@@ -325,8 +330,227 @@ export const InlineWithText: Story = {
         <Chip before={<Icon name="file" size="20" />}>Project Plan</Chip> in
         your notes.
       </Text>
-    </Box>
+      <Text>
+        Chips with more than two items collapse to a count and should stay on
+        the same baseline as plain chips: <Chip>Design</Chip>{' '}
+        <Chip items={['Design', 'Engineering', 'Product']} /> and{' '}
+        <Chip
+          before={<Icon name="user" size="20" />}
+          items={['Ann', 'Bob', 'Cy', 'Di']}
+        />{' '}
+        <Chip>Design, Engineering</Chip> sit in one line of text.
+      </Text>
+    </VStack>
   ),
+};
+
+// =============================================================================
+// ITEMS (LIST LABEL WITH OVERFLOW)
+// =============================================================================
+
+export const MultipleItems: Story = {
+  render: () => (
+    <Flex gap="4" alignItems="center">
+      <Chip items={['Design', 'Engineering']} />
+      <Chip items={['Design', 'Engineering', 'Product']} />
+      <Chip
+        dismissable
+        onDismiss={() => {}}
+        items={['Design', 'Engineering', 'Product', 'Support', 'Sales']}
+      />
+    </Flex>
+  ),
+};
+
+export const EmptyItems: Story = {
+  render: () => (
+    <VStack gap="8" alignItems="flex-start">
+      <Text textStyle="mono.xs">
+        An empty `items` list renders nothing: the chip between the two labels
+        below is absent, with no empty pill or dismiss button.
+      </Text>
+      <Flex gap="4" alignItems="center">
+        <Chip>Before</Chip>
+        <Chip items={[]} dismissable onDismiss={() => {}} />
+        <Chip>After</Chip>
+      </Flex>
+    </VStack>
+  ),
+};
+
+const overflowItems = ['Design', 'Engineering', 'Product', 'Support', 'Sales'];
+
+const OverflowExample = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) => (
+  <VStack gap="4" alignItems="flex-start">
+    <Text textStyle="mono.xs">{label}</Text>
+    {children}
+  </VStack>
+);
+
+export const OverflowStates: Story = {
+  render: () => (
+    <VStack gap="12" alignItems="flex-start">
+      <Text textStyle="mono.xs">
+        Overflow is by item count, not width. Hover or focus each chip to see
+        the full list. Disabled and loading chips do not open the tooltip or
+        take focus. Static chips have no visual styling for deleted, error or
+        invalid, so those look like a plain chip.
+      </Text>
+      <Flex gap="12" alignItems="flex-end" flexWrap="wrap">
+        <OverflowExample label="size sm">
+          <Chip size="sm" items={overflowItems} />
+        </OverflowExample>
+        <OverflowExample label="size md">
+          <Chip size="md" items={overflowItems} />
+        </OverflowExample>
+        <OverflowExample label="size lg">
+          <Chip size="lg" items={overflowItems} />
+        </OverflowExample>
+      </Flex>
+      <Flex gap="12" alignItems="flex-end" flexWrap="wrap">
+        <OverflowExample label="before">
+          <Chip before={<Icon name="user" />} items={overflowItems} />
+        </OverflowExample>
+        <OverflowExample label="after">
+          <Chip after={<Icon name="file" />} items={overflowItems} />
+        </OverflowExample>
+        <OverflowExample label="before + dismissable">
+          <Chip
+            before={<Icon name="user" />}
+            dismissable
+            onDismiss={() => {}}
+            items={overflowItems}
+          />
+        </OverflowExample>
+      </Flex>
+      <Flex gap="12" alignItems="flex-end" flexWrap="wrap">
+        <OverflowExample label="disabled (no tooltip, not focusable)">
+          <Chip disabled items={overflowItems} />
+        </OverflowExample>
+        <OverflowExample label="loading (no tooltip, not focusable)">
+          <Chip loading items={overflowItems} />
+        </OverflowExample>
+        <OverflowExample label="deleted (no static styling)">
+          <Chip deleted items={overflowItems} />
+        </OverflowExample>
+        <OverflowExample label="error (no static styling)">
+          <Chip error items={overflowItems} />
+        </OverflowExample>
+        <OverflowExample label="invalid (no static styling)">
+          <Chip invalid items={overflowItems} />
+        </OverflowExample>
+      </Flex>
+      <Flex gap="12" alignItems="flex-end" flexWrap="wrap">
+        <OverflowExample label="onClick (focus via button)">
+          <Chip onClick={() => {}} items={overflowItems} />
+        </OverflowExample>
+        <OverflowExample label="dismissable + custom dismissLabel">
+          <Chip
+            dismissLabel="Clear all teams"
+            dismissable
+            onDismiss={() => {}}
+            items={overflowItems}
+          />
+        </OverflowExample>
+      </Flex>
+    </VStack>
+  ),
+};
+
+const EmptyItemsInGroupExample = () => {
+  const [empty, setEmpty] = useState(true);
+
+  return (
+    <VStack gap="12" alignItems="flex-start">
+      <Text textStyle="mono.xs">
+        The first chip has an empty `items` list, so it renders nothing and must
+        not register with the group. Tab into the group: the first visible chip
+        (Open) should be the tab stop, and arrow keys should move focus and
+        selection only between visible chips. Toggle the button to switch the
+        first chip between empty and populated; registration should follow.
+      </Text>
+      <ChipGroup type="single" label="Status">
+        <Chip value="hidden" items={empty ? [] : ['Draft', 'Review']} />
+        <Chip value="open">Open</Chip>
+        <Chip value="closed">Closed</Chip>
+      </ChipGroup>
+      <Button onClick={() => setEmpty((current) => !current)}>
+        {empty ? 'Populate first chip' : 'Empty first chip'}
+      </Button>
+    </VStack>
+  );
+};
+
+export const EmptyItemsInChipGroup: Story = {
+  render: () => <EmptyItemsInGroupExample />,
+};
+
+export const OverflowInChipGroup: Story = {
+  render: () => (
+    <VStack gap="12" alignItems="flex-start">
+      <Text textStyle="mono.xs">
+        Arrow keys still move between selectable chips, and the tooltip opens on
+        focus for overflowing ones.
+      </Text>
+      <ChipGroup type="single" defaultValue="all" label="Team filter">
+        <Chip value="all">All</Chip>
+        <Chip value="core" items={['Design', 'Engineering', 'Product']} />
+        <Chip value="go" items={['Support', 'Sales']} />
+      </ChipGroup>
+      <ChipGroup type="multi" defaultValue={['core']} label="Team filter">
+        <Chip value="core" items={['Design', 'Engineering', 'Product']} />
+        <Chip value="go" items={['Support', 'Sales', 'Success', 'Ops']} />
+      </ChipGroup>
+    </VStack>
+  ),
+};
+
+const allTags = ['Design', 'Engineering', 'Product', 'Support', 'Sales'];
+
+const OverflowFocusExample = () => {
+  const [count, setCount] = useState(2);
+  const tags = allTags.slice(0, count);
+
+  return (
+    <VStack gap="12" alignItems="flex-start">
+      <Text>
+        Tab to each chip: static and dismiss-only chips become focusable at
+        three or more items, show a visible focus ring, and open the tooltip.
+        Escape closes it while the ring stays. For the clickable chip, change
+        the count with the buttons (Shift+Tab back to the chip); focus should
+        stay on it when crossing three items.
+      </Text>
+      <Flex gap="8" alignItems="center">
+        <Chip onClick={() => {}} items={tags} />
+        <Chip items={tags} />
+        <Chip dismissable onDismiss={() => {}} items={tags} />
+      </Flex>
+      <Flex gap="8">
+        <Button
+          onClick={() => setCount((c) => Math.max(1, c - 1))}
+          disabled={count <= 1}
+        >
+          Remove item
+        </Button>
+        <Button
+          onClick={() => setCount((c) => Math.min(allTags.length, c + 1))}
+          disabled={count >= allTags.length}
+        >
+          Add item
+        </Button>
+      </Flex>
+    </VStack>
+  );
+};
+
+export const OverflowKeyboardAndFocus: Story = {
+  render: () => <OverflowFocusExample />,
 };
 
 // =============================================================================
@@ -391,7 +615,9 @@ export const Dismissable = () => {
           </Chip>
         ))}
       </Flex>
-      {tags.length === 0 && <Text color="text.subtle">All tags dismissed!</Text>}
+      {tags.length === 0 && (
+        <Text color="text.subtle">All tags dismissed!</Text>
+      )}
     </Flex>
   );
 };
