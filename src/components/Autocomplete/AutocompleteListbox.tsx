@@ -1,6 +1,4 @@
 // biome-ignore-all lint/a11y/useSemanticElements: the combobox and listbox are composed from Box and List rather than native select markup, so the roles are applied explicitly
-import { cx } from '@styled-system/css';
-import { menu } from '@styled-system/recipes';
 import type {
   CSSProperties,
   HTMLProps,
@@ -8,9 +6,9 @@ import type {
   RefCallback,
   UIEventHandler,
 } from 'react';
+
 import type { MenuDensity } from '~/components/Menu/context/menuContext';
 import { useLocale } from '~/system/context/useLocale';
-import { useFloatingLayer } from '~/system/floating-ui/FloatingLayerContext';
 
 import { Box } from '../Box/Box';
 import { Icon } from '../Icon/Icon';
@@ -39,6 +37,8 @@ type AutocompleteListboxProps = {
   onSelect: (option: AutocompleteOptionData) => void;
   query: string;
   selectedValues: readonly string[];
+  /** When true, the current single selection is a custom/create value. */
+  selectionIsCreated?: boolean;
   setItemRef: (index: number, node: HTMLElement | null) => void;
   statusClassName: string;
   value: AnyAutocompleteValue;
@@ -46,7 +46,6 @@ type AutocompleteListboxProps = {
 
 export const AutocompleteListbox = (props: AutocompleteListboxProps) => {
   const { labels } = useLocale();
-  const floatingLayer = useFloatingLayer();
   const {
     activeIndex,
     baseId,
@@ -67,11 +66,11 @@ export const AutocompleteListbox = (props: AutocompleteListboxProps) => {
     onSelect,
     query,
     selectedValues,
+    selectionIsCreated = false,
     setItemRef,
     statusClassName,
     value,
   } = props;
-  const menuClasses = menu({ density, layer: floatingLayer });
   const showInitialLoading = loading && items.length === 0;
   const showNoOptions = !loading && items.length === 0;
   const selectedValueSet = new Set(selectedValues);
@@ -87,15 +86,20 @@ export const AutocompleteListbox = (props: AutocompleteListboxProps) => {
       density={density}
       query={query}
       highlightMatches
-      className={cx(menuClasses.wrapper, listboxClassName)}
+      className={listboxClassName}
       style={floatingStyles}
       onScroll={onScroll}
       {...floatingProps}
     >
       {items.map((option, index) => {
-        const selected = multiple
+        const valueSelected = multiple
           ? selectedValueSet.has(option.value)
           : value === option.value;
+        // Same string can appear as both create and catalog rows; only one
+        // intent should look selected.
+        const selected = option.created
+          ? valueSelected && selectionIsCreated
+          : valueSelected && (multiple || !selectionIsCreated);
 
         return (
           <ListItem

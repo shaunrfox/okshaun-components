@@ -4,8 +4,10 @@ import { type ChipVariantProps, chip } from '@styled-system/recipes';
 import type { NumericSizeToken } from '@styled-system/tokens';
 import {
   type KeyboardEvent,
+  type KeyboardEventHandler,
   type MouseEvent,
   type ReactNode,
+  type Ref,
   useEffect,
   useRef,
 } from 'react';
@@ -73,8 +75,14 @@ export type ChipProps = Omit<BoxProps, keyof ChipVariantProps | 'children'> &
      * @default `labels.removeItem` (English: `Remove ${children}`, or `Remove` plus the comma-joined `items`)
      */
     dismissLabel?: string;
+    /** Ref forwarded to the dismiss button. */
+    dismissButtonRef?: Ref<HTMLButtonElement>;
+    /** Tab order override for the dismiss button. */
+    dismissButtonTabIndex?: number;
     /** Called when the dismiss button is activated. The button is disabled when this callback is absent. */
     onDismiss?: () => void;
+    /** Keyboard handler composed onto the dismiss button. */
+    onDismissKeyDown?: KeyboardEventHandler<HTMLButtonElement>;
     onClick?: (event: MouseEvent<HTMLElement>) => void;
     /** Value used by a parent `ChipGroup` to identify and select this chip. */
     value?: string;
@@ -125,7 +133,10 @@ export const Chip = (props: ChipProps) => {
     after,
     dismissable,
     dismissLabel,
+    dismissButtonRef,
+    dismissButtonTabIndex,
     onDismiss,
+    onDismissKeyDown,
     value,
     gap,
     onClick,
@@ -392,11 +403,14 @@ export const Chip = (props: ChipProps) => {
       {dismissable && (
         <Box
           as="button"
+          ref={dismissButtonRef}
           type="button"
           className={classes.dismissButton}
           aria-label={dismissAriaLabel}
+          tabIndex={dismissButtonTabIndex}
           onClick={handleDismiss}
-          disabled={resolvedDisabled || loading}
+          onKeyDown={onDismissKeyDown}
+          disabled={resolvedDisabled || loading || !onDismiss}
           data-selected={isSelected || undefined}
         >
           <Icon name="x" aria-hidden />

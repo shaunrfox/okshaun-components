@@ -107,6 +107,14 @@ export const useAutocompleteState = <Multiple extends boolean = false>({
     ],
   );
 
+  const clearInputValue = useCallback(() => {
+    if (isInteractionBlocked) {
+      return;
+    }
+
+    commitInputValue('', 'clear');
+  }, [commitInputValue, isInteractionBlocked]);
+
   const selectOption = useCallback(
     (
       option: AutocompleteSelectionIntent,
@@ -224,6 +232,7 @@ export const useAutocompleteState = <Multiple extends boolean = false>({
     inputValue,
     open,
     setInputValue,
+    clearInputValue,
     selectOption,
     createOption,
     removeOption,

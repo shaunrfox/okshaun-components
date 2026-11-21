@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-
-import { expect, userEvent, within } from 'storybook/test';
 import { useState } from 'react';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Box } from '../Box';
 import { Button } from '../Button';
 import { FormField } from '../FormField';
 import { Autocomplete } from './Autocomplete';
 import { Option } from './Option';
+import type { AutocompleteChangeReason } from './types';
 
 const baseOptions = [
   { value: 'react', label: 'React', description: 'UI library' },
@@ -37,6 +37,17 @@ const renderOptions = (options = baseOptions) =>
     />
   ));
 
+/** Keeps `isCustomValue` in sync with selection intent for custom-value stories. */
+const handleCustomValueChange =
+  (
+    setValue: (value: string | null) => void,
+    setIsCustomValue: (isCustom: boolean) => void,
+  ) =>
+  (next: string | null, reason: AutocompleteChangeReason) => {
+    setValue(next);
+    setIsCustomValue(reason === 'create-option');
+  };
+
 const meta = {
   title: 'Components/Autocomplete',
   component: Autocomplete,
@@ -58,6 +69,7 @@ const meta = {
     multiple: { control: 'boolean' },
     limitTags: { control: 'number' },
     allowCustomValue: { control: 'boolean' },
+    isCustomValue: { control: 'boolean' },
     disabled: { control: 'boolean' },
     error: { control: 'boolean' },
     invalid: { control: 'boolean' },
@@ -113,8 +125,10 @@ export const Filtering: Story = {
 
     await userEvent.clear(input);
     await userEvent.type(input, 'workshop');
-    const descriptionMatch = body.getByRole('option', {
-      name: /storybook component workshop/i,
+    // Testing Library computes this name without the space before the <mark>
+    // highlight ("Storybook Componentworkshop"); browsers keep it.
+    const descriptionMatch = await body.findByRole('option', {
+      name: /storybook component\s*workshop/i,
     });
     await expect(
       within(descriptionMatch).getByText('workshop', { selector: 'mark' }),
@@ -194,7 +208,8 @@ export const Multiple: Story = {
     await expect(
       canvas.queryByRole('button', { name: 'Remove React' }),
     ).not.toBeInTheDocument();
-    await expect(input).toHaveFocus();
+    // Focus returns to the input after the removal commits.
+    await waitFor(() => expect(input).toHaveFocus());
   },
   parameters: { controls: { disable: true } },
 };
@@ -325,27 +340,35 @@ export const DisabledOptions: Story = {
 };
 
 export const AllowCustomValue: Story = {
-  render: () => (
-    <Box w="sm">
-      <Autocomplete
-        multiple
-        allowCustomValue
-        defaultValue={['react']}
-        name="custom-stack"
-        aria-label="Technologies"
-        placeholder="Add a technology…"
-      >
-        {renderOptions()}
-      </Autocomplete>
-    </Box>
-  ),
+  render: function AllowCustomValueRender() {
+    const [value, setValue] = useState<string | null>(null);
+    const [isCustomValue, setIsCustomValue] = useState(false);
+
+    return (
+      <Box w="sm">
+        <Autocomplete
+          allowCustomValue
+          value={value}
+          isCustomValue={isCustomValue}
+          onValueChange={handleCustomValueChange(setValue, setIsCustomValue)}
+          getCreateOptionLabel={(query) => `Search for “${query}”`}
+          name="custom-technology"
+          aria-label="Technology"
+          placeholder="Search or choose…"
+        >
+          {renderOptions()}
+        </Autocomplete>
+      </Box>
+    );
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole('combobox');
-    await userEvent.type(input, 'Script');
     const body = within(document.body);
-    const options = body.getAllByRole('option');
-    await expect(options[0]).toHaveAccessibleName(/add “script”/i);
+
+    await userEvent.type(input, 'Script');
+    let options = body.getAllByRole('option');
+    await expect(options[0]).toHaveAccessibleName(/search for “script”/i);
     await expect(options[1]).toHaveAccessibleName(/typescript type safety/i);
     await userEvent.keyboard('{Enter}');
     const removeScript = canvas.getByRole('button', {
@@ -356,11 +379,157 @@ export const AllowCustomValue: Story = {
       'data-new',
       'true',
     );
+
+    await userEvent.click(removeScript);
+    await userEvent.click(input);
+    await userEvent.clear(input);
+    await userEvent.type(input, 'React');
+    options = body.getAllByRole('option');
+    await expect(options[0]).toHaveAccessibleName(/search for “react”/i);
+    await expect(
+      body.getByRole('option', { name: /react ui library/i }),
+    ).toBeInTheDocument();
+    await userEvent.keyboard('{ArrowDown}');
+    await userEvent.keyboard('{Enter}');
+    const removeReact = canvas.getByRole('button', { name: 'Remove React' });
+    await expect(removeReact).toBeInTheDocument();
+    await expect(removeReact.parentElement).not.toHaveAttribute('data-new');
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const ControlledCustomValueChip: Story = {
+  render: function ControlledCustomValueChipRender() {
+    const [value, setValue] = useState<string | null>('ABC');
+    const [isCustomValue, setIsCustomValue] = useState(true);
+
+    return (
+      <Box w="sm">
+        <Autocomplete
+          allowCustomValue
+          value={value}
+          isCustomValue={isCustomValue}
+          onValueChange={handleCustomValueChange(setValue, setIsCustomValue)}
+          getCreateOptionLabel={(query) => `Search for “${query}”`}
+          name="controlled-custom"
+          aria-label="Part search"
+        >
+          {renderOptions()}
+        </Autocomplete>
+      </Box>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const removeChip = canvas.getByRole('button', { name: 'Remove ABC' });
+    await expect(removeChip.parentElement).toHaveAttribute('data-new', 'true');
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const HydratedCustomValueMatchingOption: Story = {
+  render: function HydratedCustomValueMatchingOptionRender() {
+    const [value, setValue] = useState<string | null>('react');
+    const [isCustomValue, setIsCustomValue] = useState(true);
+
+    return (
+      <Box w="sm">
+        <Autocomplete
+          allowCustomValue
+          value={value}
+          isCustomValue={isCustomValue}
+          onValueChange={handleCustomValueChange(setValue, setIsCustomValue)}
+          getCreateOptionLabel={(query) => `Search for “${query}”`}
+          name="hydrated-custom-match"
+          aria-label="Part search with catalog collision"
+        >
+          {renderOptions()}
+        </Autocomplete>
+      </Box>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const removeChip = canvas.getByRole('button', { name: 'Remove react' });
+    await expect(removeChip.parentElement).toHaveAttribute('data-new', 'true');
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const CommitCustomValueOnBlur: Story = {
+  render: function CommitCustomValueOnBlurRender() {
+    const [value, setValue] = useState<string | null>(null);
+    const [isCustomValue, setIsCustomValue] = useState(false);
+
+    return (
+      <Box w="sm" display="flex" flexDirection="column" gap="12">
+        <Autocomplete
+          allowCustomValue
+          value={value}
+          isCustomValue={isCustomValue}
+          onValueChange={handleCustomValueChange(setValue, setIsCustomValue)}
+          getCreateOptionLabel={(query) => `Search for “${query}”`}
+          name="blur-commit"
+          aria-label="Vendor search"
+        >
+          {renderOptions()}
+        </Autocomplete>
+        <Button type="button">Next field</Button>
+      </Box>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('combobox');
+    const body = within(document.body);
+
+    await userEvent.type(input, 'Acme');
+    await userEvent.tab();
+    const removeChip = canvas.getByRole('button', { name: 'Remove Acme' });
+    await expect(removeChip).toBeInTheDocument();
+    await expect(removeChip.parentElement).toHaveAttribute('data-new', 'true');
+
+    await userEvent.click(removeChip);
+    await userEvent.click(input);
     await userEvent.type(input, 'React');
     await expect(
-      body.queryByRole('option', { name: /add “react”/i }),
+      body.getByRole('option', { name: /search for “react”/i }),
+    ).toBeInTheDocument();
+    await userEvent.keyboard('{ArrowDown}');
+    await userEvent.tab();
+    const removeCustomReact = canvas.getByRole('button', {
+      name: 'Remove React',
+    });
+    await expect(removeCustomReact.parentElement).toHaveAttribute(
+      'data-new',
+      'true',
+    );
+
+    await userEvent.click(removeCustomReact);
+    await userEvent.click(input);
+    await userEvent.type(input, 'abc');
+    await userEvent.keyboard('{Escape}');
+    await expect(input).toHaveValue('');
+    await userEvent.tab();
+    await expect(
+      canvas.queryByRole('button', { name: 'Remove abc' }),
     ).not.toBeInTheDocument();
   },
+  parameters: { controls: { disable: true } },
+};
+
+export const ScrollableListbox: Story = {
+  render: () => (
+    <Box w="sm">
+      <Autocomplete
+        defaultOpen
+        name="scrollable"
+        aria-label="Scrollable technologies"
+      >
+        {renderOptions(extendedOptions)}
+      </Autocomplete>
+    </Box>
+  ),
   parameters: { controls: { disable: true } },
 };
 
@@ -512,27 +681,34 @@ export const WithFormField: Story = {
 };
 
 export const TechnologyAssignmentExample: Story = {
-  name: 'Ex: Technology Assignment',
-  render: () => (
-    <Box w="md">
-      <FormField
-        label="Project stack"
-        labelFor="project-stack"
-        helpText="Search the supported catalog or create a project-specific value."
-      >
-        <Autocomplete
-          id="project-stack"
-          name="projectStack"
-          multiple
-          allowCustomValue
-          defaultValue={['react', 'typescript']}
-          placeholder="Add technology…"
+  name: 'Ex: Custom Search Filter',
+  render: function TechnologyAssignmentExampleRender() {
+    const [value, setValue] = useState<string | null>(null);
+    const [isCustomValue, setIsCustomValue] = useState(false);
+
+    return (
+      <Box w="md">
+        <FormField
+          label="Technology"
+          labelFor="project-stack"
+          helpText="Type to search. Enter or blur keeps a contains search; arrow to a catalog row and Enter for an exact pick. Custom values are single-select only."
         >
-          {renderOptions(extendedOptions)}
-        </Autocomplete>
-      </FormField>
-    </Box>
-  ),
+          <Autocomplete
+            id="project-stack"
+            name="projectStack"
+            allowCustomValue
+            value={value}
+            isCustomValue={isCustomValue}
+            onValueChange={handleCustomValueChange(setValue, setIsCustomValue)}
+            getCreateOptionLabel={(query) => `Search for “${query}”`}
+            placeholder="Search or choose…"
+          >
+            {renderOptions(extendedOptions)}
+          </Autocomplete>
+        </FormField>
+      </Box>
+    );
+  },
   parameters: { controls: { disable: true } },
 };
 
@@ -582,12 +758,20 @@ export const KeyboardTokenEditing: Story = {
     });
     await userEvent.click(input);
     await userEvent.keyboard('{Backspace}');
-    await expect(removeTypeScript).toHaveFocus();
+    await waitFor(() => expect(removeTypeScript).toHaveFocus());
     await expect(removeTypeScript).toBeInTheDocument();
     await userEvent.keyboard('{Backspace}');
     await expect(
       canvas.queryByRole('button', { name: 'Remove TypeScript' }),
     ).not.toBeInTheDocument();
+    // Focus moves to the previous token; the listbox stays open. Wait for
+    // both so the story always ends in the same state.
+    await waitFor(() =>
+      expect(
+        canvas.getByRole('button', { name: 'Remove React' }),
+      ).toHaveFocus(),
+    );
+    await within(document.body).findByRole('listbox');
   },
   parameters: { controls: { disable: true } },
 };
