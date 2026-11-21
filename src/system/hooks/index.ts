@@ -5,3 +5,9 @@ export {
   type UseControllableStateProps,
   useControllableState,
 } from './useControllableState';
+export {
+  type OverflowItemKey,
+  type UseOverflowItemsOptions,
+  type UseOverflowItemsResult,
+  useOverflowItems,
+} from './useOverflowItems';
