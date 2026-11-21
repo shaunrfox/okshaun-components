@@ -1,3 +1,4 @@
+export { Alert, type AlertProps, type AlertTone } from './components/Alert';
 export {
   Autocomplete,
   type AutocompleteChangeReason,
@@ -73,6 +74,7 @@ export {
   type IconProviderProps,
 } from './components/Icon';
 export { IconButton, type IconButtonProps } from './components/IconButton';
+export { InlineNote, type InlineNoteProps } from './components/InlineNote';
 export {
   Kbd,
   type KbdProps,
@@ -128,6 +130,11 @@ export {
   type ModalWrapperProps,
 } from './components/Modal';
 export { useModalWrapperContext } from './components/Modal/ModalWrapperContext';
+export {
+  PageBanner,
+  type PageBannerEmphasis,
+  type PageBannerProps,
+} from './components/PageBanner';
 export {
   Popover,
   PopoverAnchor,
@@ -213,6 +220,16 @@ export { Text, type TextProps } from './components/Text';
 export { Textarea, type TextareaProps } from './components/Textarea';
 export { TextInput, type TextInputProps } from './components/TextInput';
 export { ThemeSwitcher } from './components/ThemeSwitcher';
+export {
+  Toast,
+  type ToastApi,
+  type ToastOptions,
+  type ToastProps,
+  ToastProvider,
+  type ToastProviderProps,
+  type ToastTrigger,
+} from './components/Toast';
+export { useToast } from './components/Toast/useToast';
 export {
   Toggle,
   type ToggleChangeEvent,
