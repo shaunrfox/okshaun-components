@@ -266,7 +266,7 @@ function Examples() {
 - **Feedback**: Badge, Spinner, Tooltip
 - **Data Display**: Card, Tag, Divider, Icon
 - **Navigation**: Link, Breadcrumbs, Menu
-- **Code**: Pre (code blocks)
+- **Code**: Code (inline), CodeBlock (code blocks)
 - **Theme**: ThemeProvider, ThemeSwitcher
 
 ## Customization

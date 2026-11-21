@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, within } from 'storybook/test';
 import { Box } from '../Box';
+import { Heading } from '../Heading';
 import { Text } from '../Text';
 import { Code } from './Code';
-import { Pre } from './Pre';
 
 const meta = {
   title: 'Components/Code',
@@ -21,35 +22,86 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-export const InlineUsage: Story = {
+export const Variants: Story = {
   render: () => (
-    <Text>
-      Run <Code>npm run prepare</Code> before building to regenerate Panda CSS
-      types.
-    </Text>
-  ),
-  parameters: { controls: { disable: true } },
-};
-
-export const CodeBlock: Story = {
-  render: () => (
-    <Box maxW="2xl">
-      <Pre lang="tsx">{`import { Button } from 'cetec-design-system';
-
-export function SaveAction() {
-  return <Button variant="primary">Save Changes</Button>;
-}`}</Pre>
+    <Box display="grid" gap="12" maxW="prose">
+      <Text>
+        Subtle: run <Code variant="subtle">npm run prepare</Code> first.
+      </Text>
+      <Text>
+        Outline: run <Code variant="outline">npm run prepare</Code> first.
+      </Text>
+      <Text>
+        Plain: run <Code variant="plain">npm run prepare</Code> first.
+      </Text>
     </Box>
   ),
   parameters: { controls: { disable: true } },
 };
 
-export const ExCommandSnippet: Story = {
-  name: 'Ex: Command Snippet',
+export const SizeFollowsText: Story = {
+  render: () => (
+    <Box display="grid" gap="12" maxW="prose">
+      <Heading level="h3">
+        Configure <Code>api_token</Code>
+      </Heading>
+      <Text>
+        Body text with <Code>api_token</Code> inline.
+      </Text>
+      <Text textStyle="body.xs">
+        Small text with <Code>api_token</Code> inline.
+      </Text>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const LongValueWraps: Story = {
+  render: () => (
+    <Box maxW="xs" borderWidth="1" borderColor="border" p="12">
+      <Text>
+        Token:{' '}
+        <Code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0In0</Code>
+      </Text>
+    </Box>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+export const NativeSemantics: Story = {
+  name: 'Test: native code element',
+  render: () => (
+    <Text>
+      Run{' '}
+      <Code language="shell" data-testid="inline-code">
+        npm test
+      </Code>
+      .
+    </Text>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const code = canvas.getByTestId('inline-code');
+
+    expect(code.tagName).toBe('CODE');
+    expect(code).toHaveAttribute('data-language', 'shell');
+    expect(code).toHaveAttribute('data-ds-component', 'Code');
+    // Children render directly in the code element, with no wrapper.
+    expect(code.children).toHaveLength(0);
+    expect(code).not.toHaveAttribute('lang');
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const ExApiSetupNote: Story = {
+  name: 'Ex: API Setup Note',
   render: () => (
     <Box display="grid" gap="8" maxW="prose">
-      <Text>Build Storybook for review:</Text>
-      <Pre>npm run storybook:build</Pre>
+      <Text>
+        Set <Code>API_TOKEN</Code> in your environment. The client sends it as
+        an <Code>Authorization: Bearer &lt;token&gt;</Code> header on every
+        request.
+      </Text>
     </Box>
   ),
   parameters: { controls: { disable: true } },

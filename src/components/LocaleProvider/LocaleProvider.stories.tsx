@@ -4,6 +4,7 @@ import { type LocaleLabels, LocaleProvider } from '~/system/context';
 import { Box } from '../Box';
 import { Calendar } from '../Calendar';
 import { Chip } from '../Chip';
+import { CodeBlock } from '../CodeBlock';
 import { DateTimeInput } from '../DateTime';
 import { Select, SelectOption } from '../Select';
 
@@ -98,6 +99,33 @@ export const PropOverridesProvider: Story = {
     ).toBeInTheDocument();
     await expect(
       canvas.getByRole('button', { name: 'Mes anterior' }),
+    ).toBeInTheDocument();
+  },
+};
+
+export const CodeBlockLabels: Story = {
+  name: 'Code Block Labels',
+  render: () => (
+    <LocaleProvider
+      labels={{
+        copyCode: 'Copiar código',
+        showAllLines: (count) => `Mostrar las ${count} líneas`,
+      }}
+    >
+      <Box w="xs">
+        <CodeBlock code={'uno\ndos\ntres\ncuatro\ncinco'} maxLines={3} />
+      </Box>
+    </LocaleProvider>
+  ),
+  parameters: { controls: { disable: true } },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await expect(
+      canvas.getByRole('button', { name: 'Copiar código' }),
+    ).toBeInTheDocument();
+    await expect(
+      canvas.getByRole('button', { name: 'Mostrar las 5 líneas' }),
     ).toBeInTheDocument();
   },
 };

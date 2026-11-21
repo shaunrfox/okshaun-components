@@ -1,35 +1,52 @@
 import { defineRecipe } from '@pandacss/dev';
 
+import { globalBaseStyles } from '~/styles/utilities';
+
 const codeBase = {
-  bg: 'bg.neutral.inverse',
-  position: 'relative',
-  overflow: 'auto',
-  p: '4',
-  whiteSpace: 'pre',
-  fontSize: '14',
+  ...globalBaseStyles,
+  display: 'inline',
+  fontFamily: 'mono',
+  // Relative to the surrounding text, so inline code keeps the same optical
+  // size in a heading, a paragraph, or a table cell.
+  fontSize: 'smaller',
+  lineHeight: 'inherit',
+  color: 'text',
+  px: '4',
+  rounded: '4',
+  boxDecorationBreak: 'clone',
+  // Long identifiers, part numbers, and tokens wrap instead of overflowing
+  // their container.
+  overflowWrap: 'anywhere',
+  whiteSpace: 'normal',
 };
 
-const preBase = {
-  borderRadius: '8',
-  overflow: 'hidden',
-  borderWidth: '0',
-  borderColor: 'border',
-  bg: 'bg.neutral.inverse',
-  color: 'text.inverse.subtlest',
-  px: '16',
-  py: '8',
-  my: '8',
-  whiteSpace: 'pre',
+const codeVariants = {
+  variant: {
+    /** Tinted background. The default for code inside running text. */
+    subtle: {
+      bg: 'bg.neutral',
+    },
+    /** Border only. Use where a tint would compete with a selected row. */
+    outline: {
+      borderWidth: '1',
+      borderStyle: 'solid',
+      borderColor: 'border',
+      bg: 'transparent',
+    },
+    /** Monospace font only. Use for values in dense tables and lists. */
+    plain: {
+      px: '0',
+      bg: 'transparent',
+    },
+  },
 };
 
 export const codeRecipe = defineRecipe({
   className: 'code',
   jsx: ['Code'],
   base: codeBase,
-});
-
-export const preRecipe = defineRecipe({
-  className: 'pre',
-  jsx: ['Pre'],
-  base: preBase,
+  variants: codeVariants,
+  defaultVariants: {
+    variant: 'subtle',
+  },
 });

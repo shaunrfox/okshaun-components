@@ -88,6 +88,20 @@ const snippets = [
   />
 </HStack>`,
   },
+  {
+    group: 'Basics',
+    name: 'Code + CodeBlock',
+    code: `<VStack gap="8" alignItems="stretch" maxWidth="lg">
+  <Text>
+    The response body for <Code>POST /orders</Code>:
+  </Text>
+  <CodeBlock
+    title="Response (HTTP 200)"
+    language="json"
+    code={'{\\n  "order_id": "A-1001",\\n  "status": "submitted"\\n}'}
+  />
+</VStack>`,
+  },
 ];
 
 export default snippets;
