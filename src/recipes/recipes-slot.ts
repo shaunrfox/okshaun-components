@@ -23,6 +23,7 @@ export { listItemGroupRecipe } from './listItemGroup';
 export { menuRecipe } from './menu';
 export { modalRecipe } from './modal';
 export { pageBannerRecipe } from './pageBanner';
+export { peekBarRecipe } from './peekBar';
 export { popoverRecipe } from './popover';
 export { printPreviewRecipe } from './printPreview';
 export { radioRecipe } from './radio';
