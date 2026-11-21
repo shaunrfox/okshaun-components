@@ -15,6 +15,8 @@ export type DatePickerProps = Pick<
   | 'after'
   | 'iconBefore'
   | 'iconAfter'
+  | 'clearable'
+  | 'clearLabel'
   | 'error'
   | 'disabled'
   | 'invalid'
@@ -70,6 +72,8 @@ export const DatePicker = (props: DatePickerProps) => {
     after,
     iconBefore,
     iconAfter,
+    clearable,
+    clearLabel,
     error,
     disabled,
     invalid,
@@ -109,6 +113,12 @@ export const DatePicker = (props: DatePickerProps) => {
     defaultValue: defaultValue ?? null,
     onChange,
   });
+  const handleInputChange = (nextValue: DateValue | null) => {
+    emitChange(nextValue);
+    if (nextValue === null) {
+      setOpenState(false);
+    }
+  };
 
   return (
     <DateMenu
@@ -116,12 +126,14 @@ export const DatePicker = (props: DatePickerProps) => {
         <DateInput
           id={id}
           value={currentValue}
-          onChange={emitChange}
+          onChange={handleInputChange}
           label={label}
           before={before}
           after={after}
           iconBefore={iconBefore}
           iconAfter={iconAfter}
+          clearable={clearable}
+          clearLabel={clearLabel}
           error={error}
           disabled={disabled}
           invalid={invalid}

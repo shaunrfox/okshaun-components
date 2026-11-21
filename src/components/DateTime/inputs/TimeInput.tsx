@@ -7,12 +7,15 @@ import type { ReactNode } from 'react';
 
 import { Icon, type IconNamesList } from '~/components/Icon';
 import { useFieldContext } from '~/system/context/FieldContext';
+import { useLocale } from '~/system/context/useLocale';
+import { useControllableState } from '~/system/hooks/useControllableState';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
 import { Box, type BoxProps } from '../../Box';
 import { SegmentedTime } from '../../SegmentedInputs/SegmentedTime';
 import type { TimeFormat, TimeValue } from '../helpers/types';
+import { getClearButton } from './ClearButton';
 import { InputSlot } from './InputSlot';
 
 /** Props for {@link TimeInput}, including segmented time state and field slots. */
@@ -43,6 +46,10 @@ export type TimeInputProps = Omit<
     iconBefore?: IconNamesList;
     /** Legacy icon rendered after the field when `after` is absent. */
     iconAfter?: IconNamesList;
+    /** Shows a clear action in the `after` slot when it is otherwise unused and the field has a value. @default true */
+    clearable?: boolean;
+    /** Accessible label for the clear action. @default 'Clear time' */
+    clearLabel?: string;
     /** Applies error styling. Overrides field context when provided. */
     error?: boolean;
     /** Prevents editing. Overrides field context when provided. */
@@ -70,6 +77,7 @@ export type TimeInputProps = Omit<
  */
 export const TimeInput = (props: TimeInputProps) => {
   const fieldContext = useFieldContext();
+  const { labels } = useLocale();
   const {
     id,
     value,
@@ -82,6 +90,8 @@ export const TimeInput = (props: TimeInputProps) => {
     after,
     iconBefore,
     iconAfter,
+    clearable = true,
+    clearLabel = labels.clearTime,
     error: errorProp,
     disabled: disabledProp,
     invalid: invalidProp,
@@ -97,8 +107,22 @@ export const TimeInput = (props: TimeInputProps) => {
   const disabled = disabledProp ?? fieldContext?.disabled;
   const resolvedBefore =
     before ?? (iconBefore ? <Icon name={iconBefore} aria-hidden /> : undefined);
-  const resolvedAfter =
+  const explicitAfter =
     after ?? (iconAfter ? <Icon name={iconAfter} aria-hidden /> : undefined);
+
+  const [currentValue, setCurrentValue] =
+    useControllableState<TimeValue | null>({
+      value,
+      defaultValue: defaultValue ?? null,
+      onChange,
+    });
+  const clearAction = getClearButton({
+    clearable,
+    hasValue: currentValue !== null,
+    label: clearLabel,
+    onClear: () => setCurrentValue(null),
+  });
+  const resolvedAfter = explicitAfter ?? clearAction;
 
   const classes = segmentedFields({
     size,
@@ -130,21 +154,22 @@ export const TimeInput = (props: TimeInputProps) => {
         buttonSlotClassName={classes.buttonSlot}
         slotClassName={classes.slot}
       />
-      <SegmentedTime
-        flex="1"
-        minW="0"
-        id={id}
-        label={label}
-        value={value}
-        defaultValue={defaultValue}
-        onChange={onChange}
-        timeFormat={timeFormat}
-        minuteStep={minuteStep}
-        size={size}
-        disabled={disabled}
-        onFocusWithin={onFocusWithin}
-        onBlurWithin={onBlurWithin}
-      />
+      <Box className={classes.content}>
+        <SegmentedTime
+          flex="1"
+          minW="0"
+          id={id}
+          label={label}
+          value={currentValue}
+          onChange={setCurrentValue}
+          timeFormat={timeFormat}
+          minuteStep={minuteStep}
+          size={size}
+          disabled={disabled}
+          onFocusWithin={onFocusWithin}
+          onBlurWithin={onBlurWithin}
+        />
+      </Box>
       <InputSlot
         owner="TimeInput"
         placement="after"

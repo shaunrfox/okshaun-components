@@ -17,6 +17,8 @@ export type DateRangePickerProps = Pick<
   | 'after'
   | 'iconBefore'
   | 'iconAfter'
+  | 'clearable'
+  | 'clearLabel'
   | 'error'
   | 'disabled'
   | 'invalid'
@@ -69,6 +71,8 @@ export const DateRangePicker = (props: DateRangePickerProps) => {
     after,
     iconBefore,
     iconAfter,
+    clearable,
+    clearLabel,
     error,
     disabled,
     invalid,
@@ -107,6 +111,12 @@ export const DateRangePicker = (props: DateRangePickerProps) => {
       onChange,
     });
   const resolvedValue = currentValue ?? EMPTY_RANGE;
+  const handleInputChange = (nextValue: DateRangeValue | null) => {
+    emitChange(nextValue);
+    if (nextValue === null) {
+      setOpenState(false);
+    }
+  };
 
   return (
     <DateRangeMenu
@@ -114,13 +124,15 @@ export const DateRangePicker = (props: DateRangePickerProps) => {
         <DateRangeInput
           id={id}
           value={resolvedValue}
-          onChange={emitChange}
+          onChange={handleInputChange}
           startLabel={startLabel}
           endLabel={endLabel}
           before={before}
           after={after}
           iconBefore={iconBefore}
           iconAfter={iconAfter}
+          clearable={clearable}
+          clearLabel={clearLabel}
           error={error}
           disabled={disabled}
           invalid={invalid}

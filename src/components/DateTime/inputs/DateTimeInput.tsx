@@ -22,6 +22,7 @@ import type {
   TimeFormat,
   TimeValue,
 } from '../helpers/types';
+import { getClearButton } from './ClearButton';
 import { InputSlot } from './InputSlot';
 
 /** Props for {@link DateTimeInput}, including combined state and field slots. */
@@ -56,6 +57,10 @@ export type DateTimeInputProps = Omit<
     iconBefore?: IconNamesList;
     /** Legacy icon rendered after the field when `after` is absent. */
     iconAfter?: IconNamesList;
+    /** Shows a clear action in the `after` slot when it is otherwise unused and either date or time has a value. @default true */
+    clearable?: boolean;
+    /** Accessible label for the clear action. @default 'Clear date and time' */
+    clearLabel?: string;
     /** Applies error styling. Overrides field context when provided. */
     error?: boolean;
     /** Prevents editing both portions. Overrides field context when provided. */
@@ -98,6 +103,8 @@ export const DateTimeInput = (props: DateTimeInputProps) => {
     after,
     iconBefore,
     iconAfter,
+    clearable = true,
+    clearLabel = labels.clearDateTime,
     error: errorProp,
     disabled: disabledProp,
     invalid: invalidProp,
@@ -113,17 +120,8 @@ export const DateTimeInput = (props: DateTimeInputProps) => {
   const disabled = disabledProp ?? fieldContext?.disabled;
   const resolvedBefore =
     before ?? (iconBefore ? <Icon name={iconBefore} aria-hidden /> : undefined);
-  const resolvedAfter =
+  const explicitAfter =
     after ?? (iconAfter ? <Icon name={iconAfter} aria-hidden /> : undefined);
-
-  const classes = segmentedFields({
-    size,
-    field: 'dateTime',
-    before: Boolean(resolvedBefore),
-    after: Boolean(resolvedAfter),
-  });
-  const segmentClasses = segmentedInputs({ size });
-  const [className, otherProps] = splitProps(rest);
 
   // Composed date+time is tracked internally so an uncontrolled DateTimeInput
   // doesn't lose whichever half (date/time) was filled in first — SegmentedDate
@@ -144,6 +142,16 @@ export const DateTimeInput = (props: DateTimeInputProps) => {
 
   const dateValue = value !== undefined ? (value?.date ?? null) : internalDate;
   const timeValue = value !== undefined ? (value?.time ?? null) : internalTime;
+  const hasValue = dateValue !== null || timeValue !== null;
+
+  const classes = segmentedFields({
+    size,
+    field: 'dateTime',
+    before: Boolean(resolvedBefore),
+    after: Boolean(explicitAfter || (clearable && hasValue)),
+  });
+  const segmentClasses = segmentedInputs({ size });
+  const [className, otherProps] = splitProps(rest);
 
   // Lets clicking the separator between the date and time halves focus into
   // the time field, matching the click-anywhere-focuses-a-segment behavior
@@ -167,6 +175,13 @@ export const DateTimeInput = (props: DateTimeInputProps) => {
     }
     onChange?.({ date: nextDate, time: nextTime });
   };
+  const clearAction = getClearButton({
+    clearable,
+    hasValue,
+    label: clearLabel,
+    onClear: () => emitChange(null, null),
+  });
+  const resolvedAfter = explicitAfter ?? clearAction;
 
   return (
     <Box
@@ -191,36 +206,38 @@ export const DateTimeInput = (props: DateTimeInputProps) => {
         buttonSlotClassName={classes.buttonSlot}
         slotClassName={classes.slot}
       />
-      <SegmentedDate
-        label={dateLabel}
-        value={dateValue}
-        onChange={(nextDate) => emitChange(nextDate, timeValue)}
-        format={dateFormat}
-        size={size}
-        disabled={disabled}
-        onFocusWithin={onFocusWithin}
-        onBlurWithin={onBlurWithin}
-      />
-      <Box
-        as="span"
-        className={segmentClasses.separator}
-        aria-hidden="true"
-        onClick={focusTimeField}
-      >
-        {' '}
+      <Box className={classes.content}>
+        <SegmentedDate
+          label={dateLabel}
+          value={dateValue}
+          onChange={(nextDate) => emitChange(nextDate, timeValue)}
+          format={dateFormat}
+          size={size}
+          disabled={disabled}
+          onFocusWithin={onFocusWithin}
+          onBlurWithin={onBlurWithin}
+        />
+        <Box
+          as="span"
+          className={segmentClasses.separator}
+          aria-hidden="true"
+          onClick={focusTimeField}
+        >
+          {' '}
+        </Box>
+        <SegmentedTime
+          ref={timeFieldRef}
+          label={timeLabel}
+          value={timeValue}
+          onChange={(nextTime) => emitChange(dateValue, nextTime)}
+          timeFormat={timeFormat}
+          minuteStep={minuteStep}
+          size={size}
+          disabled={disabled}
+          onFocusWithin={onFocusWithin}
+          onBlurWithin={onBlurWithin}
+        />
       </Box>
-      <SegmentedTime
-        ref={timeFieldRef}
-        label={timeLabel}
-        value={timeValue}
-        onChange={(nextTime) => emitChange(dateValue, nextTime)}
-        timeFormat={timeFormat}
-        minuteStep={minuteStep}
-        size={size}
-        disabled={disabled}
-        onFocusWithin={onFocusWithin}
-        onBlurWithin={onBlurWithin}
-      />
       <InputSlot
         owner="DateTimeInput"
         placement="after"

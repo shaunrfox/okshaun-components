@@ -13,8 +13,6 @@ const segmentedFieldsBase = {
     display: 'flex',
     alignItems: 'center',
     width: 'full',
-    py: 'var(--input-py)',
-    px: 'var(--input-px)',
     bg: 'bg.input',
     borderWidth: '1',
     borderStyle: 'solid',
@@ -57,6 +55,14 @@ const segmentedFieldsBase = {
         outlineColor: 'border.danger',
       },
     },
+  },
+  content: {
+    display: 'flex',
+    alignItems: 'center',
+    flex: '1 1 auto',
+    minW: '0',
+    py: 'var(--input-py)',
+    px: 'var(--input-px)',
   },
   slot: {
     display: 'inline-flex',
@@ -146,7 +152,7 @@ const segmentedFieldsVariants = {
   },
   before: {
     true: {
-      container: {
+      content: {
         ps: '0',
       },
       buttonSlot: {
@@ -159,7 +165,7 @@ const segmentedFieldsVariants = {
   },
   after: {
     true: {
-      container: {
+      content: {
         pe: '0',
       },
       buttonSlot: {
@@ -183,7 +189,7 @@ export const segmentedFieldsRecipe = defineSlotRecipe({
     'TimeRangeInput',
     'DateTimeInput',
   ],
-  slots: ['container', 'slot', 'buttonSlot'],
+  slots: ['container', 'content', 'slot', 'buttonSlot'],
   base: segmentedFieldsBase,
   variants: segmentedFieldsVariants,
   defaultVariants: {

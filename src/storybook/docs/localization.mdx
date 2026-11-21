@@ -209,9 +209,10 @@ export const LabelTable = () => (
     <Heading level="h3">Example</Heading>
 
     <Text maxW="prose">
-      The same calendar with no provider, and inside a provider with Spanish
-      labels. Use a screen reader or inspect the buttons to see the translated
-      accessible names, such as "Mes anterior".
+      The same calendar with no provider, and inside a provider with the
+      <code>es-ES</code> locale and Spanish labels. The locale changes the
+      month and weekday names. The labels change the accessible names, such as
+      "Mes anterior" on the previous-month button.
     </Text>
 
     <HStack gap="24" alignItems="start" flexWrap="wrap">
@@ -220,7 +221,7 @@ export const LabelTable = () => (
         <Calendar />
       </VStack>
       <VStack alignItems="start" gap="8">
-        <Text weight="bold">Spanish labels</Text>
+        <Text weight="bold">es-ES locale and Spanish labels</Text>
         <LocaleProvider
           locale="es-ES"
           labels={{
@@ -239,26 +240,53 @@ export const LabelTable = () => (
 
     <Divider weight="thick" color="border.disabled" my="24" />
 
+    <Heading level="h3">What the locale changes</Heading>
+
+    <Text maxW="prose">
+      <code>Calendar</code>, and every date menu and picker built on it, takes
+      these from the browser's <code>Intl</code> data for the locale:
+    </Text>
+
+    <Box as="ul" pl="24" display="grid" gap="6">
+      <Box as="li" listStyleType="disc">
+        <Text>The month and year title, such as "octubre de 2026".</Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>Full and short month names in the month view.</Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          Short weekday headers, such as "LUN", with the full name as each
+          header's accessible name.
+        </Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>The accessible name of each day, such as "5 octobre 2026".</Text>
+      </Box>
+      <Box as="li" listStyleType="disc">
+        <Text>
+          The first day of the week. <code>fr-FR</code> and <code>es-ES</code>{' '}
+          start on Monday, <code>en-US</code> on Sunday. A browser without
+          week data starts the week on Sunday.
+        </Text>
+      </Box>
+    </Box>
+
+    <Text maxW="prose">
+      You do not translate these yourself. An invalid or unsupported locale
+      falls back to <code>en-US</code>.
+    </Text>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
     <Heading level="h3">What the locale does not change yet</Heading>
 
     <Box as="ul" pl="24" display="grid" gap="6">
       <Box as="li" listStyleType="disc">
         <Text>
-          <strong>Month and weekday names in <code>Calendar</code></strong> are
-          still English. They will come from the browser's <code>Intl</code>
-          formatters in a later release.
-        </Text>
-      </Box>
-      <Box as="li" listStyleType="disc">
-        <Text>
           <strong>Date order and 12- or 24-hour time</strong> are props:
           <code>format</code> and <code>timeFormat</code>. They do not follow the
           locale.
-        </Text>
-      </Box>
-      <Box as="li" listStyleType="disc">
-        <Text>
-          <strong>The calendar week starts on Sunday</strong> in every locale.
         </Text>
       </Box>
       <Box as="li" listStyleType="disc">
@@ -302,5 +330,6 @@ export const LabelTable = () => (
     </Text>
 
     <LabelTable />
+
   </VStack>
 </Unstyled>

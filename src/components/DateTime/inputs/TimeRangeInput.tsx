@@ -15,6 +15,7 @@ import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../../Box';
 import { SegmentedTime } from '../../SegmentedInputs/SegmentedTime';
 import type { TimeFormat, TimeRangeValue, TimeValue } from '../helpers/types';
+import { getClearButton } from './ClearButton';
 import { InputSlot } from './InputSlot';
 
 /** Props for {@link TimeRangeInput}, including range state and field slots. */
@@ -47,6 +48,10 @@ export type TimeRangeInputProps = Omit<
     iconBefore?: IconNamesList;
     /** Legacy icon rendered after the range when `after` is absent. */
     iconAfter?: IconNamesList;
+    /** Shows a clear action in the `after` slot when it is otherwise unused and either endpoint has a value. @default true */
+    clearable?: boolean;
+    /** Accessible label for the clear action. @default 'Clear time range' */
+    clearLabel?: string;
     /** Applies error styling. Overrides field context when provided. */
     error?: boolean;
     /** Prevents editing both endpoints. Overrides field context when provided. */
@@ -90,6 +95,8 @@ export const TimeRangeInput = (props: TimeRangeInputProps) => {
     after,
     iconBefore,
     iconAfter,
+    clearable = true,
+    clearLabel = labels.clearTimeRange,
     error: errorProp,
     disabled: disabledProp,
     invalid: invalidProp,
@@ -105,18 +112,8 @@ export const TimeRangeInput = (props: TimeRangeInputProps) => {
   const disabled = disabledProp ?? fieldContext?.disabled;
   const resolvedBefore =
     before ?? (iconBefore ? <Icon name={iconBefore} aria-hidden /> : undefined);
-  const resolvedAfter =
+  const explicitAfter =
     after ?? (iconAfter ? <Icon name={iconAfter} aria-hidden /> : undefined);
-
-  const classes = segmentedFields({
-    size,
-    field: 'time',
-    range: 'time',
-    before: Boolean(resolvedBefore),
-    after: Boolean(resolvedAfter),
-  });
-  const segmentClasses = segmentedInputs({ size });
-  const [className, otherProps] = splitProps(rest);
 
   // Composed range is tracked internally so an uncontrolled TimeRangeInput
   // doesn't lose whichever endpoint was filled in first — each SegmentedTime
@@ -134,6 +131,17 @@ export const TimeRangeInput = (props: TimeRangeInputProps) => {
   }, [value]);
 
   const range = value !== undefined ? (value ?? EMPTY_RANGE) : internalRange;
+  const hasValue = range.start !== null || range.end !== null;
+
+  const classes = segmentedFields({
+    size,
+    field: 'time',
+    range: 'time',
+    before: Boolean(resolvedBefore),
+    after: Boolean(explicitAfter || (clearable && hasValue)),
+  });
+  const segmentClasses = segmentedInputs({ size });
+  const [className, otherProps] = splitProps(rest);
 
   // Lets clicking the "–" separator focus into the end field, matching the
   // click-anywhere-focuses-a-segment behavior of the segments themselves.
@@ -152,6 +160,13 @@ export const TimeRangeInput = (props: TimeRangeInputProps) => {
     setInternalRange(next);
     onChange?.(nextStart === null && nextEnd === null ? null : next);
   };
+  const clearAction = getClearButton({
+    clearable,
+    hasValue,
+    label: clearLabel,
+    onClear: () => emitChange(null, null),
+  });
+  const resolvedAfter = explicitAfter ?? clearAction;
 
   return (
     <Box
@@ -176,38 +191,40 @@ export const TimeRangeInput = (props: TimeRangeInputProps) => {
         buttonSlotClassName={classes.buttonSlot}
         slotClassName={classes.slot}
       />
-      <SegmentedTime
-        label={startLabel}
-        value={range.start}
-        onChange={(nextStart) => emitChange(nextStart, range.end)}
-        timeFormat={timeFormat}
-        minuteStep={minuteStep}
-        size={size}
-        disabled={disabled}
-        onFocusWithin={onFocusWithin}
-        onBlurWithin={onBlurWithin}
-      />
-      <Box
-        as="span"
-        className={segmentClasses.separator}
-        data-gap="loose"
-        aria-hidden="true"
-        onClick={focusEndField}
-      >
-        –
+      <Box className={classes.content}>
+        <SegmentedTime
+          label={startLabel}
+          value={range.start}
+          onChange={(nextStart) => emitChange(nextStart, range.end)}
+          timeFormat={timeFormat}
+          minuteStep={minuteStep}
+          size={size}
+          disabled={disabled}
+          onFocusWithin={onFocusWithin}
+          onBlurWithin={onBlurWithin}
+        />
+        <Box
+          as="span"
+          className={segmentClasses.separator}
+          data-gap="loose"
+          aria-hidden="true"
+          onClick={focusEndField}
+        >
+          –
+        </Box>
+        <SegmentedTime
+          ref={endFieldRef}
+          label={endLabel}
+          value={range.end}
+          onChange={(nextEnd) => emitChange(range.start, nextEnd)}
+          timeFormat={timeFormat}
+          minuteStep={minuteStep}
+          size={size}
+          disabled={disabled}
+          onFocusWithin={onFocusWithin}
+          onBlurWithin={onBlurWithin}
+        />
       </Box>
-      <SegmentedTime
-        ref={endFieldRef}
-        label={endLabel}
-        value={range.end}
-        onChange={(nextEnd) => emitChange(range.start, nextEnd)}
-        timeFormat={timeFormat}
-        minuteStep={minuteStep}
-        size={size}
-        disabled={disabled}
-        onFocusWithin={onFocusWithin}
-        onBlurWithin={onBlurWithin}
-      />
       <InputSlot
         owner="TimeRangeInput"
         placement="after"

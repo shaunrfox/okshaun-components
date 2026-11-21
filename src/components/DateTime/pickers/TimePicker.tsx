@@ -13,6 +13,8 @@ export type TimePickerProps = Pick<
   | 'after'
   | 'iconBefore'
   | 'iconAfter'
+  | 'clearable'
+  | 'clearLabel'
   | 'error'
   | 'disabled'
   | 'invalid'
@@ -60,6 +62,8 @@ export const TimePicker = (props: TimePickerProps) => {
     after,
     iconBefore,
     iconAfter,
+    clearable,
+    clearLabel,
     error,
     disabled,
     invalid,
@@ -92,6 +96,12 @@ export const TimePicker = (props: TimePickerProps) => {
     defaultValue: defaultValue ?? null,
     onChange,
   });
+  const handleInputChange = (nextValue: TimeValue | null) => {
+    emitChange(nextValue);
+    if (nextValue === null) {
+      setOpenState(false);
+    }
+  };
 
   return (
     <TimeMenu
@@ -99,12 +109,14 @@ export const TimePicker = (props: TimePickerProps) => {
         <TimeInput
           id={id}
           value={currentValue}
-          onChange={emitChange}
+          onChange={handleInputChange}
           label={label}
           before={before}
           after={after}
           iconBefore={iconBefore}
           iconAfter={iconAfter}
+          clearable={clearable}
+          clearLabel={clearLabel}
           error={error}
           disabled={disabled}
           invalid={invalid}
