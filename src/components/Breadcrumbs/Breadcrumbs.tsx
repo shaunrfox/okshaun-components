@@ -1,10 +1,11 @@
 import { cx } from '@styled-system/css';
-import {
-  type BreadcrumbsVariantProps,
-  breadcrumbs,
-} from '@styled-system/recipes';
+import type { BreadcrumbsVariantProps } from '@styled-system/recipes';
+import { breadcrumbs } from '@styled-system/recipes';
+import type { MouseEvent } from 'react';
+
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
+
 import type { BoxProps } from '../Box';
 import { Link } from '../Link';
 import { Text } from '../Text';
@@ -17,14 +18,32 @@ export type BreadcrumbsProps = Omit<BoxProps, keyof BreadcrumbsVariantProps> &
      * without it renders as plain text, which is normally the current page.
      * Keep the final segment non-linked when it represents the current page.
      */
-    items: { id: string; label: string; href?: string }[];
+    items: BreadcrumbItem[];
   };
+
+/** One segment of a {@link Breadcrumbs} path. */
+export type BreadcrumbItem = {
+  /** Stable key for the segment. */
+  id: string;
+  /** Visible segment text. */
+  label: string;
+  /** Destination of a linked segment. Omit it for the current page. */
+  href?: string;
+  /**
+   * Called when a linked segment is clicked. Call `event.preventDefault()` to
+   * handle the navigation in the app, such as a client-side route change or
+   * closing a panel, instead of following `href`. A segment without `href`
+   * is plain text and ignores this handler.
+   */
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+};
 
 /**
  * Displays the current navigation path as a semantic unordered list.
  *
  * Linked segments use {@link Link}; segments without `href` are rendered as
- * plain text. Use page navigation instead when the hierarchy is not a path to
+ * plain text. Give a linked segment `onClick` when the app handles the
+ * navigation itself. Use page navigation instead when the hierarchy is not a path to
  * the current location.
  *
  * @example
@@ -52,7 +71,11 @@ export const Breadcrumbs = (props: BreadcrumbsProps) => {
       {items?.map((item, index) => (
         <Text as="li" key={item.id}>
           {item.href ? (
-            <Link href={item.href} className={classes.linkSegment}>
+            <Link
+              href={item.href}
+              onClick={item.onClick}
+              className={classes.linkSegment}
+            >
               {item.label}
             </Link>
           ) : (

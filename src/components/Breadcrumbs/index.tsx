@@ -1,1 +1,5 @@
-export { Breadcrumbs, type BreadcrumbsProps } from './Breadcrumbs';
+export {
+  type BreadcrumbItem,
+  Breadcrumbs,
+  type BreadcrumbsProps,
+} from './Breadcrumbs';

@@ -103,12 +103,8 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
     },
   ],
   tooltip: [{ size: ['*'], responsive: true }, { hasTitle: ['*'] }],
-  // Matches Cetec's entry. ⚠️ It does not actually work here: tag holds all of
-  // its colour in compoundVariants over empty variant bodies, and Panda emits
-  // nothing for either, with '*' or with explicit values. Tag renders
-  // uncoloured until the recipe is restructured the way ecl.11 restructured the
-  // other six recipes.
   tag: [
+    { size: ['*'], responsive: true },
     { variant: ['*'], hue: ['*'] },
     // Boolean(iconBefore) etc. are computed in Tag.tsx, so Panda cannot see
     // them statically. Naming `tag` above replaces the default coverage, so
