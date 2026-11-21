@@ -49,6 +49,7 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
   // value statically and would emit the class with no rule behind it.
   autocomplete: [{ size: ['*'], responsive: true }, { layer: ['*'] }],
   calendar: [{ type: ['*'] }],
+  popover: [{ layer: ['*'] }],
   segmentedFields: [
     {
       size: ['*'],
