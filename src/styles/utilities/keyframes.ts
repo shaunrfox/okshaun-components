@@ -113,4 +113,21 @@ export const keyframes = defineKeyframes({
       transform: 'scale(0.97) translateY(-40px)',
     },
   },
+  // Drawer animations
+  drawerSlideInRight: {
+    '0%': { transform: 'translateX(100%)' },
+    '100%': { transform: 'translateX(0)' },
+  },
+  drawerSlideOutRight: {
+    '0%': { transform: 'translateX(0)' },
+    '100%': { transform: 'translateX(100%)' },
+  },
+  drawerSlideInLeft: {
+    '0%': { transform: 'translateX(-100%)' },
+    '100%': { transform: 'translateX(0)' },
+  },
+  drawerSlideOutLeft: {
+    '0%': { transform: 'translateX(0)' },
+    '100%': { transform: 'translateX(-100%)' },
+  },
 });
