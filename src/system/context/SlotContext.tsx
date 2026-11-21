@@ -8,6 +8,7 @@ import { createContext, useContext } from 'react';
  * does not exist.
  */
 export type SlotOwner =
+  | 'AvatarStack'
   | 'Button'
   | 'Chip'
   | 'TextInput'

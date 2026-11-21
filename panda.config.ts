@@ -19,7 +19,11 @@ const recipeNames = [
 // those variant props as ConditionalValue, so responsive sizes flow from
 // FieldContext and SlotContext into the recipes.
 const recipeOverrides: Record<string, RecipeRule[]> = {
-  avatar: [{ size: ['*'], responsive: true }, { shape: ['*'] }],
+  avatar: [
+    { size: ['*'], responsive: true },
+    { shape: ['*'] },
+    { stacked: ['*'] },
+  ],
   badge: [
     { size: ['*'], responsive: true },
     { standalone: ['*'], dot: ['*'], variant: ['*'] },
