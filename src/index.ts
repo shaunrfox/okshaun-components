@@ -64,6 +64,30 @@ export {
   type DrawerProps,
 } from './components/Drawer';
 export { useDrawerContext } from './components/Drawer/DrawerContext';
+export {
+  FilterField,
+  type FilterFieldProps,
+  type FilterFieldToken,
+} from './components/FilterField';
+export {
+  FilterMenu,
+  type FilterMenuItemRow,
+  type FilterMenuProps,
+  type FilterMenuRow,
+} from './components/FilterMenu';
+export {
+  getFilterMenuOptionId,
+  type UseFilterMenuOptions,
+  type UseFilterMenuResult,
+  useFilterMenu,
+} from './components/FilterMenu/useFilterMenu';
+export {
+  FilterToken,
+  type FilterTokenJoined,
+  type FilterTokenProps,
+  type FilterTokenState,
+  type FilterTokenTone,
+} from './components/FilterToken';
 export { FormField, type FormFieldProps } from './components/FormField';
 export { Heading, type HeadingProps } from './components/Heading';
 export {
