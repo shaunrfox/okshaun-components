@@ -68,6 +68,8 @@ export const checkboxRecipe = defineSlotRecipe({
       width: '24',
       height: '24',
       zIndex: '3',
+      // The icons sit above the input, so clicks must pass through to it.
+      pointerEvents: 'none',
       "&:is([name='checkbox'])": {
         fill: 'icon.subtlest',
         zIndex: '3',
@@ -81,6 +83,7 @@ export const checkboxRecipe = defineSlotRecipe({
       height: '24',
       fill: 'surface',
       zIndex: 'base',
+      pointerEvents: 'none',
     },
   },
 });

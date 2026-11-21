@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-
-import { expect, fn, userEvent, within } from 'storybook/test';
 import { useState } from 'react';
+import { expect, fn, userEvent, within } from 'storybook/test';
 import { Box } from '../Box';
 import { Card } from '../Card';
 import { CheckboxInput } from '../CheckboxInput';
@@ -257,6 +256,37 @@ export const A11yKeyboardInteraction: Story = {
     expect(checkbox).toHaveFocus();
     await userEvent.keyboard(' ');
     expect(checkbox).toBeChecked();
+  },
+  parameters: { controls: { disable: true } },
+};
+
+export const A11yBoxClickTarget: Story = {
+  name: 'A11y: Box Click Target',
+  render: function A11yBoxClickTargetRender() {
+    const [checked, setChecked] = useState(false);
+
+    return (
+      <Checkbox
+        name="box-click-target"
+        aria-label="Box click target"
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
+      />
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const checkbox = canvas.getByRole('checkbox', {
+      name: /box click target/i,
+    });
+    const box = checkbox.getBoundingClientRect();
+
+    // The icons drawn over the input must let clicks through to it.
+    const target = document.elementFromPoint(
+      box.left + box.width / 2,
+      box.top + box.height / 2,
+    );
+    expect(target).toBe(checkbox);
   },
   parameters: { controls: { disable: true } },
 };
