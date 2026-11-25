@@ -157,9 +157,9 @@ const autocompleteBase = {
   },
   listbox: {
     ...globalBaseStyles,
-    width: 'full',
+    width: 'fit',
     maxHeight: '192',
-    overflowY: 'auto',
+    overflow: 'auto',
     bg: 'surface',
     borderRadius: '4',
     boxShadow: 'overlay',
