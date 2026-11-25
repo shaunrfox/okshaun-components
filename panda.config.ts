@@ -54,6 +54,7 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
   autocomplete: [{ size: ['*'], responsive: true }, { layer: ['*'] }],
   calendar: [{ type: ['*'] }],
   filterMenu: [{ layer: ['*'] }],
+  keyFact: [{ layout: ['*'], responsive: true }, { editing: ['*'] }],
   popover: [{ layer: ['*'] }],
   segmentedFields: [
     {

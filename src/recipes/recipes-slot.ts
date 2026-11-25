@@ -17,6 +17,7 @@ export { filterTokenRecipe } from './filterToken';
 export { formFieldRecipe } from './formField';
 export { inlineNoteRecipe } from './inlineNote';
 export { kbdRecipe } from './kbd';
+export { keyFactRecipe } from './keyFact';
 export { listItemRecipe } from './listItem';
 export { listItemGroupRecipe } from './listItemGroup';
 export { menuRecipe } from './menu';

@@ -106,6 +106,7 @@ export {
   type KbdSpecialSymbol,
   type KbdValue,
 } from './components/Kbd';
+export { KeyFact, type KeyFactProps } from './components/KeyFact';
 export { Label, type LabelProps } from './components/Label';
 export { Link, type LinkProps } from './components/Link';
 export {

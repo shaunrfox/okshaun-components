@@ -6,6 +6,7 @@ import { Calendar } from '../Calendar';
 import { Chip } from '../Chip';
 import { CodeBlock } from '../CodeBlock';
 import { DateTimeInput } from '../DateTime';
+import { KeyFact } from '../KeyFact';
 import {
   Popover,
   PopoverClose,
@@ -135,6 +136,25 @@ export const CodeBlockLabels: Story = {
     await expect(
       canvas.getByRole('button', { name: 'Mostrar las 5 líneas' }),
     ).toBeInTheDocument();
+  },
+};
+
+export const KeyFactLabels: Story = {
+  name: 'Key Fact Labels',
+  render: () => (
+    <LocaleProvider
+      locale="fr-FR"
+      labels={{ keyFactLabel: (label) => `${label} :` }}
+    >
+      <KeyFact label="Responsable" value="Dana Ortiz" />
+    </LocaleProvider>
+  ),
+  parameters: { controls: { disable: true } },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // French puts a space before the colon. The component must not add its own.
+    await expect(canvas.getByText('Responsable :')).toBeInTheDocument();
   },
 };
 
