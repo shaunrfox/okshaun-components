@@ -54,6 +54,19 @@ const buttonStyles = {
       fill: 'icon.decorative.inverse.hovered',
     },
   },
+  // Deviation from Cetec: the body carries data-selected itself, and :has()
+  // only matches descendants. Without these rules, icons in a selected chip
+  // keep the unselected fill on the dark background.
+  '&[data-selected=true]': {
+    _icon: {
+      fill: 'icon.decorative.inverse',
+    },
+  },
+  '&[data-selected=true]:is(:hover, [data-hover], :active, [data-active])': {
+    _icon: {
+      fill: 'icon.decorative.inverse.hovered',
+    },
+  },
 };
 
 export const chipRecipe = defineSlotRecipe({

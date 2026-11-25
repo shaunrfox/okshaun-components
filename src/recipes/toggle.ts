@@ -14,7 +14,7 @@ export const toggleRecipe = defineSlotRecipe({
       bg: 'surface',
       cursor: 'pointer',
       transitionProperty: 'border-color, background-color',
-      transitionDuration: 'default',
+      transitionDuration: 'normal',
       transitionTimingFunction: 'ease-in-out',
       borderWidth: '2',
       borderStyle: 'solid',

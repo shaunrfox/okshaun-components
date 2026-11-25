@@ -324,7 +324,9 @@ export const Chip = (props: ChipProps) => {
         opacity={loading ? 0 : 1}
         className={classes.mainContent}
       >
-        {isMultiSelected && <Icon name="check" aria-hidden />}
+        {isMultiSelected && (
+          <Icon name="check" fill="icon.inverse" aria-hidden />
+        )}
         {before && (
           <SlotContext.Provider
             value={{

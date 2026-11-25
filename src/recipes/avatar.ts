@@ -4,12 +4,6 @@ export const avatarRecipe = defineSlotRecipe({
   className: 'avatar',
   jsx: ['Avatar'],
   slots: ['root', 'image', 'fallback', 'presence', 'status'],
-  staticCss: [
-    {
-      size: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
-      shape: ['circle', 'square', 'hexagon'],
-    },
-  ],
   base: {
     root: {
       display: 'inline-flex',
