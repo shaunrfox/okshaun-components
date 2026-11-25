@@ -130,4 +130,25 @@ export const keyframes = defineKeyframes({
     '0%': { transform: 'translateX(0)' },
     '100%': { transform: 'translateX(-100%)' },
   },
+  // Toast animations
+  toastSlideIn: {
+    '0%': {
+      opacity: '0',
+      transform: 'translateX(16px)',
+    },
+    '100%': {
+      opacity: '1',
+      transform: 'translateX(0)',
+    },
+  },
+  toastSlideOut: {
+    '0%': {
+      opacity: '1',
+      transform: 'translateX(0)',
+    },
+    '100%': {
+      opacity: '0',
+      transform: 'translateX(16px)',
+    },
+  },
 });
