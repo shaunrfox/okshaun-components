@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Flex } from '@styled-system/jsx';
 import { Box } from '../Box';
 import { Button } from '../Button';

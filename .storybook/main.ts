@@ -8,17 +8,13 @@ const config: StorybookConfig = {
   ],
   staticDirs: ['../public'],
   addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
     '@storybook/addon-themes',
     '@storybook/addon-a11y',
+    '@storybook/addon-docs',
   ],
   framework: {
     name: '@storybook/react-vite',
     options: {},
-  },
-  features: {
-    backgroundsStoryGlobals: false,
   },
   docs: {
     defaultName: 'Documentation',
