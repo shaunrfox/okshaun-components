@@ -15,7 +15,9 @@ export const listItemRecipe = defineSlotRecipe({
     'wrapper',
     'icon',
     'beforeSlot',
+    'beforeContent',
     'afterSlot',
+    'afterContent',
     'itemMain',
     'itemLabel',
     'itemDescription',
@@ -86,8 +88,31 @@ export const listItemRecipe = defineSlotRecipe({
     beforeSlot: {
       ms: 'calc(var(--list-item-slot-margin) * -1)',
     },
+    // Centers custom `before` content, such as a 20px icon or an avatar,
+    // on the first line of the label, the same way a built-in icon sits.
+    beforeContent: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexShrink: '0',
+      minW: 'var(--list-item-icon-size)',
+      minH: 'var(--list-item-icon-size)',
+    },
     afterSlot: {
       me: 'calc(var(--list-item-slot-margin) * -1)',
+    },
+    // Short trailing text, such as a date range or a count. It stays on the
+    // first line of the label and never wraps.
+    afterContent: {
+      display: 'flex',
+      alignItems: 'center',
+      flexShrink: '0',
+      minH: 'var(--list-item-icon-size)',
+      ms: 'auto',
+      ps: '8',
+      color: 'text.subtlest',
+      fontSize: 'var(--list-item-description-size)',
+      whiteSpace: 'nowrap',
     },
     divider: {
       width: 'full',

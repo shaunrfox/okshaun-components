@@ -31,6 +31,11 @@ export type ListItemProps = Omit<
     href?: string;
     /** Content rendered before the default label and description. */
     before?: ReactNode;
+    /**
+     * Short content rendered at the end of the row, after the default label
+     * and description, such as a count or a date range. It does not wrap.
+     */
+    after?: ReactNode;
     /** Primary text rendered when custom `children` are not supplied. */
     label?: string;
     /** Secondary text rendered below `label` when custom `children` are not supplied. */
@@ -114,6 +119,7 @@ export const ListItem = (props: ListItemProps) => {
     density,
     variant = 'default',
     before,
+    after,
     label,
     description,
     query,
@@ -186,7 +192,10 @@ export const ListItem = (props: ListItemProps) => {
       ) : (
         <>
           {before && (
-            <Box className={classes.beforeSlot} aria-hidden>
+            <Box
+              className={cx(classes.beforeSlot, classes.beforeContent)}
+              aria-hidden
+            >
               {before}
             </Box>
           )}
@@ -241,6 +250,8 @@ export const ListItem = (props: ListItemProps) => {
               </Text>
             )}
           </Box>
+
+          {after && <Box className={classes.afterContent}>{after}</Box>}
 
           {iconAfter && (
             <Icon
