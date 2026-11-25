@@ -167,6 +167,12 @@ export const SubMenu = (props: SubMenuProps) => {
     ) {
       return;
     }
+    if (!nextOpen && reason === 'escape-key' && rootContext.rendersInline) {
+      // Same as Arrow Left: close and return focus to this trigger.
+      setOpen(false);
+      queueMicrotask(() => referenceRef.current?.focus());
+      return;
+    }
     setOpen(nextOpen);
   };
 
