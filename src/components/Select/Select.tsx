@@ -26,8 +26,8 @@ import {
   useRef,
   useState,
 } from 'react';
-
 import type { MenuDensity } from '~/components/Menu';
+import { useLocale } from '~/system/context/useLocale';
 import { useFloatingLayer } from '~/system/floating-ui/FloatingLayerContext';
 import {
   createOverlayMiddleware,
@@ -180,12 +180,13 @@ export type SelectProps = Omit<
  * ```
  */
 export const Select = (props: SelectProps) => {
+  const { labels } = useLocale();
   const {
     value: controlledValue,
     defaultValue = null,
     onChange,
     multiple = false,
-    placeholder = 'Select...',
+    placeholder = labels.selectPlaceholder,
     open: controlledOpen,
     defaultOpen = false,
     onOpenChange,

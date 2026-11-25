@@ -30,6 +30,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useLocale } from '~/system/context/useLocale';
 import { useFloatingLayer } from '~/system/floating-ui/FloatingLayerContext';
 import {
   createOverlayMiddleware,
@@ -94,6 +95,7 @@ const withLevelScopedKeys = (nodes: ReactNode, levelKey: string) => {
  * ```
  */
 export const Menu = (props: MenuProps) => {
+  const { labels } = useLocale();
   const nodeId = useFloatingNodeId();
   const {
     trigger,
@@ -383,7 +385,7 @@ export const Menu = (props: MenuProps) => {
           {!hasVisibleResults && (
             <Box className={classes.noResults}>
               {renderNoResults ?? (
-                <Text textStyle="body.sm">No results found</Text>
+                <Text textStyle="body.sm">{labels.noResults}</Text>
               )}
             </Box>
           )}

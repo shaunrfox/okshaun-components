@@ -8,6 +8,7 @@ import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import { Icon, type IconNamesList } from '~/components/Icon';
 import { useFieldContext } from '~/system/context/FieldContext';
+import { useLocale } from '~/system/context/useLocale';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
@@ -82,6 +83,7 @@ export type DateTimeInputProps = Omit<
  */
 export const DateTimeInput = (props: DateTimeInputProps) => {
   const fieldContext = useFieldContext();
+  const { labels } = useLocale();
   const {
     id,
     value,
@@ -90,8 +92,8 @@ export const DateTimeInput = (props: DateTimeInputProps) => {
     dateFormat,
     timeFormat,
     minuteStep,
-    dateLabel = 'Date',
-    timeLabel = 'Time',
+    dateLabel = labels.date,
+    timeLabel = labels.time,
     before,
     after,
     iconBefore,

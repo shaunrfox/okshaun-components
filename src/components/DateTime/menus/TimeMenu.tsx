@@ -5,6 +5,7 @@ import { type RefObject, useEffect, useRef } from 'react';
 import { Box } from '~/components/Box';
 import { List, ListItem } from '~/components/List';
 import { Menu, type MenuProps } from '~/components/Menu';
+import { useLocale } from '~/system/context/useLocale';
 import { useControllableState } from '~/system/hooks/useControllableState';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
@@ -77,6 +78,7 @@ const scrollSelectedIntoView = (colRef: RefObject<HTMLDivElement | null>) => {
  * ```
  */
 export const TimeMenu = (props: TimeMenuProps) => {
+  const { labels } = useLocale();
   const {
     trigger,
     open: controlledOpen,
@@ -183,10 +185,10 @@ export const TimeMenu = (props: TimeMenuProps) => {
           ref={hourColRef}
           className={classes.column}
           role="listbox"
-          aria-label="Hour"
+          aria-label={labels.hour}
         >
           <Box data-column-header className={classes.columnHeader}>
-            HR
+            {labels.hourColumn}
           </Box>
           <List>
             {hourValues.map((hour) => (
@@ -204,10 +206,10 @@ export const TimeMenu = (props: TimeMenuProps) => {
           ref={minuteColRef}
           className={classes.column}
           role="listbox"
-          aria-label="Minute"
+          aria-label={labels.minute}
         >
           <Box data-column-header className={classes.columnHeader}>
-            MIN
+            {labels.minuteColumn}
           </Box>
           <List>
             {minuteValues.map((minute) => (
@@ -226,10 +228,10 @@ export const TimeMenu = (props: TimeMenuProps) => {
             ref={meridiemColRef}
             className={classes.column}
             role="listbox"
-            aria-label="AM or PM"
+            aria-label={labels.meridiem}
           >
             <Box data-column-header className={classes.columnHeader}>
-              AM/PM
+              {labels.meridiemColumn}
             </Box>
             <List>
               {(['AM', 'PM'] as Meridiem[]).map((meridiem) => (

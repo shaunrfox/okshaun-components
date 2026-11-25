@@ -2,6 +2,7 @@ import { cx } from '@styled-system/css';
 import { themeSwitcher } from '@styled-system/recipes';
 import { Box, type BoxProps } from '~/components/Box';
 import { useTheme } from '~/system/context';
+import { useLocale } from '~/system/context/useLocale';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
@@ -23,6 +24,7 @@ export type ThemeSwitcherProps = BoxProps;
 export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
   const [className, otherProps] = splitProps(props);
   const { theme, setTheme } = useTheme();
+  const { labels } = useLocale();
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
@@ -33,7 +35,7 @@ export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
       as="button"
       className={cx(themeSwitcher(), className)}
       onClick={toggleTheme}
-      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+      aria-label={labels.switchToTheme(theme === 'light' ? 'dark' : 'light')}
       {...otherProps}
     />
   );

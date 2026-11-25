@@ -15,6 +15,7 @@ import { Calendar } from '~/components/Calendar';
 import { Divider } from '~/components/Divider';
 import { List, ListItem } from '~/components/List';
 import { Menu, type MenuProps } from '~/components/Menu';
+import { useLocale } from '~/system/context/useLocale';
 import { useControllableState } from '~/system/hooks/useControllableState';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
@@ -102,6 +103,7 @@ const scrollSelectedIntoView = (colRef: RefObject<HTMLDivElement | null>) => {
  * ```
  */
 export const DateTimeMenu = (props: DateTimeMenuProps) => {
+  const { labels } = useLocale();
   const {
     trigger,
     open: controlledOpen,
@@ -302,10 +304,10 @@ export const DateTimeMenu = (props: DateTimeMenuProps) => {
               ref={hourColRef}
               className={columnClasses.column}
               role="listbox"
-              aria-label="Hour"
+              aria-label={labels.hour}
             >
               <Box data-column-header className={columnClasses.columnHeader}>
-                HR
+                {labels.hourColumn}
               </Box>
               <List>
                 {hourValues.map((hour) => (
@@ -323,10 +325,10 @@ export const DateTimeMenu = (props: DateTimeMenuProps) => {
               ref={minuteColRef}
               className={columnClasses.column}
               role="listbox"
-              aria-label="Minute"
+              aria-label={labels.minute}
             >
               <Box data-column-header className={columnClasses.columnHeader}>
-                MIN
+                {labels.minuteColumn}
               </Box>
               <List>
                 {minuteValues.map((minute) => (
@@ -345,10 +347,10 @@ export const DateTimeMenu = (props: DateTimeMenuProps) => {
                 ref={meridiemColRef}
                 className={columnClasses.column}
                 role="listbox"
-                aria-label="AM or PM"
+                aria-label={labels.meridiem}
               >
                 <Box data-column-header className={columnClasses.columnHeader}>
-                  AM/PM
+                  {labels.meridiemColumn}
                 </Box>
                 <List>
                   {(['AM', 'PM'] as Meridiem[]).map((meridiem) => (
@@ -367,14 +369,14 @@ export const DateTimeMenu = (props: DateTimeMenuProps) => {
         </Box>
         <Box className={classes.footer}>
           <Button variant="standard" onClick={handleCancel}>
-            Cancel
+            {labels.cancel}
           </Button>
           <Button
             variant="primary"
             disabled={!draftDate || !draftTime}
             onClick={handleApply}
           >
-            Apply
+            {labels.apply}
           </Button>
         </Box>
       </Box>

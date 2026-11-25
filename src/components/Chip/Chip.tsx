@@ -15,6 +15,7 @@ import { Icon } from '~/components/Icon';
 import { Spinner } from '~/components/Spinner';
 import { useFieldContext } from '~/system/context/FieldContext';
 import { SlotContext } from '~/system/context/SlotContext';
+import { useLocale } from '~/system/context/useLocale';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 import { useChipGroup } from './ChipGroupContext';
@@ -82,6 +83,7 @@ export const Chip = (props: ChipProps) => {
   const fieldContext = useFieldContext();
   const groupContext = useChipGroup();
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const { labels } = useLocale();
   const {
     size: sizeProp,
     children,
@@ -136,7 +138,7 @@ export const Chip = (props: ChipProps) => {
   });
   const label = getChipLabel(children);
   const dismissAriaLabel =
-    dismissLabel ?? (label ? `${label}, dismiss` : undefined);
+    dismissLabel ?? (label ? labels.removeItem(label) : undefined);
 
   useEffect(() => {
     if (!canRegister || !groupContext || value === undefined) {

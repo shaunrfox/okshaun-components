@@ -1,6 +1,7 @@
 import type { Placement } from '@floating-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import { Box } from '~/components/Box';
+import { useLocale } from '~/system/context/useLocale';
 import { useControllableState } from '~/system/hooks/useControllableState';
 
 import type {
@@ -76,6 +77,7 @@ const EMPTY_RANGE: DateTimeRangeValue = { start: null, end: null };
  * ```
  */
 export const DateTimeRangePicker = (props: DateTimeRangePickerProps) => {
+  const { labels } = useLocale();
   const {
     before,
     after,
@@ -93,10 +95,10 @@ export const DateTimeRangePicker = (props: DateTimeRangePickerProps) => {
     minuteStep,
     minDate,
     maxDate,
-    startDateLabel = 'Start date',
-    startTimeLabel = 'Start time',
-    endDateLabel = 'End date',
-    endTimeLabel = 'End time',
+    startDateLabel = labels.startDate,
+    startTimeLabel = labels.startTime,
+    endDateLabel = labels.endDate,
+    endTimeLabel = labels.endTime,
     placement,
   } = props;
 

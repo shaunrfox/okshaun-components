@@ -14,6 +14,7 @@ import {
   useId,
 } from 'react';
 
+import { useLocale } from '~/system/context/useLocale';
 import { dsComponent } from '~/utils/dsComponent';
 
 import { Button } from '../Button';
@@ -129,6 +130,7 @@ export type ModalProps<TFormData extends Record<string, unknown>> = {
 export const Modal = <TFormData extends Record<string, unknown>>(
   props: ModalProps<TFormData>,
 ) => {
+  const { labels } = useLocale();
   const {
     open,
     onOpenChange,
@@ -136,8 +138,8 @@ export const Modal = <TFormData extends Record<string, unknown>>(
     defaultValues,
     onSubmit,
     children,
-    submitLabel = 'Submit',
-    cancelLabel = 'Cancel',
+    submitLabel = labels.submit,
+    cancelLabel = labels.cancel,
     submitDisabled = false,
     footer,
     size,

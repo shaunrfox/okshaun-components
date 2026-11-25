@@ -8,6 +8,7 @@ import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import { Icon, type IconNamesList } from '~/components/Icon';
 import { useFieldContext } from '~/system/context/FieldContext';
+import { useLocale } from '~/system/context/useLocale';
 import { dsComponent } from '~/utils/dsComponent';
 import { splitProps } from '~/utils/splitProps';
 
@@ -75,6 +76,7 @@ const EMPTY_RANGE: TimeRangeValue = { start: null, end: null };
  */
 export const TimeRangeInput = (props: TimeRangeInputProps) => {
   const fieldContext = useFieldContext();
+  const { labels } = useLocale();
   const {
     id,
     value,
@@ -82,8 +84,8 @@ export const TimeRangeInput = (props: TimeRangeInputProps) => {
     onChange,
     timeFormat,
     minuteStep,
-    startLabel = 'Start time',
-    endLabel = 'End time',
+    startLabel = labels.startTime,
+    endLabel = labels.endTime,
     before,
     after,
     iconBefore,

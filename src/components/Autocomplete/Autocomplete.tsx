@@ -9,6 +9,7 @@ import type { AutocompleteVariantProps } from '@styled-system/recipes';
 import type { HTMLProps, ReactNode } from 'react';
 
 import type { MenuDensity } from '~/components/Menu';
+import { useLocale } from '~/system/context/useLocale';
 import { dsComponent } from '~/utils/dsComponent';
 import { dsPart } from '~/utils/dsPart';
 
@@ -221,6 +222,7 @@ export type AutocompleteProps<Multiple extends boolean = boolean> =
  * ```
  */
 export const Autocomplete = (props: AutocompleteProps) => {
+  const { labels } = useLocale();
   const controller = useAutocompleteController(props);
   const {
     activeIndex,
@@ -337,7 +339,7 @@ export const Autocomplete = (props: AutocompleteProps) => {
             <Box
               as="span"
               className={classes.overflowIndicator}
-              aria-label={`${hiddenTagCount} more selected`}
+              aria-label={labels.moreSelected(hiddenTagCount)}
             >
               {`+${hiddenTagCount}`}
             </Box>
