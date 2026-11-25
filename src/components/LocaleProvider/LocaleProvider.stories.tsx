@@ -1,11 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { type LocaleLabels, LocaleProvider } from '~/system/context';
 import { Box } from '../Box';
 import { Calendar } from '../Calendar';
 import { Chip } from '../Chip';
 import { CodeBlock } from '../CodeBlock';
 import { DateTimeInput } from '../DateTime';
+import {
+  Popover,
+  PopoverClose,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from '../Popover';
 import { Select, SelectOption } from '../Select';
 
 /**
@@ -159,5 +167,60 @@ export const EnglishDefaults: Story = {
     await expect(
       canvas.getByRole('button', { name: 'Previous month' }),
     ).toBeInTheDocument();
+  },
+};
+
+export const PopoverCloseLabels: Story = {
+  // Behavior-only coverage opens and closes each panel; no stable open snapshot.
+  tags: ['!snapshot'],
+  render: () => (
+    <Box display="flex" gap="16">
+      <LocaleProvider labels={{ closePopover: 'Cerrar nota' }}>
+        <Popover>
+          <PopoverTrigger>Translated label</PopoverTrigger>
+          <PopoverContent>
+            <PopoverHeader>
+              <PopoverTitle>Translated note</PopoverTitle>
+              <PopoverClose />
+            </PopoverHeader>
+          </PopoverContent>
+        </Popover>
+        <Popover>
+          <PopoverTrigger>Explicit label</PopoverTrigger>
+          <PopoverContent>
+            <PopoverHeader>
+              <PopoverTitle>Custom note</PopoverTitle>
+              <PopoverClose altText="Dismiss this note" />
+            </PopoverHeader>
+          </PopoverContent>
+        </Popover>
+      </LocaleProvider>
+      <Popover>
+        <PopoverTrigger>Default label</PopoverTrigger>
+        <PopoverContent>
+          <PopoverHeader>
+            <PopoverTitle>Default note</PopoverTitle>
+            <PopoverClose />
+          </PopoverHeader>
+        </PopoverContent>
+      </Popover>
+    </Box>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+
+    for (const [triggerName, title, closeLabel] of [
+      ['Translated label', 'Translated note', 'Cerrar nota'],
+      ['Explicit label', 'Custom note', 'Dismiss this note'],
+      ['Default label', 'Default note', 'Close'],
+    ]) {
+      await userEvent.click(canvas.getByRole('button', { name: triggerName }));
+      const dialog = await body.findByRole('dialog', { name: title });
+      await userEvent.click(
+        within(dialog).getByRole('button', { name: closeLabel }),
+      );
+      await waitFor(() => expect(dialog).not.toBeInTheDocument());
+    }
   },
 };

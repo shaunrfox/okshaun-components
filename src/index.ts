@@ -118,6 +118,36 @@ export {
 } from './components/Modal';
 export { useModalWrapperContext } from './components/Modal/ModalWrapperContext';
 export {
+  Popover,
+  PopoverAnchor,
+  type PopoverAnchorProps,
+  PopoverArrow,
+  type PopoverArrowProps,
+  PopoverBody,
+  type PopoverBodyProps,
+  PopoverClose,
+  type PopoverCloseProps,
+  PopoverContent,
+  type PopoverContentProps,
+  PopoverDescription,
+  type PopoverDescriptionProps,
+  PopoverFooter,
+  type PopoverFooterProps,
+  PopoverHeader,
+  type PopoverHeaderProps,
+  type PopoverInteraction,
+  PopoverMedia,
+  type PopoverMediaProps,
+  type PopoverProps,
+  type PopoverSize,
+  PopoverTitle,
+  type PopoverTitleProps,
+  type PopoverTone,
+  PopoverTrigger,
+  type PopoverTriggerProps,
+} from './components/Popover';
+export { usePopoverContext } from './components/Popover/PopoverContext';
+export {
   type PageMargins,
   type PageOrientation,
   type PageSize,
