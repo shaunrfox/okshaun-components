@@ -51,6 +51,17 @@ export {
 export { Code, type CodeProps } from './components/Code';
 export { CodeBlock, type CodeBlockProps } from './components/CodeBlock';
 export { Divider, type DividerProps } from './components/Divider';
+export {
+  Drawer,
+  DrawerBody,
+  type DrawerBodyProps,
+  DrawerFooter,
+  type DrawerFooterProps,
+  DrawerHeader,
+  type DrawerHeaderProps,
+  type DrawerProps,
+} from './components/Drawer';
+export { useDrawerContext } from './components/Drawer/DrawerContext';
 export { FormField, type FormFieldProps } from './components/FormField';
 export { Heading, type HeadingProps } from './components/Heading';
 export {

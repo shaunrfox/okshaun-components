@@ -9,6 +9,7 @@ export { chipRecipe } from './chip';
 export { codeBlockRecipe } from './codeBlock';
 export { dateMenusRecipe } from './dateMenus';
 export { dateTimeMenusRecipe } from './dateTimeMenus';
+export { drawerRecipe } from './drawer';
 export { formFieldRecipe } from './formField';
 export { kbdRecipe } from './kbd';
 export { listItemRecipe } from './listItem';
