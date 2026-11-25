@@ -278,7 +278,7 @@ export const ProfileCard: Story = {
         </Box>
         <Flex flexDir="column" alignItems="flex-start" w="full">
           <Heading level="h4">Jane Doe</Heading>
-          <Text color="text.muted">Product Designer</Text>
+          <Text color="text.subtle">Product Designer</Text>
           <Button size="sm" mt="12">
             View Profile
           </Button>

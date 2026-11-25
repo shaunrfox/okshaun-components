@@ -551,7 +551,7 @@ export const CustomHeader: Story = {
                   <Text color="text" fontWeight="bold">
                     Release Notes
                   </Text>
-                  <Text textStyle="mono.sm" color="text.muted">
+                  <Text textStyle="mono.sm" color="text.subtle">
                     Version 2.4.0
                   </Text>
                 </VStack>
@@ -605,7 +605,7 @@ export const TopPosition: Story = {
             <ModalBody>
               <Text>
                 This modal uses{' '}
-                <Text as="span" fontWeight="semibold">
+                <Text as="span" fontWeight="medium">
                   position=&quot;top&quot;
                 </Text>
                 . It is offset from the top of the viewport and centered on the

@@ -110,7 +110,7 @@ export const ExDashboardSummary: Story = {
       <Text size="32" weight="black" color="text">
         18
       </Text>
-      <Text size="14" color="success.default">
+      <Text size="14" color="text.success">
         Up 12% from last week
       </Text>
     </Card>
@@ -123,7 +123,7 @@ export const ExDoAndDont: Story = {
   render: () => (
     <Box display="grid" gap="12" maxW="prose">
       <Box display="grid" gap="6">
-        <Text size="14" weight="bold" color="success.default">
+        <Text size="14" weight="bold" color="text.success">
           Do
         </Text>
         <Text>
@@ -132,7 +132,7 @@ export const ExDoAndDont: Story = {
       </Box>
       <Divider />
       <Box display="grid" gap="6">
-        <Text size="14" weight="bold" color="error.default">
+        <Text size="14" weight="bold" color="text.danger">
           Avoid
         </Text>
         <Text>

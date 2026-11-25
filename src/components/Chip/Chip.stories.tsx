@@ -391,7 +391,7 @@ export const Dismissable = () => {
           </Chip>
         ))}
       </Flex>
-      {tags.length === 0 && <Text color="text.muted">All tags dismissed!</Text>}
+      {tags.length === 0 && <Text color="text.subtle">All tags dismissed!</Text>}
     </Flex>
   );
 };
