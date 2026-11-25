@@ -17,6 +17,7 @@ export {
   type AvatarSize,
   type AvatarStatus,
 } from './components/Avatar';
+export { AvatarStack, type AvatarStackProps } from './components/AvatarStack';
 export { Badge, type BadgeProps, type BadgeVariant } from './components/Badge';
 export { Box, type BoxProps } from './components/Box';
 export {

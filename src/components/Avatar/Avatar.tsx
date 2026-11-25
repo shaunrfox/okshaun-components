@@ -23,7 +23,7 @@ export type AvatarStatus = 'approved' | 'declined' | 'locked';
 
 /** Props accepted by {@link Avatar}. */
 export type AvatarProps = Omit<BoxProps, keyof AvatarVariantProps> &
-  Omit<AvatarVariantProps, 'size' | 'shape'> & {
+  Omit<AvatarVariantProps, 'size' | 'shape' | 'stacked'> & {
     /** Image source URL */
     src?: string;
     /** Alt text for image */
@@ -112,7 +112,8 @@ export const Avatar = (props: AvatarProps) => {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
 
-  const classes = avatar({ size, shape });
+  const stacked = slotContext?.owner === 'AvatarStack';
+  const classes = avatar({ size, shape, stacked });
 
   // Determine what to show: image, fallback, or initials
   const showImage = Boolean(src) && failedSrc !== src;
