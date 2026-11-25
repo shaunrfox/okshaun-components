@@ -1,0 +1,15 @@
+{
+  "aliases": [
+    "square dashed",
+    "dashed square",
+    "dotted square",
+    "marquee",
+    "selection area",
+    "bounding box",
+    "drop zone",
+    "empty slot"
+  ],
+  "tags": [],
+  "category": "Shapes",
+  "deprecated": false
+}

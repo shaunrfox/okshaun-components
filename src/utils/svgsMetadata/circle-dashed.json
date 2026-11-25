@@ -1,0 +1,16 @@
+{
+  "aliases": [
+    "circle dashed",
+    "dashed circle",
+    "dotted circle",
+    "empty",
+    "placeholder",
+    "draft",
+    "pending",
+    "not started",
+    "backlog"
+  ],
+  "tags": [],
+  "category": "Shapes",
+  "deprecated": false
+}

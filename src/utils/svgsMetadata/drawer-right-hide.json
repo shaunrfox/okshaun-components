@@ -1,0 +1,13 @@
+{
+  "aliases": [
+    "drawer right hide",
+    "hide right drawer",
+    "collapse right panel",
+    "close right drawer",
+    "conceal right sidebar",
+    "split"
+  ],
+  "tags": ["view", "navigation"],
+  "category": "Views",
+  "deprecated": false
+}
