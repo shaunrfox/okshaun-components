@@ -56,8 +56,8 @@ One branch and one PR per item. PRs stay open until the Storybook review.
 - [x] 22. KeyFact
 - [x] 23. PeekBar (needs Drawer)
 - [x] 24. Gap audit (Foil), then fixes
-- [ ] 25. Storybook review, merge in order, publish 5.0.0
-- [ ] 26. Consumer break list for mockingbird-site and peeel. Move the baseline to `6cbec700` in `history/cetec-sync/LAST_SYNC.md`
+- [x] 25. Storybook review, merge in order, publish 5.0.0
+- [x] 26. Consumer break list for mockingbird-site and peeel. Move the baseline to `6cbec700` in `history/cetec-sync/LAST_SYNC.md`
 
 ## Branches and merge order
 
