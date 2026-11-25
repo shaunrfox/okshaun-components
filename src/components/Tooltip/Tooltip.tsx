@@ -16,7 +16,13 @@ import { cx } from '@styled-system/css';
 import { type TooltipVariantProps, tooltip } from '@styled-system/recipes';
 import { token } from '@styled-system/tokens';
 import type { ReactElement, ReactNode, Ref } from 'react';
-import { cloneElement, isValidElement, useRef, useState } from 'react';
+import {
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import {
   createOverlayMiddleware,
@@ -129,6 +135,21 @@ export const Tooltip = (props: TooltipProps) => {
       extras: [arrow({ element: arrowRef })],
     }),
   });
+
+  // A trigger that already has focus when the tooltip is enabled gets no new
+  // focus event, so open the tooltip here.
+  const wasDisabled = useRef(disabled);
+  useEffect(() => {
+    const trigger = elements.domReference;
+    if (
+      wasDisabled.current &&
+      !disabled &&
+      trigger?.contains(document.activeElement)
+    ) {
+      setIsOpen(true);
+    }
+    wasDisabled.current = disabled;
+  }, [disabled, elements.domReference]);
 
   const hover = useHover(context, { move: false, delay, enabled: !disabled });
   const focus = useFocus(context, { enabled: !disabled });
