@@ -1,0 +1,106 @@
+import { Meta, Unstyled } from '@storybook/addon-docs/blocks';
+import { VStack } from '@styled-system/jsx';
+import { Card } from '~/components/Card';
+import { Code } from '~/components/Code';
+import { CodeBlock } from '~/components/CodeBlock';
+import { Divider } from '~/components/Divider';
+import { Text } from '~/components/Text';
+
+<Meta title="Docs / Code and Code Blocks" />
+
+<Unstyled>
+  <VStack alignItems="stretch" gap="16" maxW="3xl">
+    # Code and Code Blocks
+
+    The design system has two components for code and machine values, and one
+    hook for copying text.
+
+    - <Code>Code</Code> marks a short value inside a sentence.
+    - <Code>CodeBlock</Code> shows multi-line code or output, with a copy button.
+    - <Code>useClipboard</Code> copies text and reports a short-lived
+      <Code>copied</Code> state.
+
+    Neither component highlights syntax yet.
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    ### Which one to use
+
+    <Card p="12" variant="sunken">
+      <Text weight="bold">Code</Text>
+      <Text size="14">
+        Use it for a field name, a config key, a command, or an ID inside a
+        sentence: <Code>api_token</Code>. It renders a native
+        <Code>code</Code> element, follows the size of the surrounding text, and
+        wraps long values. Use <Code variant="plain">variant="plain"</Code> for
+        part numbers in a dense table.
+      </Text>
+    </Card>
+
+    <Card p="12" variant="sunken">
+      <Text weight="bold">CodeBlock</Text>
+      <Text size="14">
+        Use it for anything with line breaks: a JSON payload, a SQL query, a
+        log, a setup snippet. It renders native <Code>pre</Code> and
+        <Code>code</Code> elements and copies the plain text.
+      </Text>
+    </Card>
+
+    <CodeBlock
+      title="Submit request"
+      language="json"
+      code={'{\n  "invoice": 104233,\n  "status": "submitted"\n}'}
+    />
+
+    <Card p="12" variant="sunken">
+      <Text weight="bold">Kbd</Text>
+      <Text size="14">
+        Use <Code>Kbd</Code>, not <Code>Code</Code>, for keyboard shortcuts.
+      </Text>
+    </Card>
+
+    <Divider weight="thick" color="border.disabled" my="24" />
+
+    ### CodeBlock options
+
+    - **Long lines** scroll horizontally by default. Set <Code>wrap</Code> for
+      logs and email bodies.
+    - **Long output** collapses with <Code>maxLines</Code>. A "Show all N lines"
+      button expands it. Control it with <Code>expanded</Code> and
+      <Code>onExpandedChange</Code>, or set <Code>defaultExpanded</Code>.
+    - **A title** (<Code>title</Code>) adds a header bar for a file name or label.
+    - **Line numbers** (<Code>lineNumbers</Code>, or
+      <Code>{'lineNumbers={{ start: 98 }}'}</Code>) are never copied and are
+      hidden from screen readers.
+    - **Tone**: <Code>default</Code> is a sunken panel.
+      <Code>inverse</Code> uses the inverse surface; it is dark in the light
+      theme and light in the dark theme.
+
+    ### Accessibility
+
+    - When the content overflows, the scroll area becomes a focusable region
+      named "{'{title or language}'} code block", so keyboard users can scroll
+      it. A block that fits gets no extra tab stop.
+    - The copy button announces "Copied" (or "Copy failed") through a polite
+      live region.
+    - The "Show all" button sets <Code>aria-expanded</Code> and
+      <Code>aria-controls</Code>.
+
+    ### Copying outside a CodeBlock
+
+    Use <Code>useClipboard</Code> to add a copy action to a single value, such
+    as a one-time secret. It needs a secure context (HTTPS or localhost). It
+    does not announce the result; pair <Code>copied</Code> with visible feedback
+    and a live region.
+
+    <CodeBlock
+      language="tsx"
+      code={`const { copy, copied } = useClipboard({ timeout: 2000 });
+
+<Button onClick={() => copy(secret)}>
+  {copied ? 'Copied' : 'Copy secret'}
+</Button>`}
+    />
+
+  </VStack>
+</Unstyled>

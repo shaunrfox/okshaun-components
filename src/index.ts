@@ -48,7 +48,8 @@ export {
   type ChipProps,
   useChipGroup,
 } from './components/Chip';
-export { Code, type CodeProps, Pre, type PreProps } from './components/Code';
+export { Code, type CodeProps } from './components/Code';
+export { CodeBlock, type CodeBlockProps } from './components/CodeBlock';
 export { Divider, type DividerProps } from './components/Divider';
 export { FormField, type FormFieldProps } from './components/FormField';
 export { Heading, type HeadingProps } from './components/Heading';
@@ -182,10 +183,15 @@ export {
 // Export hooks
 export {
   type UseControllableStateProps,
+  useClipboard,
   useContainerQuery,
   useControllableState,
   useMediaQuery,
 } from './system/hooks';
+export type {
+  UseClipboardOptions,
+  UseClipboardReturn,
+} from './system/hooks/clipboard.hook';
 // Export splitProps helper
 export { splitProps } from './utils/splitProps';
 

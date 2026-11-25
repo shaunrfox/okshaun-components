@@ -34,6 +34,8 @@ const recipeOverrides: Record<string, RecipeRule[]> = {
     },
   ],
   card: [{ variant: ['*'], interactive: ['*'] }],
+  // CodeBlock computes these from its props at runtime (DS ed7a37dc).
+  codeBlock: [{ actionGutter: ['*'], collapsed: ['*'], lineNumbers: ['*'] }],
   chip: [
     {
       size: ['*'],

@@ -2,7 +2,7 @@ export { boxRecipe } from './box';
 export { breakpointIndicatorRecipe } from './breakpointIndicator';
 export { cardRecipe } from './card';
 export { checkboxInputRecipe } from './checkboxInput';
-export { codeRecipe, preRecipe } from './code';
+export { codeRecipe } from './code';
 export { dividerRecipe } from './divider';
 export { highlightTextRecipe } from './highlightText';
 export { iconRecipe } from './icon';

@@ -6,6 +6,7 @@ export { buttonRecipe, iconButtonRecipe } from './button';
 export { calendarRecipe } from './calendar';
 export { checkboxRecipe } from './checkbox';
 export { chipRecipe } from './chip';
+export { codeBlockRecipe } from './codeBlock';
 export { dateMenusRecipe } from './dateMenus';
 export { dateTimeMenusRecipe } from './dateTimeMenus';
 export { formFieldRecipe } from './formField';
