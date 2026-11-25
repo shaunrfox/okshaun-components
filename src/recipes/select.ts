@@ -1,33 +1,53 @@
 import { defineSlotRecipe } from '@pandacss/dev';
 
 const selectBase = {
-  // The trigger button container
+  root: {
+    '--icon-size': 'token(sizes.24)',
+    '--icon-margin': 'token(sizes.3)',
+    '--input-icon-padding': 'token(sizes.10)',
+    display: 'inline-flex',
+    flexDirection: 'column',
+    position: 'relative',
+    minWidth: '0',
+    maxW: 'full',
+    width: 'fit',
+  },
   trigger: {
-    display: 'flex',
+    position: 'relative',
+    display: 'inline-flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: '8',
-    width: 'full',
+    width: 'fit',
+    minWidth: '0',
+    maxWidth: 'full',
+    pe: 'var(--input-icon-padding)',
     borderWidth: '1',
     borderStyle: 'solid',
     borderColor: 'border.input',
     borderRadius: '4',
+    outlineWidth: '2',
+    outlineOffset: '-1',
+    outlineStyle: 'solid',
+    outlineColor: 'transparent',
     bg: 'bg.input',
     color: 'text',
-    fontFamily: 'body',
+    fontFamily: 'sans',
+    lineHeight: 'default',
     cursor: 'pointer',
-    outline: 'none',
+    overflow: 'hidden',
     transitionDuration: 'fast',
-    transitionProperty: 'background, border-color, color, outline-color',
+    transitionProperty: 'background, border-color, outline-color',
     transitionTimingFunction: 'default',
     _hover: {
       bg: 'bg.input.hovered',
     },
-    _focus: {
+    _focusVisible: {
+      bg: 'bg.input.pressed',
       borderColor: 'border.focused',
-      outlineWidth: '2',
-      outlineOffset: '-1',
-      outlineStyle: 'solid',
+      outlineColor: 'border.focused',
+    },
+    _open: {
+      bg: 'bg.input.pressed',
+      borderColor: 'border.focused',
       outlineColor: 'border.focused',
     },
     _disabled: {
@@ -35,103 +55,215 @@ const selectBase = {
       borderColor: 'border.disabled',
       color: 'text.disabled',
       cursor: 'not-allowed',
-      opacity: '[0.5]',
+      pointerEvents: 'none',
     },
     _error: {
-      bg: 'bg.danger',
       borderColor: 'border.danger',
       _hover: {
-        bg: 'bg.danger.hovered',
+        borderColor: 'border.danger',
       },
-      _focus: {
+      _focusVisible: {
+        borderColor: 'border.danger',
+        outlineColor: 'border.danger',
+      },
+      _open: {
         borderColor: 'border.danger',
         outlineColor: 'border.danger',
       },
     },
   },
-
-  // The value/placeholder text display
+  content: {
+    display: 'flex',
+    alignItems: 'center',
+    minWidth: '0',
+    width: 'full',
+    flex: '1',
+    ps: 'var(--select-px)',
+  },
+  before: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flex: '0 0 auto',
+    alignSelf: 'center',
+    px: 'var(--select-slot-px)',
+    fill: 'icon.decorative',
+    pointerEvents: 'none',
+  },
   value: {
     flex: 1,
+    minWidth: '0',
     textAlign: 'left',
     truncate: true,
     color: 'text',
-    _placeholder: {
-      color: 'text.subtlest',
-    },
   },
-
-  // Placeholder styling (when no value selected)
   placeholder: {
-    color: 'text.subtlest',
-  },
-
-  chips: {
     flex: 1,
     minWidth: '0',
-    alignItems: 'center',
-    color: 'text',
+    textAlign: 'left',
+    truncate: true,
+    color: 'text.placeholder',
   },
-
-  // The chevron/arrow icon
-  icon: {
+  chips: {
     display: 'flex',
     alignItems: 'center',
-    flexShrink: 0,
-    color: 'icon.decorative',
-    transitionDuration: 'normal',
-    transitionProperty: 'transform',
+    gap: '4',
+    minWidth: '0',
+    width: 'full',
+    flex: '1',
+    overflowX: 'auto',
+    overflowY: 'hidden',
+    scrollbarWidth: 'thin',
+  },
+  icon: {
+    position: 'absolute',
+    top: '50%',
+    right: '1',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 'var(--icon-size)',
+    height: 'var(--icon-size)',
+    marginInline: 'var(--icon-margin)',
+    transform: 'translateY(-50%)',
+    bg: 'bg.input',
+    fill: 'icon.decorative',
+    pointerEvents: 'none',
+    transitionDuration: 'fast',
+    transitionProperty: 'all',
     transitionTimingFunction: 'default',
-    '&[data-open="true"]': {
-      transform: 'rotate(180deg)',
+    _icon: {
+      width: 'var(--icon-size)',
+      height: 'var(--icon-size)',
+      transitionDuration: 'fast',
+      transitionProperty: 'all',
+      transitionTimingFunction: 'default',
+    },
+    _peerHover: {
+      bg: 'bg.input.hovered',
+    },
+    _open: {
+      '& > svg': {
+        transform: 'rotate(-180deg)',
+        transformOrigin: 'center',
+      },
     },
   },
 };
 
 const selectVariants = {
   size: {
-    md: {
-      trigger: {
-        py: '3',
-        px: '12',
-        fontSize: '16',
+    sm: {
+      root: {
+        '--icon-size': 'token(sizes.22)',
+        '--icon-margin': 'token(sizes.2)',
+        '--input-icon-padding': '[26px]',
+        '--select-px': 'token(sizes.8)',
+        '--select-slot-px': 'token(sizes.4)',
       },
-      icon: {
-        w: '24',
-        h: '24',
+      content: {
+        py: '0',
+        fontSize: '14',
+      },
+      chips: {
+        gap: '3',
+        py: '2',
       },
     },
-    xl: {
-      trigger: {
-        py: '9',
-        px: '16',
-        fontSize: '20',
+    md: {
+      root: {
+        '--icon-size': 'token(sizes.24)',
+        '--icon-margin': 'token(sizes.3)',
+        '--input-icon-padding': '[31px]',
+        '--select-px': 'token(sizes.10)',
+        '--select-slot-px': 'token(sizes.6)',
       },
-      icon: {
-        w: '28',
-        h: '28',
+      content: {
+        py: '3',
+        fontSize: '16',
+      },
+      chips: {
+        gap: '4',
+        py: '5',
       },
     },
     lg: {
-      trigger: {
+      root: {
+        '--icon-size': 'token(sizes.24)',
+        '--icon-margin': 'token(sizes.5)',
+        '--input-icon-padding': '[34px]',
+        '--select-px': 'token(sizes.12)',
+        '--select-slot-px': 'token(sizes.8)',
+      },
+      content: {
         py: '7',
-        px: '14',
         fontSize: '16',
       },
-      icon: {
-        w: '24',
-        h: '24',
+      chips: {
+        gap: '5',
+        py: '0',
       },
     },
-    sm: {
-      trigger: {
-        py: '1',
-        px: '8',
-        fontSize: '14',
+    xl: {
+      root: {
+        '--icon-size': 'token(sizes.28)',
+        '--icon-margin': 'token(sizes.7)',
+        '--input-icon-padding': '[42px]',
+        '--select-px': 'token(sizes.16)',
+        '--select-slot-px': 'token(sizes.10)',
       },
-      icon: {
-        w: '22',
-        h: '22',
+      content: {
+        py: '9',
+        fontSize: '20',
+      },
+      chips: {
+        gap: '6',
+        py: '2',
+      },
+    },
+  },
+  before: {
+    true: {
+      content: {
+        ps: '0',
+      },
+    },
+  },
+  multiple: {
+    true: {
+      trigger: {
+        alignItems: 'flex-start',
+      },
+      content: {
+        alignItems: 'flex-start',
+      },
+    },
+  },
+  autoSize: {
+    true: {
+      trigger: {
+        height: 'auto',
+      },
+      value: {
+        whiteSpace: 'normal',
+        textWrap: 'wrap',
+        overflow: 'visible',
+        textOverflow: 'clip',
+      },
+      placeholder: {
+        whiteSpace: 'normal',
+        textWrap: 'wrap',
+        overflow: 'visible',
+        textOverflow: 'clip',
+      },
+      chips: {
+        flexWrap: 'wrap',
+        overflowX: 'visible',
+        overflowY: 'visible',
+      },
+    },
+    false: {
+      chips: {
+        flexWrap: 'nowrap',
       },
     },
   },
@@ -139,8 +271,17 @@ const selectVariants = {
 
 export const selectRecipe = defineSlotRecipe({
   className: 'select',
-  jsx: ['Select', 'SelectTrigger'],
-  slots: ['trigger', 'value', 'placeholder', 'chips', 'icon'],
+  jsx: ['Select'],
+  slots: [
+    'root',
+    'trigger',
+    'content',
+    'value',
+    'placeholder',
+    'chips',
+    'before',
+    'icon',
+  ],
   base: selectBase,
   variants: selectVariants,
   defaultVariants: {
