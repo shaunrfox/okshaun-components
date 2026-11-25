@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-
 import { Grid, VStack } from '@styled-system/jsx';
 import { useState } from 'react';
+import { expect, userEvent, within } from 'storybook/test';
 import { Text } from '~/components/Text';
 import type {
   DateRangeValue,
@@ -92,6 +92,45 @@ export const DatePickers: Story = {
       </Grid>
     );
   },
+};
+
+export const DateClearAction: Story = {
+  name: 'DatePicker: Clear action',
+  render: function DatePickerClearActionRender() {
+    const [value, setValue] = useState<DateValue | null>({
+      year: 2026,
+      month: 9,
+      day: 21,
+    });
+
+    return (
+      <VStack gap="8" alignItems="flex-start">
+        <DatePicker label="Due date" value={value} onChange={setValue} />
+        <Text textStyle="mono.xs" color="text.subtlest">
+          Value: {formatDate(value)}
+        </Text>
+      </VStack>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const field = canvas.getByRole('group', { name: 'Due date' }).parentElement;
+
+    if (!(field instanceof HTMLElement)) {
+      throw new Error('DatePicker should render a field around its segments.');
+    }
+
+    const heightWithClearButton = field.getBoundingClientRect().height;
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Clear date' }));
+
+    expect(canvas.getByText('Value: none')).toBeInTheDocument();
+    expect(field.getBoundingClientRect().height).toBe(heightWithClearButton);
+    expect(
+      canvas.queryByRole('button', { name: 'Clear date' }),
+    ).not.toBeInTheDocument();
+  },
+  parameters: { controls: { disable: true } },
 };
 
 // =============================================================================

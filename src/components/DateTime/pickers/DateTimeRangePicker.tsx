@@ -27,6 +27,7 @@ export type DateTimeRangePickerProps = Pick<
   | 'after'
   | 'iconBefore'
   | 'iconAfter'
+  | 'clearable'
   | 'error'
   | 'disabled'
   | 'invalid'
@@ -54,6 +55,10 @@ export type DateTimeRangePickerProps = Pick<
   endDateLabel?: string;
   /** Accessible time label for the end picker. */
   endTimeLabel?: string;
+  /** Accessible label for the start endpoint clear action. */
+  startClearLabel?: string;
+  /** Accessible label for the end endpoint clear action. */
+  endClearLabel?: string;
   /** Floating UI placement shared by both endpoint menus. */
   placement?: Placement;
 };
@@ -83,6 +88,7 @@ export const DateTimeRangePicker = (props: DateTimeRangePickerProps) => {
     after,
     iconBefore,
     iconAfter,
+    clearable,
     error,
     disabled,
     invalid,
@@ -99,6 +105,8 @@ export const DateTimeRangePicker = (props: DateTimeRangePickerProps) => {
     startTimeLabel = labels.startTime,
     endDateLabel = labels.endDate,
     endTimeLabel = labels.endTime,
+    startClearLabel = labels.clearStartDateTime,
+    endClearLabel = labels.clearEndDateTime,
     placement,
   } = props;
 
@@ -158,6 +166,8 @@ export const DateTimeRangePicker = (props: DateTimeRangePickerProps) => {
           after={after}
           iconBefore={iconBefore}
           iconAfter={iconAfter}
+          clearable={clearable}
+          clearLabel={startClearLabel}
           error={error}
           disabled={disabled}
           invalid={invalid}
@@ -185,6 +195,8 @@ export const DateTimeRangePicker = (props: DateTimeRangePickerProps) => {
           after={after}
           iconBefore={iconBefore}
           iconAfter={iconAfter}
+          clearable={clearable}
+          clearLabel={endClearLabel}
           error={error}
           disabled={disabled}
           invalid={invalid}

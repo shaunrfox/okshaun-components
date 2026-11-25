@@ -15,6 +15,7 @@ import { splitProps } from '~/utils/splitProps';
 import { Box, type BoxProps } from '../../Box';
 import { SegmentedDate } from '../../SegmentedInputs/SegmentedDate';
 import type { DateFormat, DateRangeValue, DateValue } from '../helpers/types';
+import { getClearButton } from './ClearButton';
 import { InputSlot } from './InputSlot';
 
 /** Props for {@link DateRangeInput}, including range state and field slots. */
@@ -45,6 +46,10 @@ export type DateRangeInputProps = Omit<
     iconBefore?: IconNamesList;
     /** Legacy icon rendered after the range when `after` is absent. */
     iconAfter?: IconNamesList;
+    /** Shows a clear action in the `after` slot when it is otherwise unused and either endpoint has a value. @default true */
+    clearable?: boolean;
+    /** Accessible label for the clear action. @default 'Clear date range' */
+    clearLabel?: string;
     /** Applies error styling. Overrides field context when provided. */
     error?: boolean;
     /** Prevents editing both endpoints. Overrides field context when provided. */
@@ -88,6 +93,8 @@ export const DateRangeInput = (props: DateRangeInputProps) => {
     after,
     iconBefore,
     iconAfter,
+    clearable = true,
+    clearLabel = labels.clearDateRange,
     error: errorProp,
     disabled: disabledProp,
     invalid: invalidProp,
@@ -103,18 +110,8 @@ export const DateRangeInput = (props: DateRangeInputProps) => {
   const disabled = disabledProp ?? fieldContext?.disabled;
   const resolvedBefore =
     before ?? (iconBefore ? <Icon name={iconBefore} aria-hidden /> : undefined);
-  const resolvedAfter =
+  const explicitAfter =
     after ?? (iconAfter ? <Icon name={iconAfter} aria-hidden /> : undefined);
-
-  const classes = segmentedFields({
-    size,
-    field: 'date',
-    range: 'date',
-    before: Boolean(resolvedBefore),
-    after: Boolean(resolvedAfter),
-  });
-  const segmentClasses = segmentedInputs({ size });
-  const [className, otherProps] = splitProps(rest);
 
   // Composed range is tracked internally so an uncontrolled DateRangeInput
   // doesn't lose whichever endpoint was filled in first — each SegmentedDate
@@ -132,6 +129,17 @@ export const DateRangeInput = (props: DateRangeInputProps) => {
   }, [value]);
 
   const range = value !== undefined ? (value ?? EMPTY_RANGE) : internalRange;
+  const hasValue = range.start !== null || range.end !== null;
+
+  const classes = segmentedFields({
+    size,
+    field: 'date',
+    range: 'date',
+    before: Boolean(resolvedBefore),
+    after: Boolean(explicitAfter || (clearable && hasValue)),
+  });
+  const segmentClasses = segmentedInputs({ size });
+  const [className, otherProps] = splitProps(rest);
 
   // Lets clicking the "–" separator focus into the end field, matching the
   // click-anywhere-focuses-a-segment behavior of the segments themselves.
@@ -150,6 +158,13 @@ export const DateRangeInput = (props: DateRangeInputProps) => {
     setInternalRange(next);
     onChange?.(nextStart === null && nextEnd === null ? null : next);
   };
+  const clearAction = getClearButton({
+    clearable,
+    hasValue,
+    label: clearLabel,
+    onClear: () => emitChange(null, null),
+  });
+  const resolvedAfter = explicitAfter ?? clearAction;
 
   return (
     <Box
@@ -174,36 +189,38 @@ export const DateRangeInput = (props: DateRangeInputProps) => {
         buttonSlotClassName={classes.buttonSlot}
         slotClassName={classes.slot}
       />
-      <SegmentedDate
-        label={startLabel}
-        value={range.start}
-        onChange={(nextStart) => emitChange(nextStart, range.end)}
-        format={dateFormat}
-        size={size}
-        disabled={disabled}
-        onFocusWithin={onFocusWithin}
-        onBlurWithin={onBlurWithin}
-      />
-      <Box
-        as="span"
-        className={segmentClasses.separator}
-        data-gap="loose"
-        aria-hidden="true"
-        onClick={focusEndField}
-      >
-        –
+      <Box className={classes.content}>
+        <SegmentedDate
+          label={startLabel}
+          value={range.start}
+          onChange={(nextStart) => emitChange(nextStart, range.end)}
+          format={dateFormat}
+          size={size}
+          disabled={disabled}
+          onFocusWithin={onFocusWithin}
+          onBlurWithin={onBlurWithin}
+        />
+        <Box
+          as="span"
+          className={segmentClasses.separator}
+          data-gap="loose"
+          aria-hidden="true"
+          onClick={focusEndField}
+        >
+          –
+        </Box>
+        <SegmentedDate
+          ref={endFieldRef}
+          label={endLabel}
+          value={range.end}
+          onChange={(nextEnd) => emitChange(range.start, nextEnd)}
+          format={dateFormat}
+          size={size}
+          disabled={disabled}
+          onFocusWithin={onFocusWithin}
+          onBlurWithin={onBlurWithin}
+        />
       </Box>
-      <SegmentedDate
-        ref={endFieldRef}
-        label={endLabel}
-        value={range.end}
-        onChange={(nextEnd) => emitChange(range.start, nextEnd)}
-        format={dateFormat}
-        size={size}
-        disabled={disabled}
-        onFocusWithin={onFocusWithin}
-        onBlurWithin={onBlurWithin}
-      />
       <InputSlot
         owner="DateRangeInput"
         placement="after"

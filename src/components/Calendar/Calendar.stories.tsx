@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-
 import { VStack } from '@styled-system/jsx';
 import { useState } from 'react';
+import { expect, userEvent, within } from 'storybook/test';
 import type { DateValue } from '~/components/DateTime/helpers';
 import { Text } from '~/components/Text';
+import { LocaleProvider } from '~/system/context';
 import { Calendar } from './Calendar';
 
 const meta = {
@@ -131,4 +132,86 @@ const DrillDownDemo = () => {
 export const ExDrillDownNavigation: Story = {
   name: 'Ex: Drill-Down Navigation',
   render: () => <DrillDownDemo />,
+};
+
+// =============================================================================
+// Locales
+// =============================================================================
+
+export const FrenchLocale: Story = {
+  name: 'Locale: French',
+  render: () => (
+    <LocaleProvider locale="fr-FR">
+      <Calendar defaultViewDate={{ year: 2026, month: 1 }} />
+    </LocaleProvider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await expect(
+      canvas.getByRole('button', { name: 'janvier 2026' }),
+    ).toBeInTheDocument();
+    await expect(
+      canvas.getByRole('columnheader', { name: 'dimanche' }),
+    ).toHaveTextContent('dim');
+    // fr-FR weeks start on Monday.
+    await expect(canvas.getAllByRole('columnheader')[0]).toHaveAccessibleName(
+      'lundi',
+    );
+    await expect(
+      canvas.getByRole('gridcell', { name: '15 janvier 2026' }),
+    ).toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole('button', { name: 'janvier 2026' }));
+    await expect(
+      canvas.getByRole('gridcell', { name: 'février 2026' }),
+    ).toHaveTextContent('févr.');
+  },
+};
+
+export const SpanishLocale: Story = {
+  name: 'Locale: Spanish',
+  render: () => (
+    <LocaleProvider
+      locale="es-ES"
+      labels={{ previousMonth: 'Mes anterior', nextMonth: 'Mes siguiente' }}
+    >
+      <Calendar defaultViewDate={{ year: 2026, month: 1 }} />
+    </LocaleProvider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await expect(
+      canvas.getByRole('button', { name: 'enero de 2026' }),
+    ).toBeInTheDocument();
+    await expect(
+      canvas.getByRole('columnheader', { name: 'miércoles' }),
+    ).toHaveTextContent('mié');
+    // es-ES weeks start on Monday.
+    await expect(canvas.getAllByRole('columnheader')[0]).toHaveAccessibleName(
+      'lunes',
+    );
+    await expect(
+      canvas.getByRole('button', { name: 'Mes anterior' }),
+    ).toBeInTheDocument();
+  },
+};
+
+export const ThaiLocale: Story = {
+  name: 'Locale: Thai (Gregorian Names)',
+  render: () => (
+    <LocaleProvider locale="th-TH">
+      <Calendar defaultViewDate={{ year: 2026, month: 1 }} />
+    </LocaleProvider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // th-TH defaults to the Buddhist calendar (year 2569). Calendar's grid is
+    // Gregorian, so the title must show 2026.
+    await expect(
+      canvas.getByRole('button', { name: 'มกราคม 2026' }),
+    ).toBeInTheDocument();
+  },
 };
