@@ -1,7 +1,14 @@
 import { cx } from '@styled-system/css';
 import { Wrap, type WrapProps } from '@styled-system/jsx';
 import type { ChipVariantProps } from '@styled-system/recipes';
-import { type ReactNode, type RefObject, useCallback, useRef } from 'react';
+import {
+  type ReactNode,
+  type RefObject,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import type { BoxProps } from '~/components/Box';
 import { useControllableState } from '~/system/hooks';
@@ -77,28 +84,32 @@ export const ChipGroup = (props: ChipGroupProps) => {
   const chipRefs = useRef<Map<string, RefObject<HTMLButtonElement | null>>>(
     new Map(),
   );
-  const chipValuesRef = useRef<string[]>([]);
+  // State, not a ref: chips register in effects after render, and the group
+  // must re-render so the first registered chip can become the tab stop.
+  const [chipValues, setChipValues] = useState<string[]>([]);
 
   const registerChip = useCallback(
     (chipValue: string, ref: RefObject<HTMLButtonElement | null>) => {
       chipRefs.current.set(chipValue, ref);
-      if (!chipValuesRef.current.includes(chipValue)) {
-        chipValuesRef.current.push(chipValue);
-      }
+      setChipValues((currentValues) =>
+        currentValues.includes(chipValue)
+          ? currentValues
+          : [...currentValues, chipValue],
+      );
     },
     [],
   );
 
   const unregisterChip = useCallback((chipValue: string) => {
     chipRefs.current.delete(chipValue);
-    chipValuesRef.current = chipValuesRef.current.filter(
-      (v) => v !== chipValue,
+    setChipValues((currentValues) =>
+      currentValues.filter((currentValue) => currentValue !== chipValue),
     );
   }, []);
 
   const focusChip = useCallback(
     (direction: 'next' | 'prev', currentValue: string) => {
-      const values = chipValuesRef.current;
+      const values = chipValues;
       const currentIndex = values.indexOf(currentValue);
       if (currentIndex === -1) return;
 
@@ -122,23 +133,36 @@ export const ChipGroup = (props: ChipGroupProps) => {
         }
       }
     },
-    [setResolvedValue, type],
+    [chipValues, setResolvedValue, type],
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      type,
+      value: resolvedValue,
+      onChange: setResolvedValue,
+      name,
+      size,
+      registerChip,
+      unregisterChip,
+      focusChip,
+      chipValues,
+    }),
+    [
+      chipValues,
+      focusChip,
+      name,
+      resolvedValue,
+      setResolvedValue,
+      registerChip,
+      size,
+      type,
+      unregisterChip,
+    ],
   );
 
   return (
-    <ChipGroupContext.Provider
-      value={{
-        type,
-        value: resolvedValue,
-        onChange: setResolvedValue,
-        name,
-        size,
-        registerChip,
-        unregisterChip,
-        focusChip,
-        chipValues: chipValuesRef.current,
-      }}
-    >
+    <ChipGroupContext.Provider value={contextValue}>
       <Wrap
         {...dsComponent('ChipGroup')}
         className={cx(stylesClassName, className)}

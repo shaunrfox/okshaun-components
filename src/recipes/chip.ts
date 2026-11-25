@@ -134,6 +134,9 @@ export const chipRecipe = defineSlotRecipe({
       outlineStyle: 'solid',
       outlineColor: 'transparent',
       outlineOffset: 'calc(token(sizes.2) * -1)',
+      _focusVisible: {
+        outlineColor: 'border.focused',
+      },
       'button&': {
         ...buttonStyles,
       },

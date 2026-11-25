@@ -13,6 +13,7 @@ import {
 import { Box, type BoxProps } from '~/components/Box';
 import { Icon } from '~/components/Icon';
 import { Spinner } from '~/components/Spinner';
+import { Tooltip } from '~/components/Tooltip';
 import { useFieldContext } from '~/system/context/FieldContext';
 import { SlotContext } from '~/system/context/SlotContext';
 import { useLocale } from '~/system/context/useLocale';
@@ -28,10 +29,33 @@ const getChipLabel = (children: ReactNode) => {
   return undefined;
 };
 
+/** Number of `items` shown before the rest collapse into `+N`. */
+const MAX_VISIBLE_ITEMS = 2;
+
+/** The chip label: either `children` or an `items` list, never both. */
+type ChipLabelProps =
+  | {
+      /** Visible chip label. A string label is also used in the default dismissal label. */
+      children: ReactNode;
+      items?: never;
+    }
+  | {
+      children?: never;
+      /**
+       * Label list rendered comma-joined. With more than two items only the
+       * first two are shown, followed by `+N` for the rest, and a tooltip
+       * lists every item. Overflow is decided by item count, not available
+       * width. An empty list renders nothing and the chip does not register
+       * with a parent `ChipGroup`. If the emptied chip was the group's selected
+       * value, clear that value; otherwise no visible chip is the tab stop.
+       */
+      items: string[];
+    };
+
 /** Props for {@link Chip}, a compact label that can be static, actionable, selectable, or dismissible. */
 export type ChipProps = Omit<BoxProps, keyof ChipVariantProps | 'children'> &
-  Omit<ChipVariantProps, 'before' | 'after'> & {
-    children: ReactNode;
+  Omit<ChipVariantProps, 'before' | 'after'> &
+  ChipLabelProps & {
     /** Content displayed before the chip label. */
     before?: ReactNode;
     /** Content displayed after the chip label and before the dismiss control. */
@@ -46,7 +70,7 @@ export type ChipProps = Omit<BoxProps, keyof ChipVariantProps | 'children'> &
     dismissable?: boolean;
     /**
      * Accessible name for the dismiss button.
-     * @default `Remove ${children}`
+     * @default `labels.removeItem` (English: `Remove ${children}`, or `Remove` plus the comma-joined `items`)
      */
     dismissLabel?: string;
     /** Called when the dismiss button is activated. The button is disabled when this callback is absent. */
@@ -74,6 +98,12 @@ export type ChipProps = Omit<BoxProps, keyof ChipVariantProps | 'children'> &
  * roving focus; grouped multi-select chips use checkbox behavior. `before` and
  * `after` slots inherit state through slot context.
  *
+ * Pass `items` instead of `children` to show a list. Lists with more than two
+ * items show the first two plus a `+N` count (by item count, not width) and
+ * reveal the full list in a tooltip. A static overflowing chip becomes
+ * keyboard-focusable so the tooltip can be opened without a pointer, and its
+ * full list is also exposed to screen readers.
+ *
  * @example
  * ```tsx
  * <Chip dismissable onDismiss={() => remove('design')}>Design</Chip>
@@ -87,6 +117,7 @@ export const Chip = (props: ChipProps) => {
   const {
     size: sizeProp,
     children,
+    items,
     loading,
     disabled,
     deleted,
@@ -115,7 +146,11 @@ export const Chip = (props: ChipProps) => {
   const resolvedDisabled = disabled ?? fieldContext?.disabled;
   const hasGroupValue = value !== undefined;
   const isInGroup = groupContext !== null && hasGroupValue;
-  const canRegister = Boolean(isInGroup && !resolvedDisabled && !loading);
+  // An empty list renders nothing, so the chip must not register with its group.
+  const isEmpty = items?.length === 0;
+  const canRegister = Boolean(
+    isInGroup && !resolvedDisabled && !loading && !isEmpty,
+  );
   const isSelectable = isInGroup;
   const isSelected =
     groupContext !== null && value !== undefined
@@ -136,18 +171,34 @@ export const Chip = (props: ChipProps) => {
     after: hasAfter,
     dismissable,
   });
-  const label = getChipLabel(children);
+  const isOverflowing = items !== undefined && items.length > MAX_VISIBLE_ITEMS;
+  const itemsLabel = items
+    ? isOverflowing
+      ? `${items.slice(0, MAX_VISIBLE_ITEMS).join(', ')} +${items.length - MAX_VISIBLE_ITEMS}`
+      : items.join(', ')
+    : undefined;
+  const label = items ? items.join(', ') : getChipLabel(children);
   const dismissAriaLabel =
     dismissLabel ?? (label ? labels.removeItem(label) : undefined);
 
+  // Depend on the stable callbacks, not the whole context: the context changes
+  // on every registration, so depending on it would re-register forever.
+  const registerChip = groupContext?.registerChip;
+  const unregisterChip = groupContext?.unregisterChip;
+
   useEffect(() => {
-    if (!canRegister || !groupContext || value === undefined) {
+    if (
+      !canRegister ||
+      !registerChip ||
+      !unregisterChip ||
+      value === undefined
+    ) {
       return undefined;
     }
 
-    groupContext.registerChip(value, buttonRef);
-    return () => groupContext.unregisterChip(value);
-  }, [canRegister, groupContext, value]);
+    registerChip(value, buttonRef);
+    return () => unregisterChip(value);
+  }, [canRegister, registerChip, unregisterChip, value]);
 
   const handleSelect = (event: MouseEvent<HTMLButtonElement>) => {
     if (!isSelectable || !groupContext || value === undefined) {
@@ -213,7 +264,10 @@ export const Chip = (props: ChipProps) => {
         return 0;
       }
 
-      return groupContext.chipValues[0] === value ? 0 : -1;
+      // The first chip is the tab stop only when nothing is selected.
+      const hasSelection =
+        groupContext.value !== undefined && groupContext.value !== '';
+      return !hasSelection && groupContext.chipValues[0] === value ? 0 : -1;
     }
 
     return 0;
@@ -233,7 +287,13 @@ export const Chip = (props: ChipProps) => {
       className={classes.body}
       onClick={renderButtonBody ? handleBodyClick : undefined}
       onKeyDown={renderButtonBody ? handleKeyDown : undefined}
-      tabIndex={renderButtonBody ? getTabIndex() : undefined}
+      tabIndex={
+        renderButtonBody
+          ? getTabIndex()
+          : isOverflowing && !resolvedDisabled && !loading
+            ? 0
+            : undefined
+      }
       {...(renderButtonBody
         ? { type, disabled: resolvedDisabled || loading }
         : {})}
@@ -268,7 +328,18 @@ export const Chip = (props: ChipProps) => {
             <Box className={classes.slot}>{before}</Box>
           </SlotContext.Provider>
         )}
-        <Box as="span">{children}</Box>
+        {items ? (
+          <Box as="span">
+            <span aria-hidden={isOverflowing || undefined}>{itemsLabel}</span>
+            {isOverflowing && (
+              <Box as="span" srOnly>
+                {label}
+              </Box>
+            )}
+          </Box>
+        ) : (
+          <Box as="span">{children}</Box>
+        )}
         {after && (
           <SlotContext.Provider
             value={{
@@ -294,6 +365,10 @@ export const Chip = (props: ChipProps) => {
     );
   }
 
+  if (isEmpty) {
+    return null;
+  }
+
   // The container is always rendered and is the root. It paints the pill, so
   // the dismiss button sits inside it rather than alongside it, and it carries
   // the state attributes the recipe reads.
@@ -307,7 +382,13 @@ export const Chip = (props: ChipProps) => {
       aria-busy={loading || undefined}
       {...otherProps}
     >
-      {body}
+      {items ? (
+        <Tooltip text={items.join(', ')} disabled={!isOverflowing || loading}>
+          {body}
+        </Tooltip>
+      ) : (
+        body
+      )}
       {dismissable && (
         <Box
           as="button"
