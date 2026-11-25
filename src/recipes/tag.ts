@@ -12,13 +12,23 @@ export const tagRecipe = defineRecipe({
     gap: '1',
     px: '4',
     w: 'fit',
-    h: '20',
-    fontSize: '14',
     fontWeight: 'medium',
     lineHeight: 'tight',
     whiteSpace: 'nowrap',
   },
   variants: {
+    // Both sizes set every property they change, so a conditional value such
+    // as { base: 'sm', md: 'md' } switches back at the breakpoint.
+    size: {
+      sm: {
+        h: '16',
+        fontSize: '12',
+      },
+      md: {
+        h: '20',
+        fontSize: '14',
+      },
+    },
     // Each hue publishes both colour pairs; `variant` picks one. This replaces
     // 24 compoundVariants, which Panda emitted no CSS for at all: the variant
     // bodies were empty, so every Tag rendered as the uncoloured base. Doing it
@@ -261,6 +271,7 @@ export const tagRecipe = defineRecipe({
     },
   },
   defaultVariants: {
+    size: 'md',
     variant: 'default',
     hue: 'gray',
   },
