@@ -161,6 +161,7 @@ export {
   type PageBannerEmphasis,
   type PageBannerProps,
 } from './components/PageBanner';
+export { PeekBar, type PeekBarProps } from './components/PeekBar';
 export {
   Popover,
   PopoverAnchor,
