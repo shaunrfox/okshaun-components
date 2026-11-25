@@ -192,6 +192,22 @@ export {
 } from './components/Select/SelectContext';
 export { Skeleton, type SkeletonProps } from './components/Skeleton';
 export { Spinner, type SpinnerProps } from './components/Spinner';
+export {
+  Tab,
+  TabPanel,
+  type TabPanelProps,
+  type TabPanelRenderProps,
+  type TabProps,
+  Tabs,
+  type TabsChangeEvent,
+  type TabsChangeHandler,
+  type TabsChangeReason,
+  type TabsProps,
+} from './components/Tabs';
+export {
+  useTabPanelActive,
+  useTabsContext,
+} from './components/Tabs/context/tabsContext';
 export { Tag, type TagProps } from './components/Tag';
 export { Text, type TextProps } from './components/Text';
 export { Textarea, type TextareaProps } from './components/Textarea';
@@ -223,11 +239,15 @@ export {
 } from './system/context';
 // Export hooks
 export {
+  type OverflowItemKey,
   type UseControllableStateProps,
+  type UseOverflowItemsOptions,
+  type UseOverflowItemsResult,
   useClipboard,
   useContainerQuery,
   useControllableState,
   useMediaQuery,
+  useOverflowItems,
 } from './system/hooks';
 export type {
   UseClipboardOptions,

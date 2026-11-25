@@ -23,6 +23,7 @@ export { segmentedFieldsRecipe } from './segmentedFields';
 export { segmentedInputsRecipe } from './segmentedInputs';
 export { selectRecipe } from './select';
 export { spinnerRecipe } from './spinner';
+export { tabsRecipe } from './tabs';
 export { textInputRecipe } from './textInput';
 export { timeMenusRecipe } from './timeMenus';
 export { toggleRecipe } from './toggle';
