@@ -124,7 +124,7 @@ const CalendarCell = ({
     variant={getCellVariant(state)}
     className={classes.day}
     fontSize="14"
-    fontVariant="mono"
+    fontFamily="mono"
     data-today={state.isToday || undefined}
     data-range-start={state.isRangeStart || undefined}
     data-range-end={state.isRangeEnd || undefined}
@@ -547,7 +547,7 @@ export const Calendar = (props: CalendarProps) => {
         <Button
           variant="ghost"
           disabled={disabled || headerConfig.titleDisabled}
-          fontVariant="mono"
+          fontFamily="mono"
           onClick={headerConfig.onTitleClick}
         >
           {headerConfig.title}

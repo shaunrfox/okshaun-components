@@ -116,11 +116,11 @@ jobs:
       - name: Push version commit
         run: git push origin HEAD:main
 
-      # Now publish
+      # Now publish. npm authenticates with this workflow's GitHub OIDC token
+      # (trusted publishing), so no long-lived npm token is used. The package's
+      # trusted publisher on npmjs.com must name this repo and publish.yml.
       - name: Publish to NPM
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # Only create tag and release AFTER successful publish
       - name: Create and push tag
